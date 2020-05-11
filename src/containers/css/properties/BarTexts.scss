@@ -2,11 +2,22 @@
 
     .with-bar {
         font-size: 16px;
-    }
+        position: relative;
 
-    .with-bar:not(:first-child):before {
-        content: "|";
-        margin-left: 5px;
-        margin-right: 5px;
+        &:not(:first-child) {
+            padding-left: 10px;
+            margin-left: 10px;
+
+            &:before {
+                content: "";
+                width: 1px;
+                height: 10px;
+                display: inline-block;
+                background: black;
+                position: absolute;
+                top: 7px;
+                left: 0;
+            }
+        }
     }
 }

@@ -8,6 +8,9 @@ export default function BeforeAfterExample() {
             <BarTexts texts={["aa"]}/>
             <BarTexts texts={["aa", "bb"]}/>
             <BarTexts texts={["aa", "bb", "cc"]}/>
+            <BarTexts texts={["가나다"]}/>
+            <BarTexts texts={["가나다", "가나다"]}/>
+            <BarTexts texts={["가나다", "가나다", "가나다"]}/>
         </div>
     );
 }
