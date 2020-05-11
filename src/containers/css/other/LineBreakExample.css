@@ -1,0 +1,19 @@
+.LineBreakExample-wrap .text-view {
+    border: 1px solid black;
+    margin-right: 10px;
+    padding: 10px;
+}
+
+.LineBreakExample-wrap .white-space-pre {
+    white-space: pre;
+}
+
+.LineBreakExample-wrap .white-space-preline {
+    white-space: pre-line;
+}
+
+.LineBreakExample-wrap > div {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
