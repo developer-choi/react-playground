@@ -36,7 +36,7 @@ export default function WordWrapBreakExample() {
                 <li>그래서 CJK는 word-wrap으로 제어! 영어는 word-break으로 제어! 이런 느낌이 아니라,</li>
                 <li>CJK는 word-wrap으로만 가능, 영어는 word-wrap, word-break둘다 가능 이런 느낌이고,</li>
                 <li>실제로 영어는 word-wrap의 break-word와 word-break의 break-word값이 같은결과를 나타냄.</li>
-                <li><b>결론은 word-break의 break-word혹은 keep-all값 딱 2가지말고 나머지 값이나 word-wrap속성은 사용할일이 없다고 판단됨.</b></li>
+                <li><b>결론은 word-break의 break-word혹은 break-all값 딱 2가지말고 나머지 값이나 word-wrap속성은 사용할일이 없다고 판단됨.</b></li>
             </ul>
         </div>
     );
