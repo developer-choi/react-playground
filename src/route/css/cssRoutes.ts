@@ -1,15 +1,18 @@
-import {transitionRoutes} from "./transitionRoutes";
-import {squareRoutes} from "./squareRoutes";
-import {naverDiffRoutes} from "./naverDiffRoutes";
-import CssMain from "../../containers/css/CssMain";
+import {RouteProps} from "react-router";
 import {CSS_FIRST_PATH_DIRECTORY_NAME} from "../firstPath";
-import {propertiesRoutes} from "./propertiesRoutes";
-import {insteadFlexRoutes} from "./insteadFlexRoutes";
+import CssMain from "../../containers/css/CssMain";
+import transitionRoutes from "./transitionRoutes";
+import squareRoutes from "./squareRoutes";
+import naverDiffRoutes from "./naverDiffRoutes";
+import propertiesRoutes from "./propertiesRoutes";
+import insteadFlexRoutes from "./insteadFlexRoutes";
 import otherRoutes from "./otherRoutes";
 
-export const routes = [
+const cssRoutes: RouteProps[] = [
     {
-        path: `${CSS_FIRST_PATH_DIRECTORY_NAME}/main`,
+        path: [`${CSS_FIRST_PATH_DIRECTORY_NAME}`, `${CSS_FIRST_PATH_DIRECTORY_NAME}/main`],
         component: CssMain
     }
-].concat(transitionRoutes, squareRoutes, naverDiffRoutes, propertiesRoutes, insteadFlexRoutes, otherRoutes);
+].map(route => ({...route, exact: true}));
+
+export default cssRoutes.concat(transitionRoutes, squareRoutes, naverDiffRoutes, propertiesRoutes, insteadFlexRoutes, otherRoutes);

@@ -1,14 +1,15 @@
-import {BLACK_DESERT_FIRST_PATH_DIRECTORY_NAME} from "../firstPath";
-import DiffBenefitDetailContainer from "../../containers/black-desert/trade-market/diff-benefit-detail/DiffBenefitDetailContainer";
 import TradeMarket from "../../containers/black-desert/trade-market/TradeMarket";
+import DiffBenefitDetailContainer
+    from "../../containers/black-desert/trade-market/diff-benefit-detail/DiffBenefitDetailContainer";
+import {RoutePropsMeta} from "../../interfaces/RoutePropsMeta";
+import {BLACK_DESERT_FIRST_PATH_DIRECTORY_NAME} from "../firstPath";
 
 const path = `${BLACK_DESERT_FIRST_PATH_DIRECTORY_NAME}/trade-market`;
 
-export const tradeMarketRoutes = [
+const tradeMarketRoutes: RoutePropsMeta[] = [
     {
         path: `${path}`,
         component: TradeMarket,
-        exact: true,
         meta: {
             name: "거래소 수익 계산기"
         },
@@ -16,9 +17,10 @@ export const tradeMarketRoutes = [
     {
         path: `${path}/diff-benefit-detail`,
         component: DiffBenefitDetailContainer,
-        exact: true,
         meta: {
             hoverable: false
         }
     }
-];
+].map(route => ({...route, exact: true}));
+
+export default tradeMarketRoutes;

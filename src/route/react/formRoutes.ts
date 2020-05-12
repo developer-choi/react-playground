@@ -1,19 +1,19 @@
+import {RouteProps} from "react-router";
+import {REACT_FIRST_PATH_DIRECTORY_NAME} from "../firstPath";
 import UserList from "../../containers/react/form/user/UserList";
 import UserForm from "../../containers/react/form/user/UserForm";
-import UsefulFormBug from "../../containers/react/form/UsefulFormBug";
 import {PageType} from "../../utils/common/PageType";
-import {REACT_FIRST_PATH_DIRECTORY_NAME} from "../firstPath";
+import UsefulFormBug from "../../containers/react/form/UsefulFormBug";
 
 const path = `${REACT_FIRST_PATH_DIRECTORY_NAME}/form`;
 
-export const formRoutes = [
+const formRoutes: RouteProps[] = [
     {
         path: `${path}/user/list`,
         component: UserList,
         meta: {
             name: "회원목록",
-        },
-        exact: true
+        }
     },
     {
         path: `${path}/user/modify/:id`,
@@ -21,8 +21,7 @@ export const formRoutes = [
         meta: {
             name: "회원수정",
             hoverable: false
-        },
-        exact: true
+        }
     },
     {
         path: `${path}/user/create`,
@@ -30,15 +29,15 @@ export const formRoutes = [
         meta: {
             name: "회원추가",
             pageType: PageType.INSERT
-        },
-        exact: true
+        }
     },
     {
         path: `${path}/basic`,
         component: UsefulFormBug,
-        exact: true,
         meta: {
             hoverable: false
         }
     },
-];
+].map(route => ({...route, exact: true}));
+
+export default formRoutes;

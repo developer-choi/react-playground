@@ -3,7 +3,7 @@ import {InputItem} from "../../../../components/form/InputItem";
 import MyButton from "../../../../components/form/MyButton";
 import "./UserForm.scss";
 import {getUserInfo, insertUser, modifyUser} from "./api";
-import {formRoutes} from "../../../../route/react/formRoutes";
+import formRoutes from "../../../../route/react/formRoutes";
 import UserInfo from "./UserInfo";
 import {RouteComponentProps} from "react-router-dom";
 import {MouseEvent, ChangeEvent, useEffect, useMemo, useRef, useState} from "react";
