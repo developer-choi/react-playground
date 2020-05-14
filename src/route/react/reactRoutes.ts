@@ -1,7 +1,6 @@
 import {RouteProps} from "react-router";
 import ReactMain from "../../containers/react/ReactMain";
 import exampleRoutes from "./exampleRoutes";
-import formRoutes from "./formRoutes";
 import renderRoutes from "./renderRoutes";
 import reduxRoutes from "./reduxRoutes";
 import eventRoutes from "./eventRoutes";
@@ -14,4 +13,4 @@ const reactRoutes: RouteProps[] = [
     }
 ].map(route => ({...route, exact: true}));
 
-export default reactRoutes.concat(exampleRoutes, formRoutes, renderRoutes, reduxRoutes, eventRoutes);
+export default reactRoutes.concat(exampleRoutes, renderRoutes, reduxRoutes, eventRoutes);
