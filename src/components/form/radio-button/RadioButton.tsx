@@ -13,6 +13,6 @@ export default function RadioButton(props: AppProp) {
     const active = (props.checkValue === props.currentValue) ? "active" : "";
 
     return (
-        <button onClick={() => props.onChangeHandler(props.checkValue)} className={`RadioButton-wrap ${active}`}>{props.children}</button>
+        <button type="button" onClick={() => props.onChangeHandler(props.checkValue)} className={`RadioButton-wrap ${active}`}>{props.children}</button>
     )
 }
