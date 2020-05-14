@@ -1,5 +1,5 @@
 import * as React from "react";
-import {MyInput} from "./MyInput";
+import MyInput from "./MyInput";
 import {ChangeEvent, RefObject, forwardRef} from "react";
 
 interface AppProp {
