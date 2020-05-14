@@ -3,7 +3,7 @@ import {MouseEvent, MouseEventHandler, ReactNode} from "react";
 import "./form.scss";
 
 interface AppProp {
-    onClickHandler: MouseEventHandler<HTMLButtonElement>
+    onClickHandler?: MouseEventHandler<HTMLButtonElement>
     className: string,
     children: ReactNode,
     type?: "button" | "submit" | "reset";
@@ -15,7 +15,7 @@ export default function MyButton(props: AppProp) {
     const onClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
 
         if (!props.disable)
-            props.onClickHandler(event);
+            props.onClickHandler?.(event);
 
         else
             event.preventDefault();
