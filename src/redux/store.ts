@@ -1,12 +1,10 @@
 import {combineReducers, createStore, applyMiddleware} from "redux";
-import {reducer as blackDesert} from "./modules/blackDesert";
 import {reducer as counter} from "./modules/counter";
 import {reducer as twiceCounter} from "./modules/twiceCounter";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "./sagas/sagas";
 
 const rootReducer = combineReducers({
-    blackDesert,
     counter,
     twiceCounter
 });
