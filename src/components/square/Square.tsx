@@ -1,10 +1,10 @@
 import * as React from "react"
-import {MouseEvent, ReactNode} from "react"
+import {MouseEventHandler, ReactNode} from "react"
 import "./Square.scss";
 
 interface AppProp {
     square: number;
-    onClickHandler?: (event: MouseEvent<HTMLElement>) => void;
+    onClickHandler?: MouseEventHandler<HTMLDivElement>
     capture: boolean;
     children?: ReactNode;
     isCenter?: boolean;

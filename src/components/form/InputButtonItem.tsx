@@ -1,15 +1,15 @@
 import * as React from "react";
+import {ChangeEventHandler, MouseEventHandler} from "react";
 import {MyInput} from "./MyInput";
 import MyButton from "./MyButton";
 import "./form.scss";
-import {ChangeEvent, MouseEvent} from "react";
 
 interface AppProp {
     labelText: string,
     buttonText: string,
     inputValue: string | number,
-    onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => void,
-    onClickHandler: (event: MouseEvent<HTMLButtonElement>) => void
+    onChangeHandler: ChangeEventHandler<HTMLInputElement>
+    onClickHandler: MouseEventHandler<HTMLButtonElement>
 }
 
 export default function InputButtonItem(props: AppProp) {

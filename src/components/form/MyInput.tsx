@@ -1,8 +1,8 @@
 import * as React from "react";
-import {ChangeEvent, forwardRef, RefObject} from "react";
+import {ChangeEventHandler, forwardRef, RefObject} from "react";
 
 interface AppProp {
-    onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => void,
+    onChangeHandler: ChangeEventHandler<HTMLInputElement>
     inputValue: string | number,
     className?: string,
     type?: string,

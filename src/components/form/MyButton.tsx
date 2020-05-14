@@ -1,9 +1,9 @@
 import * as React from "react";
+import {MouseEvent, MouseEventHandler, ReactNode} from "react";
 import "./form.scss";
-import {ReactNode, MouseEvent} from "react";
 
 interface AppProp {
-    onClickHandler: (event: MouseEvent<HTMLButtonElement>) => void,
+    onClickHandler: MouseEventHandler<HTMLButtonElement>
     className: string,
     children: ReactNode,
     type?: "button" | "submit" | "reset";

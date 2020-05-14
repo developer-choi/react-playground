@@ -1,12 +1,12 @@
 import * as React from "react"
-import {MouseEvent} from "react";
+import {MouseEventHandler} from "react"
 import Square from "./Square";
 
 interface AppProp {
     currentIndex: number;
     squareArray: Array<{
         square: number,
-        onClickHandler: (event: MouseEvent<HTMLButtonElement>) => void,
+        onClickHandler: MouseEventHandler<HTMLDivElement>
         capture?: boolean;
     }>;
 }
