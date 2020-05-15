@@ -22,11 +22,11 @@ export default function MyButton(props: AppProp) {
     };
 
     return (
-        <button type={props.type} className={`my-button ${props.className} ${ props.disable ? "button-disable" : ""}`} onClick={onClickHandler}>
-            {(props.children) ? props.children : '버튼'}
+        <button type={props.type} className={`my-button ${props.className} ${props.disable ? "button-disable" : ""}`}
+                onClick={onClickHandler}>{(props.children) ? props.children : "버튼"}
         </button>
-    )
-};
+    );
+}
 
 MyButton.defaultProps = {
     className: "",

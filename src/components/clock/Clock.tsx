@@ -5,12 +5,12 @@ import * as React from "react";
 
 export default function Clock() {
 
-    const [dateFormat, setDateFormat] = useState(moment().format('MMMM Do YYYY, h:mm:ss a'));
+    const [dateFormat, setDateFormat] = useState(moment().format("MMMM Do YYYY, h:mm:ss a"));
 
     useEffect(() => {
 
         const intervalId = setInterval(() => {
-            setDateFormat(moment().format('MMMM Do YYYY, h:mm:ss a'))
+            setDateFormat(moment().format("MMMM Do YYYY, h:mm:ss a"));
         }, 1000);
 
         return () => {
@@ -24,5 +24,5 @@ export default function Clock() {
         <div className="Clock-wrap">
             <span>{dateFormat}</span>
         </div>
-    )
-};
+    );
+}

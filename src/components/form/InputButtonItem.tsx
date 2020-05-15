@@ -20,7 +20,7 @@ export default function InputButtonItem(props: AppProp) {
             <MyInput className="delete-right-radius-border" inputValue={props.inputValue} onChangeHandler={props.onChangeHandler}/>
             <MyButton className="delete-left-radius-border" onClickHandler={props.onClickHandler}>{props.buttonText}</MyButton>
         </div>
-    )
+    );
 }
 
 InputButtonItem.defaultProps = {

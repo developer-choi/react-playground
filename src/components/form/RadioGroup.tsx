@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {ChangeEvent} from "react";
 
 interface AppProp {
@@ -20,11 +20,10 @@ export default function RadioGroup(props: AppProp) {
 
                 return (
                     <li key={`li-${index}`}>
-                        <input type="radio" name="radioGroupName" value={valueAndLabel.value} onChange={onChangeHandler}
-                               checked={props.selectValue == valueAndLabel.value}/>
+                        <input type="radio" name="radioGroupName" value={valueAndLabel.value} onChange={onChangeHandler} checked={props.selectValue == valueAndLabel.value}/>
                         <label>{valueAndLabel.label}</label>
                     </li>
-                )
+                );
 
             })
         );
@@ -34,5 +33,5 @@ export default function RadioGroup(props: AppProp) {
         <ul className="RadioGroup-wrap">
             {lis()}
         </ul>
-    )
+    );
 }

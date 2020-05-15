@@ -7,4 +7,4 @@ export default function ReactMain() {
             React Main화면입니다.
         </div>
     );
-};
+}

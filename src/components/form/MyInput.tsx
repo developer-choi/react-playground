@@ -14,6 +14,6 @@ export default forwardRef(function MyInput(props: AppProp, ref: RefObject<HTMLIn
     return (
         <input type={props.type} ref={ref}
                value={props.inputValue} onChange={props.onChangeHandler}
-               className={`my-input ${props.className ?? ""} ${ props.showIncreaseDecreaseButton ? "" : "hidden-increase-decrease-button" }`}/>
-    )
+               className={`my-input ${props.className ?? ""} ${props.showIncreaseDecreaseButton ? "" : "hidden-increase-decrease-button"}`}/>
+    );
 });

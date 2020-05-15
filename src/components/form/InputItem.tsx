@@ -12,7 +12,7 @@ interface AppProp {
     showIncreaseDecreaseButton?: boolean
 }
 
-export const InputItem = forwardRef((props: AppProp, ref: RefObject<HTMLInputElement>) => {
+export default forwardRef(function InputItem(props: AppProp, ref: RefObject<HTMLInputElement>) {
 
     return (
         <div className={`responsive-form-item ${props.itemClassName}`}>
@@ -20,5 +20,5 @@ export const InputItem = forwardRef((props: AppProp, ref: RefObject<HTMLInputEle
             <MyInput className={props.inputClassName} type={props.type} ref={ref} inputValue={props.inputValue} onChangeHandler={props.onChangeHandler}
                      showIncreaseDecreaseButton={props.showIncreaseDecreaseButton}/>
         </div>
-    )
+    );
 });

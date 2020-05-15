@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import "./RadioButton.scss";
 
 interface AppProp {
@@ -14,5 +14,5 @@ export default function RadioButton(props: AppProp) {
 
     return (
         <button type="button" onClick={() => props.onChangeHandler(props.checkValue)} className={`RadioButton-wrap ${active}`}>{props.children}</button>
-    )
+    );
 }
