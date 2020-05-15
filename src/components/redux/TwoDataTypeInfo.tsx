@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 interface TwoDataTypeInfoProp {
     message: string;
@@ -14,5 +14,5 @@ export default function TwoDataTypeInfo(props: TwoDataTypeInfoProp) {
             <span>{props.primitive}</span><br/>
             <span>{props.reference}</span>
         </div>
-    )
+    );
 }

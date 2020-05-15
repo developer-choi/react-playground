@@ -35,13 +35,13 @@ export default class MineSweeper extends React.Component<AppProp, AppState> {
 
             return (
                 <MineSweeperTr key={`tr-${index}`} rowIndex={index} mineMap={this.state.mineMap}/>
-            )
+            );
         });
 
         return (
             <div className="MineSweeper-wrap">
                 {mineTrs}
             </div>
-        )
+        );
     }
 }

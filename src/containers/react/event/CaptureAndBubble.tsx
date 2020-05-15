@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import OverlapSquare from "../../../components/square/OverlapSquare";
 import {useRef} from "react";
 import "./CaptureAndBubble.scss";
@@ -28,5 +28,5 @@ export default function CaptureAndBubble() {
             <OverlapSquare squareArray={bubbleTest.current}/>
             <OverlapSquare squareArray={bubbleTest2.current}/>
         </div>
-    )
+    );
 }

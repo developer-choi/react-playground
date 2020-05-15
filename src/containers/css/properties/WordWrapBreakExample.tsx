@@ -67,5 +67,5 @@ function EnglishSample({className, title}: {className: string, title: string}) {
 
             [Related video 1] (Henry _Playing 'TRAP' Violin & Piano ver. With Seohyun), [Related video 2] Tatiseo Dear Santa, [Related video 3] Kim Tae-woo's love rain, [Related video 4] Tiffany's Once in a Lifetime
         </div>
-    )
+    );
 }

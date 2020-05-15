@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {connect} from "react-redux";
 import TwiceCounter from "../../../../components/redux/TwiceCounter";
 import {notChange, TwiceCounterState, twiceDecrease, twiceIncrease} from "../../../../redux/modules/twiceCounter";
@@ -13,7 +13,7 @@ export interface TwiceCounterProp extends NumberType {
 
 function TwiceCounterContainer(props: TwiceCounterProp) {
 
-    return <TwiceCounter {...props}/>
+    return <TwiceCounter {...props}/>;
 }
 
 function mapState(rootState: RootState): TwiceCounterState {
@@ -29,4 +29,4 @@ const mapDispatch = {
     twiceIncrease, twiceDecrease, notChange
 };
 
-export default connect(mapState, mapDispatch)(TwiceCounterContainer)
+export default connect(mapState, mapDispatch)(TwiceCounterContainer);

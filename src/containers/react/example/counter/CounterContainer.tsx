@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {connect} from "react-redux";
 import {RootState} from "../../../../redux/store";
 import Counter from "../../../../components/redux/Counter";
@@ -13,7 +13,7 @@ export interface CounterProp extends NumberType {
 
 function CounterContainer(props: CounterProp) {
 
-    return <Counter {...props}/>
+    return <Counter {...props}/>;
 }
 
 function mapState(rootState: RootState): CounterState {
@@ -27,6 +27,6 @@ function mapState(rootState: RootState): CounterState {
 
 const mapDispatch = {
     increase, decrease, increaseAsync
-}
+};
 
-export default connect(mapState, mapDispatch)(CounterContainer)
+export default connect(mapState, mapDispatch)(CounterContainer);

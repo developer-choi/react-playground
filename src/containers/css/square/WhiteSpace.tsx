@@ -43,6 +43,6 @@ export default class WhiteSpace extends React.Component<AppProp, AppState> {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }

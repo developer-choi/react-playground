@@ -1,5 +1,5 @@
 import "./VerticalAlignExample.scss";
-import * as React from "react"
+import * as React from "react";
 import {SH_IMG_1} from "../imageSrcs";
 
 export default function VerticalAlignExample() {
@@ -18,7 +18,7 @@ export default function VerticalAlignExample() {
             <ul className="list-style-inside mb-30">
                 <li>vertical align은 container가 아닌 item에 거는 속성이고,</li>
                 <li>위 예제처럼 item끼리 서로 vertical align이 다른 example은 하나도찾지못했으니</li>
-                <li>{`.top < * { vertical-align: top } 이런식으로 사용할것으로 예상됨.`}</li>
+                <li>{".top < * { vertical-align: top } 이런식으로 사용할것으로 예상됨."}</li>
             </ul>
 
             <b>use case는 텍스트와 이미지 정렬</b>
@@ -106,5 +106,5 @@ export default function VerticalAlignExample() {
                 `}
             </div>
         </div>
-    )
+    );
 }

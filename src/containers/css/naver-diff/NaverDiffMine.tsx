@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./NaverDiff.scss"
+import "./NaverDiff.scss";
 
 export default function NaverDiffMine() {
 
@@ -43,5 +43,5 @@ export default function NaverDiffMine() {
                 </a>
             </div>
         </div>
-    )
+    );
 }

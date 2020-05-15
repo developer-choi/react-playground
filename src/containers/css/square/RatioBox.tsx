@@ -15,6 +15,6 @@ export default class RatioBox extends React.Component<AppProp, AppState> {
             <div>
                 Ratio Box
             </div>
-        )
+        );
     }
 }

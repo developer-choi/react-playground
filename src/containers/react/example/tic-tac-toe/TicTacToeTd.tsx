@@ -1,5 +1,5 @@
 import * as React from "react";
-import CircleSymbol from "../symbol/CircleSymbol";
+import CircleSymbol from "../../../../components/symbol/CircleSymbol";
 import {Component} from "react";
 
 interface AppProp {
@@ -24,6 +24,6 @@ export default class TicTacToeTd extends Component<AppProp, AppState> {
             <td className="tic-tac-toe-td" onClick={() => this.props.mark([this.props.rowIndex, this.props.columnIndex])}>
                 <CircleSymbol colorIndex={this.props.cellValue}/>
             </td>
-        )
+        );
     }
 }

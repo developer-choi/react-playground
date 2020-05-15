@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import CounterContainer from "./CounterContainer";
 import TwiceCounterContainer from "./TwiceCounterContainer";
 
@@ -9,5 +9,5 @@ export default function CounterApp() {
             <CounterContainer/>
             <TwiceCounterContainer/>
         </div>
-    )
+    );
 }

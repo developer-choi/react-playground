@@ -20,6 +20,6 @@ export default class LiteralClassChild extends Component<LiteralTestProp> {
             <div className="LiteralClassChild-wrap">
                 class child
             </div>
-        )
+        );
     }
 }

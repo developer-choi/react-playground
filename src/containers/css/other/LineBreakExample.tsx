@@ -39,5 +39,5 @@ aaaaaaaaaaaa
             <div className="text-view">{test2}</div>
             <div className="text-view">{test3}</div>
         </div>
-    )
+    );
 }

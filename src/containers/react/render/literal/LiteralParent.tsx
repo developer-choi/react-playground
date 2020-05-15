@@ -1,7 +1,7 @@
-import * as React from "react"
+import * as React from "react";
 import LiteralClassChild from "./LiteralClassChild";
 import LiteralHooksChild from "./LiteralHooksChild";
-import MyButton from "../../../../../components/form/MyButton";
+import MyButton from "../../../../components/form/MyButton";
 import {useState} from "react";
 import LiteralPureChild from "./LiteralPureChild";
 
@@ -24,5 +24,5 @@ export default function LiteralParent() {
             <LiteralPureChild notLiteralFunc={notLiteralFunc} literalFunc={function () {}}/>
             <MyButton onClickHandler={setStateForceUpdate}>자식컴포넌트2개 렌더링하기</MyButton>
         </div>
-    )
+    );
 }

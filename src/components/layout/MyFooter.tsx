@@ -7,5 +7,5 @@ export default function MyFooter() {
         <footer className="MyFooter-wrap">
             <Clock/>
         </footer>
-    )
-};
+    );
+}

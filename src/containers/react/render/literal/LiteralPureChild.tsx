@@ -13,6 +13,6 @@ export default class LiteralPureChild extends Component<LiteralTestProp> {
             <div className="LiteralPureChild-wrap">
                 pure component child
             </div>
-        )
+        );
     }
 }

@@ -1,5 +1,5 @@
-import * as React from "react"
-import {TwiceCounterProp} from "../../containers/react/redux/counter/TwiceCounterContainer";
+import * as React from "react";
+import {TwiceCounterProp} from "../../containers/react/example/counter/TwiceCounterContainer";
 import TwoDataTypeInfo from "./TwoDataTypeInfo";
 import MyButton from "../form/MyButton";
 
@@ -14,5 +14,5 @@ export default function TwiceCounter(props: TwiceCounterProp) {
             <MyButton onClickHandler={props.twiceDecrease}>-</MyButton>
             <MyButton onClickHandler={props.notChange}>Not Change</MyButton>
         </div>
-    )
+    );
 }

@@ -9,7 +9,7 @@ export default function BarTexts({texts}: BarTextsProp) {
 
     return (
         <div className="BarTexts-wrap">
-            {texts.map(text => <span className="with-bar">{text}</span>)}
+            {texts.map((text, index) => <span key={`text-${index}`} className="with-bar">{text}</span>)}
         </div>
     );
 }

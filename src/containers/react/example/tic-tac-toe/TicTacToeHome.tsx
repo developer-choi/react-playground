@@ -8,5 +8,5 @@ export default function TicTacToeHome() {
             <h1>틱택토 게임하기</h1><br/>
             <TicTacToeGame squareCount={4} playerList={["철수", "영희"]}/>
         </div>
-    )
+    );
 }

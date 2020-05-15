@@ -15,4 +15,4 @@ export default function ReactMain() {
             Css Main화면입니다.
         </div>
     );
-};
+}

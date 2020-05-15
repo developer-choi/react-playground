@@ -1,5 +1,5 @@
-import * as React from "react"
-import {MouseEventHandler} from "react"
+import * as React from "react";
+import {MouseEventHandler} from "react";
 import Square from "./Square";
 
 interface AppProp {
@@ -22,7 +22,7 @@ export default function OverlapSquare(props: AppProp) {
                     onClickHandler={currentSquare.onClickHandler} capture={currentSquare.capture}>
                 <OverlapSquare currentIndex={props.currentIndex + 1} squareArray={props.squareArray}/>
             </Square>
-        )
+        );
 
     } else {
         return null;

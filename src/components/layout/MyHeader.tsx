@@ -19,15 +19,15 @@ export default function MyHeader(props: AppProp) {
                         if(ulIndex === 0) {
                             return (
                                 <li key={`li-${liIndex}`} onClickCapture={() => props.headerChange(headerInfo)} className="dropdown-li"><Link to={headerInfo.to}>{headerInfo.text}</Link></li>
-                            )
+                            );
                         }
 
                         return (
                             <li key={`li-${liIndex}`} className="dropdown-li"><Link to={headerInfo.to}>{headerInfo.text}</Link></li>
-                        )
+                        );
                     })}
                 </ul>
-            )
+            );
         })
     );
 
@@ -37,5 +37,5 @@ export default function MyHeader(props: AppProp) {
                 {headerUls}
             </nav>
         </header>
-    )
-};
+    );
+}

@@ -1,7 +1,7 @@
-import * as React from "react"
+import * as React from "react";
 import TwoDataTypeInfo from "./TwoDataTypeInfo";
 import MyButton from "../form/MyButton";
-import {CounterProp} from "../../containers/react/redux/counter/CounterContainer";
+import {CounterProp} from "../../containers/react/example/counter/CounterContainer";
 
 export default function Counter(props: CounterProp) {
 
@@ -14,5 +14,5 @@ export default function Counter(props: CounterProp) {
             <MyButton onClickHandler={props.decrease}>-</MyButton>
             <MyButton onClickHandler={props.increaseAsync}>+ 1초</MyButton>
         </div>
-    )
+    );
 }

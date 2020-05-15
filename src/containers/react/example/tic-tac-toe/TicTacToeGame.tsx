@@ -1,7 +1,7 @@
 import "./TicTacToe.scss";
 import TicTacToe, {GameResult} from "./TicTacToe";
 import TicTacToeTd from "./TicTacToeTd";
-import CircleSymbol from "../symbol/CircleSymbol";
+import CircleSymbol from "../../../../components/symbol/CircleSymbol";
 import {Component} from "react";
 import * as React from "react";
 
@@ -76,7 +76,7 @@ export default class TicTacToeGame extends Component<AppProp, AppState> {
             case GameResult.TIE:
 
                 this.setState({
-                    message: `결과 : 무승부 입니다.`,
+                    message: "결과 : 무승부 입니다.",
                 });
                 break;
         }
@@ -93,10 +93,10 @@ export default class TicTacToeGame extends Component<AppProp, AppState> {
                           return (
                             <TicTacToeTd key={`td-${rowIndex}-${columnIndex}`} rowIndex={rowIndex} columnIndex={columnIndex}
                                          mark={this.mark} cellValue={this.props.playerList.indexOf(this.ticTacToe.cell2dList[rowIndex][columnIndex])}/>
-                          )
+                          );
                       })}
                   </tr>
-                )
+                );
             })
         );
     }
@@ -117,6 +117,6 @@ export default class TicTacToeGame extends Component<AppProp, AppState> {
                     </tbody>
                 </table>
             </>
-        )
+        );
     }
 }

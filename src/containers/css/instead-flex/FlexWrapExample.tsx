@@ -1,5 +1,5 @@
-import * as React from "react"
-import {InputItem} from "../../../components/form/InputItem";
+import * as React from "react";
+import InputItem from "../../../components/form/InputItem";
 import MyButton from "../../../components/form/MyButton";
 import "./FlexWrapExample.scss";
 
@@ -42,5 +42,5 @@ export default function FlexWrapExample() {
                 <li>container에서 margin-bottom으로 음수마진을 주는쪽으로 보완을 해봤음.</li>
             </ul>
         </div>
-    )
+    );
 }

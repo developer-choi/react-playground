@@ -14,5 +14,5 @@ export default function ImageForwardLayer() {
                 </div>
             </div>
         </div>
-    )
+    );
 }

@@ -40,6 +40,6 @@ export default class Collapse extends Component<AppProp, AppState> {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
