@@ -8,16 +8,16 @@ module.exports = {
   mode: "development",
   entry: {
     "babel-polyfill": "babel-polyfill",
-    vendor: ['semantic-ui-react'],
-    app: './src/index.tsx'
+    vendor: ["semantic-ui-react"],
+    app: "./src/index.tsx"
   },
   optimization: {
     splitChunks: {
       cacheGroups: {
         vendor: {
-          chunks: 'initial',
-          test: 'vendor',
-          name: 'vendor',
+          chunks: "initial",
+          test: "vendor",
+          name: "vendor",
           enforce: true
         }
       }
@@ -25,7 +25,7 @@ module.exports = {
   },
   output: {
     publicPath: "/",
-    filename: '[name].[hash].js',
+    filename: "[name].[hash].js",
   },
   devtool: "inline-source-map",
 
@@ -34,16 +34,16 @@ module.exports = {
       {
         test: /\.(js|jsx|ts|tsx)$/, //
         exclude: /node_modules/,
-        use: ['babel-loader']
+        use: ["babel-loader"]
       },
       {
         test: /\.(css|scss|sass)$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        use: ["style-loader", "css-loader", "sass-loader"]
       },
     ]
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx','.ts','.tsx']
+    extensions: ["*", ".js", ".jsx",".ts",".tsx"]
   },
 
   plugins: [
@@ -55,11 +55,10 @@ module.exports = {
   ],
 
   devServer: {
-    host: "0.0.0.0",
+    host: "localhost",
     port: port,
     historyApiFallback: true,
     open: true,
-    hot: true,
-    disableHostCheck: true
+    hot: true
   },
 };
