@@ -1,0 +1,29 @@
+.NumberConversionTable-wrap {
+
+    border-collapse: collapse;
+
+    tr:first-child {
+        background: whitesmoke;
+
+        td:first-child {
+            font-weight: bold;
+        }
+    }
+
+    td:first-child {
+        background: whitesmoke;
+    }
+
+    td {
+        border: 1px solid black;
+        padding: 5px 10px;
+    }
+
+    span.string {
+        color: green;
+    }
+
+    span.number {
+        color: blue;
+    }
+}
