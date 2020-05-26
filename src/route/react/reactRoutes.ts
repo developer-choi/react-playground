@@ -4,6 +4,7 @@ import exampleRoutes from "./exampleRoutes";
 import renderRoutes from "./renderRoutes";
 import eventRoutes from "./eventRoutes";
 import {REACT_FIRST_PATH_DIRECTORY_NAME} from "../firstPath";
+import homeworkRoutes from "./homeworkRoutes";
 
 const reactRoutes: RouteProps[] = [
     {
@@ -12,4 +13,4 @@ const reactRoutes: RouteProps[] = [
     }
 ].map(route => ({...route, exact: true}));
 
-export default reactRoutes.concat(exampleRoutes, renderRoutes, eventRoutes);
+export default reactRoutes.concat(exampleRoutes, renderRoutes, eventRoutes, homeworkRoutes);

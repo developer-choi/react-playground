@@ -1,0 +1,21 @@
+.Homework-wrap {
+
+    ul {
+        list-style: inside;
+    }
+
+    > * {
+        margin-bottom: 20px;
+    }
+
+    .item {
+        padding: 20px;
+        width: 280px;
+        border: 1px solid lightgray;
+        margin-right: 10px;
+    }
+
+    .item-wrap {
+        display: flex;
+    }
+}

@@ -1,0 +1,23 @@
+.StarPoint-wrap {
+
+    display: flex;
+
+    button {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: lightgray;
+
+        &.active {
+            background: orange;
+        }
+
+        &.pointer {
+            cursor: pointer;
+        }
+
+        &:not(:last-child) {
+            margin-right: 10px;
+        }
+    }
+}

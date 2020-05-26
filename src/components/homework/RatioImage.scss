@@ -1,0 +1,12 @@
+.RatioImage {
+    width: 200px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    &:before {
+        content: "";
+        padding-top: 100%;
+        display: block;
+    }
+}

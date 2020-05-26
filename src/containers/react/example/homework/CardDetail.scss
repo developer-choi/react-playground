@@ -1,0 +1,49 @@
+@import "../../../../components/homework/common";
+
+.CardDetail-wrap {
+
+    h3:not(:first-child) {
+        margin-top: 20px;
+    }
+
+    ul {
+        margin-top: 10px;
+        list-style: inside;
+    }
+
+    .item {
+
+        > img {
+            display: block;
+            padding: 5px;
+            border: $item-border;
+        }
+
+        &.ratio-info {
+            display: flex;
+
+            & > .RatioImage {
+                width: 200px;
+                margin-right: 10px;
+            }
+        }
+
+        .small {
+            border: $item-border;
+            padding: 20px;
+            width: 280px;
+        }
+
+        .middle {
+            border: $item-border;
+            padding: 20px;
+            width: 360px;
+        }
+
+        .big {
+            border: $item-border;
+            padding: 20px;
+            width: 480px;
+        }
+    }
+}

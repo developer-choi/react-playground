@@ -1,0 +1,50 @@
+@import "common";
+
+.HorizontalCard-wrap {
+
+    display: inline-flex;
+    border: 1px solid lightgray;
+
+    .right-wrap {
+        background: whitesmoke;
+        width: 350px;
+        height: 200px;
+        padding: 20px;
+
+        .title {
+            @include line-clamp-ellipsis(1);
+        }
+
+        .content {
+            margin-top: 20px;
+            @include line-clamp-ellipsis(3);
+        }
+
+        .star-author-wrap {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+
+            .StarPoint-wrap {
+                position: relative;
+                flex-shrink: 0;
+                padding-right: 10px;
+                margin-right: 10px;
+
+                &:after {
+                    position: absolute;
+                    content: '';
+                    background: lightgray;
+                    width: 1px;
+                    height: 20px;
+                    top: 5px;
+                    right: 0;
+                }
+            }
+
+            .author {
+                @include line-clamp-ellipsis(1);
+            }
+        }
+    }
+}

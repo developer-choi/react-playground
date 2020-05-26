@@ -1,0 +1,19 @@
+@mixin line-clamp-ellipsis($line-clamp) {
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $line-clamp;
+    overflow: hidden;
+
+    $default-line-height: 1;
+    line-height: $default-line-height;
+    height: $line-clamp * $default-line-height * 1em;
+}
+
+@mixin ellipsis() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+$item-border: 1px solid lightgray;
