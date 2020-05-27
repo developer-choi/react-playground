@@ -15,8 +15,8 @@ import VerticalCard from "../../../../components/homework/VerticalCard";
 
 export default function CardDetail() {
 
-    const [starValue, setStarValue] = useState(3);
-    const [starValue2, setStarValue2] = useState(0);
+    const [starValue, setStarValue] = useState(6);
+    const [starValue2, setStarValue2] = useState(3);
 
     const setStateStarValue = (value: number) => {
         setStarValue(value);
@@ -53,21 +53,23 @@ export default function CardDetail() {
             <h3>StarPoint 컴포넌트</h3>
             <div className="item">
                 별점 : {starValue}
-                <StarPoint value={starValue} setStarValue={setStateStarValue}/>
+                <StarPoint value={starValue} setStarValue={setStateStarValue} max={16} starLength={8}/>
             </div>
             <ul>
                 <li>클릭 또는 탭으로 이동 후 엔터했을 때 별점을 리렌더링 하는 기능도 같이 넣었습니다.</li>
                 <li>하지만 과제에서는 별점을 보여주는 역할만 수행합니다.</li>
+                <li>별의 갯수와 최대 별점값 2개를 prop으로 제공할 경우, 별점1개당 점수를 계산하여 제공하고,</li>
+                <li>과제에서는 기본값인 5개, 최대 5점 (= 개당 1점)을 사용합니다.</li>
             </ul>
 
-            <h3>별점의 갯수(8), 최대 별점(16)</h3>
+            <h3>0점도 만들 수 있는 기능</h3>
             <div className="item">
                 별점 : {starValue2}
-                <StarPoint value={starValue2} setStarValue={setStateStar2Value} max={16} starLength={8}/>
+                <StarPoint value={starValue2} setStarValue={setStateStar2Value}/>
             </div>
             <ul>
-                <li>갯수와 최대값 2개를 prop으로 제공할 경우, 별점1개당 점수를 계산할 수 있으며,</li>
-                <li>과제에서는 기본값인 5개, 최대 5점 (= 개당 1점)을 사용합니다.</li>
+                <li>첫번 째 별을 클릭했을 때, 기존 점수가 1점 이면 0점이 됩니다. (= 첫번 째 별만 활성화된 상태에서 또 첫번 째 별만 클릭한 경우)</li>
+                <li>그 외에, 기존 점수가 0점이거나 1점 보다 클 경우, 1점이 됩니다.</li>
             </ul>
 
             <h3>텍스트 길이 & 가변형</h3>

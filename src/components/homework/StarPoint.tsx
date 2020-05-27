@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./StarPoint.scss";
+import {MouseEvent} from "react";
 
 interface StarPointProp {
     value: number,
@@ -12,15 +13,26 @@ export default function StarPoint({value, max, starLength, setStarValue}: StarPo
 
     const valuePerStar = Math.floor(max / starLength);
 
+    const firstButtonOnClick = (event: MouseEvent<HTMLButtonElement>) => {
+
+        if (value === valuePerStar && (event.target as HTMLButtonElement).classList.contains("active")) {
+            setStarValue?.(0);
+        } else {
+            setStarValue?.(valuePerStar);
+        }
+    }
+
     const buttons = new Array(starLength).fill("").map((val, index) => {
 
         const starValue = valuePerStar * (index + 1);
 
-        if(starValue <= value)
-            return <button onClick={() => setStarValue?.(starValue)} key={`btn-${index}`} type="button" className={`active ${setStarValue ? "pointer" : ""}`}/>
+        if (index === 0)
+            return <button onClick={firstButtonOnClick} key={`btn-${index}`} type="button"
+                           className={`${starValue <= value ? "active" : " "} ${setStarValue ? "pointer" : ""}`}/>;
 
         else
-            return <button onClick={() => setStarValue?.(starValue)} key={`btn-${index}`} type="button" className={`${setStarValue ? "pointer" : ""}`}/>
+            return <button onClick={() => setStarValue?.(starValue)} key={`btn-${index}`} type="button"
+                           className={`${starValue <= value ? "active" : " "} ${setStarValue ? "pointer" : ""}`}/>;
 
     });
 
