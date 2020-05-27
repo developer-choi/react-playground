@@ -2,7 +2,7 @@
 
 .InputFormDetail-wrap {
 
-    @include detail-page-common();
+    @include detail-page-common;
 
     .item {
         border: $item-border;

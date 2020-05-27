@@ -7,16 +7,17 @@
 
     .right-wrap {
         background: whitesmoke;
-        width: 350px;
-        height: 200px;
-        padding: 20px;
+        width: 250px;
+        padding: 18px 25px 15px 15px;
 
         .title {
+            @include card-title-common;
             @include line-clamp-ellipsis(1);
         }
 
         .content {
             margin-top: 20px;
+            @include card-content-common;
             @include line-clamp-ellipsis(3);
         }
 
@@ -36,14 +37,15 @@
                     content: '';
                     background: lightgray;
                     width: 1px;
-                    height: 20px;
-                    top: 5px;
+                    height: 10px;
+                    top: 3px;
                     right: 0;
                 }
             }
 
             .author {
                 @include line-clamp-ellipsis(1);
+                color: lightgray;
             }
         }
     }

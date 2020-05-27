@@ -2,7 +2,7 @@
 
 .Homework-wrap {
 
-    @include detail-page-common();
+    @include detail-page-common;
 
     .item {
         padding: 20px;

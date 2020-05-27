@@ -16,9 +16,13 @@ import VerticalCard from "../../../../components/homework/VerticalCard";
 export default function CardDetail() {
 
     const [starValue, setStarValue] = useState(3);
+    const [starValue2, setStarValue2] = useState(0);
 
     const setStateStarValue = (value: number) => {
         setStarValue(value);
+    };
+    const setStateStar2Value = (value: number) => {
+        setStarValue2(value);
     };
 
     return (
@@ -56,6 +60,16 @@ export default function CardDetail() {
                 <li>하지만 과제에서는 별점을 보여주는 역할만 수행합니다.</li>
             </ul>
 
+            <h3>별점의 갯수(8), 최대 별점(16)</h3>
+            <div className="item">
+                별점 : {starValue2}
+                <StarPoint value={starValue2} setStarValue={setStateStar2Value} max={16} starLength={8}/>
+            </div>
+            <ul>
+                <li>갯수와 최대값 2개를 prop으로 제공할 경우, 별점1개당 점수를 계산할 수 있으며,</li>
+                <li>과제에서는 기본값인 5개, 최대 5점 (= 개당 1점)을 사용합니다.</li>
+            </ul>
+
             <h3>텍스트 길이 & 가변형</h3>
             <div className="item">
                 <HorizontalCard imageInfo={verticalImageInfo} title={shortText} content={shortText} starPoint={2} author={shortText}/>
@@ -64,13 +78,13 @@ export default function CardDetail() {
             </div>
             <div className="item">
                 <div className="small">
-                    <VerticalCard label={longText} starPoint={1} content={longText} crossOut={longText} hightlight={longText} imageInfo={imageInfo} title={longText}/>
+                    <VerticalCard label={longText} starPoint={1} content={longText} crossOut={longText} hightlight={longText} imageInfo={imageInfo} title={longText} showAdditional/>
                 </div>
                 <div className="middle">
-                    <VerticalCard label={middleText} starPoint={1} content={middleText} crossOut={middleText} hightlight={middleText} imageInfo={imageInfo} title={middleText}/>
+                    <VerticalCard label={middleText} starPoint={5} content={middleText} crossOut={middleText} hightlight={middleText} imageInfo={imageInfo} title={middleText} showAdditional showContent/>
                 </div>
                 <div className="big">
-                    <VerticalCard label={shortText} starPoint={1} content={shortText} crossOut={shortText} hightlight={shortText} imageInfo={imageInfo} title={shortText}/>
+                    <VerticalCard label={shortText} starPoint={3} content={shortText} crossOut={shortText} hightlight={shortText} imageInfo={imageInfo} title={shortText}/>
                 </div>
             </div>
             <ul>

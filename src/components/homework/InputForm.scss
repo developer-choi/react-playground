@@ -28,6 +28,8 @@
             position: absolute;
             right: 5px;
             bottom: 10px;
+            font-size: 12px;
+            color: lightgray;
 
             &.exceed {
                 color: red;
@@ -40,7 +42,7 @@
         padding: 30px;
         border: 1px solid gray;
         margin-left: 5px;
-        color: skyblue;
+        color: deepskyblue;
 
         &.disable {
             background: whitesmoke;

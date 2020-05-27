@@ -9,34 +9,38 @@
     }
 
     .middle-wrap {
-        padding: 10px 20px;
+        padding: 5px 10px 0 10px;
         background: whitesmoke;
 
         .label {
+            color: lightgray;
             @include line-clamp-ellipsis(1);
         }
 
         .title {
-            margin-top: 20px;
+            margin-top: 8px;
+            @include card-title-common;
             @include line-clamp-ellipsis(1);
         }
 
         .hightlight-cross-out {
-            margin-top: 40px;
+            margin-top: 25px;
 
             > .hightlight,
             > .cross-out {
                 display: inline-block;
                 max-width: 50%;
-                @include ellipsis();
+                @include ellipsis;
             }
 
             .hightlight {
                 color: orangered;
+                font-weight: bold;
                 padding-right: 5px;
             }
 
             .cross-out {
+                color: gray;
                 text-decoration-line: line-through;
             }
         }
@@ -45,15 +49,15 @@
     .bottom-wrap {
         border-top: 1px solid lightgray;
         background: whitesmoke;
-        padding-top: 10px;
-        height: 80px;
+        height: 60px;
         display: flex;
         flex-direction: column;
         justify-content: center;
 
         .content {
-            margin-top: 10px;
-            @include ellipsis();
+            margin-top: 5px;
+            @include card-content-common;
+            @include ellipsis;
         }
     }
 }

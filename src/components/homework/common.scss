@@ -5,7 +5,7 @@
     -webkit-line-clamp: $line-clamp;
     overflow: hidden;
 
-    $default-line-height: 1;
+    $default-line-height: 1.2;
     line-height: $default-line-height;
     height: $line-clamp * $default-line-height * 1em;
 }
@@ -29,3 +29,12 @@ $item-border: 1px solid lightgray;
         list-style: inside;
     }
 }
+
+@mixin card-title-common {
+    font-weight: bold;
+}
+
+@mixin card-content-common {
+    color: #444;
+}
+
