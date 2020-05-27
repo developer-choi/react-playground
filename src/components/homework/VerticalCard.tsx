@@ -18,8 +18,6 @@ export interface VerticalCardProp {
 
 export default function VerticalCard({imageInfo, hightlight, content, crossOut, label, showContent, showAdditional, starPoint, title}: VerticalCardProp) {
 
-    console.log(showAdditional, showContent);
-
     return (
         <div className="VerticalCard-wrap">
             <RatioImage src={imageInfo.src}/>

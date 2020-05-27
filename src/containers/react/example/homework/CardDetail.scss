@@ -2,14 +2,7 @@
 
 .CardDetail-wrap {
 
-    h3:not(:first-child) {
-        margin-top: 20px;
-    }
-
-    ul {
-        margin-top: 10px;
-        list-style: inside;
-    }
+    @include detail-page-common();
 
     .item {
 

@@ -1,12 +1,8 @@
+@import "../../../../components/homework/common";
+
 .Homework-wrap {
 
-    ul {
-        list-style: inside;
-    }
-
-    > * {
-        margin-bottom: 20px;
-    }
+    @include detail-page-common();
 
     .item {
         padding: 20px;

@@ -17,3 +17,15 @@
 }
 
 $item-border: 1px solid lightgray;
+
+@mixin detail-page-common {
+
+    h3:not(:first-child) {
+        margin-top: 20px;
+    }
+
+    ul {
+        margin-top: 10px;
+        list-style: inside;
+    }
+}
