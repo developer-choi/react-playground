@@ -1,39 +1,16 @@
-//https://sujinlee.me/webpack-react-tutorial/
-const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const port = process.env.PORT || 8365;
-require("babel-polyfill");
+const port = 8365;
 
 module.exports = {
   mode: "development",
-  entry: {
-    "babel-polyfill": "babel-polyfill",
-    vendor: ["semantic-ui-react"],
-    app: "./src/index.tsx"
-  },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          chunks: "initial",
-          test: "vendor",
-          name: "vendor",
-          enforce: true
-        }
-      }
-    }
-  },
   output: {
     publicPath: "/",
     filename: "[name].[hash].js",
   },
-  devtool: "inline-source-map",
-
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)$/, //
-        exclude: /node_modules/,
+        test: /\.(js|ts|tsx)$/, //
         use: ["babel-loader"]
       },
       {
@@ -43,11 +20,10 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx",".ts",".tsx"]
+    extensions: ["*", ".js", ".ts",".tsx"]
   },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: "index.html",
       favicon: "static/images/icons/favicon.ico"
@@ -55,10 +31,7 @@ module.exports = {
   ],
 
   devServer: {
-    host: "localhost",
     port: port,
     historyApiFallback: true,
-    open: true,
-    hot: true
   },
 };
