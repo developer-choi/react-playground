@@ -1,9 +1,8 @@
 import * as React from "react";
-import {connect} from "react-redux";
 import PrivateExample from "./PrivateExample";
 import {RootState} from "../../../redux/store";
-import {useHistory} from "react-router-dom";
-import {useEffect} from "react";
+import {Redirect} from "react-router-dom";
+import {connect} from "react-redux";
 
 export interface PrivateExampleProp {
     logined: boolean
@@ -11,17 +10,11 @@ export interface PrivateExampleProp {
 
 function PrivateExampleContainer(props: PrivateExampleProp) {
 
-    const history = useHistory();
+    if(!props.logined) {
+        return <Redirect to="/react/auth/login"/>;
 
-    useEffect(() => {
-
-        if(!props.logined) {
-            history.replace("/react/auth/login");
-        }
-
-    }, []);
-
-    return <PrivateExample/>;
+    } else
+        return <PrivateExample/>;
 }
 
 function mapState(rootState: RootState) {
