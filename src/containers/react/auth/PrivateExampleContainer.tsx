@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import PrivateExample from "./PrivateExample";
-import {RootState} from "../../../../redux/store";
+import {RootState} from "../../../redux/store";
 import {useHistory} from "react-router-dom";
 import {useEffect} from "react";
 
@@ -16,7 +16,7 @@ function PrivateExampleContainer(props: PrivateExampleProp) {
     useEffect(() => {
 
         if(!props.logined) {
-            history.replace("/react/example/login");
+            history.replace("/react/auth/login");
         }
 
     }, []);

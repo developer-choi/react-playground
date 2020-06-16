@@ -1,6 +1,6 @@
 import * as React from "react";
-import AuthButton from "../../../../components/form/AuthButton";
-import InputItem from "../../../../components/form/InputItem";
+import AuthButton from "../../../components/form/AuthButton";
+import InputItem from "../../../components/form/InputItem";
 import {ChangeEvent, useState} from "react";
 
 export default function LoginExample() {
