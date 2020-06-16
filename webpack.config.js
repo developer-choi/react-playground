@@ -4,7 +4,8 @@ const port = 8365;
 module.exports = {
     mode: "development",
     output: {
-        filename: "[name].js",
+        publicPath: "/",
+        filename: "[name].js"
     },
     module: {
         rules: [
