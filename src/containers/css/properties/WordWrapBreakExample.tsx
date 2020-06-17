@@ -15,7 +15,7 @@ export default function WordWrapBreakExample() {
                 <KoreanSample title="word-wrap-break" className="word-wrap-break"/>
             </div>
             <ul className="list-style-inside">
-                <li><a target="_blank" href="https://developer.mozilla.org/ko/docs/Web/CSS/word-break">CJK는 word-break속성을 쓰는게 의미가없다고 나와있음.</a></li>
+                <li><a target="_blank" rel="noopener noreferrer" href="https://developer.mozilla.org/ko/docs/Web/CSS/word-break">CJK는 word-break속성을 쓰는게 의미가없다고 나와있음.</a></li>
                 <li>하지만 keep-all은 normal하고 차이가 있긴하지만...</li>
                 <li>어쨋든 한국어는 word-break속성을 쓸필요가 없어보임. keep-all써서 컨테이너를 벗어나게 해야할 일이 없을거같음.</li>
                 <li>한국어는 기본값만으로도 단어하나가 아무리 길어도 줄내림이 되니까. 마치 영어를 break-all한것처럼.</li>
@@ -31,8 +31,8 @@ export default function WordWrapBreakExample() {
             </div>
 
             <ul className="list-style-inside">
-                <li><a target="_blank" href="https://developer.mozilla.org/ko/docs/Web/CSS/word-break">CJK는 word-break속성을 쓰는게 의미가없다고 나와있음.</a></li>
-                <li><a target="_blank" href="https://developer.mozilla.org/ko/docs/Web/CSS/overflow-wrap">하지만 영어는 word-wrap속성을 쓰는게 의미없다는 말은 또 없음.</a></li>
+                <li><a target="_blank" rel="noopener noreferrer" href="https://developer.mozilla.org/ko/docs/Web/CSS/word-break">CJK는 word-break속성을 쓰는게 의미가없다고 나와있음.</a></li>
+                <li><a target="_blank" rel="noopener noreferrer" href="https://developer.mozilla.org/ko/docs/Web/CSS/overflow-wrap">하지만 영어는 word-wrap속성을 쓰는게 의미없다는 말은 또 없음.</a></li>
                 <li>그래서 CJK는 word-wrap으로 제어! 영어는 word-break으로 제어! 이런 느낌이 아니라,</li>
                 <li>CJK는 word-wrap으로만 가능, 영어는 word-wrap, word-break둘다 가능 이런 느낌이고,</li>
                 <li>실제로 영어는 word-wrap의 break-word와 word-break의 break-word값이 같은결과를 나타냄.</li>
