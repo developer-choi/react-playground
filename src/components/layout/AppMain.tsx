@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import reactRoutes from "../../route/react/reactRoutes";
 import cssRoutes from "../../route/css/cssRoutes";
 import {Route, Switch} from "react-router-dom";

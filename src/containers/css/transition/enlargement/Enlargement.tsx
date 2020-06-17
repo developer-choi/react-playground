@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import "../../util.scss";
 import "./Enlargement.scss";
 import {SH_IMG_1} from "../../imageSrcs";

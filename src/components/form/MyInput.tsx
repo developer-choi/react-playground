@@ -1,5 +1,4 @@
-import * as React from "react";
-import {ChangeEventHandler, forwardRef, RefObject} from "react";
+import React, {ChangeEventHandler, forwardRef, RefObject} from "react";
 
 interface AppProp {
     onChangeHandler: ChangeEventHandler<HTMLInputElement>

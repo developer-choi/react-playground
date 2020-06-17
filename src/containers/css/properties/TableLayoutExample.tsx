@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import "./TableLayoutExample.scss";
 
 export default function TableLayoutExample() {
@@ -28,5 +28,5 @@ function TableSample({className} : {className : string}) {
                 <td>12345678901234567890</td>
             </tr>
         </table>
-    )
+    );
 }

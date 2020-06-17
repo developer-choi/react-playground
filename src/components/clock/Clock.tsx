@@ -1,7 +1,6 @@
 import * as moment from "moment";
 import "./Clock.scss";
-import {useEffect, useState} from "react";
-import * as React from "react";
+import React, {useEffect, useState} from "react";
 
 export default function Clock() {
 

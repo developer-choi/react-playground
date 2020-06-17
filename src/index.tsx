@@ -1,6 +1,6 @@
 import "@babel/polyfill";
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 import {BrowserRouter} from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import {Provider} from "react-redux";

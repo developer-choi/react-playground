@@ -1,7 +1,6 @@
-import * as React from "react";
+import React, {PureComponent} from "react";
 import {CircleSymbolEnum} from "./CircleSymbolEnum";
 import "./CircleSymbol.scss";
-import {PureComponent} from "react";
 
 interface AppProp {
     colorIndex: number

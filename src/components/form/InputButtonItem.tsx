@@ -1,5 +1,4 @@
-import * as React from "react";
-import {ChangeEventHandler, MouseEventHandler} from "react";
+import React, {ChangeEventHandler, MouseEventHandler} from "react";
 import MyInput from "./MyInput";
 import MyButton from "./MyButton";
 import "./form.scss";

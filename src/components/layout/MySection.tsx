@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import MyAside from "./MyAside";
 import AppMain from "./AppMain";
 

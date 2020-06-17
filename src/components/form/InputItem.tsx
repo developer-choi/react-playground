@@ -1,6 +1,5 @@
-import * as React from "react";
+import React, {ChangeEvent, forwardRef, RefObject} from "react";
 import MyInput from "./MyInput";
-import {ChangeEvent, RefObject, forwardRef} from "react";
 
 interface AppProp {
     labelText: string,

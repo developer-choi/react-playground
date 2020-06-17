@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import MineSweeperTr from "./MineSweeperTr";
 import mineMapInit from "./mineMapInit";
 import "./MineSweeper.scss";

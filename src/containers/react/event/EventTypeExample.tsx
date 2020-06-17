@@ -1,7 +1,6 @@
-import * as React from "react";
+import React, {useState} from "react";
 import "./EventTypeExample.scss";
 import RadioButton from "../../../components/form/radio-button/RadioButton";
-import {useState} from "react";
 
 export default function EventTypeExample() {
 

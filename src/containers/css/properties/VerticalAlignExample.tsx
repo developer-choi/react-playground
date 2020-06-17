@@ -1,5 +1,5 @@
 import "./VerticalAlignExample.scss";
-import * as React from "react";
+import React from "react";
 import {SH_IMG_1} from "../imageSrcs";
 
 export default function VerticalAlignExample() {

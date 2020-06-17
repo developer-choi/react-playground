@@ -1,5 +1,4 @@
-import * as React from "react";
-import {MouseEvent, MouseEventHandler, ReactNode} from "react";
+import React, {MouseEvent, MouseEventHandler, ReactNode} from "react";
 import "./form.scss";
 
 interface AppProp {

@@ -1,5 +1,4 @@
-import * as React from "react";
-import {MouseEventHandler, ReactNode} from "react";
+import React, {MouseEventHandler, ReactNode} from "react";
 import "./Square.scss";
 
 interface AppProp {

@@ -1,5 +1,4 @@
-import * as React from "react";
-import {ChangeEvent} from "react";
+import React, {ChangeEvent} from "react";
 
 interface AppProp {
     valueAndLabelArray: Array<{value: string | number, label: string | number}>,

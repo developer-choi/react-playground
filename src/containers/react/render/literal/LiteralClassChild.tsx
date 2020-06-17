@@ -1,6 +1,5 @@
-import * as React from "react";
+import React, {Component} from "react";
 import {LiteralTestProp} from "./LiteralTestProp";
-import {Component} from "react";
 
 export default class LiteralClassChild extends Component<LiteralTestProp> {
 

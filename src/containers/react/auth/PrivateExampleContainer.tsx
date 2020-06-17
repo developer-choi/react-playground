@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import PrivateExample from "./PrivateExample";
 import {RootState} from "../../../redux/store";
 import {Redirect} from "react-router-dom";

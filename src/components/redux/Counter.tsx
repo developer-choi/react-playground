@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import TwoDataTypeInfo from "./TwoDataTypeInfo";
 import MyButton from "../form/MyButton";
 import {CounterProp} from "../../containers/react/example/counter/CounterContainer";

@@ -1,5 +1,4 @@
-import * as React from "react";
-import {useState} from "react";
+import React, {useState} from "react";
 import MyHeader from "./MyHeader";
 import MySection from "./MySection";
 import MyFooter from "./MyFooter";

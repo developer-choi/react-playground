@@ -1,7 +1,6 @@
-import * as React from "react";
+import React, {ChangeEvent, FormEvent, useRef, useState} from "react";
 import "./RefExample.scss";
 import MyButton from "../../../components/form/MyButton";
-import {ChangeEvent, FormEvent, useRef, useState} from "react";
 import MyInput from "../../../components/form/MyInput";
 
 export default function RefExample() {

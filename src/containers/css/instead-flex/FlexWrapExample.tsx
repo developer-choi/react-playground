@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import InputItem from "../../../components/form/InputItem";
 import MyButton from "../../../components/form/MyButton";
 import "./FlexWrapExample.scss";

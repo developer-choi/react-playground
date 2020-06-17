@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import "./NumberConversionExample.scss";
 import NumberConversionTable from "../../../../components/number/NumberConversionTable";
 

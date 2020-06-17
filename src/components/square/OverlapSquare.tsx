@@ -1,5 +1,4 @@
-import * as React from "react";
-import {MouseEventHandler} from "react";
+import React, {MouseEventHandler} from "react";
 import Square from "./Square";
 
 interface AppProp {

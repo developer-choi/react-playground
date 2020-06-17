@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {connect} from "react-redux";
 import TwiceCounter from "../../../../components/redux/TwiceCounter";
 import {notChange, TwiceCounterState, twiceDecrease, twiceIncrease} from "../../../../redux/modules/twiceCounter";

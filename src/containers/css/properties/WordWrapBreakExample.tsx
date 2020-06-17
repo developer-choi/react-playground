@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import "./WordWrapBreakExample.scss";
 
 export default function WordWrapBreakExample() {
@@ -52,7 +52,7 @@ function KoreanSample({className, title}: {className: string, title: string}) {
 
             [관련영상1](헨리_Playing 'TRAP' Violin & Piano ver. with 서현), [관련영상2]태티서 Dear Santa, [관련영상3]김태우 의 사랑비, [관련영상4]티파니의 Once in a Lifetime
         </div>
-    )
+    );
 }
 
 function EnglishSample({className, title}: {className: string, title: string}) {

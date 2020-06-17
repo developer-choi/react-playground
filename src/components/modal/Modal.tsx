@@ -1,6 +1,5 @@
-import * as React from "react";
+import React, {ReactNode} from "react";
 import "./Modal.scss";
-import {ReactNode} from "react";
 
 interface AppProp {
     children: ReactNode;

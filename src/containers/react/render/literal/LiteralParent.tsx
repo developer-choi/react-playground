@@ -1,8 +1,7 @@
-import * as React from "react";
+import React, {useState} from "react";
 import LiteralClassChild from "./LiteralClassChild";
 import LiteralHooksChild from "./LiteralHooksChild";
 import MyButton from "../../../../components/form/MyButton";
-import {useState} from "react";
 import LiteralPureChild from "./LiteralPureChild";
 
 export default function LiteralParent() {
