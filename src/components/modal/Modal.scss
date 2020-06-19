@@ -1,19 +1,20 @@
 .Modal-wrap {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.3);
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
-}
+    width: 100%;
+    height: 100%;
+    z-index: 2020;
 
-.Modal-wrap-content {
-    background-color: white;
-    overflow: hidden;
+    &.open {
+        display: flex;
+    }
 
-    margin: 15% auto;
-    width: 80%; /* Could be more or less, depending on screen size */
+    .modal-content {
+        background: white;
+        width: 500px;
+        margin: auto;
+    }
 }

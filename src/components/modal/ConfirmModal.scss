@@ -1,0 +1,30 @@
+.ConfirmModal-wrap {
+
+    .title, .content, .button-wrap {
+        display: block;
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 20px;
+        border-bottom: 1px solid lightgray;
+    }
+
+    .content {
+        max-height: 500px;
+        overflow: auto;
+    }
+
+    .button-wrap {
+
+        text-align: right;
+
+        button {
+            padding: 10px 20px;
+        }
+
+        button:first-child {
+            margin-right: 5px;
+        }
+    }
+}

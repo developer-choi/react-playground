@@ -1,28 +1,29 @@
 import React, {ReactNode} from "react";
 import "./Modal.scss";
 
-interface AppProp {
+export interface ModalProp {
+    open: boolean;
     children: ReactNode;
-    openModal: boolean;
-    className?: string;
+    className: string;
 }
 
-export default function Modal(props: AppProp) {
+export default function Modal({open, children, className}: ModalProp) {
 
-    const display = (props.openModal) ? "block" : "none";
-
-    if(props.openModal) {
+    if(open)
         document.body.style.overflow = "hidden";
 
-    } else {
-        document.body.style.overflow = "auto";
-    }
+    else
+        document.body.style.overflow = "initial";
 
     return (
-        <div style={{display}} className={`Modal-wrap ${props.className}`}>
-            <div className="Modal-wrap-content">
-                {props.children}
+        <div className={`Modal-wrap ${className} ${open ? "open": ""}`}>
+            <div className={`modal-content ${className}`}>
+                {children}
             </div>
         </div>
     );
 }
+
+Modal.defaultProps = {
+    className: ""
+};
