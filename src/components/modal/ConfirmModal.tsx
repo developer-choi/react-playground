@@ -1,9 +1,11 @@
-import React, {useState} from "react";
+import React from "react";
 import "./ConfirmModal.scss";
 import Modal from "./Modal";
 import MyButton from "../form/MyButton";
 
 export interface ConfirmModalProp {
+    open: boolean;
+    setOpen: (open: boolean) => void;
     className: string;
     title: string;
     content: string;
@@ -11,9 +13,7 @@ export interface ConfirmModalProp {
     onConfirm?: () => void;
 }
 
-export default function ConfirmModal({className, title, content, onCancel, onConfirm}: ConfirmModalProp) {
-
-    const [open, setOpen] = useState(true);
+export default function ConfirmModal({open, setOpen, className, title, content, onCancel, onConfirm}: ConfirmModalProp) {
 
     const onCancelWrap = () => {
         setOpen(false);
