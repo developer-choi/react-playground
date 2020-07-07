@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "es5",
+    //common (react, react-native, express)
+    "strict": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+
+    //react || react-native
     "jsx": "react",
-    "allowSyntheticDefaultImports": true
-  },
-  "include": [
-    "./src/**/*"
-  ]
+
+    //only react && web
+    "target": "ES5" // ==> module default commonJS
+  }
 }
