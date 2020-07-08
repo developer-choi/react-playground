@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+//    "allowJs": true,
+//    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+//    "isolatedModules": true,
+    "lib": ["es6"],
+    "moduleResolution": "node", //module이 "AMD" or "System" or "ES6" 이거 3개가 아니면 Node기본값이래. 어? mdodule이 target때문에 ES6이 됬으니까 이속성안쓰면 Classic이네? 어 그럼 Classic되면아되는이유라도?
+    "target": "esnext",
+
+    "strict": true,
+    "noEmit": true,
+    "jsx": "react"
+  },
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
+  ]
+}
