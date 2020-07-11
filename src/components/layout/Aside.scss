@@ -1,0 +1,16 @@
+.Aside-wrap {
+  padding: 40px 60px;
+  background: whitesmoke;
+  width: 350px;
+
+  a {
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    &.active {
+      color: rgb(97, 218, 251);
+    }
+  }
+}

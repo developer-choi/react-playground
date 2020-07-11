@@ -1,13 +1,22 @@
-import "@babel/polyfill";
-import React from "react";
-import ReactDOM from "react-dom";
-import {BrowserRouter} from "react-router-dom";
+import '@babel/polyfill';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {BrowserRouter} from 'react-router-dom';
+import './reset.css';
+import {Switch} from 'react-router';
+import withoutAside from './routes/withoutAside';
+import appMain from './routes/app-main/appMain';
+import LayoutRoute from './components/LayoutRoute';
 
-import "./components/layout/reset.css";
-import "./containers/css/cssPropertiesClass.scss";
+const routes = appMain.concat(withoutAside);
 
 ReactDOM.render(
     <BrowserRouter>
-    </BrowserRouter>,
-    document.getElementById("root")
+        <Switch>
+            {routes.map((route, index) => (
+                <LayoutRoute key={`route-${index}`} {...route}/>
+            ))}
+        </Switch>
+    </BrowserRouter>
+    , document.getElementById('root')
 );
