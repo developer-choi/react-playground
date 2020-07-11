@@ -1,17 +1,10 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
-import {useLocation} from 'react-router';
+import AsideNavLinks from './AsideNavLinks';
+import api, {API_FIRST_PATH} from '../../routes/app-main/api';
 
 export default function ApiAside() {
 
-  const firstNavLinkActive = useLocation().pathname === '/api';
-
   return (
-      <div className="ApiAside-wrap">
-        <ul>
-          <li><NavLink exact className={`link ${firstNavLinkActive ? 'active' : ''}`} to="/api/use-effect">UseEffect 링크</NavLink></li>
-          <li><NavLink exact className="link" to="/api/use-state">UseState 링크</NavLink></li>
-        </ul>
-      </div>
+      <AsideNavLinks firstPath={API_FIRST_PATH} routes={api}/>
   );
 }
