@@ -1,3 +1,4 @@
+export const BASIC_MODAL_SCSS_CODE = `
 .BasicModal-wrap {
 
 }
@@ -25,3 +26,12 @@
     z-index: 1000;
   }
 }
+`;
+
+export const BASIC_MODAL_PROP_CODE = `
+export interface BasicModalProp extends PropsWithChildren<{}> {
+  visible: boolean;
+  children: ReactNode;
+  className?: string;
+}
+`;
