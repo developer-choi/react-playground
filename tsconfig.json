@@ -1,14 +1,10 @@
 {
   "compilerOptions": {
-    //common (react, react-native, express)
     "strict": true,
     "esModuleInterop": true,
     "noEmit": true,
-
-    //react || react-native
     "jsx": "react",
-
-    //only react && web
-    "target": "ES5" // ==> module default commonJS
+    "target": "ES5",
+    "downlevelIteration": true
   }
 }
