@@ -1,5 +1,11 @@
-import CHARACTERS from "./Character";
 import {getMinMaxNumber} from "./numberUtil";
+import {
+    ALPHABET_LETTERS,
+    LOWER_CASE_LETTERS,
+    NATURAL_NUMBERS_STRING,
+    NUMBERS_STRING,
+    UPPER_CASE_LETTERS
+} from './character';
 
 /**
  * @param anagramArray 랜덤한 문자열을 만들 때 들어갈 요소들
@@ -26,7 +32,7 @@ export function makeRandomString(anagramArray: Array<string | number>, length: n
  * @example (3) => "106"
  */
 export function makeRandomNumbers(length: number): string {
-    return makeRandomString(CHARACTERS.NUMBERS_STRING, length);
+    return makeRandomString(NUMBERS_STRING, length);
 }
 
 /**
@@ -35,7 +41,7 @@ export function makeRandomNumbers(length: number): string {
  * @example (3) => "196"
  */
 export function makeRandomNaturalNumbers(length: number): string {
-    return makeRandomString(CHARACTERS.NATURAL_NUMBERS_STRING, length);
+    return makeRandomString(NATURAL_NUMBERS_STRING, length);
 
 }
 
@@ -45,7 +51,7 @@ export function makeRandomNaturalNumbers(length: number): string {
  * @example (3) => "XDP"
  */
 export function makeRandomUpperLetters(length: number): string {
-    return makeRandomString(CHARACTERS.UPPER_CASE_LETTERS, length);
+    return makeRandomString(UPPER_CASE_LETTERS, length);
 }
 
 /**
@@ -54,7 +60,7 @@ export function makeRandomUpperLetters(length: number): string {
  * @example (3) => "axy"
  */
 export function makeRandomLowerLetters(length: number): string {
-    return makeRandomString(CHARACTERS.LOWER_CASE_LETTERS, length);
+    return makeRandomString(LOWER_CASE_LETTERS, length);
 }
 
 /**
@@ -63,5 +69,5 @@ export function makeRandomLowerLetters(length: number): string {
  * @example (3) => "aBy"
  */
 export function makeRandomAlphabets(length: number): string {
-    return makeRandomString(CHARACTERS.ALPHABET_LETTERS, length);
+    return makeRandomString(ALPHABET_LETTERS, length);
 }
