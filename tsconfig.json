@@ -5,6 +5,7 @@
     "noEmit": true,
     "jsx": "react",
     "target": "ES5",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "typeRoots": ["./node_modules/@types", "./src/@types/"]
   }
 }
