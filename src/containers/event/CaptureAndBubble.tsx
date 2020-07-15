@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import OverlapSquare from '../../../components/square/OverlapSquare';
+import OverlapSquare from '../../components/square/OverlapSquare';
 import styled from 'styled-components';
 
 export default function CaptureAndBubble() {

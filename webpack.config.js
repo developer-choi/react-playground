@@ -12,11 +12,7 @@ module.exports = {
       {
         test: /\.(js|ts|tsx)$/,
         use: ["babel-loader"]
-      },
-      {
-        test: /\.(css|scss)$/,
-        use: ["style-loader", "css-loader", "sass-loader"]
-      },
+      }
     ]
   },
   resolve: {
