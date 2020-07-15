@@ -1,11 +1,16 @@
 import React, {PropsWithChildren} from 'react';
-import './Section.scss';
+import styled from 'styled-components';
 
 export default function Section({children}: PropsWithChildren<{}>) {
 
   return (
-      <section className="Section-wrap">
+      <SectionStyle>
         {children}
-      </section>
+      </SectionStyle>
   );
 }
+
+const SectionStyle = styled.section`
+  display: flex;
+  flex-grow: 1;
+`;

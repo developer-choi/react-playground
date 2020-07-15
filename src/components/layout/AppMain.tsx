@@ -1,11 +1,17 @@
 import React, {PropsWithChildren} from 'react';
-import './AppMain.scss';
+import styled from 'styled-components';
 
 export default function AppMain({children}: PropsWithChildren<{}>) {
 
   return (
-      <div className="AppMain-wrap">
+      <AppMainStyle>
         {children}
-      </div>
+      </AppMainStyle>
   );
 }
+
+const AppMainStyle = styled.div`
+  padding: 40px 60px;
+  width: 100%;
+  height: 100%;
+`;

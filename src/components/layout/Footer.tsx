@@ -1,11 +1,17 @@
 import React from 'react';
-import './Footer.scss';
+import styled from 'styled-components';
 
 export default function Footer() {
 
   return (
-      <div className="Footer-wrap">
+      <FooterStyle>
         This is Footer Page
-      </div>
+      </FooterStyle>
   );
 }
+
+const FooterStyle = styled.footer`
+  background: #20232a;
+  height: 60px;
+  flex-shrink: 0;
+`;
