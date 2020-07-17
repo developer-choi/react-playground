@@ -1,4 +1,4 @@
-import {getMinMaxNumber} from "./numberUtil";
+import {getMinMaxNumber} from "../web-api-extend/numberUtil";
 import {
     ALPHABET_LETTERS,
     LOWER_CASE_LETTERS,

@@ -1,4 +1,4 @@
-import {getNumberArray} from "./numberUtil";
+import {getNumberArray} from "../web-api-extend/numberUtil";
 
 //1부터 9까지
 export const NATURAL_NUMBERS: number[] = getNumberArray(1, 9);
