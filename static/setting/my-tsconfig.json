@@ -4,6 +4,7 @@
     "strict": true,
     "esModuleInterop": true,
     "noEmit": true,
+    "moduleResolution": "Node",
 
     //react || react-native
     "jsx": "react",
