@@ -1,42 +1,48 @@
-import React, {PropsWithChildren, ReactNode} from 'react';
+import React, {Dispatch, MouseEvent, PropsWithChildren, SetStateAction} from 'react';
 import styled from 'styled-components';
 
-export interface BasicModalProp extends PropsWithChildren<{}> {
+export interface BasicModalProp extends PropsWithChildren<{}>{
   visible: boolean;
-  children: ReactNode;
+  setVisible: Dispatch<SetStateAction<boolean>>;
   className?: string;
+  easyClose?: boolean;
 }
 
-export default function BasicModal({visible, children, className}: BasicModalProp) {
+export default function BasicModal({className, children, visible, setVisible, easyClose = true}: BasicModalProp) {
+
+  const onInnerClickBubble = easyClose ? (event: MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+  } : undefined;
+
+  const onBackgroundClickBubble = easyClose ? () => {
+    setVisible(false);
+  } : undefined;
 
   return (
-      <BasicModalStyle className={`${visible ? 'active' : ''} ${className ?? ''}`}>
-        <div className="innerContainer">
+      <BackContainer visible={visible} onClick={onBackgroundClickBubble}>
+        <InnerContainer className={className} onClick={onInnerClickBubble}>
           {children}
-        </div>
-      </BasicModalStyle>
+        </InnerContainer>
+      </BackContainer>
   );
 }
 
-const BasicModalStyle = styled.div`
-  display: none;
+const BackContainer = styled.div<Pick<BasicModalProp, 'visible'>>`
+  background: rgba(0, 0, 0, 0.2);
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  
+  display: ${props => props.visible ? 'flex' : 'none'};
+`;
 
-  > .innerContainer {
-    margin: auto;
-    width: 80%;
-    background: white;
-  }
-
-  &.active {
-    display: flex;
-    align-items: center;
-
-    background: rgba(0, 0, 0, 0.3);
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-  }
+const InnerContainer = styled.div`
+  background: white;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: hidden;
 `;

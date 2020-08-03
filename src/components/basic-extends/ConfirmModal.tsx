@@ -1,21 +1,43 @@
 import React from 'react';
-import BasicModal from '../basic/BasicModal';
+import styled from 'styled-components';
+import BasicModal, {BasicModalProp} from '../basic/BasicModal';
+import BasicButton from '../basic/BasicButton';
 
-export interface ConfirmModalProp {
-  title: string;
-  content: string;
-  visible: boolean;
-  setVisible: (visible: boolean) => void;
+export interface ConfirmModalProp extends BasicModalProp{
+
 }
-
-export default function ConfirmModal({visible, content, title, setVisible}: ConfirmModalProp) {
+export default function ConfirmModal({setVisible, ...rest}: ConfirmModalProp) {
 
   return (
-      <BasicModal className="ConfirmModal-wrap" visible={visible}>
-        <span>{title}</span>
-        <span>{content}</span>
-        <button>Cancel</button>
-        <button onClick={() => setVisible(false)}>Confirm</button>
-      </BasicModal>
+      <ConfirmModalStyle setVisible={setVisible} {...rest}>
+
+        <Content>
+          <span>Hello World</span>
+        </Content>
+
+        <ButtonWrap>
+          <BasicButton onClick={() => setVisible(false)}>Cancel</BasicButton>
+          <BasicButton onClick={() => setVisible(false)}>Confirm</BasicButton>
+        </ButtonWrap>
+
+      </ConfirmModalStyle>
   );
 }
+
+const ConfirmModalStyle = styled(BasicModal)`
+  padding: 20px;
+`;
+
+const Content = styled.div`
+  margin-bottom: 20px;
+`;
+
+const ButtonWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  
+  > button:first-child {
+    margin-right: 10px;
+  }
+`;

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
+import BasicButton from '../../components/basic/BasicButton';
+import ConfirmModal from '../../components/basic-extends/ConfirmModal';
 
 export default function Home() {
+
+  const [visible, setVisible] = useState(false);
 
   return (
       <HomeStyle>
@@ -10,7 +14,9 @@ export default function Home() {
           <span className="title">React</span>
           <span className="content">사용자 인터페이스를 만들기 위한 JavaScript 라이브러리</span>
           <Link to="/doc">시작하기</Link>
+          <BasicButton onClick={() => setVisible(prevState => !prevState)}>모달</BasicButton>
         </div>
+        <ConfirmModal visible={visible} setVisible={setVisible}/>
       </HomeStyle>
   );
 }
