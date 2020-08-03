@@ -1,4 +1,4 @@
-import React, {Dispatch, MouseEvent, PropsWithChildren, SetStateAction} from 'react';
+import React, {Dispatch, MouseEvent, PropsWithChildren, SetStateAction, useEffect} from 'react';
 import styled from 'styled-components';
 
 export interface BasicModalProp extends PropsWithChildren<{}>{
@@ -17,6 +17,16 @@ export default function BasicModal({className, children, visible, setVisible, ea
   const onBackgroundClickBubble = easyClose ? () => {
     setVisible(false);
   } : undefined;
+
+  useEffect(() => {
+
+    if (visible) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'visible';
+    }
+
+  }, [visible]);
 
   return (
       <BackContainer visible={visible} onClick={onBackgroundClickBubble}>
