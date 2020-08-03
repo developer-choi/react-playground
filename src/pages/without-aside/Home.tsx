@@ -16,7 +16,7 @@ export default function Home() {
           <Link to="/doc">시작하기</Link>
           <BasicButton onClick={() => setVisible(prevState => !prevState)}>모달</BasicButton>
         </div>
-        <ConfirmModal visible={visible} setVisible={setVisible}/>
+        <ConfirmModal onConfirm={() => {}} content="Hello World" visible={visible} setVisible={setVisible}/>
       </HomeStyle>
   );
 }
