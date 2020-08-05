@@ -14,6 +14,7 @@ export default function Header() {
         </ReactLink>
         <HeaderNavLink to="/doc">Doc</HeaderNavLink>
         <HeaderNavLink to="/api">Api</HeaderNavLink>
+        <HeaderNavLink to="/component">Component</HeaderNavLink>
       </HeaderStyle>
   );
 }

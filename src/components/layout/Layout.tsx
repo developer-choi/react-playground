@@ -14,13 +14,6 @@ export default function Layout() {
       <>
         <Header/>
         <Section>
-          <Aside>
-            <Switch>
-              {aside.map((route, index) => (
-                  <Route key={`aside-route-${index}`} {...route}/>
-              ))}
-            </Switch>
-          </Aside>
           <AppMain>
             <Switch>
               {appMain.map((route, index) => (
@@ -28,6 +21,13 @@ export default function Layout() {
               ))}
             </Switch>
           </AppMain>
+          <Aside>
+            <Switch>
+              {aside.map((route, index) => (
+                  <Route key={`aside-route-${index}`} {...route}/>
+              ))}
+            </Switch>
+          </Aside>
         </Section>
         <Footer/>
       </>
