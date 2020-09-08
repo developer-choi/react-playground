@@ -52,6 +52,7 @@ const HeaderStyle = styled.header`
   
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   
   > *:not(:last-child) {
       margin-right: 50px;
