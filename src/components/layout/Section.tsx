@@ -11,6 +11,5 @@ export default function Section({children}: PropsWithChildren<{}>) {
 }
 
 const SectionStyle = styled.section`
-  display: flex;
   flex-grow: 1;
 `;
