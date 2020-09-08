@@ -1,19 +1,19 @@
 import React from 'react';
 import Header from './Header';
-import Section from './Section';
 import AppMain from './AppMain';
-import {Switch, Route} from 'react-router';
+import {Route, Switch} from 'react-router';
 import aside from '../../routes/aside';
 import Aside from './Aside';
 import appMain from '../../routes/app-main/appMain';
 import Footer from './Footer';
+import styled from 'styled-components';
 
-export default function Layout() {
+export default function LayoutWithAside() {
 
   return (
       <>
         <Header/>
-        <Section>
+        <SectionStyle>
           <AppMain>
             <Switch>
               {appMain.map((route, index) => (
@@ -28,8 +28,13 @@ export default function Layout() {
               ))}
             </Switch>
           </Aside>
-        </Section>
+        </SectionStyle>
         <Footer/>
       </>
   );
 }
+
+const SectionStyle = styled.section`
+  display: flex;
+  flex-grow: 1;
+`;
