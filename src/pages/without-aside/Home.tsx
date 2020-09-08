@@ -18,7 +18,7 @@ export default function Home() {
 const HomeStyle = styled.div`
   width: 100%;
   height: 400px;
-  background: rgb(40, 44, 52);
+  background: ${props => props.theme.colors.lightBlack};
   padding-top: 50px;
   padding-bottom: 100px;
 
@@ -35,7 +35,7 @@ const HomeStyle = styled.div`
 
     .title {
       font-size: 45px;
-      color: rgb(97, 218, 251);
+      color: ${props => props.theme.colors.reactBlue};
       font-weight: bold;
     }
 
@@ -46,7 +46,7 @@ const HomeStyle = styled.div`
 
     a {
       padding: 10px 30px;
-      background: rgb(97, 218, 251);
+      background: ${props => props.theme.colors.reactBlue};
       font-size: 25px;
     }
   }

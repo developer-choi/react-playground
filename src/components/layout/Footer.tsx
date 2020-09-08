@@ -11,7 +11,7 @@ export default function Footer() {
 }
 
 const FooterStyle = styled.footer`
-  background: #20232a;
+  background: ${props => props.theme.colors.black};
   height: 60px;
   flex-shrink: 0;
 `;

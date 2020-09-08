@@ -29,7 +29,7 @@ const AsideStyle = styled.aside`
     }
 
     &.active {
-      color: rgb(97, 218, 251);
+      color: ${props => props.theme.colors.reactBlue};
     }
   }
 `;

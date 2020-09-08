@@ -20,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
   
   a {
     text-decoration: none;
-    color: #20232a;
+    color: ${props => props.theme.colors.black};
   }
 
   html, body, #root {

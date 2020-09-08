@@ -33,7 +33,7 @@ const ReactLink = styled.a`
 const ReactText = styled.span`
   font-weight: 700;
   font-size: 18px;
-  color: rgb(97, 218, 251);
+  color: ${props => props.theme.colors.reactBlue};
 `;
 
 const HeaderNavLink = styled(NavLink)`
@@ -41,13 +41,13 @@ const HeaderNavLink = styled(NavLink)`
   color: white;
   
   &.active, &:hover {
-    color: rgb(97, 218, 251);
+    color: ${props => props.theme.colors.reactBlue};
   }
 `;
 
 const HeaderStyle = styled.header`
   height: 60px;
-  background: #20232a;
+  background: ${props => props.theme.colors.black};
   padding-left: 30px;
   
   display: flex;
