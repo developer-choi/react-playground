@@ -15,6 +15,8 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   
   * {
+    background-color: transparent;  
+    border: none;
     box-sizing: border-box;
   }
   
