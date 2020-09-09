@@ -30,6 +30,7 @@ export default function TextRequirement() {
         <h2>마크업 관련 설명</h2>
         <ul>
           <li>styled-reset하면 텍스트 기준으로 baseline 뭐 이런거 생기면서 글자간이 좀 바뀌던데, 이런거때문에 텍스트 하나만 조져도 조질거 진짜많아짐.</li>
+          <li>어디는 line-height 1.2em 어디는 line-height 1.2... line-height도 해야하고 em같은 단위도 해야함.</li>
         </ul>
       </div>
   );

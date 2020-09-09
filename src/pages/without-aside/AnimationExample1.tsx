@@ -3,7 +3,7 @@ import styled, {keyframes} from 'styled-components';
 import {LOREM_IPSUM} from '../../utils/dummy';
 import Span from '../../components/basic/Span';
 
-export default function TransitionAnimationExample1() {
+export default function AnimationExample1() {
 
   const [start, setStart] = useState(false);
 
@@ -21,9 +21,8 @@ export default function TransitionAnimationExample1() {
         <Title style={start ? {transform: 'translateY(0)'} : {}} numberOfLines={2}>{LOREM_IPSUM}</Title>
         <Content style={start ? {transform: 'translateX(0)'} : {}}>{LOREM_IPSUM}</Content>
         <ToggleButton onClick={onClick} type="button">Toggle</ToggleButton>
-
-        <RotateCircle>Mouse Over Me</RotateCircle>
-
+        <MouseOverMe>Mouse Over Me</MouseOverMe>
+        <DelayMouseOverMe>Mouse Over Me (Delay 0.5s)</DelayMouseOverMe>
         <RotateMove/>
       </Wrap>
   );
@@ -62,7 +61,7 @@ const ToggleButton = styled.button`
   font-size: 18px;
 `;
 
-const RotateCircle = styled.div`
+const MouseOverMe = styled.div`
   margin: 20px auto 0 auto;
   display: flex;
   justify-content: center;
@@ -81,25 +80,39 @@ const RotateCircle = styled.div`
   }
 `;
 
+const DelayMouseOverMe = styled(MouseOverMe)`
+  transition-delay: 0.5s;
+`;
+
 const rotate = keyframes`
 
   0%, 100% {
-    background-color: white;  
+    background-color: white;
+    //transform 대신에 left, top으로 할 수도 있긴한데 일일히 0 안써주면 뚝뚝 끊기게 이상하게 나오더라. 왜그러지?
+    top: 0;  
+    left: 0;
+    border-radius: 50% 50% 50% 50%;  
   }
   
   25% {
-    background-color: green;  
-    transform: translateX(100px);
+    background-color: green;
+    top: 0;
+    left: 100px;  
+    border-radius: 50% 0 0 0;
   }
   
   50% {
     background-color: red;
-    transform: translateX(100px) translateY(100px);
+    top: 100px;
+    left: 100px;
+    border-radius: 50% 50% 0 0;
   }
   
   75% {
     background-color: lightcoral;
-    transform: translateY(100px);  
+    top: 100px;
+    left: 0;
+    border-radius: 50% 50% 50% 0;  
   }
 `;
 
@@ -108,6 +121,7 @@ const RotateMove = styled.div`
   width: 100px;
   height: 100px;
   display: block;  
-  animation: ${rotate} 4s infinite;
+  animation: ${rotate} 2s infinite;
   margin: 20px auto 0 auto;
+  position: relative;
 `;
