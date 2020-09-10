@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      border: none;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: lightcoral;
+    }
+
+    #circle-wrap {
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+    }
+
+    @keyframes animate {
+      0% {
+        width: 0;
+        height: 0;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        width: 500px;
+        height: 500px;
+        opacity: 0;
+      }
+    }
+
+    .circle {
+      border: 2px solid white;
+      border-radius: 50%;
+      animation: animate, 5s infinite linear;
+    }
+  </style>
+  <title>Title</title>
+</head>
+<body>
+<div id="circle-wrap">
+  <div class="circle"></div>
+</div>
+</body>
+</html>
