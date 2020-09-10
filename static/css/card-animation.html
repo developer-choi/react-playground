@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta charset="UTF-8">
   <style>
     * {
       margin: 0;
@@ -53,7 +51,10 @@
       align-items: center;
       justify-content: center;
       background: lightcoral;
-      box-shadow: 0 0 0 0 lightcoral;
+      box-shadow: 0 0 lightcoral;
+      /*box-shadow: lightcoral; 이건 버그생기고, 안써도 버그생김.*/
+      /*box-shadow: 0 0 lightcoral; 이건 되고*/
+      /*box-shadow: 0 0 0 0lightcoral; 이건 되고*/
     }
 
     .order-text {
@@ -84,6 +85,8 @@
       z-index: 1;
     }
   </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
   <title>Title</title>
 </head>
 <body>
