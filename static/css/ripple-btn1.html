@@ -4,6 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta charset="UTF-8">
   <style>
+
     * {
       margin: 0;
       padding: 0;
@@ -36,34 +37,40 @@
       border-radius: 50%;
       background: white;
       opacity: 0.5;
-      transition: scale, 1s;
+      transition: all, 1s;
       pointer-events: none;
+      transform: translate(-50%, -50%);
     }
 
   </style>
   <title>Title</title>
 </head>
 <body>
-  <button id="button">Click Me</button>
-  <script>
-    const element = document.getElementById('button');
-    console.log(element);
+<button id="button">Click Me</button>
+<script>
+  const element = document.getElementById('button');
+  console.log(element);
 
-    element.onclick = function ({target, clientX, clientY}) {
-      console.log(clientX, clientY);
-      console.log(target.offsetLeft, target.offsetTop);
+  element.onclick = function ({target, clientX, clientY}) {
+    console.log(clientX, clientY);
+    console.log(target.offsetLeft, target.offsetTop);
 
-      const newElement = document.createElement('div');
-      newElement.classList.add('ripple');
-      newElement.style.left = clientX - target.offsetLeft + 'px';
-      newElement.style.top = clientY - target.offsetTop + 'px';
-      element.appendChild(newElement);
+    const newElement = document.createElement('div');
+    newElement.classList.add('ripple');
+    newElement.style.left = clientX - target.offsetLeft + 'px';
+    newElement.style.top = clientY - target.offsetTop + 'px';
+    element.appendChild(newElement);
 
-      setTimeout(() => {
-        newElement.style.transform = 'scale(50)';
-      });
+    setTimeout(() => {
+      newElement.style.width = '500px';
+      newElement.style.height = '500px';
+    });
 
-    }
-  </script>
+    setTimeout(() => {
+      element.removeChild(newElement);
+    }, 1000);
+
+  }
+</script>
 </body>
 </html>
