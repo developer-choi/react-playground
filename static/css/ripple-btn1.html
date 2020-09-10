@@ -5,6 +5,20 @@
   <meta charset="UTF-8">
   <style>
 
+    @keyframes animate {
+      from {
+        width: 0;
+        height: 0;
+        opacity: 0.5;
+      }
+
+      to {
+        width: 500px;
+        height: 500px;
+        opacity: 0;
+      }
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -32,14 +46,14 @@
 
     .ripple {
       position: absolute;
-      width: 1px;
-      height: 1px;
       border-radius: 50%;
       background: white;
-      opacity: 0.5;
       transition: all, 1s;
-      pointer-events: none;
+      pointer-events: none; /*이거를 준 이유에 대해 한번 생각해봐야함.*/
       transform: translate(-50%, -50%);
+
+      animation-name: animate;
+      animation-duration: 1s;
     }
 
   </style>
@@ -49,22 +63,13 @@
 <button id="button">Click Me</button>
 <script>
   const element = document.getElementById('button');
-  console.log(element);
 
   element.onclick = function ({target, clientX, clientY}) {
-    console.log(clientX, clientY);
-    console.log(target.offsetLeft, target.offsetTop);
-
     const newElement = document.createElement('div');
     newElement.classList.add('ripple');
     newElement.style.left = clientX - target.offsetLeft + 'px';
     newElement.style.top = clientY - target.offsetTop + 'px';
     element.appendChild(newElement);
-
-    setTimeout(() => {
-      newElement.style.width = '500px';
-      newElement.style.height = '500px';
-    });
 
     setTimeout(() => {
       element.removeChild(newElement);
