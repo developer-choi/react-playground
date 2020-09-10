@@ -46,9 +46,10 @@
     }
 
     .circle {
+      position: absolute;
       border: 2px solid white;
       border-radius: 50%;
-      animation: animate, 5s infinite linear;
+      animation: animate 5s infinite linear;
     }
   </style>
   <title>Title</title>
@@ -56,6 +57,16 @@
 <body>
 <div id="circle-wrap">
   <div class="circle"></div>
+  <div style="animation-delay: 0.5s" class="circle"></div>
+  <div style="animation-delay: 1s" class="circle"></div>
+  <div style="animation-delay: 1.5s" class="circle"></div>
+  <div style="animation-delay: 2s" class="circle"></div>
+  <div style="animation-delay: 2.5s" class="circle"></div>
+  <div style="animation-delay: 3s" class="circle"></div>
+  <div style="animation-delay: 3.5s" class="circle"></div>
+  <div style="animation-delay: 4s" class="circle"></div>
+  <div style="animation-delay: 4.5s" class="circle"></div>
+  <div style="animation-delay: 5s" class="circle"></div>
 </div>
 </body>
 </html>
