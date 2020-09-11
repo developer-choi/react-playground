@@ -17,10 +17,6 @@ export default function RatioBox({children, aspectRatio, ...rest}: RatioBoxProp)
   );
 }
 
-export function getAspectRatio(widthRatio: number, heightRatio: number) {
-  return heightRatio / widthRatio;
-}
-
 const Wrap = styled.div`
   position: relative;
   width: 100%;
@@ -29,11 +25,13 @@ const Wrap = styled.div`
 
 const Ratio = styled.div<{ aspectRatio: number; }>`
   width: 100%;
-  padding-top: ${props => props.aspectRatio * 100}%;
+  padding-top: ${props => 100 / props.aspectRatio}%;
 `;
 
 const ChildrenWrap = styled.div`
   position: absolute;
-  top: 0; // ??
-  left: 0; // ?? absolute해놓고 left top 안했더니 원래 요소가 배치되는 곳이 기준이 되는구나..
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 `;
