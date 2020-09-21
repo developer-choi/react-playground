@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border: none;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    /**
+     * flex container에서 item의 height를 100%를 주는순간 부모만큼 늘어나지않게되는 일이 있다.
+     * flex container랑 height 100%랑은 안어울리나?
+    */
+
+    .container {
+      display: flex;
+    }
+
+    .item {
+      width: 100px;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div style="background-color: purple" class="item"></div>
+  <div style="background-color: blue" class="item"></div>
+  <div style="background-color: red" class="item"></div>
+  <div style="height: 200px; opacity: 0;" class="item"></div>
+</div>
+</body>
+</html>

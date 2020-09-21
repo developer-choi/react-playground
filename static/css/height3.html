@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border: none;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    /**
+     * container에서 align-items center를 쓰면 flex-direction row이기 때문에
+     * 아이템들이 stretch에서 center로 바뀌면서 height값이 전부 바뀐다.
+    */
+
+    .container {
+      display: flex;
+      align-items: center;
+    }
+
+    .item {
+      width: 100px;
+      /*height: auto;*/
+      align-self: stretch;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div style="background-color: purple" class="item"></div>
+  <div style="background-color: blue" class="item"></div>
+  <div style="background-color: red" class="item"></div>
+  <div style="height: 200px; opacity: 0;" class="item"></div>
+</div>
+</body>
+</html>
