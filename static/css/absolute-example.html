@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+  }
+
+  .container {
+    border: 2px solid red;
+    width: 500px;
+    height: 500px;
+
+    position: relative;
+  }
+
+  .item {
+    background-color: purple;
+    width: 100px;
+    height: 100px;
+
+    position: absolute;
+    left: 50%;
+    top: 0;
+
+    transform: translateY(50%);
+  }
+</style>
+<body>
+<div class="container">
+  <div class="item"></div>
+<!--
+https://developer.mozilla.org/ko/docs/Web/CSS/position#%EB%B0%B0%EC%B9%98_%EC%9C%A0%ED%98%95
+left top 이런것들의 % 기준은 가장 가까운 relative 부모.
+그러나 translate의 %값의 기준은 부모가 아니라 본인.
+ -->
+</div>
+</body>
+</html>
