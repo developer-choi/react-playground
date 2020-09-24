@@ -25,3 +25,11 @@ const ButtonStyle = styled.button`
     opacity: 0.7;
   }
 `;
+
+/**
+ * Button 구현이 필요한 내역
+ * hover 효과
+ * disabled 효과
+ * 텍스트만 오면 중앙정렬
+ * 텍스트 + 이미지가 와도 중앙정렬
+ */
