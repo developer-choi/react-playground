@@ -28,13 +28,13 @@ export const myReset = css`
     cursor: pointer;
   }
   
+  html, body, #root {
+    height: 100%;
+  }
+  
   #root {
     display: flex;
     flex-direction: column;
-  }
-  
-  html, body, #root {
-    height: 100%;
   }
 `;
 
