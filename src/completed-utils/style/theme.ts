@@ -1,29 +1,44 @@
-interface Theme {
-  //아래 다른 property에 대해 자동완성도 되면서 theme를 확장할 수 있도록 하기 위함.
-  [key: string]: string | number | Object;
-
-  //어떤 사이트건 간에 기본적으로 포함되야하는 property
-  colors: Object;
-  background: string;
-  foreground: string;
-  main: string;
-}
-
-/**
- * [color], light[Color], dark[Color]
- */
 const colors = {
-  green: 'rgb(0, 210, 70)',
-  lightGreen: 'rgb(212, 244, 220)',
-  orange: 'rgb(255, 164, 0)',
-  lightOrange: 'rgb(255, 240, 196)',
-  blue: 'rgb(53, 169, 255)',
-  basicBlack: 'rgb(78, 80, 81)',
+  green1: 'rgb(0, 210, 70)',
+  lightgreen1: 'rgb(212, 244, 220)',
+  orange1: 'rgb(255, 164, 0)',
+  lightorange1: 'rgb(255, 240, 196)',
+  lightblue1: 'rgb(232, 246, 255)',
+  lightblue2: 'rgb(220, 240, 250)',
+  lightblue3: 'rgb(180, 230, 250)',
+  blue1: 'rgb(53, 169, 255)',
+  blue2: 'rgb(38, 132, 255)',
+  blue3: 'rgb(6, 95, 166)',
+  darkblue1: 'rgb(33, 150, 243)',
+  darkblue2: 'rgb(26, 50, 126)',
+  darkblue3: 'rgb(80, 120, 192)',
+  black1: 'rgb(78, 80, 81)',
+  gray1: 'rgb(89, 99, 109)',
+  lightgray1: 'rgba(78, 80, 81, 0.1)',
+  lightgray2: 'rgb(125, 141, 155)',
+  lightgray3: 'rgb(206, 212, 224)',
+  lightgray4: 'rgb(241, 244, 244)',
+  lightgray5: 'rgb(236, 239, 241)',
+  red1: 'rgb(255, 45, 70)',
+  pink1: 'rgb(255, 213, 230)'
 };
 
-export const theme: Theme = {
+export const theme = {
   colors,
   background: 'white',
-  foreground: colors.basicBlack,
-  main: colors.blue
+  foreground: colors.black1,
+  main: colors.blue1,
+  mainDark: colors.darkblue1,
+  mainLight: colors.lightblue1,
+  on: colors.green1,
+  onLight: colors.lightgreen1,
+  off: colors.orange1,
+  offLight: colors.lightorange1,
+  high: colors.green1,
+  low: colors.orange1,
+  generalBorder: colors.lightgray1,
+  thead: colors.lightblue2,
+  topHeader: colors.darkblue2,
+  shadow1: 'rgba(0, 0, 0, 0.18) 0 0 10px 0',
+  headerShadow: 'rgba(0, 0, 0, 0.18) 0 6px 8px 0'
 };
