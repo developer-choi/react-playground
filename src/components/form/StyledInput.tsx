@@ -32,7 +32,7 @@ export default function StyledInput({borderColor = theme.colors.reactBlue, value
         <Label focus={focus}>{placeholder}</Label>
         <DefaultBottomBorder style={{height: BORDER_WIDTH}}/>
         <BottomBorder style={{backgroundColor: borderColor, height: BORDER_WIDTH}} className="bottom-border"/>
-        <ClearIcon onClick={onReset} size={18} color="gray"/>
+        {onReset && <ClearIcon onClick={onReset} size={18} color="gray"/>}
       </InputItem>
   );
 }
@@ -61,9 +61,9 @@ const InputItem = styled.div`
 `;
 
 const InputStyle = styled(InputExtend)`
-  width: calc(100% - 30px);
+  width: 100%;
   font-size: 16px;
-  padding: ${INPUT_PADDING_BOTTOM}px 0;
+  padding: ${INPUT_PADDING_BOTTOM}px 30px ${INPUT_PADDING_BOTTOM}px 0;
 `;
 
 const Label = styled.label<{focus: boolean}>`
