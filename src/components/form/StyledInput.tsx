@@ -1,17 +1,18 @@
 import React, {CSSProperties, useCallback, useState} from 'react';
 import styled from 'styled-components';
-import BasicInput, {BasicInputProp} from './BasicInput';
+import InputExtend, {InputExtendProp} from './InputExtend';
 import classNames from 'classnames';
 import {AiOutlineCloseCircle} from 'react-icons/all';
+import {theme} from '../../utils/style/theme';
 
-export interface StyledInputProp extends BasicInputProp {
+export interface StyledInputProp extends InputExtendProp {
   containerClassNames?: string;
   containerStyle?: CSSProperties;
   borderColor?: string;
-  borderWidth?: number;
+  onReset?: () => void;
 }
 
-export default function StyledInput({borderWidth = 2, borderColor = 'blue', value, onChangeValue, containerClassNames, containerStyle, placeholder, ...rest}: StyledInputProp) {
+export default function StyledInput({borderColor = theme.colors.reactBlue, value, onChangeText, containerClassNames, containerStyle, placeholder, onReset, ...rest}: StyledInputProp) {
 
   const [focus, setFocus] = useState(false);
 
@@ -23,23 +24,20 @@ export default function StyledInput({borderWidth = 2, borderColor = 'blue', valu
     setFocus(false);
   }, []);
 
-  const onReset = useCallback(() => {
-    onChangeValue('');
-  }, [onChangeValue]);
-
   const containerClass = classNames({focus, active: value !== ''}, containerClassNames);
 
   return (
-      <InputItem style={{borderBottomWidth: borderWidth, ...containerStyle}} className={containerClass}>
-        <InputStyle onFocus={onFocus} onBlur={onBlur} onChangeValue={onChangeValue} value={value} {...rest}/>
+      <InputItem style={{borderBottomWidth: BORDER_WIDTH, ...containerStyle}} className={containerClass}>
+        <InputStyle onFocus={onFocus} onBlur={onBlur} onChangeText={onChangeText} value={value} {...rest}/>
         <Label focus={focus}>{placeholder}</Label>
-        <DefaultBottomBorder style={{height: borderWidth}}/>
-        <BottomBorder style={{backgroundColor: borderColor, height: borderWidth}} className="bottom-border"/>
+        <DefaultBottomBorder style={{height: BORDER_WIDTH}}/>
+        <BottomBorder style={{backgroundColor: borderColor, height: BORDER_WIDTH}} className="bottom-border"/>
         <ClearIcon onClick={onReset} size={18} color="gray"/>
       </InputItem>
   );
 }
 
+const BORDER_WIDTH = 2;
 const INPUT_PADDING_BOTTOM = 10;
 
 const InputItem = styled.div`
@@ -62,7 +60,7 @@ const InputItem = styled.div`
   }
 `;
 
-const InputStyle = styled(BasicInput)`
+const InputStyle = styled(InputExtend)`
   width: calc(100% - 30px);
   font-size: 16px;
   padding: ${INPUT_PADDING_BOTTOM}px 0;
