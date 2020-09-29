@@ -26,7 +26,6 @@ export const myReset = css`
   
   button {
     cursor: pointer;
-    background-color: white;
   }
   
   textarea {
