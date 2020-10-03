@@ -16,6 +16,8 @@ export default forwardRef(function BasicRadioButton({className, label, currentVa
    * input + label을 id + htmlFor로 연결하면 생기는 문제는, wrap에서 버튼부분, 라벨부분을 제외한 나머지부분을 체크할 때 이벤트가 발생되지 않음.
    * 그래서 라벨을 감싸는 방식으로 만드는게 역시 좀 더 낫겠음.
    * 그러나 한계는, 키보드로 작동이 안됨.
+   * https://developer.mozilla.org/ko/docs/Web/HTML/Element/label
+   * https://itblog.bcafe75.com/entry/checkbox-css-%EC%B2%B4%ED%81%AC%EB%B0%95%EC%8A%A4-%EC%8A%A4%ED%83%80%EC%9D%BC%EB%A1%9C-%EC%98%88%EC%81%98%EA%B2%8C-%ED%95%98%EB%8A%94-%EB%B2%95-%EC%9B%B9-%EC%A0%91%EA%B7%BC%EC%84%B1-%EB%A7%9E%EC%B6%94%EA%B8%B0-inputtypecheckbox-label
    */
   return (
       <Wrap className={classNames({active: value === currentValue}, className)}>
