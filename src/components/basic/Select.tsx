@@ -14,6 +14,10 @@ export interface SelectProp<L extends ReactChild, V extends ReactText, I extends
 
 export default function Select<L extends ReactChild, V extends ReactText, I extends BasicItem<L, V>>({onChange, items, value, ...rest}: SelectProp<L, V, I>) {
 
+  /**
+   * SelectBox, OptionList 2개는 Arrow Up Down으로 조작이 가능해야함.
+   */
+
   return (
       <Wrap {...rest}>
 

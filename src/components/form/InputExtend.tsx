@@ -37,3 +37,8 @@ export default function InputExtend({onTab, onEnter, onChangeText, onChange, onK
       <input onChange={needNotOnChange ? undefined : _onChange} onKeyDown={needNotOnKeyDown ? undefined : _onKeyDown} {...rest}/>
   );
 }
+
+/**
+ * onFocusOrInputed + 클래스이름. 우선순위는 기본 > 액티브 >에러
+ * 이걸 BasicInput에서 만들어주면 StyledInput에서 확장하기편해지지.
+ */

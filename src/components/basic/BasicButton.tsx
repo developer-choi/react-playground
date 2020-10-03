@@ -32,4 +32,7 @@ const ButtonStyle = styled.button`
  * disabled 효과
  * 텍스트만 오면 중앙정렬
  * 텍스트 + 이미지가 와도 중앙정렬
+ * 안에 텍스트가 와도, 텍스트 + 이미지가 와도 중앙정렬. (이거는 BasicButton이 아니라 StyledButton에 있어야함)
+ *
+ * BasicXXX에는 스타일관련 선언은 최소화해야함.
  */
