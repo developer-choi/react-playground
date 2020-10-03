@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import BasicRadioButton, {BasicRadioButtonProp} from './BasicRadioButton';
 
-export default function RadioBox({...rest}: BasicRadioButtonProp) {
+export default function StyledRadioBox({...rest}: BasicRadioButtonProp) {
 
   return (
       <StyledRadioButton {...rest}/>
