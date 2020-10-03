@@ -1,35 +1,24 @@
-import React, {ChangeEvent, ComponentProps, forwardRef, ReactText, Ref, useCallback, useState} from 'react';
+import React, {ComponentProps, forwardRef, ReactText, Ref} from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
-import StyledCheckBox from './StyledCheckBox';
 
 type OmitPropType = Omit<ComponentProps<'input'>, 'ref' | 'type'>;
-type ExtendCheckBoxProp = Required<Pick<OmitPropType, 'onChange' | 'checked'>> & OmitPropType;
+type ExtendCheckBoxProp = Required<Pick<OmitPropType, 'onChange' | 'value'>> & OmitPropType;
 
 export interface BasicCheckBoxProp extends ExtendCheckBoxProp {
   label?: string;
+  currentValue: ReactText;
 }
 
-export default forwardRef(function BasicCheckBox({className, label, checked, ...rest}: BasicCheckBoxProp, ref: Ref<HTMLInputElement>) {
+export default forwardRef(function LegacyBasicCheckBox({className, label, currentValue, value, ...rest}: BasicCheckBoxProp, ref: Ref<HTMLInputElement>) {
 
   return (
-      <Wrap className={classNames({active: checked}, className)}>
-        <Input className="check-box" ref={ref} type="checkbox" checked={checked} {...rest}/>
+      <Wrap className={classNames({active: value === currentValue}, className)}>
+        <Input className="check-box" ref={ref} type="checkbox" value={value} {...rest}/>
         {label && <LabelText className="label-text">{label}</LabelText>}
       </Wrap>
   );
 });
-
-function Example() {
-
-  const [isMan, setIsMan] = useState(false);
-
-  const onChangeHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setIsMan(event.target.checked);
-  }, []);
-
-  return <StyledCheckBox onChange={onChangeHandler} checked={isMan}/>;
-}
 
 const Wrap = styled.label`
   

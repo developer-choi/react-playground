@@ -37,6 +37,7 @@ const Wrap = styled.label`
   
   position: relative;
   overflow: hidden;
+  min-width: 22px;
   height: 22px;
   display: inline-flex;
   align-items: center;
