@@ -41,7 +41,7 @@ const BORDER_WIDTH = 2;
 const INPUT_PADDING_BOTTOM = 10;
 
 const InputItem = styled.div`
-  display: flex;
+  display: inline-flex;
   flex-direction: column-reverse;
   position: relative;
   padding-top: 20px;
