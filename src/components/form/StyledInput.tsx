@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components';
 import InputExtend from './InputExtend';
 import classNames from 'classnames';
 import {AiFillEye, AiFillEyeInvisible, AiOutlineCloseCircle} from 'react-icons/all';
-import {getBorderColor, StandardStyledInputProp} from '../../utils/input';
+import {getBorderColor, getInputInfo, StandardStyledInputProp} from '../../utils/input';
 
 export interface StyledInputProp extends Omit<StandardStyledInputProp, 'placeholder'> {
   label?: string;
@@ -37,30 +37,39 @@ export default function StyledInput({type, value, onChangeText, containerClassNa
     onClick: toggleMask
   };
 
+  const {inputType, enableApplyMask, enableApplyNotMask, enableReset} = getInputInfo(type, onReset, applyMask);
+
   return (
       <InputItem style={{borderBottomWidth: BORDER_WIDTH, ...containerStyle}} withReset={!!onReset} className={containerClass}>
-        <InputStyle type={type === 'password' && applyMask ? 'text' : type} onFocus={onFocus} onBlur={onBlur} onChangeText={onChangeText} value={value} {...rest}/>
+        <InputStyle type={inputType} onFocus={onFocus} onBlur={onBlur} onChangeText={onChangeText} value={value} {...rest}/>
         <Label focus={focus}>{label}</Label>
         <DefaultBottomBorder style={{height: BORDER_WIDTH}}/>
         <ActiveBottomBorder style={{backgroundColor: borderColor, height: BORDER_WIDTH}} className="bottom-border"/>
-        {type !== 'password' && onReset && <ClearIcon onClick={onReset} size={18} color="gray"/>}
-        {type === 'password' && applyMask && <ApplyNotMaskIcon {...COMMON_MASK_ICON_PROPS}/>}
-        {type === 'password' && !applyMask && <ApplyMaskIcon {...COMMON_MASK_ICON_PROPS}/>}
+        {enableReset && <ClearIcon onClick={onReset} size={18} color="gray"/>}
+        {enableApplyMask && <ApplyNotMaskIcon {...COMMON_MASK_ICON_PROPS}/>}
+        {enableApplyNotMask && <ApplyMaskIcon {...COMMON_MASK_ICON_PROPS}/>}
       </InputItem>
   );
 }
 
 const BORDER_WIDTH = 2;
 const INPUT_PADDING_BOTTOM = 10;
+
 //label이 입력박스가 활성화되면 위로 올라가는 애니메이션을 넣었는데, 이걸 고려해서 입력박스 Wrapper에 적용할 padding-top 값
 const JUMP_LABEL_PADDING_TOP = 20;
+
+//input박스의 outline이 온전히 보일 수 있도록, wrapper에 좌우패딩을 주는 기본값
+const DEFAULT_WRAP_PADDING_HORIZONTAL = 2;
 
 const InputItem = styled.div<{withReset: boolean}>`
   display: inline-flex;
   flex-direction: column-reverse;
   position: relative;
   overflow: hidden;
-  padding: ${INPUT_PADDING_BOTTOM + JUMP_LABEL_PADDING_TOP}px ${props => props.withReset ? 30 : 0}px ${INPUT_PADDING_BOTTOM}px 0;
+  padding-top: ${INPUT_PADDING_BOTTOM + JUMP_LABEL_PADDING_TOP}px;
+  padding-right: ${props => props.withReset ? 30 : DEFAULT_WRAP_PADDING_HORIZONTAL}px;
+  padding-bottom: ${INPUT_PADDING_BOTTOM}px;
+  padding-left: ${DEFAULT_WRAP_PADDING_HORIZONTAL}px;
   
   &.active {
   
