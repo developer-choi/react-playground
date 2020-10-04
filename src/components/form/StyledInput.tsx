@@ -1,17 +1,9 @@
-import React, {CSSProperties, useCallback, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
-import InputExtend, {InputExtendProp} from './InputExtend';
+import InputExtend from './InputExtend';
 import classNames from 'classnames';
 import {AiOutlineCloseCircle} from 'react-icons/all';
-import {theme} from '../../utils/style/theme';
-
-export interface StandardStyledInputProp extends InputExtendProp {
-  containerClassNames?: string;
-  containerStyle?: CSSProperties;
-  onReset?: () => void;
-  success?: boolean;
-  error?: boolean;
-}
+import {getBorderColor, StandardStyledInputProp} from '../../utils/input';
 
 export interface StyledInputProp extends Omit<StandardStyledInputProp, 'placeholder'> {
   label?: string;
@@ -44,20 +36,6 @@ export default function StyledInput({type, value, onChangeText, containerClassNa
         {onReset && <ClearIcon onClick={onReset} size={18} color="gray"/>}
       </InputItem>
   );
-}
-
-//우선순위에 따른 외곽선 색상 반환. error > success > 기본
-function getBorderColor({success, error}: Pick<StyledInputProp, 'success' | 'error'>) {
-
-  if (error) {
-    return theme.error;
-
-  } else if (success) {
-    return theme.success;
-
-  } else {
-    return theme.main;
-  }
 }
 
 const BORDER_WIDTH = 2;
