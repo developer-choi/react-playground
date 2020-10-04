@@ -1,8 +1,8 @@
 import React, {useCallback, useState} from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import InputExtend from './InputExtend';
 import classNames from 'classnames';
-import {AiOutlineCloseCircle} from 'react-icons/all';
+import {AiFillEye, AiFillEyeInvisible, AiOutlineCloseCircle} from 'react-icons/all';
 import {getBorderColor, StandardStyledInputProp} from '../../utils/input';
 
 export interface StyledInputProp extends Omit<StandardStyledInputProp, 'placeholder'> {
@@ -12,6 +12,7 @@ export interface StyledInputProp extends Omit<StandardStyledInputProp, 'placehol
 export default function StyledInput({type, value, onChangeText, containerClassNames, containerStyle, label, onReset, error, success, ...rest}: StyledInputProp) {
 
   const [focus, setFocus] = useState(false);
+  const [applyMask, setApplyMask] = useState(false);
 
   const onFocus = useCallback(() => {
     setFocus(true);
@@ -27,13 +28,24 @@ export default function StyledInput({type, value, onChangeText, containerClassNa
 
   const containerClass = classNames({active: isActive}, containerClassNames);
 
+  const toggleMask = useCallback(() => {
+    setApplyMask(prevState => !prevState);
+  }, []);
+
+  const COMMON_MASK_ICON_PROPS = {
+    color:"gray",
+    onClick: toggleMask
+  };
+
   return (
       <InputItem style={{borderBottomWidth: BORDER_WIDTH, ...containerStyle}} withReset={!!onReset} className={containerClass}>
-        <InputStyle onFocus={onFocus} onBlur={onBlur} onChangeText={onChangeText} value={value} {...rest}/>
+        <InputStyle type={type === 'password' && applyMask ? 'text' : type} onFocus={onFocus} onBlur={onBlur} onChangeText={onChangeText} value={value} {...rest}/>
         <Label focus={focus}>{label}</Label>
         <DefaultBottomBorder style={{height: BORDER_WIDTH}}/>
         <ActiveBottomBorder style={{backgroundColor: borderColor, height: BORDER_WIDTH}} className="bottom-border"/>
-        {onReset && <ClearIcon onClick={onReset} size={18} color="gray"/>}
+        {type !== 'password' && onReset && <ClearIcon onClick={onReset} size={18} color="gray"/>}
+        {type === 'password' && applyMask && <ApplyNotMaskIcon {...COMMON_MASK_ICON_PROPS}/>}
+        {type === 'password' && !applyMask && <ApplyMaskIcon {...COMMON_MASK_ICON_PROPS}/>}
       </InputItem>
   );
 }
@@ -89,10 +101,22 @@ const ActiveBottomBorder = styled(DefaultBottomBorder)`
   z-index: 1;
 `;
 
-const ClearIcon = styled(AiOutlineCloseCircle)`
+const IconCss = css`
   position: absolute;
   right: 5px;
   top: calc(50% + ${JUMP_LABEL_PADDING_TOP / 2}px);
   transform: translateY(-50%);
   cursor: pointer;
+`;
+
+const ClearIcon = styled(AiOutlineCloseCircle)`
+  ${IconCss};
+`;
+
+const ApplyMaskIcon = styled(AiFillEyeInvisible)`
+  ${IconCss};
+`;
+
+const ApplyNotMaskIcon = styled(AiFillEye)`
+  ${IconCss};
 `;
