@@ -5,15 +5,19 @@ import classNames from 'classnames';
 import {AiOutlineCloseCircle} from 'react-icons/all';
 import {theme} from '../../utils/style/theme';
 
-export interface StyledInputProp extends Omit<InputExtendProp, 'placeholder'> {
+export interface StandardStyledInputProp extends InputExtendProp {
   containerClassNames?: string;
   containerStyle?: CSSProperties;
-  borderColor?: string;
   onReset?: () => void;
+  success?: boolean;
+  error?: boolean;
+}
+
+export interface StyledInputProp extends Omit<StandardStyledInputProp, 'placeholder'> {
   label?: string;
 }
 
-export default function StyledInput({borderColor = theme.colors.reactBlue, value, onChangeText, containerClassNames, containerStyle, label, onReset, ...rest}: StyledInputProp) {
+export default function StyledInput({type, value, onChangeText, containerClassNames, containerStyle, label, onReset, error, success, ...rest}: StyledInputProp) {
 
   const [focus, setFocus] = useState(false);
 
@@ -25,17 +29,35 @@ export default function StyledInput({borderColor = theme.colors.reactBlue, value
     setFocus(false);
   }, []);
 
-  const containerClass = classNames({focus, active: value !== ''}, containerClassNames);
+  const borderColor = getBorderColor({success, error});
+  //@ts-ignore
+  const isActive = !['', undefined].includes(value) || focus || error || success;
+
+  const containerClass = classNames({active: isActive}, containerClassNames);
 
   return (
       <InputItem style={{borderBottomWidth: BORDER_WIDTH, ...containerStyle}} withReset={!!onReset} className={containerClass}>
         <InputStyle onFocus={onFocus} onBlur={onBlur} onChangeText={onChangeText} value={value} {...rest}/>
         <Label focus={focus}>{label}</Label>
         <DefaultBottomBorder style={{height: BORDER_WIDTH}}/>
-        <BottomBorder style={{backgroundColor: borderColor, height: BORDER_WIDTH}} className="bottom-border"/>
+        <ActiveBottomBorder style={{backgroundColor: borderColor, height: BORDER_WIDTH}} className="bottom-border"/>
         {onReset && <ClearIcon onClick={onReset} size={18} color="gray"/>}
       </InputItem>
   );
+}
+
+//우선순위에 따른 외곽선 색상 반환. error > success > 기본
+function getBorderColor({success, error}: Pick<StyledInputProp, 'success' | 'error'>) {
+
+  if (error) {
+    return theme.error;
+
+  } else if (success) {
+    return theme.success;
+
+  } else {
+    return theme.main;
+  }
 }
 
 const BORDER_WIDTH = 2;
@@ -50,7 +72,7 @@ const InputItem = styled.div<{withReset: boolean}>`
   overflow: hidden;
   padding: ${INPUT_PADDING_BOTTOM + JUMP_LABEL_PADDING_TOP}px ${props => props.withReset ? 30 : 0}px ${INPUT_PADDING_BOTTOM}px 0;
   
-  &.focus, &.active {
+  &.active {
   
     label {
       transform: translateY(-30px);
@@ -83,7 +105,7 @@ const DefaultBottomBorder = styled.div`
   background-color: lightgray;
 `;
 
-const BottomBorder = styled(DefaultBottomBorder)`
+const ActiveBottomBorder = styled(DefaultBottomBorder)`
   left: -100%;
   transition: all 0.5s;
   z-index: 1;
