@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+  }
+
+  .link-button {
+    text-decoration: none;
+  }
+
+  .link-button:visited {
+    color: initial;
+  }
+
+  .styled-button {
+    font-size: 12px;
+    padding: 10px;
+    min-width: 60px;
+    background: lightcoral;
+    color: white;
+    border: none;
+  }
+
+  .styled-button:visited {
+    color: white;
+  }
+
+  .styled-button:disabled {
+    background: lightgray;
+  }
+
+  .button-wrap {
+    display: flex;
+  }
+</style>
+<body>
+<div class="button-wrap">
+    <a class="link-button styled-button" href="https://www.naver.com">
+        Enter Me
+    </a>
+    <button class="styled-button" onclick="location.href = 'http://www.naver.com'">
+        Enter me
+    </button>
+    <button class="styled-button" disabled onclick="location.href = 'http://www.naver.com'">
+        Enter me (disabled)
+    </button>
+</div>
+</body>
+</html>
