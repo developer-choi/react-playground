@@ -5,14 +5,15 @@ import classNames from 'classnames';
 import {AiOutlineCloseCircle} from 'react-icons/all';
 import {theme} from '../../utils/style/theme';
 
-export interface StyledInputProp extends InputExtendProp {
+export interface StyledInputProp extends Omit<InputExtendProp, 'placeholder'> {
   containerClassNames?: string;
   containerStyle?: CSSProperties;
   borderColor?: string;
   onReset?: () => void;
+  label?: string;
 }
 
-export default function StyledInput({borderColor = theme.colors.reactBlue, value, onChangeText, containerClassNames, containerStyle, placeholder, onReset, ...rest}: StyledInputProp) {
+export default function StyledInput({borderColor = theme.colors.reactBlue, value, onChangeText, containerClassNames, containerStyle, label, onReset, ...rest}: StyledInputProp) {
 
   const [focus, setFocus] = useState(false);
 
@@ -27,9 +28,9 @@ export default function StyledInput({borderColor = theme.colors.reactBlue, value
   const containerClass = classNames({focus, active: value !== ''}, containerClassNames);
 
   return (
-      <InputItem style={{borderBottomWidth: BORDER_WIDTH, ...containerStyle}} className={containerClass}>
+      <InputItem style={{borderBottomWidth: BORDER_WIDTH, ...containerStyle}} withReset={!!onReset} className={containerClass}>
         <InputStyle onFocus={onFocus} onBlur={onBlur} onChangeText={onChangeText} value={value} {...rest}/>
-        <Label focus={focus}>{placeholder}</Label>
+        <Label focus={focus}>{label}</Label>
         <DefaultBottomBorder style={{height: BORDER_WIDTH}}/>
         <BottomBorder style={{backgroundColor: borderColor, height: BORDER_WIDTH}} className="bottom-border"/>
         {onReset && <ClearIcon onClick={onReset} size={18} color="gray"/>}
@@ -39,13 +40,15 @@ export default function StyledInput({borderColor = theme.colors.reactBlue, value
 
 const BORDER_WIDTH = 2;
 const INPUT_PADDING_BOTTOM = 10;
+//label이 입력박스가 활성화되면 위로 올라가는 애니메이션을 넣었는데, 이걸 고려해서 입력박스 Wrapper에 적용할 padding-top 값
+const JUMP_LABEL_PADDING_TOP = 20;
 
-const InputItem = styled.div`
+const InputItem = styled.div<{withReset: boolean}>`
   display: inline-flex;
   flex-direction: column-reverse;
   position: relative;
-  padding-top: 20px;
   overflow: hidden;
+  padding: ${INPUT_PADDING_BOTTOM + JUMP_LABEL_PADDING_TOP}px ${props => props.withReset ? 30 : 0}px ${INPUT_PADDING_BOTTOM}px 0;
   
   &.focus, &.active {
   
@@ -63,7 +66,6 @@ const InputItem = styled.div`
 const InputStyle = styled(InputExtend)`
   width: 100%;
   font-size: 16px;
-  padding: ${INPUT_PADDING_BOTTOM}px 30px ${INPUT_PADDING_BOTTOM}px 0;
 `;
 
 const Label = styled.label<{focus: boolean}>`
@@ -90,6 +92,7 @@ const BottomBorder = styled(DefaultBottomBorder)`
 const ClearIcon = styled(AiOutlineCloseCircle)`
   position: absolute;
   right: 5px;
-  bottom: ${INPUT_PADDING_BOTTOM}px;
+  top: calc(50% + ${JUMP_LABEL_PADDING_TOP / 2}px);
+  transform: translateY(-50%);
   cursor: pointer;
 `;
