@@ -3,7 +3,8 @@ import styled, {css} from 'styled-components';
 import InputExtend from './InputExtend';
 import classNames from 'classnames';
 import {AiFillEye, AiFillEyeInvisible, AiOutlineCloseCircle} from 'react-icons/all';
-import {getBorderColor, getInputInfo, StandardStyledInputProp} from '../../utils/input';
+import {getInputInfo, StandardStyledInputProp} from '../../utils/input';
+import {theme} from '../../utils/style/theme';
 
 export interface StyledInputProp extends Omit<StandardStyledInputProp, 'placeholder'> {
   label?: string;
@@ -22,7 +23,7 @@ export default function StyledInput({type, value, onChangeText, containerClassNa
     setFocus(false);
   }, []);
 
-  const borderColor = getBorderColor({success, error});
+  const borderColor = error ? theme.error : theme.main;
   //@ts-ignore
   const isActive = !['', undefined].includes(value) || focus || error || success;
 
