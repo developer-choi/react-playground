@@ -1,16 +1,24 @@
-import React, {ComponentProps, forwardRef, ReactText, Ref} from 'react';
+import React, {ChangeEvent, ComponentProps, forwardRef, ReactText, Ref, useCallback} from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
 
 type OmitPropType = Omit<ComponentProps<'input'>, 'ref' | 'type'>;
-type ExtendRadioButtonProp = Required<Pick<OmitPropType, 'onChange' | 'value' | 'name'>> & OmitPropType;
+type ExtendRadioButtonProp = Required<Pick<OmitPropType, | 'value' | 'name'>> & OmitPropType;
 
 export interface BasicRadioButtonProp extends ExtendRadioButtonProp {
   label?: string;
   currentValue: ReactText;
+  onChangeText: (value: string) => void;
 }
 
-export default forwardRef(function BasicRadioButton({className, label, currentValue, value, ...rest}: BasicRadioButtonProp, ref: Ref<HTMLInputElement>) {
+export default forwardRef(function BasicRadioButton({className, label, currentValue, value, onChangeText, onChange, ...rest}: BasicRadioButtonProp, ref: Ref<HTMLInputElement>) {
+
+  const needOnChange = onChange !== undefined || onChangeText !== undefined;
+
+  const _onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    onChange?.(event);
+    onChangeText?.(event.target.value);
+  }, [onChange, onChangeText]);
 
   /**
    * input + label을 id + htmlFor로 연결하면 생기는 문제는, wrap에서 버튼부분, 라벨부분을 제외한 나머지부분을 체크할 때 이벤트가 발생되지 않음.
@@ -21,7 +29,7 @@ export default forwardRef(function BasicRadioButton({className, label, currentVa
    */
   return (
       <Wrap className={classNames({active: value === currentValue}, className)}>
-        <Input className="radio-box" ref={ref} type="radio" value={value} {...rest}/>
+        <Input className="radio-box" ref={ref} type="radio" value={value} onChange={needOnChange ? _onChange : undefined} {...rest}/>
         {label && <LabelText className="label-text">{label}</LabelText>}
       </Wrap>
   );
