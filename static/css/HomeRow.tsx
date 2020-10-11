@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import {ROOT_HORIZONTAL} from '../utils/style';
 import usePrevious from '../utils/usePrevious';
 
+/**
+ * 이 컴포넌트 만들었을 때 당시 고민을 해결하고 개선하려면,
+ * 회사소개 웹사이트들 클론코딩해보는게 가장좋겠다.
+ */
 export interface HomeRowProp extends Omit<ComponentProps<'section'>, 'ref'> {
   fillColor?: boolean;
   onShow?: () => void;
