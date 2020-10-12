@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
+import dummy1 from '../../../public/dummy1.png';
+import dummy2 from '../../../public/dummy2.png';
 
 export default function Home() {
 
@@ -24,6 +26,8 @@ export default function Home() {
           <span className="content">사용자 인터페이스를 만들기 위한 JavaScript 라이브러리</span>
           <Link to="/doc">시작하기</Link>
         </div>
+        <img src={dummy1}/>
+        <img src={dummy2}/>
       </HomeStyle>
   );
 }
