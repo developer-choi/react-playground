@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   
   * {
+    padding: 0; //styled-reset의 button에 빠져있음
     background-color: transparent;  
     border: none;
     box-sizing: border-box;

@@ -10,7 +10,7 @@ export interface DropDownItemType {
   children?: Required<Omit<DropDownItemType, 'children'>>[];
 }
 
-export interface DropDownItemProp extends Omit<ComponentProps<'div'>, 'ref'> {
+export interface DropDownItemProp extends Omit<ComponentProps<'button'>, 'ref'> {
   item: DropDownItemType;
 }
 
@@ -37,8 +37,9 @@ export default function DropDownItem({item, className, ...rest}: DropDownItemPro
 
 const MOVE_UP_HEIGHT = 10;
 
-const Wrap = styled.div`
+const Wrap = styled.button`
   position: relative;
+  display: block;
   cursor: pointer;
   
   &.active:hover {
