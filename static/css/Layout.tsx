@@ -102,6 +102,7 @@ const HeaderStyle = styled.header`
   width: 100%;
   height: ${HEADER_SIZE}px;
   background-color: lightgreen;
+  z-index: 10; //fixed라고 해서 모든거 위에 오는거 아니다. 그래서 필요함.
 `;
 
 const SectionStyle = styled.section`
