@@ -20,7 +20,7 @@ export default function RatioBox({children, aspectRatio, ...rest}: RatioBoxProp)
 const Wrap = styled.div`
   position: relative;
   width: 100%;
-  overflow: hidden;
+  //overflow: hidden;
 `;
 
 const Ratio = styled.div<{ aspectRatio: number; }>`
