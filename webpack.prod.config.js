@@ -4,7 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   mode: 'production',
   output: {
-    publicPath: '/',
+    publicPath: '/react-library/',
     filename: '[name].js'
   },
   module: {
@@ -16,6 +16,13 @@ module.exports = {
       {
         test: /\.(css)$/,
         use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /.(png)$/,
+        loader: 'file-loader',
+        options: {
+          name: 'public/[name].[ext]'
+        }
       }
     ]
   },
@@ -24,7 +31,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'index.html',
+      template: 'prod-index.html',
     }),
     new CopyWebpackPlugin({
       patterns: [

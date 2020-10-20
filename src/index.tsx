@@ -8,6 +8,7 @@ import Routes from './components/layout/Routes';
 import {GlobalStyle} from './utils/style/global';
 
 ReactDOM.render(
+    // <BrowserRouter basename="/react-library">
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <GlobalStyle/>

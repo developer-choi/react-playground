@@ -3,6 +3,7 @@ import {NavLink, Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {HEIGHT, ZINDEX} from '../../utils/style/layout';
 import {FIRST_DIR} from '../../utils/route';
+import reactLogo from '../../../public/react-logo.png';
 
 export default function Header() {
 
@@ -11,7 +12,7 @@ export default function Header() {
         <InnerWrap>
           <LeftWrap>
             <LogoWrap to="/">
-              <ReactIcon src="/public/react-logo.png"/>
+              <ReactIcon src={reactLogo}/>
               <ReactText>React</ReactText>
             </LogoWrap>
             <PageLink to="/doc">문서</PageLink>
