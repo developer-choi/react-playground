@@ -15,13 +15,6 @@ module.exports = {
       {
         test: /\.(css)$/,
         use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(png|jpg)$/,
-        loader: 'file-loader',
-        options: {
-          name: 'public/[name].[ext]'
-        }
       }
     ]
   },
@@ -30,8 +23,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      favicon: 'public/favicon.ico'
+      template: 'index.html'
     })
   ],
   devServer: {

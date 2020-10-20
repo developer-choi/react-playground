@@ -16,14 +16,6 @@ module.exports = {
       {
         test: /\.(css)$/,
         use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(png|jpg)$/,
-        loader: 'file-loader',
-        options: {
-          name: 'public/[name].[ext]',
-          esModule: false
-        }
       }
     ]
   },
@@ -32,13 +24,11 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      favicon: 'public/favicon.ico',
+      template: 'index.html',
     }),
     new CopyWebpackPlugin({
       patterns: [
-        {from: 'public/manifest.json', to: 'public/manifest.json'},
-        {from: 'public/translations', to: 'public/translations'},
+        {from: 'public', to: 'public'},
       ]
     })
   ],
