@@ -18,8 +18,7 @@ const font = css`
     Cantarell,
     Fira Sans,
     Droid Sans,
-    Helvetica 
-    Neue,
+    Helvetica Neue,
     sans-serif;
   }
 `;
@@ -99,6 +98,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   
   body {
+    background-color: white;
     //background-color: #04caf4; 전체 배경색 지정할일이 있거나
     //color: black; 기본 색상을 지정할 일이 있거나,
     //font-size: 14px; 기본 폰트 크기를 좀 줄이고싶을 때.

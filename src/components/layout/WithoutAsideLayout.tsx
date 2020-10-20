@@ -1,6 +1,5 @@
 import React, {PropsWithChildren} from 'react';
 import Header from './Header';
-import Footer from './Footer';
 import Section from './Section';
 
 export default function WithoutAsideLayout({children}: PropsWithChildren<{}>) {
@@ -11,7 +10,6 @@ export default function WithoutAsideLayout({children}: PropsWithChildren<{}>) {
         <Section>
           {children}
         </Section>
-        <Footer/>
       </>
   );
 }
