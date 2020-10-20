@@ -1,7 +1,8 @@
 import React from 'react';
 import {NavLink, Link} from 'react-router-dom';
 import styled from 'styled-components';
-import {HEADER_HEIGHT} from '../../utils/style/layout';
+import {HEIGHT, ZINDEX} from '../../utils/style/layout';
+import {FIRST_DIR} from '../../utils/route';
 
 export default function Header() {
 
@@ -14,7 +15,7 @@ export default function Header() {
               <ReactText>React</ReactText>
             </LogoWrap>
             <PageLink to="/doc">문서</PageLink>
-            <PageLink to="/style">스타일</PageLink>
+            <PageLink to={FIRST_DIR.style}>스타일</PageLink>
           </LeftWrap>
           <RightWrap>
             <RightLink target="_black" href="https://github.com/developer-choi/react-library">Github</RightLink>
@@ -48,8 +49,11 @@ const PageLink = styled(NavLink)`
 `;
 
 const HeaderStyle = styled.header`
-  height: ${HEADER_HEIGHT}px;
+  height: ${HEIGHT.header}px;
   background: ${props => props.theme.headerBack1};
+  position: fixed;
+  width: 100%;
+  z-index: ${ZINDEX.header};
 `;
 
 const InnerWrap = styled.div`

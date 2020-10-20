@@ -1,14 +1,16 @@
 import React, {PropsWithChildren} from 'react';
 import styled from 'styled-components';
+import {HEIGHT} from '../../utils/style/layout';
 
 export default function Section({children}: PropsWithChildren<{}>) {
 
   return (
-      <Wrap>
+      <SectionStyle>
         {children}
-      </Wrap>
+      </SectionStyle>
   );
 }
 
-const Wrap = styled.section`
+export const SectionStyle = styled.section`
+  margin-top: ${HEIGHT.header}px;
 `;
