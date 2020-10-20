@@ -2,13 +2,10 @@ import '@babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
-import {Switch} from 'react-router';
-import withoutAside from './routes/withoutAside';
-import appMain from './routes/app-main/appMain';
-import LayoutRoute from './components/LayoutRoute';
 import {createGlobalStyle, ThemeProvider} from 'styled-components';
 import {theme} from './utils/style/theme';
 import {reset} from 'styled-reset';
+import Routes from './components/layout/Routes';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -51,18 +48,12 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const routes = appMain.concat(withoutAside);
-
 ReactDOM.render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <>
           <GlobalStyle/>
-          <Switch>
-            {routes.map((route, index) => (
-                <LayoutRoute key={`route-${index}`} {...route}/>
-            ))}
-          </Switch>
+          <Routes/>
         </>
       </ThemeProvider>
     </BrowserRouter>

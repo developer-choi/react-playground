@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {LOREM_IPSUM, LOREM_IPSUM_WITHOUT_BLANK} from '../../../utils/dummy';
+import {LOREM_IPSUM, LOREM_IPSUM_WITHOUT_BLANK} from '../../utils/dummy';
 
 export default function TextCutPage() {
 
