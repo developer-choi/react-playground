@@ -75,6 +75,7 @@ const ChildLink = styled(NavLink)`
   }
 `;
 
-const ChildLinkWrap = styled(FlexDirectionColumn)`
+const ChildLinkWrap = styled.div`
+  ${FlexDirectionColumn};
   margin-top: 10px;
 `;

@@ -1,40 +1,6 @@
 import {createGlobalStyle, css} from 'styled-components';
 import styledReset from 'styled-reset';
 
-const font = css`
-
-  // @font-face { 
-  //   font-family: KoreanFont2;
-  //   src: url(...);
-  // } 
-  
-  body {
-    font-family: -apple-system,
-    BlinkMacSystemFont,
-    Segoe UI,
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    Fira Sans,
-    Droid Sans,
-    Helvetica Neue,
-    sans-serif;
-  }
-`;
-
-const layout = css`
-  
-  html, body, #root {
-    height: 100%;
-  }
-  
-  #root {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
 const reset = css`
   ${styledReset};
   
@@ -83,6 +49,40 @@ const reset = css`
   
   textarea {
     resize: none;
+  }
+`;
+
+const font = css`
+
+  // @font-face { 
+  //   font-family: KoreanFont2;
+  //   src: url(...);
+  // } 
+  
+  body {
+    font-family: -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
+  }
+`;
+
+const layout = css`
+  
+  html, body, #root {
+    height: 100%;
+  }
+  
+  #root {
+    display: flex;
+    flex-direction: column;
   }
 `;
 

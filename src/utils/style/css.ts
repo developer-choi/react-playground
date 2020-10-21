@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import {css} from 'styled-components';
 
-export const FlexDirectionColumn = styled.div`
+export const FlexDirectionColumn = css`
   display: flex;
   flex-direction: column;
 `;
