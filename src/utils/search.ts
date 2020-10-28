@@ -1,3 +1,5 @@
+import {parse} from 'query-string';
+
 export type SearchValidKeys = 'searchText' | 'searchType';
 export type SortValidKeys = 'directionType' | 'directionValue';
 export type AllValidKeys = SearchValidKeys | SortValidKeys;
@@ -5,20 +7,16 @@ export type AllValidKeys = SearchValidKeys | SortValidKeys;
 /** 상황설정 : 검색하면 내가 검색한 내용대로 주소창 URL이 바뀌는 경우에 한한 연구글. (네이버카페는 검색해도 url 안바뀜)
  *
  * *조건
- * 1.
- * 주소창 querystring에 유효하지않은 key와 value가, 추후 서버로 전송되지 않도록 막는다.
+ * 1. 주소창 querystring에 유효하지않은 key와 value가, 추후 서버로 전송되지 않도록 막는다.
  *
- * 2.
- * parse, stringify하는 querystring의 key는 서로 한번에 일괄적으로 변경할 수 있도록 구현한다.
- * (모든 페이지에서 searchText라는 key로 parse하고 stringify하고있었는데 백엔드개발자가 바꿔달라고 할 수 있기 때문)
- *
- *
- * 구현1. wrappingParse() : 첫 페이지 로딩시 유효한 key, value만 파싱된 결과로 처리를 시작한다.
- * 구현2. wrappingStringify() : 이후 서버로 요청보낼 시, 유효한 value만 쿼리스트링에 담아서 보낸다.
+ * 구현
+ * 1. wrappingParse() : 첫 페이지 로딩시 유효한 key, value만 파싱된 결과로 처리를 시작한다.
+ * ==>
+ * 2. wrappingStringify() : 이후 서버로 요청보낼 시, 유효한 value만 쿼리스트링에 담아서 보낸다.
  *
  * >> 모든 페이지에서 사용할 parse, stringify를 감싼 함수를 만들고, 여기서 타입체크 와 원하는 처리를 구현한다.
  * 1. 검색 타입이 페이지마다 모두 다르면, wrappingParse1 wrappingParse2 wrappingParse3을 여러개 만드는 방식으로 해결하되,
- * 타입체크만 해결하고 실제 처리는 root wrppingParse()로 해결한다.
+ * 타입체크만 해결하고 실제 처리는 root wrappingParse()로 해결한다.
  *
  * 예제
  * function wrappingParse<T>(params) {}
@@ -30,7 +28,7 @@ export type AllValidKeys = SearchValidKeys | SortValidKeys;
  *
  *
  * 미해결
- * 1. 유효성 검증.
+ * 1. 유효성 검증 : (1), (2) 해결완료.
  * 결국 1번과 연결되는 문제인데,
  * (1) 브라우저 주소창에 ?key= 이렇게 빈문자열이거나,
  * (2) 브라우저 주소창에 ?unknownKey 이렇게 지원하지않는 key이거나,
@@ -55,33 +53,52 @@ export type AllValidKeys = SearchValidKeys | SortValidKeys;
  * 1. location.search에서 validKeys에 해당하는 key의 value만 객체로 만들어서 반환함.
  * 2. 이 때 value가 빈문자열이면 유효하지않은 querystring인것으로 판단하고 해당 프로퍼티 삭제하고 반환함.
  */
-declare function safeParse<K extends AllValidKeys>(search: string, validKeys: K[]): Partial<Record<K, string>>
-  // return (parse(search) ?? {}) as Partial<Record<K, string>>;
+export function rootSafeParse<K extends AllValidKeys>(search: string, validKeys: K[]): Partial<Record<K, string>> {
+  const parsed = parse(search);
+  const removedKeysParsed = removeInvalidProperty(parsed, validKeys);
+  const removeValuesParsed = removeEmptyValueFromObject(removedKeysParsed);
+  return removeValuesParsed as Partial<Record<K, string>>;
+}
 
-declare function safeStringify<K extends AllValidKeys>(object: Record<K, string>): string
+declare function rootSafeStringify<K extends AllValidKeys>(object: Record<K, string>): string
   // return stringify(object);
 
 /**
- * func({a: 1, b: 2, c: '', ['b', 'c']} => {b: 2}
- * keys에 포함된 property만 잘라서 반환하되,
- * 빈문자열이면 keys에 포함되었어도 삭제.
+ * object에 key는 string, value도 string이라는 타입을 지정하고싶은데 어떻게 해야할지 모르겠다..
+ * object의 key중에서 allowKeys에 없는 key는 삭제해서 반환하며, 반환한 객체는 object를 얇게 복사한 객체다.
  */
-function removeInvalidProperty(object: any, keys: string[]) {
+function removeInvalidProperty(object: any, allowKeys: string[]) {
 
-  const _keys = Object.keys(object);
-  const result = {};
+  const cloneObject = Object.assign({}, object);
+  const objectKeys = Object.keys(cloneObject);
 
-  // return _keys.reduce((acc, currentKey) => {
-  //
-  //   const objectValue = object[currentKey];
-  //
-  //   if (keys.includes(currentKey)) {
-  //     return {...acc, currentKey: objectValue};
-  //
-  //   } else {
-  //     return acc;
-  //   }
-  // }, '');
+  objectKeys.forEach(key => {
+
+    if (!allowKeys.includes(key)) {
+      delete cloneObject[key];
+    }
+
+  });
+  return cloneObject;
+}
+
+/**
+ * object에 key는 string, value도 string이라는 타입을 지정하고싶은데 어떻게 해야할지 모르겠다.
+ * object의 value중에 빈문자열로 있는 key는 삭제한 다음 얇게 복사된 객체를 반환한다.
+ */
+function removeEmptyValueFromObject(object: any) {
+
+  const cloneObject = Object.assign({}, object);
+  const objectKeys = Object.keys(cloneObject);
+
+  objectKeys.forEach(key => {
+
+    if (cloneObject[key] === '') {
+      delete cloneObject[key];
+    }
+  });
+
+  return cloneObject;
 }
 
 /**
@@ -90,4 +107,4 @@ function removeInvalidProperty(object: any, keys: string[]) {
  */
 const directionType = '123';
 const directionValue = '1234';
-const res = safeStringify({directionType, directionValue});
+const res = rootSafeStringify({directionType, directionValue});
