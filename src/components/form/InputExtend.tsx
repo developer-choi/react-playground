@@ -6,6 +6,11 @@ export interface InputExtendProp extends Omit<ComponentProps<'input'>, 'ref'> {
   onChangeText?: (value: string) => void;
 }
 
+/**
+ * enableFocusWhenError?: boolean props추가해보면 괜찮지않을까,
+ * 그런데 폼 안에 입력란 여러개있고 여러개 입력란 전부 에러뜨는 경우가 문제이긴함.
+ */
+
 export default function InputExtend({onTab, onEnter, onChangeText, onChange, onKeyDown, ...rest}: InputExtendProp) {
 
   const needNotOnKeyDown = onKeyDown === undefined && onTab === undefined && onEnter === undefined;
