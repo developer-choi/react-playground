@@ -48,6 +48,9 @@ export type AllValidKeys = SearchValidKeys | SortValidKeys;
  * if(typeof result.arr === 'array')를 매번 할 수는 없음.
  */
 
+/**
+ * ?sec 이렇게 =이 없으면 parse에서 결과가 null이므로 null도 순회돌면서 제거해야함.
+ */
 
 /**
  * 1. location.search에서 validKeys에 해당하는 key의 value만 객체로 만들어서 반환함.
