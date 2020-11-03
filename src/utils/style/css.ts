@@ -31,11 +31,10 @@ export function setRightRadius(applyClassName: string, value = 0) {
 export function nthChilds(selector: string, numbers: number[], code: string) {
 
   if (numbers.length === 0) {
-    return css`
-    ${selector}:nth-child(0) {
-      ${code}      
-    }
-`;
+    return '';
+
+  } else if (numbers.length === 1) {
+    return nthFormat(selector, numbers[0]);
   }
 
   const first = numbers[0];
