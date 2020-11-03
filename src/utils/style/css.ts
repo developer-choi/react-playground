@@ -27,3 +27,28 @@ export function setRightRadius(applyClassName: string, value = 0) {
     }
 `;
 }
+
+export function nthChilds(selector: string, numbers: number[], code: string) {
+
+  if (numbers.length === 0) {
+    return css`
+    ${selector}:nth-child(0) {
+      ${code}      
+    }
+`;
+  }
+
+  const first = numbers[0];
+  const rest = numbers.slice(1);
+  const _nthChilds = rest.map(value => nthFormat(selector, value)).join(',');
+
+  return css`
+  ${_nthChilds}, ${nthFormat(selector, first)} {
+    ${code};
+  }
+`;
+}
+
+function nthFormat(selector: string, value: number) {
+  return css`${selector}:nth-child(${value})`;
+}
