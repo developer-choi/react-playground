@@ -1,5 +1,5 @@
 import {makeRandomString, randomNumber} from './random';
-import {getNumberArray} from './number';
+import {getNumberArray} from './web-api-extend/number';
 
 export interface GradientInfo {
   deg: number;
