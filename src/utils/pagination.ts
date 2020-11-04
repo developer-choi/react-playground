@@ -60,10 +60,9 @@ export function getSearchList<T extends Object>(list: T[], {type, value}: Search
 }
 
 /**
- * @return list안에 있는 요소중에,
- * (1) search의 type과 일치하는 요소의 property중에서
- * (2) search의 value가 존재하는 요소의 value를 배열로 반환합니다.
- * 결과가 없으면 빈배열 반환합니다.
+ * list에 들어있는 특정 요소 기준으로 정렬한 배열을 반환합니다.
+ * 반드시 list의 모든 요소는 orderby값의 property를 가지고있어야 하고,
+ * 넘겨받은 type으로 형변환이 반드시 가능해야합니다.
  */
 export function getSortList<T extends Object>(list: T[], {direction = 'desc', orderby, type = 'string'}: SortType) {
 
