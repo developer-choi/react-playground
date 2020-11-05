@@ -2,6 +2,8 @@
  * @example (0, 3) --> -2이상 3이하의 랜덤한 숫자 반환
  * @example (3, -2) --> -2이상 3이하의 랜덤한 숫자 반환
  */
+import {LOREM_IPSUM, LOREM_IPSUM_WITHOUT_BLANK} from './dummy';
+
 export function randomNumber(from: number, to: number) {
   const _max = Math.max(from, to);
   const _min = Math.min(from, to);
@@ -30,4 +32,34 @@ export function makeRandomString(anagramArray: Array<string | number>, length: n
 
 export function getRandomComponentId() {
   return 'random-id-' + Math.floor(Math.random() * 10000000);
+}
+
+export function randomFromArray<T>(dummys: T[]): T {
+  const randomIndex = randomNumber(0, dummys.length - 1);
+  return dummys[randomIndex];
+}
+
+export function randomLoremIpsum() {
+  return randomFromArray([LOREM_IPSUM, LOREM_IPSUM_WITHOUT_BLANK]);
+}
+
+export function randomBigFloat() {
+  return Math.random() * 100000000000000;
+}
+
+export function randomBigInteger() {
+  return Math.floor(randomBigFloat());
+}
+
+export function randomSmallFloat(max = 100) {
+  return Math.random() * max;
+}
+
+export function randomSmallInteger(max = 100) {
+  return Math.floor(randomSmallFloat(max));
+}
+
+export function randomDummyList(list: any[], dummyLength = 100) {
+  const listLength = list.length;
+  return new Array(dummyLength).fill('').map(() => list[randomNumber(0, listLength - 1)]);
 }
