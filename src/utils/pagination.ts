@@ -13,7 +13,7 @@ interface PagingListConfig {
   page: number;
   count: number;
   search?: SearchType;
-  order?: SortType;
+  sort?: SortType;
 }
 
 interface PaginationResult<T> {
@@ -112,9 +112,11 @@ export function getSortList<T extends Object>(list: T[], {direction = 'desc', or
  * 서버에서 모든 글 목록을 받아서 페이징 처리할 때 사용하려고 만들었습니다.
  * 페이지 번호가 유효하지 않을경우, 페이지번호를 1번으로 처리합니다.
  */
-export function getPagingList<T extends Object>(list: T[], {count, page}: PagingListConfig): PaginationResult<T>  {
+export function getPagingList<T extends Object>(list: T[], {count, page, sort, search}: PagingListConfig): PaginationResult<T>  {
 
-  if (list.length === 0) {
+  const searchedList = search ? getSearchList(list, search) : list;
+
+  if (searchedList.length === 0) {
     return {
       list: [],
       totalCount: 0,
@@ -122,16 +124,18 @@ export function getPagingList<T extends Object>(list: T[], {count, page}: Paging
     };
   }
 
+  const sortedList = sort ? getSortList(searchedList, sort) : searchedList;
+
   const _pageNumber = getPageNumber(page);
   const startIndex = (_pageNumber - 1) * count;
   const endIndex = startIndex + count;
-  const toReturnList = list.slice(startIndex, endIndex);
+  const toReturnList = sortedList.slice(startIndex, endIndex);
 
-  const totalCount = list.length;
+  const totalCount = sortedList.length;
 
   if (toReturnList.length === 0) {
     return {
-      list: getPagingList(list, {count, page: 1}).list,
+      list: getPagingList(list, {count, page: 1, sort, search}).list,
       page: 1,
       totalCount
     };
