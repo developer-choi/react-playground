@@ -54,7 +54,8 @@ export function getSearchList<T extends Object>(list: T[], {type, value}: Search
 
     } else {
       //@ts-ignore
-      return item[type].includes(value);
+      const listItem = item[type] as string;
+      return listItem.toLowerCase().includes(value.toLowerCase());
     }
   });
 }
