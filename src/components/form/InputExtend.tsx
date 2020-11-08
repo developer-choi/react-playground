@@ -4,25 +4,21 @@ export interface InputExtendProp extends Omit<ComponentProps<'input'>, 'ref'> {
   onTab?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onChangeText?: (value: string) => void;
-  onCtrlV?: () => void;
+  /**
+   * @param text : Control V한 값 (없을 시 빈문자열)
+   * 부모 컴포넌트에서 state를 이 컴포넌트의 value prop으로 넘기고,
+   * onChange prop으로 입력할 때마다 setState를 하는경우
+   * onCtrlV()가 호출되었을 당시에는 아직 setState가 완료되지 않음을 주의해야합니다.
+   */
+  onCtrlV?: (text: string) => void;
 }
 
-/**
- * onCtrlV의 문제는,
- * JS에서 Keydown ==> Input ==> Keyup 순서로 이벤트가 발생하기 떄문에,
- * Keydown에서 onCtrlV로 next input의 focus를 실행할 경우에 next input에 값이 입력되는 버그가 생겨버린다.
- * 또한, Ctrl V했을 때 Ctrl V한 값을 가져올 수도 없었다.
- */
 export default forwardRef(function InputExtend({onCtrlV, onTab, onEnter, onChangeText, onChange, onKeyDown, ...rest}: InputExtendProp, ref: Ref<HTMLInputElement>) {
 
-  const needNotOnKeyDown = [onTab, onEnter, onKeyDown, onCtrlV].every(callback => callback === undefined);
+  const needNotOnKeyDown = [onEnter, onKeyDown, onCtrlV].every(callback => callback === undefined);
+  const needNotOnKeyUp = [onCtrlV].every(callback => callback === undefined);
 
   const _onKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
-
-    if (onCtrlV && event.ctrlKey && event.key.toLowerCase() === 'v') {
-      onCtrlV();
-      return;
-    }
 
     switch (event.key) {
       case 'Enter':
@@ -36,7 +32,17 @@ export default forwardRef(function InputExtend({onCtrlV, onTab, onEnter, onChang
 
     onKeyDown?.(event);
 
-  }, [onCtrlV, onKeyDown, onTab, onEnter]);
+  }, [onKeyDown, onTab, onEnter]);
+
+  const _onKeyUp = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
+
+    if (onCtrlV && event.ctrlKey && event.key.toLowerCase() === 'v') {
+      //@ts-ignore
+      onCtrlV(event.target.value);
+      return;
+    }
+
+  }, [onCtrlV]);
 
   const needNotOnChange = onChange === undefined && onChangeText === undefined;
 
@@ -46,6 +52,6 @@ export default forwardRef(function InputExtend({onCtrlV, onTab, onEnter, onChang
   }, [onChange, onChangeText]);
 
   return (
-      <input ref={ref} onChange={needNotOnChange ? undefined : _onChange} onKeyDown={needNotOnKeyDown ? undefined : _onKeyDown} {...rest}/>
+      <input ref={ref} onKeyUp={needNotOnKeyUp ? undefined : _onKeyUp} onChange={needNotOnChange ? undefined : _onChange} onKeyDown={needNotOnKeyDown ? undefined : _onKeyDown} {...rest}/>
   );
 });
