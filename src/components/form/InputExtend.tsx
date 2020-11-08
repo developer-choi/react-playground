@@ -1,21 +1,28 @@
-import React, {ChangeEvent, ComponentProps, KeyboardEvent, useCallback} from 'react';
+import React, {ChangeEvent, ComponentProps, forwardRef, KeyboardEvent, Ref, useCallback} from 'react';
 
 export interface InputExtendProp extends Omit<ComponentProps<'input'>, 'ref'> {
   onTab?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onChangeText?: (value: string) => void;
+  onCtrlV?: () => void;
 }
 
 /**
- * enableFocusWhenError?: boolean props추가해보면 괜찮지않을까,
- * 그런데 폼 안에 입력란 여러개있고 여러개 입력란 전부 에러뜨는 경우가 문제이긴함.
+ * onCtrlV의 문제는,
+ * JS에서 Keydown ==> Input ==> Keyup 순서로 이벤트가 발생하기 떄문에,
+ * Keydown에서 onCtrlV로 next input의 focus를 실행할 경우에 next input에 값이 입력되는 버그가 생겨버린다.
+ * 또한, Ctrl V했을 때 Ctrl V한 값을 가져올 수도 없었다.
  */
+export default forwardRef(function InputExtend({onCtrlV, onTab, onEnter, onChangeText, onChange, onKeyDown, ...rest}: InputExtendProp, ref: Ref<HTMLInputElement>) {
 
-export default function InputExtend({onTab, onEnter, onChangeText, onChange, onKeyDown, ...rest}: InputExtendProp) {
-
-  const needNotOnKeyDown = onKeyDown === undefined && onTab === undefined && onEnter === undefined;
+  const needNotOnKeyDown = [onTab, onEnter, onKeyDown, onCtrlV].every(callback => callback === undefined);
 
   const _onKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
+
+    if (onCtrlV && event.ctrlKey && event.key.toLowerCase() === 'v') {
+      onCtrlV();
+      return;
+    }
 
     switch (event.key) {
       case 'Enter':
@@ -29,7 +36,7 @@ export default function InputExtend({onTab, onEnter, onChangeText, onChange, onK
 
     onKeyDown?.(event);
 
-  }, [onKeyDown, onTab, onEnter]);
+  }, [onCtrlV, onKeyDown, onTab, onEnter]);
 
   const needNotOnChange = onChange === undefined && onChangeText === undefined;
 
@@ -39,11 +46,6 @@ export default function InputExtend({onTab, onEnter, onChangeText, onChange, onK
   }, [onChange, onChangeText]);
 
   return (
-      <input onChange={needNotOnChange ? undefined : _onChange} onKeyDown={needNotOnKeyDown ? undefined : _onKeyDown} {...rest}/>
+      <input ref={ref} onChange={needNotOnChange ? undefined : _onChange} onKeyDown={needNotOnKeyDown ? undefined : _onKeyDown} {...rest}/>
   );
-}
-
-/**
- * onFocusOrInputed + 클래스이름. 우선순위는 기본 > 액티브 >에러
- * 이걸 BasicInput에서 만들어주면 StyledInput에서 확장하기편해지지.
- */
+});
