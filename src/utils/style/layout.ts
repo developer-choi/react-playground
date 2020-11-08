@@ -1,12 +1,13 @@
-export const HEIGHT = Object.freeze({
+export const HEIGHTS = Object.freeze({
   header: 60,
   headerDiffSection: 80
 });
 
-export const WIDTH = Object.freeze({
+export const WIDTHS = Object.freeze({
   aside: 350
 });
 
-export const ZINDEX = Object.freeze({
-  header: 10
+export const ZINDEXS = Object.freeze({
+  header: 10,
+  modal: 20
 });

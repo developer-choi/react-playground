@@ -5,6 +5,13 @@ export const FlexDirectionColumn = css`
   flex-direction: column;
 `;
 
+export const FlexCenter = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+
 export function setLeftRadius(applyClassName: string, value = 0) {
 
   const suffix = value === 0 ? '' : 'px';
@@ -51,9 +58,3 @@ export function nthChilds(selector: string, numbers: number[], code: string) {
 function nthFormat(selector: string, value: number) {
   return css`${selector}:nth-child(${value})`;
 }
-
-export const FlexCenter = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;

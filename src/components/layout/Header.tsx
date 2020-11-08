@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink, Link} from 'react-router-dom';
 import styled from 'styled-components';
-import {HEIGHT, ZINDEX} from '../../utils/style/layout';
+import {HEIGHTS, ZINDEXS} from '../../utils/style/layout';
 import {FIRST_DIR} from '../../utils/route';
 import reactLogo from '../../../public/react-logo.png';
 
@@ -50,11 +50,11 @@ const PageLink = styled(NavLink)`
 `;
 
 const HeaderStyle = styled.header`
-  height: ${HEIGHT.header}px;
+  height: ${HEIGHTS.header}px;
   background: ${props => props.theme.headerBack1};
   position: fixed;
   width: 100%;
-  z-index: ${ZINDEX.header};
+  z-index: ${ZINDEXS.header};
 `;
 
 const InnerWrap = styled.div`

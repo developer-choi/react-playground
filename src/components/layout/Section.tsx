@@ -1,6 +1,6 @@
 import React, {PropsWithChildren} from 'react';
 import styled from 'styled-components';
-import {HEIGHT} from '../../utils/style/layout';
+import {HEIGHTS} from '../../utils/style/layout';
 
 export default function Section({children}: PropsWithChildren<{}>) {
 
@@ -12,5 +12,5 @@ export default function Section({children}: PropsWithChildren<{}>) {
 }
 
 export const SectionStyle = styled.section`
-  margin-top: ${HEIGHT.header}px;
+  margin-top: ${HEIGHTS.header}px;
 `;

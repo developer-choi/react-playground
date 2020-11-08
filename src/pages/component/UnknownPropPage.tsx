@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import InputExtend, {InputExtendProp} from '../../components/form/InputExtend';
+import InputExtend, {InputExtendProp} from '../../components/extend/InputExtend';
 
 export default function UnknownPropPage() {
 

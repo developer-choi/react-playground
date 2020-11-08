@@ -1,4 +1,4 @@
-import {InputExtendProp} from '../components/form/InputExtend';
+import {InputExtendProp} from '../components/extend/InputExtend';
 import {ComponentProps, CSSProperties} from 'react';
 
 export interface StandardStyledInputProp extends InputExtendProp {

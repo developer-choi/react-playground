@@ -1,6 +1,6 @@
 import React, {forwardRef, Ref} from 'react';
 import styled from 'styled-components';
-import InputExtend, {InputExtendProp} from '../form/InputExtend';
+import InputExtend, {InputExtendProp} from '../extend/InputExtend';
 
 export default forwardRef(function BasicInput(props: InputExtendProp, ref: Ref<HTMLInputElement>) {
 

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import {NavLink, useRouteMatch} from 'react-router-dom';
 import styled from 'styled-components';
-import {HEIGHT} from '../../utils/style/layout';
+import {HEIGHTS} from '../../utils/style/layout';
 import {ASIDE_LINKS} from '../../utils/route';
 import {FlexDirectionColumn} from '../../utils/style/css';
 
@@ -40,13 +40,13 @@ export default function Aside() {
 const AsideStyle = styled.aside`
   position: fixed;
   right: 0;
-  top: ${HEIGHT.header}px;
+  top: ${HEIGHTS.header}px;
   bottom: 0;
   background-color: ${props => props.theme.asideBack};
   
   width: 350px;
   flex-shrink: 0;
-  padding: ${HEIGHT.headerDiffSection}px 40px;
+  padding: ${HEIGHTS.headerDiffSection}px 40px;
 `;
 
 const Nav = styled.nav`

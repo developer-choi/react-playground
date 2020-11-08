@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import styled, {css} from 'styled-components';
-import InputExtend from './InputExtend';
+import InputExtend from '../extend/InputExtend';
 import classNames from 'classnames';
 import {AiFillEye, AiFillEyeInvisible, AiOutlineCloseCircle} from 'react-icons/all';
 import {getInputInfo, StandardStyledInputProp} from '../../utils/input';

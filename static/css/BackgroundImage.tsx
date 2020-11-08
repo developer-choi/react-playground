@@ -10,8 +10,8 @@ export interface BackgroundImageProp extends Omit<ComponentProps<'div'>, 'ref'> 
 export default function BackgroundImage({children, aspectRatio, src, ...rest}: BackgroundImageProp) {
 
   return (
-      <RatioBox aspectRatio={aspectRatio} {...rest}>
-        <Image style={{backgroundImage: `url(${src})`}}>
+      <RatioBox aspectRatio={aspectRatio}>
+        <Image style={{backgroundImage: `url(${src})`}} {...rest}>
           {children}
         </Image>
       </RatioBox>

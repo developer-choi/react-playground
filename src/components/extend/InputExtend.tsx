@@ -1,5 +1,10 @@
 import React, {ChangeEvent, ComponentProps, forwardRef, KeyboardEvent, Ref, useCallback} from 'react';
 
+/**
+ * 이 컴포넌트를 제작할 때 고려된 input의 type은 아래와 같습니다.
+ */
+export type InputExtendType = 'text' | 'password' | 'email' | 'number' | 'tel' | 'date' | 'search' | 'url' | undefined;
+
 export interface InputExtendProp extends Omit<ComponentProps<'input'>, 'ref'> {
   onTab?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
@@ -11,6 +16,7 @@ export interface InputExtendProp extends Omit<ComponentProps<'input'>, 'ref'> {
    * onCtrlV()가 호출되었을 당시에는 아직 setState가 완료되지 않음을 주의해야합니다.
    */
   onCtrlV?: (text: string) => void;
+  type: InputExtendType;
 }
 
 export default forwardRef(function InputExtend({onCtrlV, onTab, onEnter, onChangeText, onChange, onKeyDown, ...rest}: InputExtendProp, ref: Ref<HTMLInputElement>) {
