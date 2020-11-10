@@ -2,7 +2,7 @@
  * @example (0, 3) --> -2이상 3이하의 랜덤한 숫자 반환
  * @example (3, -2) --> -2이상 3이하의 랜덤한 숫자 반환
  */
-import {LOREM_IPSUM, LOREM_IPSUM_WITHOUT_BLANK} from './dummy';
+import {LOREM_IPSUM, LOREM_IPSUM_NOT_BLANK} from './dummy/dummy-core';
 
 export function randomNumber(from: number, to: number) {
   const _max = Math.max(from, to);
@@ -40,7 +40,7 @@ export function randomFromArray<T>(dummys: T[]): T {
 }
 
 export function randomLoremIpsum() {
-  return randomFromArray([LOREM_IPSUM, LOREM_IPSUM_WITHOUT_BLANK]);
+  return randomFromArray([LOREM_IPSUM, LOREM_IPSUM_NOT_BLANK]);
 }
 
 export function randomBigFloat() {
