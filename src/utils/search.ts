@@ -46,6 +46,11 @@ export type AllValidKeys = SearchValidKeys | SortValidKeys;
  *
  * const result = parse(location.search)하고
  * if(typeof result.arr === 'array')를 매번 할 수는 없음.
+ *
+ * array는 아예 깔끔하게 포기하고 파싱한 결과가 배열이면 걍 빼버리자.
+ * 내가 예상했던게 아니니까.
+ * 뺴버려야 타입체크에서 배열이 리턴타입이 아니라고 단정할 수 있다.
+ * 일단 배열빼고 다되는 모듈을 만들자.
  */
 
 /**
