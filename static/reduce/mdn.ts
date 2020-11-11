@@ -1,5 +1,4 @@
 //https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
-const array = [1, 2, 3, 4]; // 10
 const array2 = [{x: 1}, {x: 2}, {x: 3}]; // 6
 const array3 = [[1, 2], [3, 4], [5, 6]]; // [1, 2, 3, 4, 5, 6]
 const array4 = ['Apple', 'Apple', 'Apple', 'Banana', 'Banana', 'Kiwi']; // {Apple: 3, Banana: 2, Kiwi: 1}
