@@ -1,7 +1,7 @@
-import React, {ComponentProps} from 'react';
+import React, {ButtonProp} from 'react';
 import styled from 'styled-components';
 
-export interface BasicButtonProp extends Omit<ComponentProps<'button'>, 'ref'> {
+export interface BasicButtonProp extends ButtonProp {
 
 }
 
