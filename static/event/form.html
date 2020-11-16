@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    input:invalid {
+      border: 1px solid red;
+    }
+    input:valid {
+      border: 1px solid green;
+    }
+  </style>
+</head>
+<body>
+<form id="form">
+  <input type="email" placeholder="ENTER ME"/>
+  <input placeholder="input1"/>
+  <button>버튼</button>
+  <script>
+
+    const formElement = document.getElementById('form');
+    formElement.onsubmit = onSubmit;
+
+    function onSubmit(event) {
+      console.log(Object.assign({}, event)); // A
+      console.log(event); // B
+
+      /**
+       * A, B Different. ??
+       * 이메일 입력창에서 엔터쳤는데 submit의 event.eventPhase가 2 ?? 뭐지?
+       */
+
+      event.preventDefault();
+    }
+  </script>
+</form>
+</body>
+</html>
