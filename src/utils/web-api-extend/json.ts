@@ -1,3 +1,3 @@
-import {getDefaultFunction} from '../common';
+import {getDefaultFunctionWhenError} from '../common';
 
-export const defaultParse = getDefaultFunction((value: string) => JSON.parse(value));
+export const defaultParse = getDefaultFunctionWhenError((value: string) => JSON.parse(value));
