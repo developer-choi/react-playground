@@ -1,8 +1,10 @@
-import {BasicResponse, ResultCode} from '../response/common';
+import I18n from 'i18n-js';
+import {BasicResponse} from '../response/common';
 import {store} from '../store/store';
 import {openUnexpectedModalActionCreator} from '../store/unexpected';
-import I18n from 'i18n-js';
 import {AxiosResponse} from 'axios';
+
+export type CustomErrorCode = 'ERROR_000' | 'ERROR_001' | 'ERROR_002' | 'ERROR_003' | 'ERROR_004' | 'ERROR_005';
 
 export function dispatchOpenUnexpectedModal() {
   store.dispatch(openUnexpectedModalActionCreator(I18n.t('common2')));
@@ -11,14 +13,14 @@ export function dispatchOpenUnexpectedModal() {
 export interface HandleErrorParameter {
   error: any;
   unexpected?: () => void;
-  expected?: (errorCode: ResultCode) => void;
-  expectedCodes?: ResultCode[];
+  expected?: (errorCode: CustomErrorCode) => void;
+  expectedCodes?: CustomErrorCode[];
 }
 
 /**
  * 타 회사에서는 이 함수 및 이 구현코드 자체가 필요없음 2xx자체가 성공응답이라는 뜻이 되기 때문에.
  */
-export function isSuccessResponse(result?: ResultCode): boolean {
+export function isSuccessResponse(result?: CustomErrorCode): boolean {
   return !! result?.startsWith('S');
 }
 
@@ -81,26 +83,30 @@ export function handleFrontError({error, unexpected = dispatchOpenUnexpectedModa
   unexpected();
 }
 
-const INVALID_ARRAY_ELEMENT = [undefined, null];
+export const UNEXPECTED_MESSAGE_CODE = 'translation-code1';
 
-export function getDefaultApiList(list: any[]) {
-  if (Array.isArray(list) && list.every(val => !INVALID_ARRAY_ELEMENT.includes(val))) {
-    return list;
+export function getDefaultUnexpectedMessage(expected: Partial<Record<CustomErrorCode, string>>, errorCode: CustomErrorCode) {
+
+  const translatedCode = expected[errorCode];
+
+  if (translatedCode) {
+    return I18n.t(translatedCode);
 
   } else {
-    return [];
+    return I18n.t(UNEXPECTED_MESSAGE_CODE);
   }
 }
 
-export function getDefaultPagingList(response: AxiosResponse, list: any[]) {
+export type ExtractResultCode<Union extends CustomErrorCode> = Extract<CustomErrorCode, Union>;
 
-  const totalCount = response.data.totalCount;
-  const page = response.data.page;
+export interface Expected {
+  codes: CustomErrorCode[];
+  codeToMessage: (code: CustomErrorCode) => string;
+}
 
-  if (totalCount >= 1 && page >= 1) {
-    return getDefaultApiList(list);
-
-  } else {
-    return [];
-  }
+export function generatorExpected(expected: Partial<Record<CustomErrorCode, string>>): Expected {
+  return {
+    codes: Object.keys(expected) as CustomErrorCode[],
+    codeToMessage: errorCode => getDefaultUnexpectedMessage(expected, errorCode)
+  };
 }
