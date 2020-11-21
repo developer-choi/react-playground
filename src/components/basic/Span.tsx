@@ -13,10 +13,14 @@ export default function Span({style, numberOfLines = 0, ...rest}: SpanProp) {
 }
 
 const numberOfLinesCss = css<Pick<SpanProp, 'numberOfLines'>>`
-  display: -webkit-box;
+  //numberOfLines 기능이 작동되려면 display는 반드시 이것이 되야함.
+  display: -webkit-box !important;
   -webkit-box-orient: vertical;
   overflow: hidden;
   -webkit-line-clamp: ${props => props.numberOfLines};
+  
+  //이거 안하면 공백없는 긴 문자열이 올 경우 의도하지않은 대로 작동함. 화면을 뚫고나간다던가.
+  word-break: break-word;
 `;
 
 const SpanStyle = styled.span<Pick<SpanProp, 'numberOfLines'>>`
