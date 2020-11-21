@@ -36,8 +36,13 @@ export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<
   }, [onKeyUp, onCtrlV]);
 
   const customOnChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const result = onChangeTextResult(event.target.value, {maxDecimalLength, type, maxLength, toLowerCase});
-    onChangeText?.(result);
+
+    const {value} = event.target;
+
+    if (onChangeText) {
+      const result = onChangeTextResult(value, {maxDecimalLength, type, maxLength, toLowerCase});
+      onChangeText(result);
+    }
     onChange?.(event);
   }, [maxDecimalLength, type, maxLength, onChange, toLowerCase, onChangeText]);
 
