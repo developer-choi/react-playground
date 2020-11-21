@@ -6,6 +6,7 @@ import {
   OnChangeValidatorType, OnSubmitValidateResult, onSubmitValidateWhenEmpty,
   OnSubmitValidatorType, VALIDATE_SUCCESS_RESULT
 } from './common';
+import {Decimal} from 'decimal.js';
 
 /**
  * 입력박스가, 숫자만 입력이 가능한 경우에 대한 함수입니다.
@@ -95,4 +96,10 @@ export function onChangeValidateMeanIntegerValue(value: string, validator?: OnCh
     ...validatedResult,
     value: resultValue
   };
+}
+
+export function decimalSlice(value: number, decimalLength: number) {
+  const numerator  = Decimal.mul(value, (10 ** decimalLength)).floor().toNumber();
+  const denominator = 10 ** decimalLength;
+  return Decimal.div(numerator, denominator).toNumber();
 }

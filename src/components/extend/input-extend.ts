@@ -60,4 +60,10 @@ export interface InputExtendProp extends Omit<ComponentProps<'input'>, WithoutPr
    */
   value?: string;
   type?: InputExtendType;
+
+  /**
+   * type이 number일 때만 작동하는 Prop입니다.
+   * 입력값의 소수 최대길이를 지정할 수 있습니다.
+   */
+  maxDecimalLength?: number;
 }
