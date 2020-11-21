@@ -1,4 +1,21 @@
 import {ComponentProps, KeyboardEvent} from 'react';
+import {decimalSlice} from '../../utils/validate/number';
+
+export function onChangeTextResult(eventTargetValue: string, {toLowerCase, type, maxDecimalLength, maxLength}: Pick<InputExtendProp, 'type' | 'maxDecimalLength' | 'maxLength' | 'toLowerCase'>) {
+
+  const truncatedValue = eventTargetValue.slice(0, maxLength);
+
+  if (maxDecimalLength === undefined) {
+    return toLowerCase ? truncatedValue.toLowerCase() : truncatedValue;
+  }
+
+  if (type !== 'number') {
+    console.warn('maxDecimalLength Prop이 작동하지 않았습니다. 이 Prop은 type이 number일때만 작동하는 Prop입니다.');
+    return truncatedValue;
+  }
+
+  return decimalSlice(Number(truncatedValue), maxDecimalLength).toString();
+}
 
 export const DEFAULT_INPUT_PROPS: InputExtendProp = {
   /**
@@ -14,7 +31,7 @@ export const DEFAULT_INPUT_PROPS: InputExtendProp = {
 /**
  * 이 컴포넌트를 제작할 때 고려된 input의 type은 아래와 같습니다.
  */
-type InputExtendType = 'text' | 'password' | 'email' | 'number' | 'tel' | 'date' | 'search' | 'url' | undefined;
+type InputExtendType = 'text' | 'password' | 'email' | 'number' | 'tel' | 'search' | 'url' | undefined;
 
 type WithoutProp = 'ref' | 'onInvalid' | 'onInvalidCapture';
 

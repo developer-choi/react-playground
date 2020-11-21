@@ -1,11 +1,20 @@
 import React, {ChangeEvent, FormEvent, forwardRef, KeyboardEvent, Ref, useCallback} from 'react';
-import {DEFAULT_INPUT_PROPS, InputExtendProp} from './input-extend';
+import {DEFAULT_INPUT_PROPS, InputExtendProp, onChangeTextResult} from './input-extend';
 import {getResultCallback} from '../../utils/form';
-import {decimalSlice} from '../../utils/validate/number';
 
 export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<HTMLInputElement>) {
 
-  const {onKeyUp, toLowerCase, maxLength, onCtrlV, onTab, onEnter, onChangeText, onChange, onKeyDown, type, maxDecimalLength, ...rest} = {...DEFAULT_INPUT_PROPS, ...props};
+  const {
+    /**
+     * HTML input Prop
+     */
+    onKeyUp, type, maxLength, onChange, onKeyDown,
+
+    /**
+     * Custom Prop
+     */
+    toLowerCase, onCtrlV, onTab, onEnter, onChangeText, maxDecimalLength, ...rest
+  } = {...DEFAULT_INPUT_PROPS, ...props};
 
   const customOnKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
 
@@ -59,19 +68,3 @@ export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<
       <input ref={ref} type={type} onInvalid={onInvalid} onKeyUp={_onKeyUp} onChange={_onChange} onKeyDown={_onKeyDown} {...rest}/>
   );
 });
-
-function onChangeTextResult(eventTargetValue: string, {toLowerCase, type, maxDecimalLength, maxLength}: Pick<InputExtendProp, 'type' | 'maxDecimalLength' | 'maxLength' | 'toLowerCase'>) {
-
-  const truncatedValue = eventTargetValue.slice(0, maxLength);
-
-  if (maxDecimalLength === undefined) {
-    return toLowerCase ? truncatedValue.toLowerCase() : truncatedValue;
-  }
-
-  if (type !== 'number') {
-    console.warn('maxDecimalLength Prop이 작동하지 않았습니다. 이 Prop은 type이 number일때만 작동하는 Prop입니다.');
-    return truncatedValue;
-  }
-
-  return decimalSlice(Number(truncatedValue), maxDecimalLength).toString();
-}
