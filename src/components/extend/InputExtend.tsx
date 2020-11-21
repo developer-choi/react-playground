@@ -1,14 +1,11 @@
 import React, {ChangeEvent, FormEvent, forwardRef, KeyboardEvent, Ref, useCallback} from 'react';
-import {DEFAULT_INPUT_PROPS, InputExtendProp} from './input-extend';
+import {DEFAULT_INPUT_PROPS, InputExtendProp, getResultCallback} from './input-extend';
 
 export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<HTMLInputElement>) {
 
-  const {toLowerCase, maxLength, onCtrlV, onTab, onEnter, onChangeText, onChange, onKeyDown, ...rest} = {...DEFAULT_INPUT_PROPS, ...props};
+  const {onKeyUp, toLowerCase, maxLength, onCtrlV, onTab, onEnter, onChangeText, onChange, onKeyDown, ...rest} = {...DEFAULT_INPUT_PROPS, ...props};
 
-  const needNotOnKeyDown = [onEnter, onKeyDown, onCtrlV].every(callback => callback === undefined);
-  const needNotOnKeyUp = [onCtrlV].every(callback => callback === undefined);
-
-  const _onKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
+  const customOnKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
 
     switch (event.key) {
       case 'Enter':
@@ -24,7 +21,7 @@ export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<
 
   }, [onKeyDown, onTab, onEnter]);
 
-  const _onKeyUp = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
+  const customOnKeyUp = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
 
     if (onCtrlV && event.ctrlKey && event.key.toLowerCase() === 'v') {
       //@ts-ignore
@@ -32,11 +29,11 @@ export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<
       return;
     }
 
-  }, [onCtrlV]);
+    onKeyUp?.(event);
 
-  const needNotOnChange = onChange === undefined && onChangeText === undefined;
+  }, [onKeyUp, onCtrlV]);
 
-  const _onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+  const customOnChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 
     const {value} = event.target;
     const truncatedValue = value.slice(0, maxLength);
@@ -50,7 +47,11 @@ export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<
     event.preventDefault();
   }, []);
 
+  const _onKeyDown = getResultCallback(onKeyDown, customOnKeyDown, [onEnter, onCtrlV]);
+  const _onKeyUp = getResultCallback(onKeyUp, customOnKeyUp, [onCtrlV]);
+  const _onChange = getResultCallback(onChange, customOnChange, [onChangeText]);
+
   return (
-      <input ref={ref} onInvalid={onInvalid} onKeyUp={needNotOnKeyUp ? undefined : _onKeyUp} onChange={needNotOnChange ? undefined : _onChange} onKeyDown={needNotOnKeyDown ? undefined : _onKeyDown} {...rest}/>
+      <input ref={ref} onInvalid={onInvalid} onKeyUp={_onKeyUp} onChange={_onChange} onKeyDown={_onKeyDown} {...rest}/>
   );
 });
