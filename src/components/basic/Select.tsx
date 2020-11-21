@@ -20,15 +20,9 @@ import styled from 'styled-components';
  * (2) 기존은 onChangeHandler에 value값밖에 못받았다.
  * 선택된 아이템 통째로 받는경우가 더 편한 경우가 옜날에 있었다. (그 경우가 기억이 안남)
  *
- * ==>
- * onChange에 2nd parameter로 item 추가하고,
- * 이 item역시 타입을 동적으로 정확히 체크되도록 Item Type Generic도 추가했다.
+ * 그러므로, HTML 기본 제공 Select를 Extend한 SelectExtend.tsx를 별도로 만들고,
+ * 모든 경우에 대해 대응이 가능한 Select.tsx를 제작중에있다.
  */
-interface PreviousSelectProp {
-  value: string;
-  items: { label: string, value: string }[];
-  onChange: (value: string) => void;
-}
 
 /**
  * label의 타입을 generic으로 할필요없이 그냥 항상 ReactChild로 고정하는게 더 낫지않을까? 굳이 이렇게 할 이유가있을까.
