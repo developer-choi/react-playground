@@ -11,20 +11,6 @@ export const DEFAULT_INPUT_PROPS: InputExtendProp = {
   maxLength: 1000
 };
 
-type CallbackProp = Function | undefined;
-
-export function getResultCallback<T>(defaultCallback: T, customCallback: T, eachCallbacks: CallbackProp[]): T {
-
-  const needDefaultCallback = eachCallbacks.every(callback => callback === undefined);
-
-  if (needDefaultCallback) {
-    return defaultCallback;
-
-  } else {
-    return customCallback;
-  }
-}
-
 /**
  * 이 컴포넌트를 제작할 때 고려된 input의 type은 아래와 같습니다.
  */

@@ -1,5 +1,6 @@
 import React, {ChangeEvent, FormEvent, forwardRef, KeyboardEvent, Ref, useCallback} from 'react';
-import {DEFAULT_INPUT_PROPS, InputExtendProp, getResultCallback} from './input-extend';
+import {DEFAULT_INPUT_PROPS, InputExtendProp} from './input-extend';
+import {getResultCallback} from '../../utils/form';
 
 export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<HTMLInputElement>) {
 

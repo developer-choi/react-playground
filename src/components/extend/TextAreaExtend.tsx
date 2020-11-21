@@ -1,4 +1,5 @@
 import React, {ChangeEvent, ComponentProps, forwardRef, Ref, useCallback} from 'react';
+import {getResultCallback} from '../../utils/form';
 
 export interface TextAreaExtendProp extends Omit<ComponentProps<'textarea'>, 'ref'> {
   onChangeText?: (value: string) => void;
@@ -6,14 +7,14 @@ export interface TextAreaExtendProp extends Omit<ComponentProps<'textarea'>, 're
 
 export default forwardRef(function TextAreaExtend({onChange, onChangeText, ...rest}: TextAreaExtendProp, ref: Ref<HTMLTextAreaElement>) {
 
-  const needNotOnChange = onChange === undefined && onChangeText === undefined;
-
-  const _onChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+  const customOnChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     onChangeText?.(event.target.value);
     onChange?.(event);
   }, [onChange, onChangeText]);
 
+  const _onChange = getResultCallback(onChange, customOnChange, [onChangeText]);
+
   return (
-      <textarea ref={ref} onChange={needNotOnChange ? undefined : _onChange} {...rest}/>
+      <textarea ref={ref} onChange={_onChange} {...rest}/>
   );
 });
