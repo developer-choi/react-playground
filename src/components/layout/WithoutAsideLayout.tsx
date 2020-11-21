@@ -1,15 +1,15 @@
 import React, {PropsWithChildren} from 'react';
+import {LayoutSection} from '../styled/sections';
 import Header from './Header';
-import Section from './Section';
 
 export default function WithoutAsideLayout({children}: PropsWithChildren<{}>) {
 
   return (
       <>
         <Header/>
-        <Section>
+        <LayoutSection>
           {children}
-        </Section>
+        </LayoutSection>
       </>
   );
 }

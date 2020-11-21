@@ -1,8 +1,8 @@
 import React, {PropsWithChildren} from 'react';
 import styled from 'styled-components';
-import {SectionStyle} from './Section';
 import Aside from './Aside';
 import {HEIGHTS, WIDTHS} from '../../utils/style/layout';
+import {LayoutSection} from '../styled/sections';
 
 export default function WithAsideSection({children}: PropsWithChildren<{}>) {
 
@@ -16,7 +16,7 @@ export default function WithAsideSection({children}: PropsWithChildren<{}>) {
   );
 }
 
-const Wrap = styled(SectionStyle)`
+const Wrap = styled(LayoutSection)`
   display: flex;
 `;
 
