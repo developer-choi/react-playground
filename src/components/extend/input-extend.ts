@@ -22,6 +22,7 @@ export interface InputExtendProp extends Omit<ComponentProps<'input'>, WithoutPr
   onTab?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onChangeText?: (value: string) => void;
+
   /**
    * @param text : Control V한 값 (없을 시 빈문자열)
    * 부모 컴포넌트에서 state를 이 컴포넌트의 value prop으로 넘기고,
@@ -29,7 +30,6 @@ export interface InputExtendProp extends Omit<ComponentProps<'input'>, WithoutPr
    * onCtrlV()가 호출되었을 당시에는 아직 setState가 완료되지 않음을 주의해야합니다.
    */
   onCtrlV?: (text: string) => void;
-  type?: InputExtendType;
 
   /**
    * 기본 false이며,
@@ -46,5 +46,18 @@ export interface InputExtendProp extends Omit<ComponentProps<'input'>, WithoutPr
    * 그러므로 이것은 사용자경험 측면에서 좋지않다고 판단되어 일부러 toUpperCase Prop를 구현하지않았습니다.
    */
   toLowerCase?: boolean;
-}
 
+  /**
+   * 이 컴포넌트를 만들 때 고려된 Input Type에 의해,
+   * value의 타입은 항상 string으로 고정하는것으로 결정했습니다.
+   *
+   * value의 타입이 string이 아닐경우, 모든 입력값을 지웠을 때 빈문자열이 아닌 경우가 있었기 때문입니다.
+   * 대표적인 사례는 아래와 같습니다.
+   *
+   * const [num, setNum] = useState(0);
+   * <input type="number" value={num} onChange={event => setNum(Number(event.target.value))}/>
+   * 이 경우, value의 타입이 숫자가 아니기때문에 다 지웠을 때 0이 계속 입력박스에 보이는 문제가 존재합니다.
+   */
+  value?: string;
+  type?: InputExtendType;
+}
