@@ -4,7 +4,7 @@ import {MyReset} from './my-reset';
 
 const reset = css`
   ${StyledReset};
-  ${MyReset};
+  ${MyReset}; //styled-reset보다 my-reset이 우선 적용되야하므로 밑에와야한다.
 `;
 
 const font = css`

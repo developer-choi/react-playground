@@ -44,6 +44,11 @@ export const MyReset = css`
     //}
   }
   
+  td {
+    //styled-reset에 td가 vertical-align baseline 설정되있는데, 테이블 셀은 middle이 더 이쁘고 오히려 baseline이 이상하다.
+    vertical-align: middle;
+  }
+  
   b, h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
   }
