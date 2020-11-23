@@ -2,6 +2,10 @@ import React, {ChangeEvent, FormEvent, forwardRef, KeyboardEvent, Ref, useCallba
 import {DEFAULT_INPUT_PROPS, InputExtendProp, onChangeTextResult} from './input-extend';
 import {getResultCallback} from '../../utils/form';
 
+/**
+ * Capslock 눌렀을 때 알려주는거 보여주는 기능 필요.
+ * onCapslock callback만들고.. 음..언제 호출되는걸로 할까?
+ */
 export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<HTMLInputElement>) {
 
   const {
