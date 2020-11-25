@@ -1,14 +1,20 @@
 import React, {ComponentProps} from 'react';
 import styled, {css} from 'styled-components';
+import classNames from 'classnames';
+import {useLocation} from 'react-router-dom';
 
 export interface SpanProp extends Omit<ComponentProps<'span'>, 'ref'> {
   numberOfLines?: number;
+  activePath?: string;
 }
 
-export default function Span({style, numberOfLines = 0, ...rest}: SpanProp) {
+export default function Span({activePath, numberOfLines = 0, className, ...rest}: SpanProp) {
+
+  const {pathname} = useLocation();
+  const spanClass = classNames({active: activePath && pathname.startsWith(activePath)}, className);
 
   return (
-      <SpanStyle numberOfLines={numberOfLines} style={{...style}} {...rest}/>
+      <SpanStyle numberOfLines={numberOfLines} className={spanClass} {...rest}/>
   );
 }
 
