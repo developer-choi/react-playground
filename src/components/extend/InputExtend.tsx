@@ -5,6 +5,7 @@ import {getResultCallback} from '../../utils/form';
 /**
  * Capslock 눌렀을 때 알려주는거 보여주는 기능 필요.
  * onCapslock callback만들고.. 음..언제 호출되는걸로 할까?
+ * type number는 기본적으로 - 입력못하게 막기. 이걸 replaceList Prop으로 해결해볼까? 음 아님 "replaceList"는 이 기능에 대해 직관적이지못함. blackList도 아니고.
  */
 export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<HTMLInputElement>) {
 
