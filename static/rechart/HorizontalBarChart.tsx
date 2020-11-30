@@ -6,21 +6,21 @@ export default function HorizontalBarChart({...rest}: any) {
 
   return (
       <Wrap {...rest}>
-      <BarChart layout="vertical" width={500} height={400} data={data} margin={{top: 20, right: 20, bottom: 20, left: 20,}}>
-  <CartesianGrid stroke="#f5f5f5" />
-  <XAxis type="number" />
-  <YAxis dataKey="name" type="category" />
-  <Bar dataKey="pv" barSize={20} fill="#413ea0" />
-      </BarChart>
-  {/*<BarChart layout="vertical" width={500} height={300} data={data} margin={{top: 20, right: 30, left: 20, bottom: 5,}}>*/}
-  {/*  <CartesianGrid strokeDasharray="3 3"/>*/}
-  {/*  <XAxis/>*/}
-  {/*  <YAxis dataKey="name"/>*/}
-  {/*  <Bar dataKey="pv" stackId="a" fill="#8884d8"/>*/}
-  {/*  <Bar dataKey="uv" stackId="a" fill="#82ca9d"/>*/}
-  {/*</BarChart>*/}
-  </Wrap>
-);
+        <BarChart layout="vertical" width={500} height={400} data={data} margin={{top: 20, right: 20, bottom: 20, left: 20,}}>
+          <CartesianGrid stroke="#f5f5f5"/>
+          <XAxis type="number"/>
+          <YAxis dataKey="name" type="category"/>
+          <Bar dataKey="pv" barSize={20} fill="#413ea0"/>
+        </BarChart>
+        {/*<BarChart layout="vertical" width={500} height={300} data={data} margin={{top: 20, right: 30, left: 20, bottom: 5,}}>*/}
+        {/*  <CartesianGrid strokeDasharray="3 3"/>*/}
+        {/*  <XAxis/>*/}
+        {/*  <YAxis dataKey="name"/>*/}
+        {/*  <Bar dataKey="pv" stackId="a" fill="#8884d8"/>*/}
+        {/*  <Bar dataKey="uv" stackId="a" fill="#82ca9d"/>*/}
+        {/*</BarChart>*/}
+      </Wrap>
+  );
 }
 
 const Wrap = styled.div`
