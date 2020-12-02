@@ -11,6 +11,10 @@ export const FlexCenter = css`
   justify-content: center;
 `;
 
+export const AlignItemsCenter = css`
+  display: flex;
+  align-items: center;
+`;
 
 export function setLeftRadius(applyClassName: string, value = 0) {
 
