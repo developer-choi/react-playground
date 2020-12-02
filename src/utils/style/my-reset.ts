@@ -36,7 +36,7 @@ export const MyReset = css`
   }
   
   table {
-    width: 100%;
+    min-width: 100%; //최대가 100%까지밖에 안늘어나서, 페이지 일부에 가로로 긴 테이블이 이거때문에 가로스크롤이 안생겼음.
     table-layout: fixed;
     
     //td { 직접 셀마다 길어짐 대비를 하는것이 맞다. 오히려 셀 안에서 position absolute 자식이 안보이는 경우가 있더라. (툴팁 등)
