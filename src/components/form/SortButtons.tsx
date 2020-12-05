@@ -31,7 +31,7 @@ export interface SortButtonsProp<OrderbyType extends string = string> extends Di
   }
 }
 
-export default function SortButtons({orderby, onAsc, onDesc, currentSort, ...rest}: SortButtonsProp) {
+export default function SortButtons<OrderbyType extends string = string>({orderby, onAsc, onDesc, currentSort, ...rest}: SortButtonsProp<OrderbyType>) {
 
   const isAscActive = currentSort === undefined ? false : currentSort.direction === 'asc' && currentSort.orderby === orderby;
   const isDescActive = currentSort === undefined ? false : currentSort.direction === 'desc' && currentSort.orderby === orderby;
