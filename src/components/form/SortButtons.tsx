@@ -7,6 +7,14 @@ export type Direction = 'asc' | 'desc'
 export interface SortButtonsProp<OrderbyType extends string = string> extends DivProp {
   /**
    * 이게 추후 active 조건을 이 컴포넌트에서 스스로 판단하여 active효과를 낼 수 있음.
+   *
+   * 한계는, https://dorenims.com/global/energy 였음.
+   * 저런경우 데이터타입 잡을 때 에너지이름으로 잡게 될것.
+   * water, solar의 property name 안에 그날 generationTime같은걸 저장하게 될것임.
+   * 그렇다고 orderby를 solar-generationTime, water-generationTime으로 한다?
+   * 그러면 "solar-generationTime"이라는 값으로 solar, generationTime을 분해해서 이걸로 정렬을 시키는 실제 로직을 돌릴 때 문제가 됨.
+   * 그래서 나는 저 경우에 energy라는 prop을 하나 더 받고, 이걸로 이 컴포넌트 스스로 active 판단할 때도 체크했음.
+   * 그대신 orderby에 generationTime, energy에 solar로 저장해서, "solar", "generationTime" 이 2개로 정렬 로직도 돌렸고.
    */
   orderby: OrderbyType;
   /**
