@@ -1,6 +1,7 @@
 import React from 'react';
-import {NavLink, NavLinkProps, useLocation} from 'react-router-dom';
+import {NavLink, NavLinkProps} from 'react-router-dom';
 import classNames from 'classnames';
+import {useIsActivePath} from '../../utils/custom-hooks/useIsActivePath';
 
 export interface NavLinkExtendProp extends NavLinkProps {
   activePath?: string;
@@ -8,8 +9,8 @@ export interface NavLinkExtendProp extends NavLinkProps {
 
 export default function NavLinkExtend({activePath, className, exact = true, ...rest}: NavLinkExtendProp) {
 
-  const {pathname} = useLocation();
-  const linkClass = classNames({active: activePath && pathname.startsWith(activePath)}, className);
+  const active = useIsActivePath(activePath);
+  const linkClass = classNames({active}, className);
 
   return (
       <NavLink className={linkClass} exact={exact} {...rest}/>
