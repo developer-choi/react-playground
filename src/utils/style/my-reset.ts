@@ -22,7 +22,7 @@ const InputTypeNumberHidden = css`
 `;
 
 const Font = css`
-  body, input {
+  body, input, textarea {
     font-size: 13px;
   }
 `;
@@ -59,9 +59,10 @@ export const MyReset = css`
   b, h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
   }
-  
+
   a {
     text-decoration: none;
+    color: inherit; //이거 안하면 크롬에서 방문한링크 보라색나오고 방문안한거 파란색으로 나옴 
   }
   
   button {

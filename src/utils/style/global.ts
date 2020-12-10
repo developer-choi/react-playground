@@ -37,11 +37,6 @@ export const GlobalStyle = createGlobalStyle`
   ${font};
   ${layout};
   
-  a {
-    // anchor color를 어떻게 지정할지 모르겠다. 하위 모든 앵커들마다 :visit, :hover, 기본에 대해 색상을 쉽게 컨트롤하고싶다.
-    color: ${props => props.theme.colors.black};
-  }
-  
   body {
     background-color: white;
     //background-color: #04caf4; 전체 배경색 지정할일이 있거나
