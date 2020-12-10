@@ -21,9 +21,16 @@ const InputTypeNumberHidden = css`
   }
 `;
 
+const Font = css`
+  body, input {
+    font-size: 13px;
+  }
+`;
+
 export const MyReset = css`
   ${InputTypeSearchHidden};
   ${InputTypeNumberHidden};
+  ${Font}
   
   * {
     padding: 0; //styled-reset의 button에 빠져있음

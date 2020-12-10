@@ -13,19 +13,9 @@ const font = css`
   //   font-family: KoreanFont2;
   //   src: url(...);
   // } 
-  
+
   body {
-    font-family: -apple-system,
-    BlinkMacSystemFont,
-    Segoe UI,
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    Fira Sans,
-    Droid Sans,
-    Helvetica Neue,
-    sans-serif;
+    font-family: "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo", sans-serif;
   }
 `;
 
