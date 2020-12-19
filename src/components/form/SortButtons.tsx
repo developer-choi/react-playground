@@ -30,8 +30,7 @@ export interface SortButtonsProp<OrderbyType extends string = string> extends Di
   /**
    * 그리고 받았던 orderby, direction을 클릭 콜백으로 넘겨준다.
    */
-  onAsc: (orderby: OrderbyType, direction: Direction) => void;
-  onDesc: (orderby: OrderbyType, direction: Direction) => void;
+  onSort: (orderby: OrderbyType, direction: Direction) => void;
 
   /**
    * 현재 정렬값이 뭔지를 알아야 orderby, direction랑 비교해서 active조건을 판단가능.
@@ -40,15 +39,15 @@ export interface SortButtonsProp<OrderbyType extends string = string> extends Di
   currentSort: Sort<OrderbyType> | undefined;
 }
 
-export default function SortButtons<OrderbyType extends string = string>({orderby, onAsc, onDesc, currentSort, ...rest}: SortButtonsProp<OrderbyType>) {
+export default function SortButtons<OrderbyType extends string = string>({orderby, onSort, currentSort, ...rest}: SortButtonsProp<OrderbyType>) {
 
   const isAscActive = currentSort === undefined ? false : currentSort.direction === 'asc' && currentSort.orderby === orderby;
   const isDescActive = currentSort === undefined ? false : currentSort.direction === 'desc' && currentSort.orderby === orderby;
 
   return (
       <Wrap {...rest}>
-        <button className={isAscActive ? 'active' : ''} onClick={() => onAsc(orderby, 'asc')}>up button</button>
-        <button className={isDescActive ? 'active' : ''} onClick={() => onDesc(orderby, 'desc')}>down button</button>
+        <button className={isAscActive ? 'active' : ''} onClick={() => onSort(orderby, 'asc')}>up button</button>
+        <button className={isDescActive ? 'active' : ''} onClick={() => onSort(orderby, 'desc')}>down button</button>
       </Wrap>
   );
 }
