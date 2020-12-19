@@ -1,8 +1,12 @@
 import React, {DivProp} from 'react';
 import styled from 'styled-components';
 
-//원래는 다른 타입파일에 있어야.
 export type Direction = 'asc' | 'desc'
+
+export interface Sort<Orderby extends string> {
+  orderby: Orderby;
+  direction: Direction;
+}
 
 export interface SortButtonsProp<OrderbyType extends string = string> extends DivProp {
   /**
@@ -31,12 +35,9 @@ export interface SortButtonsProp<OrderbyType extends string = string> extends Di
 
   /**
    * 현재 정렬값이 뭔지를 알아야 orderby, direction랑 비교해서 active조건을 판단가능.
-   * 단, 현재 정렬설정한게 아무것도 없을 수 있으니 optional 추가.
+   * currentSort는 undefined라 할지라도 반드시 있어야하므로 optional 대신 union undefined를 추가했음.
    */
-  currentSort?: {
-    orderby: OrderbyType;
-    direction: Direction;
-  }
+  currentSort: Sort<OrderbyType> | undefined;
 }
 
 export default function SortButtons<OrderbyType extends string = string>({orderby, onAsc, onDesc, currentSort, ...rest}: SortButtonsProp<OrderbyType>) {
