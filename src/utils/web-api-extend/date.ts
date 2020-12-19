@@ -61,6 +61,9 @@ export interface DateDetail {
   month: number; // 0이 1월
   date: number;
   day: number; // 0이 일요일
+  hour: number;
+  minute: number;
+  second: number;
   lastDate: Date; //해당 Date객체의 month달의 마지막 일의 Date객체. 9월이면 9월30일에 대한 Date객체.
 }
 
@@ -69,11 +72,14 @@ export function dateToDetail(targetDate = new Date()): DateDetail {
   const month = targetDate.getMonth(); // 0이 1월
   const date = targetDate.getDate();
   const day = targetDate.getDay(); // 0이 일요일
+  const hour = targetDate.getHours();
+  const minute = targetDate.getMinutes();
+  const second = targetDate.getSeconds();
   const firstDate = new Date(year, month, 1);
   const lastDate = new Date(year, month + 1, 0);
 
   return {
-    year, month, date, day, lastDate, firstDate
+    year, month, date, day, lastDate, firstDate, hour, minute, second
   };
 }
 
