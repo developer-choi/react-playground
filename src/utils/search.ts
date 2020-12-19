@@ -83,7 +83,7 @@ function defaultValidValue(value: string) {
 function getValidPropertyAndValueObject<K extends AllValidKeys>(object: SafeParseResult<K>, allowKeys: K[], validValueCallback: IsValidValueCallback = defaultValidValue): SafeParseResult<K> {
 
   const objectKeys = Object.keys(object);
-  return objectKeys.reduce((a, b) => {
+  return objectKeys.reduce<SafeParseResult<K>>((a, b) => {
 
     //@ts-ignore
     if (!allowKeys.includes(b)) {
@@ -99,26 +99,7 @@ function getValidPropertyAndValueObject<K extends AllValidKeys>(object: SafePars
     a[b as K] = value;
     return a;
 
-  }, {} as SafeParseResult<K>)
-}
-
-/**
- * object에 key는 string, value도 string이라는 타입을 지정하고싶은데 어떻게 해야할지 모르겠다.
- * object의 value중에 빈문자열로 있는 key는 삭제한 다음 얇게 복사된 객체를 반환한다.
- */
-function removeEmptyValueFromObject(object: any) {
-
-  const cloneObject = Object.assign({}, object);
-  const objectKeys = Object.keys(cloneObject);
-
-  objectKeys.forEach(key => {
-
-    if (cloneObject[key] === '') {
-      delete cloneObject[key];
-    }
-  });
-
-  return cloneObject;
+  }, {})
 }
 
 /**
