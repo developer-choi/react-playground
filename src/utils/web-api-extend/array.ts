@@ -42,7 +42,7 @@ export type Frequency = 'minute' | 'hour' | 'date' | 'month' | 'year';
  * 3. 그 외 : [start, (사이), end]
  */
 
-export function correct<T>(startDate: Date, endDate: Date, frequency: Frequency): Date[] {
+export function getBetweenDates(startDate: Date, endDate: Date, frequency: Frequency): Date[] {
 
   const diffDateLength = getDiffDateLength(startDate, endDate, frequency);
 
@@ -64,7 +64,7 @@ export function correct<T>(startDate: Date, endDate: Date, frequency: Frequency)
 
     switch (frequency) {
       case 'year':
-        return new Date(year + value);
+        return new Date(year + value, 0);
 
       case 'month':
         return new Date(year, month + value);
@@ -76,7 +76,10 @@ export function correct<T>(startDate: Date, endDate: Date, frequency: Frequency)
         return new Date(year, month, date, hour + value);
 
       case 'minute':
-        return new Date(year, month, date, minute + value);
+        return new Date(year, month, date, hour, minute + value);
+
+      default:
+        throw Error(`invalid frequency ${frequency}`);
     }
   });
 
