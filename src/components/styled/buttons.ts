@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
 export const BasicButton = styled.button.attrs(() => ({type: 'button'}))`
 
+  //이 값들은, 이미지를 button으로 감쌀 때, 이미지를 버튼기준으로 수직수평중앙정렬할 때 필요함.
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -12,31 +13,66 @@ export const BasicButton = styled.button.attrs(() => ({type: 'button'}))`
   //button은 이 값이 기본값이지만, button을 a로 쓰는경우 서로 디자인이 통일되야해서 추가.
   line-height: normal;
 
+  //general styling
   &:hover {
     opacity: 0.7;
   }
-`;
 
-export const BasicSizeButton = styled(BasicButton)`
-  padding: 10px 20px;
-  min-width: 100px;
-`;
-
-export const BottomButtonWrap = styled.div`
-  margin-top: 10px;
-  text-align: right;
-
-  > :first-child {
-    margin-right: 10px;
+  &:disabled {
+    cursor: not-allowed;
+    background-color: lightgray;
+    color: white;
   }
 `;
 
+//colors (color, background-color)
+export const ButtonColor1 = css`
+  &.color1 {
+    color: ${props => props.theme.textColor1};
+    background-color: ${props => props.theme.backColor1};
+  }
+`;
+
+export const ButtonColor2 = css`
+  &.color1 {
+    color: ${props => props.theme.textColor2};
+    background-color: ${props => props.theme.color2};
+
+    &:disabled {
+      background-color: ${props => props.theme.gray1};
+    }
+    
+    &:active {
+      //color: some-color;
+      //background-color: some-color;
+    }
+    
+    &:visited {
+      //color: some-color;
+      //background-color: some-color;
+    }
+    
+    &:focus {
+      //color: some-color;
+      //background-color: some-color;
+    }
+  }
+`;
+
+//size
+export const BasicSizeButton = styled(BasicButton)`
+  padding: 10px 20px;
+  min-width: 100px;
+  font-size: 13px;
+`;
+
+//ready-made (select color and size)
 export const SubmitButton = styled(BasicSizeButton)`
-  background-color: ${props => props.theme.main};
-  color: white;
+  ${ButtonColor1};
+  ${BasicSizeButton};
 `;
 
 export const CancelButton = styled(BasicSizeButton)`
-  background-color: ${props => props.theme.cancel};
-  color: white;
+  ${ButtonColor2};
+  ${BasicSizeButton};
 `;
