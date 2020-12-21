@@ -22,6 +22,7 @@ const InputTypeNumberHidden = css`
 `;
 
 const Font = css`
+  //body에서 font-size를 지정하더라도, 나머지 태그들은 상속이 아니라 태그 자체에 font-size속성이 선언되어있기 때문에, 이렇게 지정해야 모든 엘레먼트의 폰트사이즈가 의도대로 초기화된다. 
   body, input, textarea, button {
     font-size: 13px;
   }
