@@ -2,7 +2,7 @@ import React, {ChangeEvent, ComponentProps, forwardRef, ReactText, Ref, useCallb
 import styled from 'styled-components';
 import classNames from 'classnames';
 
-type OmitPropType = Omit<ComponentProps<'input'>, 'ref' | 'type'>;
+type OmitPropType = Omit<ComponentProps<'input'>, 'ref' | 'type' | 'checked'>;
 type ExtendRadioButtonProp = Required<Pick<OmitPropType, | 'value' | 'name'>> & OmitPropType;
 
 export interface BasicRadioButtonProp extends ExtendRadioButtonProp {
@@ -29,7 +29,7 @@ export default forwardRef(function BasicRadioButton({className, label, currentVa
    */
   return (
       <Wrap className={classNames({active: value === currentValue}, className)}>
-        <Input className="radio-box" ref={ref} type="radio" value={value} onChange={needOnChange ? _onChange : undefined} {...rest}/>
+        <Input className="radio-box" ref={ref} type="radio" value={value} onChange={needOnChange ? _onChange : undefined} checked={currentValue === value} {...rest}/>
         {label && <LabelText className="label-text">{label}</LabelText>}
       </Wrap>
   );
@@ -50,11 +50,11 @@ const Wrap = styled.label`
   display: inline-flex;
   align-items: center;
   
-  &.active:after {
+  &.active:before {
     background-color: green;
   }
   
-  &:after {
+  &:before {
     position: absolute;
     width: 18px;
     height: 18px;
