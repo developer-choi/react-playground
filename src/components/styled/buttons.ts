@@ -42,6 +42,12 @@ export const BasicButton = styled.button.attrs(() => ({type: 'button'}))`
 
   //button은 이 값이 기본값이지만, button을 a로 쓰는경우 서로 디자인이 통일되야해서 추가.
   line-height: normal;
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: lightgray;
+    color: white;
+  }
   
   //general styling
   &:hover {
@@ -55,12 +61,6 @@ export const BasicButton = styled.button.attrs(() => ({type: 'button'}))`
   
   &.color2 {
     ${ButtonColor2};
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    background-color: lightgray;
-    color: white;
   }
 `;
 
