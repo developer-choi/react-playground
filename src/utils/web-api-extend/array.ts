@@ -42,19 +42,21 @@ export function getPreviousOrFutureDate(target = new Date(), diff: number) {
 export type Frequency = 'minute' | 'hour' | 'date' | 'month' | 'year';
 
 /**
- * 1. start가 end보다 나중인경우 : []
- * 2. start가 end랑 같은경우 : start 하나 (= end하나)
- * 3. 그 외 : [start, (사이), end]
+ * return되는 배열의 갯수 = lackLength와 동일
  */
-
 export function getBetweenDatesByLackLength(lackLength: number, endDate: Date): Date[] {
   if (lackLength <= 0) {
     return [];
   }
-  const startDate = getPreviousOrFutureDate(endDate, -lackLength);
+  const startDate = getPreviousOrFutureDate(endDate, - (lackLength - 1));
   return getBetweenDates(startDate, endDate, 'date');
 }
 
+/**
+ * 1. start가 end보다 나중인경우 : []
+ * 2. start가 end랑 같은경우 : start 하나 (= end하나)
+ * 3. 그 외 : [start, (사이), end]
+ */
 export function getBetweenDates(startDate: Date, endDate: Date, frequency: Frequency): Date[] {
 
   const diffDateLength = getDiffDateLength(startDate, endDate, frequency);
