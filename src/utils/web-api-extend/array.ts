@@ -34,6 +34,11 @@ export function divide<T>(array: T[], maxSize: number): T[] {
   return array.filter((value, index) => !removeIndexes.includes(index));
 }
 
+export function getPreviousOrFutureDate(target = new Date(), diff: number) {
+  const {year, month, date} = dateToDetail(target);
+  return new Date(year, month, date + diff);
+}
+
 export type Frequency = 'minute' | 'hour' | 'date' | 'month' | 'year';
 
 /**
@@ -41,6 +46,14 @@ export type Frequency = 'minute' | 'hour' | 'date' | 'month' | 'year';
  * 2. start가 end랑 같은경우 : start 하나 (= end하나)
  * 3. 그 외 : [start, (사이), end]
  */
+
+export function getBetweenDatesByLackLength(lackLength: number, endDate: Date): Date[] {
+  if (lackLength <= 0) {
+    return [];
+  }
+  const startDate = getPreviousOrFutureDate(endDate, -lackLength);
+  return getBetweenDates(startDate, endDate, 'date');
+}
 
 export function getBetweenDates(startDate: Date, endDate: Date, frequency: Frequency): Date[] {
 
