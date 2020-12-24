@@ -1,3 +1,4 @@
+import { ButtonProp } from 'react';
 import styled, {css} from 'styled-components';
 
 //colors (color, background-color)
@@ -30,7 +31,7 @@ export const ButtonColor2 = css`
   }
 `;
 
-export const BasicButton = styled.button.attrs(() => ({type: 'button'}))`
+export const BasicButton = styled.button.attrs(({type = 'button', ...rest}: ButtonProp) => ({type, ...rest}))`
 
   //이 값들은, 이미지를 button으로 감쌀 때, 이미지를 버튼기준으로 수직수평중앙정렬할 때 필요함.
   display: inline-flex;
