@@ -1,39 +1,35 @@
 import {
-  AllValidSearchKeys,
-  directionValue,
-  groupKey,
+  direction,
+  getIncludesStringifyValidator,
+  OrderbyData,
   rootSafeParse,
   rootSafeStringify,
-  SafeParseResult,
   SearchData,
   searchText
 } from './search-core';
 
-//회원목록 검색조건 종류
-export type UserSearchType = 'name';
-export const UserSearchTypes = ['name'];
+export type UserSearchType = 'lastLogin' | 'signupDate' | 'email' | 'phone' | 'walletAddress';
+export type UserOrderbyType = 'email' | 'phone' | 'signupDate' | 'lastLogin';
+export type UserSearchOrderbyType = SearchData<UserSearchType> & OrderbyData<UserOrderbyType>;
 
-//회원목록 정렬조건 종류
-export type UserOrderbyType = 'name';
-export const UserSearchOrderby = ['name'];
+const searchTypes: UserSearchType[] = ['phone', 'lastLogin', 'signupDate', 'email'];
+const searchType = getIncludesStringifyValidator(searchTypes);
 
-export function userSearchSafeStringify(object: SearchData<UserSearchType>): string {
+const OrderbyTypes: UserOrderbyType[] = ['email', 'signupDate', 'lastLogin', 'phone'];
+const orderby = getIncludesStringifyValidator(OrderbyTypes);
 
-  const grouped = groupKey(object, [['searchText', 'searchType'], ['orderby', 'directionValue']]);
-  return rootSafeStringify(grouped, {
-    searchText,
-    directionValue,
-    searchType: type => UserSearchTypes.includes(type),
-    orderby: text => UserSearchOrderby.includes(text)
-  });
+const validators = {
+  searchText,
+  direction,
+  orderby,
+  searchType
+};
+
+export function userParse(search: string): UserSearchOrderbyType {
+  //validator를 통해 유효성검증을 맞췄으므로, type assertion
+  return rootSafeParse(search, validators) as UserSearchOrderbyType;
 }
 
-export function userSearchSafeParse(search: string): SafeParseResult<AllValidSearchKeys> {
-  const parsed = rootSafeParse(search, {
-    searchText,
-    directionValue,
-    searchType: text => UserSearchTypes.includes(text),
-    orderby: text => UserSearchOrderby.includes(text)
-  });
-  return groupKey(parsed, [['searchText', 'searchType'], ['orderby', 'directionValue']]);
+export function userStringify(searchOrderby: Partial<UserSearchOrderbyType>): string {
+  return rootSafeStringify(searchOrderby, validators);
 }

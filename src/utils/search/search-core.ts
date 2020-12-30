@@ -1,6 +1,6 @@
 import {parse, stringify} from 'query-string';
 
-type DirectionValue = 'asc' | 'desc'
+export type DirectionValue = 'asc' | 'desc'
 const DIRECTION_VALUES: DirectionValue[] = ['asc', 'desc'];
 
 export interface SearchData<T extends string = string> {
@@ -10,7 +10,7 @@ export interface SearchData<T extends string = string> {
 
 export interface OrderbyData<O extends string = string> {
   orderby: O;
-  directionValue: DirectionValue
+  direction: DirectionValue
 }
 
 // ?key=value에서 유효한 key
@@ -21,11 +21,15 @@ export type AllValidSearchKeys = SearchValidKeys | SortValidKeys;
 /**
  * Validator types
  */
+/**
+ * url에서 파싱한 결과의 value는 기본타입이 string이기 때문에, Value Type은 string 고정.
+ * 그대신, 유효성검증 이후 자유롭게 Type Assertion으로 타입을 수정한다.
+ */
 export type SafeParseResult<K extends AllValidSearchKeys> = Partial<Record<K, string>>;
 export type ParseValidator = (value: string) => boolean;
 
 export type StringifyValueType = string | boolean | number;
-export type StringifyValidator<T extends StringifyValueType> = (value: T) => boolean;
+export type StringifyValidator = (value: StringifyValueType) => boolean;
 
 /**
  * Common validators
@@ -34,10 +38,13 @@ export function searchText(value: StringifyValueType) {
   return typeof value === 'string' && value.length > 0;
 }
 
-export function directionValue(value: StringifyValueType) {
-  return DIRECTION_VALUES.includes(value as any);
-}
+export const direction = getIncludesStringifyValidator(DIRECTION_VALUES);
 
+export function getIncludesStringifyValidator(array: any[]): StringifyValidator {
+  return function (value: StringifyValueType) {
+    return array.includes(value);
+  };
+}
 
 /**
  * Core functions
@@ -80,7 +87,7 @@ export function rootSafeParse<K extends AllValidSearchKeys>(search: string, vali
   }, {});
 }
 
-export function rootSafeStringify<K extends AllValidSearchKeys, V extends StringifyValueType>(object: Partial<Record<K, V>>, validator: Record<K, StringifyValidator<V>>): string {
+export function rootSafeStringify<K extends AllValidSearchKeys, V extends StringifyValueType>(object: Partial<Record<K, V>>, validator: Record<K, StringifyValidator>): string {
   const keys = Object.keys(object);
   const safeObject = keys.reduce<Partial<Record<K, string | boolean | number>>>((a, key) => {
 
@@ -98,5 +105,5 @@ export function rootSafeStringify<K extends AllValidSearchKeys, V extends String
 
     return a;
   }, {});
-  return stringify(safeObject);
+  return '?' + stringify(safeObject);
 }
