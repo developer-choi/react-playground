@@ -1,20 +1,14 @@
 import React, {ComponentProps} from 'react';
 import styled, {css} from 'styled-components';
-import classNames from 'classnames';
-import {useLocation} from 'react-router-dom';
 
 export interface SpanProp extends Omit<ComponentProps<'span'>, 'ref'> {
   numberOfLines?: number;
-  activePath?: string;
 }
 
-export default function Span({activePath, numberOfLines = 0, className, ...rest}: SpanProp) {
-
-  const {pathname} = useLocation();
-  const spanClass = classNames({active: activePath && pathname.startsWith(activePath)}, className);
+export default function Span({numberOfLines = 0, ...rest}: SpanProp) {
 
   return (
-      <SpanStyle numberOfLines={numberOfLines} className={spanClass} {...rest}/>
+      <SpanStyle numberOfLines={numberOfLines} {...rest}/>
   );
 }
 
@@ -27,6 +21,9 @@ const numberOfLinesCss = css<Pick<SpanProp, 'numberOfLines'>>`
   
   //이거 안하면 공백없는 긴 문자열이 올 경우 의도하지않은 대로 작동함. 화면을 뚫고나간다던가.
   word-break: break-word;
+  
+  //이거 안하면 _랑 g같이 밑으로 가는 글자가 짤림. overflow: hidden;때문에.
+  line-height: normal;
 `;
 
 const SpanStyle = styled.span<Pick<SpanProp, 'numberOfLines'>>`
