@@ -1,4 +1,4 @@
-import {parse, stringify} from 'query-string';
+import {parse} from 'query-string';
 
 export type DirectionValue = 'asc' | 'desc'
 const DIRECTION_VALUES: DirectionValue[] = ['asc', 'desc'];
@@ -28,20 +28,17 @@ export type AllValidSearchKeys = SearchValidKeys | SortValidKeys;
 export type SafeParseResult<K extends AllValidSearchKeys> = Partial<Record<K, string>>;
 export type ParseValidator = (value: string) => boolean;
 
-export type StringifyValueType = string | boolean | number;
-export type StringifyValidator = (value: StringifyValueType) => boolean;
-
 /**
  * Common validators
  */
-export function searchText(value: StringifyValueType) {
-  return typeof value === 'string' && value.length > 0;
+export function searchText(value: string) {
+  return value.length > 0;
 }
 
-export const direction = getIncludesStringifyValidator(DIRECTION_VALUES);
+export const direction = getIncludesParseValidator(DIRECTION_VALUES);
 
-export function getIncludesStringifyValidator(array: any[]): StringifyValidator {
-  return function (value: StringifyValueType) {
+export function getIncludesParseValidator(array: any[]): ParseValidator {
+  return function (value: string) {
     return array.includes(value);
   };
 }
@@ -49,9 +46,17 @@ export function getIncludesStringifyValidator(array: any[]): StringifyValidator 
 /**
  * Core functions
  */
-export function groupKey<K extends string>(object: Partial<Record<K, any>>, groups: K[][]): Partial<Record<K, string>> {
+export function groupKey<O extends { [key: string]: any }>(object: O, groups: (keyof O)[][]): O {
   const keys = Object.keys(object);
-  const remainKey = groups.filter(group => group.every(groupKey => keys.includes(groupKey))).reduce((a, b) => a.concat(b), []);
+
+  /**
+   * group으로 묶인 key가 빠짐없이 있어야 하고,
+   * 해당 key에 해당하는 value가 유효해야함.
+   */
+  const remainKey = groups
+  .filter(group => group.every(groupKey => keys.includes(groupKey as string) && !!object[groupKey]))
+  .reduce((a, b) => a.concat(b), []);
+
   return Object.entries(object).reduce((a: any, [key, value]) => {
     if (remainKey.includes(key as any)) {
       a[key] = value;
@@ -85,25 +90,4 @@ export function rootSafeParse<K extends AllValidSearchKeys>(search: string, vali
     return a;
 
   }, {});
-}
-
-export function rootSafeStringify<K extends AllValidSearchKeys, V extends StringifyValueType>(object: Partial<Record<K, V>>, validator: Record<K, StringifyValidator>): string {
-  const keys = Object.keys(object);
-  const safeObject = keys.reduce<Partial<Record<K, string | boolean | number>>>((a, key) => {
-
-    if (!validator.hasOwnProperty(key)) {
-      return a;
-    }
-
-    const _key = key as K;
-    const value = object[_key];
-    const func = validator[_key];
-
-    if (value !== undefined && func(value as V)) {
-      a[_key] = value;
-    }
-
-    return a;
-  }, {});
-  return '?' + stringify(safeObject);
 }
