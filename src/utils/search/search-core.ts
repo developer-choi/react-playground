@@ -1,4 +1,4 @@
-import {parse} from 'query-string';
+import {parse, Stringifiable, stringify} from 'query-string';
 
 export type DirectionValue = 'asc' | 'desc'
 const DIRECTION_VALUES: DirectionValue[] = ['asc', 'desc'];
@@ -90,4 +90,15 @@ export function rootSafeParse<K extends AllValidSearchKeys>(search: string, vali
     return a;
 
   }, {});
+}
+
+export function stringifyWithoutUndefined(obj: { [key: string]: Stringifiable }): string {
+  return stringify(Object.entries(obj).reduce<{ [key: string]: Stringifiable }>((a, [key, value]) => {
+
+    if (value !== undefined) {
+      a[key] = value;
+    }
+
+    return a;
+  }, {}));
 }
