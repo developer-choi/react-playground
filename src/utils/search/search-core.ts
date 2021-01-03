@@ -13,6 +13,11 @@ export interface OrderbyData<O extends string = string> {
   direction: DirectionValue
 }
 
+//groupkeys
+export const SEARCH_KEYS: (keyof SearchData)[] = ['searchType', 'searchText'];
+export const ORDERBY_KEYS: (keyof OrderbyData)[] = ['orderby', 'direction'];
+export const SEARCH_ORDERBY_GROUP_KEYS = [SEARCH_KEYS, ORDERBY_KEYS];
+
 // ?key=value에서 유효한 key
 export type SearchValidKeys = keyof SearchData;
 export type SortValidKeys = keyof OrderbyData;
@@ -20,10 +25,6 @@ export type AllValidSearchKeys = SearchValidKeys | SortValidKeys;
 
 /**
  * Validator types
- */
-/**
- * url에서 파싱한 결과의 value는 기본타입이 string이기 때문에, Value Type은 string 고정.
- * 그대신, 유효성검증 이후 자유롭게 Type Assertion으로 타입을 수정한다.
  */
 export type SafeParseResult<K extends AllValidSearchKeys> = Partial<Record<K, string>>;
 export type ParseValidator = (value: string) => boolean;
@@ -50,12 +51,11 @@ export function groupKey<O extends { [key: string]: any }>(object: O, groups: (k
   const keys = Object.keys(object);
 
   /**
-   * group으로 묶인 key가 빠짐없이 있어야 하고,
-   * 해당 key에 해당하는 value가 유효해야함.
+   * group으로 묶인 key가 빠짐없이 있어야 함.
    */
   const remainKey = groups
-  .filter(group => group.every(groupKey => keys.includes(groupKey as string) && !!object[groupKey]))
-  .reduce((a, b) => a.concat(b), []);
+      .filter(group => group.every(groupKey => keys.includes(groupKey as string)))
+      .reduce((a, b) => a.concat(b), []);
 
   return Object.entries(object).reduce((a: any, [key, value]) => {
     if (remainKey.includes(key as any)) {
@@ -92,8 +92,10 @@ export function rootSafeParse<K extends AllValidSearchKeys>(search: string, vali
   }, {});
 }
 
-export function stringifyWithoutUndefined(obj: { [key: string]: Stringifiable }): string {
-  return stringify(Object.entries(obj).reduce<{ [key: string]: Stringifiable }>((a, [key, value]) => {
+export function stringifyWithoutUndefined<K extends AllValidSearchKeys>(obj: Record<K, any>): string {
+  return stringify((Object.keys(obj) as K[]).reduce<{ [key: string]: Stringifiable }>((a, key) => {
+
+    const value = obj[key];
 
     if (value !== undefined) {
       a[key] = value;
