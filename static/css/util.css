@@ -1,0 +1,17 @@
+.delete-left-radius-border {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.delete-right-radius-border {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.image-link {
+  font-size: 0;
+}
+
+.circle {
+  border-radius: 50%;
+}
