@@ -18,13 +18,6 @@ export interface HandleErrorParameter {
 }
 
 /**
- * 타 회사에서는 이 함수 및 이 구현코드 자체가 필요없음 2xx자체가 성공응답이라는 뜻이 되기 때문에.
- */
-export function isSuccessResponse(result?: CustomErrorCode): boolean {
-  return !! result?.startsWith('S');
-}
-
-/**
  * 타 회사에서는 이게 error.isAxiosError로 변경될 예정이라 아예 이 함수 자체가 필요가없어져버림. 그냥 if문안에 직접 넣으면 됨.
  */
 function isApiError(error: any) {
@@ -81,32 +74,4 @@ export function handleApiError({error, expected, expectedCodes = [], unexpected 
 export function handleFrontError({error, unexpected = dispatchOpenUnexpectedModal}: Omit<HandleErrorParameter, 'expectedCodes' | 'expected'>) {
   console.error('Not Axios Error', error);
   unexpected();
-}
-
-export const UNEXPECTED_MESSAGE_CODE = 'translation-code1';
-
-export function getDefaultUnexpectedMessage(expected: Partial<Record<CustomErrorCode, string>>, errorCode: CustomErrorCode) {
-
-  const translatedCode = expected[errorCode];
-
-  if (translatedCode) {
-    return I18n.t(translatedCode);
-
-  } else {
-    return I18n.t(UNEXPECTED_MESSAGE_CODE);
-  }
-}
-
-export type ExtractResultCode<Union extends CustomErrorCode> = Extract<CustomErrorCode, Union>;
-
-export interface Expected {
-  codes: CustomErrorCode[];
-  codeToMessage: (code: CustomErrorCode) => string;
-}
-
-export function generatorExpected(expected: Partial<Record<CustomErrorCode, string>>): Expected {
-  return {
-    codes: Object.keys(expected) as CustomErrorCode[],
-    codeToMessage: errorCode => getDefaultUnexpectedMessage(expected, errorCode)
-  };
 }
