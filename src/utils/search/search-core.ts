@@ -1,4 +1,4 @@
-import {parse, Stringifiable, stringify} from 'query-string';
+import {parse} from 'query-string';
 
 export type DirectionValue = 'asc' | 'desc'
 const DIRECTION_VALUES: DirectionValue[] = ['asc', 'desc'];
@@ -50,12 +50,9 @@ export function getIncludesParseValidator(array: any[]): ParseValidator {
 export function groupKey<O extends { [key: string]: any }>(object: O, groups: (keyof O)[][]): O {
   const keys = Object.keys(object);
 
-  /**
-   * group으로 묶인 key가 빠짐없이 있어야 함.
-   */
   const remainKey = groups
-      .filter(group => group.every(groupKey => keys.includes(groupKey as string)))
-      .reduce((a, b) => a.concat(b), []);
+  .filter(group => group.every(groupKey => keys.includes(groupKey as string) && !!object[groupKey]))
+  .reduce((a, b) => a.concat(b), []);
 
   return Object.entries(object).reduce((a: any, [key, value]) => {
     if (remainKey.includes(key as any)) {
@@ -69,13 +66,6 @@ export function rootSafeParse<K extends AllValidSearchKeys>(search: string, vali
   const entries = Object.entries(parse(search));
   return entries.reduce<SafeParseResult<K>>((a, [key, value]) => {
 
-    /**
-     * search를 parse한 결과가
-     * 1st. 유효하지않거나 (null)
-     * 2nd. 넘겨받은 validator에 없으면 (= 유효하지 않은 키)
-     * 3rd. 배열이면
-     * 반환 결과에 포함하지않는다.
-     */
     if (!value || !validator.hasOwnProperty(key) || Array.isArray(value)) {
       return a;
     }
@@ -90,17 +80,4 @@ export function rootSafeParse<K extends AllValidSearchKeys>(search: string, vali
     return a;
 
   }, {});
-}
-
-export function stringifyWithoutUndefined<K extends AllValidSearchKeys>(obj: Record<K, any>): string {
-  return stringify((Object.keys(obj) as K[]).reduce<{ [key: string]: Stringifiable }>((a, key) => {
-
-    const value = obj[key];
-
-    if (value !== undefined) {
-      a[key] = value;
-    }
-
-    return a;
-  }, {}));
 }

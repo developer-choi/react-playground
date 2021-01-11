@@ -1,9 +1,7 @@
 import {
-  direction,
-  getIncludesStringifyValidator,
+  direction, getIncludesParseValidator,
   OrderbyData,
   rootSafeParse,
-  rootSafeStringify,
   SearchData,
   searchText
 } from './search-core';
@@ -13,23 +11,17 @@ export type UserOrderbyType = 'email' | 'phone' | 'signupDate' | 'lastLogin';
 export type UserSearchOrderbyType = SearchData<UserSearchType> & OrderbyData<UserOrderbyType>;
 
 const searchTypes: UserSearchType[] = ['phone', 'lastLogin', 'signupDate', 'email'];
-const searchType = getIncludesStringifyValidator(searchTypes);
+const searchType = getIncludesParseValidator(searchTypes);
 
 const OrderbyTypes: UserOrderbyType[] = ['email', 'signupDate', 'lastLogin', 'phone'];
-const orderby = getIncludesStringifyValidator(OrderbyTypes);
+const orderby = getIncludesParseValidator(OrderbyTypes);
 
-const validators = {
-  searchText,
-  direction,
-  orderby,
-  searchType
-};
-
-export function userParse(search: string): UserSearchOrderbyType {
+export function userParse(search: string): Partial<UserSearchOrderbyType> {
   //validator를 통해 유효성검증을 맞췄으므로, type assertion
-  return rootSafeParse(search, validators) as UserSearchOrderbyType;
-}
-
-export function userStringify(searchOrderby: Partial<UserSearchOrderbyType>): string {
-  return rootSafeStringify(searchOrderby, validators);
+  return rootSafeParse(search, {
+    searchText,
+    direction,
+    orderby,
+    searchType
+  }) as Partial<UserSearchOrderbyType>;
 }

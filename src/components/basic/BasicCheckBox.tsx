@@ -1,7 +1,6 @@
-import React, {ChangeEvent, ComponentProps, forwardRef, ReactText, Ref, useCallback, useState} from 'react';
+import React, {ComponentProps, forwardRef, Ref} from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
-import StyledCheckBox from './StyledCheckBox';
 
 type OmitPropType = Omit<ComponentProps<'input'>, 'ref' | 'type'>;
 type ExtendCheckBoxProp = Required<Pick<OmitPropType, 'onChange' | 'checked'>> & OmitPropType;
@@ -19,17 +18,6 @@ export default forwardRef(function BasicCheckBox({className, label, checked, ...
       </Wrap>
   );
 });
-
-function Example() {
-
-  const [isMan, setIsMan] = useState(false);
-
-  const onChangeHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setIsMan(event.target.checked);
-  }, []);
-
-  return <StyledCheckBox onChange={onChangeHandler} checked={isMan}/>;
-}
 
 const Wrap = styled.label`
   

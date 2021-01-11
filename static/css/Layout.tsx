@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styled, {css} from 'styled-components';
-import {FlexDirectionColumn} from './src/utils/style';
+import {FlexDirectionColumn} from '../../src/utils/style/css';
 
 export default function Layout() {
 
@@ -159,7 +159,9 @@ const GridWrap = styled.div`
   }
 `;
 
-const RightWrap = styled(FlexDirectionColumn)`
+const RightWrap = styled.div`
+  
+  ${FlexDirectionColumn};
   
   > * {
     height: 50%;

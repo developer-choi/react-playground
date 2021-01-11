@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import BasicButton from '../../components/basic/BasicButton';
 import styled from 'styled-components';
+import {BasicButton} from '../../components/styled/buttons';
 
 export default function UseState() {
 

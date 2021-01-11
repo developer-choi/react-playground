@@ -1,6 +1,6 @@
 import 'recharts';
 import {ComponentType} from 'react';
-import {BasicChartData} from './chart';
+import {BasicChartData} from '../chart';
 
 declare module 'recharts' {
 
