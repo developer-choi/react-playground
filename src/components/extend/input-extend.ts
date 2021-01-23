@@ -1,25 +1,27 @@
 import {ComponentProps, KeyboardEvent} from 'react';
-import {decimalSlice} from '../../utils/validate/number';
 
-export function onChangeTextResult(eventTargetValue: string, {toLowerCase, type, maxDecimalLength, maxLength}: Pick<InputExtendProp, 'type' | 'maxDecimalLength' | 'maxLength' | 'toLowerCase'>) {
-
-  const truncatedValue = eventTargetValue.slice(0, maxLength);
-
-  if (maxDecimalLength === undefined) {
-    return toLowerCase ? truncatedValue.toLowerCase() : truncatedValue;
+export function decimalSlice(value: string, decimalLength: number) {
+  const lastDotIndex = value.lastIndexOf('.');
+  
+  if (lastDotIndex === -1) {
+    return value;
   }
-
-  if (type !== 'number') {
-    console.warn('maxDecimalLength Prop이 작동하지 않았습니다. 이 Prop은 type이 number일때만 작동하는 Prop입니다.');
-    return truncatedValue;
+  
+  const left = value.slice(0, lastDotIndex);
+  
+  if (decimalLength === 0) {
+    return left;
   }
-
-  return decimalSlice(Number(truncatedValue), maxDecimalLength).toString();
+  
+  const right = value.slice(lastDotIndex, lastDotIndex + 1 + decimalLength);
+  
+  return left + right;
 }
 
 export const DEFAULT_INPUT_PROPS: InputExtendProp = {
   /**
    * 길이가 긴 값은 input 태그가 아니라 textarea 태그가 어울리는 경우가 많습니다.
+   * 그래서 기본적으로 최대길이를 제한합니다.
    *
    * 제가 input태그로 긴 값을 입력할거라고 예상했던 케이스는 아래와 같습니다.
    * 1. 지갑주소
@@ -28,15 +30,11 @@ export const DEFAULT_INPUT_PROPS: InputExtendProp = {
   maxLength: 1000
 };
 
-/**
- * 이 컴포넌트를 제작할 때 고려된 input의 type은 아래와 같습니다.
- */
 type InputExtendType = 'text' | 'password' | 'email' | 'number' | 'tel' | 'search' | 'url' | undefined;
 
 type WithoutProp = 'ref' | 'onInvalid' | 'onInvalidCapture';
 
 export interface InputExtendProp extends Omit<ComponentProps<'input'>, WithoutProp> {
-  onTab?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onChangeText?: (value: string) => void;
 
@@ -47,22 +45,6 @@ export interface InputExtendProp extends Omit<ComponentProps<'input'>, WithoutPr
    * onCtrlV()가 호출되었을 당시에는 아직 setState가 완료되지 않음을 주의해야합니다.
    */
   onCtrlV?: (text: string) => void;
-
-  /**
-   * 기본 false이며,
-   * true일 경우 onChangeText의 parameter로 제공되는 text가 lowerCase로 바뀌어 전달됩니다.
-   *
-   * toUpperCase를 만들지 않은 이유는,
-   *
-   * 사용자가 입력시
-   * "어? 내가 CapsLock이 눌렸나?" 하는 경우는 있어도
-   * "어? 내가 CpasLock이 안눌렸나?" 하는 경우는 굉장히 드물거라고 판단했기 때문입니다.
-   *
-   * 즉, toLowerCase를 true로 전달하여 사용자가 본인이 입력한 모든값이 소문자로 바뀌어도 이상하게 생각하지 않겠지만,
-   * toUpperCase Prop을 true로 전달하여 사용자가 본인이 입력한 모든값이 대문자로 바뀔경우 이상하게 생각할 여지가 있습니다.
-   * 그러므로 이것은 사용자경험 측면에서 좋지않다고 판단되어 일부러 toUpperCase Prop를 구현하지않았습니다.
-   */
-  toLowerCase?: boolean;
 
   /**
    * 이 컴포넌트를 만들 때 고려된 Input Type에 의해,
@@ -77,7 +59,9 @@ export interface InputExtendProp extends Omit<ComponentProps<'input'>, WithoutPr
    */
   value?: string;
   type?: InputExtendType;
+}
 
+export interface InputNumberExtend extends Omit<InputExtendProp, 'type'> {
   /**
    * type이 number일 때만 작동하는 Prop입니다.
    * 입력값의 소수 최대길이를 지정할 수 있습니다.
