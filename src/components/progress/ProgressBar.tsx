@@ -1,45 +1,7 @@
 import React, {DivProp, useEffect, useState} from 'react';
-import styled from 'styled-components';
-import classNames from 'classnames';
+import styled, {keyframes} from 'styled-components';
 import {theme} from '../../utils/style/theme';
-
-export interface ProgressBarProp extends DivProp {
-  progress: number;
-}
-
-export default function ProgressBar({className, progress, ...rest}: ProgressBarProp) {
-
-  const [active, setActive] = useState(false);
-
-  useEffect(() => {
-    setActive(true);
-  }, []);
-
-  const wrapClass = classNames({active}, className);
-
-  /**
-   * active stick, inactive stick 2개를 놓고 transform으로 active stick을 옮기는 방식보다는,
-   *
-   * 1. inactive stick의 백그라운드는 기본 Wrapper에 background를 줘서 해결하고,
-   * 2. active stick하나의 width만 키워서 progress를 보여주는 방식이 나으며,
-   *
-   * 최초 렌더링시에도 애니메이션을 주기 위해서 가장 좋은 방법은
-   * boolean state 하나 선언하고 최초 useEffect에서만 setState를 하여
-   * 이거 하나로 애니메이션을 조절하는 것이다.
-   *
-   * 하지만 이것도 문제가있는데, 밑에 Legacy2 ProgressBar 컴포넌트에 작성했다.
-   */
-
-  return (
-      // <Wrap {...rest}>
-      //   <InactiveStick color={INACTIVE_COLOR}/>
-      //   <ActiveStick className={classNames({active: initialRender})} rate={rate} color={activeColor}/>
-      // </Wrap>
-      <Wrap className={wrapClass} {...rest}>
-        <Stick className="bar" style={{width: `${active ? progress * 100 : 0}%`}}/>
-      </Wrap>
-  );
-}
+import {usePrevious} from '../../utils/custom-hooks/usePrevious';
 
 const ACTIVE_COLOR = theme.main;
 const INACTIVE_COLOR = 'lightgray';
@@ -47,6 +9,7 @@ const THICKNESS = 15;
 
 const Wrap = styled.div`
   background-color: ${INACTIVE_COLOR};
+  display: flex;
 `;
 
 const Stick = styled.div`
@@ -54,11 +17,59 @@ const Stick = styled.div`
   height: ${THICKNESS}px;
 `;
 
+export function ProgressBarExample() {
+  const [progress, setProgress] = useState(0.5);
+  
+  useEffect(() => {
+    setInterval(() => {
+      setProgress(prevState => prevState + (Math.random() > 0.5 ? Math.random() / 5 : -1 * Math.random() / 5));
+    }, 3000);
+  }, []);
+  
+  return (
+      <div>
+        <ProgressBar progress={progress}/>
+      </div>
+  );
+}
+
+export interface ProgressBarProp extends DivProp {
+  progress: number;
+}
+
+export function ProgressBar({progress, ...rest}: ProgressBarProp) {
+  
+  const prevProgress = usePrevious(progress);
+  
+  return (
+      <Wrap {...rest}>
+        <AnimatedStick prevWidth={!prevProgress ? 0 :prevProgress * 100} nextWidth={progress * 100}/>
+      </Wrap>
+  );
+}
+
+const barAnimate = function (prevWidth: number, nextWidth: number) {
+  
+  return keyframes`
+    from {
+      width: ${prevWidth}%;
+    }
+    
+    to {
+      width: ${nextWidth}%;
+    }
+  `;
+}
+
+const AnimatedStick = styled(Stick)<{prevWidth: number, nextWidth: number}>`
+  animation: ${(props) => barAnimate(props.prevWidth, props.nextWidth)} 1.5s forwards;
+`;
+
 /**
  * 아래 두가지 방법들은, 최초 애니메이션해줘야하는게 두개이상 늘어날 경우 코드가 썩 좋지않게된다.
  * 물론 ProgressBar 컴포넌트에서는 문제가 없겠지만, 최초 애니메이션이 필요한 아예다른 컴포넌트의 경우에 말이다.
  */
-function Legacy1ProgressBar({progress, second, ...rest}: ProgressBarProp & {second: number}) {
+function Legacy2ProgressBar({progress, second, ...rest}: ProgressBarProp & {second: number}) {
 
   const [progressValue, setProgressValue] = useState(0);
   const [secondValue, setSecondValue] = useState(0);
@@ -77,7 +88,7 @@ function Legacy1ProgressBar({progress, second, ...rest}: ProgressBarProp & {seco
   );
 }
 
-function Legacy2ProgressBar({progress, second, ...rest}: ProgressBarProp & {second: number}) {
+function Legacy3ProgressBar({progress, second, ...rest}: ProgressBarProp & {second: number}) {
 
   const [active, setActive] = useState(false);
 
