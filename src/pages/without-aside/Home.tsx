@@ -1,78 +1,71 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
-import {RootState} from '../../store/store';
-import {useDispatch, useSelector} from 'react-redux';
-import moment from 'moment';
-import {BasicButton} from '../../components/styled/buttons';
-import {setDummyActionCreator, setVisibilityActionCreator} from '../../store/todos';
 import {FlexDirectionColumn} from '../../utils/style/css';
-import {createSelector} from 'reselect';
+import {BasicButton} from '../../components/styled/buttons';
 
-function getVisibilityFilter(state: RootState) {
-  return state.todos.visibilityFilter;
-}
-
-function getTodos(state: RootState) {
-  return state.todos.list;
-}
-
-function getVisibleTodosOriginalSelector(state: RootState) {
-  console.log('getVisibleTodosOriginalSelector call');
-  const visibilityFilter = state.todos.visibilityFilter;
-  return state.todos.list.filter(({visible}) => visible === visibilityFilter)
-}
-
-export const getVisibleTodos = createSelector(
-    [getVisibilityFilter, getTodos],
-    (visibilityFilter, todos) => {
-      console.log('getVisibleTodos call');
-      return todos.filter(({visible}) => visible === visibilityFilter);
-    }
-);
-
-function logger(prefix: string) {
-  return console.log(`${prefix} ${moment().format('HH:mm:ss:SSSS')}`);
+interface Item {
+  name: string;
+  onClickHandler: () => void;
 }
 
 export default function Home() {
   
-  const dispatch = useDispatch();
-  const todos = useSelector<RootState, ReturnType<typeof getVisibleTodosOriginalSelector>>(getVisibleTodosOriginalSelector);
-  // const todos = useSelector<RootState, ReturnType<typeof getVisibleTodos>>(getVisibleTodos);
-  const visibilityFilter = useSelector<RootState, ReturnType<typeof getVisibilityFilter>>(getVisibilityFilter);
+  const items = useRef<Item[]>(names.map((name) => ({
+    name,
+    onClickHandler: () => console.log(name)
+  }))).current;
   
-  const toggleVisibilityFilter = useCallback(() => {
-    logger('toggle dispatch');
-    dispatch(setVisibilityActionCreator(!visibilityFilter));
-  }, [dispatch, visibilityFilter]);
+  const [bool, setBool] = useState(false);
   
-  const toggleDummy = useCallback(() => {
-    logger('toggle dummy');
-    dispatch(setDummyActionCreator());
-  }, [dispatch]);
-  
-  useEffect(() => {
-    logger('useEffect call');
-  });
+  const forceRender = useCallback(() => {
+    setBool(prevState => !prevState);
+  }, []);
   
   return (
       <HomeStyle>
-        {visibilityFilter ? 'visible' : 'invisible'} todo length: {todos.length}
-        <ToggleButton onClick={toggleVisibilityFilter}>Toggle Visibility Filter</ToggleButton>
-        <ToggleButton onClick={toggleDummy}>Toggle Dummy</ToggleButton>
+        {items.map(({name, onClickHandler}, index) => (
+            <ItemComponent key={index} name={name} onClickHandler={onClickHandler}/>
+        ))}
+        <ForceRerender onClick={forceRender}>Force Render</ForceRerender>
       </HomeStyle>
   );
 }
+
+const names = ['a', 'b', 'c'];
+
+function ItemComponent({onClickHandler, name}: Item) {
+  
+  useEffect(() => {
+    console.log('child useEffect call', onClickHandler, name);
+  }, [name, onClickHandler]);
+  
+  return (
+      <ItemWrap onClick={onClickHandler}>
+        <Name>{name}</Name>
+      </ItemWrap>
+  );
+}
+
+const ItemWrap = styled(BasicButton)`
+  width: 100px;
+  padding: 10px 0;
+  border: 2px solid red;
+  font-size: 17px;
+  margin-bottom: 10px;
+`;
+
+const Name = styled.span`
+`;
 
 const HomeStyle = styled.div`
   padding: 30px;
   ${FlexDirectionColumn};
 `;
 
-const ToggleButton = styled(BasicButton)`
-  padding: 10px;
-  background-color: ${props => props.theme.main};
+const ForceRerender = styled(BasicButton)`
+  background-color: red;
   color: white;
-  width: 200px;
-  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 20px;
 `;
