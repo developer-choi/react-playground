@@ -1,20 +1,22 @@
-import React, {DivProp, PropsWithChildren} from 'react';
+import React, {DivProp, PropsWithChildren, useEffect, useState} from 'react';
 import styled from 'styled-components';
 
 export interface LoadingContainerProp extends PropsWithChildren<DivProp> {
   loading: boolean;
   noData?: boolean;
+  fixHeight?: number | string;
 }
 
-export default function LoadingContainer({children, loading, noData, ...rest}: LoadingContainerProp) {
+export default function LoadingContainer({children, loading, noData, fixHeight, style, ...rest}: LoadingContainerProp) {
 
   const viewChildren = !loading && !noData;
 
   return (
-      <LoadingWrap {...rest}>
+      <LoadingWrap style={{...style, height: viewChildren ? undefined : fixHeight}} {...rest}>
         {children}
         <Absolute className={viewChildren ? '' : 'visible'}>
-          {noData ? '데이터없음' : loading ? '로딩중' : '데이터있음.'}
+          {loading && '로딩중'}
+          {noData && '데이터 없음'}
         </Absolute>
       </LoadingWrap>
   );
@@ -31,8 +33,37 @@ const Absolute = styled.div`
   right: 0;
   bottom: 0;
   display: none;
-  
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+
   &.visible {
-    display: block;
+    display: flex;
   }
+`;
+
+export function LoadingExample() {
+
+  const [data, setData] = useState<{nums: number[], receiveResponse: boolean}>({
+    nums: [],
+    receiveResponse: false
+  });
+
+  useEffect(() => {
+    (async () => {
+      setData({receiveResponse: true, nums: [1, 2, 3, 4]});
+    })().then();
+  }, []);
+
+  const {nums, receiveResponse} = data;
+
+  return (
+      <ExampleWrap loading={!receiveResponse} noData={receiveResponse && nums.length === 0}>
+      {/* content */}
+      </ExampleWrap>
+  );
+}
+
+const ExampleWrap = styled(LoadingContainer)`
+  
 `;
