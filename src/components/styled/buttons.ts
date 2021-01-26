@@ -51,7 +51,7 @@ export const BasicButton = styled.button.attrs(({type = 'button', ...rest}: Butt
   }
   
   //general styling
-  &:hover {
+  &:not(:disabled):hover {
     opacity: 0.7;
   }
   
