@@ -66,7 +66,7 @@ export const MyReset = css`
     color: inherit; //이거 안하면 크롬에서 방문한링크 보라색나오고 방문안한거 파란색으로 나옴 
   }
 
-  button {
+  button, select {
     cursor: pointer;
   }
 
