@@ -90,3 +90,9 @@ export const TableBottomButton = styled(SmallSizeButton)`
   align-self: flex-end;
   ${ButtonColor1};
 `;
+
+export const ReactButton = styled(SmallSizeButton)`
+  background-color: ${props => props.theme.main};
+  color: black;
+  font-weight: bold;
+`;

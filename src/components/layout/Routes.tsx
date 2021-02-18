@@ -1,16 +1,13 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
-import Home from '../../pages/without-aside/Home';
-import WithoutAsideLayout from './WithoutAsideLayout';
+import WhiteBoardPage from '../../pages/without-aside/WhiteBoardPage';
 
 export default function Routes() {
   
   return (
       <Switch>
         <Route>
-          <WithoutAsideLayout>
-            <Home/>
-          </WithoutAsideLayout>
+          <WhiteBoardPage/>
         </Route>
       </Switch>
   );
