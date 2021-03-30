@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {HEIGHTS, ZINDEXS} from '../../utils/style/layout';
 import {FIRST_DIR} from '../../utils/route';
 import reactLogo from '../../../public/react-logo.png';
+import {COLORS} from '../../utils/style/theme';
 
 export default function Header() {
 
@@ -40,7 +41,7 @@ const LogoWrap = styled(Link)`
 const ReactText = styled.span`
   font-weight: bold;
   font-size: 20px;
-  color: ${props => props.theme.colors.reactBlue};
+  color: ${COLORS.reactBlue};
 `;
 
 const PageLink = styled(NavLink)`
@@ -69,7 +70,7 @@ const InnerWrap = styled.div`
   a {
     transition: 0.5s;
     &.active, &:hover {
-      color: ${props => props.theme.colors.reactBlue};
+      color: ${COLORS.reactBlue};
     }
   }
 `;

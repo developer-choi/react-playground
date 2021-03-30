@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
+import {COLORS} from '../../utils/style/theme';
 
 export default function Home() {
   
@@ -18,7 +19,7 @@ export default function Home() {
 const HomeStyle = styled.div`
   width: 100%;
   height: 400px;
-  background: ${props => props.theme.colors.lightBlack};
+  background: ${COLORS.lightBlack};
   padding-top: 50px;
   padding-bottom: 100px;
 
@@ -35,7 +36,7 @@ const HomeStyle = styled.div`
 
     .title {
       font-size: 45px;
-      color: ${props => props.theme.colors.reactBlue};
+      color: ${COLORS.reactBlue};
       font-weight: bold;
     }
 
@@ -46,7 +47,7 @@ const HomeStyle = styled.div`
 
     a {
       padding: 10px 30px;
-      background: ${props => props.theme.colors.reactBlue};
+      background: ${COLORS.reactBlue};
       font-size: 25px;
     }
   }
