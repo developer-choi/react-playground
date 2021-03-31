@@ -6,7 +6,7 @@ import {setUserActionCreator} from '../reducers/user';
 const REQUEST_FETCH_USER = 'react-library/user-saga/REQUEST_FETCH_USER';
 export const requestFetchUserActionCreator = createAction<number>(REQUEST_FETCH_USER);
 
-function* fetchUser(action: ReturnType<typeof requestFetchUserActionCreator>) {
+function* workRequestFetchUser(action: ReturnType<typeof requestFetchUserActionCreator>) {
   try {
     //@ts-ignore
     const user = yield call(apiGetHelloUser, action.payload);
@@ -17,5 +17,5 @@ function* fetchUser(action: ReturnType<typeof requestFetchUserActionCreator>) {
 }
 
 export default function* userSaga() {
-  yield takeEvery(REQUEST_FETCH_USER, fetchUser);
+  yield takeEvery(REQUEST_FETCH_USER, workRequestFetchUser);
 }
