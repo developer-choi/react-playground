@@ -1,9 +1,17 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
-import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 import {composeWithDevTools} from 'redux-devtools-extension';
-import {counter} from './test/counter';
-import {toggle} from './test/toggle';
+import {counter} from './reducers/counter';
+import countSaga from './sagas/count-saga';
+import userSaga from './sagas/user-saga';
+import {user} from './reducers/user';
+import {all} from 'redux-saga/effects';
 
-const rootReducer = combineReducers({counter, toggle});
+const sagaMiddleware = createSagaMiddleware();
+const rootReducer = combineReducers({counter, user});
 export type RootState = ReturnType<typeof rootReducer>;
-export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
+
+sagaMiddleware.run(function* () {
+  yield all([countSaga(), userSaga()]);
+});

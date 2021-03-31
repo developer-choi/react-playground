@@ -1,18 +1,17 @@
 import { ButtonProp } from 'react';
 import styled, {css} from 'styled-components';
 
-//colors (color, background-color)
 export const ButtonColor1 = css`
-  color: ${props => props.theme.textColor1};
-  background-color: ${props => props.theme.backColor1};
+  //color: some-color;
+  //background-color: some-color;
 `;
 
 export const ButtonColor2 = css`
-  color: ${props => props.theme.textColor2};
-  background-color: ${props => props.theme.color2};
+  //color: some-color;
+  //background-color: some-color;
 
   &:disabled {
-    background-color: ${props => props.theme.gray1};
+    //background-color: some-color;
   }
 
   &:active {

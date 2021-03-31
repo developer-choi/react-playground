@@ -1,10 +1,8 @@
 import {createAction, handleActions} from 'redux-actions';
 
-//Actions
-const INCREASE = 'react-library/counter/INCREASE';
-const DECREASE = 'react-library/counter/DECREASE';
+const INCREASE = 'react-library/count-saga/INCREASE';
+const DECREASE = 'react-library/count-saga/DECREASE';
 
-//Action Creators
 export const increaseActionCreator = createAction(INCREASE);
 export const decreaseActionCreator = createAction(DECREASE);
 
