@@ -3,6 +3,11 @@ import styled, {keyframes} from 'styled-components';
 import {theme} from '../../utils/style/theme';
 import {usePrevious} from '../../utils/custom-hooks/usePrevious';
 
+/** 목적
+ * 처음에 렌더링이 됬을 때도 애니메이션이 보이도록 하는것이 목적.
+ * 결과적으로 적용한것은 CSS animation이었음.
+ */
+
 const ACTIVE_COLOR = theme.main;
 const INACTIVE_COLOR = 'lightgray';
 const THICKNESS = 15;
