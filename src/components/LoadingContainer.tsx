@@ -42,16 +42,44 @@ const Absolute = styled.div`
   }
 `;
 
-export function LoadingExample() {
+//일반적으로 type의 common성격의 파일에 있을것.
+export interface ReceiveResponse {
+  receiveResponse: boolean;
+}
 
-  const [data, setData] = useState<{nums: number[], receiveResponse: boolean}>({
+export async function apiGetNumbers() {
+  return {
+    nums: [1, 2, 3, 4]
+  };
+}
+
+function handleError(error: any) {
+  console.error(error);
+}
+
+export function LoadingExample() {
+  
+  /**
+   * ReceiveResponse를 별도의 interface로 만들어서 state generic만들 때 활용
+   */
+  const [data, setData] = useState<{nums: number[]} & ReceiveResponse>({
     nums: [],
     receiveResponse: false
   });
 
   useEffect(() => {
     (async () => {
-      setData({receiveResponse: true, nums: [1, 2, 3, 4]});
+      try {
+        /**
+         * receiveResponse를 true로 만드는곳은 api****()가 아니라 컴포넌트에서 결정.
+         * api에서 receiveResponse라는 값을 응답하는게 아니기떄문.
+         */
+        const {nums} = (await apiGetNumbers());
+        setData({receiveResponse: true, nums});
+      } catch (error) {
+        handleError(error);
+      }
+      
     })().then();
   }, []);
 
@@ -65,5 +93,5 @@ export function LoadingExample() {
 }
 
 const ExampleWrap = styled(LoadingContainer)`
-  
+
 `;
