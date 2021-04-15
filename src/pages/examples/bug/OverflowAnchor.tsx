@@ -1,28 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
-export default function App() {
-
+export default function OverflowAnchor() {
+  
   const [list, setList] = useState<Item[]>([]);
-
+  
   useEffect(() => {
-
+    
     const fetchData = async () => {
       const res = await apiGetList();
       setList(res.slice(0, 9));
     };
-
+    
     setTimeout(() => {
       fetchData().then();
     }, 500);
-
+    
   }, [list]);
-
+  
   useEffect(() => {
     document.body.style.height = '150vh';
     document.body.style.backgroundColor = 'darkblue';
   }, []);
-
+  
   return (
       <Container>
         {list.map(({uniqueKey, value}) => (

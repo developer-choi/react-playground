@@ -7,16 +7,15 @@ import {theme} from './utils/style/theme';
 import {GlobalStyle} from './utils/style/global';
 import {Provider} from 'react-redux';
 import {store} from './store/store';
-import ButtonAnimationExample from './pages/examples/animation/button/ButtonAnimationExample';
+import OverflowAnchor from './pages/examples/bug/OverflowAnchor';
 
 ReactDOM.render(
     <StrictMode>
-      {/*<BrowserRouter basename="/react-library">*/}
       <Provider store={store}>
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <GlobalStyle/>
-            <ButtonAnimationExample/>
+            <OverflowAnchor/>
           </ThemeProvider>
         </BrowserRouter>
       </Provider>
