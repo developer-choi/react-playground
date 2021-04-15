@@ -1,7 +1,7 @@
-import React, {DivProp, PropsWithChildren, useEffect, useState} from 'react';
+import React, {ComponentProps, PropsWithChildren, useEffect, useState} from 'react';
 import styled from 'styled-components';
 
-export interface LoadingContainerProp extends PropsWithChildren<DivProp> {
+export interface LoadingContainerProp extends PropsWithChildren<Omit<ComponentProps<'div'>, 'ref'>> {
   loading: boolean;
   noData?: boolean;
   fixHeight?: number | string;

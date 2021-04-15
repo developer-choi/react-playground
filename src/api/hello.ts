@@ -1,4 +1,4 @@
-import {makeRandomString} from '../utils/random';
+import {makeRandomString} from '../utils/web-api-extend/random';
 
 export async function apiGetHelloUser(userPk: number) {
   console.log('api call parameter', userPk);

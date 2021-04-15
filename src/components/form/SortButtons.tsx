@@ -1,4 +1,4 @@
-import React, {DivProp} from 'react';
+import React, {ComponentProps} from 'react';
 import styled from 'styled-components';
 
 export type Direction = 'asc' | 'desc'
@@ -8,7 +8,7 @@ export interface Sort<Orderby extends string> {
   direction: Direction;
 }
 
-export interface SortButtonsProp<OrderbyType extends string = string> extends DivProp {
+export interface SortButtonsProp<OrderbyType extends string = string> extends Omit<ComponentProps<'div'>, 'ref'> {
   /**
    * 이게 추후 active 조건을 이 컴포넌트에서 스스로 판단하여 active효과를 낼 수 있음.
    *

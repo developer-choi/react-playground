@@ -7,7 +7,7 @@ import {theme} from './utils/style/theme';
 import {GlobalStyle} from './utils/style/global';
 import {Provider} from 'react-redux';
 import {store} from './store/store';
-import OverflowAnchor from './pages/examples/bug/OverflowAnchor';
+import CaptureAndBubbleExample from './pages/examples/api/event/CaptureAndBubbleExample';
 
 ReactDOM.render(
     <StrictMode>
@@ -15,7 +15,7 @@ ReactDOM.render(
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <GlobalStyle/>
-            <OverflowAnchor/>
+            <CaptureAndBubbleExample/>
           </ThemeProvider>
         </BrowserRouter>
       </Provider>

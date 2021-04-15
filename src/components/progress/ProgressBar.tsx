@@ -1,4 +1,4 @@
-import React, {DivProp, useEffect, useState} from 'react';
+import React, {ComponentProps, useEffect, useState} from 'react';
 import styled, {keyframes} from 'styled-components';
 import {theme} from '../../utils/style/theme';
 import {usePrevious} from '../../utils/custom-hooks/usePrevious';
@@ -38,7 +38,7 @@ export function ProgressBarExample() {
   );
 }
 
-export interface ProgressBarProp extends DivProp {
+export interface ProgressBarProp extends Omit<ComponentProps<'div'>, 'ref'> {
   progress: number;
 }
 

@@ -1,7 +1,7 @@
-import React, {InputProp} from 'react';
+import React, {ComponentProps} from 'react';
 import styled from 'styled-components';
 
-export interface InputFileExtendProp extends InputProp {
+export interface InputFileExtendProp extends Omit<ComponentProps<'input'>, 'ref'> {
 
 }
 

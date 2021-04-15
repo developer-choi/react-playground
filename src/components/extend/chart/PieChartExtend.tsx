@@ -3,7 +3,7 @@ import {Pie, PieChart, PieProps, ResponsiveContainer} from 'recharts';
 import styled from 'styled-components';
 import {FlexDirectionColumn} from '../../../utils/style/css';
 
-interface PieExtendProps extends Partial<Omit<PieProps, 'width' | 'height'>> {
+interface PieExtendProps extends Partial<Omit<PieProps, 'width' | 'height' | 'ref'>> {
   width?: string | number;
   height?: string | number;
 }
