@@ -1,6 +1,6 @@
 import React, {ComponentProps} from 'react';
 import styled from 'styled-components';
-import RatioBox from './RatioBox';
+import RatioBox from './must-know/RatioBox';
 
 export interface BackgroundImageProp extends Omit<ComponentProps<'div'>, 'ref'> {
   src: string;

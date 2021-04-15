@@ -16,6 +16,16 @@ export const AlignItemsCenter = css`
   align-items: center;
 `;
 
+export const RemoveRightBorderRadius = css`
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+`;
+
+export const RemoveLeftBorderRadius = css`
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+`;
+
 export function setLeftRadius(applyClassName: string, value = 0) {
 
   const suffix = value === 0 ? '' : 'px';
