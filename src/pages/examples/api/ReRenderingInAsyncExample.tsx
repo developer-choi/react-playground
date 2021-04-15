@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {BasicButton} from '../../components/styled/buttons';
+import {BasicButton} from '../../../components/styled/buttons';
 
-export default function UseState() {
+export default function ReRenderingInAsyncExample() {
 
   const [count1, setCount1] = useState(0);
   const [count2, setCount2] = useState(0);

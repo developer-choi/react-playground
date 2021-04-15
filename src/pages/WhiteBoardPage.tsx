@@ -1,11 +1,11 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {BasicButton, ReactButton} from '../../components/styled/buttons';
+import {BasicButton, ReactButton} from '../components/styled/buttons';
 import {useDispatch, useSelector} from 'react-redux';
-import {decreaseAsyncActionCreator, increaseAsyncActionCreator} from '../../store/sagas/count-saga';
-import {decreaseActionCreator, increaseActionCreator} from '../../store/reducers/counter';
-import {RootState} from '../../store/store';
-import {requestFetchUserActionCreator} from '../../store/sagas/user-saga';
+import {decreaseAsyncActionCreator, increaseAsyncActionCreator} from '../store/sagas/count-saga';
+import {decreaseActionCreator, increaseActionCreator} from '../store/reducers/counter';
+import {RootState} from '../store/store';
+import {requestFetchUserActionCreator} from '../store/sagas/user-saga';
 
 export default function WhiteBoardPage() {
 
