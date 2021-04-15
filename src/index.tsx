@@ -7,7 +7,7 @@ import {theme} from './utils/style/theme';
 import {GlobalStyle} from './utils/style/global';
 import {Provider} from 'react-redux';
 import {store} from './store/store';
-import UseImperativeHandleExample from './pages/examples/api/react/UseImperativeHandleExample';
+import CircleProgressBarExample from './pages/examples/libraries/recharts/CircleProgressBarExample';
 
 ReactDOM.render(
     <StrictMode>
@@ -15,7 +15,7 @@ ReactDOM.render(
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <GlobalStyle/>
-            <UseImperativeHandleExample/>
+            <CircleProgressBarExample/>
           </ThemeProvider>
         </BrowserRouter>
       </Provider>

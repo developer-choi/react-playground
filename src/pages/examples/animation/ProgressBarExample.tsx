@@ -1,34 +1,15 @@
 import React, {ComponentProps, useEffect, useState} from 'react';
 import styled, {keyframes} from 'styled-components';
-import {theme} from '../../utils/style/theme';
-import {usePrevious} from '../../utils/custom-hooks/usePrevious';
+import {theme} from '../../../utils/style/theme';
+import {usePrevious} from '../../../utils/custom-hooks/usePrevious';
 
-/** 목적
- * 처음에 렌더링이 됬을 때도 애니메이션이 보이도록 하는것이 목적.
- * 결과적으로 적용한것은 CSS animation이었음.
- */
-
-const ACTIVE_COLOR = theme.main;
-const INACTIVE_COLOR = 'lightgray';
-const THICKNESS = 15;
-
-const Wrap = styled.div`
-  background-color: ${INACTIVE_COLOR};
-  display: flex;
-`;
-
-const Stick = styled.div`
-  background-color: ${ACTIVE_COLOR};
-  height: ${THICKNESS}px;
-`;
-
-export function ProgressBarExample() {
+export default function ProgressBarExample() {
   const [progress, setProgress] = useState(0.5);
   
   useEffect(() => {
     setInterval(() => {
       setProgress(prevState => prevState + (Math.random() > 0.5 ? Math.random() / 5 : -1 * Math.random() / 5));
-    }, 3000);
+    }, 4000);
   }, []);
   
   return (
@@ -37,6 +18,11 @@ export function ProgressBarExample() {
       </div>
   );
 }
+
+/** 목적
+ * 처음에 렌더링이 됬을 때도 애니메이션이 보이도록 하는것이 목적.
+ * 결과적으로 적용한것은 CSS animation이었음.
+ */
 
 export interface ProgressBarProp extends Omit<ComponentProps<'div'>, 'ref'> {
   progress: number;
@@ -52,6 +38,20 @@ export function ProgressBar({progress, ...rest}: ProgressBarProp) {
       </Wrap>
   );
 }
+
+const ACTIVE_COLOR = theme.main;
+const INACTIVE_COLOR = 'lightgray';
+const THICKNESS = 15;
+
+const Wrap = styled.div`
+  background-color: ${INACTIVE_COLOR};
+  display: flex;
+`;
+
+const Stick = styled.div`
+  background-color: ${ACTIVE_COLOR};
+  height: ${THICKNESS}px;
+`;
 
 const barAnimate = function (prevWidth: number, nextWidth: number) {
   
