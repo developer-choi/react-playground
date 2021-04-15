@@ -7,7 +7,7 @@ import {theme} from './utils/style/theme';
 import {GlobalStyle} from './utils/style/global';
 import {Provider} from 'react-redux';
 import {store} from './store/store';
-import CaptureAndBubbleExample from './pages/examples/api/event/CaptureAndBubbleExample';
+import WorldMapExample from './pages/examples/libraries/react-simple-maps/WorldMapExample';
 
 ReactDOM.render(
     <StrictMode>
@@ -15,7 +15,7 @@ ReactDOM.render(
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <GlobalStyle/>
-            <CaptureAndBubbleExample/>
+            <WorldMapExample/>
           </ThemeProvider>
         </BrowserRouter>
       </Provider>

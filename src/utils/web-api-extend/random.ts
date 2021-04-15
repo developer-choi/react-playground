@@ -9,6 +9,10 @@ export function randomNumber(from: number, to: number) {
   return Math.floor(Math.random() * length) + _min;
 }
 
+export function randomBoolean(percent: number = 50): boolean {
+  return Math.random() > (100 - percent) / 100;
+}
+
 /**
  * @param anagramArray 랜덤한 문자열을 만들 때 들어갈 요소들
  * @param length 랜덤한 문자열의 길이
