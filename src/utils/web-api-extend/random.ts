@@ -28,7 +28,7 @@ export function makeRandomString(anagramArray: Array<string | number>, length: n
   return result.join('');
 }
 
-export function randomFromArray<T>(dummys: T[]): T {
-  const randomIndex = randomNumber(0, dummys.length - 1);
-  return dummys[randomIndex];
+export function randomFromArray<T>(dummies: T[]): T {
+  const randomIndex = randomNumber(0, dummies.length - 1);
+  return dummies[randomIndex];
 }
