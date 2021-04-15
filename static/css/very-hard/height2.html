@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border: none;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    .container {
+      display: flex;
+      border: 1px solid black;
+    }
+
+    .item {
+      width: 100px;
+      height: 100%;
+    }
+
+    .example-container header {
+      border-bottom: 1px solid gray;
+      padding-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div style="background-color: purple" class="item"></div><!-- 이거 왜 안보여? -->
+  <div style="background-color: blue" class="item"></div><!-- 이거 왜 안보여? -->
+  <div style="background-color: red" class="item"></div><!-- 이거 왜 안보여? -->
+  <div style="height: 200px; background-color: rgba(0, 0, 0, 0.1)" class="item">
+    container에 height를 지정하지않고, 그대신 자식의 height를 200px로 지정하여 컨테이너의 높이를 키웠다.
+  </div>
+</div>
+<div class="container" style="height: 200px"> <!-- 근데 이거하나만 추가하니까 또 보이긴함. 뭐지? -->
+  <div style="background-color: purple" class="item"></div><!-- 이거 왜 안보여?-->
+  <div style="background-color: blue" class="item"></div><!-- 이거 왜 안보여?-->
+  <div style="background-color: red" class="item"></div><!-- 이거 왜 안보여?-->
+  <div style="height: 200px; background-color: rgba(0, 0, 0, 0.1)" class="item">
+    근데 이건 보임. 부모 높이를 고정했더니. 뭐지?
+  </div>
+</div>
+</body>
+</html>
