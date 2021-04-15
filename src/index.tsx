@@ -7,7 +7,7 @@ import {theme} from './utils/style/theme';
 import {GlobalStyle} from './utils/style/global';
 import {Provider} from 'react-redux';
 import {store} from './store/store';
-import WorldMapExample from './pages/examples/libraries/react-simple-maps/WorldMapExample';
+import UseImperativeHandleExample from './pages/examples/api/react/UseImperativeHandleExample';
 
 ReactDOM.render(
     <StrictMode>
@@ -15,7 +15,7 @@ ReactDOM.render(
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <GlobalStyle/>
-            <WorldMapExample/>
+            <UseImperativeHandleExample/>
           </ThemeProvider>
         </BrowserRouter>
       </Provider>
