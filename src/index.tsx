@@ -7,7 +7,7 @@ import {theme} from './utils/style/theme';
 import {GlobalStyle} from './utils/style/global';
 import {Provider} from 'react-redux';
 import {store} from './store/store';
-import ButtonAnimationExample from './pages/examples/animation/Button/ButtonAnimationExample';
+import LoadingTextExample from './pages/examples/animation/loading/LoadingTextExample';
 
 ReactDOM.render(
     <StrictMode>
@@ -16,7 +16,7 @@ ReactDOM.render(
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <GlobalStyle/>
-            <ButtonAnimationExample/>
+            <LoadingTextExample/>
           </ThemeProvider>
         </BrowserRouter>
       </Provider>
