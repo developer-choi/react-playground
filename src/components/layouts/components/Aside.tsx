@@ -1,16 +1,50 @@
 import React from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 
-export interface AsideProp {
-
-}
-
-export default function Aside({...rest}: AsideProp) {
+export default function Aside() {
   
   return (
-      <Wrap {...rest}/>
+      <Wrap>
+        <LinksWrap>
+          {LINKS.map(({name, path}) => (
+              <Link key={path} href={path}>
+                <BoardAnchor>
+                  <BoardIcon src="/images/naver-board-icon.png"/>
+                  {name}
+                </BoardAnchor>
+              </Link>
+          ))}
+        </LinksWrap>
+      </Wrap>
   );
 }
 
+const LINKS: { path: string, name: string; }[] = [
+  {path: '/examples/multi-input-focus', name: 'multi input focus'},
+];
+
 const Wrap = styled.aside`
+  width: 200px;
+  margin-right: 15px;
+  border-top: 2px solid black;
+  flex-shrink: 0;
+`;
+
+const LinksWrap = styled.nav`
+  display: flex;
+  flex-direction: column;
+  padding: 5px 10px;
+`;
+
+const BoardAnchor = styled.a`
+  margin: 6px 0;
+  
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+const BoardIcon = styled.img`
+  margin-right: 7px;
 `;

@@ -2,7 +2,6 @@ import React, {PropsWithChildren} from 'react';
 import styled from 'styled-components';
 import Header from './components/Header';
 import Aside from './components/Aside';
-import Footer from './components/Footer';
 import {AllLayoutWrap} from './components/LayoutWrap';
 
 export default function MainLayout({children}: PropsWithChildren<{}>) {
@@ -11,18 +10,20 @@ export default function MainLayout({children}: PropsWithChildren<{}>) {
       <AllLayoutWrap>
         <Header/>
         <Center>
+          <Aside/>
           <AppMain>
-            <Aside/>
             {children}
           </AppMain>
         </Center>
-        <Footer/>
       </AllLayoutWrap>
   );
 }
 
 const Center = styled.div`
+  display: flex;
+  margin-top: 15px;
 `;
 
 const AppMain = styled.div`
+  flex-grow: 1;
 `;

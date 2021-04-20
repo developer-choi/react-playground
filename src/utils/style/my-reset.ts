@@ -22,7 +22,7 @@ const InputTypeNumberHidden = css`
 `;
 
 const Font = css`
-  //body에서 font-size를 지정하더라도, 나머지 태그들은 상속이 아니라 태그 자체에 font-size속성이 선언되어있기 때문에, 이렇게 지정해야 모든 엘레먼트의 폰트사이즈가 의도대로 초기화된다. 
+  //body에서 font-size를 지정하더라도, 나머지 태그들은 상속이 아니라 태그 자체에 font-size속성이 선언되어있기 때문에, 이렇게 지정해야 모든 엘레먼트의 폰트사이즈가 의도대로 초기화된다.
   body, input, textarea, button {
     font-size: 13px;
   }
@@ -41,6 +41,11 @@ export const MyReset = css`
 
     //font-size: inherit; 어떤 이유로 추가헀었는지 기억이 안나서 주석처리했음. 버그상황 확보되면 그 때 필기.
     //margin: 0; 어떤 이유로 추가헀었는지 기억이 안나서 주석처리했음. 버그상황 확보되면 그 때 필기.
+  }
+  
+  a {
+    //NextJS에서는 Link로 링크를 만드는경우, a태그에 href속성이 전달되지않아 cursor가 pointer로 되지않더라
+    cursor: pointer;
   }
 
   table {
@@ -63,7 +68,7 @@ export const MyReset = css`
 
   a {
     text-decoration: none;
-    color: inherit; //이거 안하면 크롬에서 방문한링크 보라색나오고 방문안한거 파란색으로 나옴 
+    color: inherit; //이거 안하면 크롬에서 방문한링크 보라색나오고 방문안한거 파란색으로 나옴
   }
 
   button, select {
