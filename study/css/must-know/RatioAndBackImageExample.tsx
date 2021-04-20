@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import BackgroundImage from './study/BackgroundImage';
-import RatioBox from './study/RatioBox';
+import RatioBox from './RatioBox';
+import BackgroundImage from './BackgroundImage';
 
 export default function RatioAndBackImageExample() {
 

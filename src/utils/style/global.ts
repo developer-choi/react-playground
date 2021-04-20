@@ -9,10 +9,10 @@ const reset = css`
 
 const font = css`
 
-  // @font-face { 
+  // @font-face {
   //   font-family: KoreanFont2;
   //   src: url(...);
-  // } 
+  // }
 
   body {
     font-family: "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo", sans-serif;
@@ -21,13 +21,8 @@ const font = css`
 
 const layout = css`
   
-  html, body, #root {
+  html, body, #__next {
     height: 100%;
-  }
-  
-  #root {
-    display: flex;
-    flex-direction: column;
   }
 `;
 

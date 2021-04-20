@@ -1,15 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
+import MainLayout from '../src/components/layouts/MainLayout';
 
 export default function index() {
-  
   return (
-      <Wrap>
-        index.tsx Page
-      </Wrap>
+      <MainLayout>
+      </MainLayout>
   );
 }
-
-const Wrap = styled.div`
-  background-color: red;
-`;

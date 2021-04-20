@@ -1,4 +1,4 @@
-import {ButtonProp, ComponentProps} from 'react';
+import {ComponentProps} from 'react';
 import styled, {css} from 'styled-components';
 
 export const ButtonColor1 = css`
