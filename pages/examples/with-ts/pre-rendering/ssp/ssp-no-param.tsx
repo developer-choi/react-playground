@@ -20,16 +20,16 @@ interface PageProp {
 export const getServerSideProps: GetServerSideProps<PageProp> = async ({params}) => {
   return {
     props: {
-      userPkList: []
+      userPkList: [1, 2, 3, 4]
     }
   };
 };
 
-export default function SsrNoParamPage({userPkList}: PageProp) {
+export default function SspNoParamPage({userPkList}: PageProp) {
   return (
       <>
         <Head>
-          <title>ssr-no-param</title>
+          <title>ssp-no-param</title>
         </Head>
         <MainLayout>
           {userPkList}
