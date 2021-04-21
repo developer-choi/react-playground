@@ -31,6 +31,7 @@ export const getServerSideProps: GetServerSideProps<PageProp, ParamType> = async
 };
 
 export default function SspMustParamPage({userNameList}: PageProp) {
+  console.log(userNameList);
   return (
       <>
         <Head>

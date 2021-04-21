@@ -26,6 +26,7 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async ({params})
 };
 
 export default function SspNoParamPage({userPkList}: PageProp) {
+  console.log(userPkList);
   return (
       <>
         <Head>

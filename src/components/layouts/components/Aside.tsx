@@ -28,6 +28,7 @@ const LINKS: { path: string, name: string; }[] = [
   {path: '/examples/use-router/catch-all-optional/p1/p2/p3', name: 'catch-all-optional-params'},
   {path: '/examples/with-ts/pre-rendering/ssp/ssp-no-param', name: 'ssp-no-param'},
   {path: '/examples/with-ts/pre-rendering/ssp/must-params/hello', name: 'ssp-must-params'},
+  {path: '/examples/with-ts/pre-rendering/ssp/must-one-param/hello', name: 'ssp-must-one-param'},
 ];
 
 const Wrap = styled.aside`
