@@ -1,26 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
 import {useRouter} from 'next/router';
+import PropertyText from '@components/atom/PropertyText';
 
 export default function UseRouterResult() {
   
   const {asPath, pathname, route} = useRouter();
   
   return (
-      <Wrap>
-        <ParamText>asPath = {asPath}</ParamText>
-        <ParamText>pathname = {pathname}</ParamText>
-        <ParamText>route = {route}</ParamText>
-      </Wrap>
+      <div>
+        <PropertyText>asPath = {asPath}</PropertyText>
+        <PropertyText>pathname = {pathname}</PropertyText>
+        <PropertyText>route = {route}</PropertyText>
+      </div>
   );
 }
-
-const Wrap = styled.div`
-`;
-
-const ParamText = styled.span`
-  font-size: 17px;
-  font-weight: bold;
-  line-height: 1.5;
-  display: block;
-`;
