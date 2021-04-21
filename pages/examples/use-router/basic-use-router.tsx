@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
-import MainLayout from '../../../src/components/layouts/MainLayout';
-import UseRouterResult from '../../../src/components/molecules/UseRouterResult';
+import UseRouterResult from '@components/molecules/UseRouterResult';
+import MainLayout from '@components/layouts/MainLayout';
 
 export default function BasicUseRouterPage() {
   
