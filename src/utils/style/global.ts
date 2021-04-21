@@ -16,6 +16,7 @@ const font = css`
 
   body {
     font-family: "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo", sans-serif;
+    font-size: 15px;
   }
 `;
 

@@ -22,6 +22,10 @@ export default function Aside() {
 
 const LINKS: { path: string, name: string; }[] = [
   {path: '/examples/multi-input-focus', name: 'multi input focus'},
+  {path: '/examples/use-router/basic-use-router', name: 'basic-use-router'},
+  {path: '/examples/use-router/param/hello-param', name: 'use-router-with-param'},
+  {path: '/examples/use-router/catch-all/p1/p2/p3', name: 'catch-all-params'},
+  {path: '/examples/use-router/catch-all-optional/p1/p2/p3', name: 'catch-all-optional-params'},
 ];
 
 const Wrap = styled.aside`
