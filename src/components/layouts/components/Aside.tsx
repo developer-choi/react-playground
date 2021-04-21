@@ -29,6 +29,7 @@ const LINKS: { path: string, name: string; }[] = [
   {path: '/examples/with-ts/pre-rendering/ssp/ssp-no-param', name: 'ssp-no-param'},
   {path: '/examples/with-ts/pre-rendering/ssp/must-params/hello', name: 'ssp-must-params'},
   {path: '/examples/with-ts/pre-rendering/ssp/must-one-param/hello', name: 'ssp-must-one-param'},
+  {path: '/examples/with-ts/pre-rendering/ssp/optional-params/hello', name: 'ssp-optional-params'},
 ];
 
 const Wrap = styled.aside`
