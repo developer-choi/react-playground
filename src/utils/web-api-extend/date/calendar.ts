@@ -22,16 +22,16 @@ export function getCalendarDates(targetDate = new Date()): Date[] {
   
   const prevMonthDayCount = firstDateOfTheMonth.getDay();
   
-  const prevMonthInfos = new Array(prevMonthDayCount)
+  const prevMonthDates = new Array(prevMonthDayCount)
       .fill('').map((value, index) => new Date(year, month, index - prevMonthDayCount));
   
-  const currentMonthInfos = new Array(lastDateOfTheMonth.getDate())
+  const currentMonthDates = new Array(lastDateOfTheMonth.getDate())
       .fill('').map((value, index) => new Date(year, month, index + 1));
   
   const nextMonthDayCount = 7 - lastDateOfTheMonth.getDay() - 1;
   
-  const nextMonthInfos = new Array(nextMonthDayCount)
+  const nextMonthDates = new Array(nextMonthDayCount)
       .fill('').map((value, index) => new Date(year, month + 1, index + 1));
   
-  return [...prevMonthInfos, ...currentMonthInfos, ...nextMonthInfos];
+  return [...prevMonthDates, ...currentMonthDates, ...nextMonthDates];
 }
