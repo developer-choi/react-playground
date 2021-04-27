@@ -50,7 +50,8 @@ export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<
     /**
      * Custom Prop
      */
-    onCtrlV, onEnter, onChangeText, ignoreEventKeys = [], allowValues = [], ...rest
+    onCtrlV, onEnter, onChangeText, ignoreEventKeys = [], allowValues = [],
+    autoCapitalize = 'off', ...rest
   } = props;
 
   const customOnKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
@@ -100,6 +101,6 @@ export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<
   }, [maxLength, onChange, onChangeText, allowValues]);
 
   return (
-      <input ref={ref} type={type} onKeyUp={customOnKeyUp} onChange={customOnChange} onKeyDown={customOnKeyDown} {...rest}/>
+      <input ref={ref} type={type} onKeyUp={customOnKeyUp} onChange={customOnChange} onKeyDown={customOnKeyDown} autoCapitalize={autoCapitalize} {...rest}/>
   );
 });
