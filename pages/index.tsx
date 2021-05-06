@@ -43,10 +43,13 @@ const Input = styled.input`
   font-size: 0;
   ${absoluteFull};
   
-  ::-webkit-calendar-picker-indicator {
+  input[type="date"]::-webkit-calendar-picker-indicator {
     ${absoluteFull};
     margin: 0;
     background-image: none;
+  }
+  input[type="date"]::-webkit-inner-spin-button {
+    display: none;
   }
 `;
 
