@@ -18,7 +18,7 @@ export function SystemDatePicker({children, onChangeDate, value}: PropsWithChild
   return (
       <Label>
         {children}
-        <Input type="date" value={`${year}-${datePadZero(month)}-${datePadZero(date)}`} onChange={onChange}/>
+        <Input required type="date" value={`${year}-${datePadZero(month)}-${datePadZero(date)}`} onChange={onChange}/>
       </Label>
   );
 }

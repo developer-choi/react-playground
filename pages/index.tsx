@@ -1,5 +1,6 @@
 import React from 'react';
 import {SystemDatePicker} from '@components/atom/SystemDatePicker';
+import styled from 'styled-components';
 
 export default function Page() {
   
@@ -7,7 +8,14 @@ export default function Page() {
   
   return (
       <SystemDatePicker value={date} onChangeDate={setDate}>
-        <img src="/images/calendar.png" alt="calendar icon"/>
+        <Button>Button</Button>
       </SystemDatePicker>
   );
 };
+
+const Button = styled.button`
+  background: lightcoral;
+  padding: 8px 20px;
+  border-radius: 5px;
+  color: white;
+`;
