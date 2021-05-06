@@ -7,7 +7,7 @@ export default function Page() {
   const [date, setDate] = React.useState(new Date());
   
   return (
-      <SystemDatePicker value={date} onChangeDate={setDate}>
+      <SystemDatePicker maxDate={new Date('2021-06-01')} minDate={new Date('2021-05-01')} value={date} onChangeDate={setDate}>
         <Button>Button</Button>
       </SystemDatePicker>
   );

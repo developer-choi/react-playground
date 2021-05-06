@@ -5,22 +5,30 @@ import {destructDate} from '../../utils/web-api-extend/date/date-util';
 export interface SystemDatePickerProps {
   value: Date;
   onChangeDate: (value: Date) => void;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
-export function SystemDatePicker({children, onChangeDate, value}: PropsWithChildren<SystemDatePickerProps>) {
+export function SystemDatePicker({children, onChangeDate, value, maxDate, minDate}: PropsWithChildren<SystemDatePickerProps>) {
   
   const onChange = React.useCallback((event: ChangeEvent<HTMLInputElement>) => {
     onChangeDate(new Date(event.target.value));
   }, [onChangeDate]);
   
-  const {year, month, date} = destructDate(value);
+  const max = maxDate ? format(maxDate) : undefined;
+  const min = minDate ? format(minDate) : undefined;
   
   return (
       <Label>
         {children}
-        <Input required type="date" value={`${year}-${datePadZero(month)}-${datePadZero(date)}`} onChange={onChange}/>
+        <Input required type="date" value={format(value)} onChange={onChange} max={max} min={min}/>
       </Label>
   );
+}
+
+function format(value: Date) {
+  const {year, month, date} = destructDate(value);
+  return `${year}-${datePadZero(month + 1)}-${datePadZero(date)}`;
 }
 
 function datePadZero(value: number) {
