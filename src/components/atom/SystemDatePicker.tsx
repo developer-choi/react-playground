@@ -52,8 +52,8 @@ const absoluteFull = css`
 
 const Input = styled.input`
   ${absoluteFull}; //SystemDatePicker컴포넌트 자식으로 오는 요소의 크기에 맞게 늘어나도록 하기위함
-  font-size: 0; //연도 월 일 텍스트 지우기
   -webkit-appearance: none; //모바일 환경에서 세모아이콘 (방향아이콘) 지우기
+  opacity: 0; //연도 월 일 텍스트 지우기 && 연도 월 일 텍스트에 드래그되는거 지우기
   
   ::-webkit-calendar-picker-indicator {
     ${absoluteFull}; //SystemDatePicker컴포넌트 자식으로 오는 요소의 크기에 맞게 늘어나도록 하기위함
