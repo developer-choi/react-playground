@@ -32,7 +32,7 @@ export const MyReset = css`
   ${InputTypeSearchHidden};
   ${InputTypeNumberHidden};
   ${Font};
-
+  
   * {
     padding: 0; //styled-reset의 button에 빠져있음
     border: none;

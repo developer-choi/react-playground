@@ -42,14 +42,16 @@ const absoluteFull = css`
 const Input = styled.input`
   font-size: 0;
   ${absoluteFull};
+  -webkit-appearance: none;
   
-  input[type="date"]::-webkit-calendar-picker-indicator {
+  ::-webkit-calendar-picker-indicator {
     ${absoluteFull};
     margin: 0;
     background-image: none;
   }
-  input[type="date"]::-webkit-inner-spin-button {
+  ::-webkit-inner-spin-button {
     display: none;
+    -webkit-appearance: none;
   }
 `;
 
