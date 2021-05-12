@@ -25,6 +25,11 @@ export function useDateEffect(futureTimestamp: number, callback: () => void) {
   }, [callback, futureTimestamp]);
 }
 
+/**
+ * @param callback 자정이 되면 실행할 콜백함수
+ * 자정이 되면 전달받은 callback을 실행합니다.
+ * 이후 이 hooks가 다시 실행되는 경우, 다시 자정을 계산해서 그 자정이 되면 다시 callback을 실행시킵니다.
+ */
 export function useMidnightEffect(callback: () => void) {
   const midnight = getDiffDate(new Date(), [0, 0, 1], 3);
   useDateEffect(midnight.getTime(), callback);
