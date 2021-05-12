@@ -57,3 +57,7 @@ declare function shortSIUnit(value: number, decimalLength?: number): {
  * 65,432 KW 이런식으로 기본단위를 K로 설정한다거나, 길이가 5자리 정도는 자르지않는 경우. (65.432M 안쓰고 저렇게)
  * 값이 0보다 한참 작을 때 표기할 방법이 음..
  */
+
+export function numberPad(value: number, maxLength: number, character: string ) {
+  return value.toString().padStart(maxLength, character);
+}
