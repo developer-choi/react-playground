@@ -30,7 +30,6 @@ export function destructDate(target = new Date()): DestructedDate {
  * @param target 지정한 Date객체의 (기본값 : 함수가 호출된 현재에 대한 Date객체)
  * @return year, month, date, hour, minute, second, milliSecond 순서대로 저장된 배열을 반환합니다.
  * @example (new Date('2021-04-03 12:34:56')) => [2021, 4, 3, 12, 34, 56, 0]
- * @example new Date(getOrderedDateProperty('2021-04-03 12:34:56').slice(0, 3)) => 2021-04-03에 대한 Date객체가 반환됩니다.
  */
 export function getDatePropertyArray(target = new Date()): [number, number, number, number, number, number, number] {
   const {year, month, date, hour, minute, second, milliSecond} = destructDate(target);

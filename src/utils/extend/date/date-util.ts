@@ -1,6 +1,7 @@
 import {getDatePropertyArray} from './date-convert';
 
-export type DateConstructNumbersType = Parameters<DateConstructor>;
+export type DateConstructorNumbers = Parameters<DateConstructor>;
+export type DateConstructorNumbersLength = 2 | 3 | 4 | 5 | 6 | 7;
 
 /**
  * @param target 기준날짜 (기본값은 현재)
@@ -9,11 +10,24 @@ export type DateConstructNumbersType = Parameters<DateConstructor>;
  * @return 기준일 기준 연 월 일 시 분 초 밀리초 차이만큼의 Date객체 반환
  * @example (new Date(), [2, 10, -10], 3) => 현재날짜 기준 +2년, +10월, -10일 기준 Date객체 반환하는데 연, 월, 일 까지만 현재날짜를 따라가고 시 분 초 밀리초는 0으로 설정됨.
  */
-export function getDiffDate(target: Date, diffs: number[], datePropertyLength: 2 | 3 | 4 | 5 | 6 | 7 = 3): Date {
+export function getDiffDate(target: Date, diffs: number[], datePropertyLength: DateConstructorNumbersLength = 3): Date {
   const targetDateProperties = getDatePropertyArray(target);
   const dateProperties = diffs.reduce((a, b, index) => {
     a[index] += b;
     return a;
   }, targetDateProperties);
-  return new Date(...dateProperties.slice(datePropertyLength) as DateConstructNumbersType);
+  return new Date(...dateProperties.slice(datePropertyLength) as DateConstructorNumbers);
+}
+
+/**
+ * @param sliceIndex [연, 월, 일, 시, 분, 초, 밀리초] 순서대로, slice할 index
+ * @param target 원하는 Date객체 (기본값은 현재에 대한 Date객체)
+ * @example (3, new Date('2021-03-01 12:30:30')) => new Date(2021, 2, 1)
+ *
+ * 1. new Date()를 했는데 연 월 일 까지만 필요하고 나머지 시 분 초 밀리초를 버리고 싶을경우 사용
+ * 2. 1번의 경우에서 현재가 아니라 다른 날짜인데 시 분 초 밀리초가 필요없어서 버릴경우 사용
+ */
+export function createDateWithSlice(sliceIndex: DateConstructorNumbersLength, target = new Date()) {
+  const dateProperties = getDatePropertyArray(target);
+  return new Date(...dateProperties.slice(sliceIndex) as DateConstructorNumbers);
 }
