@@ -1,5 +1,7 @@
 import {getDatePropertyArray} from './date-convert';
 
+export type DateConstructNumbersType = Parameters<DateConstructor>;
+
 /**
  * @param target 기준날짜 (기본값은 현재)
  * @param diffs 기준일날짜기준 n(연, 월, 일, 시, 분, 초, 밀리초) 전/후 차이값배열
@@ -13,5 +15,5 @@ export function getDiffDate(target: Date, diffs: number[], datePropertyLength: 2
     a[index] += b;
     return a;
   }, targetDateProperties);
-  return new Date(...dateProperties.slice(datePropertyLength) as [number, number, number, number, number, number, number]);
+  return new Date(...dateProperties.slice(datePropertyLength) as DateConstructNumbersType);
 }
