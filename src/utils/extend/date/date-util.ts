@@ -16,7 +16,7 @@ export function getDiffDate(target: Date, diffs: number[], datePropertyLength: D
     a[index] += b;
     return a;
   }, targetDateProperties);
-  return new Date(...dateProperties.slice(datePropertyLength) as DateConstructorNumbers);
+  return new Date(...dateProperties.slice(0, datePropertyLength) as DateConstructorNumbers);
 }
 
 /**
@@ -30,4 +30,15 @@ export function getDiffDate(target: Date, diffs: number[], datePropertyLength: D
 export function createDateWithSlice(sliceIndex: DateConstructorNumbersLength, target = new Date()) {
   const dateProperties = getDatePropertyArray(target);
   return new Date(...dateProperties.slice(sliceIndex) as DateConstructorNumbers);
+}
+
+/**
+ * @param date1 비교할 Date1
+ * @param date2 비교할 Date2
+ * @param sameDepth 비교할 깊이 [연, 월, 일, 시, 분, 초, 밀리초] 순서로 몇개까지 일치해야 일치하다고 판단할 값
+ */
+export function isSameDate(date1: Date, date2: Date, sameDepth = 3): boolean {
+  const date1Properties = getDatePropertyArray(date1).slice(0, sameDepth);
+  const date2Properties = getDatePropertyArray(date2).slice(0, sameDepth);
+  return date1Properties.every((value, index) => value === date2Properties[index]);
 }
