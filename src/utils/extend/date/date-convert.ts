@@ -37,18 +37,6 @@ export function getDatePropertyArray(target = new Date()): [number, number, numb
   return [year, month, date, hour, minute, second, milliSecond];
 }
 
-/**
- * @example sliceIndex (2, new Date('2021-01-02 12:34:56')) => new Date('2021-01-01 00:00:00')
- * @example sliceIndex (3, new Date('2021-01-02 12:34:56')) => new Date('2021-01-02 00:00:00')
- * @example sliceIndex (4, new Date('2021-01-02 12:34:56')) => new Date('2021-01-02 12:00:00')
- * @example sliceIndex (5, new Date('2021-01-02 12:34:56')) => new Date('2021-01-02 12:34:00')
- * @example sliceIndex (6, new Date('2021-01-02 12:34:56')) => new Date('2021-01-02 12:34:56')
- */
-export function getSlicedDate(sliceIndex: 2 | 3 | 4 | 5 | 6, target = new Date): Date {
-  const dateProperties = getDatePropertyArray(target).slice(0, sliceIndex);
-  return new Date(...dateProperties as [any]);
-}
-
 const YYYYMMDD_ERROR_MESSAGE = 'Parameter is not in yyyymmdd format.';
 
 /**
