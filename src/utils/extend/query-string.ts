@@ -1,5 +1,5 @@
 import {ParsedUrlQuery} from 'querystring';
-import {dateConvertYyyymmdd, dateConvertYyyymmddWithMoment, yyyymmddConvertDate} from './date/date-convert';
+import moment from 'moment';
 
 export type ParsedUrlQueryValue = ParsedUrlQuery['any-key'];
 
@@ -23,11 +23,15 @@ export function queryStringValueConvertString(value: ParsedUrlQueryValue): strin
  * @return 입력값이 유효하면 그대로 반환, 유효하지 않으면 오늘 날짜를 yyyymmdd 형식으로 변환하여 반환
  */
 export function getYyyymmddOrDefault(value: ParsedUrlQueryValue) {
-  const defaultValue = dateConvertYyyymmdd(new Date());
-  const _value = queryStringValueConvertString(value);
+  const defaultValue = moment().format('YYYYMMDD');
+  const _value = queryStringValueConvertString(value) ?? '';
   
   try {
-    return dateConvertYyyymmddWithMoment(yyyymmddConvertDate(_value));
+    if (moment(_value, 'YYYYMMDD', true).isValid()) {
+      return moment(_value, 'YYYYMMDD').format('YYYYMMDD');
+    } else {
+      return defaultValue;
+    }
   } catch (error) {
     return defaultValue;
   }
