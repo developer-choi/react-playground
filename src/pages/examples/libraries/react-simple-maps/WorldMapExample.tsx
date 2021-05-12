@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {ComposableMap, Geographies, GeographyType, Geography} from 'react-simple-maps';
 import styled from 'styled-components';
 import {geoMercator} from 'd3-geo';
-import {randomBoolean} from '../../../../utils/web-api-extend/random';
+import {randomBoolean} from '../../../../utils/extend/random';
 
 const geoUrl = 'https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json';
 

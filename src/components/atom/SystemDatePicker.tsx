@@ -1,6 +1,6 @@
 import React, {ChangeEvent, PropsWithChildren} from 'react';
 import styled, {css} from 'styled-components';
-import {destructDate} from '../../utils/web-api-extend/date/date-convert';
+import {destructDate} from '../../utils/extend/date/date-convert';
 
 export interface SystemDatePickerProps {
   value: Date;
