@@ -9,5 +9,5 @@ export const COLORS = {
 };
 
 export const theme: DefaultTheme = {
-  main: COLORS.reactBlue
+  main: 'lightcoral'
 };
