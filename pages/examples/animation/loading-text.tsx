@@ -1,7 +1,22 @@
 import React from 'react';
+import Head from 'next/head';
 import styled, {keyframes} from 'styled-components';
 
-export default function LoadingTextExample() {
+export default function LoadingTextPage() {
+  
+  return (
+      <>
+        <Head>
+          <title>loading-text</title>
+        </Head>
+        <div>
+          <LoadingTextExample/>
+        </div>
+      </>
+  );
+}
+
+function LoadingTextExample() {
   
   return (
       <Wrap>
