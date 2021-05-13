@@ -7,6 +7,9 @@ import {urlStringify} from './extend/query-string';
  *
  * 위의 경우 웹소켓으로 사용자의 로그인 여부를 실시간으로 받아온다거나 하지 않기때문에,
  * 첫 페이지 렌더링시, 또는 특정 버튼을 클릭했을 때 등등 특정 경우마다 사용자가 로그인했는지 안했는지를 꼬박 체크하고 그에맞게 처리를 해야함.
+ *
+ * 그래서, 다른 로그인된 모든 기기 즉시 로그아웃까지는 안되지만
+ * 다른 로그인된 기기가 어떤 private 요청을 보냈을 때 로그아웃을 시키는것은 대응이 가능함.
  */
 
 
@@ -36,12 +39,12 @@ export interface CurrentlyLoginUserInfo {
  * NextJs에서 getServerSideProps에서 사용자의 정보를 얻어오려면 로컬스토로지에 저장하는게 안되서 고민임.
  */
 export function getCurrentlyLoginUserInfo(): CurrentlyLoginUserInfo | undefined {
-  return {
-    userPk: 1234,
-    anotherToken: 'ASDkjldas9023nasd-daskl-123lkda'
-  };
+  // return {
+  //   userPk: 1234,
+  //   anotherToken: 'ASDkjldas9023nasd-daskl-123lkda'
+  // };
   
-  // return undefined;
+  return undefined;
 }
 
 export function isCurrentlyLogin(): boolean {
@@ -63,8 +66,16 @@ export interface RunOnlyLoginParams {
   /**
    * 로그인이 되어있지 않을 때 실행될 함수.
    * 주로 ['로그인 후 이용이 가능합니다'] 같은 팝업 띄우고나서 로그인페이지로 보낸다거나 할 때 씀.
+   *
+   * 1st parameter로 [로그인페이지로 보내는 callback]을 제공하며,
+   * 이 callback을 굳이 제공하는 이유는,
+   * 개발자가 원하는 때에 로그인페이지로 보내도록 하기위함.
+   *
+   * 예를들어 [로그인 후 이용이 가능합니다] 팝업을 띄우는데 이게 alert같은 system popup이 아니라,
+   * "custom popup을 띄우고 그 팝업의 확인버튼을 클릭했을 때"에 한해 로그인페이지로 보내는식으로 개발을 해야한다면,
+   * 이 callback을 해당 custom popup의 확인버튼의 onclick에 전달하면 된다.
    */
-  notLoginCallback?: () => void;
+  notLoginCallback: (replaceLoginPageCallback: () => ReturnType<typeof Router.replace>) => void;
   
   /**
    * 로그인이 안되어있으면 로그인페이지로 보낼건데 이 때 현재 url을 query에 담을지 말지 결정. (기본값 true)
@@ -84,13 +95,15 @@ export function executeOnlyLogin({notLoginCallback, onlyLoginCallback, enableRed
   const currentlyUserInfo = getCurrentlyLoginUserInfo();
   
   if (!currentlyUserInfo) {
-    notLoginCallback?.();
-  
     if (enableRedirectUrl) {
       const {pathname, search, hash} = location;
-      Router.replace(getLoginRedirectUrl(`${pathname}${search}${hash}`)).then();
+      notLoginCallback(() => {
+        return Router.replace(getLoginRedirectUrl(`${pathname}${search}${hash}`));
+      });
     } else {
-      Router.replace('/examples/auth-flow/login').then();
+      notLoginCallback(() => {
+        return Router.replace('/examples/auth-flow/login');
+      });
     }
     
     return;
