@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 
-export default function OverflowanchorPage() {
+export default function OverflowAnchorPage() {
   
   const [list, setList] = useState<Item[]>([]);
   

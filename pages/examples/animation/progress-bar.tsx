@@ -1,9 +1,10 @@
 import React, {ComponentProps, useEffect, useState} from 'react';
+import Head from 'next/head';
+import {usePrevious} from '../../../src/utils/custom-hooks/usePrevious';
+import {theme} from '../../../src/utils/style/theme';
 import styled, {keyframes} from 'styled-components';
-import {theme} from '../../../utils/style/theme';
-import {usePrevious} from '../../../utils/custom-hooks/usePrevious';
 
-export default function ProgressBarExample() {
+export default function ProgressBarPage() {
   const [progress, setProgress] = useState(0.5);
   
   useEffect(() => {
@@ -13,9 +14,14 @@ export default function ProgressBarExample() {
   }, []);
   
   return (
-      <div>
-        <ProgressBar progress={progress}/>
-      </div>
+      <>
+        <Head>
+          <title>progress-bar</title>
+        </Head>
+        <div>
+          <ProgressBar progress={progress}/>
+        </div>
+      </>
   );
 }
 
@@ -75,17 +81,17 @@ const AnimatedStick = styled(Stick)<{prevWidth: number, nextWidth: number}>`
  * 물론 ProgressBar 컴포넌트에서는 문제가 없겠지만, 최초 애니메이션이 필요한 아예다른 컴포넌트의 경우에 말이다.
  */
 function Legacy2ProgressBar({progress, second, ...rest}: ProgressBarProp & {second: number}) {
-
+  
   const [progressValue, setProgressValue] = useState(0);
   const [secondValue, setSecondValue] = useState(0);
-
+  
   useEffect(() => {
     setProgressValue(progress);
-
+    
     //계속 effect에서 setState해줘야하는게 늘어난다.
     setSecondValue(second);
   }, [progress, second]);
-
+  
   return (
       <Wrap {...rest}>
         <Stick className="bar" style={{width: `${progressValue * 100}%`}}/>
@@ -94,13 +100,13 @@ function Legacy2ProgressBar({progress, second, ...rest}: ProgressBarProp & {seco
 }
 
 function Legacy3ProgressBar({progress, second, ...rest}: ProgressBarProp & {second: number}) {
-
+  
   const [active, setActive] = useState(false);
-
+  
   useEffect(() => {
     setActive(true);
   }, []);
-
+  
   return (
       <Wrap {...rest}>
         <Stick className="bar" style={{width: `${active ? progress * 100 : 0}%`}}/>
