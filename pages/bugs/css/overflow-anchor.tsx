@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
+import Head from 'next/head';
 import styled from 'styled-components';
 
-export default function OverflowAnchor() {
+export default function OverflowanchorPage() {
   
   const [list, setList] = useState<Item[]>([]);
   
@@ -24,13 +25,18 @@ export default function OverflowAnchor() {
   }, []);
   
   return (
-      <Container>
-        {list.map(({uniqueKey, value}) => (
-            <Item key={`item-${uniqueKey}`} className="item">
-              {value}
-            </Item>
-        ))}
-      </Container>
+      <>
+        <Head>
+          <title>overflow-anchor</title>
+        </Head>
+        <Container>
+          {list.map(({uniqueKey, value}) => (
+              <Item key={`item-${uniqueKey}`} className="item">
+                {value}
+              </Item>
+          ))}
+        </Container>
+      </>
   );
 }
 
@@ -56,7 +62,7 @@ const Container = styled.div`
   height: 400px;
   display: flex;
   flex-direction: column;
-  overflow-anchor: none;
+  //overflow-anchor: none; 이 주석을 해제 / 활성화해보면서 테스트.
   overflow: hidden;
   
   * {
