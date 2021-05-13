@@ -1,11 +1,12 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {BasicButton, ReactButton} from '../components/styled/buttons';
 import {useDispatch, useSelector} from 'react-redux';
 import {decreaseAsyncActionCreator, increaseAsyncActionCreator} from '../store/sagas/count-saga';
 import {decreaseActionCreator, increaseActionCreator} from '../store/reducers/counter';
 import {RootState} from '../store/store';
 import {requestFetchUserActionCreator} from '../store/sagas/user-saga';
+import ButtonExtend from '@components/atom/ButtonExtend';
+import { ReactButton } from '@components/atom/button-presets';
 
 export default function WhiteBoardPage() {
 
@@ -92,7 +93,7 @@ const Count = styled.span`
   font-weight: bold;
 `;
 
-const CustomButton = styled(BasicButton)`
+const CustomButton = styled(ButtonExtend)`
   border-radius: 5px;
   min-width: 60px;
   padding: 15px 7px;

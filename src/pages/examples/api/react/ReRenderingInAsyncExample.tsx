@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {BasicButton} from '../../../../components/styled/buttons';
+import ButtonExtend from '@components/atom/ButtonExtend';
 
 export default function ReRenderingInAsyncExample() {
 
@@ -54,7 +54,7 @@ function Child({bool, setState}: {bool: boolean, setState: Function}) {
  * useEffect의 effect도 비동기로 실행되지만, 대체로 setTimeout, http call 말고는 비동기 + 일괄처리가 되는듯 하다.
  */
 
-const StyledButton = styled(BasicButton)`
+const StyledButton = styled(ButtonExtend)`
   background-color: red;
   color: white;
   padding: 10px;
