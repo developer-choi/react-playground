@@ -1,17 +1,19 @@
 import styled, {keyframes} from 'styled-components';
-import React from 'react';
+import React, {ComponentProps, forwardRef, Ref} from 'react';
+import ButtonExtend from '@components/atom/button/ButtonExtend';
 
-export default function NeonButton() {
+export default forwardRef(function NeonButton(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
+  
   return (
-      <Wrap>
+      <Wrap ref={ref} {...props}>
         <MoveInTop/>
         <MoveInRight/>
         <MoveInBottom/>
         <MoveInLeft/>
-        <ButtonText>NEON BUTTON</ButtonText>
+        <ButtonText>HOVER ME</ButtonText>
       </Wrap>
   );
-}
+});
 
 const ButtonText = styled.span`
   font-size: 20px;
@@ -93,7 +95,7 @@ const MoveInLeft = styled.span`
   animation: ${verticalAnimate} ${SETTINGS.sideDuration}s reverse infinite linear ${SETTINGS.sideDuration / 4}s;
 `;
 
-const Wrap = styled.button`
+const Wrap = styled(ButtonExtend)`
   position: relative;
   padding: 20px 40px;
   overflow: hidden;

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import Head from 'next/head';
-import {Button} from '@components/atom/button-presets';
+import {Button} from '@components/atom/button/button-presets';
 import {useRouter} from 'next/router';
 import {LOGIN_REDIRECT_QUERY_KEY} from '../../../src/utils/auth';
 import {queryStringValueConvertString} from '../../../src/utils/extend/query-string';

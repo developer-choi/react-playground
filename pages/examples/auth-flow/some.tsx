@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import Head from 'next/head';
-import { Button } from '@components/atom/button-presets';
+import { Button } from '@components/atom/button/button-presets';
 import {executeOnlyLogin} from '../../../src/utils/auth';
 
 export default function SomePage() {

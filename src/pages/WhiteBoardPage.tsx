@@ -5,8 +5,8 @@ import {decreaseAsyncActionCreator, increaseAsyncActionCreator} from '../store/s
 import {decreaseActionCreator, increaseActionCreator} from '../store/reducers/counter';
 import {RootState} from '../store/store';
 import {requestFetchUserActionCreator} from '../store/sagas/user-saga';
-import ButtonExtend from '@components/atom/ButtonExtend';
-import { ReactButton } from '@components/atom/button-presets';
+import ButtonExtend from '@components/atom/button/ButtonExtend';
+import { ReactButton } from '@components/atom/button/button-presets';
 
 export default function WhiteBoardPage() {
 

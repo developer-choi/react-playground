@@ -10,7 +10,7 @@ const someButtonColorTemplate = css`
   }
 `;
 
-const ButtonExtend = styled.button.attrs(({type = 'button', ...rest}: Omit<ComponentProps<'button'>, 'ref'>) => ({type, ...rest}))`
+const ButtonExtend = styled.button.attrs(({type = 'button', ...rest}: ComponentProps<'button'>) => ({type, ...rest}))`
   //<SomeButton as='a'로 만들 때 필요한 css
   a& {
     // button은 이 값이 기본값이지만, a tag는 아님.
@@ -18,17 +18,7 @@ const ButtonExtend = styled.button.attrs(({type = 'button', ...rest}: Omit<Compo
     line-height: normal;
   }
   
-  //hover, active, disabled는 이 순서로 선언이 되야 opacity가 직관적으로 작동함.
-  :hover {
-    opacity: 0.7;
-  }
-  
-  :active {
-    opacity: 1;
-  }
-  
   :disabled {
-    opacity: initial;
     cursor: not-allowed;
   }
   

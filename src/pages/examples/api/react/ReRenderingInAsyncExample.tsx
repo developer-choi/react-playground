@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import ButtonExtend from '@components/atom/ButtonExtend';
+import ButtonExtend from '@components/atom/button/ButtonExtend';
 
 export default function ReRenderingInAsyncExample() {
 

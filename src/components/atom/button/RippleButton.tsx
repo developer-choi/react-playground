@@ -1,11 +1,16 @@
-import React, {useCallback, MouseEvent, useRef} from 'react';
+import React, {useCallback, MouseEvent, useRef, ComponentProps, Ref, forwardRef} from 'react';
 import styled, {keyframes} from 'styled-components';
 
-export default function RippleButton() {
+export default forwardRef(function RippleButton(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
+  const {onClick} = props;
+  
+  console.log(ref);
   
   const buttonRef = useRef<HTMLButtonElement>(null);
   
-  const onClick = useCallback(({nativeEvent: {offsetY, offsetX}}: MouseEvent<HTMLButtonElement>) => {
+  const _onClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    const {nativeEvent: {offsetY, offsetX}} = event;
+    
     const newElement = document.createElement('div');
     newElement.classList.add('ripple');
     newElement.style.left = `${offsetX}px`;
@@ -15,14 +20,16 @@ export default function RippleButton() {
     setTimeout(() => {
       buttonRef.current?.removeChild(newElement);
     }, DURATION * 1000);
-  }, []);
+  
+    onClick?.(event);
+  }, [onClick]);
   
   return (
-      <Button ref={buttonRef} onClick={onClick}>
+      <Button ref={buttonRef} onClick={_onClick}>
         Click Me
       </Button>
   );
-}
+});
 
 const DURATION = 1.5;
 
