@@ -9,13 +9,5 @@ export const COLORS = {
 };
 
 export const theme: DefaultTheme = {
-  headerBack1: COLORS.black1,
-  asideBack: COLORS.gray1,
-  asideText: COLORS.black2,
-  pointColor: 'coral',
-  lightPointColor: 'lightcoral',
-  assistPointColor: 'white',
-  error: 'red',
-  success: 'lightgreen',
   main: COLORS.reactBlue
 };
