@@ -1,14 +1,22 @@
 import React from 'react';
+import Head from 'next/head';
 import styled from 'styled-components';
 
-export default function CardAnimationExample1() {
+export default function ProductCardPage() {
   
   return (
-      <CardComponent/>
+      <>
+        <Head>
+          <title>product-card</title>
+        </Head>
+        <div>
+          <SomeProductCard/>
+        </div>
+      </>
   );
 }
 
-export function CardComponent() {
+export function SomeProductCard() {
   return (
       <Card>
         <OrderCircle>
