@@ -1,7 +1,7 @@
 import React, {forwardRef, Ref, useCallback, useImperativeHandle, useRef} from 'react';
 import styled from 'styled-components';
 
-export default function UseImperativeHandleExample() {
+export default function UseImperativeExample() {
   
   const childRef = useRef<ChildMethod>(null);
   
