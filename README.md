@@ -9,6 +9,6 @@ React / 마크업 공부를 위한 개인프로젝트 입니다.
 3. Git 설치 --> https://git-scm.com/download/win
 4. Git Clone
 5. npm install
-6. npm start
+6. npm dev
 
 <hr>
