@@ -12,6 +12,14 @@ export function handleErorr(data: any) {
   }
 }
 
+/**
+ * 로그인페이지에서 사용하려고 만들었고,
+ * 로그인페이지를 벗어나는 아래의 2가지 케이스에 대해 고려가 되었음.
+ * case1. [로그인 후 이용이 가능합니다] 팝업을 만난 사용자가 로그인안하고 그냥 다른페이지를 간다거나
+ * case2. 로그인을 성공하여 다른페이지로 간 사용자의 경우
+ *
+ * 다시 초기화를 해서 이후에 또 [로그인 해야 이용가능] 성격의 팝업을 만났을 때 이 팝업을 보여주도록 하기위해/
+ */
 export function useResetIgnoreForceLogin() {
   useEffect(() => {
     return () => {

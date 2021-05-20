@@ -1,6 +1,6 @@
 import Router from 'next/router';
 import {GetServerSidePropsContext, GetServerSidePropsResult} from 'next';
-import {urlStringify} from './extend/query-string';
+import {urlStringify} from '../extend/query-string';
 
 /**
  * 이 모듈은, 사용자가 로그인 / 로그아웃 상태가 변경되었을 때 즉시 웹페이지를 새로 렌더링하지 않는 웹사이트에서 사용하기위한 모듈.
