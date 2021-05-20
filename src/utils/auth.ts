@@ -91,6 +91,13 @@ export interface RunOnlyLoginParams {
  * 특히, 만약 로그인이 되어있어서 private page에 들어왔다 하더라도 private page에 있는 버튼을 클릭할 때도 로그인이 되어있을거라는 보장은 없기 때문에 필요.
  * 다른탭 또는 새창으로 사이트에 머무르다가 로그아웃한다거나 하는 상황이 발생할 수 있기 때문.
  */
+
+/** TODO
+ * 이게 사용되는 위치를 생각해봤을 때 enableRedirectUrl은 항상 true로 사용될 수 밖에 없으니 제거해야하고,
+ * notLoginCallback은 뭐 대체로 [로그인 후 이용 가능] 팝업 띄우고 확인눌렀을 때 로그인페이지로 보내는 쪽으로 사용될거기때문에,
+ * 기본 notLoginCallback을 기본값으로 구현하자.
+ * 결과적으로 그냥 parameter는 onlyLoginCallback 하나만 받는쪽으로 수정하기.
+ */
 export function executeOnlyLogin({notLoginCallback, onlyLoginCallback, enableRedirectUrl = true}: RunOnlyLoginParams) {
   const currentlyUserInfo = getCurrentlyLoginUserInfo();
   
@@ -98,6 +105,10 @@ export function executeOnlyLogin({notLoginCallback, onlyLoginCallback, enableRed
     if (enableRedirectUrl) {
       const {pathname, search, hash} = location;
       notLoginCallback(() => {
+  
+        /**
+         * TODO 기존 페이지 URL에 쿼리스트링같은게 있을 수 있으니 이런것도 같이 redirectUrl의 query-string으로 들어갈 수 있도록 구현이 필요.
+         */
         return Router.replace(getLoginRedirectUrl(`${pathname}${search}${hash}`));
       });
     } else {
@@ -123,6 +134,8 @@ export interface PrivateGerServerSideOptions extends Pick<RunOnlyLoginParams, 'e
  *
  * 로그인이 안되어있으면 getServerSideProps에서 Redirect정보를 반환하고
  * 로그인이 되어있으면 전달받은 callback을 실행하여 callback의 반환값을 그대로 반환한다.
+ *
+ * 하지만 사용법이랑 가독성이 너무 나빠서 다른방식으로 해결해보기로 함.
  */
 export function privateGerServerSideProps<PageProp>(option: PrivateGerServerSideOptions, callback: (currentlyUserInfo: CurrentlyLoginUserInfo) => GetServerSidePropsResult<PageProp>): GetServerSidePropsResult<PageProp> {
   const currentlyUserInfo = getCurrentlyLoginUserInfo();
