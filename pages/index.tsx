@@ -1,13 +1,31 @@
 import React from 'react';
-import {SystemDatePicker} from '@components/atom/SystemDatePicker';
+import SendSvg from '@components/atom/svg/SendSvg';
+import { Button } from '@components/atom/button/button-presets';
+import styled from 'styled-components';
 
 export default function Page() {
   
-  const [date, setDate] = React.useState(new Date());
+  const [active, setActive] = React.useState(false);
+  
+  const toggle = React.useCallback(() => {
+    setActive(prevState => !prevState);
+  }, []);
   
   return (
-      <SystemDatePicker maxDate={new Date('2021-06-01')} minDate={new Date('2021-05-01')} value={date} onChangeDate={setDate}>
-        <img src="/images/calendar.png" alt="calendar icon"/>
-      </SystemDatePicker>
+      <div>
+        <SendTransition className={active ? 'active' : ''}/>
+        <Button onClick={toggle}>Toggle</Button>
+      </div>
   );
 };
+
+const SendTransition = styled(SendSvg)`
+  path {
+    fill: gray;
+    transition: fill 1s;
+  }
+  
+  &.active path {
+    fill: red;
+  }
+`;
