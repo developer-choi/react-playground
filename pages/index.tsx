@@ -1,39 +1,39 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, {ComponentProps, useEffect, useRef} from 'react';
+import videojs from 'video.js'
+import 'video.js/dist/video-js.css';
+
+const options = {
+  autoPlay: true,
+  controls: true,
+  src: 'https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8',
+  type: 'application/x-mpegURL',
+  width: '100vw',
+  height: '100vh'
+}
 
 export default function Page() {
+  return (
+      <VideoPlayer2 {...options}/>
+  );
+}
+
+//https://stackoverflow.com/questions/54837471/how-to-use-react-hooks-with-video-js
+export function VideoPlayer2({src, ...rest}: ComponentProps<'video'>) {
+  const playerRef = useRef<HTMLVideoElement>(null);
   
-  const [value1, setValue1] = React.useState(0);
-  const [value2, setValue2] = React.useState(2);
-  const [value3, setValue3] = React.useState(4);
-  
-  const onClick = React.useCallback(() => {
-    setValue1(prevState => prevState + 1);
-    setValue2(prevState => prevState + 2);
-    setValue3(prevState => prevState + 3);
-  }, []);
-  
-  React.useEffect(() => {
-    document.body.onclick = onClick;
-  }, [onClick]);
-  
-  console.log(value1, value2, value3);
+  useEffect(() => {
+    const player = videojs(playerRef.current, { autoplay: true, muted: true }, () => {
+      player.src(src as string);
+    });
+    
+    return () => {
+      player.dispose();
+    };
+  }, [src]);
   
   return (
-      <Wrap>
-        <Text>Click Html Body</Text>
-      </Wrap>
+      <div data-vjs-player>
+        <video ref={playerRef} className="video-js vjs-16-9" playsInline {...rest}/>
+      </div>
   );
-};
-
-const Wrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-`;
-
-const Text = styled.span`
-  font-weight: bold;
-  font-size: 20px;
-`;
+}
