@@ -6,10 +6,7 @@ const src = 'https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bu
 
 export default function Page() {
   return (
-      <>
-        <CustomPlayer muted/>
-        <CustomPlayer muted={false}/>
-      </>
+      <CustomPlayer muted={false}/>
   );
 }
 
