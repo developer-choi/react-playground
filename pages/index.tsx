@@ -1,42 +1,26 @@
-import React, {ComponentProps, useEffect, useRef} from 'react';
-import videojs, {VideoJsPlayerOptions} from 'video.js';
+import React from 'react';
 import 'video.js/dist/video-js.css';
+import ReactPlayer from 'react-player';
 
-const options: VideoJsPlayerOptions = {
-  autoplay: true,
-  muted: true,
-  src: 'https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8',
-}
+const src = 'https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8';
 
 export default function Page() {
   return (
-      <VideoPlayer options={options}/>
+      <CustomPlayer muted={false}/>
   );
 }
 
-export interface VideoPlayerProps {
-  options: VideoJsPlayerOptions;
-  videoProps?: ComponentProps<'video'>;
-}
-
-//https://stackoverflow.com/questions/54837471/how-to-use-react-hooks-with-video-js
-export function VideoPlayer({videoProps, options}: VideoPlayerProps) {
-  const playerRef = useRef<HTMLVideoElement>(null);
-  
-  useEffect(() => {
-    const {src, ...rest} = options;
-    const player = videojs(playerRef.current, rest, () => {
-      player.src(src as string);
-    });
-    
-    return () => {
-      player.dispose();
-    };
-  }, [options]);
+function CustomPlayer({muted}: {muted: boolean}) {
   
   return (
-      <div data-vjs-player>
-        <video ref={playerRef} className="video-js vjs-16-9" playsInline {...videoProps}/>
-      </div>
+      <ReactPlayer
+          url={src}
+          controls
+          muted={muted}
+          playing
+          config={{
+            file: { forceHLS: true },
+          }}
+      />
   );
 }
