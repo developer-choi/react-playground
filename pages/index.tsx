@@ -1,58 +1,52 @@
-import { Button } from '@components/atom/button/button-presets';
-import React from 'react';
-import styled, {css, keyframes} from 'styled-components';
+import React, {ComponentProps, useEffect, useRef} from 'react';
+import videojs, {VideoJsPlayerOptions} from 'video.js';
+import 'video.js/dist/video-js.css';
+import styled from 'styled-components';
 
-/**
- * transition이랑 다르게 animation은 css속성이 사라질 때(= active class가 사라져서 active class로 선언했던 스타일들이 적용되지 않을 때)
- * 애니메이션이 작동되지않는다.
- */
+const options: VideoJsPlayerOptions = {
+  autoplay: true,
+  muted: true,
+  controls: true,
+  src: 'https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8'
+}
+
 export default function Page() {
-  const [active, setActive] = React.useState(false);
-  const toggle = React.useCallback(() => {
-    setActive(prevState => !prevState);
-  }, []);
+  return (
+      <VideoPlayer options={options}/>
+  );
+}
+
+export interface VideoPlayerProps {
+  options: VideoJsPlayerOptions;
+  videoProps?: ComponentProps<'video'>;
+}
+
+//https://stackoverflow.com/questions/54837471/how-to-use-react-hooks-with-video-js
+export function VideoPlayer({videoProps, options}: VideoPlayerProps) {
+  const playerRef = useRef<HTMLVideoElement>(null);
+  
+  useEffect(() => {
+    const {src, ...rest} = options;
+    const player = videojs(playerRef.current, rest, () => {
+      player.src(src as string);
+    });
+    
+    return () => {
+      player.dispose();
+    };
+  }, [options]);
+  
   return (
       <Wrap>
-        <Button onClick={toggle}>토글</Button>
-        <TransitionBox className={active ? 'active' : ''}/>
-        <AnimationBox className={active ? 'active' : ''}/>
+        <div data-vjs-player>
+          <video ref={playerRef} className="video-js vjs-16-9" playsInline {...videoProps}/>
+        </div>
       </Wrap>
   );
 }
 
 const Wrap = styled.div`
-  * {
-    margin-bottom: 20px;
-  }
-`;
-
-const Box = styled.div`
-  width: 100px;
-  height: 100px;
-`;
-
-const DURATION = 2;
-const commonCss = css`
-  background-color: blue;
-`;
-
-const TransitionBox = styled(Box)`
-  ${commonCss};
-  transition: background-color ${DURATION}s;
-  &.active {
-    background-color: red;
-  }
-`;
-
-const animate = keyframes`
-  to {
-    background-color: red;
-  }
-`;
-
-const AnimationBox = styled(Box)`
-  ${commonCss};
-  &.active {
-    animation: ${animate} ${DURATION}s forwards;
+  .vjs-big-play-button {
+    display: none !important;
   }
 `;
