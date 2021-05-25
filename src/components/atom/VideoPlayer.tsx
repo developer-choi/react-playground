@@ -6,18 +6,26 @@ import 'video.js/dist/video-js.css';
 
 export interface VideoPlayerProps extends VideoJsPlayerOptions {
   src: string;
+  options?: VideoJsPlayerOptions;
 }
 
-//https://stackoverflow.com/questions/54837471/how-to-use-react-hooks-with-video-js
-export function VideoPlayer({src, ...options}: VideoPlayerProps) {
+/**
+ * 예제 : https://stackoverflow.com/questions/54837471/how-to-use-react-hooks-with-video-js보고 작성
+ *
+ * 발생하는 문제
+ *
+ * 1. VideoPlayer를 렌더링하는 페이지는 GlobalStyle이 적용되지않음 (_app에서 분명 적용했고, 다른 페이지는 정상적으로 나오지만...)
+ * 2. 이 페이지가 Production에서는 영상이 나오지않음. (next dev로는 나오지만 next build 후에 next start하면 안나옴)
+ */
+export function VideoPlayer({src, options}: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<VideoJsPlayer>();
   const [visibleUnMuteButton, setVisibleUnMuteButton] = React.useState(false);
   
   useEffect(() => {
-    const {controls = true, autoplay, ...rest} = options;
+    const {controls = true, autoplay, ...rest} = options ?? {};
     const player = videojs(videoRef.current, {autoplay, controls, ...rest}, () => {
-      player.src(src as string);
+      player.src(src);
       
       (async () => {
         
@@ -26,7 +34,7 @@ export function VideoPlayer({src, ...options}: VideoPlayerProps) {
          * 자동재생이 실패할경우 mute를 true로 하여 항상 자동재생 자체는 성공할 수 있도록 구현.
          * ==>
          * IOS에 한해 저전력모드를 킨 경우, 자동재생이 안됨. 유튜브에서 조차도.
-         * 그런데 이 경우에 대해 음소거를 하면서까지 자동재생을 하는게 맞는 동작인지는 잘 모르겠음.
+         * 그런데 이 경우에 대해 음소거를 하면서까지 자동재생을 하는게 맞는 동작인지는 판단이 서지않음.
          */
         if (autoplay) {
           try {
@@ -38,19 +46,16 @@ export function VideoPlayer({src, ...options}: VideoPlayerProps) {
             } else {
               console.error(error);
             }
-            
-            alert(error);
           }
         }
-        
       })().then();
-      
-      return () => {
-        player.dispose();
-      };
     });
     
     playerRef.current = player;
+    
+    return () => {
+      player.dispose();
+    };
   }, [src, options]);
   
   const unmute = React.useCallback(() => {
