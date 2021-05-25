@@ -17,6 +17,28 @@ export interface VideoPlayerProps extends VideoJsPlayerOptions {
  * 1. VideoPlayer를 렌더링하는 페이지는 GlobalStyle이 적용되지않음 (_app에서 분명 적용했고, 다른 페이지는 정상적으로 나오지만...)
  * 2. 이 페이지가 Production에서는 영상이 나오지않음. (next dev로는 나오지만 next build 후에 next start하면 안나옴)
  */
+
+/**
+ * chrome autoplay policy : https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+ *
+ * The point)
+ * 1. If true, it will always play automatically.
+ * 2. If the above condition (1) is not satisfied, it will be automatically played if the user interacts with it.
+ * (If you click the link with the mouse and enter the web page with the video, it will be automatically played.
+ * If you enter the web page with the URL in the address bar, it will not play automatically)
+ *
+ * IOS autoplay policy : https://developer.apple.com/documentation/webkit/delivering_video_content_for_safari
+ *
+ * The point)
+ * 1. If true, it will always play automatically.
+ * 2. When you press the home button to go to the home screen and then turn on the web browser again, it does not automatically play.
+ * (= because the video has disappeared from the viewport)
+ *
+ * Related stackoverflow link : https://stackoverflow.com/questions/43570460/html5-video-autoplay-on-iphone#answer-49137124
+ *
+ * The point)
+ * 1. If it is in low power mode, auto play is not possible.
+ */
 export function VideoPlayer({src, options}: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<VideoJsPlayer>();
