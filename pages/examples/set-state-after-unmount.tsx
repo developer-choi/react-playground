@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Head from 'next/head';
 import {Button} from '@components/atom/button/button-presets';
-import {useIsMountedCallback} from '../../src/utils/custom-hooks/useIsMountedCallback';
+import {useRunCallbackWhenMount} from '../../src/utils/custom-hooks/useRunCallbackWhenMount';
 import styled from 'styled-components';
 
-export default function SetstAteafterUnmountPage() {
+export default function SetStateAfterUnmountPage() {
   
-  const [visible, setVisible] = React.useState(true);
+  const [visible, setVisible] = useState(true);
   
-  const unmount = React.useCallback(() => {
+  const unmount = useCallback(() => {
     setVisible(false);
   }, []);
   
@@ -40,7 +40,7 @@ interface UserInfoProps {
 }
 
 function UserInfo({userPk}: UserInfoProps) {
-  const handleResponse = useIsMountedCallback();
+  const handleResponse = useRunCallbackWhenMount();
   const [data, setData] = useState<string>();
   
   useEffect(() => {
