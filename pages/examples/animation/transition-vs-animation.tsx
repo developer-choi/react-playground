@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {Button} from '@components/atom/button/button-presets';
 import styled, {css, keyframes} from 'styled-components';
 
@@ -7,8 +7,8 @@ import styled, {css, keyframes} from 'styled-components';
  * 애니메이션이 작동되지않는다.
  */
 export default function TransitionVsAnimationPage() {
-  const [active, setActive] = React.useState(false);
-  const toggle = React.useCallback(() => {
+  const [active, setActive] = useState(false);
+  const toggle = useCallback(() => {
     setActive(prevState => !prevState);
   }, []);
   return (

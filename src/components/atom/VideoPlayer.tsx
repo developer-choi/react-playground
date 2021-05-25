@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import videojs, {VideoJsPlayer, VideoJsPlayerOptions} from 'video.js';
 import {Button} from '@components/atom/button/button-presets';
@@ -20,7 +20,7 @@ export interface VideoPlayerProps extends VideoJsPlayerOptions {
 export function VideoPlayer({src, options}: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<VideoJsPlayer>();
-  const [visibleUnMuteButton, setVisibleUnMuteButton] = React.useState(false);
+  const [visibleUnMuteButton, setVisibleUnMuteButton] = useState(false);
   
   useEffect(() => {
     const {controls = true, autoplay, ...rest} = options ?? {};
@@ -58,7 +58,7 @@ export function VideoPlayer({src, options}: VideoPlayerProps) {
     };
   }, [src, options]);
   
-  const unmute = React.useCallback(() => {
+  const unmute = useCallback(() => {
     setVisibleUnMuteButton(false);
     playerRef.current?.muted(false);
   }, []);

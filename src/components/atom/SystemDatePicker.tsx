@@ -1,4 +1,4 @@
-import React, {ChangeEvent, PropsWithChildren} from 'react';
+import React, {ChangeEvent, PropsWithChildren, useCallback} from 'react';
 import styled, {css} from 'styled-components';
 import {destructDate} from '../../utils/extend/date/date-convert';
 
@@ -11,7 +11,7 @@ export interface SystemDatePickerProps {
 
 export function SystemDatePicker({children, onChangeDate, value, maxDate, minDate}: PropsWithChildren<SystemDatePickerProps>) {
   
-  const onChange = React.useCallback((event: ChangeEvent<HTMLInputElement>) => {
+  const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     onChangeDate(new Date(event.target.value));
   }, [onChangeDate]);
   

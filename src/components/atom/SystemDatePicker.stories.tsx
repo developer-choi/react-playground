@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Story} from '@storybook/react';
 import {SystemDatePicker, SystemDatePickerProps} from '@components/atom/SystemDatePicker';
 import styled, {ThemeProvider} from 'styled-components';
@@ -12,7 +12,7 @@ export default {
 
 const Template: Story<SystemDatePickerProps> = args => {
   
-  const [date, setDate] = React.useState(new Date());
+  const [date, setDate] = useState(new Date());
   
   return (
       <ThemeProvider theme={theme}>
