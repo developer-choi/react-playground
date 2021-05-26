@@ -1,21 +1,6 @@
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 import ButtonExtend from '@components/atom/button/ButtonExtend';
 import {COLORS} from '../../../utils/style/theme';
-
-export const buttonHoverEffect = css`
-  //hover, active, disabled는 이 순서로 선언이 되야 opacity가 직관적으로 작동함.
-  :hover {
-    opacity: 0.7;
-  }
-  
-  :active {
-    opacity: 1;
-  }
-  
-  :disabled {
-    opacity: initial;
-  }
-`;
 
 /**
  * Size버튼은 버튼의 윤곽만 담당한다. (크기, 테두리 둥근정도)
@@ -35,7 +20,6 @@ export const ReactButton = styled(SmallSizeButton)`
   color: black;
   font-size: 15px;
   font-weight: bold;
-  ${buttonHoverEffect};
 `;
 
 /**
@@ -44,5 +28,4 @@ export const ReactButton = styled(SmallSizeButton)`
 export const Button = styled(SmallSizeButton)`
   background-color: ${props => props.theme.main};
   color: white;
-  ${buttonHoverEffect};
 `;

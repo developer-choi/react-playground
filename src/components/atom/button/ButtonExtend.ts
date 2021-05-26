@@ -1,6 +1,21 @@
 import {ComponentProps} from 'react';
 import styled, {css} from 'styled-components';
 
+const buttonHoverEffect = css`
+  //hover, active, disabled는 이 순서로 선언이 되야 opacity가 직관적으로 작동함.
+  :hover {
+    opacity: 0.7;
+  }
+  
+  :active {
+    opacity: 1;
+  }
+  
+  :disabled {
+    opacity: initial;
+  }
+`;
+
 const someButtonColorTemplate = css`
   color: white;
   background-color: red;
@@ -20,6 +35,10 @@ const ButtonExtend = styled.button.attrs(({type = 'button', ...rest}: ComponentP
   
   :disabled {
     cursor: not-allowed;
+  }
+  
+  &.hover-effect {
+    ${buttonHoverEffect};
   }
   
   //color template을 클래스 이름으로 적용할 수 있도록 함.
