@@ -1,7 +1,7 @@
 import React, {ReactNode, useCallback, useState} from 'react';
 import {BiDownArrow} from 'react-icons/all';
 import styled from 'styled-components';
-import {AlignItemsCenter, FlexDirectionColumn} from '../../utils/style/css';
+import {alignItemsCenter, flexDirectionColumn} from '../../utils/style/css';
 
 /**
  * 하지만 이렇게하면 단점은, Value를 다양하게 가져갈 수 없음.
@@ -81,11 +81,11 @@ const Wrap = styled.div`
 const SelectedItem = styled.button`
   min-width: 200px;
   position: relative;
-  ${AlignItemsCenter};
+  ${alignItemsCenter};
 `;
 
 const ItemsWrap = styled.div`
-  ${FlexDirectionColumn};
+  ${flexDirectionColumn};
   position: absolute;
   top: calc(100% + 10px);
   left: 0;

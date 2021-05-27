@@ -1,27 +1,35 @@
 import {css} from 'styled-components';
 
-export const FlexDirectionColumn = css`
+export const flexDirectionColumn = css`
   display: flex;
   flex-direction: column;
 `;
 
-export const FlexCenter = css`
+export const flexCenter = css`
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-export const AlignItemsCenter = css`
+export const alignItemsCenter = css`
   display: flex;
   align-items: center;
 `;
 
-export const RemoveRightBorderRadius = css`
+export const absoluteAll0 = css`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+`;
+
+export const removeRightBorderRadius = css`
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 `;
 
-export const RemoveLeftBorderRadius = css`
+export const removeLeftBorderRadius = css`
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
 `;
