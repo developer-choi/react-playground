@@ -10,7 +10,7 @@ export default function Page() {
   
   return (
       <div>
-        <input type="date" value={date} onChange={onChange}/>
+        <input style={{width: 100, height: 100, backgroundColor: 'red'}} type="date" value={date} onChange={onChange}/>
       </div>
   );
 }
