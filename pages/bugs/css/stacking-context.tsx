@@ -1,15 +1,15 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import Head from 'next/head';
 import {Button} from '@components/atom/button/button-presets';
 import styled from 'styled-components';
 import {absoluteAll0} from '../../../src/utils/style/css';
 
-export default function StackingcontextPage() {
-  const onClickStackButton = React.useCallback(() => {
+export default function StackingContextPage() {
+  const onClickStackButton = useCallback(() => {
     alert('Stack button clicked');
   }, []);
   
-  const onClickAbsoluteButton = React.useCallback(() => {
+  const onClickAbsoluteButton = useCallback(() => {
     alert('Absolute button clicked');
   }, []);
   
