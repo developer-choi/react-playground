@@ -19,12 +19,12 @@
  * error case를 테스트하는 방법은 간단하게 readAsDataURL의 첫 번째 매개변수에 읽을수없는 이상한문자열(특수문자 등)을 넣어보면
  * onerror callback이 호출됨.
  */
-export function blobToDataUrl(blob: Blob) {
+export function blobToDataUrl(blob: Blob): Promise<string> {
   const reader = new FileReader();
   return new Promise((resolve, reject) => {
     reader.readAsDataURL(blob);
     reader.onload = function () {
-      resolve(reader.result);
+      resolve(reader.result as string);
     };
     reader.onerror = function () {
       reject(reader.error);
