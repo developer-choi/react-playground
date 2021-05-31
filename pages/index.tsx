@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {flexCenter} from '../src/utils/style/css';
 import DragAndDrop from '@components/atom/DragAndDrop';
@@ -9,6 +9,13 @@ export default function Page() {
   const [files, setFiles] = useState<FileList>();
   const [fileDataUri, setFileDataUri] = useState<string[]>([]);
   
+  const onChangeInput = React.useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const {files} = event.target;
+    if (files) {
+      setFiles(files);
+    }
+  }, []);
+  
   useEffect(() => {
     if (files) {
       (async () => {
@@ -17,10 +24,20 @@ export default function Page() {
     }
   }, [files]);
   
+  /**
+   * 드래그앤드롭이랑 파일버튼이랑 같이있는경우에 대해 대응하려고 만들어본건데
+   * 파일버튼 클릭했을 때 :focus-within이 같이 스타일링되서 보기흉하더라.
+   * 그레서 :not(:active):focus-within으로 선택자 해봐도 안됬었음.
+   */
   return (
       <>
-        <Wrap onDropFiles={setFiles}>
-          <Message>Drag Here</Message>
+        <Wrap>
+          <Label>
+            <Input type="file" accept="image/*" onChange={onChangeInput} multiple/>
+            <DropBox onDropFiles={setFiles}>
+              <Message>Drag Here</Message>
+            </DropBox>
+          </Label>
         </Wrap>
         {fileDataUri.map((dataUri, index) => (
             <img key={index} src={dataUri} alt="user select image"/>
@@ -29,10 +46,13 @@ export default function Page() {
   );
 }
 
-const Wrap = styled(DragAndDrop)`
+const Wrap = styled.div`
+  display: flex;
+`;
+
+const DropBox = styled(DragAndDrop)`
   width: 300px;
   height: 300px;
-  border: 3px solid black;
   
   ${flexCenter};
   
@@ -49,4 +69,17 @@ const Wrap = styled(DragAndDrop)`
 const Message = styled.div`
   font-weight: bold;
   font-size: 20px;
+`;
+
+const Label = styled.label`
+  cursor: pointer;
+  
+  :focus-within {
+  
+  }
+`;
+
+const Input = styled.input`
+  opacity: 0;
+  position: absolute;
 `;
