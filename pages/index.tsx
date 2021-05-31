@@ -1,43 +1,56 @@
-import React, {ChangeEvent, useCallback} from 'react';
-import {blobToDataUrl} from '../src/utils/extend/blob';
+import React, {DragEvent} from 'react';
 import styled from 'styled-components';
+import {flexCenter} from '../src/utils/style/css';
 
 export default function Page() {
-  const [file, setFile] = React.useState<File>();
-  const [dataUri, setDataUri] = React.useState('');
   
-  const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const singleFile = event.target.files?.[0];
-    if (singleFile) {
-      setFile(singleFile);
-    }
+  const [dragging, setDragging] = React.useState(false);
+  
+  const onDrop = React.useCallback((event: DragEvent<HTMLDivElement>) => {
+    console.log('onDrop', event.dataTransfer.files);
+    event.preventDefault(); // 이거 해야 onDrop 가능
+    setDragging(false);
   }, []);
   
-  React.useEffect(() => {
-    (async () => {
-      if (file) {
-        setDataUri(await blobToDataUrl(file));
-      }
-    })().then();
-  }, [file]);
+  const onDragLeave = React.useCallback(() => {
+    console.log('onDragLeave');
+    setDragging(false);
+  }, []);
   
-  /**
-   * capture : In mobile web, a property that can be used to open the camera when the user clicks the file button
-   * If you specify a specific extension for accept, the capture property doesn't work.
-   */
+  const onDragEnter = React.useCallback(() => {
+    console.log('onDragEnter');
+    setDragging(true);
+  }, []);
+  
+  const onDragOver = React.useCallback((event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault(); // 이거 해야 onDrop 가능
+  }, []);
+  
   return (
-      <Wrap>
-        <input style={{width: 100, height: 100, backgroundColor: 'red'}} type="file" onChange={onChange} accept=".jpg,.jpeg,.gif,.png,.bmp" capture="environment"/>
-        <input style={{width: 100, height: 100, backgroundColor: 'red'}} type="file" onChange={onChange} accept="image/*" capture/>
-        {file &&
-            <img src={dataUri} alt="user select image"/>
-        }
+      <Wrap className={dragging ? 'dragging' : ''} onDrop={onDrop} onDragLeave={onDragLeave} onDragEnter={onDragEnter} onDragOver={onDragOver}>
+        <Message>Drag Here</Message>
       </Wrap>
   );
 }
 
 const Wrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  width: 300px;
+  height: 300px;
+  border: 3px solid black;
+  
+  ${flexCenter};
+  
+  &.dragging {
+    border: 3px dashed red;
+  }
+  
+  //이거 안하면 자식위를 드래그한상태로 마우스 커서가 지나갈 때 onDragLeave event가 발생함.
+  * {
+    pointer-events: none;
+  }
+`;
+
+const Message = styled.div`
+  font-weight: bold;
+  font-size: 20px;
 `;
