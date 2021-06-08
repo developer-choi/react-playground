@@ -23,6 +23,11 @@ export function handleErorr(data: any) {
 export function useResetIgnoreForceLogin() {
   useEffect(() => {
     return () => {
+      /**
+       * ignoreLoginProcess는 store가 아니라 window가 제일 합리적임.
+       * 1. 창 하나 (또는 탭하나)에서 유일한 값이고 유지되는 값이어야 하니까.
+       * 2. 이 값이 바뀌어도 다시 컴포넌트들이 리렌더링되야하는건 아니니까.
+       */
       window.ignoreForceLogin = false;
     };
   }, []);
