@@ -31,3 +31,25 @@ export function blobToDataUrl(blob: Blob): Promise<string> {
     };
   });
 }
+
+/**
+ * @param src
+ * @return HTMLImageElement
+ *
+ * dataUri로 이미지의 가로길이 세로길이같은걸 얻을 때 사용할 수도 있고,
+ * input type file로 사진첨부할 때 txt확장자 파일같은거에 확장자만 png로 바꾼 파일같은것도 이걸로 거를 수 있음.
+ */
+export function convertSrcToHtmlImageElement(src: string): Promise<HTMLImageElement> {
+  const image = new Image();
+  image.src = src;
+  
+  return new Promise((resolve, reject) => {
+    image.onload = function () {
+      resolve(image);
+    };
+    
+    image.onerror = function (data: any) {
+      reject(data);
+    };
+  });
+}
