@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import DragAndDrop from '@components/atom/DragAndDrop';
 import {flexCenter} from '../../../src/utils/style/css';
 import Head from 'next/head';
-import {convertBlobToImage} from '../../../src/utils/extend/blob';
+import {convertBlobToImage} from '../../../src/utils/extend/file';
 
 export default function DragAndDropPage() {
   
@@ -21,7 +21,7 @@ export default function DragAndDropPage() {
     if (files) {
       (async () => {
         const images = await Promise.all(Array.from(files).map(file => convertBlobToImage(file)));
-        setFileDataUri(images.map(({src}) => src));
+        setFileDataUri(images.map(({image}) => image.src));
       })().then();
     }
   }, [files]);

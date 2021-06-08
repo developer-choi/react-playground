@@ -54,7 +54,35 @@ function convertSrcToHtmlImageElement(src: string): Promise<HTMLImageElement> {
   });
 }
 
-export async function convertBlobToImage(blob: Blob): Promise<HTMLImageElement> {
+export async function convertBlobToImage(blob: Blob): Promise<{blob: Blob, image: HTMLImageElement}> {
   const dataUri = await convertBlobToDataUri(blob);
-  return convertSrcToHtmlImageElement(dataUri);
+  return {
+    blob,
+    image: await convertSrcToHtmlImageElement(dataUri)
+  };
+}
+
+export interface FileSize {
+  value: number;
+  unit: 'B' | 'KB' | 'MB' | 'GB';
+}
+
+const FILE_SIZE_NUMBER: Record<FileSize['unit'], number> = {
+  B: 1,
+  KB: 2 ** 10,
+  MB: 2 ** 20,
+  GB: 2 ** 30
+};
+
+export function convertFileSizeToNumber({unit, value}: FileSize) {
+  return value * FILE_SIZE_NUMBER[unit];
+}
+
+export function getFileExtension(filename: string): string | null {
+  if (filename.includes('.')) {
+    const lastIndex = filename.lastIndexOf('.') + 1;
+    return filename.slice(lastIndex);
+  } else {
+    return null;
+  }
 }
