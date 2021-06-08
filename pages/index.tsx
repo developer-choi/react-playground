@@ -1,11 +1,16 @@
-import React from 'react';
+import TextAreaExtend from '@components/extend/TextAreaExtend';
+import React, {useCallback, useState} from 'react';
 
 export default function Page() {
+  const [content, setContent] = useState('');
+  
+  const onCtrlEnter = useCallback(() => {
+    alert('submit');
+  }, []);
   
   return (
       <div>
-        <input type="file" accept=".jpg,.png"/> {/* 겔러리 */}
-        <input type="file" capture style={{marginTop: 10}}/> {/* 카메라 */}
+        <TextAreaExtend value={content} onChangeText={setContent} onCtrlEnter={onCtrlEnter}/>
       </div>
   );
 }
