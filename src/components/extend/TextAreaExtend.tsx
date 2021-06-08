@@ -1,8 +1,8 @@
 import React, {ChangeEvent, ComponentProps, forwardRef, KeyboardEvent, Ref, useCallback} from 'react';
 
 export interface TextAreaExtendProp extends ComponentProps<'textarea'> {
-  onChangeText: (value: string) => void;
-  onCtrlEnter: () => void;
+  onChangeText?: (value: string) => void;
+  onCtrlEnter?: () => void;
 }
 
 export default forwardRef(function TextAreaExtend({onKeyDown, onChangeText, onChange, onCtrlEnter, ...rest}: TextAreaExtendProp, ref: Ref<HTMLTextAreaElement>) {
@@ -14,7 +14,7 @@ export default forwardRef(function TextAreaExtend({onKeyDown, onChangeText, onCh
   
   const _onKeyDown = useCallback((event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.ctrlKey && event.key === 'Enter') {
-      onCtrlEnter();
+      onCtrlEnter?.();
     }
     
     onKeyDown?.(event);
