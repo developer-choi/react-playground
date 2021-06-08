@@ -19,7 +19,7 @@
  * error case를 테스트하는 방법은 간단하게 readAsDataURL의 첫 번째 매개변수에 읽을수없는 이상한문자열(특수문자 등)을 넣어보면
  * onerror callback이 호출됨.
  */
-export function blobToDataUrl(blob: Blob): Promise<string> {
+function convertBlobToDataUri(blob: Blob): Promise<string> {
   const reader = new FileReader();
   return new Promise((resolve, reject) => {
     reader.readAsDataURL(blob);
@@ -39,7 +39,7 @@ export function blobToDataUrl(blob: Blob): Promise<string> {
  * dataUri로 이미지의 가로길이 세로길이같은걸 얻을 때 사용할 수도 있고,
  * input type file로 사진첨부할 때 txt확장자 파일같은거에 확장자만 png로 바꾼 파일같은것도 이걸로 거를 수 있음.
  */
-export function convertSrcToHtmlImageElement(src: string): Promise<HTMLImageElement> {
+function convertSrcToHtmlImageElement(src: string): Promise<HTMLImageElement> {
   const image = new Image();
   image.src = src;
   
@@ -52,4 +52,9 @@ export function convertSrcToHtmlImageElement(src: string): Promise<HTMLImageElem
       reject(data);
     };
   });
+}
+
+export async function convertBlobToImage(blob: Blob): Promise<HTMLImageElement> {
+  const dataUri = await convertBlobToDataUri(blob);
+  return convertSrcToHtmlImageElement(dataUri);
 }

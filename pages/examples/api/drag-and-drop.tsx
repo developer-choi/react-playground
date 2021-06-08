@@ -1,9 +1,9 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {blobToDataUrl} from '../../../src/utils/extend/blob';
 import styled from 'styled-components';
 import DragAndDrop from '@components/atom/DragAndDrop';
 import {flexCenter} from '../../../src/utils/style/css';
 import Head from 'next/head';
+import {convertBlobToImage} from '../../../src/utils/extend/blob';
 
 export default function DragAndDropPage() {
   
@@ -20,7 +20,8 @@ export default function DragAndDropPage() {
   useEffect(() => {
     if (files) {
       (async () => {
-        setFileDataUri(await Promise.all(Array.from(files).map(file => blobToDataUrl(file))));
+        const images = await Promise.all(Array.from(files).map(file => convertBlobToImage(file)));
+        setFileDataUri(images.map(({src}) => src));
       })().then();
     }
   }, [files]);
