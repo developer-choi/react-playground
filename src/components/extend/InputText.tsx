@@ -1,11 +1,11 @@
 import React, {ChangeEvent, ComponentProps, forwardRef, KeyboardEvent, Ref, useCallback} from 'react';
 
-export interface InputExtendProp extends Omit<ComponentProps<'input'>, 'ref'> {
+export interface InputTextProp extends Omit<ComponentProps<'input'>, 'ref'> {
   onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onChangeText?: (value: string) => void;
   
   /**
-   * @param text : Control V한 값 (없을 시 빈문자열)
+   * @param text Ctrl V한 값 (없을 시 빈문자열)
    * 부모 컴포넌트에서 state를 이 컴포넌트의 value prop으로 넘기고,
    * onChange prop으로 입력할 때마다 setState를 하는경우
    * onCtrlV()가 호출되었을 당시에는 아직 setState가 완료되지 않음을 주의해야합니다.
@@ -24,10 +24,10 @@ export interface InputExtendProp extends Omit<ComponentProps<'input'>, 'ref'> {
    * 이 경우, value의 타입이 숫자가 아니기때문에 다 지웠을 때 0이 계속 입력박스에 보이는 문제가 존재합니다.
    */
   value: string;
-  type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'search' | 'url' | undefined;
+  type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'search' | 'url';
   
   /**
-   * onKeyDown event가 발생했을 때, event.key가 ignoreEventKeys에 존재할 경우, onKeyDown event가 prevent됩니다..
+   * onKeyDown event가 발생했을 때, event.key가 ignoreEventKeys에 존재할 경우, onKeyDown event가 prevent됩니다.
    */
   ignoreEventKeys?: string[];
   
@@ -39,7 +39,7 @@ export interface InputExtendProp extends Omit<ComponentProps<'input'>, 'ref'> {
   allowValues?: string[];
 }
 
-export default forwardRef(function InputExtend(props: InputExtendProp, ref: Ref<HTMLInputElement>) {
+export default forwardRef(function InputExtend(props: InputTextProp, ref: Ref<HTMLInputElement>) {
 
   const {
     /**

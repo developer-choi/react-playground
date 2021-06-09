@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
-import InputExtend, {InputExtendProp} from '@components/extend/InputExtend';
+import InputText, {InputTextProp} from '@components/extend/InputText';
 
-export interface InputNumberProp extends InputExtendProp {
+export interface InputNumberProp extends InputTextProp {
   /**
    * 입력값의 소수 최대길이를 지정할 수 있습니다.
    */
@@ -32,7 +32,7 @@ export default function InputNumber({maxDecimalLength, maxIntegerLength, onChang
   }, [maxDecimalLength, maxIntegerLength, onChangeText]);
   
   return (
-      <InputExtend
+      <InputText
           onChangeText={_onChangeText}
           type={type}
           ignoreEventKeys={DEFAULT_IGNORE_EVENT_KEYS}
