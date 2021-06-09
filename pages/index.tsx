@@ -1,7 +1,6 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback} from 'react';
 import {Button} from '@components/atom/button/button-presets';
-import debounce from 'lodash/debounce';
-import {DebouncedFunc, DebounceSettings} from 'lodash';
+import useDebouncedCallback from 'src/utils/custom-hooks/useDebouncedCallback';
 
 export default function Page() {
   
@@ -12,10 +11,4 @@ export default function Page() {
   return (
       <Button onClick={onClick}>광클버튼</Button>
   );
-}
-
-function useDebouncedCallback<T extends (...args: any[]) => any>(callback: T, wait = 300, options?: DebounceSettings) {
-  return useMemo<DebouncedFunc<T>>(() => (
-      debounce(callback, wait, options)
-  ), [callback, wait, options]);
 }
