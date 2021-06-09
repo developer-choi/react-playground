@@ -37,9 +37,9 @@ export interface CustomInputFileProp extends HandleImageProps, HandleFileSizePro
   onChangeFiles?: (files: File[]) => void;
 }
 
-export type InputFileExtendProp = Omit<ComponentProps<'input'>, 'type'> & CustomInputFileProp;
+export type InputFileProp = Omit<ComponentProps<'input'>, 'type'> & CustomInputFileProp;
 
-export default function InputFileExtend({onChange, maxSize, handleFileSizeOver, allowExtensions, accept, handleNotAllowedExtension, onChangeFiles, onChangeImages, handleOnChangeImageError, ...rest}: InputFileExtendProp) {
+export default function InputFile({onChange, maxSize, handleFileSizeOver, allowExtensions, accept, handleNotAllowedExtension, onChangeFiles, onChangeImages, handleOnChangeImageError, ...rest}: InputFileProp) {
   
   const _onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     onChange?.(event);

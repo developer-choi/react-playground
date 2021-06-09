@@ -1,6 +1,6 @@
 import React, {ComponentProps, DragEvent, useCallback, useMemo, useState} from 'react';
 import classNames from 'classnames';
-import InputFileExtend, {CustomInputFileProp, handleOnChangeFile} from '@components/extend/InputFileExtend';
+import InputFile, {CustomInputFileProp, handleOnChangeFile} from '@components/extend/InputFile';
 import styled from 'styled-components';
 
 export interface DragAndDropProps extends Omit<ComponentProps<'label'>, 'ref'>, Omit<CustomInputFileProp, 'onChangeFiles'> {
@@ -57,7 +57,7 @@ export default function DragAndDrop({onDropFiles, onDrop, onDragLeave, onDragEnt
           {...rest}
       >
         {children}
-        {enableClickToFileExplorer && <InputFile {...inputTypeFileProps} />}
+        {enableClickToFileExplorer && <StyledInputFile {...inputTypeFileProps} />}
       </Wrap>
   );
 };
@@ -72,6 +72,6 @@ const Wrap = styled.label`
   }
 `;
 
-const InputFile = styled(InputFileExtend)`
+const StyledInputFile = styled(InputFile)`
   display: none;
 `;
