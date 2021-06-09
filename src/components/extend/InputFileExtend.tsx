@@ -6,11 +6,6 @@ export interface ImageWrapper {
   file: File;
 }
 
-interface HandleImageProps {
-  onChangeImages?: (datas: ImageWrapper[]) => void
-  handleOnChangeImageError?: (error: Error) => void;
-}
-
 //onChangeFiles를 위한 props
 interface HandleFileSizeProps {
   maxSize?: number | FileSize;
@@ -24,9 +19,19 @@ interface HandleExtensionProps {
   onIncludeNotAllowedExtensions?: (files: File[]) => void;
 }
 
-export interface InputFileExtendProp extends Omit<ComponentProps<'input'>, 'type'>, HandleImageProps, HandleFileSizeProps, HandleExtensionProps {
+interface HandleImageProps {
+  handleOnChangeImageError?: (error: Error) => void;
+  
+  //용량제한, 확장자제한, 이미지인지 유효성검증을 모두 통과한 경우에만 호출
+  onChangeImages?: (datas: ImageWrapper[]) => void
+}
+
+export interface CustomInputFileProp extends HandleImageProps, HandleFileSizeProps, HandleExtensionProps {
+  //용량제한, 확장자 제한을 통과한 경우에만 호출 (빈값인경우에도 호출)
   onChangeFiles?: (files: File[]) => void;
 }
+
+export type InputFileExtendProp = Omit<ComponentProps<'input'>, 'type'> & CustomInputFileProp;
 
 export default function InputFileExtend({onChange, maxSize, onOverFileSize, allowExtensions, accept, onIncludeNotAllowedExtensions, onChangeFiles, onChangeImages, handleOnChangeImageError, ...rest}: InputFileExtendProp) {
   
