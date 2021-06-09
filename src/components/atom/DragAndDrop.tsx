@@ -70,6 +70,10 @@ const Wrap = styled.label`
       pointer-events: none;
     }
   }
+  
+  &.clickable {
+    cursor: pointer;
+  }
 `;
 
 const StyledInputFile = styled(InputFile)`
