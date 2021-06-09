@@ -40,32 +40,32 @@ interface UserInfoProps {
 }
 
 function UserInfo({userPk}: UserInfoProps) {
-  const handleResponse = useRunCallbackWhenMount();
+  const runCallbackWhenMount = useRunCallbackWhenMount();
   const [data, setData] = useState<string>();
   
   useEffect(() => {
     (async () => {
       try {
         const data = await getUserDataApi(userPk);
-        handleResponse(() => {
+        runCallbackWhenMount(() => {
           setData(data);
         });
       } catch (error) {
         handleError();
       }
     })().then();
-  }, [userPk, handleResponse]);
+  }, [userPk, runCallbackWhenMount]);
   
   const refreshUserData = useCallback(async () => {
     try {
       const data = await getUserDataApi(userPk);
-      handleResponse(() => {
+      runCallbackWhenMount(() => {
         setData(data);
       });
     } catch (error) {
       handleError();
     }
-  }, [userPk, handleResponse]);
+  }, [userPk, runCallbackWhenMount]);
   
   return (
       <>
