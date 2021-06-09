@@ -1,19 +1,21 @@
-import React, {useState} from 'react';
-import InputFileExtend, {ImageWrapper, InputFileExtendProp} from '@components/extend/InputFileExtend';
+import React, {useCallback, useMemo} from 'react';
+import {Button} from '@components/atom/button/button-presets';
+import debounce from 'lodash/debounce';
+import {DebouncedFunc, DebounceSettings} from 'lodash';
 
 export default function Page() {
   
-  const [datas, setDatas] = useState<ImageWrapper[]>([]);
+  const onClick = useDebouncedCallback(useCallback(() => {
+    console.log('clicked');
+  }, []));
   
   return (
-      <div>
-        <InputFileExtend onChangeImages={setDatas} maxSize={MAX_SIZE} allowExtensions={ALLOW_EXTENSIONS} multiple/>
-        {datas.map(({file, image}) => (
-            <img key={file.name} src={image.src} alt={image.alt}/>
-        ))}
-      </div>
+      <Button onClick={onClick}>광클버튼</Button>
   );
 }
 
-const ALLOW_EXTENSIONS = ['jpg', 'png'];
-const MAX_SIZE: InputFileExtendProp['maxSize'] = {value: 10, unit: 'MB'};
+function useDebouncedCallback<T extends (...args: any[]) => any>(callback: T, wait = 300, options?: DebounceSettings) {
+  return useMemo<DebouncedFunc<T>>(() => (
+      debounce(callback, wait, options)
+  ), [callback, wait, options]);
+}
