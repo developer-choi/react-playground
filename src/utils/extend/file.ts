@@ -64,19 +64,41 @@ export async function convertBlobToImage(blob: Blob): Promise<{blob: Blob, image
 
 export interface FileSize {
   value: number;
-  unit: 'B' | 'KB' | 'MB' | 'GB';
+  unit: 'B' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB';
 }
 
 const FILE_SIZE_NUMBER: Record<FileSize['unit'], number> = {
   B: 1,
   KB: 2 ** 10,
   MB: 2 ** 20,
-  GB: 2 ** 30
+  GB: 2 ** 30,
+  TB: 2 ** 40,
+  PB: 2 ** 50
 };
 
 export function convertFileSizeToNumber({unit, value}: FileSize) {
   return value * FILE_SIZE_NUMBER[unit];
 }
+
+// https://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable-string#answer-28120564
+export function convertNumberToFileSize(byte: number): FileSize {
+  if (byte == 0) {
+    return {
+      value: 0,
+      unit: 'B'
+    };
+  }
+  const e = Math.floor(Math.log(byte) / Math.log(1024));
+  return {
+    value: (byte / Math.pow(1024, e)),
+    unit: ' KMGTP'.charAt(e) + 'B' as FileSize['unit']
+  };
+}
+
+export const ZERO_FILE_SIZE: FileSize = {
+  value: 0,
+  unit: 'B'
+};
 
 export function getFileExtension(filename: string): string | null {
   if (filename.includes('.')) {
