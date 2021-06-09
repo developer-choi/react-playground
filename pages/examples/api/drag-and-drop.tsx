@@ -1,30 +1,13 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import DragAndDrop from '@components/atom/DragAndDrop';
 import {flexCenter} from '../../../src/utils/style/css';
 import Head from 'next/head';
-import {convertBlobToImage} from '../../../src/utils/extend/file';
+import {ImageWrapper} from '@components/extend/InputFileExtend';
 
 export default function DragAndDropPage() {
   
-  const [files, setFiles] = useState<FileList>();
-  const [fileDataUri, setFileDataUri] = useState<string[]>([]);
-  
-  const onChangeInput = React.useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const {files} = event.target;
-    if (files) {
-      setFiles(files);
-    }
-  }, []);
-  
-  useEffect(() => {
-    if (files) {
-      (async () => {
-        const images = await Promise.all(Array.from(files).map(file => convertBlobToImage(file)));
-        setFileDataUri(images.map(({image}) => image.src));
-      })().then();
-    }
-  }, [files]);
+  const [datas, setDatas] = useState<ImageWrapper[]>([]);
   
   /**
    * 드래그앤드롭이랑 파일버튼이랑 같이있는경우에 대해 대응하려고 만들어본건데
@@ -38,14 +21,13 @@ export default function DragAndDropPage() {
         </Head>
         <Wrap>
           <Label>
-            <Input type="file" accept="image/*" onChange={onChangeInput} multiple/>
-            <DropBox onDropFiles={setFiles}>
+            <DropBox onChangeImages={setDatas} enableClickToFileExplorer>
               <Message>Drag Here</Message>
             </DropBox>
           </Label>
         </Wrap>
-        {fileDataUri.map((dataUri, index) => (
-            <img key={index} src={dataUri} alt="user select image"/>
+        {datas.map(({image}, index) => (
+            <img key={index} src={image.src} alt="user select image"/>
         ))}
       </>
   );
@@ -63,11 +45,10 @@ const DropBox = styled(DragAndDrop)`
   
   &.dragging {
     border: 3px dashed red;
+  }
   
-    //이거 안하면 자식위를 드래그한상태로 마우스 커서가 지나갈 때 onDragLeave event가 발생함.
-    * {
-      pointer-events: none;
-    }
+  &.clickable {
+    cursor: pointer;
   }
 `;
 
@@ -78,13 +59,4 @@ const Message = styled.div`
 
 const Label = styled.label`
   cursor: pointer;
-  
-  :focus-within {
-  
-  }
-`;
-
-const Input = styled.input`
-  opacity: 0;
-  position: absolute;
 `;

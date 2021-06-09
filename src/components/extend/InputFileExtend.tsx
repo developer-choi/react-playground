@@ -39,18 +39,7 @@ export interface CustomInputFileProp extends HandleImageProps, HandleFileSizePro
 
 export type InputFileExtendProp = Omit<ComponentProps<'input'>, 'type'> & CustomInputFileProp;
 
-export default function InputFileExtend({
-                                          onChange,
-                                          maxSize,
-                                          handleFileSizeOver = alertHandleFileSizeOver,
-                                          allowExtensions,
-                                          accept,
-                                          handleNotAllowedExtension = alertHandleNotAllowedExtension,
-                                          onChangeFiles,
-                                          onChangeImages,
-                                          handleOnChangeImageError = alertHandleOnChangeImageError,
-                                          ...rest
-                                        }: InputFileExtendProp) {
+export default function InputFileExtend({onChange, maxSize, handleFileSizeOver, allowExtensions, accept, handleNotAllowedExtension, onChangeFiles, onChangeImages, handleOnChangeImageError, ...rest}: InputFileExtendProp) {
   
   const _onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     onChange?.(event);
@@ -69,30 +58,15 @@ export default function InputFileExtend({
      */
     event.target.value = '';
   
-    if (allowExtensions && !isIncludeNotAllowedExtensions(files, allowExtensions)) {
-      handleNotAllowedExtension(allowExtensions, files);
-      return;
-    }
-    
-    const sizeToByte = maxSize === undefined ? 0 : typeof maxSize === 'number' ? maxSize : convertFileSizeToNumber(maxSize);
-    const sizeToFieSize = maxSize === undefined ? ZERO_FILE_SIZE : typeof maxSize === 'number' ? convertNumberToFileSize(maxSize) : maxSize;
-    if (maxSize !== undefined && files.some(({size}) => sizeToByte < size)) {
-      handleFileSizeOver(sizeToFieSize, files)
-      return;
-    }
-  
-    onChangeFiles?.(files);
-  
-    if (onChangeImages) {
-      (async () => {
-        try {
-          const datas = await Promise.all(files.map(file => convertBlobToImage(file)));
-          onChangeImages(datas.map(({image, blob}) => ({image, file: blob as File})));
-        } catch (error) {
-          handleOnChangeImageError(error);
-        }
-      })().then();
-    }
+    handleOnChangeFile(files, {
+      maxSize,
+      allowExtensions,
+      handleNotAllowedExtension,
+      onChangeFiles,
+      onChangeImages,
+      handleOnChangeImageError,
+      handleFileSizeOver
+    });
   }, [onChange, handleNotAllowedExtension, allowExtensions, maxSize, handleFileSizeOver, onChangeFiles, onChangeImages, handleOnChangeImageError]);
   
   const _accept = accept === undefined ? (allowExtensions ?? []).map(extension => '.' + extension).join(',') : accept;
@@ -119,4 +93,41 @@ function alertHandleNotAllowedExtension(allowExtensions: string[]) {
 
 function alertHandleOnChangeImageError() {
   alert('잘못된 이미지 파일입니다. 다른 파일을 선택해주세요.');
+}
+
+export function handleOnChangeFile(files: File[], props: CustomInputFileProp) {
+  const {
+    handleFileSizeOver = alertHandleFileSizeOver,
+    handleOnChangeImageError = alertHandleOnChangeImageError,
+    onChangeImages,
+    onChangeFiles,
+    handleNotAllowedExtension = alertHandleNotAllowedExtension,
+    allowExtensions,
+    maxSize
+  } = props;
+  
+  if (allowExtensions && !isIncludeNotAllowedExtensions(files, allowExtensions)) {
+    handleNotAllowedExtension(allowExtensions, files);
+    return;
+  }
+  
+  const sizeToByte = maxSize === undefined ? 0 : typeof maxSize === 'number' ? maxSize : convertFileSizeToNumber(maxSize);
+  const sizeToFieSize = maxSize === undefined ? ZERO_FILE_SIZE : typeof maxSize === 'number' ? convertNumberToFileSize(maxSize) : maxSize;
+  if (maxSize !== undefined && files.some(({size}) => sizeToByte < size)) {
+    handleFileSizeOver(sizeToFieSize, files)
+    return;
+  }
+  
+  onChangeFiles?.(files);
+  
+  if (onChangeImages) {
+    (async () => {
+      try {
+        const datas = await Promise.all(files.map(file => convertBlobToImage(file)));
+        onChangeImages(datas.map(({image, blob}) => ({image, file: blob as File})));
+      } catch (error) {
+        handleOnChangeImageError(error);
+      }
+    })().then();
+  }
 }
