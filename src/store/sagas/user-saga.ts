@@ -1,10 +1,17 @@
 import {call, put, takeEvery} from 'redux-saga/effects';
 import {createAction} from 'redux-actions';
-import {apiGetHelloUser} from '../../api/hello';
 import {setUserActionCreator} from '../reducers/user';
+import {makeRandomString} from '../../utils/extend/random';
 
 const REQUEST_FETCH_USER = 'react-library/user-saga/REQUEST_FETCH_USER';
 export const requestFetchUserActionCreator = createAction<number>(REQUEST_FETCH_USER);
+
+export async function apiGetHelloUser(userPk: number) {
+  console.log('api call parameter', userPk);
+  return {
+    name: makeRandomString(['a', 'b', 'c'], 5),
+  };
+}
 
 function* workRequestFetchUser(action: ReturnType<typeof requestFetchUserActionCreator>) {
   try {
