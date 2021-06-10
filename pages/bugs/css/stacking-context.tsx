@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import Head from 'next/head';
 import {Button} from '@components/atom/button/button-presets';
 import styled from 'styled-components';
-import {absoluteAll0} from '../../../src/utils/style/css';
+import {absoluteAllZero} from '../../../src/utils/style/css';
 
 export default function StackingContextPage() {
   const onClickStackButton = useCallback(() => {
@@ -61,5 +61,5 @@ const StackDiv = styled.div`
 `;
 
 const AbsoluteDiv = styled.div`
-  ${absoluteAll0};
+  ${absoluteAllZero};
 `;

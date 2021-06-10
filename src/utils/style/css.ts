@@ -16,7 +16,7 @@ export const alignItemsCenter = css`
   align-items: center;
 `;
 
-export const absoluteAll0 = css`
+export const absoluteAllZero = css`
   position: absolute;
   left: 0;
   right: 0;
