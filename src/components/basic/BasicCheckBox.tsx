@@ -1,11 +1,9 @@
-import React, {ComponentProps, forwardRef, Ref} from 'react';
+import React, {forwardRef, Ref} from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
+import CheckBoxExtend, {CheckBoxExtendProps} from '@components/extend/CheckBoxExtend';
 
-type OmitPropType = Omit<ComponentProps<'input'>, 'ref' | 'type'>;
-type ExtendCheckBoxProp = Required<Pick<OmitPropType, 'onChange' | 'checked'>> & OmitPropType;
-
-export interface BasicCheckBoxProp extends ExtendCheckBoxProp {
+export interface BasicCheckBoxProp extends CheckBoxExtendProps {
   label?: string;
 }
 
@@ -13,7 +11,7 @@ export default forwardRef(function BasicCheckBox({className, label, checked, ...
 
   return (
       <Wrap className={classNames({active: checked}, className)}>
-        <Input className="check-box" ref={ref} type="checkbox" checked={checked} {...rest}/>
+        <Input className="check-box" ref={ref} checked={checked} {...rest}/>
         {label && <LabelText className="label-text">{label}</LabelText>}
       </Wrap>
   );
@@ -45,7 +43,7 @@ const Wrap = styled.label`
   }
 `;
 
-const Input = styled.input`
+const Input = styled(CheckBoxExtend)`
   position: absolute;
   width: 1px;
   height: 1px;

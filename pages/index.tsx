@@ -1,14 +1,13 @@
-import React, {useCallback} from 'react';
-import {Button} from '@components/atom/button/button-presets';
-import useDebouncedCallback from 'src/utils/custom-hooks/useDebouncedCallback';
+import React, {useState} from 'react';
+import BasicCheckBox from '@components/basic/BasicCheckBox';
 
 export default function Page() {
   
-  const onClick = useDebouncedCallback(useCallback(() => {
-    console.log('clicked');
-  }, []));
+  const [someValue, setSomeValue] = useState(true);
+  
+  console.log(someValue);
   
   return (
-      <Button onClick={onClick}>광클버튼</Button>
+      <BasicCheckBox checked={someValue} onChangeChecked={setSomeValue}/>
   );
 }
