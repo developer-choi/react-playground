@@ -43,10 +43,8 @@ export function getYyyymmddOrDefault(value: ParsedUrlQueryValue) {
 /**
  * @return query객체가 비어있으면 빈문자열반환, 있으면 ?가 포함된 stringify하여 반환.
  */
-export function urlStringify(query: ParsedUrlQuery): string | '' {
-  const isEmpty = Object.keys(query).length === 0;
-  
-  if (isEmpty) {
+export function urlStringify(query?: ParsedUrlQuery): string | '' {
+  if (!query || Object.keys(query).length === 0) {
     return '';
   } else {
     return `?${stringify(query)}`;
