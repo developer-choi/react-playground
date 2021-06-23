@@ -29,4 +29,5 @@ export default function RadioLabel({value, label, disabled, className, ...labelP
 const Label = styled.label`
   display: inline-flex;
   align-items: center;
+  cursor: pointer;
 `;
