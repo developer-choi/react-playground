@@ -1,21 +1,21 @@
-import React, {forwardRef, Ref} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
-import CheckBoxExtend, {CheckBoxExtendProps} from '@components/extend/CheckBoxExtend';
+import CheckBox, {CheckBoxProps} from '@components/extend/CheckBox';
 
-export interface BasicCheckBoxProp extends CheckBoxExtendProps {
+export interface BasicCheckBoxProp extends CheckBoxProps {
   label?: string;
 }
 
-export default forwardRef(function BasicCheckBox({className, label, checked, ...rest}: BasicCheckBoxProp, ref: Ref<HTMLInputElement>) {
+export default function BasicCheckBox({className, label, checked, ...rest}: BasicCheckBoxProp) {
 
   return (
       <Wrap className={classNames({active: checked}, className)}>
-        <Input className="check-box" ref={ref} checked={checked} {...rest}/>
+        <Input className="check-box" checked={checked} {...rest}/>
         {label && <LabelText className="label-text">{label}</LabelText>}
       </Wrap>
   );
-});
+}
 
 const Wrap = styled.label`
   
@@ -43,7 +43,7 @@ const Wrap = styled.label`
   }
 `;
 
-const Input = styled(CheckBoxExtend)`
+const Input = styled(CheckBox)`
   position: absolute;
   width: 1px;
   height: 1px;

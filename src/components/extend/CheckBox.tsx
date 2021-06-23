@@ -1,10 +1,10 @@
 import React, {ChangeEvent, ComponentProps} from 'react';
 
-export interface CheckBoxExtendProps extends Omit<ComponentProps<'input'>, 'ref' | 'type'> {
+export interface CheckBoxProps extends Omit<ComponentProps<'input'>, 'ref' | 'type'> {
   onChangeChecked?: (checked: boolean) => void;
 }
 
-export default function CheckBoxExtend({onChangeChecked, onChange, ...rest}: CheckBoxExtendProps) {
+export default function CheckBox({onChangeChecked, onChange, ...rest}: CheckBoxProps) {
   
   const _onChange = React.useCallback((event: ChangeEvent<HTMLInputElement>) => {
     onChangeChecked?.(event.target.checked);
