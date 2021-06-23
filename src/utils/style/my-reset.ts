@@ -38,6 +38,7 @@ export const MyReset = css`
     border: none;
     background-color: transparent;
     box-sizing: border-box;
+    margin: 0; // input type radio에 적용되어있는 기본 마진값을 reset하는 코드가 styled-reset에 빠져있음.
 
     //font-size: inherit; 어떤 이유로 추가헀었는지 기억이 안나서 주석처리했음. 버그상황 확보되면 그 때 필기.
     //margin: 0; 어떤 이유로 추가헀었는지 기억이 안나서 주석처리했음. 버그상황 확보되면 그 때 필기.
