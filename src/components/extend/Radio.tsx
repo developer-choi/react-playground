@@ -1,17 +1,19 @@
-import React, {ChangeEvent, ComponentProps, useCallback} from 'react';
+import React, {ChangeEvent, useCallback, useContext} from 'react';
+import {RadioGroupContext} from '@components/extend/RadioGroup';
 
-export interface RadioProps extends Omit<ComponentProps<'input'>, 'ref' | 'type'> {
-  onChangeChecked?: (checked: boolean) => void
+export interface RadioProps<T extends string> {
+  value: T;
 }
 
-export default function Radio({onChangeChecked, onChange, ...rest}: RadioProps) {
+export default function Radio<T extends string>({value}: RadioProps<T>) {
+  
+  const {onChange, name, value: parentValue} = useContext(RadioGroupContext);
   
   const _onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    onChangeChecked?.(event.target.checked);
-    onChange?.(event);
-  }, [onChange, onChangeChecked]);
+    onChange(event.target.value);
+  }, [onChange]);
   
   return (
-      <input type="radio" onChange={_onChange} {...rest}/>
+      <input type="radio" value={value} onChange={_onChange} name={name} checked={parentValue === value}/>
   );
-};
+}

@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
-import BasicCheckBox from '@components/basic/BasicCheckBox';
+import RadioGroup from '@components/extend/RadioGroup';
+import Radio from '@components/extend/Radio';
 
 export default function Page() {
   
-  const [someValue, setSomeValue] = useState(true);
-  
-  console.log(someValue);
+  const [gender, setGender] = useState('man');
   
   return (
-      <BasicCheckBox checked={someValue} onChangeChecked={setSomeValue}/>
+      <RadioGroup name="gender" value={gender} onChange={setGender}>
+        <Radio value="man"/>
+        <Radio value="women"/>
+      </RadioGroup>
   );
 }
