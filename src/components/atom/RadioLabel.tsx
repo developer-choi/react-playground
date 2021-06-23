@@ -3,13 +3,12 @@ import {RadioGroupContext} from '@components/atom/RadioGroup';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
-export interface RadioProps extends Omit<ComponentProps<'input'>, 'type' | 'onChange' | 'name' | 'checked'>{
+export interface RadioLabelProps extends Omit<ComponentProps<'label'>, 'ref'>, Pick<ComponentProps<'input'>, 'disabled'> {
   value: string;
   label?: string;
-  labelClassName?: string;
 }
 
-export default function Radio({value, label, labelClassName, ...inputProps}: RadioProps) {
+export default function RadioLabel({value, label, disabled, className, ...labelProps}: RadioLabelProps) {
   
   const {onChange, name, value: parentValue} = useContext(RadioGroupContext);
   
@@ -20,8 +19,8 @@ export default function Radio({value, label, labelClassName, ...inputProps}: Rad
   const checked = parentValue === value;
   
   return (
-      <Label className={classNames({checked}, labelClassName)}>
-        <input type="radio" value={value} onChange={_onChange} name={name} checked={checked} {...inputProps}/>
+      <Label className={classNames({checked}, className)} {...labelProps}>
+        <input type="radio" value={value} onChange={_onChange} name={name} checked={checked}/>
         {label ? label : value}
       </Label>
   );

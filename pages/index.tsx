@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import RadioGroup from '@components/atom/RadioGroup';
-import Radio from '@components/atom/Radio';
+import RadioLabel from '@components/atom/RadioLabel';
 
 export default function Page() {
   
@@ -8,8 +8,8 @@ export default function Page() {
   
   return (
       <RadioGroup name="gender" value={gender} onChange={setGender}>
-        <Radio value="man"/>
-        <Radio value="women"/>
+        <RadioLabel value="man"/>
+        <RadioLabel value="women"/>
       </RadioGroup>
   );
 }
