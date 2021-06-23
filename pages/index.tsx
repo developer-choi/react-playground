@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import RadioGroup from '@components/extend/RadioGroup';
-import Radio from '@components/extend/Radio';
+import RadioGroup from '@components/atom/RadioGroup';
+import Radio from '@components/atom/Radio';
 
 export default function Page() {
   
