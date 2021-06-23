@@ -19,6 +19,12 @@ export default function useLocalStorage<K extends keyof LocalStorageRecord>(key:
   });
   
   useEffect(() => {
+    /**
+     * localStorage에 해당 key로 저장된값이 있건 없건 이 effect는 실행될 필요가 없기 떄문이다.
+     *
+     * Case1. 기존에 해당key로 저장된 값이 없는경우, 없는 key로 왜 removeItem()을 실행할 이유가없다.
+     * Case2. 기존에 해당key로 저장된 값이 있는경우, 첫 렌더링때는 state와 로컬스토리지의 값이 데이터 형태만 다를뿐, 둘다 형태를 맞춰주면 동일한값이 되기때문에, 또 setItem을 할 이유가 없다.
+     */
     if (isFirstRender) {
       return;
     }
