@@ -19,7 +19,7 @@ export default function RadioLabel({value, label, disabled, className, ...labelP
   const checked = parentValue === value;
   
   return (
-      <Label className={classNames({checked}, className)} {...labelProps}>
+      <Label className={classNames({checked: disabled ? false : checked, disabled}, className)} {...labelProps}>
         <input type="radio" value={value} onChange={_onChange} name={name} checked={checked}/>
         {label ? label : value}
       </Label>
@@ -30,4 +30,8 @@ const Label = styled.label`
   display: inline-flex;
   align-items: center;
   cursor: pointer;
+  
+  &.disabled {
+    pointer-events: none;
+  }
 `;
