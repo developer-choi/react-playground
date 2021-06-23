@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
-import useIsFirstRender from './useIsFirstMount';
+import useIsFirstRender from './useIsFirstRender';
 
 /**
  * 로컬스토리지에 저장되는 모든값의 타입을 여기에 저장하여 관리될 수 있도록 한다.
