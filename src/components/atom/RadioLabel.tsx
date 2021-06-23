@@ -32,6 +32,10 @@ const Label = styled.label`
   cursor: pointer;
   
   &.disabled {
+    /**
+     * 이 스타일을 적용한 근거 : https://developer.mozilla.org/ko/docs/Web/CSS/:disabled
+     * CSS :disabled 의사 클래스는 모든 비활성 요소를 나타냅니다. 비활성 요소란 활성(선택, 클릭, 입력 등등)하거나 포커스를 받을 수 없는 요소를 말합니다. 반대 상태인 활성 요소도 존재합니다.
+     */
     pointer-events: none;
   }
 `;
