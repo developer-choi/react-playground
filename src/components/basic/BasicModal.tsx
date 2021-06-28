@@ -1,6 +1,5 @@
-import React, {ComponentProps, MouseEvent, useCallback} from 'react';
+import React, {ComponentProps, MouseEvent, useCallback, useEffect} from 'react';
 import styled from 'styled-components';
-import {useEnableBodyScroll} from '../../utils/custom-hooks/useEnableBodyScroll';
 import {ZINDEXS} from '../../utils/style/layout';
 
 export interface BasicModalProp extends Omit<ComponentProps<'div'>, 'ref' | 'onClick'> {
@@ -25,6 +24,18 @@ export default function BasicModal({onBackgroundClick, visible, ...rest}: BasicM
         <Inner onClick={onInnerClick} {...rest}/>
       </Background>
   );
+}
+
+function useEnableBodyScroll(enable: boolean) {
+  
+  useEffect(() => {
+    if(enable) {
+      document.body.style.overflow = "auto";
+      
+    } else {
+      document.body.style.overflow = "hidden";
+    }
+  }, [enable]);
 }
 
 const Background = styled.div`
