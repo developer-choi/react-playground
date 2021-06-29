@@ -18,6 +18,7 @@
   "author": "YuJinChoe",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "classnames": "^2.3.1",
     "d3-geo-projection": "^3.0.0",
     "lodash": "^4.17.21",
