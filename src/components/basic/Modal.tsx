@@ -2,12 +2,12 @@ import React, {ComponentProps, MouseEvent, useCallback, useEffect} from 'react';
 import styled from 'styled-components';
 import {ZINDEXS} from '../../utils/style/layout';
 
-export interface BasicModalProp extends Omit<ComponentProps<'div'>, 'ref' | 'onClick'> {
+export interface ModalProp extends Omit<ComponentProps<'div'>, 'ref' | 'onClick'> {
   onBackgroundClick?: () => void;
   visible: boolean;
 }
 
-export default function BasicModal({onBackgroundClick, visible, ...rest}: BasicModalProp) {
+export default function Modal({onBackgroundClick, visible, ...rest}: ModalProp) {
 
   const onBackClick = useCallback(() => {
     onBackgroundClick?.();
