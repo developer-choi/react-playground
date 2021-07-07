@@ -1,8 +1,9 @@
 /**
  * @example (1234.1234) => "1,234.1234"
  */
-export function numberWithComma(value: number): string {
-  const parts = value.toString().split('.');
+export function numberWithComma(value: number | string): string {
+  const _value = typeof value === 'string' ? value : value.toString();
+  const parts = _value.split('.');
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return parts.join('.');
 }

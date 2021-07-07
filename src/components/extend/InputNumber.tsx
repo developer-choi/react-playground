@@ -1,5 +1,6 @@
 import React, {useCallback} from 'react';
 import InputText, {InputTextProp} from '@components/extend/InputText';
+import {numberWithComma} from '../../utils/extend/number';
 
 export interface InputNumberProp extends InputTextProp {
   /**
@@ -12,13 +13,16 @@ export interface InputNumberProp extends InputTextProp {
    */
   maxIntegerLength?: number;
   
+  enableComma?: boolean;
+  
   type?: 'number' | 'password';
 }
 
-export default function InputNumber({maxDecimalLength, maxIntegerLength, onChangeText, type = 'number', ignoreEventKeys = DEFAULT_IGNORE_EVENT_KEYS, ...rest}: InputNumberProp) {
+export default function InputNumber({maxDecimalLength, maxIntegerLength, onChangeText, type = 'number', ignoreEventKeys = DEFAULT_IGNORE_EVENT_KEYS, enableComma, value, ...rest}: InputNumberProp) {
   
   const _onChangeText = useCallback((text: string) => {
-    const {integer, decimal} = splitNumberDot(text);
+    const _text = enableComma ? text.replace(/,/g, '') : text;
+    const {integer, decimal} = splitNumberDot(_text);
   
     if (maxDecimalLength !== undefined && decimal.length > maxDecimalLength) {
       return;
@@ -28,15 +32,16 @@ export default function InputNumber({maxDecimalLength, maxIntegerLength, onChang
       return;
     }
   
-    onChangeText?.(text);
-  }, [maxDecimalLength, maxIntegerLength, onChangeText]);
+    onChangeText?.(_text);
+  }, [maxDecimalLength, maxIntegerLength, onChangeText, enableComma]);
   
   return (
       <InputText
           onChangeText={_onChangeText}
-          type={type}
+          type={enableComma ? undefined : type}
           ignoreEventKeys={DEFAULT_IGNORE_EVENT_KEYS}
           allowValues={type === 'password' ? NUMBERS_EVENT_KEYS : undefined}
+          value={enableComma ? numberWithComma(value) : value}
           {...rest}
       />
   );
