@@ -5,14 +5,6 @@ export interface InputTextProp extends Omit<ComponentProps<'input'>, 'ref'> {
   onChangeText?: (value: string) => void;
   
   /**
-   * @param text Ctrl V한 값 (없을 시 빈문자열)
-   * 부모 컴포넌트에서 state를 이 컴포넌트의 value prop으로 넘기고,
-   * onChange prop으로 입력할 때마다 setState를 하는경우
-   * onCtrlV()가 호출되었을 당시에는 아직 setState가 완료되지 않음을 주의해야합니다.
-   */
-  onCtrlV?: (text: string) => void;
-  
-  /**
    * 이 컴포넌트를 만들 때 고려된 Input Type에 의해,
    * value의 타입은 항상 string으로 고정하는것으로 결정했습니다.
    *
@@ -38,12 +30,12 @@ export default forwardRef(function InputExtend(props: InputTextProp, ref: Ref<HT
     /**
      * HTML input Prop
      */
-    onKeyUp, type, maxLength = 1000, onChange, onKeyDown,
+    type, maxLength = 1000, onChange, onKeyDown,
 
     /**
      * Custom Prop
      */
-    onCtrlV, onEnter, onChangeText, ignoreEventKeys = [], autoCapitalize = 'off', ...rest
+   onEnter, onChangeText, ignoreEventKeys = [], autoCapitalize = 'off', ...rest
   } = props;
 
   const customOnKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
@@ -63,18 +55,6 @@ export default forwardRef(function InputExtend(props: InputTextProp, ref: Ref<HT
     }
   }, [onKeyDown, onEnter, ignoreEventKeys]);
 
-  const customOnKeyUp = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
-  
-    onKeyUp?.(event);
-    
-    if (onCtrlV && event.ctrlKey && event.key.toLowerCase() === 'v') {
-      //@ts-ignore
-      onCtrlV(event.target.value);
-      return;
-    }
-
-  }, [onKeyUp, onCtrlV]);
-
   const customOnChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     onChange?.(event);
   
@@ -88,6 +68,6 @@ export default forwardRef(function InputExtend(props: InputTextProp, ref: Ref<HT
   }, [maxLength, onChange, onChangeText]);
 
   return (
-      <input ref={ref} type={type} onKeyUp={customOnKeyUp} onChange={customOnChange} onKeyDown={customOnKeyDown} autoCapitalize={autoCapitalize} {...rest}/>
+      <input ref={ref} type={type} onChange={customOnChange} onKeyDown={customOnKeyDown} autoCapitalize={autoCapitalize} {...rest}/>
   );
 });
