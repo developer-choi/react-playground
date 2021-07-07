@@ -34,7 +34,7 @@ export default function InputNumber({maxDecimalLength, maxIntegerLength, onChang
       <InputText
           onChangeText={_onChangeText}
           type={enableComma ? undefined : type}
-          ignoreEventKeys={DEFAULT_IGNORE_EVENT_KEYS}
+          ignoreEventKeys={ignoreEventKeys}
           allowValues={type === 'password' ? NUMBERS_EVENT_KEYS : undefined}
           value={enableComma ? numberWithComma(value) : value}
           {...rest}
