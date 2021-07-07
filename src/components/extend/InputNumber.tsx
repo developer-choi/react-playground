@@ -22,13 +22,8 @@ export default function InputNumber({maxDecimalLength, maxIntegerLength, onChang
   
   const _onChangeText = useCallback((text: string) => {
     const _text = enableComma ? text.replace(/,/g, '') : text;
-    const {integer, decimal} = splitNumberDot(_text);
   
-    if (maxDecimalLength !== undefined && decimal.length > maxDecimalLength) {
-      return;
-    }
-  
-    if (maxIntegerLength !== undefined && integer.length > maxIntegerLength) {
+    if (!isValidNumberLength(_text, {maxIntegerLength, maxDecimalLength})) {
       return;
     }
   
@@ -50,6 +45,20 @@ export default function InputNumber({maxDecimalLength, maxIntegerLength, onChang
 const DEFAULT_IGNORE_EVENT_KEYS = ['-'];
 
 const NUMBERS_EVENT_KEYS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+function isValidNumberLength(value: string, {maxDecimalLength, maxIntegerLength}: Pick<InputNumberProp, 'maxDecimalLength' | 'maxIntegerLength'>) {
+  const {integer, decimal} = splitNumberDot(value);
+  
+  if (maxDecimalLength !== undefined && decimal.length > maxDecimalLength) {
+    return false;
+  }
+  
+  if (maxIntegerLength !== undefined && integer.length > maxIntegerLength) {
+    return false;
+  }
+  
+  return true;
+}
 
 function splitNumberDot(value: string): {integer: string, decimal: string} {
   const integer = Math.floor(Number(value)).toString();
