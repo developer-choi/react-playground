@@ -35,7 +35,6 @@ export default function InputNumber({maxDecimalLength, maxIntegerLength, onChang
           onChangeText={_onChangeText}
           type={enableComma ? undefined : type}
           ignoreEventKeys={ignoreEventKeys}
-          allowValues={type === 'password' ? NUMBERS_EVENT_KEYS : undefined}
           value={enableComma ? numberWithComma(value) : value}
           {...rest}
       />
@@ -43,8 +42,6 @@ export default function InputNumber({maxDecimalLength, maxIntegerLength, onChang
 }
 
 const DEFAULT_IGNORE_EVENT_KEYS = ['-'];
-
-const NUMBERS_EVENT_KEYS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 function isValidNumberLength(value: string, {maxDecimalLength, maxIntegerLength}: Pick<InputNumberProp, 'maxDecimalLength' | 'maxIntegerLength'>) {
   const {integer, decimal} = splitNumberDot(value);
