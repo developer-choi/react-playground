@@ -3,26 +3,17 @@ import InputText, {InputTextProp} from '@components/extend/InputText';
 import {numberWithComma} from '../../utils/extend/number';
 
 /**
- * Overview : input component with "input type number" and only numbers.
- *
- * Feature 1. "type password" correspondence; apparently masked, but in reality only numbers are entered.
- *
  * Feature 2.
  * Negative income response. What the majority of input type number is often rather should not be a negative input. (input prices, etc.)
  * So, basically negative input from, but should function well in this. if it is a negative input to allow this.
- *
- * Feature 2-1. Must be inputted when only one '-' is entered for negative import power. (The string '-' itself is not a number, so it becomes NaN.)
- * Feature 2-2. Must fit well with other props functions. It still negative, even when other functions shall be operated by well. such as maxDecimalLength
  *
  * Feature 3. Decimal input function.
  * When a decimal number is entered up to 12345," the response must be made even if the end ends with a . but is not a valid Number type.
  *
  * Feature 3. Support for various additional functions (such as commas being entered between them, maximal integer decimal places, etc.)
- *
- * Feature 4. All of the above functions must also work when you do Control V.
  */
 
-export interface InputNumberOption {
+export interface InputComputableNumberOption {
   /**
    * You can specify a decimal maximum length for the input value.
    */
@@ -38,9 +29,21 @@ export interface InputNumberOption {
   enableDecimal?: boolean;
 }
 
-export type InputNumberProp = Omit<InputTextProp, 'type'> & InputNumberOption;
+export type InputComputableNumberProp = Omit<InputTextProp, 'type'> & InputComputableNumberOption;
 
-export default function InputComputableNumber({maxDecimalLength, maxIntegerLength, onChangeText, enableNegative = false, enableComma, value, ignoreEventKeys = EMPTY_ARRAY, enableDecimal = true, ...rest}: InputNumberProp) {
+export default function InputComputableNumber(props: InputComputableNumberProp) {
+  
+  const {
+    maxIntegerLength = DEFAULT_MAX_INTEGER_LENGTH,
+    maxDecimalLength,
+    enableNegative = false,
+    enableComma = false,
+    enableDecimal = true,
+    ignoreEventKeys = EMPTY_ARRAY,
+    onChangeText,
+    value,
+    ...rest
+  } = props;
   
   const _onChangeText = useCallback((text: string) => {
     onChangeText?.(parseText(text, value, {enableNegative, enableComma, maxDecimalLength, maxIntegerLength}));
@@ -71,32 +74,18 @@ export default function InputComputableNumber({maxDecimalLength, maxIntegerLengt
   );
 }
 
+const DEFAULT_MAX_INTEGER_LENGTH = Number.MAX_SAFE_INTEGER.toString().length;
 const EMPTY_ARRAY = [] as string[];
+const NUMBERS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+const SKIP_TEXTS = ['-', '0', ''];
 
-function parseText(text: string, prevValue: string, {enableComma, enableNegative, maxIntegerLength, maxDecimalLength}: InputNumberOption ) {
-  /**
-   * In all cases with InputComputableNumber components,
-   * we will remove spaces before and after strings because we believe that space entry is not required.
-   */
-  const trimmedText = text.trim();
+function parseText(text: string, prevValue: string, {enableComma, enableNegative, maxIntegerLength, maxDecimalLength, enableDecimal}: InputComputableNumberOption ) {
   
-  /**
-   * If enableNegative is true, ignoreEventKeys is already blocking the input itself.
-   * Nevertheless, the reason for this check is to respond to Control V.
-   */
-  if (trimmedText === '-') {
-    return enableNegative ? '-' : '';
+  const _text = cleanText(text, {enableComma, enableNegative});
+  
+  if (SKIP_TEXTS.includes(_text)) {
+    return _text;
   }
-  
-  /**
-   * In most cases, the first text is - for negative input, since the user enters letters on the keyboard.
-   * These cases are easy to implement by skipping all validation.
-   */
-  if (trimmedText === '') {
-    return '';
-  }
-  
-  const commaNextText = enableComma ? trimmedText.replace(/,/g, '') : trimmedText;
   
   /**
    * There are two reasons for converting to parseInt() instead of Number Constructor.
@@ -106,12 +95,12 @@ function parseText(text: string, prevValue: string, {enableComma, enableNegative
    *
    * Secondly, if you do Control V, only the places where you can parse with numbers will be saved.
    */
-  const parsedNumber = parseInt(commaNextText);
+  const parsedNumber = enableDecimal ? parseFloat() : parseInt(_text);
   
   /**
    * Since the text above is all crossed out for empty or '-' cases, if NaN occurs here, the user can unconditionally conclude that a non-numeric value has been entered.
    */
-  if (Number.isNaN(parsedNumber)) {
+  if (enableDecimal && ) {
     return prevValue;
   }
   
@@ -131,7 +120,16 @@ function parseText(text: string, prevValue: string, {enableComma, enableNegative
   return parsedString;
 }
 
-function isValidNumberLength(value: string, {maxDecimalLength, maxIntegerLength}: Pick<InputNumberProp, 'maxDecimalLength' | 'maxIntegerLength'>) {
+function cleanText(text: string, {enableComma}: Pick<InputComputableNumberOption, 'enableNegative' | 'enableComma'>) {
+  /**
+   * In all cases with InputComputableNumber components,
+   * we will remove spaces before and after strings because we believe that space entry is not required.
+   */
+  const trimmedText = text.trim();
+  return enableComma ? trimmedText.replace(/,/g, '') : trimmedText;
+}
+
+function isValidNumberLength(value: string, {maxDecimalLength, maxIntegerLength}: Pick<InputComputableNumberProp, 'maxDecimalLength' | 'maxIntegerLength'>) {
   const {integer, decimal} = splitNumberDot(value);
   console.log(integer, decimal);
   

@@ -1,5 +1,6 @@
 import React, {useCallback} from 'react';
 import InputText, {InputTextProp} from '@components/extend/InputText';
+import {parseString} from '../../utils/extend/string';
 
 export interface InputIncomputableNumberProp extends Omit<InputTextProp, 'type' | 'ignoreEventKeys'> {
   enableMask?: boolean;
@@ -12,18 +13,18 @@ export interface InputIncomputableNumberProp extends Omit<InputTextProp, 'type' 
 export default function InputIncomputableNumber({enableMask, onChangeText, ...rest}: InputIncomputableNumberProp) {
   
   const _onChangeText = useCallback((text: string) => {
+    /**
+     * Only for Control V
+     */
     const trimmedText = text.trim();
-  
-    // Skip all process
-    if (trimmedText === '') {
-      onChangeText?.('');
-      return;
-    }
-  
-    if (!validateText(trimmedText)) {
-      return;
-    }
-  
+    
+    /**
+     * OnChangeText() must always run.
+     * If validation fails and is not executed,
+     * From the user's point of view, there is no response to input, so they don't know what's wrong.
+     * Therefore, I'll show you even if it's truncated from the beginning of the string to the valid range.
+     */
+    
     onChangeText?.(parseText(trimmedText));
   }, [onChangeText]);
   
@@ -44,22 +45,7 @@ export default function InputIncomputableNumber({enableMask, onChangeText, ...re
  * Therefore, it was implemented based on String API.
  */
 function parseText(text: string): string {
-  let _text = '';
-  
-  for (const char of text) {
-    if (!NUMBERS.includes(char)) {
-      break;
-    }
-  
-    _text += char;
-  }
-  
-  return _text;
-}
-
-function validateText(text: string): boolean {
-  const characters = Array.from(new Set(text.split('')));
-  return characters.every(character => NUMBERS.includes(character));
+  return parseString(text, NUMBERS);
 }
 
 const NOT_NUMERIC_KEY = ['-', '.'];
