@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import InputNumber from '@components/extend/InputNumber';
+import InputIncomputableNumber from '@components/extend/InputIncomputableNumber';
 
 export default function Page() {
   const [number, setNumber] = useState('');
-  const [negative, setNegative] = useState('');
   return (
       <Wrap>
-        <InputNumber value={number} onChangeText={setNumber}/>
-        <InputNumber value={negative} onChangeText={setNegative} enableComma enableNegative maxIntegerLength={7} maxDecimalLength={7}/>
+        <InputIncomputableNumber value={number} onChangeText={setNumber} enableMask/>
       </Wrap>
   );
 };

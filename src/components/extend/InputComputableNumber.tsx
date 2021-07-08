@@ -38,11 +38,9 @@ export interface InputNumberOption {
   enableDecimal?: boolean;
 }
 
-export interface InputNumberProp extends InputTextProp, InputNumberOption {
-  type?: 'number' | 'password';
-}
+export type InputNumberProp = Omit<InputTextProp, 'type'> & InputNumberOption;
 
-export default function InputNumber({maxDecimalLength, maxIntegerLength, onChangeText, type = 'number', enableNegative = false, enableComma, value, ignoreEventKeys = EMPTY_ARRAY, enableDecimal = true, ...rest}: InputNumberProp) {
+export default function InputComputableNumber({maxDecimalLength, maxIntegerLength, onChangeText, enableNegative = false, enableComma, value, ignoreEventKeys = EMPTY_ARRAY, enableDecimal = true, ...rest}: InputNumberProp) {
   
   const _onChangeText = useCallback((text: string) => {
     onChangeText?.(parseText(text, value, {enableNegative, enableComma, maxDecimalLength, maxIntegerLength}));
@@ -65,7 +63,7 @@ export default function InputNumber({maxDecimalLength, maxIntegerLength, onChang
   return (
       <InputText
           onChangeText={_onChangeText}
-          type={enableComma ? undefined : type}
+          type={enableComma ? undefined : 'number'}
           ignoreEventKeys={_ignoreEventKeys}
           value={enableComma ? numberWithComma(value) : value}
           {...rest}
@@ -77,7 +75,7 @@ const EMPTY_ARRAY = [] as string[];
 
 function parseText(text: string, prevValue: string, {enableComma, enableNegative, maxIntegerLength, maxDecimalLength}: InputNumberOption ) {
   /**
-   * In all cases with InputNumber components,
+   * In all cases with InputComputableNumber components,
    * we will remove spaces before and after strings because we believe that space entry is not required.
    */
   const trimmedText = text.trim();
