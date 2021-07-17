@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import {GetStaticPaths, GetStaticProps} from 'next';
-import MainLayout from '@components/layouts/MainLayout';
 import PropertyText from '@components/atom/PropertyText';
 
 const ALLOW_PARAMS = ['hello1', 'hello2', 'hello3'];
@@ -45,10 +44,8 @@ export default function SpMustOneParamPage({someData} : PageProp) {
         <Head>
           <title>sp-must-one-param</title>
         </Head>
-        <MainLayout>
-          <PropertyText>allow params = {ALLOW_PARAMS.join(', ')}</PropertyText>
-          <PropertyText>someData = {someData}</PropertyText>
-        </MainLayout>
+        <PropertyText>allow params = {ALLOW_PARAMS.join(', ')}</PropertyText>
+        <PropertyText>someData = {someData}</PropertyText>
       </>
   );
 }

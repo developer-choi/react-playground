@@ -2,7 +2,6 @@ import React from 'react';
 import Head from 'next/head';
 import {GetServerSideProps} from 'next';
 import PropertyText from '@components/atom/PropertyText';
-import MainLayout from '@components/layouts/MainLayout';
 
 /**
  * The type of params must be string.
@@ -39,9 +38,7 @@ export default function MustOneParamPage({userName}: PageProp){
         <Head>
           <title>must-one-param</title>
         </Head>
-        <MainLayout>
-          <PropertyText>userName = {userName}</PropertyText>
-        </MainLayout>
+        <PropertyText>userName = {userName}</PropertyText>
       </>
   );
 }

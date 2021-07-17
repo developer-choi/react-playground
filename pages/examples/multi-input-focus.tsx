@@ -1,7 +1,6 @@
 import React, {useCallback, useRef} from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import MainLayout from '../../src/components/layouts/MainLayout';
 
 const MISSIONS = new Array(3).fill('').map((value, index) => `${index + 1}th misson`);
 
@@ -25,20 +24,18 @@ export default function MultiInputFocusPage() {
         <Head>
           <title>multi-input-focus</title>
         </Head>
-        <MainLayout>
-          <InputsWrap>
-            {MISSIONS.map((value, index) => (
-                <Input key={index}
-                       ref={element => {
-                         if (inputsRef.current && element) {
-                           inputsRef.current[index] = element;
-                         }
-                       }}
-                />
-            ))}
-            <button onClick={save} type="button">Save</button>
-          </InputsWrap>
-        </MainLayout>
+        <InputsWrap>
+          {MISSIONS.map((value, index) => (
+              <Input key={index}
+                     ref={element => {
+                       if (inputsRef.current && element) {
+                         inputsRef.current[index] = element;
+                       }
+                     }}
+              />
+          ))}
+          <button onClick={save} type="button">Save</button>
+        </InputsWrap>
       </>
   );
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import {GetStaticPaths, GetStaticProps} from 'next';
-import MainLayout from '@components/layouts/MainLayout';
 import PropertyText from '@components/atom/PropertyText';
 
 type ParamType = {
@@ -38,9 +37,7 @@ export default function SpOptionalParamPage({genre}: PageProp) {
         <Head>
           <title>sp-optional-param</title>
         </Head>
-        <MainLayout>
-          <PropertyText>genre = {genre}</PropertyText>
-        </MainLayout>
+        <PropertyText>genre = {genre}</PropertyText>
       </>
   );
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import {GetServerSideProps} from 'next';
-import MainLayout from '@components/layouts/MainLayout';
 
 interface PageProp {
   userPkList: number[];
@@ -32,9 +31,7 @@ export default function SspNoParamPage({userPkList}: PageProp) {
         <Head>
           <title>ssp-no-param</title>
         </Head>
-        <MainLayout>
-          {userPkList}
-        </MainLayout>
+        {userPkList}
       </>
   );
 }

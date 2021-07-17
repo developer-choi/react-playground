@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import Head from 'next/head';
-import MainLayout from '@components/layouts/MainLayout';
 import BugInputNumber from '@components/bug/BugInputNumber';
 
 export default function InputBugExamplePage() {
@@ -11,9 +10,7 @@ export default function InputBugExamplePage() {
         <Head>
           <title>input-bug-example</title>
         </Head>
-        <MainLayout>
-          <BugInputNumber style={{border: '1px solid blue'}} value={value} onChangeText={setValue}/>
-        </MainLayout>
+        <BugInputNumber style={{border: '1px solid blue'}} value={value} onChangeText={setValue}/>
       </>
   );
 }

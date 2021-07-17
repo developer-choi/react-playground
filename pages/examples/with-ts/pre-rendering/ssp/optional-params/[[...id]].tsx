@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import {GetServerSideProps} from 'next';
-import MainLayout from '@components/layouts/MainLayout';
 
 /**
  * The type of params must be an optional string array.
@@ -32,9 +31,7 @@ export default function SspOptionalParamsPage({nickNames}: PageProp) {
         <Head>
           <title>ssp-optional-params</title>
         </Head>
-        <MainLayout>
-          {nickNames}
-        </MainLayout>
+        {nickNames}
       </>
   );
 }

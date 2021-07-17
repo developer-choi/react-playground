@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import {GetServerSideProps} from 'next';
-import MainLayout from '@components/layouts/MainLayout';
 import PropertyText from '@components/atom/PropertyText';
 
 /**
@@ -37,9 +36,7 @@ export default function SspMustParamPage({userNameList}: PageProp) {
         <Head>
           <title>ssp-must-params</title>
         </Head>
-        <MainLayout>
-          <PropertyText>{JSON.stringify(userNameList)}</PropertyText>
-        </MainLayout>
+        <PropertyText>{JSON.stringify(userNameList)}</PropertyText>
       </>
   );
 }

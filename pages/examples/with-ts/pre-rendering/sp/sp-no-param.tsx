@@ -2,7 +2,6 @@ import React from 'react';
 import Head from 'next/head';
 import {GetStaticProps} from 'next';
 import PropertyText from '@components/atom/PropertyText';
-import MainLayout from '@components/layouts/MainLayout';
 
 interface PageProp {
   userPkList: number[];
@@ -31,9 +30,7 @@ export default function SpNoParamPage({userPkList}: PageProp) {
         <Head>
           <title>sp-no-param</title>
         </Head>
-        <MainLayout>
-          <PropertyText>userPkList = {userPkList}</PropertyText>
-        </MainLayout>
+        <PropertyText>userPkList = {userPkList}</PropertyText>
       </>
   );
 }
