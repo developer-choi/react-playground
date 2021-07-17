@@ -1,4 +1,13 @@
-import React, {ChangeEvent, ComponentProps, forwardRef, KeyboardEvent, Ref, useCallback} from 'react';
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  ComponentProps,
+  forwardRef,
+  KeyboardEvent,
+  Ref,
+  useCallback
+} from 'react';
+import {toast} from 'react-toastify';
 
 export interface InputTextProp extends Omit<ComponentProps<'input'>, 'ref'> {
   onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
@@ -30,7 +39,7 @@ export default forwardRef(function InputExtend(props: InputTextProp, ref: Ref<HT
     /**
      * HTML input Prop
      */
-    type, maxLength = 1000, onChange, onKeyDown,
+    type, maxLength = 1000, onChange, onKeyDown, placeholder,
 
     /**
      * Custom Prop
@@ -54,20 +63,49 @@ export default forwardRef(function InputExtend(props: InputTextProp, ref: Ref<HT
         break;
     }
   }, [onKeyDown, onEnter, ignoreEventKeys]);
+  
+  const customOnChange = useCustomOnChange({onChange, onChangeText, maxLength});
+  const _placeholder = defaultMaxLengthPlaceholder(maxLength, placeholder);
 
-  const customOnChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+  return (
+      <input
+          ref={ref}
+          type={type}
+          onChange={customOnChange}
+          onKeyDown={customOnKeyDown}
+          autoCapitalize={autoCapitalize}
+          placeholder={_placeholder}
+          {...rest}
+      />
+  );
+});
+
+export interface CustomOnChangeParam<T extends HTMLInputElement | HTMLTextAreaElement> {
+  maxLength: number;
+  onChange?: ChangeEventHandler<T>;
+  onChangeText?: (text: string) => void;
+}
+
+export function useCustomOnChange<T extends HTMLInputElement | HTMLTextAreaElement>({onChange, onChangeText, maxLength}: CustomOnChangeParam<T>) {
+  
+  return useCallback((event: ChangeEvent<T>) => {
     onChange?.(event);
   
     const {value} = event.target;
   
     if (value.length > maxLength) {
+      toast.error(`최대 ${maxLength}자 까지 입력이 가능합니다.`, {toastId: 'MAX_LENGTH'});
       return;
     }
   
     onChangeText?.(value);
   }, [maxLength, onChange, onChangeText]);
+}
 
-  return (
-      <input ref={ref} type={type} onChange={customOnChange} onKeyDown={customOnKeyDown} autoCapitalize={autoCapitalize} {...rest}/>
-  );
-});
+export function defaultMaxLengthPlaceholder(maxLength: number, placeholder?: string) {
+  if (placeholder) {
+    return placeholder;
+  } else {
+    return `최대 ${maxLength}자 까지 입력이 가능합니다.`;
+  }
+}
