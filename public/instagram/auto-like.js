@@ -4,9 +4,9 @@
  */
 
 const SETTINGS = {
-  getPostDuration: 4000,
+  getPostDuration: 6000,
   clickDuration: 500,
-  likeDuration: 3000
+  likeDuration: 6000
 };
 
 async function main() {
