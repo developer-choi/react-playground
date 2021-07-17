@@ -4,6 +4,8 @@ import {ThemeProvider} from 'styled-components';
 import {theme} from '../src/utils/style/theme';
 import {GlobalStyle} from '../src/utils/style/global';
 import Head from 'next/head';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function MyApp({Component, pageProps}: AppProps) {
   return (
@@ -15,6 +17,7 @@ export default function MyApp({Component, pageProps}: AppProps) {
           <GlobalStyle/>
           <Component {...pageProps}/>
         </ThemeProvider>
+        <ToastContainer/>
       </>
   );
 }
