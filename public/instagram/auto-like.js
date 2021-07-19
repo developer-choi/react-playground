@@ -4,9 +4,9 @@
  */
 
 const SETTINGS = {
-  getPostDuration: 6000,
+  getPostDuration: 10000,
   clickDuration: 500,
-  likeDuration: 6000
+  likeDuration: 10000
 };
 
 async function main() {
@@ -48,8 +48,11 @@ function timeoutPromise(timeout) {
   });
 }
 
+const ARIA_LABELS = ['좋아요 취소', 'Unlike'];
+
 function isLiked() {
-  return document.querySelector('.fr66n svg').ariaLabel === 'Unlike';
+  const ariaLabel = document.querySelector('.fr66n svg').ariaLabel;
+  return ARIA_LABELS.includes(ariaLabel);
 }
 
 /*****************************************************************************
