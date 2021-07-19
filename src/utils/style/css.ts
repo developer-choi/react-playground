@@ -24,6 +24,13 @@ export const absoluteAllZero = css`
   bottom: 0;
 `;
 
+export const absoluteCenter = css`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 export const removeRightBorderRadius = css`
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
