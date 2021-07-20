@@ -1,15 +1,17 @@
 {
   "compilerOptions": {
-    //common (react, react-native, express)
+    "_comment_for_common": [
+      "react",
+      "express"
+    ],
     "strict": true,
     "esModuleInterop": true,
     "noEmit": true,
     "moduleResolution": "Node",
-
-    //react || react-native
+    "importsNotUsedAsValues": "error",
+  
+    "_comment_for_react": ["react"],
     "jsx": "react",
-
-    //only react && web
     "target": "ES5",
     "downlevelIteration": true
   }
