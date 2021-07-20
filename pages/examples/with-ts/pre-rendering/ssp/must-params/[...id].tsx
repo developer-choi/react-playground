@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import {GetServerSideProps} from 'next';
+import type {GetServerSideProps} from 'next';
 import PropertyText from '@components/atom/PropertyText';
 
 /**

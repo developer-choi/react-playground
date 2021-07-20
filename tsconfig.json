@@ -21,7 +21,8 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["src/components/*"]
-    }
+    },
+    "importsNotUsedAsValues": "error"
   },
   "include": [
     "next-env.d.ts",

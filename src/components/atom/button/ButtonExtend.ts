@@ -1,4 +1,4 @@
-import {ComponentProps} from 'react';
+import type {ComponentProps} from 'react';
 import styled, {css} from 'styled-components';
 
 const buttonHoverEffect = css`

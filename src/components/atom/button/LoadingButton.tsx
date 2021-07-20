@@ -1,7 +1,7 @@
 import React, {ComponentProps, useCallback, useState} from 'react';
 import ButtonExtend from './ButtonExtend';
 import ClipLoader from 'react-spinners/ClipLoader';
-import {LoaderSizeProps} from 'react-spinners/interfaces';
+import type {LoaderSizeProps} from 'react-spinners/interfaces';
 import styled from 'styled-components';
 import classnames from 'classnames';
 import {absoluteCenter} from '../../../utils/style/css';

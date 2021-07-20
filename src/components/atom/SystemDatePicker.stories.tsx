@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {Story} from '@storybook/react';
+import type {Story} from '@storybook/react';
 import SystemDatePicker from '@components/atom/SystemDatePicker';
-import {InputDateProp} from '@components/extend/InputDate';
+import type {InputDateProp} from '@components/extend/InputDate';
 import styled, {ThemeProvider} from 'styled-components';
 import {theme} from '../../utils/style/theme';
 import { GlobalStyle } from 'src/utils/style/global';

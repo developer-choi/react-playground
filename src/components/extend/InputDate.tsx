@@ -1,6 +1,4 @@
 import React, {ChangeEvent, ComponentProps, forwardRef, Ref, useCallback} from 'react';
-import {Simulate} from 'react-dom/test-utils';
-import input = Simulate.input;
 import {destructDate} from '../../utils/extend/date/date-convert';
 
 export interface InputDateProp extends Omit<ComponentProps<'input'>, 'ref' | 'type' | 'value'> {

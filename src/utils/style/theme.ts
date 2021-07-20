@@ -1,4 +1,4 @@
-import {DefaultTheme} from 'styled-components';
+import type {DefaultTheme} from 'styled-components';
 
 export const COLORS = {
   reactBlue: 'rgb(97, 218, 251)',

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import DragAndDrop from '@components/atom/DragAndDrop';
 import {flexCenter} from '../../../src/utils/style/css';
 import Head from 'next/head';
-import {ImageWrapper} from '@components/extend/InputFile';
+import type {ImageWrapper} from '@components/extend/InputFile';
 
 export default function DragAndDropPage() {
   

@@ -1,4 +1,4 @@
-import {DebouncedFunc, DebounceSettings} from 'lodash';
+import type {DebouncedFunc, DebounceSettings} from 'lodash';
 import {useMemo} from 'react';
 import debounce from 'lodash/debounce';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import {GetStaticPaths, GetStaticProps} from 'next';
+import type {GetStaticPaths, GetStaticProps} from 'next';
 import PropertyText from '@components/atom/PropertyText';
 
 type ParamType = {

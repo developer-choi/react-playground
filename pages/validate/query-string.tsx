@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import {GetServerSideProps} from 'next';
+import type {GetServerSideProps} from 'next';
 import {getYyyymmddOrDefault} from '../../src/utils/extend/query-string';
 import Link from 'next/link';
 import styled from 'styled-components';
