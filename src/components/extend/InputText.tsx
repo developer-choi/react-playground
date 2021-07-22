@@ -60,6 +60,8 @@ export default forwardRef(function InputExtend(props: InputTextProp, ref: Ref<HT
         onEnter?.(event);
         break;
     }
+  
+    onKeyDown?.(event);
   }, [onKeyDown, onEnter, ignoreEventKeys]);
   
   const customOnChange = useCustomOnChange({onChange, onChangeText, maxLength});
