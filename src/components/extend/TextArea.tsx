@@ -6,7 +6,7 @@ export interface TextAreaProp extends ComponentProps<'textarea'> {
   onCtrlEnter?: () => void;
 }
 
-export default forwardRef(function TextAreaExtend(props: TextAreaProp, ref: Ref<HTMLTextAreaElement>) {
+export default forwardRef(function TextArea(props: TextAreaProp, ref: Ref<HTMLTextAreaElement>) {
   const {onKeyDown, onChangeText, onChange, onCtrlEnter, maxLength = 100000, placeholder, ...rest} = props;
   
   const customOnChange = useCustomOnChange({onChange, onChangeText, maxLength});
