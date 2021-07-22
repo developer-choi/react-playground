@@ -4,7 +4,7 @@
     "esModuleInterop": true,
     "noEmit": true,
     "jsx": "preserve",
-    "target": "ES5",
+    "target": "ESNext",
     "downlevelIteration": true,
     "lib": [
       "dom",

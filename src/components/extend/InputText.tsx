@@ -55,8 +55,6 @@ export default forwardRef(function InputExtend(props: InputTextProp, ref: Ref<HT
       return;
     }
     
-    onKeyDown?.(event);
-    
     switch (key) {
       case 'Enter':
         onEnter?.(event);
