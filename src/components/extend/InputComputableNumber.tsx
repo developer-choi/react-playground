@@ -71,10 +71,13 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
     return keys;
   }, [ignoreEventKeys, enableDecimal]);
   
+  const type = enableComma ? undefined : 'number';
+  
   return (
       <InputText
           onChangeText={_onChangeText}
-          type={enableComma ? undefined : 'number'}
+          type={type}
+          inputMode={type === 'number' ? undefined : enableDecimal ? 'decimal' : 'numeric'}
           value={enableComma ? numberWithComma(value) : value}
           ignoreEventKeys={_ignoreEventKeys}
           {...rest}
