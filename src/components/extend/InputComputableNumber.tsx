@@ -48,35 +48,12 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
   
   const _onChangeText = useCallback((text: string) => {
     const cleanedText = cleanText(text, {enableComma});
-    const convertedNumber = Number(cleanedText);
-    
-    //Only for input type is not number (When enableComma is true)
-    if (Number.isNaN(convertedNumber)) {
+  
+    if (!isPossibleToBeNumber(cleanedText, enableDecimal)) {
       return;
     }
   
-    if (max !== undefined && max < convertedNumber) {
-      return;
-    }
-  
-    //Only for input type is not number (When enableComma is true)
-    const dotCount = count(cleanedText, '\\.');
-    
-    if (enableDecimal && dotCount > 1) {
-      return;
-    }
-    
-    if (!enableDecimal && dotCount > 0) {
-      return;
-    }
-    
-    const {decimal, integer} = splitNumberDot(cleanedText);
-    
-    if (maxDecimalLength !== undefined && decimal.length > maxDecimalLength) {
-      return;
-    }
-    
-    if (maxIntegerLength !== undefined && integer.length > maxIntegerLength) {
+    if (!validateNumber(cleanedText, {max, maxIntegerLength, maxDecimalLength})) {
       return;
     }
     
@@ -103,6 +80,50 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
           {...rest}
       />
   );
+}
+
+function isPossibleToBeNumber(text: string, enableDecimal: boolean): boolean {
+  
+  const convertedNumber = Number(text);
+  
+  //Only for input type is not number (When enableComma is true)
+  if (Number.isNaN(convertedNumber)) {
+    return false;
+  }
+  
+  //Only for input type is not number (When enableComma is true)
+  const dotCount = count(text, '\\.');
+  
+  if (enableDecimal && dotCount > 1) {
+    return false;
+  }
+  
+  if (!enableDecimal && dotCount > 0) {
+    return false;
+  }
+  
+  return true;
+}
+
+function validateNumber(text: string, options: Pick<InputComputableNumberOption, 'max' | 'maxDecimalLength' | 'maxIntegerLength'>) {
+  const {max, maxDecimalLength, maxIntegerLength} = options;
+  const {decimal, integer} = splitNumberDot(text);
+  
+  if (maxDecimalLength !== undefined && decimal.length > maxDecimalLength) {
+    return false;
+  }
+  
+  if (maxIntegerLength !== undefined && integer.length > maxIntegerLength) {
+    return false;
+  }
+  
+  const convertedNumber = Number(text);
+  
+  if (max !== undefined && max < convertedNumber) {
+    return false;
+  }
+  
+  return true;
 }
 
 const DEFAULT_MAX_INTEGER_LENGTH = Number.MAX_SAFE_INTEGER.toString().length;
