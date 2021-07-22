@@ -3,27 +3,9 @@ import InputText, {InputTextProp} from '@components/extend/InputText';
 import {numberWithComma} from '../../utils/extend/number';
 import {count} from '../../utils/extend/string';
 
-/**
- * Feature 2.
- * Negative income response. What the majority of input type number is often rather should not be a negative input. (input prices, etc.)
- * So, basically negative input from, but should function well in this. if it is a negative input to allow this.
- *
- * Feature 3. Decimal input function.
- * When a decimal number is entered up to 12345," the response must be made even if the end ends with a . but is not a valid Number type.
- *
- * Feature 3. Support for various additional functions (such as commas being entered between them, maximal integer decimal places, etc.)
- */
-
 export interface InputComputableNumberOption {
-  /**
-   * You can specify a decimal maximum length for the input value.
-   */
-  maxDecimalLength?: number;
-  
-  /**
-   * You can specify an integer maximum length for the input value.
-   */
   maxIntegerLength?: number;
+  maxDecimalLength?: number;
   max?: number;
   
   enableComma?: boolean;
@@ -32,6 +14,10 @@ export interface InputComputableNumberOption {
 
 export type InputComputableNumberProp = Omit<InputTextProp, 'type' | 'min'> & InputComputableNumberOption;
 
+/**
+ * Overview: Input components used when you want to receive only numbers that can be operated.
+ * For example, you can use it when you input a price.
+ */
 export default function InputComputableNumber(props: InputComputableNumberProp) {
   
   const {
@@ -39,7 +25,7 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
     maxDecimalLength,
     enableComma = false,
     enableDecimal = true,
-    ignoreEventKeys = EMPTY_ARRAY,
+    preventEventKeys = EMPTY_ARRAY,
     onChangeText,
     max,
     value,
@@ -61,15 +47,15 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
     
   }, [maxDecimalLength, maxIntegerLength, onChangeText, enableComma, enableDecimal, max]);
   
-  const _ignoreEventKeys = useMemo(() => {
-    const keys = ignoreEventKeys.concat(BASE_IGNORE_KEYS);
+  const _preventEventKeys = useMemo(() => {
+    const keys = preventEventKeys.concat(BASE_IGNORE_KEYS);
     
     if (!enableDecimal) {
       keys.push('.');
     }
   
     return keys;
-  }, [ignoreEventKeys, enableDecimal]);
+  }, [preventEventKeys, enableDecimal]);
   
   const type = enableComma ? undefined : 'number';
   
@@ -79,7 +65,7 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
           type={type}
           inputMode={type === 'number' ? undefined : enableDecimal ? 'decimal' : 'numeric'}
           value={enableComma ? numberWithComma(value) : value}
-          ignoreEventKeys={_ignoreEventKeys}
+          preventEventKeys={_preventEventKeys}
           {...rest}
       />
   );
