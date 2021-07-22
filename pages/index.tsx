@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import InputIncomputableNumber from '@components/extend/InputIncomputableNumber';
+import InputComputableNumber from '@components/extend/InputComputableNumber';
 
 export default function Page() {
-  const [number, setNumber] = useState('');
+  const [value, setValue] = useState('');
+  console.log(value);
   return (
       <Wrap>
-        <InputIncomputableNumber value={number} onChangeText={setNumber} enableMask/>
+        <InputComputableNumber enableComma maxDecimalLength={10} maxIntegerLength={8} value={value} onChangeText={setValue}/>
       </Wrap>
   );
 };

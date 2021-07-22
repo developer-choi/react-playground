@@ -18,36 +18,7 @@ export function parseString(text: string, allowCharacters: string[]) {
   return _text;
 }
 
-/**
- * Function with added functionality in parseString(), which can limit the number of characters allowed.
- */
-export function parseStringLimitCount<K extends string>(text: string, allowCharacters: string[], limitCountRecord: Record<K , number>) {
-  let _text = '';
-  
-  const limitCharacters = Object.keys(limitCountRecord) as K[];
-  
-  const record = limitCharacters.reduce((a, b) => {
-    a[b] = 0;
-    return a;
-  }, {} as Record<K , number>);
-  
-  for (const char of text) {
-    if (!allowCharacters.includes(char) && !limitCharacters.includes(char as any)) {
-      break;
-    }
-  
-    if (limitCharacters.includes(char as any)) {
-      const _char = char as K;
-      
-      record[_char]++;
-  
-      if (record[_char] > limitCountRecord[_char]) {
-        break;
-      }
-    }
-    
-    _text += char;
-  }
-  
-  return _text;
+export function count(text: string, target: string) {
+  const regex = new RegExp(target, 'g');
+  return (text.match(regex) || []).length;
 }
