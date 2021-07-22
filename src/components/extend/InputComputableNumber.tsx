@@ -17,6 +17,8 @@ export type InputComputableNumberProp = Omit<InputTextProp, 'type' | 'min'> & In
 /**
  * Overview: Input components used when you want to receive only numbers that can be operated.
  * For example, you can use it when you input a price.
+ *
+ * Parameters passed to onChangeText() guarantee that they are not necessarily NaN when converted to Number().
  */
 export default function InputComputableNumber(props: InputComputableNumberProp) {
   

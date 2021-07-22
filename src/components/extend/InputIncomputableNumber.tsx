@@ -18,7 +18,7 @@ export default function InputIncomputableNumber({enableMask, onChangeText, ...re
     /**
      * The text consists of numbers only,
      * but since it has no purpose for the operation,
-     * the use of the parseInt() or Number Constrcutor does not allow for very large numbers.
+     * the use of the parseInt() or Number() does not allow for very large numbers.
      * Therefore, it was implemented based on String API.
      */
     onChangeText?.(parseString(trimmedText, NUMBERS));
