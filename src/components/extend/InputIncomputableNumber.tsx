@@ -24,12 +24,12 @@ export default function InputIncomputableNumber({enableMask, onChangeText, ...re
     onChangeText?.(parseString(trimmedText, NUMBERS));
   }, [onChangeText]);
   
-  const type = enableMask ? 'text' : 'number';
+  const type = enableMask ? 'password' : 'number';
   
   return (
       <InputText
           type={type}
-          inputMode={type === 'text' ? 'numeric' : undefined}
+          inputMode={type === 'password' ? 'numeric' : undefined}
           preventEventKeys={NOT_NUMERIC_KEY}
           onChangeText={_onChangeText}
           {...rest}
