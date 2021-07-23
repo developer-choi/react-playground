@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, ClipboardEvent} from 'react';
 import InputText, {InputTextProp} from '@components/extend/InputText';
 import {numberWithComma} from '../../utils/extend/number';
 import {count} from '../../utils/extend/string';
@@ -31,6 +31,8 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
     onChangeText,
     max,
     value,
+    onCopy,
+    onCut,
     ...rest
   } = props;
   
@@ -59,6 +61,21 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
     return keys;
   }, [preventEventKeys, enableDecimal]);
   
+  const _onCopy = useCallback((event: ClipboardEvent<HTMLInputElement>) => {
+    const {value} = event.target as HTMLInputElement;
+    event.clipboardData.setData('text/plain', cleanText(value, {enableComma}));
+    event.preventDefault();
+    onCopy?.(event);
+  }, [enableComma, onCopy]);
+  
+  const _onCut = useCallback((event: ClipboardEvent<HTMLInputElement>) => {
+    const {value} = event.target as HTMLInputElement;
+    event.clipboardData.setData('text/plain', cleanText(value, {enableComma}));
+    event.preventDefault();
+    onChangeText?.('');
+    onCut?.(event);
+  }, [enableComma, onChangeText, onCut]);
+  
   const type = enableComma ? undefined : 'number';
   
   return (
@@ -68,6 +85,8 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
           inputMode={type === 'number' ? undefined : enableDecimal ? 'decimal' : 'numeric'}
           value={enableComma ? numberWithComma(value) : value}
           preventEventKeys={_preventEventKeys}
+          onCopy={_onCopy}
+          onCut={_onCut}
           {...rest}
       />
   );
