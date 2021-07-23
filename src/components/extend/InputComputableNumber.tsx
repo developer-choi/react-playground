@@ -18,7 +18,15 @@ export type InputComputableNumberProp = Omit<InputTextProp, 'type' | 'min'> & In
  * Overview: Input components used when you want to receive only numbers that can be operated.
  * For example, you can use it when you input a price.
  *
- * Parameters passed to onChangeText() guarantee that they are not necessarily NaN when converted to Number().
+ * onChangeText(text: string)에 매개변수로 전달되는 text는 숫자가 될 가능성이 있는 값입니다.
+ * Case1. "." ==> ".0" ==> "0.0"
+ * Case2. "000" ==> "1000"
+ *
+ * 그러므로 text값은 Number() 혹은 parseInt()로 형변환했을 때 의도하지않은 값(0 or NaN)이 될 수 있습니다.
+ * This is the intended function.
+ *
+ * If the user does not enter a value that can never be numeric, it does not prevent the user from entering freely.
+ * So when a user submits a value that you enter, you need to verify it in the case of "000" or "."
  */
 export default function InputComputableNumber(props: InputComputableNumberProp) {
   
