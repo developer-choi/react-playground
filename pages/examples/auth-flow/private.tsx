@@ -1,23 +1,20 @@
 import React from 'react';
 import Head from 'next/head';
-import type {GetServerSideProps} from 'next';
-import {privateGerServerSideProps} from '../../../src/utils/api/auth';
+import {privateSspTemplate} from '../../../src/utils/api/auth';
 
 interface PageProp {
   username: string;
 }
 
-export const getServerSideProps: GetServerSideProps<PageProp> = async (context) => {
-  return privateGerServerSideProps<PageProp>({context}, (currentlyUserInfo) => {
-    const username = `${currentlyUserInfo.userPk}로 API 호출해서 응답받은 사용자의 이름`;
-    
-    return {
-      props: {
-        username
-      }
-    };
-  });
-};
+export const getServerSideProps = privateSspTemplate<PageProp>(async (context, currentlyUserInfo) => {
+  const username = `${currentlyUserInfo.userPk}로 API 호출해서 응답받은 사용자의 이름`;
+  
+  return {
+    props: {
+      username
+    }
+  };
+});
 
 export default function PrivatePage({username}: PageProp) {
   return (

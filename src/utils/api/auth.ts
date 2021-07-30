@@ -3,6 +3,7 @@ import type {GetServerSidePropsContext, GetServerSidePropsResult} from 'next';
 import {urlStringify} from '../extend/query-string';
 import {useEffect} from 'react';
 import type {ParsedError} from './axios-config';
+import type {GetServerSideProps} from 'next';
 
 /**
  * 이 모듈은, 사용자가 로그인 / 로그아웃 상태가 변경되었을 때 즉시 웹페이지를 새로 렌더링하지 않는 웹사이트에서 사용하기위한 모듈.
@@ -124,39 +125,24 @@ export function executeOnlyLogin({notLoginCallback, onlyLoginCallback, enableRed
   onlyLoginCallback(currentlyUserInfo);
 }
 
-export interface PrivateGerServerSideOptions extends Pick<RunOnlyLoginParams, 'enableRedirectUrl'> {
-  context: GetServerSidePropsContext;
-}
+export type PrivateSspCallback<P> = (context: GetServerSidePropsContext, user: CurrentlyLoginUserInfo) => Promise<GetServerSidePropsResult<P>>;
 
-/**
- * 이름을 뭐라고지을지 참 난감한데,
- *
- * getServerSideProps에서 쓰려고 (private page마다 중복되는 리다이랙트 코드 제거하려고) 만들었고,
- *
- * 로그인이 안되어있으면 getServerSideProps에서 Redirect정보를 반환하고
- * 로그인이 되어있으면 전달받은 callback을 실행하여 callback의 반환값을 그대로 반환한다.
- *
- * 하지만 사용법이랑 가독성이 너무 나빠서 다른방식으로 해결해보기로 함.
- */
-export function privateGerServerSideProps<PageProp>(option: PrivateGerServerSideOptions, callback: (currentlyUserInfo: CurrentlyLoginUserInfo) => GetServerSidePropsResult<PageProp>): GetServerSidePropsResult<PageProp> {
-  const currentlyUserInfo = getCurrentlyLoginUserInfo();
-  const {context, enableRedirectUrl = true} = option;
+export function privateSspTemplate<P>(callback: PrivateSspCallback<P>): GetServerSideProps<P> {
   
-  /**
-   * url의 hash는 서버에서 받지 못하기때문에, getServerSideProps에서 설정할 수 있는 redirectUrl은 pathname + querystring이 한계임.
-   */
-  const redirectUrl = enableRedirectUrl ? context.resolvedUrl : undefined;
-  
-  if (!currentlyUserInfo) {
-    return {
-      redirect: {
-        destination: getLoginRedirectUrl(redirectUrl),
-        permanent: false
-      }
-    };
-  } else {
-    return callback(currentlyUserInfo);
-  }
+  return async function (context) {
+    const currentlyUserInfo = getCurrentlyLoginUserInfo();
+    
+    if (!currentlyUserInfo) {
+      return {
+        redirect: {
+          destination: getLoginRedirectUrl(context.resolvedUrl),
+          permanent: false
+        }
+      };
+    }
+    
+    return callback(context, currentlyUserInfo);
+  };
 }
 
 /**
