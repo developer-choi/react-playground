@@ -20,6 +20,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
+    "http-status-codes": "^2.1.4",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "next": "^10.1.3",

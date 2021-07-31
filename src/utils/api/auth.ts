@@ -55,7 +55,7 @@ export function isCurrentlyLogin(): boolean {
 
 export const LOGIN_REDIRECT_QUERY_KEY = 'redirectUrl';
 
-function getLoginRedirectUrl(redirectUrl?: string) {
+export function getLoginRedirectUrl(redirectUrl?: string) {
   return `/examples/auth-flow/login${urlStringify({[LOGIN_REDIRECT_QUERY_KEY]: redirectUrl})}`;
 }
 
