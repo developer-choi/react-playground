@@ -11,6 +11,9 @@ export default function BeRenderedTwoTimesPage() {
    *
    * This component will be rendered two times.
    * To avoid this case, You can declare getServerSideProps().
+   *
+   * Documentation: https://nextjs.org/docs/routing/dynamic-routes#caveats
+   * Example: http://localhost:3000/examples/use-router/be-rendered-two-times?key=value
    */
   console.log('render', query);
   
