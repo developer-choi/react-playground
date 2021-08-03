@@ -84,10 +84,9 @@ export function useCustomOnChange<T extends HTMLInputElement | HTMLTextAreaEleme
   
     if (value.length > maxLength) {
       toast.error(`최대 ${maxLength}자 까지 입력이 가능합니다.`, {toastId: 'MAX_LENGTH'});
-      return;
     }
   
-    onChangeText?.(value);
+    onChangeText?.(value.slice(0, maxLength));
   }, [maxLength, onChange, onChangeText]);
 }
 
