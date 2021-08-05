@@ -35,11 +35,12 @@ interface HandleImageProps {
 export interface CustomInputFileProp extends HandleImageProps, HandleFileSizeProps, HandleExtensionProps {
   //용량제한, 확장자 제한을 통과한 경우에만 호출 (빈값인경우에도 호출)
   onChangeFiles?: (files: File[]) => void;
+  onChangeFile?: (file: File) => void;
 }
 
 export type InputFileProp = Omit<ComponentProps<'input'>, 'type'> & CustomInputFileProp;
 
-export default function InputFile({onChange, maxSize, handleFileSizeOver, allowExtensions, accept, handleNotAllowedExtension, onChangeFiles, onChangeImages, handleOnChangeImageError, ...rest}: InputFileProp) {
+export default function InputFile({onChange, maxSize, handleFileSizeOver, allowExtensions, accept, handleNotAllowedExtension, onChangeFiles, onChangeFile, onChangeImages, handleOnChangeImageError, ...rest}: InputFileProp) {
   
   const _onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     onChange?.(event);
@@ -63,11 +64,12 @@ export default function InputFile({onChange, maxSize, handleFileSizeOver, allowE
       allowExtensions,
       handleNotAllowedExtension,
       onChangeFiles,
+      onChangeFile,
       onChangeImages,
       handleOnChangeImageError,
       handleFileSizeOver
     });
-  }, [onChange, handleNotAllowedExtension, allowExtensions, maxSize, handleFileSizeOver, onChangeFiles, onChangeImages, handleOnChangeImageError]);
+  }, [onChange, handleNotAllowedExtension, allowExtensions, maxSize, handleFileSizeOver, onChangeFiles, onChangeImages, handleOnChangeImageError, onChangeFile]);
   
   const _accept = accept === undefined ? (allowExtensions ?? []).map(extension => '.' + extension).join(',') : accept;
   
@@ -101,6 +103,7 @@ export function handleOnChangeFile(files: File[], props: CustomInputFileProp) {
     handleOnChangeImageError = alertHandleOnChangeImageError,
     onChangeImages,
     onChangeFiles,
+    onChangeFile,
     handleNotAllowedExtension = alertHandleNotAllowedExtension,
     allowExtensions,
     maxSize
@@ -119,6 +122,7 @@ export function handleOnChangeFile(files: File[], props: CustomInputFileProp) {
   }
   
   onChangeFiles?.(files);
+  onChangeFile?.(files[0]);
   
   if (onChangeImages) {
     (async () => {
