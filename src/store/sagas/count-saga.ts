@@ -14,13 +14,13 @@ function delay(ms: number) {
 
 // Our worker Saga: will perform the async increment task
 function* workIncrementAsync() {
-  yield delay(1000);
+  yield delay(200);
   yield put(increaseActionCreator());
 }
 
 // Our worker Saga: will perform the async increment task
 function* workDecreaseAsync() {
-  yield delay(1000);
+  yield delay(200);
   yield put(decreaseActionCreator());
 }
 
