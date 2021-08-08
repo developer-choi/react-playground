@@ -24,11 +24,11 @@ export default function libraryClassName(...args: ArgumentArray) {
         }
       }
     } else if (argType === 'object') {
-      if (arg.toString === Object.prototype.toString) {
+      if (arg.toString === Object.prototype.toString) { // I don't know the intention of this.
         //@ts-ignore
         for (var key in arg) {
           //@ts-ignore
-          if (hasOwn.call(arg, key) && arg[key]) {
+          if (hasOwn.call(arg, key) && arg[key]) { // I don't know the syntax of this.
             classes.push(key);
           }
         }
@@ -49,9 +49,14 @@ export type ClassnamesArgument = string | Object;
 
 export function myClassName(...args: ClassnamesArgument[]) {
   const array = args.reduce<string[]>((a, b) => {
-
+    //There is no reason for an empty string in an array.
+    if (b === '') {
+      return a;
+    }
+    
     if (typeof b === 'string') {
       a.push(b);
+      
     } else {
       const classNames = Object.entries(b).reduce<string[]>((a, [key, value]) => {
         if (value) {
