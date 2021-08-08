@@ -28,7 +28,7 @@ const font = css`
   }
 `;
 
-export const MyReset = css`
+export const myReset = css`
   ${inputTypeSearchHidden};
   ${inputTypeNumberHidden};
   ${font};

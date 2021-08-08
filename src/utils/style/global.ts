@@ -1,10 +1,10 @@
 import {createGlobalStyle, css} from 'styled-components';
-import StyledReset from 'styled-reset';
-import {MyReset} from './my-reset';
+import styledReset from 'styled-reset';
+import {myReset} from './my-reset';
 
 const reset = css`
-  ${StyledReset};
-  ${MyReset}; //styled-reset보다 my-reset이 우선 적용되야하므로 밑에와야한다.
+  ${styledReset};
+  ${myReset}; //styled-reset보다 my-reset이 우선 적용되야하므로 밑에와야한다.
 `;
 
 const font = css`
@@ -25,13 +25,6 @@ const layout = css`
   html, body, #__next {
     height: 100%;
   }
-`;
-
-export const GlobalStyle = createGlobalStyle`
-
-  ${reset};
-  ${font};
-  ${layout};
   
   body {
     background-color: white;
@@ -39,4 +32,11 @@ export const GlobalStyle = createGlobalStyle`
     //color: black; 기본 색상을 지정할 일이 있거나,
     //font-size: 14px; 기본 폰트 크기를 좀 줄이고싶을 때.
   }
+`;
+
+export const GlobalStyle = createGlobalStyle`
+
+  ${reset};
+  ${font};
+  ${layout};
 `;
