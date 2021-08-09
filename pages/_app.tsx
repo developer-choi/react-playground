@@ -13,7 +13,7 @@ export default function MyApp({Component, pageProps}: AppProps) {
   return (
       <>
         <Head>
-          <title>react-library</title>
+          <title>react-playground</title>
         </Head>
         <Provider store={store}>
           <ThemeProvider theme={theme}>

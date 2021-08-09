@@ -1,6 +1,6 @@
 import {createAction, handleActions} from 'redux-actions';
 
-const SET_USER = 'react-library/user/SET_USER';
+const SET_USER = 'react-playground/user/SET_USER';
 
 export const setUserActionCreator = createAction<string>(SET_USER);
 

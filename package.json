@@ -1,5 +1,5 @@
 {
-  "name": "react-library",
+  "name": "react-playground",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/developer-choi/react-library"
+    "url": "https://github.com/developer-choi/react-playground"
   },
   "keywords": [],
   "author": "YuJinChoe",

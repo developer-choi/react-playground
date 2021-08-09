@@ -2,8 +2,8 @@ import {all, put, takeEvery} from 'redux-saga/effects';
 import {decreaseActionCreator, increaseActionCreator} from '../reducers/counter';
 import {createAction} from 'redux-actions';
 
-const INCREASE_ASYNC = 'react-library/count-saga/INCREASE_ASYNC';
-const DECREASE_ASYNC = 'react-library/count-saga/DECREASE_ASYNC';
+const INCREASE_ASYNC = 'react-playground/count-saga/INCREASE_ASYNC';
+const DECREASE_ASYNC = 'react-playground/count-saga/DECREASE_ASYNC';
 
 export const increaseAsyncActionCreator = createAction(INCREASE_ASYNC);
 export const decreaseAsyncActionCreator = createAction(DECREASE_ASYNC);

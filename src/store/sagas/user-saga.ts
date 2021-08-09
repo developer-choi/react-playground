@@ -3,7 +3,7 @@ import {createAction} from 'redux-actions';
 import {setUserActionCreator} from '../reducers/user';
 import {makeRandomString} from '../../utils/extend/random';
 
-const REQUEST_FETCH_USER = 'react-library/user-saga/REQUEST_FETCH_USER';
+const REQUEST_FETCH_USER = 'react-playground/user-saga/REQUEST_FETCH_USER';
 export const requestFetchUserActionCreator = createAction<number>(REQUEST_FETCH_USER);
 
 export async function apiGetHelloUser(userPk: number) {
