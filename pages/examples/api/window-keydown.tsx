@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import InputText from '@components/extend/InputText';
 import {Button} from '@components/atom/button/button-presets';
 import useToggleSetState from '../../../src/utils/custom-hooks/useToggleSetState';
+import {isKeyCanBeEnteredInWindow} from 'src/utils/extend/keyboard-event';
 
 export default function WindowKeyDownPage() {
   const [enableFocusToInput, setEnableFocusToInput] = useState(false);
@@ -74,7 +75,7 @@ function WindowKeyDownFocusToInput() {
     const handler = (event: KeyboardEvent) => {
       console.log('window keydown event key', event.key, event.key.length);
       
-      if (document.activeElement === document.body && isKeyCanBeEntered(event)) {
+      if (isKeyCanBeEnteredInWindow(event)) {
         inputRef.current?.focus();
         event.preventDefault();
       }
@@ -90,24 +91,6 @@ function WindowKeyDownFocusToInput() {
   return (
       <Input ref={inputRef} value={value} onChangeText={setValue}/>
   );
-}
-
-/**
- * 반드시 window.addEventListener('keydown', handler)의 handler에 arguments로 전달되는 event에서만 작동됨.
- * F5나 Delete키 같이 <input>에 입력되지않는 기능 관련 키와, 1 2 3 a b c 처럼 <input>에 입력이 가능한 키를 구분하기위한 함수.
- */
-function isKeyCanBeEntered(windowKeyDownEvent: KeyboardEvent) {
-  const {key, ctrlKey, altKey, metaKey, shiftKey} = windowKeyDownEvent;
-  
-  if (ctrlKey || altKey || metaKey || shiftKey) {
-    return false;
-  }
-  
-  /**
-   * 'Enter', 'ArrowUp' 같은 특수키는 꼭 길이가 1보다 컸고, 'ㅁ'같은 한글은 포커스가 document.body에 있을 때 입력할 경우 'a'로 입력이 됬었음.
-   * 그러므로 길이가 1인걸로 체크하는것으로 결정했습니다.
-   */
-  return key.length === 1;
 }
 
 const Input = styled(InputText)`
