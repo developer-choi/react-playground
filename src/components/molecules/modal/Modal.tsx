@@ -1,21 +1,21 @@
 import React, {ComponentProps, MouseEvent, useCallback, useEffect} from 'react';
 import styled from 'styled-components';
+import {isMatchKeyboardEvent} from '../../../utils/extend/keyboard-event';
 
 export interface ModalProp extends Omit<ComponentProps<'div'>, 'ref' | 'onClick'> {
-  disableEasilyClose?: boolean;
-  onBackdropClick?: () => void;
+  disableBackdropClick?: boolean;
+  disableEscapeKeyDown?: boolean;
   visible: boolean;
   close: () => void;
 }
 
-export default function Modal({onBackdropClick, disableEasilyClose = false, visible, close, ...rest}: ModalProp) {
+export default function Modal({disableBackdropClick = false, disableEscapeKeyDown = false, visible, close, ...rest}: ModalProp) {
 
-  const _onBackdropClick = useCallback(() => {
-    onBackdropClick?.();
-    if (!disableEasilyClose) {
+  const onBackdropClick = useCallback(() => {
+    if (!disableBackdropClick) {
       close();
     }
-  }, [onBackdropClick, disableEasilyClose, close]);
+  }, [disableBackdropClick, close]);
 
   const onInnerClick = useCallback((event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
@@ -23,7 +23,7 @@ export default function Modal({onBackdropClick, disableEasilyClose = false, visi
   
   useEffect(() => {
     const escToClose = (event: KeyboardEvent) => {
-      if (!disableEasilyClose && event.key === 'Escape') {
+      if (!disableEscapeKeyDown && isMatchKeyboardEvent(event, {key: 'Escape'})) {
         close();
       }
     };
@@ -34,7 +34,7 @@ export default function Modal({onBackdropClick, disableEasilyClose = false, visi
       window.removeEventListener('keydown', escToClose);
     };
     
-  }, [visible, disableEasilyClose, close]);
+  }, [visible, disableEscapeKeyDown, close]);
   
   useEffect(() => {
     if(visible) {
@@ -47,7 +47,7 @@ export default function Modal({onBackdropClick, disableEasilyClose = false, visi
   }, [visible]);
 
   return (
-      <Backdrop className={visible ? 'visible' : ''} onClick={disableEasilyClose ? undefined : _onBackdropClick}>
+      <Backdrop className={visible ? 'visible' : ''} onClick={onBackdropClick}>
         <Inner onClick={onInnerClick} {...rest}/>
       </Backdrop>
   );

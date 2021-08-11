@@ -18,4 +18,5 @@ export default function ConfirmModal({close, ...rest}: ConfirmModalProp) {
 }
 
 const Wrap = styled(Modal)`
+  padding: 30px;
 `;
