@@ -1,13 +1,25 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import DragAndDrop from '@components/atom/DragAndDrop';
 import {flexCenter} from '../../../src/utils/style/css';
 import Head from 'next/head';
 import type {ImageWrapper} from '@components/extend/InputFile';
+import type {ConvertImageCallback} from '@components/extend/InputFile';
 
 export default function DragAndDropPage() {
   
-  const [datas, setDatas] = useState<ImageWrapper[]>([]);
+  const [images, setImages] = useState<ImageWrapper[]>([]);
+  const [loading, setLoading] = useState(false);
+  
+  const onConvertFileToImage = useCallback(async (convertCallback: ConvertImageCallback) => {
+    try {
+      setLoading(true);
+      setImages(await convertCallback());
+      
+    } finally {
+      setLoading(false);
+    }
+  }, []);
   
   return (
       <>
@@ -16,14 +28,18 @@ export default function DragAndDropPage() {
         </Head>
         <Wrap>
           <Label>
-            <DropBox onChangeImages={setDatas} enableClickToFileExplorer>
+            <DropBox onConvertFileToImage={onConvertFileToImage} enableClickToFileExplorer>
               <Message>Drag Here</Message>
             </DropBox>
           </Label>
         </Wrap>
-        {datas.map(({image}, index) => (
-            <img key={index} src={image.src} alt="user select image"/>
-        ))}
+        {loading ?
+            <Box/>
+            :
+            images.map(({image}, index) => (
+                <img key={index} src={image.src} alt="user select image"/>
+            ))
+        }
       </>
   );
 }
@@ -42,6 +58,12 @@ const DropBox = styled(DragAndDrop)`
   &.dragging {
     border: 3px dashed red;
   }
+`;
+
+const Box = styled.div`
+  width: 300px;
+  height: 300px;
+  background-color: lightgray;
 `;
 
 const Message = styled.div`

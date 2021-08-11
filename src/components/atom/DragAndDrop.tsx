@@ -10,7 +10,7 @@ export interface DragAndDropProps extends Omit<ComponentProps<'label'>, 'ref'>, 
 
 export default function DragAndDrop({onDropFiles, onDrop, onDragLeave, onDragEnter, onDragOver, className, enableClickToFileExplorer, children,
                                       allowExtensions, maxSize, handleNotAllowedExtension, handleFileSizeOver, handleOnChangeImageError, onChangeImages,
-                                      ...rest }: DragAndDropProps) {
+                                      onConvertFileToImage, ...rest }: DragAndDropProps) {
   
   const [dragging, setDragging] = useState(false);
   
@@ -21,8 +21,9 @@ export default function DragAndDrop({onDropFiles, onDrop, onDragLeave, onDragEnt
     maxSize,
     onChangeImages,
     onChangeFiles: onDropFiles,
-    allowExtensions
-  }), [handleOnChangeImageError, handleFileSizeOver, handleNotAllowedExtension, maxSize, onChangeImages, onDropFiles, allowExtensions]);
+    allowExtensions,
+    onConvertFileToImage
+  }), [handleOnChangeImageError, handleFileSizeOver, handleNotAllowedExtension, maxSize, onChangeImages, onDropFiles, allowExtensions, onConvertFileToImage]);
   
   const _onDrop = useCallback((event: DragEvent<HTMLLabelElement>) => {
     event.preventDefault(); // 이거 해야 onDrop 가능

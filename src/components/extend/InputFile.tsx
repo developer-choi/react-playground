@@ -25,11 +25,14 @@ interface HandleExtensionProps {
   handleNotAllowedExtension?: (allowExtensions: string[], files: File[]) => void;
 }
 
+export type ConvertImageCallback = () => Promise<ImageWrapper[]>;
+
 interface HandleImageProps {
   handleOnChangeImageError?: (error: Error) => void;
   
   //용량제한, 확장자제한, 이미지인지 유효성검증을 모두 통과한 경우에만 호출
   onChangeImages?: (datas: ImageWrapper[]) => void
+  onConvertFileToImage?: (convertCallback: ConvertImageCallback) => void;
 }
 
 export interface CustomInputFileProp extends HandleImageProps, HandleFileSizeProps, HandleExtensionProps {
@@ -40,7 +43,7 @@ export interface CustomInputFileProp extends HandleImageProps, HandleFileSizePro
 
 export type InputFileProp = Omit<ComponentProps<'input'>, 'type'> & CustomInputFileProp;
 
-export default function InputFile({onChange, maxSize, handleFileSizeOver, allowExtensions, accept, handleNotAllowedExtension, onChangeFiles, onChangeFile, onChangeImages, handleOnChangeImageError, ...rest}: InputFileProp) {
+export default function InputFile({onChange, maxSize, handleFileSizeOver, allowExtensions, accept, handleNotAllowedExtension, onChangeFiles, onChangeFile, onChangeImages, handleOnChangeImageError, onConvertFileToImage, ...rest}: InputFileProp) {
   
   const _onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     onChange?.(event);
@@ -67,9 +70,10 @@ export default function InputFile({onChange, maxSize, handleFileSizeOver, allowE
       onChangeFile,
       onChangeImages,
       handleOnChangeImageError,
-      handleFileSizeOver
+      handleFileSizeOver,
+      onConvertFileToImage
     });
-  }, [onChange, handleNotAllowedExtension, allowExtensions, maxSize, handleFileSizeOver, onChangeFiles, onChangeImages, handleOnChangeImageError, onChangeFile]);
+  }, [onChange, handleNotAllowedExtension, allowExtensions, maxSize, handleFileSizeOver, onChangeFiles, onChangeImages, handleOnChangeImageError, onChangeFile, onConvertFileToImage]);
   
   const _accept = accept === undefined ? (allowExtensions ?? []).map(extension => '.' + extension).join(',') : accept;
   
@@ -102,6 +106,7 @@ export function handleOnChangeFile(files: File[], props: CustomInputFileProp) {
     handleFileSizeOver = alertHandleFileSizeOver,
     handleOnChangeImageError = alertHandleOnChangeImageError,
     onChangeImages,
+    onConvertFileToImage,
     onChangeFiles,
     onChangeFile,
     handleNotAllowedExtension = alertHandleNotAllowedExtension,
@@ -124,14 +129,16 @@ export function handleOnChangeFile(files: File[], props: CustomInputFileProp) {
   onChangeFiles?.(files);
   onChangeFile?.(files[0]);
   
-  if (onChangeImages) {
-    (async () => {
-      try {
-        const datas = await Promise.all(files.map(file => convertBlobToImage(file)));
-        onChangeImages(datas.map(({image, blob}) => ({image, file: blob as File})));
-      } catch (error) {
-        handleOnChangeImageError(error);
-      }
-    })().then();
-  }
+  const convert = async () => {
+    try {
+      const datas = await Promise.all(files.map(file => convertBlobToImage(file)));
+      return datas.map(({image, blob}) => ({image, file: blob as File}));
+    } catch (error) {
+      handleOnChangeImageError(error);
+      return [];
+    }
+  };
+  
+  onConvertFileToImage?.(convert);
+  convert().then(result => onChangeImages?.(result));
 }
