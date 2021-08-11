@@ -3,8 +3,8 @@ import ButtonExtend from './ButtonExtend';
 import ClipLoader from 'react-spinners/ClipLoader';
 import type {LoaderSizeProps} from 'react-spinners/interfaces';
 import styled from 'styled-components';
-import classnames from 'classnames';
 import {absoluteCenter} from '../../../utils/style/css';
+import {myClassName} from '../../../utils/libraries/classnames';
 
 export interface LoadingButtonProp extends Omit<ComponentProps<'button'>, 'onClick'>, Pick<LoaderSizeProps, 'size' | 'color'> {
   loadingAfterClick: () => Promise<void>;
@@ -25,7 +25,7 @@ export default function LoadingButton({loadingAfterClick, children, className, s
   }, [loadingAfterClick]);
   
   return (
-      <Wrap onClick={onClick} disabled={disabled || loading} className={classnames({loading}, className)} {...rest}>
+      <Wrap onClick={onClick} disabled={disabled || loading} className={myClassName({loading}, className)} {...rest}>
         <div id="children">{children}</div>
         <LoaderWrap>
           <ClipLoader loading={loading} size={size} color={color}/>

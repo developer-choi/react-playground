@@ -1,7 +1,7 @@
 import React, {ChangeEvent, ComponentProps, useCallback, useContext} from 'react';
 import {RadioGroupContext} from '@components/atom/RadioGroup';
-import classNames from 'classnames';
 import styled from 'styled-components';
+import {myClassName} from '../../utils/libraries/classnames';
 
 export interface RadioLabelProps extends Omit<ComponentProps<'label'>, 'ref'>, Pick<ComponentProps<'input'>, 'disabled'> {
   value: string;
@@ -19,7 +19,7 @@ export default function RadioLabel({value, label, disabled, className, ...labelP
   const checked = parentValue === value;
   
   return (
-      <Label className={classNames({checked: disabled ? false : checked, disabled}, className)} {...labelProps}>
+      <Label className={myClassName({checked: disabled ? false : checked, disabled}, className)} {...labelProps}>
         <input type="radio" value={value} onChange={_onChange} name={name} checked={checked}/>
         {label ? label : value}
       </Label>

@@ -82,7 +82,7 @@ function KoreanSample({className, title}: { className: string, title: string }) 
         소녀시대 내에서 악기 연주에 가장 능숙한 멤버다. 플룻과 피아노를 전공하시고, 과거 피아노 학원을 운영하셨던 어머니 덕분에 어렸을 때부터 쉽게 피아노를 접하고 배울 기회가 많았으며, 그 결과 상당한
         연주 실력을 갖추고 있다. 데뷔 후에는 방송, 콘서트 등에서 피아노 연주를 하는 모습을 가끔씩 선보였다.
         
-        [관련영상1](헨리_Playing 'TRAP' Violin & Piano ver. with 서현), [관련영상2]태티서 Dear Santa, [관련영상3]김태우 의 사랑비, [관련영상4]티파니의
+        [관련영상1](헨리_Playing TRAP Violin & Piano ver. with 서현), [관련영상2]태티서 Dear Santa, [관련영상3]김태우 의 사랑비, [관련영상4]티파니의
         Once in a Lifetime
       </div>
   );
@@ -100,17 +100,17 @@ function EnglishSample({className, title}: { className: string, title: string })
   return (
       <div className={`sample ${className}`}>
         <h3>{title}</h3>
-        <span className="no-space">Debutattheageof17,bornin1991,theyoungestmember.Girls'</span>
+        <span className="no-space">Debutattheageof17bornin1991theyoungestmember.Girls</span>
         
         Generation was the only high school student in 2009 when it reached its peak.
         
-        He is the most proficient member of musical instruments in Girls' Generation. Thanks to my mother who majored in
+        He is the most proficient member of musical instruments in Girls Generation. Thanks to my mother who majored in
         flute and piano and ran a piano academy in the past, I had many chances to learn and play the piano easily from
         a young age, and as a result, I have considerable performance skills. After his debut, he occasionally showed
         playing piano at broadcasts and concerts.
         
-        [Related video 1] (Henry _Playing 'TRAP' Violin & Piano ver. With Seohyun), [Related video 2] Tatiseo Dear
-        Santa, [Related video 3] Kim Tae-woo's love rain, [Related video 4] Tiffany's Once in a Lifetime
+        [Related video 1] (Henry _Playing TRAP Violin & Piano ver. With Seohyun), [Related video 2] Tatiseo Dear
+        Santa, [Related video 3] Kim Tae-woo love rain, [Related video 4] Tiffany Once in a Lifetime
       </div>
   );
 }

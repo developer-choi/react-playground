@@ -1,5 +1,5 @@
 import React, {ComponentProps, DragEvent, useCallback, useMemo, useState} from 'react';
-import classNames from 'classnames';
+import {myClassName} from '../../utils/libraries/classnames';
 import InputFile, {CustomInputFileProp, handleOnChangeFile} from '@components/extend/InputFile';
 import styled from 'styled-components';
 
@@ -49,7 +49,7 @@ export default function DragAndDrop({onDropFiles, onDrop, onDragLeave, onDragEnt
   
   return (
       <Wrap
-          className={classNames({dragging, clickable: enableClickToFileExplorer}, className)}
+          className={myClassName({dragging, clickable: enableClickToFileExplorer}, className)}
           onDrop={_onDrop}
           onDragLeave={_onDragLeave}
           onDragEnter={_onDragEnter}

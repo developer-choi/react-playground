@@ -1,13 +1,13 @@
 import React, {AnimationEvent, ComponentProps, forwardRef, MouseEvent, Ref, useCallback, useState} from 'react';
 import styled, {keyframes} from 'styled-components';
 import ButtonExtend from '@components/atom/button/ButtonExtend';
-import classNames from 'classnames';
+import {myClassName} from '../../../utils/libraries/classnames';
 
 export default forwardRef(function WrongButton(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
   const {className, onClick, onAnimationEnd, ...rest} = props;
   
   const [active, setActive] = useState(false);
-  const buttonClass = classNames({active}, className);
+  const buttonClass = myClassName({active}, className);
   
   const _onClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     setActive(true);

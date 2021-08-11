@@ -1,6 +1,6 @@
 import React, {ChangeEvent, ComponentProps, ComponentType, useCallback} from 'react';
 import styled from 'styled-components';
-import classNames from 'classnames';
+import {myClassName} from '../../utils/libraries/classnames';
 
 export interface CheckBoxLabelLeftProps {
   checked: boolean;
@@ -21,7 +21,7 @@ export default function CheckBox({onChangeChecked, label, checked, className, di
   }, [onChangeChecked]);
   
   return (
-      <Label className={classNames({checked: disabled ? false : checked, disabled}, className)} {...rest}>
+      <Label className={myClassName({checked: disabled ? false : checked, disabled}, className)} {...rest}>
         {LabelLeft && <LabelLeft checked={checked} disabled={disabled}/>}
         <input type="checkbox" onChange={onChange} checked={checked} disabled={disabled}/>
         {label}

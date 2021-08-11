@@ -45,12 +45,12 @@ export default function libraryClassName(...args: ArgumentArray) {
  *
  ********************************************************/
 
-export type ClassnamesArgument = string | Object;
+export type ClassnamesArgument = string | undefined | Object;
 
 export function myClassName(...args: ClassnamesArgument[]) {
   const array = args.reduce<string[]>((a, b) => {
     //There is no reason for an empty string in an array.
-    if (b === '') {
+    if (b === '' || b === undefined) {
       return a;
     }
     

@@ -45,6 +45,10 @@ export function VideoPlayer({src, options}: VideoPlayerProps) {
   const [visibleUnMuteButton, setVisibleUnMuteButton] = useState(false);
   
   useEffect(() => {
+    if (!videoRef.current) {
+      return;
+    }
+    
     const {controls = true, autoplay, ...rest} = options ?? {};
     const player = videojs(videoRef.current, {autoplay, controls, ...rest}, () => {
       player.src(src);
