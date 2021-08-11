@@ -15,19 +15,17 @@ export interface ImageWrapper {
 
 export type ConvertImageCallback = () => Promise<ImageWrapper[]>;
 
-interface HandleFileProps {
+export interface CustomInputFileProp {
   maxSize?: number | FileSize;
   allowExtensions?: string[]; //확장자에서 .는 제외하고 제공해야함.
+  
+  //용량제한, 확장자 제한을 통과한 경우에만 호출 (빈값인경우에도 호출)
+  onChangeFiles?: (files: File[]) => void;
+  onChangeFile?: (file: File) => void;
   
   //용량제한, 확장자제한, 이미지인지 유효성검증을 모두 통과한 경우에만 호출
   onChangeImages?: (datas: ImageWrapper[]) => void
   onConvertFileToImage?: (convertCallback: ConvertImageCallback) => void;
-}
-
-export interface CustomInputFileProp extends HandleFileProps {
-  //용량제한, 확장자 제한을 통과한 경우에만 호출 (빈값인경우에도 호출)
-  onChangeFiles?: (files: File[]) => void;
-  onChangeFile?: (file: File) => void;
 }
 
 export type InputFileProp = Omit<ComponentProps<'input'>, 'type'> & CustomInputFileProp;

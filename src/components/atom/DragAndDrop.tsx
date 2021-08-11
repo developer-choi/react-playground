@@ -8,10 +8,7 @@ export interface DragAndDropProps extends Omit<ComponentProps<'label'>, 'ref'>, 
   enableClickToFileExplorer?: boolean;
 }
 
-export default function DragAndDrop({onDropFiles, onDrop, onDragLeave, onDragEnter, onDragOver, className, enableClickToFileExplorer, children,
-                                      allowExtensions, maxSize, onChangeImages,
-                                      onConvertFileToImage, ...rest }: DragAndDropProps) {
-  
+export default function DragAndDrop({onDropFiles, className, enableClickToFileExplorer, children, allowExtensions, maxSize, onChangeImages, onConvertFileToImage, ...rest }: DragAndDropProps) {
   const [dragging, setDragging] = useState(false);
   
   const inputTypeFileProps = useMemo<CustomInputFileProp>(() => ({
@@ -27,23 +24,19 @@ export default function DragAndDrop({onDropFiles, onDrop, onDragLeave, onDragEnt
     const files = Array.from(event.dataTransfer.files);
     setDragging(false);
     handleOnChangeFile(files, inputTypeFileProps);
-    onDrop?.(event);
-  }, [onDrop, inputTypeFileProps]);
+  }, [inputTypeFileProps]);
   
-  const _onDragLeave = useCallback((event: DragEvent<HTMLLabelElement>) => {
+  const _onDragLeave = useCallback(() => {
     setDragging(false);
-    onDragLeave?.(event);
-  }, [onDragLeave]);
+  }, []);
   
-  const _onDragEnter = useCallback((event: DragEvent<HTMLLabelElement>) => {
+  const _onDragEnter = useCallback(() => {
     setDragging(true);
-    onDragEnter?.(event);
-  }, [onDragEnter]);
+  }, []);
   
   const _onDragOver = useCallback((event: DragEvent<HTMLLabelElement>) => {
     event.preventDefault(); // 이거 해야 onDrop 가능
-    onDragOver?.(event);
-  }, [onDragOver]);
+  }, []);
   
   return (
       <Wrap
