@@ -13,7 +13,7 @@ export default function StackingContextPage() {
     alert('Absolute button clicked');
   }, []);
   
-  const onClickRelativeButton = React.useCallback(() => {
+  const onClickRelativeButton = useCallback(() => {
     alert('Absolute button clicked');
   }, []);
   

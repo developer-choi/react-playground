@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Head from 'next/head';
 import CheckBox, {CheckBoxLabelLeftProps, CheckBoxProps} from '@components/atom/CheckBox';
 import NaverCheckBoxSvg from '@components/svgs/NaverCheckBoxSvg';
@@ -29,7 +29,7 @@ const Wrap = styled.div`
 
 function NaverCheckBox(props: Omit<CheckBoxProps, 'labelLeft'>) {
   
-  const labelLeftRender = React.useCallback(({checked}: CheckBoxLabelLeftProps) => {
+  const labelLeftRender = useCallback(({checked}: CheckBoxLabelLeftProps) => {
     return <NaverCheckBoxSvg color={checked ? '#03C75A' : '#707070'}/>
   }, []);
   

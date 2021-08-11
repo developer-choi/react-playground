@@ -1,4 +1,4 @@
-import React, {MouseEvent} from 'react';
+import React, {MouseEvent, useCallback, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import Modal, {ModalProp} from '@components/molecules/modal/Modal';
 import {Button} from '@components/atom/button/button-presets';
@@ -12,7 +12,7 @@ export interface ConfirmModalProp extends Omit<ModalProp, 'children'> {
 
 export default function ConfirmModal({close, title, content, onCancel = close, onConfirm = close, visible, ...rest}: ConfirmModalProp) {
   
-  const _onCancel = React.useCallback((event: MouseEvent<HTMLButtonElement>) => {
+  const _onCancel = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     if (!onCancel) {
       close();
     } else {
@@ -20,7 +20,7 @@ export default function ConfirmModal({close, title, content, onCancel = close, o
     }
   }, [onCancel, close]);
   
-  const _onConfirm = React.useCallback((event: MouseEvent<HTMLButtonElement>) => {
+  const _onConfirm = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     if (!onConfirm) {
       close();
     } else {
@@ -28,9 +28,9 @@ export default function ConfirmModal({close, title, content, onCancel = close, o
     }
   }, [onConfirm, close]);
   
-  const confirmRef = React.useRef<HTMLButtonElement>(null);
+  const confirmRef = useRef<HTMLButtonElement>(null);
   
-  React.useEffect(() => {
+  useEffect(() => {
     if (visible) {
       confirmRef.current?.focus();
     }

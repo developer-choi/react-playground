@@ -1,4 +1,4 @@
-import React, {createContext, memo, useContext, useMemo, useState} from 'react';
+import React, {createContext, memo, useCallback, useContext, useMemo, useState} from 'react';
 import Head from 'next/head';
 import { Button } from '@components/atom/button/button-presets';
 import {useForceReRender} from '../../../src/utils/custom-hooks/useForceReRender';
@@ -16,11 +16,11 @@ export default function UseContextPage() {
     value: count
   }), [count]);
   
-  const increase = React.useCallback(() => {
+  const increase = useCallback(() => {
     setCount(prevState => prevState + 1);
   }, []);
   
-  const decrease = React.useCallback(() => {
+  const decrease = useCallback(() => {
     setCount(prevState => prevState - 1);
   }, []);
   

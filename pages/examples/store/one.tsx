@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import {useDispatch, useSelector} from 'react-redux';
@@ -32,19 +32,19 @@ export function Counter() {
   const count = useSelector((state: RootState) => state.counter.count);
   const dispatch = useDispatch();
   
-  const increase = React.useCallback(() => {
+  const increase = useCallback(() => {
     dispatch(increaseActionCreator());
   }, [dispatch]);
   
-  const increaseAsync = React.useCallback(() => {
+  const increaseAsync = useCallback(() => {
     dispatch(increaseAsyncActionCreator());
   }, [dispatch]);
   
-  const decrease = React.useCallback(() => {
+  const decrease = useCallback(() => {
     dispatch(decreaseActionCreator());
   }, [dispatch]);
   
-  const decreaseAsync = React.useCallback(() => {
+  const decreaseAsync = useCallback(() => {
     dispatch(decreaseAsyncActionCreator());
   }, [dispatch]);
   

@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import InputFile from '@components/extend/InputFile';
 import {Button} from '@components/atom/button/button-presets';
 import axios from 'axios';
@@ -8,9 +8,9 @@ import {loadVideoMetadata} from '../../../src/utils/extend/video';
 
 export default function ApiProgressPage() {
   const [file, setFile] = useState<File>();
-  const [percent, setPercent] = React.useState(0);
+  const [percent, setPercent] = useState(0);
   
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       if (file) {
         try {

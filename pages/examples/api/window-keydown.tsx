@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import InputText from '@components/extend/InputText';
@@ -49,7 +49,7 @@ const StyledButton = styled(Button)`
 function WindowKeyDownTest() {
   const [value, setValue] = useState('');
   
-  React.useEffect(() => {
+  useEffect(() => {
     const handler = (event: KeyboardEvent) => {
       console.log(event.key);
     };
@@ -68,9 +68,9 @@ function WindowKeyDownTest() {
 
 function WindowKeyDownFocusToInput() {
   const [value, setValue] = useState('');
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   
-  React.useEffect(() => {
+  useEffect(() => {
     const handler = (event: KeyboardEvent) => {
       console.log('window keydown event key', event.key, event.key.length);
       

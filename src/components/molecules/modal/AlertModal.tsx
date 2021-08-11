@@ -1,4 +1,4 @@
-import React, {MouseEvent} from 'react';
+import React, {MouseEvent, useCallback, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import type {ModalProp} from '@components/molecules/modal/Modal';
 import Modal from '@components/molecules/modal/Modal';
@@ -12,7 +12,7 @@ export interface AlertModalProp extends Omit<ModalProp, 'children'> {
 
 export default function AlertModal({close, onConfirm = close, title, content, visible, ...rest}: AlertModalProp) {
   
-  const _onConfirm = React.useCallback((event: MouseEvent<HTMLButtonElement>) => {
+  const _onConfirm = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     if (!onConfirm) {
       close();
     } else {
@@ -21,9 +21,9 @@ export default function AlertModal({close, onConfirm = close, title, content, vi
     
   }, [close, onConfirm]);
   
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   
-  React.useEffect(() => {
+  useEffect(() => {
     if (visible) {
       buttonRef.current?.focus();
     }
