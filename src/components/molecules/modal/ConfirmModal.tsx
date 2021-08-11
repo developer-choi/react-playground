@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Modal, {ModalProp} from '@components/molecules/modal/Modal';
 import {Button} from '@components/atom/button/button-presets';
 
-export interface ConfirmModalProp extends ModalProp {
+export interface ConfirmModalProp extends Omit<ModalProp, 'children'> {
   title: string;
   content: string;
   onCancel?: (event: MouseEvent<HTMLButtonElement>) => void;
