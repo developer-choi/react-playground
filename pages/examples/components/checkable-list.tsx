@@ -60,11 +60,19 @@ interface TermsOfUseProp {
   terms: TermsOfUse[];
 }
 
+// 배열에 checked property를 추가해서 만드는 방식
 function LegacyTermsOfUse({terms}: TermsOfUseProp) {
+  
+  // 단점1. initialState 작성할 때 배열 한번 순회해서 checked property를 만들어야함.
   const [checkableTerms, setCheckableTerms] = React.useState<(TermsOfUse & { checked: boolean; })[]>(() => {
     return terms.map(term => ({...term, checked: false}));
   });
   
+  /**
+   * 단점2. CheckableList에서 가장많이 이루어지는 작업은 목록 하나를 체크하거나 체크해제하는 비용이 아래 방법보다 높음.
+   * 이 단점을 무마하기 위해서 추가적인 코딩이 들어가야함. (index, targetIndex가 같으면 바꾸고 나머지 뒷부분은 더이상 순회하지 않는다거나 등)
+   * 결과적으로 코드가 아래 방법보다 길어짐.
+   */
   const onChangeChecked = React.useCallback((targetIndex: number, checked: boolean) => {
     setCheckableTerms(prevState => prevState.map((term, index) => {
       if (targetIndex === index) {
@@ -77,6 +85,11 @@ function LegacyTermsOfUse({terms}: TermsOfUseProp) {
       }
     }));
   }, []);
+  
+  // 단점3. CheckableList는 대체로 페이징처리가 되어있음. (메일목록 쪽지목록 등) 이 경우 페이지가 바뀌면 목록이 바뀌는데 이 때 또다시 checked property를 추가해야함.
+  // React.useEffect(() => {
+  //   setCheckableTerms(terms.map(term => ({...term, checked: false})));
+  // }, [terms]);
   
   const selectAll = React.useCallback(() => {
     setCheckableTerms(prevState => prevState.every(({checked}) => checked) ? prevState : prevState.map(term => ({
