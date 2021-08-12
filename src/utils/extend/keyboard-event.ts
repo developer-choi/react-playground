@@ -1,4 +1,4 @@
-type SpecialKey = 'ctrlKey' | 'altKey' | 'metaKey' | 'shiftKey';
+export type SpecialKey = 'ctrlKey' | 'altKey' | 'metaKey' | 'shiftKey';
 const SPECIAL_KEYS: SpecialKey[] = ['shiftKey', 'metaKey', 'ctrlKey', 'altKey'];
 
 /**
@@ -6,6 +6,7 @@ const SPECIAL_KEYS: SpecialKey[] = ['shiftKey', 'metaKey', 'ctrlKey', 'altKey'];
  * React.KeyboardEvent와 typescript lib에 있는 KeyboardEvent중에 필요한 property만 모았습니다.
  */
 export type MinimumKeyboardEvent = Pick<KeyboardEvent, 'key' | SpecialKey>;
+export type MinumumSpecialKeyEvent = Record<SpecialKey, boolean>;
 
 /**
  * @param event KeyboardEvent (ex: React.KeyboardEvent or KeyboardEvent (typescript lib)
@@ -18,9 +19,12 @@ export function isMatchKeyboardEvent(event: MinimumKeyboardEvent, matchTarget: {
     return false;
   }
   
-  const _matchKeys = matchTarget.matchKeys ?? [];
-  const restKeys = SPECIAL_KEYS.filter(key => !_matchKeys.includes(key));
-  return _matchKeys.every(key => event[key]) && restKeys.every(key => !event[key]);
+  return isMatchSpecialKey(event, matchTarget.matchKeys ?? []);
+}
+
+export function isMatchSpecialKey(event: MinumumSpecialKeyEvent, matchKeys: SpecialKey[]) {
+  const restKeys = SPECIAL_KEYS.filter(key => !matchKeys.includes(key));
+  return matchKeys.every(key => event[key]) && restKeys.every(key => !event[key]);
 }
 
 /**
