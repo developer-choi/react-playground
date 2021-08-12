@@ -9,12 +9,12 @@ export interface CheckBoxLabelLeftProps {
 
 export interface CheckBoxProps extends Omit<ComponentProps<'label'>, 'ref'>, Pick<ComponentProps<'input'>, 'disabled' | 'checked'> {
   onChangeChecked: (checked: boolean) => void;
-  label: string;
+  label?: string;
   checked: boolean;
   labelLeft?: ComponentType<CheckBoxLabelLeftProps>;
 }
 
-export default function CheckBox({onChangeChecked, label, checked, className, disabled, labelLeft: LabelLeft, ...rest}: CheckBoxProps) {
+export default function CheckBox({onChangeChecked, label = '', checked, className, disabled, labelLeft: LabelLeft, ...rest}: CheckBoxProps) {
   
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     onChangeChecked(event.target.checked);
