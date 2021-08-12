@@ -1,30 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import type {TermsOfUse} from '../../api/checkable-list/terms';
-import axios from 'axios';
 import CheckBox from '@components/atom/CheckBox';
-import { Button } from '@components/atom/button/button-presets';
+import {Button} from '@components/atom/button/button-presets';
 import {toast} from 'react-toastify';
-import type { Mail } from 'pages/api/checkable-list/mail';
+import useCheckableList from '../../../../src/utils/custom-hooks/useCheckableList';
+import {getNumberArray} from '../../../../src/utils/extend/number';
+import type {GetServerSideProps} from 'next';
 
-export default function CheckableListPage() {
-  const [data, setData] = useState<TermsOfUseProp & MailListProp>();
-  
-  useEffect(() => {
-    (async () => {
-      const result = (await Promise.all([axios.get('/api/checkable-list/mail'), axios.get('/api/checkable-list/terms')])).map(({data}) => data);
-      const [{mails}, {terms}] = result;
-      setData({mails, terms});
-    })().then();
-  }, []);
-  
-  if (data === undefined) {
-    return null;
-  }
-  
-  const {terms, mails} = data;
-  
+type PageProp = TermsOfUseProp & MailListProp;
+
+export default function CheckableListPage({mails, terms}: PageProp) {
   return (
       <>
         <Head>
@@ -38,6 +24,42 @@ export default function CheckableListPage() {
         </GridContainer>
       </>
   );
+};
+
+interface Mail {
+  pk: number;
+  title: string;
+  content: string;
+}
+
+interface TermsOfUse {
+  pk: number;
+  content: string;
+  required: boolean;
+}
+
+export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
+  const terms: TermsOfUse[] = getNumberArray(1, 10).map(value => {
+    const required = value % 2 === 0;
+    return {
+      pk: value,
+      required,
+      content: `약관${value} ${required ? '(필수)' : ''}`
+    };
+  });
+  
+  const mails: Mail[] = getNumberArray(1, 10).map(value => ({
+    pk: value,
+    important: value % 2 === 0,
+    title: `메일제목${value}`,
+    content: `메일내용${value}`,
+  }));
+  
+  return {
+    props: {
+      terms, mails
+    }
+  };
 };
 
 const GridContainer = styled.div`
@@ -197,7 +219,6 @@ function mailPkExtractor(item: Mail) {
 }
 
 function NewMailList({mails}: MailListProp) {
-  
   const {checkedList, onChangeChecked, selectAll} = useCheckableList({list: mails, pkExtractor: mailPkExtractor});
   
   return (
@@ -210,34 +231,4 @@ function NewMailList({mails}: MailListProp) {
         ))}
       </GridItem>
   );
-}
-
-interface UseCheckableListParam<T extends Object, P = number> {
-  pkExtractor: (item: T) => P;
-  list: T[];
-}
-
-// 별도의 체크 목록 state를 위한 custom hooks
-function useCheckableList<T, P>({pkExtractor, list}: UseCheckableListParam<T, P>) {
-  const [checkedList, setCheckedList] = useState<P[]>([]);
-  
-  const onChangeChecked = React.useCallback((checked: boolean, itemPk: P) => {
-    setCheckedList(prevState => {
-      if (checked) {
-        return prevState.concat(itemPk);
-      } else {
-        return prevState.filter(pk => pk !== itemPk);
-      }
-    });
-  }, []);
-  
-  const selectAll = React.useCallback(() => {
-    setCheckedList(prevState => prevState.length === list.length ? prevState : list.map(pkExtractor));
-  }, [list, pkExtractor]);
-  
-  return {
-    checkedList,
-    onChangeChecked,
-    selectAll
-  };
 }
