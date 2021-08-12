@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import CheckBox from '@components/atom/CheckBox';
 import moment from 'moment';
 import {isMatchKeyboardEvent} from '../../../../src/utils/extend/keyboard-event';
+import { Button } from '@components/atom/button/button-presets';
+import {toast} from 'react-toastify';
 
 interface PageProp {
   mails: Mail[];
@@ -18,11 +20,28 @@ function pkExtractor(mail: Mail) {
 
 export default function MailListPage({mails}: PageProp) {
   const {onChangeChecked, checkedList, selectAll} = useCheckableList({list: mails, pkExtractor});
+  const haveSomeChecked = checkedList.length > 0;
+  
+  const deleteSomeMails = React.useCallback(() => {
+    if (!haveSomeChecked) {
+      return;
+    }
+    
+    if (confirm('선택한 항목을 삭제하시겠습니꺼?')) {
+      toast.info(checkedList.join(', ') + ' 쪽지가 삭제완료되었습니다.');
+    }
+  }, [checkedList, haveSomeChecked]);
   
   React.useEffect(() => {
     const handler = (event: KeyboardEvent) => {
       if (isMatchKeyboardEvent(event, {key: 'a', matchKeys: ['ctrlKey']})) {
         selectAll();
+        toast.info('전체 목록이 선택되었습니다.');
+        event.preventDefault();
+      }
+  
+      if (isMatchKeyboardEvent(event, {key: 'Delete'})) {
+        deleteSomeMails();
         event.preventDefault();
       }
     };
@@ -32,13 +51,15 @@ export default function MailListPage({mails}: PageProp) {
     return () => {
       window.removeEventListener('keydown', handler);
     };
-  }, [selectAll]);
+  }, [selectAll, deleteSomeMails]);
   
   return (
       <>
         <Head>
           <title>mail</title>
         </Head>
+        <Button onClick={selectAll}>전체선택</Button>
+        <Button onClick={deleteSomeMails}>선택삭제</Button>
         <ListWrap>
           {mails.map(mail => (
               <MailListItem key={mail.pk} mail={mail} checked={checkedList.includes(mail.pk)} onChangeChecked={onChangeChecked}/>
