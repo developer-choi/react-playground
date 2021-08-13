@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import CheckBox from '@components/atom/CheckBox';
@@ -86,7 +86,7 @@ interface TermsOfUseProp {
 function LegacyTermsOfUse({terms}: TermsOfUseProp) {
   
   // 단점1. initialState 작성할 때 배열 한번 순회해서 checked property를 만들어야함.
-  const [checkableTerms, setCheckableTerms] = React.useState<(TermsOfUse & { checked: boolean; })[]>(() => {
+  const [checkableTerms, setCheckableTerms] = useState<(TermsOfUse & { checked: boolean; })[]>(() => {
     return terms.map(term => ({...term, checked: false}));
   });
   
@@ -95,7 +95,7 @@ function LegacyTermsOfUse({terms}: TermsOfUseProp) {
    * 이 단점을 무마하기 위해서 추가적인 코딩이 들어가야함. (index, targetIndex가 같으면 바꾸고 나머지 뒷부분은 더이상 순회하지 않는다거나 등)
    * 결과적으로 코드가 아래 방법보다 길어짐.
    */
-  const onChangeChecked = React.useCallback((targetIndex: number, checked: boolean) => {
+  const onChangeChecked = useCallback((targetIndex: number, checked: boolean) => {
     setCheckableTerms(prevState => prevState.map((term, index) => {
       if (targetIndex === index) {
         return {
@@ -109,11 +109,11 @@ function LegacyTermsOfUse({terms}: TermsOfUseProp) {
   }, []);
   
   // 단점3. CheckableList는 대체로 페이징처리가 되어있음. (메일목록 쪽지목록 등) 이 경우 페이지가 바뀌면 목록이 바뀌는데 이 때 또다시 checked property를 추가해야함.
-  // React.useEffect(() => {
+  // useEffect(() => {
   //   setCheckableTerms(terms.map(term => ({...term, checked: false})));
   // }, [terms]);
   
-  const selectAll = React.useCallback(() => {
+  const selectAll = useCallback(() => {
     setCheckableTerms(prevState => prevState.every(({checked}) => checked) ? prevState : prevState.map(term => ({
       ...term,
       checked: true
@@ -122,7 +122,7 @@ function LegacyTermsOfUse({terms}: TermsOfUseProp) {
   
   const isSelectRequiredAll = checkableTerms.every(({checked, required}) => !required || checked);
   
-  const onSubmit = React.useCallback(() => {
+  const onSubmit = useCallback(() => {
     if (!isSelectRequiredAll) {
       toast.error('필수 약관을 모두 동의해주셔야합니다.');
     } else {
@@ -152,7 +152,7 @@ function NewTermsOfUse({terms}: TermsOfUseProp) {
   
   const isSelectRequiredAll = terms.every(term => !term.required || checkedList.includes(term.pk));
   
-  const onSubmit = React.useCallback(() => {
+  const onSubmit = useCallback(() => {
     if (!isSelectRequiredAll) {
       toast.error('필수 약관을 모두 동의해주셔야합니다.');
     } else {
@@ -178,11 +178,11 @@ interface MailListProp {
 }
 
 function LegacyMailList({mails}: MailListProp) {
-  const [checkableMails, setCheckableMails] = React.useState<(Mail & { checked: boolean; })[]>(() => {
+  const [checkableMails, setCheckableMails] = useState<(Mail & { checked: boolean; })[]>(() => {
     return mails.map(mail => ({...mail, checked: false}));
   });
   
-  const onChangeChecked = React.useCallback((targetIndex: number, checked: boolean) => {
+  const onChangeChecked = useCallback((targetIndex: number, checked: boolean) => {
     setCheckableMails(prevState => prevState.map((term, index) => {
       if (targetIndex === index) {
         return {
@@ -195,7 +195,7 @@ function LegacyMailList({mails}: MailListProp) {
     }));
   }, []);
   
-  const selectAll = React.useCallback(() => {
+  const selectAll = useCallback(() => {
     setCheckableMails(prevState => prevState.every(({checked}) => checked) ? prevState : prevState.map(term => ({
       ...term,
       checked: true

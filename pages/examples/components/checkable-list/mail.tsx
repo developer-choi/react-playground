@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useCallback, useEffect, useRef} from 'react';
 import Head from 'next/head';
 import type {GetServerSideProps} from 'next';
 import {getNumberArray} from '../../../../src/utils/extend/number';
@@ -9,6 +9,7 @@ import moment from 'moment';
 import {isMatchKeyboardEvent} from '../../../../src/utils/extend/keyboard-event';
 import {Button} from '@components/atom/button/button-presets';
 import {toast} from 'react-toastify';
+import { useState } from 'react';
 
 interface PageProp {
   mails: Mail[];
@@ -21,14 +22,14 @@ function pkExtractor(mail: Mail) {
 export default function MailListPage({mails}: PageProp) {
   const {onChangeChecked, checkedList, selectAll, onMultipleChecked} = useCheckableList({list: mails, pkExtractor});
   const haveSomeChecked = checkedList.length > 0;
-  const latestCheckedRef = React.useRef<number | null>(null);
+  const latestCheckedRef = useRef<number | null>(null);
   
-  const _onChangeChecked = React.useCallback((checked: boolean, mailPk: number, index: number) => {
+  const _onChangeChecked = useCallback((checked: boolean, mailPk: number, index: number) => {
     onChangeChecked(checked, mailPk);
     latestCheckedRef.current = index;
   }, [onChangeChecked]);
   
-  const deleteSomeMails = React.useCallback(() => {
+  const deleteSomeMails = useCallback(() => {
     if (!haveSomeChecked) {
       return;
     }
@@ -38,7 +39,7 @@ export default function MailListPage({mails}: PageProp) {
     }
   }, [checkedList, haveSomeChecked]);
   
-  const _onMultipleChecked = React.useCallback((index: number) => {
+  const _onMultipleChecked = useCallback((index: number) => {
     const latestIndex = latestCheckedRef.current;
   
     if (latestIndex === null) {
@@ -51,7 +52,7 @@ export default function MailListPage({mails}: PageProp) {
     onMultipleChecked(multipleChecks);
   }, [mails, onMultipleChecked]);
   
-  React.useEffect(() => {
+  useEffect(() => {
     const handler = (event: KeyboardEvent) => {
       if (isMatchKeyboardEvent(event, {key: 'a', matchKeys: ['ctrlKey']})) {
         selectAll();
@@ -130,13 +131,13 @@ export interface MailListItemProp {
  */
 export const MailListItem = memo(function MailListItem({mail, checked, onChangeChecked, onMultipleChecked, index}: MailListItemProp) {
   const {pk, timestamp, title} = mail;
-  const [important, setImportant] = React.useState(mail.important);
+  const [important, setImportant] = useState(mail.important);
   
-  const _onChangeChecked = React.useCallback((checked: boolean) => {
+  const _onChangeChecked = useCallback((checked: boolean) => {
     onChangeChecked(checked, pk, index);
   }, [onChangeChecked, pk, index]);
   
-  const onChangeImportant = React.useCallback((checked: boolean) => {
+  const onChangeImportant = useCallback((checked: boolean) => {
     try {
       // Call a API and if result is success,
       setImportant(checked);
@@ -146,7 +147,7 @@ export const MailListItem = memo(function MailListItem({mail, checked, onChangeC
     }
   }, []);
   
-  const _onMultipleChecked = React.useCallback(() => {
+  const _onMultipleChecked = useCallback(() => {
     onMultipleChecked(index);
   }, [onMultipleChecked, index]);
   

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useCallback, useState} from 'react';
 
 export type PkType = string | number;
 
@@ -18,7 +18,7 @@ export interface UseCheckableListResult<T extends Object, P extends PkType = num
 export default function useCheckableList<T, P extends PkType>({pkExtractor, list}: UseCheckableListParam<T, P>): UseCheckableListResult<T, P> {
   const [checkedList, setCheckedList] = useState<P[]>([]);
   
-  const onChangeChecked = React.useCallback((checked: boolean, itemPk: P) => {
+  const onChangeChecked = useCallback((checked: boolean, itemPk: P) => {
     setCheckedList(prevState => {
       if (checked) {
         return prevState.concat(itemPk);
@@ -28,11 +28,11 @@ export default function useCheckableList<T, P extends PkType>({pkExtractor, list
     });
   }, []);
   
-  const selectAll = React.useCallback(() => {
+  const selectAll = useCallback(() => {
     setCheckedList(prevState => prevState.length === list.length ? prevState : list.map(pkExtractor));
   }, [list, pkExtractor]);
   
-  const onMultipleChecked = React.useCallback((itemPks: P[]) => {
+  const onMultipleChecked = useCallback((itemPks: P[]) => {
     setCheckedList(prevState => Array.from(new Set(prevState.concat(itemPks))));
   }, []);
   

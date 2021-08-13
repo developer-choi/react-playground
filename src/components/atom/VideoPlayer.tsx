@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import videojs, {VideoJsPlayer, VideoJsPlayerOptions} from 'video.js';
 import {Button} from '@components/atom/button/button-presets';
 import 'video.js/dist/video-js.css';
+import {isMatchKeyboardEvent, KeyboardEventSpecialKey} from '../../utils/extend/keyboard-event';
 
 export interface VideoPlayerProps extends VideoJsPlayerOptions {
   src: string;
@@ -41,7 +42,7 @@ export interface VideoPlayerProps extends VideoJsPlayerOptions {
  */
 export function VideoPlayer({src, options}: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const playerRef = useRef<VideoJsPlayer>();
+  const [player, setPlayer] = useState<VideoJsPlayer>();
   const [visibleUnMuteButton, setVisibleUnMuteButton] = useState(false);
   
   useEffect(() => {
@@ -50,11 +51,11 @@ export function VideoPlayer({src, options}: VideoPlayerProps) {
     }
     
     const {controls = true, autoplay, ...rest} = options ?? {};
-    const player = videojs(videoRef.current, {autoplay, controls, ...rest}, () => {
-      player.src(src);
-      
+    const instance = videojs(videoRef.current, {autoplay, controls, ...rest}, () => {
+      instance.src(src);
+  
       (async () => {
-        
+    
         /**
          * 크롬 자동재생 정책에 따라,
          * 자동재생이 실패할경우 mute를 true로 하여 항상 자동재생 자체는 성공할 수 있도록 구현.
@@ -64,11 +65,13 @@ export function VideoPlayer({src, options}: VideoPlayerProps) {
          */
         if (autoplay) {
           try {
-            await player.play();
+            await instance.play();
+            setPlayer(instance);
           } catch (error) {
             if (error instanceof DOMException && error.name === 'NotAllowedError') {
-              player.muted(true);
+              instance.muted(true);
               setVisibleUnMuteButton(true);
+              setPlayer(instance);
             } else {
               console.error(error);
             }
@@ -76,18 +79,21 @@ export function VideoPlayer({src, options}: VideoPlayerProps) {
         }
       })().then();
     });
-    
-    playerRef.current = player;
-    
+  
     return () => {
-      player.dispose();
+      instance.dispose();
     };
   }, [src, options]);
   
   const unmute = useCallback(() => {
-    setVisibleUnMuteButton(false);
-    playerRef.current?.muted(false);
-  }, []);
+    if (player) {
+      setVisibleUnMuteButton(false);
+      player.muted(false);
+    }
+  }, [player]);
+  
+  useMappingShortcut(player);
+  
   return (
       <VideojsResetWrap>
         <div data-vjs-player>
@@ -100,6 +106,96 @@ export function VideoPlayer({src, options}: VideoPlayerProps) {
         }
       </VideojsResetWrap>
   );
+}
+
+export interface PlayerKeyboardMethod {
+  pause: () => void;
+  play: () => void;
+  playForward: () => void;
+  playBackward: () => void;
+  volumeUp: () => void;
+  volumeDown: () => void;
+}
+
+export type ControlKey = ' ' | 'ArrowRight' | 'ArrowLeft' | 'ArrowUp' | 'ArrowDown';
+
+export interface Shortcut {
+  method: keyof PlayerKeyboardMethod;
+  mapping: {
+    key: ControlKey,
+    matchSpecialKeys?: KeyboardEventSpecialKey[]
+  };
+}
+
+const DEFAULT_SHORTCUTS: Shortcut[] = [
+  {method: 'playForward', mapping: {key: 'ArrowRight'}},
+  {method: 'playBackward', mapping: {key: 'ArrowLeft'}},
+  {method: 'volumeUp', mapping: {key: 'ArrowUp'}},
+  {method: 'volumeDown', mapping: {key: 'ArrowDown'}}
+];
+
+function useMappingShortcut(player?: VideoJsPlayer, shortcuts = DEFAULT_SHORTCUTS) {
+  useEffect(() => {
+    const release = () => {
+      window.removeEventListener('keydown', handler);
+    };
+    
+    if (!player) {
+      return release;
+    }
+    
+    const handler = (event: KeyboardEvent) => {
+  
+      if (isMatchKeyboardEvent(event, {key: ' '})) {
+        if (player.paused()) {
+          player.play();
+        } else {
+          player.pause();
+        }
+        return;
+      }
+  
+      shortcuts.forEach(({mapping, method}) => {
+        if (isMatchKeyboardEvent(event, mapping)) {
+          controlPlayer(player, method);
+        }
+      });
+    };
+    
+    window.addEventListener('keydown', handler)
+  
+    return release;
+  }, [shortcuts, player]);
+}
+
+const VOLUME_UNIT = 0.05;
+const SEEKING_UNIT = 5;
+
+function controlPlayer(player: VideoJsPlayer, method: keyof PlayerKeyboardMethod) {
+  switch (method) {
+    case 'playForward': {
+      const duration = player.duration();
+      const currentTime = player.currentTime();
+      player.currentTime(duration <= currentTime ? duration : currentTime + SEEKING_UNIT);
+      break;
+    }
+    case 'playBackward': {
+      const currentTime = player.currentTime();
+      player.currentTime(currentTime <= 0 ? 0 : currentTime - SEEKING_UNIT);
+      break;
+    }
+    
+    case 'volumeUp': {
+      const volume = player.volume();
+      player.volume(volume > 1 ? 1 : volume + VOLUME_UNIT);
+      break;
+    }
+    
+    case 'volumeDown':
+      const volume = player.volume();
+      player.volume(volume <= 0 ? 0 : volume - VOLUME_UNIT);
+      break;
+  }
 }
 
 const VideojsResetWrap = styled.div`

@@ -22,7 +22,7 @@ export default function CheckBox({onChangeChecked, label = '', checked, classNam
     onChangeChecked(event.target.checked);
   }, [onChangeChecked]);
   
-  const onClick = React.useCallback((event: MouseEvent<HTMLInputElement>) => {
+  const onClick = useCallback((event: MouseEvent<HTMLInputElement>) => {
     const element = event.target as HTMLInputElement;
   
     if (onShiftChecked && element.checked && isMatchSpecialKey(event, ['shiftKey'])) {
