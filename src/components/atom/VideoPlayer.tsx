@@ -136,12 +136,8 @@ const DEFAULT_SHORTCUTS: Shortcut[] = [
 
 function useMappingShortcut(player?: VideoJsPlayer, shortcuts = DEFAULT_SHORTCUTS) {
   useEffect(() => {
-    const release = () => {
-      window.removeEventListener('keydown', handler);
-    };
-    
     if (!player) {
-      return release;
+      return;
     }
     
     const handler = (event: KeyboardEvent) => {
@@ -164,7 +160,9 @@ function useMappingShortcut(player?: VideoJsPlayer, shortcuts = DEFAULT_SHORTCUT
     
     window.addEventListener('keydown', handler)
   
-    return release;
+    return () => {
+      window.removeEventListener('keydown', handler);
+    };
   }, [shortcuts, player]);
 }
 
