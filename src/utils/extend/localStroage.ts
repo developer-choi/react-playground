@@ -1,5 +1,5 @@
 export class LocalStorageManager {
-  readonly key: string;
+  protected readonly key: string;
   
   constructor(key: string) {
     this.key = key;
@@ -30,7 +30,7 @@ export class LocalStorageObjectManager<V> extends LocalStorageManager{
 }
 
 export class LocalStorageArrayManager<E, P> extends LocalStorageObjectManager<E[]> {
-  readonly pkExtractor: (element: E) => P;
+  protected readonly pkExtractor: (element: E) => P;
   
   constructor(key: string, pkExtractor: (element: E) => P) {
     super(key);
