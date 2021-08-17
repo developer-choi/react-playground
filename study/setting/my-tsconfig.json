@@ -9,10 +9,10 @@
     "noEmit": true,
     "moduleResolution": "Node",
     "importsNotUsedAsValues": "error",
-  
+
     "_comment_for_react": ["react"],
     "jsx": "react",
-    "target": "ES5",
+    "target": "ESNext",
     "downlevelIteration": true
   }
 }
