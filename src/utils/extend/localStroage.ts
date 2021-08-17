@@ -1,5 +1,10 @@
 export class LocalStorageManager {
-  protected readonly key: string;
+  /**
+   * @private The key must not be accessible in public and derived classes.
+   * In other words, derived classes are need not access the key.
+   * Instead, derived classes can use super's methods.
+   */
+  private readonly key: string;
   
   constructor(key: string) {
     this.key = key;
@@ -20,17 +25,22 @@ export class LocalStorageManager {
 
 export class LocalStorageObjectManager<V> extends LocalStorageManager{
   setStringifyItem(value: V) {
-    localStorage.setItem(this.key, JSON.stringify(value));
+    this.setItem(JSON.stringify(value));
   }
   
   parseItem() {
-    const item = localStorage.getItem(this.key);
+    const item = this.getItem()
     return item ? JSON.parse(item) as V : null;
   }
 }
 
 export class LocalStorageArrayManager<E, P> extends LocalStorageObjectManager<E[]> {
-  protected readonly pkExtractor: (element: E) => P;
+  /**
+   * @private The pkExtractor must not be accessible in public.
+   * And I don't have any plan that makes derived classes extend this class. (= This is the reason that I don't set visibility to protected)
+   * For the above two reasons, I set visibility to private.
+   */
+  private readonly pkExtractor: (element: E) => P;
   
   constructor(key: string, pkExtractor: (element: E) => P) {
     super(key);
