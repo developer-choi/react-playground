@@ -23,7 +23,7 @@ export class LocalStorageManager {
   }
 }
 
-export class LocalStorageObjectManager<V> extends LocalStorageManager{
+export class LocalStorageObjectManager<V extends Object> extends LocalStorageManager{
   setStringifyItem(value: V) {
     this.setItem(JSON.stringify(value));
   }
