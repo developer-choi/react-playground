@@ -17,7 +17,7 @@ export default function StaticPropsFallbackPage(props: PageProp) {
       <TabMenus/>
       <span>{props.data}</span>
     </>
-  )
+  );
 };
 
 function TabMenus() {
