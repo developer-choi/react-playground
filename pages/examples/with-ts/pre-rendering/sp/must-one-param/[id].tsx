@@ -9,10 +9,6 @@ type ParamType = {
   id: string;
 };
 
-interface PageProp {
-  someData: number;
-}
-
 export const getStaticPaths: GetStaticPaths<ParamType> = async () => {
   return {
     paths: [
@@ -27,6 +23,10 @@ export const getStaticPaths: GetStaticPaths<ParamType> = async () => {
     fallback: false
   };
 };
+
+interface PageProp {
+  someData: number;
+}
 
 export const getStaticProps: GetStaticProps<PageProp, ParamType> = async ({params}) => {
   const {id} = params as ParamType;
