@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import moment from 'moment';
@@ -6,6 +6,7 @@ import type { RootState } from '../../../../src/store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@components/atom/button/button-presets';
 import { decreaseActionCreator, increaseActionCreator } from '../../../../src/store/reducers/counter';
+import { useRouter } from 'next/router';
 
 export default function StaticPropsPage() {
   return (
@@ -18,20 +19,21 @@ export default function StaticPropsPage() {
 }
 
 export function TabMenus() {
+  const paths = useRouter().pathname.split('/');
   return (
     <Tab>
-      {LINKS.map(({text, href}) => (
-        <Link key={href} href={href} prefetch={false}>
-          <a>{text}</a>
+      {LINKS.map(({text, href, type}) => (
+        <Link passHref key={href} href={href} prefetch={false}>
+          <Anchor className={paths.includes(type) ? 'active' : ''}>{text}</Anchor>
         </Link>
       ))}
     </Tab>
   );
 }
 
-const LINKS: { href: string, text: string; }[] = [
-  {href: '/examples/api/pre-rendering/sp', text: 'getStaticProps'},
-  {href: '/examples/api/pre-rendering/ssp', text: 'getServerSideProps'},
+const LINKS: { href: string; text: string; type: 'sp' | 'ssp' }[] = [
+  {type: 'sp', href: '/examples/api/static-props-hydration/sp', text: 'getStaticProps'},
+  {type: 'ssp', href: '/examples/api/static-props-hydration/ssp', text: 'getServerSideProps'},
 ];
 
 const Tab = styled.div`
@@ -41,14 +43,19 @@ const Tab = styled.div`
   }
 `;
 
+const Anchor = styled.a`
+  &.active {
+    font-weight: bold;
+    color: ${props => props.theme.main};
+  }
+`;
+
 export function Timer() {
   const [timestamp, setTimestamp] = useState(0);
   
-  useLayoutEffect(() => {
-    setTimestamp(new Date().getTime());
-  }, []);
-  
   useEffect(() => {
+    setTimestamp(new Date().getTime());
+    
     const intervalId = setInterval(() => {
       setTimestamp(new Date().getTime());
     }, 1000);
@@ -75,11 +82,11 @@ export function Counter() {
   const dispatch = useDispatch();
   const count = useSelector<RootState, ReturnType<typeof selector>>(selector);
   
-  const inCrease = React.useCallback(() => {
+  const inCrease = useCallback(() => {
     dispatch(increaseActionCreator());
   }, [dispatch]);
   
-  const deCrease = React.useCallback(() => {
+  const deCrease = useCallback(() => {
     dispatch(decreaseActionCreator());
   }, [dispatch]);
   
