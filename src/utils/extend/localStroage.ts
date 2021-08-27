@@ -1,7 +1,7 @@
-export class LocalStorageManager {
+export class LocalStorageObjectManager<V extends Object> {
   /**
-   * @private The key must not be accessible in public and derived classes.
-   * In other words, derived classes are need not access the key.
+   * @private
+   * I think derived classes are need not access the key.
    * Instead, derived classes can use super's methods.
    */
   private readonly key: string;
@@ -10,20 +10,23 @@ export class LocalStorageManager {
     this.key = key;
   }
   
-  setItem(value: string) {
+  /**
+   * @protected
+   * I think these protected methods are don't need in public.
+   * In public, parseItem(), setStringifyItem() are more useful than these.
+   */
+  protected setItem(value: string) {
     localStorage.setItem(this.key, value);
   }
   
-  getItem() {
+  protected getItem() {
     return localStorage.getItem(this.key);
   }
   
   removeItem () {
     localStorage.removeItem(this.key);
   }
-}
-
-export class LocalStorageObjectManager<V extends Object> extends LocalStorageManager{
+  
   setStringifyItem(value: V) {
     this.setItem(JSON.stringify(value));
   }
