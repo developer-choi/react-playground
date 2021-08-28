@@ -5,7 +5,7 @@ import CheckBox from '@components/atom/CheckBox';
 import {Button} from '@components/atom/button/button-presets';
 import {toast} from 'react-toastify';
 import useCheckableList from '../../../../src/utils/custom-hooks/useCheckableList';
-import {getNumberArray} from '../../../../src/utils/extend/number';
+import {range} from '../../../../src/utils/extend/number';
 import type {GetServerSideProps} from 'next';
 
 type PageProp = TermsOfUseProp & MailListProp;
@@ -39,7 +39,7 @@ interface TermsOfUse {
 }
 
 export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
-  const terms: TermsOfUse[] = getNumberArray(1, 10).map(value => {
+  const terms: TermsOfUse[] = range(1, 10).map(value => {
     const required = value % 2 === 0;
     return {
       pk: value,
@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
     };
   });
   
-  const mails: Mail[] = getNumberArray(1, 10).map(value => ({
+  const mails: Mail[] = range(1, 10).map(value => ({
     pk: value,
     important: value % 2 === 0,
     title: `메일제목${value}`,

@@ -1,4 +1,4 @@
-import {getNumberArray} from './number';
+import {range} from './number';
 
 export function replace<T>(array: Array<T>, condition: (value: T, index: number, array: Array<T>) => boolean, replaceValue: T) {
   
@@ -38,7 +38,7 @@ export function splitEvenly<T>(array: T[], maxSize: number): T[] {
   
   const overCount = arrayLength - maxSize; //1이상
   const magic = arrayLength / (overCount + 1);
-  const removeIndexes = getNumberArray(1, overCount).map(value => Math.floor(value * magic));
+  const removeIndexes = range(1, overCount).map(value => Math.floor(value * magic));
   
   return array.filter((value, index) => !removeIndexes.includes(index));
 }

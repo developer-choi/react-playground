@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useEffect, useRef} from 'react';
 import Head from 'next/head';
 import type {GetServerSideProps} from 'next';
-import {getNumberArray} from '../../../../src/utils/extend/number';
+import {range} from '../../../../src/utils/extend/number';
 import useCheckableList from '../../../../src/utils/custom-hooks/useCheckableList';
 import styled from 'styled-components';
 import CheckBox from '@components/atom/CheckBox';
@@ -96,7 +96,7 @@ interface Mail {
   timestamp: number;
 }
 
-const DUMMY_MAILS = getNumberArray(1, 10).map(value => ({
+const DUMMY_MAILS = range(1, 10).map(value => ({
   pk: value,
   title: `메일제목${value} `.repeat(5),
   important: value % 2 === 0,

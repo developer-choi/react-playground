@@ -13,7 +13,7 @@ export function numberWithComma(value: number | string): string {
  * @example (-1, 4) => [-1, 0, 1, 2, 3, 4]
  * @example (4, -1) => [4, 3, 2, 1, 0, -1]
  */
-export function getNumberArray(from: number, to: number): number[] {
+export function range(from: number, to: number): number[] {
   
   const max = Math.max(from, to);
   const min = Math.min(from, to);
