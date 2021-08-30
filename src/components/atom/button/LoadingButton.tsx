@@ -6,9 +6,9 @@ import Loading, { LoadingProps } from '@components/atom/Loading';
 
 export type LoadingButtonProp = ComponentProps<'button'> & Omit<LoadingProps, keyof ComponentProps<'div'>>;
 
-export default function LoadingButton({children, className, loading, ...rest}: LoadingButtonProp) {
+export default function LoadingButton({children, className, loading, disabled, ...rest}: LoadingButtonProp) {
   return (
-      <Wrap className={myClassName({loading}, className, 'center')} {...rest}>
+      <Wrap disabled={disabled || loading} className={myClassName({loading}, className, 'center')} {...rest}>
         {children}
         {loading && <Loading className="loader" loading={loading}/>}
       </Wrap>
