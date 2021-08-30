@@ -1,50 +1,33 @@
-import React, {ComponentProps, useCallback, useState} from 'react';
+import React, { ComponentProps } from 'react';
 import ButtonExtend from './ButtonExtend';
-import ClipLoader from 'react-spinners/ClipLoader';
-import type {LoaderSizeProps} from 'react-spinners/interfaces';
 import styled from 'styled-components';
-import {absoluteCenter} from '../../../utils/style/css';
-import {myClassName} from '../../../utils/libraries/classnames';
+import { myClassName } from '../../../utils/libraries/classnames';
+import Loading, { LoadingProps } from '@components/atom/Loading';
 
-export interface LoadingButtonProp extends Omit<ComponentProps<'button'>, 'onClick'>, Pick<LoaderSizeProps, 'size' | 'color'> {
-  loadingAfterClick: () => Promise<void>;
-}
+export type LoadingButtonProp = ComponentProps<'button'> & Omit<LoadingProps, keyof ComponentProps<'div'>>;
 
-export default function LoadingButton({loadingAfterClick, children, className, size, color, disabled, ...rest}: LoadingButtonProp) {
-  
-  const [loading, setLoading] = useState(false);
-  
-  const onClick = useCallback(async () => {
-    console.log('clicked');
-    try {
-      setLoading(true);
-      await loadingAfterClick();
-    } finally {
-      setLoading(false);
-    }
-  }, [loadingAfterClick]);
-  
+export default function LoadingButton({children, className, loading, ...rest}: LoadingButtonProp) {
   return (
-      <Wrap onClick={onClick} disabled={disabled || loading} className={myClassName({loading}, className)} {...rest}>
-        <div id="children">{children}</div>
-        <LoaderWrap>
-          <ClipLoader loading={loading} size={size} color={color}/>
-        </LoaderWrap>
+      <Wrap className={myClassName({loading}, className, 'center')} {...rest}>
+        {children}
+        {loading && <Loading className="loader" loading={loading}/>}
       </Wrap>
   );
 }
 
 const Wrap = styled(ButtonExtend)`
   position: relative;
+  
+  .loader {
+    position: absolute;
+  }
+  
   &.loading {
     cursor: progress;
+    color: transparent;
     
-    #children {
+    >:not(.loader) {
       visibility: hidden;
     }
   }
-`;
-
-const LoaderWrap = styled.div`
-  ${absoluteCenter};
 `;

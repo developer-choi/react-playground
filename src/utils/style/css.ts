@@ -41,6 +41,25 @@ export const removeLeftBorderRadius = css`
   border-top-left-radius: 0;
 `;
 
+export function circleCss(radius: number | string) {
+  const _radius = typeof radius === 'string' ? radius : `${radius}px`;
+  
+  return css`
+    width: ${_radius};
+    height: ${_radius};
+    border-radius: 100%;
+  `;
+}
+
+export function circleStyle(radius: number | string) {
+  const _radius = typeof radius === 'string' ? radius : `${radius}px`;
+  
+  return {
+    width: _radius,
+    height: _radius
+  };
+}
+
 export function setLeftRadius(applyClassName: string, value = 0) {
 
   const suffix = value === 0 ? '' : 'px';
