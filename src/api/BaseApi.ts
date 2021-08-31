@@ -1,14 +1,17 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { CustomApiError, UN_EXPECTED_MESSAGE } from '../utils/api/CustomApiError';
+import { getCurrentlyLoginUserInfo } from '../utils/auth/auth';
 
 export default class BaseApi {
   protected readonly axios: AxiosInstance;
   
   constructor(basePath: string, config: AxiosRequestConfig = {}) {
-    const { baseURL, ...rest } = config;
+    const { baseURL, headers, ...rest } = config;
     
     this.axios = axios.create({
       baseURL: baseURL ? baseURL : `http://localhost:3000/${basePath}`,
+      // If this api created in CSR, set headers basically.
+      headers: {...headers, ...getCurrentlyLoginUserInfo()},
       ...rest
     });
   
