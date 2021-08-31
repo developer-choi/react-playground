@@ -1,33 +1,21 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import InputFile from '@components/extend/InputFile';
 import {Button} from '@components/atom/button/button-presets';
 import axios from 'axios';
-import FormData from 'form-data';
 import styled from 'styled-components';
-import {loadVideoMetadata} from '../../../src/utils/extend/video';
 
 export default function ApiProgressPage() {
   const [file, setFile] = useState<File>();
   const [percent, setPercent] = useState(0);
   
-  useEffect(() => {
-    (async () => {
-      if (file) {
-        try {
-          const {duration} = await loadVideoMetadata(file);
-          console.log(duration);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    })().then();
-  }, [file]);
-  
   const save = useCallback(async () => {
+    if(!file) {
+      return;
+    }
+    
     try {
       const formData = new FormData();
       formData.append('file', file);
-      console.log(file);
       await axios.post('/api/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
