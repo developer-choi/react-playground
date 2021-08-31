@@ -22,6 +22,7 @@ export default function paging(req: NextApiRequest, res: NextApiResponse) {
   res.json({
     list: list.slice((page - 1) * API_ARTICLE_PER_PAGE, page * API_ARTICLE_PER_PAGE),
     page,
-    total: list.length
+    total: list.length,
+    status: 200
   });
 }

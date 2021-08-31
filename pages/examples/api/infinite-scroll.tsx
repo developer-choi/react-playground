@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react';
 import Head from 'next/head';
-import axios from 'axios';
 import type {PagingListType} from '../../api/paging';
 import type {GetServerSideProps} from 'next';
 import styled from 'styled-components';
 import useInfiniteScroll from '../../../src/utils/custom-hooks/useInfiniteScroll';
+import PagingApi from '../../../src/api/PagingApi';
 
 interface PageProp {
   list: PagingListType[];
@@ -14,7 +14,8 @@ interface PageProp {
 export default function InfiniteScrollPage(props: PageProp) {
   
   const fetchMoreApi = useCallback(async (requestPage: number) => {
-    const {list, total} = (await axios.get('http://localhost:3000/api/paging', {params: {page: requestPage}})).data;
+    const api = new PagingApi();
+    const {list, total} = (await api.getList(requestPage)).data;
     return {list, total};
   }, []);
   
@@ -42,7 +43,8 @@ export default function InfiniteScrollPage(props: PageProp) {
 };
 
 export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
-  const {list, total} = (await axios.get('http://localhost:3000/api/paging?page=1')).data;
+  const api = new PagingApi();
+  const {list, total} = (await api.getList(1)).data;
   return {
     props: {
       list,

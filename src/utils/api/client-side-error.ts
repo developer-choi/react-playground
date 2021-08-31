@@ -1,6 +1,6 @@
 import { getLoginRedirectUrl } from '../auth/auth';
-import { CustomApiError, UN_EXPECTED_MESSAGE } from '../../api/axios-config';
 import { useEffect } from 'react';
+import { CustomApiError, UN_EXPECTED_MESSAGE } from './CustomApiError';
 
 const MUST_LOGIN_ERROR_CODE = 700;
 const SOME_JUST_ALERT_ERROR_CODE = 9999;
