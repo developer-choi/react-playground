@@ -6,9 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "storybook": "start-storybook -s ./public -p 6006",
-    "build-storybook": "build-storybook"
+    "start": "next start"
   },
   "repository": {
     "type": "git",
@@ -40,11 +38,6 @@
     "video.js": "^7.14.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
-    "@storybook/addon-actions": "^6.3.7",
-    "@storybook/addon-essentials": "^6.3.7",
-    "@storybook/addon-links": "^6.3.7",
-    "@storybook/react": "^6.3.7",
     "@types/lodash": "^4.14.172",
     "@types/moment": "^2.13.0",
     "@types/next": "^9.0.0",
@@ -57,7 +50,6 @@
     "@types/redux-saga": "^0.10.5",
     "@types/styled-components": "^5.1.12",
     "@types/video.js": "^7.3.26",
-    "babel-loader": "^8.2.2",
     "babel-plugin-styled-components": "^1.13.2",
     "eslint": "^7.32.0",
     "eslint-config-next": "^11.0.1",
