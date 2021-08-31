@@ -51,7 +51,7 @@ function UserInfo({userPk}: UserInfoProps) {
           setData(data);
         });
       } catch (error) {
-        handleError();
+        console.error(error);
       }
     })().then();
   }, [userPk, runCallbackWhenMount]);

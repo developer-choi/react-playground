@@ -1,13 +1,14 @@
 import React from 'react';
 import Head from 'next/head';
-import {privateSspTemplate} from '../../../src/utils/api/auth';
+import { getServerSidePropsTemplate, getUserInfoSSP } from '../../../src/utils/api/server-side-error';
 
 interface PageProp {
   username: string;
 }
 
-export const getServerSideProps = privateSspTemplate<PageProp>(async (context, currentlyUserInfo) => {
-  const username = `${currentlyUserInfo.userPk}로 API 호출해서 응답받은 사용자의 이름`;
+export const getServerSideProps = getServerSidePropsTemplate<PageProp>(async (context) => {
+  const { userPk } = getUserInfoSSP(context);
+  const username = `${userPk}로 API 호출해서 응답받은 사용자의 이름`;
   
   return {
     props: {
