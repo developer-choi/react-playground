@@ -1,6 +1,6 @@
 import { getLoginRedirectUrl } from '../auth/auth';
 import { useEffect } from 'react';
-import { CustomApiError, UN_EXPECTED_MESSAGE } from './CustomApiError';
+import { CustomAxiosError, UN_EXPECTED_MESSAGE } from '../../api/BaseApi';
 
 const MUST_LOGIN_ERROR_CODE = 700;
 const SOME_JUST_ALERT_ERROR_CODE = 9999;
@@ -11,13 +11,13 @@ const SOME_MUST_LOGOUT_ERROR_CODE = 1234;
  * 주로 버튼을 클릭했을 때 어떤 API를 호출하다가 에러가 발생했을 때 호출됨. (ex: 로그인 시도 등)
  * 반대로말하면, getServerSideProps() 같은곳에서는 호출되면 안됨. (이 경우에는 server-side-error module을 사용)
  */
-export function handleErrorInClientSide(error: CustomApiError | any) {
-  if (!(error instanceof CustomApiError)) {
+export function handleErrorInClientSide(error: CustomAxiosError | any) {
+  if (!(error instanceof CustomAxiosError) || !error.response) {
     alert(UN_EXPECTED_MESSAGE);
     return;
   }
   
-  const {status, message} = error as CustomApiError;
+  const { response: { status }, message } = error as Required<CustomAxiosError>;
   
   switch (status) {
     case MUST_LOGIN_ERROR_CODE:
@@ -57,7 +57,7 @@ export function useResetIgnoreForceLogin() {
   }, []);
 }
 
-export function handleAuthError(error: CustomApiError) {
+export function handleAuthError(error: CustomAxiosError) {
   const { message } = error;
   
   if (!window.ignoreForceLogin && !location.href.startsWith('/login')) {
