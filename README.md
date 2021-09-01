@@ -1,2 +1,2 @@
-# 프로젝트 소개
-React / 마크업 / NextJS 공부를 위한 개인프로젝트 입니다.
+# Information
+This project is for learning React and its environments.
