@@ -5,13 +5,18 @@ import {
   sspTemplate
 } from '../../../src/utils/api/server-side-error';
 import ServerSideError from '../../../src/utils/auth/ServerSideError';
+import BaseApi from '../../../src/api/BaseApi';
 
 interface PageProp {
   apiResponse: string;
 }
 
 export const getServerSideProps = getServerSidePropsTemplate<PageProp>(async () => {
-  const { data } = await someApi();
+  const api = new SomeApi();
+  // TODO try-catch 컨셉으로 시도해봤으나 이렇게 기존 API 메소드 마다 전부 try catch로 error를 ServerSideError로 감싸줘야하는 수고가 발생함.
+  await api.someCommon1();
+  await api.someCommon2();
+  const { data } = await api.getSomeData1();
   return {
     props: {
       apiResponse: data
@@ -35,27 +40,70 @@ const NotifyRedirectPage = ({}: PageProp) => {
 
 export default sspTemplate(NotifyRedirectPage);
 
-/**
- * @throws ServerSideError
- */
-async function someApi() {
-  try {
-    // return await (async () => {
-    //   return Promise.reject('Some Error Message (INTERNAL)');
-    // })();
+class SomeApi extends BaseApi {
+  constructor() {
+    super('some');
+  }
   
-    return {
-      data: 'SOME_DATA'
-    };
+  getSomeData1() {
+    try {
+      return new Promise<{data: string}>(resolve => {
+        resolve({
+          data: 'SOME_DATA'
+        });
+      });
     
-  } catch (error) {
-    throw new ServerSideError(error.message, {
-      props: {
-        _notifyAndRedirect: {
-          message: 'Some Notify Message',
-          redirect: '/'
+    } catch (error) {
+      throw new ServerSideError(error.message, {
+        props: {
+          _notifyAndRedirect: {
+            message: 'Some Notify Message',
+            redirect: '/'
+          }
         }
-      }
-    });
+      });
+    }
+  }
+  
+  someCommon1() {
+    try {
+      return new Promise<{data: string}>(resolve => {
+        resolve({
+          data: 'SOME_DATA'
+        });
+      });
+    
+    } catch (error) {
+      // TODO ?? 이 API는 ClientSide에서도 사용해야하는데 이렇게 API 메소드부터 이렇게 ServerSideError를 throws하도록 만들어야해서 문제가됨.
+      throw new ServerSideError(error.message, {
+        props: {
+          _notifyAndRedirect: {
+            message: 'Some Notify Message',
+            redirect: '/'
+          }
+        }
+      });
+    }
+  }
+  
+  someCommon2() {
+    try {
+      return new Promise<{data: string}>(resolve => {
+        resolve({
+          data: 'SOME_DATA'
+        });
+      });
+    
+    } catch (error) {
+      // TODO ?? 이 API는 ClientSide에서도 사용해야하는데 이렇게 API 메소드부터 이렇게 ServerSideError를 throws하도록 만들어야해서 문제가됨.
+      throw new ServerSideError(error.message, {
+        props: {
+          _notifyAndRedirect: {
+            message: 'Some Notify Message',
+            redirect: '/'
+          }
+        }
+      });
+    }
   }
 }
