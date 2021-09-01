@@ -1,14 +1,18 @@
-import React, {useCallback} from 'react';
+import React, { useCallback } from 'react';
 import Head from 'next/head';
 import { Button } from '@components/atom/button/button-presets';
-import {executeOnlyLogin} from '../../../src/utils/auth/auth';
+import { throwIfNotLoggedIn } from '../../../src/utils/auth/auth';
+import { handleErrorInClientSide } from '../../../src/utils/api/client-side-error';
 
 export default function SomePage() {
   
   const someCallback = useCallback(() => {
-    executeOnlyLogin(userInfo => {
-      alert(`로그인한 사용자 ${userInfo.userPk}가 버튼을 클릭했음.`);
-    });
+    try {
+      const { userPk } = throwIfNotLoggedIn();
+      alert(`로그인한 사용자 ${userPk}가 버튼을 클릭했음.`);
+    } catch (error) {
+      handleErrorInClientSide(error);
+    }
   }, []);
   
   return (

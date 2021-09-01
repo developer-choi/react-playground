@@ -1,19 +1,91 @@
 import { getLoginRedirectUrl } from '../auth/auth';
 import { useEffect } from 'react';
-import { CustomAxiosError, UN_EXPECTED_MESSAGE } from '../../api/BaseApi';
+import { CustomAxiosError } from '../../api/BaseApi';
+import Router from 'next/router';
+
+const UN_EXPECTED_MESSAGE = '잠시후 다시 시도해주세요.';
+
+export interface HandleableError {
+  action: 'OPEN_POPUP';
+  args: { message: string, onConfirm?: () => void } | any;
+}
+
+const DEFAULT_HANDLEABLE_ERROR: HandleableError = {
+  action: 'OPEN_POPUP',
+  args: {
+    message: UN_EXPECTED_MESSAGE
+  }
+};
+
+export function convertErrorToHandleable(error: ClientSideError): HandleableError {
+  switch (error.config?.cause) {
+    case 'UN_AUTHENTICATION':
+      return {
+        action: 'OPEN_POPUP',
+        args: {
+          message: error.message,
+          onConfirm: () => {
+            const {pathname, search, hash} = location;
+  
+            /**
+             * TODO 기존 페이지 URL에 쿼리스트링같은게 있을 수 있으니 이런것도 같이 redirectUrl의 query-string으로 들어갈 수 있도록 구현이 필요.
+             */
+            Router.replace(getLoginRedirectUrl(`${pathname}${search}${hash}`)).then();
+          }
+        }
+      };
+    default:
+      return DEFAULT_HANDLEABLE_ERROR;
+  }
+}
+
+/**
+ * TODO
+ * 여기의 cause (원인)과 위에서는 action으로 분리했는데,
+ * 같은 원인이어도 처리방법은 에러가 발생한 위치에 따라서 다르게 처리될 수도 있다는 생각이 들어서 이렇게했음.
+ * 이 파일에서는 클라이언트 사이드에서 로그인안한 경우에 대해서 작성되었음.
+ *
+ * 일단 이 방식의 문제는, server-side-error에서도 ServerSideError라는 Error 클래스가 생성됬고,
+ * 여기서도 ClientSideError라는 클래스가 생성됬는데,
+ * 원인이라는 property가 추가됬는데 "ClientSide"Error라는 의미가 있는지 잘 모르겠다.
+ *
+ * 에러클래스가 추가되면 반드시 변환함수도 같이 추가가 되야하는데 (위의 HandleableError처럼)
+ * 오히려 이게 더 복잡하게 만들고있는것같다.
+ * 좀 더 좋은방법을 찾아보기로.
+ */
+export interface ClientSideErrorConfig {
+  cause: 'UN_AUTHENTICATION';
+}
+
+export class ClientSideError extends Error {
+  readonly config?: ClientSideErrorConfig;
+  
+  constructor(message: string, config?: ClientSideErrorConfig) {
+    super(message);
+    this.config = config;
+  }
+}
 
 const MUST_LOGIN_ERROR_CODE = 700;
 const SOME_JUST_ALERT_ERROR_CODE = 9999;
 const SOME_MUST_LOGOUT_ERROR_CODE = 1234;
 
-/**
- * 페이지가 렌더링된 상태에서 호출되야하는 함수.
- * 주로 버튼을 클릭했을 때 어떤 API를 호출하다가 에러가 발생했을 때 호출됨. (ex: 로그인 시도 등)
- * 반대로말하면, getServerSideProps() 같은곳에서는 호출되면 안됨. (이 경우에는 server-side-error module을 사용)
- */
-export function handleErrorInClientSide(error: CustomAxiosError | any) {
-  if (!(error instanceof CustomAxiosError) || !error.response) {
+export function handleErrorInClientSide(error: CustomAxiosError | ClientSideError | any) {
+
+  if (!(error instanceof CustomAxiosError) && !(error instanceof ClientSideError) && !error.response) {
     alert(UN_EXPECTED_MESSAGE);
+    return;
+  }
+  
+  if(error instanceof ClientSideError) {
+    const { action, args } = convertErrorToHandleable(error);
+    
+    switch (action) {
+      case 'OPEN_POPUP':
+        alert(args.message);
+        args.onConfirm?.();
+    }
+    
     return;
   }
   
@@ -34,24 +106,9 @@ export function handleErrorInClientSide(error: CustomAxiosError | any) {
   }
 }
 
-/**
- * 로그인페이지에서 사용하려고 만들었고,
- * 로그인페이지를 벗어나는 아래의 2가지 케이스에 대해 고려가 되었음.
- * case1. [로그인 후 이용이 가능합니다] 팝업을 만난 사용자가 로그인안하고 그냥 다른페이지를 간다거나
- * case2. 로그인을 성공하여 다른페이지로 간 사용자의 경우
- *
- * 다시 초기화를 해서 이후에 또 [로그인 해야 이용가능] 성격의 팝업을 만났을 때 이 팝업을 보여주도록 하기위해.
- *
- * handleAuthError()와 같이사용해야함.
- */
 export function useResetIgnoreForceLogin() {
   useEffect(() => {
     return () => {
-      /**
-       * ignoreLoginProcess는 store가 아니라 window가 제일 합리적임.
-       * 1. 창 하나 (또는 탭하나)에서 유일한 값이고 유지되는 값이어야 하니까.
-       * 2. 이 값이 바뀌어도 다시 컴포넌트들이 리렌더링되야하는건 아니니까.
-       */
       window.ignoreForceLogin = false;
     };
   }, []);

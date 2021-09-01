@@ -99,5 +99,3 @@ export class CustomAxiosError implements AxiosError {
     }
   }
 }
-
-export const UN_EXPECTED_MESSAGE = '잠시후 다시 시도해주세요.';
