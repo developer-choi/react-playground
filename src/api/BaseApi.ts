@@ -7,8 +7,8 @@ export default class BaseApi {
   constructor(basePath: string, config: AxiosRequestConfig = {}) {
     const { baseURL, headers, ...rest } = config;
   
-    const origin = 'http://localhost:3000';
-    const path = `/api/${basePath}`.replaceAll('//', '/');
+    const origin = process.env.NEXT_PUBLIC_API;
+    const path = `/api/${basePath}`.replace(/\/\//g, '/')
     
     this.axios = axios.create({
       baseURL: baseURL ? baseURL : `${origin}${path}`,

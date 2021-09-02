@@ -4,7 +4,7 @@ import type { AxiosResponse } from 'axios';
 
 export default class PagingApi extends BaseApi {
   constructor() {
-    super('api/paging');
+    super('paging');
   }
   
   getList(page: number): Promise<AxiosResponse<PagingListResponse>> {
