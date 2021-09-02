@@ -49,7 +49,7 @@ export default function QueryStringPage({yyyymmdd}: PageProp) {
           <ResultText>date={yyyymmdd}</ResultText>
           <LinkWrap>
             {test.map(value => (
-                <Link href={`?date=${value}`} key={value}>
+                <Link passHref href={`?date=${value}`} key={value}>
                   <TestLink>?date={value}</TestLink>
                 </Link>
             ))}

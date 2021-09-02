@@ -76,7 +76,7 @@ export function Navigation() {
   return (
       <NavWrap>
         {params.map(param => (
-            <Link key={param} href={`/examples/store/${param}`}>
+            <Link passHref key={param} href={`/examples/store/${param}`}>
               <Anchor className={pathname.endsWith(param) ? 'active' : ''}>{param}</Anchor>
             </Link>
         ))}
