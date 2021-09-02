@@ -1,4 +1,4 @@
-import {parse} from 'query-string';
+import {parse} from 'querystring';
 
 export type DirectionValue = 'asc' | 'desc'
 const DIRECTION_VALUES: DirectionValue[] = ['asc', 'desc'];

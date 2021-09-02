@@ -1,6 +1,6 @@
 import type {ParsedUrlQuery} from 'querystring';
 import moment from 'moment';
-import {stringify} from 'query-string';
+import { stringify } from 'querystring';
 
 export type ParsedUrlQueryValue = ParsedUrlQuery['any-key'];
 
