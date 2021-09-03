@@ -15,6 +15,12 @@ export default function Page({publicEnv, privateEnv}: PageProp) {
   );
 }
 
+/**
+ * yarn dev
+ * yarn build-dev
+ * yarn build
+ * https://stackoverflow.com/a/62464710/16599173.
+ */
 export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
   return {
     props: {
