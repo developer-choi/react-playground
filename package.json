@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:dev": "env-cmd -f .env.development next build && next start",
+    "build:dev": "env-cmd -f .env.development next build && env-cmd -f .env.development next start",
     "start": "next start"
   },
   "repository": {
