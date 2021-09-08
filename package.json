@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "env-cmd -f .env.loc next dev",
+    "dev": "env-cmd -f .env.localhost next dev",
     "build": "next build",
     "build:dev": "env-cmd -f .env.development next build && env-cmd -f .env.development next start",
     "build:prod": "next build && next start",
