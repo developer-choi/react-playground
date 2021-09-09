@@ -5,9 +5,11 @@ export const COLORS = {
   black1: '#20232a',
   black2: '#1a1a1a',
   gray1: '#f7f7f7',
-  lightBlack: 'rgb(40,44,52)'
+  lightBlack: 'rgb(40,44,52)',
+  red1: '#ff000055'
 };
 
 export const theme: DefaultTheme = {
-  main: 'lightcoral'
+  main: COLORS.reactBlue,
+  error: COLORS.red1
 };

@@ -34,9 +34,25 @@ const layout = css`
   }
 `;
 
+const toast = css`
+  .Toastify__toast {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .Toastify__toast.Toastify__toast--info {
+    background-color: ${props => props.theme.main};
+  }
+  .Toastify__toast.Toastify__toast--error {
+    background-color: ${props => props.theme.error};
+  }
+`;
+
 export const GlobalStyle = createGlobalStyle`
 
   ${reset};
   ${font};
   ${layout};
+  ${toast};
 `;
