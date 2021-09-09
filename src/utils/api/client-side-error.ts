@@ -70,6 +70,12 @@ const MUST_LOGIN_ERROR_CODE = 700;
 const SOME_JUST_ALERT_ERROR_CODE = 9999;
 const SOME_MUST_LOGOUT_ERROR_CODE = 1234;
 
+/**
+ * 서버에서도 로그인한했다는 뜻의 에러응답 반환할거고,
+ * 클라이언트에서도 요청보내기전에 로그인여부 체크한 후에 에러를 throw 할건데,
+ * "로그인이 안되어있습니다. 로그인하시겠습니까?" 같은걸 물어보는 코드를 CustomAxiosError에서 한번 쓰고,
+ * ClientSideError에서 또 써야해서 이중중복코드 생김.
+ */
 export function handleErrorInClientSide(error: CustomAxiosError | ClientSideError | any) {
 
   if (!(error instanceof CustomAxiosError) && !(error instanceof ClientSideError) && !error.response) {

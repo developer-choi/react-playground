@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { getCurrentlyLoginUserInfo } from '../utils/auth/auth';
 
 export default class BaseApi {
   readonly axios: AxiosInstance;
@@ -13,7 +12,7 @@ export default class BaseApi {
     this.axios = axios.create({
       baseURL: baseURL ? baseURL : `${origin}${path}`,
       // If this api created in CSR, set headers basically.
-      headers: {...headers, ...getCurrentlyLoginUserInfo()},
+      headers,
       ...rest
     });
   
