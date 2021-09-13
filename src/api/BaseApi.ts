@@ -4,15 +4,18 @@ export default class BaseApi {
   readonly axios: AxiosInstance;
   
   constructor(basePath: string, config: AxiosRequestConfig = {}) {
-    const { baseURL, headers, ...rest } = config;
+    const { baseURL, ...rest } = config;
   
     const origin = process.env.NEXT_PUBLIC_API;
     const path = `/api/${basePath}`.replace(/\/\//g, '/')
     
     this.axios = axios.create({
       baseURL: baseURL ? baseURL : `${origin}${path}`,
-      // If this api created in CSR, set headers basically.
-      headers,
+      /**
+       * headers: [SOME_SESSION]
+       * I think adding the session information in the headers of all HTTP Requests is wrong.
+       * If you do that, the session information will be included in the header of all HTTP requests.
+       */
       ...rest
     });
   
