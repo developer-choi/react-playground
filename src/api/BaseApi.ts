@@ -6,7 +6,7 @@ export default class BaseApi {
   constructor(basePath: string, config: AxiosRequestConfig = {}) {
     const { baseURL, ...rest } = config;
   
-    const origin = process.env.NEXT_PUBLIC_API;
+    const origin = process.env.NEXT_PUBLIC_ORIGIN;
     const path = `/api/${basePath}`.replace(/\/\//g, '/')
     
     this.axios = axios.create({

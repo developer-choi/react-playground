@@ -8,7 +8,7 @@ export interface OgMetaProps {
    *
    * https://developers.facebook.com/docs/sharing/best-practices#images
    * https://developers.facebook.com/tools/debug/
-   * row 600 or more, square support, 1.91:1 ratio if not square (ex: 600x314).
+   * row 600 or more, 1.91:1 (ex: 600x314).
    */
   image: string;
   title: string;

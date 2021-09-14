@@ -7,7 +7,7 @@ export default function Page() {
     <>
       <TwitterMeta
         cardType="summary"
-        image="https://react-playground-xi.vercel.app/images/600x600.png"
+        image="/images/600x600.png"
         title="Custom Twitter Title"
         description="Custom Twitter Description"
       />

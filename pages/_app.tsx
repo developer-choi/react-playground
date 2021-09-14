@@ -19,13 +19,13 @@ export default function MyApp({Component, pageProps}: AppProps) {
         </Head>
         <OgMeta
           title="React Playground"
-          image="/images/react-logo.png"
+          image="/images/next-logo.png"
           description="This project is for learning React and its environments."
         />
         <TwitterMeta
           cardType="summary"
           title="React Playground"
-          image="/images/react-logo.png"
+          image="/images/next-logo.png"
           description="This project is for learning React and its environments."
         />
         <Provider store={store}>
