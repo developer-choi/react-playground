@@ -15,8 +15,8 @@ export default function OgMeta({image, description, title}: OgMetaProps) {
    */
   return (
     <Head>
-      <meta key="og:title" property="og:title" content={title}/>
       <meta key="og:image" property="og:image" content={image}/>
+      <meta key="og:title" property="og:title" content={title}/>
       <meta key="og:description" property="og:description" content={description}/>
     </Head>
   );

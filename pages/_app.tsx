@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Provider} from 'react-redux';
 import {store} from '../src/store/store';
 import OgMeta from '@components/atom/OgMeta';
+import TwitterMeta from '@components/atom/TwitterMeta';
 
 export default function MyApp({Component, pageProps}: AppProps) {
   return (
@@ -17,6 +18,11 @@ export default function MyApp({Component, pageProps}: AppProps) {
           <title>react-playground</title>
         </Head>
         <OgMeta
+          title="React Playground"
+          image="/images/react-logo.png"
+          description="This project is for learning React and its environments."
+        />
+        <TwitterMeta
           title="React Playground"
           image="/images/react-logo.png"
           description="This project is for learning React and its environments."
