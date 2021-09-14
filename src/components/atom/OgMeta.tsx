@@ -2,8 +2,16 @@ import React from 'react';
 import Head from 'next/head';
 
 export interface OgMetaProps {
-  title: string;
+  /**
+   * https://devtalk.kakao.com/t/url/29679/2
+   * 800x400 (2:1)
+   *
+   * https://developers.facebook.com/docs/sharing/best-practices#images
+   * https://developers.facebook.com/tools/debug/
+   * row 600 or more, square support, 1.91:1 ratio if not square (ex: 600x314).
+   */
   image: string;
+  title: string;
   description: string;
 }
 
