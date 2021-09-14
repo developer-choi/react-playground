@@ -11,6 +11,7 @@ export default function Page() {
         description="Custom Description"
       />
       <TwitterMeta
+        cardType="summary"
         image="/images/react-logo.png"
         title="Custom Title"
         description="Custom Description"
