@@ -23,7 +23,7 @@ export default function MyApp({Component, pageProps}: AppProps) {
           description="This project is for learning React and its environments."
         />
         <TwitterMeta
-          cardType="summary"
+          cardType="summary_large_image"
           title="React Playground"
           image="/images/next-logo.png"
           description="This project is for learning React and its environments."
