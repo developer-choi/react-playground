@@ -8,8 +8,7 @@ import {user} from './reducers/user';
 import {all} from 'redux-saga/effects';
 
 const sagaMiddleware = createSagaMiddleware();
-const rootReducer = combineReducers({counter, user});
-export type RootState = ReturnType<typeof rootReducer>;
+export const rootReducer = combineReducers({counter, user});
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 sagaMiddleware.run(function* () {

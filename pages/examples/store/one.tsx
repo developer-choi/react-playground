@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import {useDispatch, useSelector} from 'react-redux';
-import type {RootState} from '@store/store';
 import {decreaseActionCreator, increaseActionCreator} from '@store/reducers/counter';
 import { Button } from '@components/atom/button/button-presets';
 import {useRouter} from 'next/router';
@@ -29,7 +28,7 @@ export async function getServerSideProps() {
 }
 
 export function Counter() {
-  const count = useSelector((state: RootState) => state.counter.count);
+  const count = useSelector(state => state.counter.count);
   const dispatch = useDispatch();
   
   const increase = useCallback(() => {
