@@ -22,6 +22,9 @@
     "paths": {
       "@components/*": [
         "src/components/*"
+      ],
+      "@store/*": [
+        "src/store/*"
       ]
     },
     "importsNotUsedAsValues": "error"

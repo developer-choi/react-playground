@@ -1,6 +1,6 @@
 import React from 'react';
 import {Counter, Navigation} from './one';
-import {store} from '../../../src/store/store';
+import {store} from '@store/store';
 
 export default function ThreePage({count}: {count: number}) {
   return (

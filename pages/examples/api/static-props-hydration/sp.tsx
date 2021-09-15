@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import moment from 'moment';
-import type { RootState } from '../../../../src/store/store';
+import type { RootState } from '@store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@components/atom/button/button-presets';
-import { decreaseActionCreator, increaseActionCreator } from '../../../../src/store/reducers/counter';
+import { decreaseActionCreator, increaseActionCreator } from '@store/reducers/counter';
 import { useRouter } from 'next/router';
 
 export default function StaticPropsPage() {

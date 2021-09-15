@@ -2,12 +2,12 @@ import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import {useDispatch, useSelector} from 'react-redux';
-import type {RootState} from '../../../src/store/store';
-import {decreaseActionCreator, increaseActionCreator} from '../../../src/store/reducers/counter';
+import type {RootState} from '@store/store';
+import {decreaseActionCreator, increaseActionCreator} from '@store/reducers/counter';
 import { Button } from '@components/atom/button/button-presets';
 import {useRouter} from 'next/router';
-import {store} from '../../../src/store/store';
-import {decreaseAsyncActionCreator, increaseAsyncActionCreator} from '../../../src/store/sagas/count-saga';
+import {store} from '@store/store';
+import {decreaseAsyncActionCreator, increaseAsyncActionCreator} from '@store/sagas/count-saga';
 
 export default function OnePage({count}: {count: number}) {
   
