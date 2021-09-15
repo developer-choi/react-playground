@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import env from '../../utils/env';
 
 export interface TwitterMetaProp {
   /**
@@ -18,7 +19,7 @@ export interface TwitterMetaProp {
 }
 
 export default function TwitterMeta({image, description, title, cardType}: TwitterMetaProp) {
-  const _image = image.includes('http') ? image : `${process.env.NEXT_PUBLIC_ORIGIN}${image}`;
+  const _image = image.includes('http') ? image : `${env.public.origin}${image}`;
   return (
     <Head>
       <meta key="twitter:card" name="twitter:card" content={cardType} />

@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import env from '../utils/env';
 
 export default class BaseApi {
   readonly axios: AxiosInstance;
@@ -6,7 +7,7 @@ export default class BaseApi {
   constructor(basePath: string, config: AxiosRequestConfig = {}) {
     const { baseURL, ...rest } = config;
   
-    const origin = process.env.NEXT_PUBLIC_ORIGIN;
+    const origin = env.public.origin;
     const path = `/api/${basePath}`.replace(/\/\//g, '/')
     
     this.axios = axios.create({

@@ -1,5 +1,7 @@
 import React from 'react';
 import type { GetServerSideProps } from 'next';
+import env from '../../../src/utils/env';
+import styled from 'styled-components';
 
 export interface PageProp {
   publicEnv: string;
@@ -10,12 +12,23 @@ export interface PageProp {
 export default function Page({publicEnv, privateEnv, commonEnv}: PageProp) {
   return (
     <div>
+      <Heading>In the getServerSideProps</Heading>
       <div>publicEnv=<b>{publicEnv}</b></div>
       <div>privateEnv=<b>{privateEnv}</b></div>
       <div>commonEnv=<b>{commonEnv}</b></div>
+      
+      <Heading style={{marginTop: 20}}>In the client</Heading>
+      <div>publicEnv=<b>{String(env.public.pub)}</b></div>
+      <div>privateEnv=<b>{String(env.private.prv)}</b></div>
+      <div>commonEnv=<b>{String(env.private.common)}</b></div>
     </div>
   );
 }
+
+const Heading = styled.h2`
+  font-size: 20px;
+  margin-bottom: 5px;
+`;
 
 /**
  * yarn dev
@@ -26,9 +39,9 @@ export default function Page({publicEnv, privateEnv, commonEnv}: PageProp) {
 export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
   return {
     props: {
-      privateEnv: process.env.NEXT_PUBLIC_PUBLIC as string,
-      publicEnv: process.env.PRIVATE as string,
-      commonEnv: process.env.COMMON_VALUE as string
+      privateEnv: env.public.pub,
+      publicEnv: env.private.prv as string,
+      commonEnv: env.private.common as string
     }
   };
 };
