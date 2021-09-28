@@ -8,7 +8,7 @@ export default class BaseApi {
     const { baseURL, ...rest } = config;
   
     const origin = env.public.origin;
-    const path = `/api/${basePath}`.replace(/\/\//g, '/')
+    const path = `/api/${basePath}`.replace(/\/\//g, '/');
     
     this.axios = axios.create({
       baseURL: baseURL ? baseURL : `${origin}${path}`,
