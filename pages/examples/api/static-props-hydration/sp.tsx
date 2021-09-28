@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { Button } from '@components/atom/button/button-presets';
 import { decreaseActionCreator, increaseActionCreator } from '@store/reducers/counter';
 import { useRouter } from 'next/router';
@@ -74,8 +74,8 @@ export function Timer() {
 }
 
 export function Counter() {
-  const dispatch = useDispatch();
-  const count = useSelector(state => state.counter.count);
+  const dispatch = useAppDispatch();
+  const count = useAppSelector(state => state.counter.count);
   
   const inCrease = useCallback(() => {
     dispatch(increaseActionCreator());

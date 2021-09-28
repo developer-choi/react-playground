@@ -1,12 +1,6 @@
 import {all, put, takeEvery} from 'redux-saga/effects';
 import {decreaseActionCreator, increaseActionCreator} from '../reducers/counter';
-import {createAction} from 'redux-actions';
-
-const INCREASE_ASYNC = 'react-playground/count-saga/INCREASE_ASYNC';
-const DECREASE_ASYNC = 'react-playground/count-saga/DECREASE_ASYNC';
-
-export const increaseAsyncActionCreator = createAction(INCREASE_ASYNC);
-export const decreaseAsyncActionCreator = createAction(DECREASE_ASYNC);
+import {createAction} from '@reduxjs/toolkit';
 
 function delay(ms: number) {
   return new Promise(res => setTimeout(res, ms));
@@ -24,13 +18,16 @@ function* workDecreaseAsync() {
   yield put(decreaseActionCreator());
 }
 
+export const increaseAsyncActionCreator = createAction('count-saga/increaseAsync');
+export const decreaseAsyncActionCreator = createAction('count-saga/decreaseAsync');
+
 // Our watcher Saga: spawn a new incrementAsync task on each INCREMENT_ASYNC
 function* watchIncreaseAsync() {
-  yield takeEvery(INCREASE_ASYNC, workIncrementAsync)
+  yield takeEvery(increaseAsyncActionCreator, workIncrementAsync)
 }
 
 function* watchDecreaseAsync() {
-  yield takeEvery(DECREASE_ASYNC, workDecreaseAsync);
+  yield takeEvery(decreaseAsyncActionCreator, workDecreaseAsync);
 }
 
 export default function* countSaga() {

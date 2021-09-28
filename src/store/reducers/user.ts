@@ -1,8 +1,4 @@
-import {createAction, handleActions} from 'redux-actions';
-
-const SET_USER = 'react-playground/user/SET_USER';
-
-export const setUserActionCreator = createAction<string>(SET_USER);
+import {createSlice} from '@reduxjs/toolkit';
 
 export interface UserState {
   name?: string;
@@ -12,10 +8,15 @@ const initialState: UserState = {
   name: undefined
 };
 
-export const user = handleActions<UserState, any>({
-  
-  [SET_USER]: (state, action: ReturnType<typeof setUserActionCreator>) => ({
-    name: action.payload
-  }),
-  
-}, initialState);
+const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    setUserActionCreator: (state, { payload }) => {
+      state.name = payload;
+    }
+  }
+});
+
+export const { setUserActionCreator } = userSlice.actions;
+export default userSlice.reducer;

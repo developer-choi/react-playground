@@ -1,10 +1,9 @@
 import {call, put, takeEvery} from 'redux-saga/effects';
-import {createAction} from 'redux-actions';
+import {createAction} from '@reduxjs/toolkit';
 import {setUserActionCreator} from '../reducers/user';
 import {makeRandomString} from '../../utils/extend/random';
 
-const REQUEST_FETCH_USER = 'react-playground/user-saga/REQUEST_FETCH_USER';
-export const requestFetchUserActionCreator = createAction<number>(REQUEST_FETCH_USER);
+export const requestFetchUserActionCreator = createAction<number>('react-playground/user-saga/REQUEST_FETCH_USER');
 
 export async function apiGetHelloUser(userPk: number) {
   console.log('api call parameter', userPk);
@@ -24,5 +23,5 @@ function* workRequestFetchUser(action: ReturnType<typeof requestFetchUserActionC
 }
 
 export default function* userSaga() {
-  yield takeEvery(REQUEST_FETCH_USER, workRequestFetchUser);
+  yield takeEvery(requestFetchUserActionCreator, workRequestFetchUser);
 }

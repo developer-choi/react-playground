@@ -1,12 +1,5 @@
-import {createAction, handleActions} from 'redux-actions';
+import {createSlice} from '@reduxjs/toolkit';
 
-const INCREASE = 'react-playground/count-saga/INCREASE';
-const DECREASE = 'react-playground/count-saga/DECREASE';
-
-export const increaseActionCreator = createAction(INCREASE);
-export const decreaseActionCreator = createAction(DECREASE);
-
-//state and reducer
 export interface CounterState {
   count: number;
 }
@@ -15,14 +8,18 @@ const initialState: CounterState = {
   count: 0
 };
 
-export const counter = handleActions<CounterState, any>({
-  
-  [INCREASE]: (state) => ({
-    count: state.count + 1
-  }),
-  
-  [DECREASE]: (state) => ({
-    count: state.count - 1
-  })
-  
-}, initialState);
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    increaseActionCreator: state => {
+      state.count++;
+    },
+    decreaseActionCreator: state => {
+      state.count--;
+    }
+  }
+});
+
+export const { increaseActionCreator, decreaseActionCreator } = counterSlice.actions;
+export default counterSlice.reducer;
