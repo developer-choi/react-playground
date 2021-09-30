@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useEffect, useRef} from 'react';
+import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import Head from 'next/head';
 import type {GetServerSideProps} from 'next';
 import {range} from '@util/extend/number';
@@ -9,7 +9,6 @@ import moment from 'moment';
 import {isMatchKeyboardEvent} from '@util/extend/keyboard-event';
 import {Button} from '@component/atom/button/button-presets';
 import {toast} from 'react-toastify';
-import {useState} from 'react';
 
 interface PageProp {
   mails: Mail[];
