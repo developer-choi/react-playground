@@ -1,8 +1,8 @@
 import React, {useCallback} from 'react';
 import Head from 'next/head';
-import {Button} from '@components/atom/button/button-presets';
-import {throwIfNotLoggedIn} from '../../../src/utils/auth/auth';
-import {handleErrorInClientSide} from '../../../src/utils/api/client-side-error';
+import {Button} from '@component/atom/button/button-presets';
+import {throwIfNotLoggedIn} from '@util/auth/auth';
+import {handleErrorInClientSide} from '@util/api/client-side-error';
 
 export default function SomePage() {
   

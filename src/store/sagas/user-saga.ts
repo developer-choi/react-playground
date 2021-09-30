@@ -1,7 +1,7 @@
 import {call, put, takeEvery} from 'redux-saga/effects';
 import {createAction} from '@reduxjs/toolkit';
-import {setUserActionCreator} from '../reducers/user';
-import {makeRandomString} from '../../utils/extend/random';
+import {setUserActionCreator} from '@store/reducers/user';
+import {makeRandomString} from '@util/extend/random';
 
 export const requestFetchUserActionCreator = createAction<number>('react-playground/user-saga/REQUEST_FETCH_USER');
 

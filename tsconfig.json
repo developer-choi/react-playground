@@ -20,11 +20,23 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "@components/*": [
-        "src/components/*"
+      "@pages/*": [
+        "pages/*"
+      ],
+      "@api/*": [
+        "src/api/*"
+      ],
+      "@component/*": [
+        "src/component/*"
       ],
       "@store/*": [
         "src/store/*"
+      ],
+      "@type/*": [
+        "src/type/*"
+      ],
+      "@util/*": [
+        "src/util/*"
       ]
     },
     "importsNotUsedAsValues": "error"

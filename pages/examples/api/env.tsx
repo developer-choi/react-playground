@@ -1,6 +1,6 @@
 import React from 'react';
 import type {GetServerSideProps} from 'next';
-import env from '../../../src/utils/env';
+import env from '@util/env';
 import styled from 'styled-components';
 
 export interface PageProp {

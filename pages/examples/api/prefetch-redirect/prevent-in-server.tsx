@@ -1,7 +1,7 @@
 import React from 'react';
-import type { GetServerSideProps } from 'next';
+import type {GetServerSideProps} from 'next';
 import Link from 'next/link';
-import { Button } from '@components/atom/button/button-presets';
+import {Button} from '@component/atom/button/button-presets';
 
 export default function PreventInServerPage() {
   return (

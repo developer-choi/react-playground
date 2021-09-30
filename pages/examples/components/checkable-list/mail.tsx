@@ -1,15 +1,15 @@
 import React, {memo, useCallback, useEffect, useRef} from 'react';
 import Head from 'next/head';
 import type {GetServerSideProps} from 'next';
-import {range} from '../../../../src/utils/extend/number';
-import useCheckableList from '../../../../src/utils/custom-hooks/useCheckableList';
+import {range} from '@util/extend/number';
+import useCheckableList from '@util/custom-hooks/useCheckableList';
 import styled from 'styled-components';
-import CheckBox from '@components/atom/CheckBox';
+import CheckBox from '@component/atom/CheckBox';
 import moment from 'moment';
-import {isMatchKeyboardEvent} from '../../../../src/utils/extend/keyboard-event';
-import {Button} from '@components/atom/button/button-presets';
+import {isMatchKeyboardEvent} from '@util/extend/keyboard-event';
+import {Button} from '@component/atom/button/button-presets';
 import {toast} from 'react-toastify';
-import { useState } from 'react';
+import {useState} from 'react';
 
 interface PageProp {
   mails: Mail[];

@@ -1,15 +1,15 @@
 import React from 'react';
 import type {AppProps} from 'next/app';
 import {ThemeProvider} from 'styled-components';
-import {theme} from '../src/utils/style/theme';
-import {GlobalStyle} from '../src/utils/style/global';
+import {theme} from '@util/style/theme';
+import {GlobalStyle} from '@util/style/global';
 import Head from 'next/head';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Provider} from 'react-redux';
 import {store} from '@store/store';
-import OgMeta from '@components/atom/OgMeta';
-import TwitterMeta from '@components/atom/TwitterMeta';
+import OgMeta from '@component/atom/OgMeta';
+import TwitterMeta from '@component/atom/TwitterMeta';
 
 export default function MyApp({Component, pageProps}: AppProps) {
   return (

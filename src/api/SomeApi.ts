@@ -1,5 +1,5 @@
-import BaseApi from './BaseApi';
-import {getCurrentlyLoginUserInfo} from '../utils/auth/auth';
+import BaseApi from '@api/BaseApi';
+import {getCurrentlyLoginUserInfo} from '@util/auth/auth';
 
 export default class SomeApi extends BaseApi {
   

@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import type {GetServerSideProps} from 'next';
-import PropertyText from '@components/atom/PropertyText';
+import PropertyText from '@component/atom/PropertyText';
 
 /**
  * The type of params must be string.

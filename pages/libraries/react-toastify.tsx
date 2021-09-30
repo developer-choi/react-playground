@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import { Button } from '@components/atom/button/button-presets';
+import {Button} from '@component/atom/button/button-presets';
 import {toast} from 'react-toastify';
 
 export default function ReactToastifyPage() {

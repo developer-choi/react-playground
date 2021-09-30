@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import moment from 'moment';
-import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { Button } from '@components/atom/button/button-presets';
-import { decreaseActionCreator, increaseActionCreator } from '@store/reducers/counter';
-import { useRouter } from 'next/router';
+import {useAppDispatch, useAppSelector} from '@store/hooks';
+import {Button} from '@component/atom/button/button-presets';
+import {decreaseActionCreator, increaseActionCreator} from '@store/reducers/counter';
+import {useRouter} from 'next/router';
 
 export default function StaticPropsPage() {
   return (

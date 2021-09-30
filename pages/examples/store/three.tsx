@@ -1,5 +1,5 @@
 import React from 'react';
-import {Counter, Navigation} from './one';
+import {Counter, Navigation} from '@pages/examples/store/one';
 import {store} from '@store/store';
 
 export default function ThreePage({count}: {count: number}) {

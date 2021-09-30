@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import Head from 'next/head';
-import {Button} from '@components/atom/button/button-presets';
-import useDebouncedCallback from '../../../src/utils/custom-hooks/useDebouncedCallback';
+import {Button} from '@component/atom/button/button-presets';
+import useDebouncedCallback from '@util/custom-hooks/useDebouncedCallback';
 
 export default function DebouncePage() {
   

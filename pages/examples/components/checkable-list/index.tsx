@@ -1,11 +1,11 @@
 import React, {useCallback, useState} from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import CheckBox from '@components/atom/CheckBox';
-import {Button} from '@components/atom/button/button-presets';
+import CheckBox from '@component/atom/CheckBox';
+import {Button} from '@component/atom/button/button-presets';
 import {toast} from 'react-toastify';
-import useCheckableList from '../../../../src/utils/custom-hooks/useCheckableList';
-import {range} from '../../../../src/utils/extend/number';
+import useCheckableList from '@util/custom-hooks/useCheckableList';
+import {range} from '@util/extend/number';
 import type {GetServerSideProps} from 'next';
 
 type PageProp = TermsOfUseProp & MailListProp;

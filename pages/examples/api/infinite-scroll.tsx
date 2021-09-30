@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react';
 import Head from 'next/head';
-import type {PagingListType} from '../../api/paging';
+import type {PagingListType} from '@pages/api/paging';
 import type {GetServerSideProps} from 'next';
 import styled from 'styled-components';
-import useInfiniteScroll from '../../../src/utils/custom-hooks/useInfiniteScroll';
-import PagingApi from '../../../src/api/PagingApi';
+import useInfiniteScroll from '@util/custom-hooks/useInfiniteScroll';
+import PagingApi from '@api/PagingApi';
 
 interface PageProp {
   list: PagingListType[];

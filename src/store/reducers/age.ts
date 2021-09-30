@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/dist/query/react';
-import env from '../../utils/env';
-import type {AgeResponse} from '../../../pages/api/age';
+import env from '@util/env';
+import type {AgeResponse} from '@pages/api/age';
 
 export const ageApi = createApi({
   reducerPath: 'ageApi',

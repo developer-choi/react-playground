@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import {VideoPlayer} from '@components/atom/VideoPlayer';
+import {VideoPlayer} from '@component/atom/VideoPlayer';
 
 export default function VideojsPage() {
   

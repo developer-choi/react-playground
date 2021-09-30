@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
-import InputFile from '@components/extend/InputFile';
-import {Button} from '@components/atom/button/button-presets';
+import InputFile from '@component/extend/InputFile';
+import {Button} from '@component/atom/button/button-presets';
 import axios from 'axios';
 import styled from 'styled-components';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import TwitterMeta from '@components/atom/TwitterMeta';
+import TwitterMeta from '@component/atom/TwitterMeta';
 
 export default function Page() {
   

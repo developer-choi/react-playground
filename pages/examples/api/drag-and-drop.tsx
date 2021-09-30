@@ -1,10 +1,10 @@
 import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
-import DragAndDrop from '@components/atom/DragAndDrop';
-import {flexCenter} from '../../../src/utils/style/css';
+import DragAndDrop from '@component/atom/DragAndDrop';
+import {flexCenter} from '@util/style/css';
 import Head from 'next/head';
-import type {ImageWrapper} from '@components/extend/InputFile';
-import type {ConvertImageCallback} from '@components/extend/InputFile';
+import type {ImageWrapper} from '@component/extend/InputFile';
+import type {ConvertImageCallback} from '@component/extend/InputFile';
 
 export default function DragAndDropPage() {
   

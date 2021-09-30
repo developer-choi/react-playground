@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {decreaseActionCreator, increaseActionCreator} from '@store/reducers/counter';
-import { Button } from '@components/atom/button/button-presets';
+import {Button} from '@component/atom/button/button-presets';
 import {useRouter} from 'next/router';
 import {store} from '@store/store';
 import {decreaseAsyncActionCreator, increaseAsyncActionCreator} from '@store/sagas/count-saga';

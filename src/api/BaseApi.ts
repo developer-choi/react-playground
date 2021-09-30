@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import env from '../utils/env';
+import env from '@util/env';
 
 export default class BaseApi {
   readonly axios: AxiosInstance;

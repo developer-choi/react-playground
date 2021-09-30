@@ -1,6 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
-import {range} from 'src/utils/extend/number';
-import {randomHexColor} from '../../src/utils/style/hex-color';
+import {range} from '@util/extend/number';
+import {randomHexColor} from '@util/style/hex-color';
 
 export interface PagingListType {
   order: number;

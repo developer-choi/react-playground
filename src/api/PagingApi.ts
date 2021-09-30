@@ -1,6 +1,6 @@
-import BaseApi from './BaseApi';
-import type { PagingListType } from '../../pages/api/paging';
-import type { AxiosResponse } from 'axios';
+import BaseApi from '@api/BaseApi';
+import type {PagingListType} from '@pages/api/paging';
+import type {AxiosResponse} from 'axios';
 
 export default class PagingApi extends BaseApi {
   constructor() {
@@ -8,7 +8,7 @@ export default class PagingApi extends BaseApi {
   }
   
   getList(page: number): Promise<AxiosResponse<PagingListResponse>> {
-    return this.axios.get('', { params: { page } });
+    return this.axios.get('', {params: {page}});
   }
 }
 

@@ -1,5 +1,5 @@
 import {all, put, takeEvery} from 'redux-saga/effects';
-import {decreaseActionCreator, increaseActionCreator} from '../reducers/counter';
+import {decreaseActionCreator, increaseActionCreator} from '@store/reducers/counter';
 import {createAction} from '@reduxjs/toolkit';
 
 function delay(ms: number) {

@@ -1,5 +1,5 @@
 import React, {useCallback, useRef} from 'react';
-import {Button} from '@components/atom/button/button-presets';
+import {Button} from '@component/atom/button/button-presets';
 import styled from 'styled-components';
 
 export default function FullscreenPage() {

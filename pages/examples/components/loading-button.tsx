@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import LoadingButton from '@components/atom/button/LoadingButton';
-import { useCallback, useState } from 'react';
-import useActionWithLoading from '../../../src/utils/custom-hooks/useActionWithLoading';
-import { timeoutPromise } from '../../../src/utils/extend/promise';
-import InputText from '@components/extend/InputText';
-import { toast } from 'react-toastify';
-import Form from '@components/extend/Form';
+import LoadingButton from '@component/atom/button/LoadingButton';
+import {useCallback, useState} from 'react';
+import useActionWithLoading from '@util/custom-hooks/useActionWithLoading';
+import {timeoutPromise} from '@util/extend/promise';
+import InputText from '@component/extend/InputText';
+import {toast} from 'react-toastify';
+import Form from '@component/extend/Form';
 
 export default function LoadingButtonPage() {
   

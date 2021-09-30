@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import InputText from '@components/extend/InputText';
+import InputText from '@component/extend/InputText';
 import styled from 'styled-components';
 import {ageApi} from '@store/reducers/age';
 

@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import InputText from '@components/extend/InputText';
-import {Button} from '@components/atom/button/button-presets';
-import useToggleSetState from '../../../src/utils/custom-hooks/useToggleSetState';
-import {isKeyCanBeEnteredInWindow} from 'src/utils/extend/keyboard-event';
+import InputText from '@component/extend/InputText';
+import {Button} from '@component/atom/button/button-presets';
+import useToggleSetState from '@util/custom-hooks/useToggleSetState';
+import {isKeyCanBeEnteredInWindow} from '@util/extend/keyboard-event';
 
 export default function WindowKeyDownPage() {
   const [enableFocusToInput, setEnableFocusToInput] = useState(false);

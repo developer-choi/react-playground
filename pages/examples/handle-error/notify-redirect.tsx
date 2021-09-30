@@ -3,9 +3,9 @@ import Head from 'next/head';
 import {
   getServerSidePropsTemplate,
   sspTemplate
-} from '../../../src/utils/api/server-side-error';
-import ServerSideError from '../../../src/utils/auth/ServerSideError';
-import BaseApi from '../../../src/api/BaseApi';
+} from '@util/api/server-side-error';
+import ServerSideError from '@util/auth/ServerSideError';
+import BaseApi from '@api/BaseApi';
 
 interface PageProp {
   apiResponse: string;

@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Head from 'next/head';
-import {Button} from '@components/atom/button/button-presets';
-import {useRunCallbackWhenMount} from '../../../src/utils/custom-hooks/useRunCallbackWhenMount';
+import {Button} from '@component/atom/button/button-presets';
+import {useRunCallbackWhenMount} from '@util/custom-hooks/useRunCallbackWhenMount';
 import styled from 'styled-components';
 
 export default function SetStateAfterUnmountPage() {

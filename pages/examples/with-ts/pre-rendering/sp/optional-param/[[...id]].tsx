@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import type {GetStaticPaths, GetStaticProps} from 'next';
-import PropertyText from '@components/atom/PropertyText';
+import PropertyText from '@component/atom/PropertyText';
 
 type ParamType = {
   id?: string[];

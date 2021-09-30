@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React, {useCallback} from 'react';
 import Head from 'next/head';
-import { Button } from '@components/atom/button/button-presets';
-import { useRouter } from 'next/router';
-import { isCurrentlyLogin, LOGIN_REDIRECT_QUERY_KEY } from '../../../src/utils/auth/auth';
-import { queryStringValueConvertString } from '../../../src/utils/extend/query-string';
-import type { GetServerSideProps } from 'next';
+import {Button} from '@component/atom/button/button-presets';
+import {useRouter} from 'next/router';
+import {isCurrentlyLogin, LOGIN_REDIRECT_QUERY_KEY} from '@util/auth/auth';
+import {queryStringValueConvertString} from '@util/extend/query-string';
+import type {GetServerSideProps} from 'next';
 
 export default function LoginPage() {
   

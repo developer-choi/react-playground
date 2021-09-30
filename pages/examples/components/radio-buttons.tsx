@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import Form from '@components/extend/Form';
-import RadioLabel from '@components/atom/RadioLabel';
-import RadioGroup from '@components/atom/RadioGroup';
+import Form from '@component/extend/Form';
+import RadioLabel from '@component/atom/RadioLabel';
+import RadioGroup from '@component/atom/RadioGroup';
 
 export default function RadioButtonsPage() {
   

@@ -1,7 +1,7 @@
 import React, {createContext, memo, useCallback, useContext, useMemo, useState} from 'react';
 import Head from 'next/head';
-import { Button } from '@components/atom/button/button-presets';
-import {useForceReRender} from '../../../src/utils/custom-hooks/useForceReRender';
+import {Button} from '@component/atom/button/button-presets';
+import {useForceReRender} from '@util/custom-hooks/useForceReRender';
 
 interface ContextValue {
   value: number;

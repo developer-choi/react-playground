@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { getServerSidePropsTemplate, getUserInfoSSP } from '../../../src/utils/api/server-side-error';
+import {getServerSidePropsTemplate, getUserInfoSSP} from '@util/api/server-side-error';
 
 interface PageProp {
   username: string;
