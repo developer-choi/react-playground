@@ -1,5 +1,5 @@
 import React from 'react';
-import type { GetServerSideProps } from 'next';
+import type {GetServerSideProps} from 'next';
 import env from '../../../src/utils/env';
 import styled from 'styled-components';
 
