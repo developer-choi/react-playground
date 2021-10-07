@@ -1,5 +1,6 @@
 import type {ComponentProps} from 'react';
 import styled, {css} from 'styled-components';
+import {COLORS} from '@util/style/theme';
 
 const buttonHoverEffect = css`
   //hover, active, disabled는 이 순서로 선언이 되야 opacity가 직관적으로 작동함.
@@ -25,6 +26,11 @@ const someButtonColorTemplate = css`
   }
 `;
 
+const grayColorTemplate = css`
+  color: white;
+  background: ${COLORS.gray1};
+`;
+
 const ButtonExtend = styled.button.attrs(({type = 'button', ...rest}: ComponentProps<'button'>) => ({type, ...rest}))`
   //<SomeButton as='a'로 만들 때 필요한 css
   a& {
@@ -42,8 +48,12 @@ const ButtonExtend = styled.button.attrs(({type = 'button', ...rest}: ComponentP
   }
   
   //color template을 클래스 이름으로 적용할 수 있도록 함.
-  .some-color-class-name {
+  &.some-color-class-name {
     ${someButtonColorTemplate};
+  }
+  
+  &.gray {
+    ${grayColorTemplate}
   }
   
   //주로 이미지를 button으로 감쌀 때 쓰는데, 버튼안에 오는 이미지가 중앙정렬을 시키려고 할 때 씀.
