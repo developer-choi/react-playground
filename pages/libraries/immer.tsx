@@ -1,9 +1,9 @@
 import React from 'react';
-import type { GetServerSideProps } from 'next';
-import { numberWithComma } from '@util/extend/number';
+import type {GetServerSideProps} from 'next';
+import {numberWithComma} from '@util/extend/number';
 import styled from 'styled-components';
 import produce from 'immer';
-import { randomNumber } from '@util/extend/random';
+import {randomNumber} from '@util/extend/random';
 import max from 'lodash/max';
 import min from 'lodash/min';
 
@@ -18,7 +18,7 @@ export default function Page(props: PageProp) {
     setCountries(prevState => {
       return produce(prevState, draft => {
         const target = flatStock(draft).find(({stockPk}) => stockPk === stock.stockPk);
-  
+        
         if (target) {
           Object.assign(target, stock);
         }
@@ -28,18 +28,18 @@ export default function Page(props: PageProp) {
   
   React.useEffect(() => {
     const allStocks = flatStock(dummy);
-    const stockPks = allStocks.map(({ stockPk }) => stockPk);
+    const stockPks = allStocks.map(({stockPk}) => stockPk);
     const minStockPk = min(stockPks) as number;
     const maxStockPk = max(stockPks) as number;
-  
+    
     const intervalId = setInterval(() => {
       const randomPk = randomNumber(minStockPk, maxStockPk);
-      const { name, stockPk } = allStocks.find(({ stockPk }) => stockPk === randomPk) as Stock;
+      const {name, stockPk} = allStocks.find(({stockPk}) => stockPk === randomPk) as Stock;
       const value = randomNumber(0, 99999);
       console.log('target', name, value);
-      socketHandler({ stockPk, name, value });
+      socketHandler({stockPk, name, value});
     }, 2000);
-  
+    
     return () => {
       clearInterval(intervalId);
     };
@@ -102,7 +102,7 @@ interface Stock {
 }
 
 function flatStock(countries: StocksByCountry[]): Stock[] {
-  return countries.map(({ stocks }) => stocks).flat();
+  return countries.map(({stocks}) => stocks).flat();
 }
 
 const dummy: StocksByCountry[] = [
