@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export interface ButtonProp extends ComponentPropsWithoutRef<'button'>{
   size?: 'small' | 'medium' | 'large';
-  variant?: 'cntained' | 'outlined' | 'text';
+  variant?: 'contained' | 'outlined' | 'text';
   color?: 'primary' | 'lightgray';
   startIcon?: ReactNode;
   endIcon?: ReactNode;
