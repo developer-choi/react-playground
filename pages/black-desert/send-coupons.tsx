@@ -2,6 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import TextArea from '@component/extend/TextArea';
 import styled from 'styled-components';
 import {Button} from '@component/atom/button/button-presets';
+import {toast} from 'react-toastify';
 
 export default function Page() {
   
@@ -49,33 +50,59 @@ function main() {
 main();
 
 `);
+    toast.info('복사되었습니다.');
   }, [coupons]);
   
   return (
     <Wrap>
       <StyledTextArea placeholder="검은사막 쿠폰번호를 복사붙여넣기 해주세요." value={value} onChangeText={setValue}/>
       {coupons.length > 0 &&
-      <ul>
-        {coupons.map(coupon => (
-          <li key={coupon}>{coupon}</li>
-        ))}
-        <li>
-          <Button onClick={sendCoupon}>쿠폰번호 전송코드 복사하기</Button>
-        </li>
-      </ul>
+      <div>
+        <H2>쿠폰번호 ({coupons.length}개)</H2>
+        <ul>
+          {coupons.map(coupon => (
+            <li key={coupon}>{coupon}</li>
+          ))}
+        </ul>
+        <ButtonWrap>
+          <Button onClick={sendCoupon}>쿠폰번호 전송코드 복사</Button>
+          <Button as="a" target="_blank" href="https://payment.kr.playblackdesert.com/Shop/Coupon">쿠폰번호 입력하러가기</Button>
+        </ButtonWrap>
+      </div>
       }
     </Wrap>
   );
 }
 
 const Wrap = styled.div`
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
+  flex-direction: column;
+  
+  li {
+    line-height: 1.2;
+  }
+`;
+
+const H2 = styled.h2`
+  font-size: 18px;
+  margin-bottom: 10px;
 `;
 
 const StyledTextArea = styled(TextArea)`
-  width: 400px;
+  width: 100%;
   height: 400px;
-  border: 1px solid black;
+  border: 1px solid ${props => props.theme.main};
+  padding: 10px;
+  margin-bottom: 20px;
+`;
+
+const ButtonWrap = styled.div`
+  display: flex;
+  column-gap: 10px;
+  margin-top: 10px;
 `;
 
 function parser(text: string) {
@@ -84,7 +111,11 @@ function parser(text: string) {
   }
   
   const result = text.split('\n').filter(value => {
-    return value.length === 19;
+    if (value.length !== 19) {
+      return false;
+    }
+  
+    return value.split('-').length === 4;
   });
   
   if (result.length === 0) {
