@@ -1,9 +1,9 @@
-import React, {ComponentProps, DragEvent, useCallback, useMemo, useState} from 'react';
+import React, {ComponentPropsWithoutRef, DragEvent, useCallback, useMemo, useState} from 'react';
 import {myClassName} from '@util/libraries/classnames';
 import InputFile, {CustomInputFileProp, handleOnChangeFile} from '@component/extend/InputFile';
 import styled from 'styled-components';
 
-export interface DragAndDropProps extends Omit<ComponentProps<'label'>, 'ref'>, Omit<CustomInputFileProp, 'onChangeFiles'> {
+export interface DragAndDropProps extends ComponentPropsWithoutRef<'label'>, Omit<CustomInputFileProp, 'onChangeFiles'> {
   onDropFiles?: (files: File[]) => void;
   enableClickToFileExplorer?: boolean;
 }

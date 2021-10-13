@@ -1,9 +1,9 @@
-import React, {ChangeEvent, ComponentProps, useCallback, useContext} from 'react';
+import React, {ChangeEvent, ComponentPropsWithoutRef, useCallback, useContext} from 'react';
 import {RadioGroupContext} from '@component/atom/RadioGroup';
 import styled from 'styled-components';
 import {myClassName} from '@util/libraries/classnames';
 
-export interface RadioLabelProps extends Omit<ComponentProps<'label'>, 'ref'>, Pick<ComponentProps<'input'>, 'disabled'> {
+export interface RadioLabelProps extends ComponentPropsWithoutRef<'label'>, Pick<ComponentPropsWithoutRef<'input'>, 'disabled'> {
   value: string;
   label?: string;
 }

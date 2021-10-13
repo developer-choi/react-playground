@@ -1,10 +1,10 @@
-import React, {ComponentProps} from 'react';
+import React, {ComponentPropsWithoutRef} from 'react';
 import ButtonExtend from '@component/atom/button/ButtonExtend';
 import styled from 'styled-components';
 import {myClassName} from '@util/libraries/classnames';
 import Loading, {LoadingProps} from '@component/atom/Loading';
 
-export type LoadingButtonProp = ComponentProps<'button'> & Omit<LoadingProps, keyof ComponentProps<'div'>>;
+export type LoadingButtonProp = ComponentPropsWithoutRef<'button'> & Omit<LoadingProps, keyof ComponentPropsWithoutRef<'div'>>;
 
 export default function LoadingButton({children, className, loading, disabled, ...rest}: LoadingButtonProp) {
   return (

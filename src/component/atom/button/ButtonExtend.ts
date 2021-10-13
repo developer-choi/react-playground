@@ -1,4 +1,4 @@
-import type {ComponentProps} from 'react';
+import type {ComponentPropsWithoutRef} from 'react';
 import styled, {css} from 'styled-components';
 import {COLORS} from '@util/style/theme';
 
@@ -31,7 +31,7 @@ const grayColorTemplate = css`
   background: ${COLORS.gray1};
 `;
 
-const ButtonExtend = styled.button.attrs(({type = 'button', ...rest}: ComponentProps<'button'>) => ({type, ...rest}))`
+const ButtonExtend = styled.button.attrs(({type = 'button', ...rest}: ComponentPropsWithoutRef<'button'>) => ({type, ...rest}))`
   //<SomeButton as='a'로 만들 때 필요한 css
   a& {
     // button은 이 값이 기본값이지만, a tag는 아님.

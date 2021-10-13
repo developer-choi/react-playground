@@ -1,7 +1,7 @@
 import React, {
   ChangeEvent,
   ChangeEventHandler,
-  ComponentProps,
+  ComponentPropsWithoutRef,
   forwardRef,
   KeyboardEvent,
   Ref,
@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import {toast} from 'react-toastify';
 
-export interface InputTextProp extends Omit<ComponentProps<'input'>, 'ref'> {
+export interface InputTextProp extends ComponentPropsWithoutRef<'input'> {
   onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onChangeText?: (value: string) => void;
   

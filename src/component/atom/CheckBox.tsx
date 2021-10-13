@@ -1,4 +1,4 @@
-import React, {ChangeEvent, ComponentProps, ComponentType, MouseEvent, useCallback} from 'react';
+import React, {ChangeEvent, ComponentPropsWithoutRef, ComponentType, MouseEvent, useCallback} from 'react';
 import styled from 'styled-components';
 import {myClassName} from '@util/libraries/classnames';
 import {isMatchSpecialKey} from '@util/extend/keyboard-event';
@@ -8,7 +8,7 @@ export interface CheckBoxLabelLeftProps {
   disabled?: boolean;
 }
 
-export interface CheckBoxProps extends Omit<ComponentProps<'label'>, 'ref'>, Pick<ComponentProps<'input'>, 'disabled' | 'checked'> {
+export interface CheckBoxProps extends ComponentPropsWithoutRef<'label'>, Pick<ComponentPropsWithoutRef<'input'>, 'disabled' | 'checked'> {
   onChangeChecked: (checked: boolean) => void;
   onShiftChecked?: (event: MouseEvent<HTMLInputElement>) => void; //shift 누른상태로 클릭함과 동시에 checked값이 true일때에만 호출됨.
   label?: string;

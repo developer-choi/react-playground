@@ -1,7 +1,8 @@
-import React, {ChangeEvent, ComponentProps, useCallback} from 'react';
+import React, {ChangeEvent, ComponentPropsWithoutRef, useCallback} from 'react';
 import {
   convertBlobToImage,
-  convertFileSizeToNumber, convertNumberToFileSize,
+  convertFileSizeToNumber,
+  convertNumberToFileSize,
   FileSize,
   getFileExtension,
   ZERO_FILE_SIZE
@@ -28,7 +29,7 @@ export interface CustomInputFileProp {
   onConvertFileToImage?: (convertCallback: ConvertImageCallback) => void;
 }
 
-export type InputFileProp = Omit<ComponentProps<'input'>, 'type'> & CustomInputFileProp;
+export type InputFileProp = Omit<ComponentPropsWithoutRef<'input'>, 'type'> & CustomInputFileProp;
 
 export default function InputFile({onChange, maxSize, allowExtensions, accept, onChangeFiles, onChangeFile, onChangeImages, onConvertFileToImage, ...rest}: InputFileProp) {
   
@@ -47,6 +48,7 @@ export default function InputFile({onChange, maxSize, allowExtensions, accept, o
      *
      * 이 버그를 해결하기위해 추가
      */
+    // eslint-disable-next-line no-param-reassign
     event.target.value = '';
   
     handleOnChangeFile(files, {

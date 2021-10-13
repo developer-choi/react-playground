@@ -1,7 +1,7 @@
-import React, {ChangeEvent, ComponentProps, forwardRef, Ref, useCallback} from 'react';
+import React, {ChangeEvent, ComponentPropsWithoutRef, forwardRef, Ref, useCallback} from 'react';
 import {destructDate} from '@util/extend/date/date-convert';
 
-export interface InputDateProp extends Omit<ComponentProps<'input'>, 'ref' | 'type' | 'value'> {
+export interface InputDateProp extends Omit<ComponentPropsWithoutRef<'input'>, 'type' | 'value'> {
   value: Date;
   onChangeDate: (value: Date) => void;
   minDate?: Date;

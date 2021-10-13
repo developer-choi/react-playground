@@ -1,7 +1,7 @@
-import React, {ComponentProps} from 'react';
+import React, {ComponentPropsWithoutRef} from 'react';
 import styled, {css} from 'styled-components';
 
-export interface SpanProp extends Omit<ComponentProps<'span'>, 'ref'> {
+export interface SpanProp extends ComponentPropsWithoutRef<'span'> {
   numberOfLines?: number;
 }
 
