@@ -3,12 +3,11 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import InputText from '@component/extend/InputText';
 import {Button} from '@component/atom/button/button-presets';
-import useToggleSetState from '@util/custom-hooks/useToggleSetState';
+import useToggle from '@util/custom-hooks/useToggle';
 import {isKeyCanBeEnteredInWindow} from '@util/extend/keyboard-event';
 
 export default function WindowKeyDownPage() {
-  const [enableFocusToInput, setEnableFocusToInput] = useState(false);
-  const toggle = useToggleSetState(setEnableFocusToInput);
+  const [enableFocusToInput, toggleEnableFocusToInput] = useToggle();
   
   return (
       <>
@@ -16,7 +15,7 @@ export default function WindowKeyDownPage() {
           <title>window-input</title>
         </Head>
         <div>
-          <StyledButton className={enableFocusToInput ? 'active' : ''} onClick={toggle}>입력시 포커스이동 활성화</StyledButton>
+          <StyledButton className={enableFocusToInput ? 'active' : ''} onClick={toggleEnableFocusToInput}>입력시 포커스이동 활성화</StyledButton>
           {enableFocusToInput ?
               <WindowKeyDownFocusToInput/>
               :
