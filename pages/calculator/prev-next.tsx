@@ -35,8 +35,8 @@ export default function Page() {
               <td>{prev}</td>
               <td>{next}</td>
               <td>100</td>
-              <td className="emphasize">{Math.floor(convertedNext)}</td>
-              <td className={myClassName(sign, 'emphasize')}>{mark}{Math.floor(abs)}</td>
+              <td className="emphasize">{convertedNext}</td>
+              <td className={myClassName(sign, 'emphasize')}>{mark}{abs}</td>
             </tr>
           );
         })}
