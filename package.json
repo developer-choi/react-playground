@@ -8,7 +8,8 @@
     "build": "next build",
     "build:dev": "env-cmd -f .env.development next build && env-cmd -f .env.development next start",
     "build:prod": "next build && next start",
-    "start": "next start"
+    "start": "next start",
+    "git-config": "git config --global user.name \"Yu Jin Choe\" && git config --global user.email forworkchoe@gmail.com"
   },
   "repository": {
     "type": "git",
