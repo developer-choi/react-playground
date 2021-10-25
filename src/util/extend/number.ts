@@ -62,3 +62,37 @@ declare function shortSIUnit(value: number, decimalLength?: number): {
 export function numberPad(value: number, maxLength: number, character: string ) {
   return value.toString().padStart(maxLength, character);
 }
+
+export interface SignOfNumber {
+  sign: 'positive' | 'negative' | '';
+  mark: '+' | '-' | '';
+  abs: number;
+}
+
+const EMPTY: SignOfNumber = {
+  sign: '',
+  mark: '',
+  abs: 0
+};
+
+export function signOfNumber(value: number): SignOfNumber {
+  const result = Math.sign(value);
+  
+  if (result === 0 || Number.isNaN(result)) {
+    return EMPTY;
+  }
+  
+  if (result > 0) {
+    return {
+      sign: 'positive',
+      mark: '+',
+      abs: value
+    };
+  } else {
+    return {
+      sign: 'negative',
+      mark: '-',
+      abs: Math.abs(value)
+    };
+  }
+}
