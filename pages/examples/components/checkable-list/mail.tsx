@@ -19,8 +19,7 @@ function pkExtractor(mail: Mail) {
 }
 
 export default function MailListPage({mails}: PageProp) {
-  const {onChangeChecked, checkedList, selectAll, onMultipleChecked} = useCheckableList({list: mails, pkExtractor});
-  const haveSomeChecked = checkedList.length > 0;
+  const {onChangeChecked, haveSomeChecked, toggleAllChecked, checkedList, isCheckedItem, onMultipleChecked} = useCheckableList({list: mails, pkExtractor});
   const latestCheckedRef = useRef<number | null>(null);
   
   const _onChangeChecked = useCallback((checked: boolean, mailPk: number, index: number) => {
@@ -54,7 +53,7 @@ export default function MailListPage({mails}: PageProp) {
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
       if (isMatchKeyboardEvent(event, {key: 'a', matchKeys: ['ctrlKey']})) {
-        selectAll();
+        toggleAllChecked();
         toast.info('전체 목록이 선택되었습니다.');
         event.preventDefault();
       }
@@ -70,18 +69,18 @@ export default function MailListPage({mails}: PageProp) {
     return () => {
       window.removeEventListener('keydown', handler);
     };
-  }, [selectAll, deleteSomeMails]);
+  }, [toggleAllChecked, deleteSomeMails]);
   
   return (
       <>
         <Head>
           <title>mail</title>
         </Head>
-        <Button onClick={selectAll}>전체선택</Button>
+        <Button onClick={toggleAllChecked}>전체선택</Button>
         <Button onClick={deleteSomeMails}>선택삭제</Button>
         <ListWrap>
           {mails.map((mail, index) => (
-              <MailListItem key={mail.pk} index={index} mail={mail} checked={checkedList.includes(mail.pk)} onChangeChecked={_onChangeChecked} onMultipleChecked={_onMultipleChecked}/>
+              <MailListItem key={mail.pk} index={index} mail={mail} checked={isCheckedItem(mail.pk)} onChangeChecked={_onChangeChecked} onMultipleChecked={_onMultipleChecked}/>
           ))}
         </ListWrap>
       </>

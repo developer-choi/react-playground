@@ -143,26 +143,24 @@ function LegacyTermsOfUse({terms}: TermsOfUseProp) {
   );
 }
 
-function termPkExtractor(term: TermsOfUse) {
-  return term.pk;
-}
-
 function NewTermsOfUse({terms}: TermsOfUseProp) {
-  const {checkedList, onChangeChecked, selectAll} = useCheckableList({list: terms, pkExtractor: termPkExtractor});
-  
-  const isSelectRequiredAll = terms.every(term => !term.required || checkedList.includes(term.pk));
+  const { checkedList, onChangeChecked, toggleAllChecked, isAllRequiredChecked } = useCheckableList({
+    list: terms,
+    pkExtractor: item => item.pk,
+    requiredExtractor: item => item.required
+  });
   
   const onSubmit = useCallback(() => {
-    if (!isSelectRequiredAll) {
+    if (!isAllRequiredChecked) {
       toast.error('필수 약관을 모두 동의해주셔야합니다.');
     } else {
       toast.info('약관 체크 통과');
     }
-  }, [isSelectRequiredAll]);
+  }, [isAllRequiredChecked]);
   
   return (
       <GridItem>
-        <Button onClick={selectAll}>전체선택</Button>
+        <Button onClick={toggleAllChecked}>전체선택</Button>
         {terms.map(({content, pk}) => (
             <ListItem key={pk}>
               <CheckBox onChangeChecked={checked => onChangeChecked(checked, pk)} label={content} checked={checkedList.includes(pk)}/>
@@ -219,11 +217,11 @@ function mailPkExtractor(item: Mail) {
 }
 
 function NewMailList({mails}: MailListProp) {
-  const {checkedList, onChangeChecked, selectAll} = useCheckableList({list: mails, pkExtractor: mailPkExtractor});
+  const {checkedList, onChangeChecked, toggleAllChecked} = useCheckableList({list: mails, pkExtractor: mailPkExtractor});
   
   return (
       <GridItem>
-        <Button onClick={selectAll}>전체선택</Button>
+        <Button onClick={toggleAllChecked}>전체선택</Button>
         {mails.map(({pk, title}) => (
             <ListItem key={pk}>
               <CheckBox onChangeChecked={checked => onChangeChecked(checked, pk)} label={title} checked={checkedList.includes(pk)}/>
