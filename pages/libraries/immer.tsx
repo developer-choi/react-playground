@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import type {GetServerSideProps} from 'next';
 import {numberWithComma} from '@util/extend/number';
 import styled from 'styled-components';
@@ -12,9 +12,9 @@ interface PageProp {
 }
 
 export default function Page(props: PageProp) {
-  const [countries, setCountries] = React.useState(props.stocksByCountries);
+  const [countries, setCountries] = useState(props.stocksByCountries);
   
-  const socketHandler = React.useCallback((stock: Stock) => {
+  const socketHandler = useCallback((stock: Stock) => {
     setCountries(prevState => {
       return produce(prevState, draft => {
         const target = flatStock(draft).find(({stockPk}) => stockPk === stock.stockPk);
@@ -26,7 +26,7 @@ export default function Page(props: PageProp) {
     });
   }, []);
   
-  React.useEffect(() => {
+  useEffect(() => {
     const allStocks = flatStock(dummy);
     const stockPks = allStocks.map(({stockPk}) => stockPk);
     const minStockPk = min(stockPks) as number;
