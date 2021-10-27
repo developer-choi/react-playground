@@ -12,17 +12,17 @@ type PageProp = TermsOfUseProp & MailListProp;
 
 export default function CheckableListPage({mails, terms}: PageProp) {
   return (
-      <>
-        <Head>
-          <title>checkable-list</title>
-        </Head>
-        <GridContainer>
-          <LegacyTermsOfUse terms={terms}/>
-          <NewTermsOfUse terms={terms}/>
-          <LegacyMailList mails={mails}/>
-          <NewMailList mails={mails}/>
-        </GridContainer>
-      </>
+    <>
+      <Head>
+        <title>checkable-list</title>
+      </Head>
+      <GridContainer>
+        <LegacyTermsOfUse terms={terms}/>
+        <NewTermsOfUse terms={terms}/>
+        <LegacyMailList mails={mails}/>
+        <NewMailList mails={mails}/>
+      </GridContainer>
+    </>
   );
 };
 
@@ -131,20 +131,20 @@ function LegacyTermsOfUse({terms}: TermsOfUseProp) {
   }, [isSelectRequiredAll]);
   
   return (
-      <GridItem>
-        <Button onClick={selectAll}>전체선택</Button>
-        {checkableTerms.map(({checked, pk, content}, index) => (
-            <ListItem key={pk}>
-              <CheckBox onChangeChecked={(checked) => onChangeChecked(index, checked)} label={content} checked={checked}/>
-            </ListItem>
-        ))}
-        <Button onClick={onSubmit}>회원가입 진행</Button>
-      </GridItem>
+    <GridItem>
+      <Button onClick={selectAll}>전체선택</Button>
+      {checkableTerms.map(({checked, pk, content}, index) => (
+        <ListItem key={pk}>
+          <CheckBox onChangeChecked={(checked) => onChangeChecked(index, checked)} label={content} checked={checked}/>
+        </ListItem>
+      ))}
+      <Button onClick={onSubmit}>회원가입 진행</Button>
+    </GridItem>
   );
 }
 
 function NewTermsOfUse({terms}: TermsOfUseProp) {
-  const { checkedList, onChangeChecked, toggleAllChecked, isAllRequiredChecked } = useCheckableList({
+  const {checkedList, onChangeChecked, toggleAllChecked, isAllRequiredChecked} = useCheckableList({
     list: terms,
     pkExtractor: item => item.pk,
     requiredExtractor: item => item.required
@@ -159,15 +159,15 @@ function NewTermsOfUse({terms}: TermsOfUseProp) {
   }, [isAllRequiredChecked]);
   
   return (
-      <GridItem>
-        <Button onClick={toggleAllChecked}>전체선택</Button>
-        {terms.map(({content, pk}) => (
-            <ListItem key={pk}>
-              <CheckBox onChangeChecked={checked => onChangeChecked(checked, pk)} label={content} checked={checkedList.includes(pk)}/>
-            </ListItem>
-        ))}
-        <Button onClick={onSubmit}>회원가입 진행</Button>
-      </GridItem>
+    <GridItem>
+      <Button onClick={toggleAllChecked}>전체선택</Button>
+      {terms.map(({content, pk}) => (
+        <ListItem key={pk}>
+          <CheckBox onChangeChecked={checked => onChangeChecked(checked, pk)} label={content} checked={checkedList.includes(pk)}/>
+        </ListItem>
+      ))}
+      <Button onClick={onSubmit}>회원가입 진행</Button>
+    </GridItem>
   );
 }
 
@@ -201,14 +201,14 @@ function LegacyMailList({mails}: MailListProp) {
   }, []);
   
   return (
-      <GridItem>
-        <Button onClick={selectAll}>전체선택</Button>
-        {checkableMails.map(({checked, pk, title}, index) => (
-            <ListItem key={pk}>
-              <CheckBox onChangeChecked={(checked) => onChangeChecked(index, checked)} label={title} checked={checked}/>
-            </ListItem>
-        ))}
-      </GridItem>
+    <GridItem>
+      <Button onClick={selectAll}>전체선택</Button>
+      {checkableMails.map(({checked, pk, title}, index) => (
+        <ListItem key={pk}>
+          <CheckBox onChangeChecked={(checked) => onChangeChecked(index, checked)} label={title} checked={checked}/>
+        </ListItem>
+      ))}
+    </GridItem>
   );
 }
 
@@ -217,16 +217,19 @@ function mailPkExtractor(item: Mail) {
 }
 
 function NewMailList({mails}: MailListProp) {
-  const {checkedList, onChangeChecked, toggleAllChecked} = useCheckableList({list: mails, pkExtractor: mailPkExtractor});
+  const {checkedList, onChangeChecked, toggleAllChecked} = useCheckableList({
+    list: mails,
+    pkExtractor: mailPkExtractor
+  });
   
   return (
-      <GridItem>
-        <Button onClick={toggleAllChecked}>전체선택</Button>
-        {mails.map(({pk, title}) => (
-            <ListItem key={pk}>
-              <CheckBox onChangeChecked={checked => onChangeChecked(checked, pk)} label={title} checked={checkedList.includes(pk)}/>
-            </ListItem>
-        ))}
-      </GridItem>
+    <GridItem>
+      <Button onClick={toggleAllChecked}>전체선택</Button>
+      {mails.map(({pk, title}) => (
+        <ListItem key={pk}>
+          <CheckBox onChangeChecked={checked => onChangeChecked(checked, pk)} label={title} checked={checkedList.includes(pk)}/>
+        </ListItem>
+      ))}
+    </GridItem>
   );
 }

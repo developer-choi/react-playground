@@ -72,18 +72,18 @@ export default function MailListPage({mails}: PageProp) {
   }, [toggleAllChecked, deleteSomeMails]);
   
   return (
-      <>
-        <Head>
-          <title>mail</title>
-        </Head>
-        <Button onClick={toggleAllChecked}>전체선택</Button>
-        <Button onClick={deleteSomeMails}>선택삭제</Button>
-        <ListWrap>
-          {mails.map((mail, index) => (
-              <MailListItem key={mail.pk} index={index} mail={mail} checked={isCheckedItem(mail.pk)} onChangeChecked={_onChangeChecked} onMultipleChecked={_onMultipleChecked}/>
-          ))}
-        </ListWrap>
-      </>
+    <>
+      <Head>
+        <title>mail</title>
+      </Head>
+      <Button onClick={toggleAllChecked}>전체선택</Button>
+      <Button onClick={deleteSomeMails}>선택삭제</Button>
+      <ListWrap>
+        {mails.map((mail, index) => (
+          <MailListItem key={mail.pk} index={index} mail={mail} checked={isCheckedItem(mail.pk)} onChangeChecked={_onChangeChecked} onMultipleChecked={_onMultipleChecked}/>
+        ))}
+      </ListWrap>
+    </>
   );
 };
 
@@ -150,12 +150,12 @@ export const MailListItem = memo(function MailListItem({mail, checked, onChangeC
   }, [onMultipleChecked, index]);
   
   return (
-      <Row>
-        <CheckBox onChangeChecked={_onChangeChecked} checked={checked} onShiftChecked={_onMultipleChecked}/>
-        <CheckBox className="important-checkbox" onChangeChecked={onChangeImportant} checked={important}/>
-        <Title>{title}</Title>
-        <DateText>{moment(timestamp).format('YYYY.MM.DD HH:mm:ss')}</DateText>
-      </Row>
+    <Row>
+      <CheckBox onChangeChecked={_onChangeChecked} checked={checked} onShiftChecked={_onMultipleChecked}/>
+      <CheckBox className="important-checkbox" onChangeChecked={onChangeImportant} checked={important}/>
+      <Title>{title}</Title>
+      <DateText>{moment(timestamp).format('YYYY.MM.DD HH:mm:ss')}</DateText>
+    </Row>
   );
 });
 

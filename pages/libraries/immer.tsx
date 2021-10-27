@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import type {GetServerSideProps} from 'next';
 import {numberWithComma} from '@util/extend/number';
 import styled from 'styled-components';

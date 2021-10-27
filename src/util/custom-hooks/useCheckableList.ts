@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import {useCallback, useMemo, useState} from 'react';
 
 export type PkType = string | number;
 
@@ -21,7 +21,11 @@ export interface UseCheckableListResult<T extends Object, P extends PkType = num
 }
 
 // 별도의 체크 목록 state를 위한 custom hooks
-export default function useCheckableList<T, P extends PkType>({pkExtractor, list, requiredExtractor}: UseCheckableListParam<T, P>): UseCheckableListResult<T, P> {
+export default function useCheckableList<T, P extends PkType>({
+                                                                pkExtractor,
+                                                                list,
+                                                                requiredExtractor
+                                                              }: UseCheckableListParam<T, P>): UseCheckableListResult<T, P> {
   const pkList = useMemo(() => list.map(pkExtractor), [list, pkExtractor]);
   const requiredList = useMemo(() => {
     
@@ -31,7 +35,7 @@ export default function useCheckableList<T, P extends PkType>({pkExtractor, list
     
     return list.reduce<P[]>((a, b) => {
       const required = requiredExtractor(b);
-  
+      
       if (required) {
         return a.concat(pkExtractor(b));
       } else {
