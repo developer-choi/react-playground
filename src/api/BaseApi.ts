@@ -7,11 +7,8 @@ export default class BaseApi {
   constructor(basePath: string, config: AxiosRequestConfig = {}) {
     const { baseURL, ...rest } = config;
   
-    const origin = env.public.origin;
-    const path = `/api/${basePath}`.replace(/\/\//g, '/');
-    
     this.axios = axios.create({
-      baseURL: baseURL ? baseURL : `${origin}${path}`,
+      baseURL: baseURL ? baseURL : getDefaultBaseURL(basePath),
       /**
        * headers: [SOME_SESSION]
        * I think adding the session information in the headers of all HTTP Requests is wrong.
@@ -101,4 +98,10 @@ export class CustomAxiosError implements AxiosError {
       throw Error('toJSON() is not supported');
     }
   }
+}
+
+function getDefaultBaseURL(basePath = '') {
+  const origin = env.public.origin;
+  const path = `/api/${basePath}`.replace(/\/\//g, '/');
+  return `${origin}${path}`;
 }
