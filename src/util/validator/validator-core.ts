@@ -1,4 +1,4 @@
-export interface ValidatorParam {
+export interface ValidateParam {
   /**
    * 내가 Validator를 사용하는 경우는
    * <input>이랑 <textarea>에 입력된 값을 유효성검증할 때 밖에 없다.
@@ -9,24 +9,24 @@ export interface ValidatorParam {
   value: string;
 }
 
-export interface ValidatorResult {
-  /**
-   * validated가 true이면 result가 있고 errorMessage가 없다.
-   *
-   * validated가 false이면 result가 없고 errorMessage는 없을 수도, 있을수도 있다.
-   * ==>
-   * errorMessage가 없다고 해서 validated가 반드시 true는 아니다.
-   * 그래서 폼을 제출해도 되는지를 체크할때는 errorMessage가 아니라 validated로 체크해야한다.
-   */
-  result?: string;
-  errorMessage?: string;
-  
-  validated: boolean;
-}
+export type ValidateResult<R = string> = {
+  validated: false;
+  errorMessage: string;
+} | {
+  validated: true;
+  result: R;
+};
 
-/**
- */
-export function validateEmpty({value, prefix = '값을 '}: ValidatorParam & { prefix?: string }): ValidatorResult {
+export type ValidateReasonResult<Rea = string, Res = string> = {
+  validated: false;
+  errorMessage: string;
+  reason: Rea;
+} | {
+  validated: true;
+  result: Res;
+};
+
+export function validateEmpty({value, prefix = '값을 '}: ValidateParam & { prefix?: string }): ValidateResult {
   const trimmedValue = value.trim();
   
   if (trimmedValue.length === 0) {
