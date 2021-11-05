@@ -21,13 +21,11 @@ export default function Page() {
           <th>후</th>
           <th>전</th>
           <th>후</th>
-          <th>차이</th>
         </tr>
         </thead>
         <tbody>
         {result.map(({name, prev, next}) => {
-          const {convertedNext, diff} = magic({prev, next});
-          const {sign, mark, abs} = signOfNumber(diff);
+          const convertedNext = magic({prev, next});
           
           return (
             <tr key={prev}>
@@ -36,7 +34,6 @@ export default function Page() {
               <td>{next}</td>
               <td>100</td>
               <td className="emphasize">{convertedNext}</td>
-              <td className={myClassName(sign, 'emphasize')}>{mark}{abs}</td>
             </tr>
           );
         })}
@@ -102,11 +99,7 @@ function parser(value: string): Data[] {
 }
 
 function magic({prev, next}: Omit<Data, 'name'>) {
-  const convertedNext = next * 100 / prev;
-  return {
-    diff: convertedNext - 100,
-    convertedNext
-  }
+  return (next - prev) * 100 / prev;
 }
 
 const Table = styled.table`
