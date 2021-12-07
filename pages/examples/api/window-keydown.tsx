@@ -7,7 +7,7 @@ import useToggle from '@util/custom-hooks/useToggle';
 import {isKeyCanBeEnteredInWindow} from '@util/extend/keyboard-event';
 
 export default function WindowKeyDownPage() {
-  const [enableFocusToInput, toggleEnableFocusToInput] = useToggle();
+  const { value: enableFocusToInput, toggle: toggleEnableFocusToInput } = useToggle(false);
   
   return (
       <>
