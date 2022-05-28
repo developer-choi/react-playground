@@ -27,27 +27,12 @@ export default function CheckGiveawayPage() {
     localStorage.setItem('registeredNicknames', JSON.stringify(registeredNicknames));
   }, [registeredNicknames]);
   
-  const findResult = useMemo(() => {
+  const matchNicknames = useMemo(() => {
   
-    if (texts === '') {
-      return '';
-    }
-    
-    const matchNicknames = [] as string[];
-  
-    registeredNicknames.forEach(nickname => {
-      if (texts.includes(nickname)) {
-        matchNicknames.push(nickname);
-      }
+    return registeredNicknames.filter(nickname => {
+      return texts.includes(nickname);
     });
   
-    if (matchNicknames.length === 0) {
-      return '일치하는 닉네임이 없습니다.';
-      
-    } else {
-      return `일치하는 닉네임은 ${matchNicknames.join(', ')} 입니다.`
-    }
-    
   }, [texts, registeredNicknames]);
   
   return (
@@ -64,7 +49,13 @@ export default function CheckGiveawayPage() {
         </NicknamesWrap>
       )}
       <StyledTextArea value={texts} onChangeText={setTexts} placeholder="경품 당첨자 페이지의 전체를 복사해서 붙여넣어주세요."/>
-      <ResultMessage>{findResult}</ResultMessage>
+      {matchNicknames.length === 0 ?
+        <ResultMessage>일치하는 닉네임이 없습니다.</ResultMessage>
+        :
+        <ResultMessage>
+          당첨된 사용자는 <strong>{matchNicknames.join(', ')}</strong> 입니다.
+        </ResultMessage>
+      }
     </Wrap>
   );
 }
@@ -96,7 +87,10 @@ const StyledButton = styled.button`
 `;
 
 const ResultMessage = styled.span`
-
+  > strong {
+    font-weight: bold;
+    color: ${props => props.theme.main};
+  }
 `;
 
 const NicknamesWrap = styled.div`
