@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import styled, {css} from 'styled-components';
 import TextArea from '@component/extend/TextArea';
 import InputText from '@component/extend/InputText';
@@ -10,6 +10,9 @@ export default function CheckGiveawayPage() {
   const [registeredNicknames, setRegisteredNicknames] = useState<string[]>([]);
   const [texts, setTexts] = useState('');
   
+  const nicknameRef = useRef<HTMLInputElement>(null);
+  const textsRef = useRef<HTMLTextAreaElement>(null);
+  
   const addNickname = useCallback(() => {
     setRegisteredNicknames(prevState => Array.from(new Set(prevState.concat(nickname))));
     setNickname('');
@@ -20,7 +23,15 @@ export default function CheckGiveawayPage() {
   }, []);
   
   useEffect(() => {
-    setRegisteredNicknames(JSON.parse(localStorage.getItem('registeredNicknames') as string));
+    const _registeredNicknames = JSON.parse(localStorage.getItem('registeredNicknames') as string);
+  
+    if (Array.isArray(_registeredNicknames) && _registeredNicknames.length > 0) {
+      setRegisteredNicknames(_registeredNicknames);
+      textsRef.current?.focus();
+    
+    } else {
+      nicknameRef.current?.focus();
+    }
   }, []);
   
   useEffect(() => {
@@ -38,7 +49,7 @@ export default function CheckGiveawayPage() {
   return (
     <Wrap>
       <Form onSubmit={addNickname}>
-        <StyledInput value={nickname} onChangeText={setNickname} placeholder="검색할 가문명을 추가해주세요."/>
+        <StyledInput ref={nicknameRef} value={nickname} onChangeText={setNickname} placeholder="검색할 가문명을 추가해주세요."/>
         <StyledButton>추가</StyledButton>
       </Form>
       {registeredNicknames.length > 0 && (
@@ -48,7 +59,7 @@ export default function CheckGiveawayPage() {
           ))}
         </NicknamesWrap>
       )}
-      <StyledTextArea value={texts} onChangeText={setTexts} placeholder="경품 당첨자 페이지의 전체를 복사해서 붙여넣어주세요."/>
+      <StyledTextArea ref={textsRef} value={texts} onChangeText={setTexts} placeholder="경품 당첨자 페이지의 전체를 복사해서 붙여넣어주세요."/>
       {matchNicknames.length === 0 ?
         <ResultMessage>일치하는 닉네임이 없습니다.</ResultMessage>
         :
