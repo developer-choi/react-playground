@@ -3,6 +3,7 @@ import styled, {css} from 'styled-components';
 import TextArea from '@component/extend/TextArea';
 import InputText from '@component/extend/InputText';
 import Form from '@component/extend/Form';
+import {removeDuplicatedItems} from '@util/extend/array';
 
 export default function CheckGiveawayPage() {
   
@@ -14,7 +15,7 @@ export default function CheckGiveawayPage() {
   const textsRef = useRef<HTMLTextAreaElement>(null);
   
   const addNickname = useCallback(() => {
-    setRegisteredNicknames(prevState => Array.from(new Set(prevState.concat(nickname))));
+    setRegisteredNicknames(prevState => removeDuplicatedItems(prevState.concat(nickname)));
     setNickname('');
   }, [nickname]);
   

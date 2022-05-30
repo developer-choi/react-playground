@@ -3,6 +3,7 @@ import TextArea from '@component/extend/TextArea';
 import styled from 'styled-components';
 import {Button} from '@component/atom/button/button-presets';
 import {toast} from 'react-toastify';
+import {removeDuplicatedItems} from '@util/extend/array';
 
 export default function Page() {
   
@@ -122,5 +123,5 @@ function parser(text: string) {
     alert('쿠폰번호 파싱결과 쿠폰이 존재하지않음.');
   }
   
-  return result;
+  return removeDuplicatedItems(result);
 }

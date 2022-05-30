@@ -42,3 +42,7 @@ export function splitEvenly<T>(array: T[], maxSize: number): T[] {
   
   return array.filter((value, index) => !removeIndexes.includes(index));
 }
+
+export function removeDuplicatedItems<T>(array: T[]): T[] {
+  return Array.from(new Set(array));
+}
