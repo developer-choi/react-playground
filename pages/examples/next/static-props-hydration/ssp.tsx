@@ -1,5 +1,5 @@
 import React from 'react';
-import {Counter, TabMenus, Timer} from '@pages/examples/api/static-props-hydration/sp';
+import {Counter, TabMenus, Timer} from '@pages/examples/next/static-props-hydration/sp';
 
 export default function SSRPage() {
   return (
