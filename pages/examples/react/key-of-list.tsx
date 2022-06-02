@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import styled from 'styled-components';
 import useIsFirstRender from '@util/custom-hooks/useIsFirstRender';
+import {randomNumber} from '@util/extend/random';
 
 export default function Page() {
   
@@ -24,8 +25,12 @@ export default function Page() {
     <Wrap>
       <Button style={{marginRight: 5}} onClick={changeSort}>정렬변경</Button>
       <Ul>
-        {_todos.map(({text}, index) => (
-          <Todo key={index} text={text}/>
+        {/*{_todos.map(({text}, index) => (*/}
+        {/*  <Todo key={index} text={text}/>*/}
+        {/*))}*/}
+        
+        {_todos.map(({text}) => (
+          <Todo key={randomNumber(1, 9999)} text={text}/>
         ))}
         
         {/*{_todos.map(({text, key}) => (*/}
@@ -45,7 +50,7 @@ function Todo({text}: TodoType) {
     console.log(text, 'mounted');
   
     return () => {
-      console.log(text, 'mounted');
+      console.log(text, 'unmounted');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
