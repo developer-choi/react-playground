@@ -1,6 +1,9 @@
+import {toFixedNumber} from '@util/extend/number';
+
 const BASIC_REVENUE = 0.65;
 const VALUE_PACKAGE_BONUS = BASIC_REVENUE * 0.3;
 export const GOYUGYEOL_COUNT_BY_1HOUR = 500; //고유결을 1시간동안 500개 깐다고 가정합니다.
+export const BLACK_STONE_ARMOR_BY_1HOUR = 375; //1시간동안 나온 사냥꾼의 인장이 약 750개, 이를 블방으로 바꿨을 때 375개라고 가정합니다.
 
 export interface DroughtyRevenueTable {
   value: number;
@@ -33,14 +36,18 @@ export const DROUGHTY_REVENUE_TABLES = [
 
 export interface GoyugyeolRevenueParam {
   goyugyeolPrice: number;
-  goyugyeolCount?: number;
   droughty: number;
   gipaPrice: number;
+  blackStoneArmorPrice: number;
 }
 
-export function goyugyeolRevenue({goyugyeolPrice, gipaPrice, droughty}: GoyugyeolRevenueParam) {
+export function goyugyeolRevenue({goyugyeolPrice, gipaPrice, droughty, blackStoneArmorPrice}: GoyugyeolRevenueParam) {
   if ([goyugyeolPrice, gipaPrice, droughty].includes(0)) {
-    return 0;
+    return {
+      totalRevenue: 0,
+      blackStoneArmorRevenue: 0,
+      gipaRevenue: 0
+    };
   }
   
   const {revenue} = DROUGHTY_REVENUE_TABLES.find(({value}) => {
@@ -49,5 +56,12 @@ export function goyugyeolRevenue({goyugyeolPrice, gipaPrice, droughty}: Goyugyeo
   
   const totalGipaPrice = gipaPrice * GOYUGYEOL_COUNT_BY_1HOUR;
   const totalGoyugyeolPrice = goyugyeolPrice * GOYUGYEOL_COUNT_BY_1HOUR;
-  return totalGipaPrice * revenue - totalGoyugyeolPrice;
+  const totalGipaRevenue = toFixedNumber(totalGipaPrice * revenue - totalGoyugyeolPrice);
+  const totalBlackStoneArmorRevenue = toFixedNumber(blackStoneArmorPrice * BLACK_STONE_ARMOR_BY_1HOUR * revenue);
+  
+  return {
+    gipaRevenue: totalGipaRevenue,
+    blackStoneArmorRevenue: totalBlackStoneArmorRevenue,
+    totalRevenue: totalGipaRevenue + totalBlackStoneArmorRevenue
+  };
 }

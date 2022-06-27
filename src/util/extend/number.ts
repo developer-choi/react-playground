@@ -96,3 +96,7 @@ export function signOfNumber(value: number): SignOfNumber {
     };
   }
 }
+
+export function toFixedNumber(value: number, fractionDigits?: number) {
+  return Number(value.toFixed(fractionDigits));
+}

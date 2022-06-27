@@ -5,7 +5,12 @@ import Form from '@component/extend/Form';
 import RadioGroup from '@component/atom/RadioGroup';
 import RadioLabel from '@component/atom/RadioLabel';
 import {goYuGyeolManager} from '@util/extend/localStroage';
-import {DROUGHTY_REVENUE_TABLES, GOYUGYEOL_COUNT_BY_1HOUR, goyugyeolRevenue} from '@util/black-desert/goyugyeol';
+import {
+  BLACK_STONE_ARMOR_BY_1HOUR,
+  DROUGHTY_REVENUE_TABLES,
+  GOYUGYEOL_COUNT_BY_1HOUR,
+  goyugyeolRevenue
+} from '@util/black-desert/goyugyeol';
 import useIsFirstRender from '@util/custom-hooks/useIsFirstRender';
 import {numberWithComma} from '@util/extend/number';
 
@@ -14,6 +19,7 @@ export default function GoyugyeolcalcPage() {
   const [goyugyeolPrice, setGoyugyeolPrice] = useState('');
   const [droughty, setDroughty] = useState(0);
   const [gipaPrice, setGipaPrice] = useState('');
+  const [blackStoneArmorPrice, setBlackStoneArmorPrice] = useState('');
   const isFirstRender = useIsFirstRender();
   
   const onChangeDroughty = useCallback((value: string) => {
@@ -27,6 +33,7 @@ export default function GoyugyeolcalcPage() {
       setGoyugyeolPrice(String(item.goyugyeolPrice));
       setDroughty(item.droughty);
       setGipaPrice(String(item.gipaPrice));
+      setBlackStoneArmorPrice(String(item.blackStoneArmorPrice));
     }
   }, []);
   
@@ -35,13 +42,19 @@ export default function GoyugyeolcalcPage() {
       return;
     }
   
-    goYuGyeolManager.setStringifyItem({droughty, goyugyeolPrice: Number(goyugyeolPrice), gipaPrice: Number(gipaPrice)});
-  }, [isFirstRender, goyugyeolPrice, droughty, gipaPrice]);
+    goYuGyeolManager.setStringifyItem({
+      droughty,
+      goyugyeolPrice: Number(goyugyeolPrice),
+      gipaPrice: Number(gipaPrice),
+      blackStoneArmorPrice: Number(blackStoneArmorPrice)
+    });
+  }, [isFirstRender, goyugyeolPrice, droughty, gipaPrice, blackStoneArmorPrice]);
   
-  const resultRevenue = goyugyeolRevenue({
+  const {gipaRevenue, blackStoneArmorRevenue, totalRevenue} = goyugyeolRevenue({
     goyugyeolPrice: Number(goyugyeolPrice),
     gipaPrice: Number(gipaPrice),
-    droughty
+    droughty,
+    blackStoneArmorPrice: Number(blackStoneArmorPrice)
   });
   
   return (
@@ -57,6 +70,11 @@ export default function GoyugyeolcalcPage() {
       </StyledFieldSet>
       
       <StyledFieldSet>
+        <StyledLabel>블방 가격</StyledLabel>
+        <StyledInput value={blackStoneArmorPrice} onChangeText={setBlackStoneArmorPrice} enableComma enableDecimal={false}/>
+      </StyledFieldSet>
+      
+      <StyledFieldSet>
         <StyledLabel>가문명성</StyledLabel>
         <RadioGroup name="droughty" value={String(droughty)} onChange={onChangeDroughty}>
           {DROUGHTY_REVENUE_TABLES.map(({value, meaning}) => (
@@ -65,10 +83,16 @@ export default function GoyugyeolcalcPage() {
         </RadioGroup>
       </StyledFieldSet>
       
-      <Info>1시간 수익 : <b>{numberWithComma(resultRevenue)}</b></Info>
+      <Info>1시간 기파수익 : <b>{numberWithComma(gipaRevenue)}</b></Info>
+      <Info>1시간 블방수익 : <b>{numberWithComma(blackStoneArmorRevenue)}</b></Info>
+      <Info>1시간 총수익 : <b>{numberWithComma(totalRevenue)}</b></Info>
       
-      <Info>#밸류패키지 포함 가격입니다.</Info>
-      <Info>#고유결을 1시간동안 {GOYUGYEOL_COUNT_BY_1HOUR}개 깐다고 가정합니다.</Info>
+      <Info># 밸류패키지 포함 가격입니다.</Info>
+      <Info># 기파, 블랙스톤 방어구를 모두 팔았을 때 거래소 수수료 뗀 수익입니다.</Info>
+      <Info># 고유결을 1시간동안 {GOYUGYEOL_COUNT_BY_1HOUR}개 깐다고 가정합니다.</Info>
+      <Info># 고유결 {GOYUGYEOL_COUNT_BY_1HOUR}개 까서 기파가 {GOYUGYEOL_COUNT_BY_1HOUR}개 나왔다고 가정합니다.</Info>
+      <Info># 1시간동안 나온 사냥꾼의 인장이 약 {BLACK_STONE_ARMOR_BY_1HOUR * 2}개, 이를 블방으로 바꿨을 때 {BLACK_STONE_ARMOR_BY_1HOUR}개라고 가정합니다.</Info>
+      <Info># 블랙스톤 방어구는 모두 팔았을 때를 기준으로 가정합니다.</Info>
     </StyledForm>
   );
 }

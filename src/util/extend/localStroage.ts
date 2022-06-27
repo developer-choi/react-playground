@@ -96,6 +96,12 @@ export interface GoYuGyeolManager {
   goyugyeolPrice: number;
   droughty: number;
   gipaPrice: number;
+  blackStoneArmorPrice: number;
 }
 
-export const goYuGyeolManager = new LocalStorageObjectManager<GoYuGyeolManager>('goyugyeol', {gipaPrice: 3000000, goyugyeolPrice: 0, droughty: 999});
+export const goYuGyeolManager = new LocalStorageObjectManager<GoYuGyeolManager>('goyugyeol', {
+  gipaPrice: 3000000,
+  goyugyeolPrice: 1600000,
+  droughty: 999,
+  blackStoneArmorPrice: 150000
+});
