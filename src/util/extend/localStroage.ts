@@ -6,8 +6,20 @@ export class LocalStorageObjectManager<V extends Object> {
    */
   private readonly key: string;
   
-  constructor(key: string) {
+  constructor(key: string, defaultValue?: V) {
     this.key = key;
+    
+    if (defaultValue) {
+      try {
+        if (!this.getItem()) {
+          this.setStringifyItem(defaultValue);
+        }
+      } catch (error) {
+        if (!(error instanceof ReferenceError)) {
+          throw error;
+        }
+      }
+    }
   }
   
   /**
