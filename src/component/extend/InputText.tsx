@@ -54,7 +54,6 @@ export default forwardRef(function InputExtend(props: InputTextProp, ref: Ref<HT
   }, [onKeyDown, onEnter, preventEventKeys]);
   
   const customOnChange = useCustomOnChange({onChange, onChangeText, maxLength});
-  const _placeholder = defaultMaxLengthPlaceholder(maxLength, placeholder);
 
   return (
       <input
@@ -63,7 +62,6 @@ export default forwardRef(function InputExtend(props: InputTextProp, ref: Ref<HT
           onChange={customOnChange}
           onKeyDown={customOnKeyDown}
           autoCapitalize={autoCapitalize}
-          placeholder={_placeholder}
           {...rest}
       />
   );
@@ -88,12 +86,4 @@ export function useCustomOnChange<T extends HTMLInputElement | HTMLTextAreaEleme
   
     onChangeText?.(value.slice(0, maxLength));
   }, [maxLength, onChange, onChangeText]);
-}
-
-export function defaultMaxLengthPlaceholder(maxLength: number, placeholder?: string) {
-  if (placeholder) {
-    return placeholder;
-  } else {
-    return `최대 ${maxLength}자 까지 입력이 가능합니다.`;
-  }
 }
