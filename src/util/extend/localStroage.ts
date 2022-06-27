@@ -91,3 +91,11 @@ interface Board {
 
 // Make your preset managers.
 export const boardManager = new LocalStorageArrayManager('text', (board: Board) => board.pk);
+
+export interface GoYuGyeolManager {
+  goyugyeolPrice: number;
+  droughty: number;
+  gipaPrice: number;
+}
+
+export const goYuGyeolManager = new LocalStorageObjectManager<GoYuGyeolManager>('goyugyeol', {gipaPrice: 3000000, goyugyeolPrice: 0, droughty: 999});
