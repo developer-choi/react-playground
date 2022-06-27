@@ -28,7 +28,7 @@ export default forwardRef(function InputExtend(props: InputTextProp, ref: Ref<HT
     /**
      * HTML input Prop
      */
-    type, maxLength = 1000, onChange, onKeyDown, placeholder,
+    type, maxLength = 1000, onChange, onKeyDown,
 
     /**
      * Custom Prop

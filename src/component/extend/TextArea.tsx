@@ -1,5 +1,5 @@
 import React, {ComponentPropsWithoutRef, forwardRef, KeyboardEvent, Ref, useCallback} from 'react';
-import {defaultMaxLengthPlaceholder, useCustomOnChange} from '@component/extend/InputText';
+import {useCustomOnChange} from '@component/extend/InputText';
 import {isMatchKeyboardEvent} from '@util/extend/keyboard-event';
 
 export interface TextAreaProp extends ComponentPropsWithoutRef<'textarea'> {
@@ -8,7 +8,7 @@ export interface TextAreaProp extends ComponentPropsWithoutRef<'textarea'> {
 }
 
 export default forwardRef(function TextArea(props: TextAreaProp, ref: Ref<HTMLTextAreaElement>) {
-  const {onKeyDown, onChangeText, onChange, onCtrlEnter, maxLength = 100000, placeholder, ...rest} = props;
+  const {onKeyDown, onChangeText, onChange, onCtrlEnter, maxLength = 100000, ...rest} = props;
   
   const customOnChange = useCustomOnChange({onChange, onChangeText, maxLength});
   
@@ -20,14 +20,11 @@ export default forwardRef(function TextArea(props: TextAreaProp, ref: Ref<HTMLTe
     onKeyDown?.(event);
   }, [onKeyDown, onCtrlEnter]);
   
-  const _placeholder = defaultMaxLengthPlaceholder(maxLength, placeholder);
-  
   return (
       <textarea
           ref={ref}
           onChange={customOnChange}
           onKeyDown={customOnKeyDown}
-          placeholder={_placeholder}
           {...rest}
       />
   );
