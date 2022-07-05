@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {useEffectFromTheSecondTime} from '@pages/useEffectFromTheSecondTime';
+import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
 import {useForceReRender} from '@util/custom-hooks/useForceReRender';
 import {Button} from '@component/atom/button/button-presets';
 
