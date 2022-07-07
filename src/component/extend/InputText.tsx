@@ -22,7 +22,7 @@ export interface InputTextProp extends ComponentPropsWithoutRef<'input'> {
   preventEventKeys?: string[];
 }
 
-export default forwardRef(function InputExtend(props: InputTextProp, ref: Ref<HTMLInputElement>) {
+export default forwardRef(function InputText(props: InputTextProp, ref: Ref<HTMLInputElement>) {
 
   const {
     /**
