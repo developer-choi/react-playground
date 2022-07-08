@@ -45,9 +45,9 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
   } = props;
   
   const _onChangeText = useCallback((text: string) => {
-    const cleanedText = cleanText(text, {enableComma});
+    const cleanedText = enableComma ? cleanText(text) : text;
   
-    if (!isPossibleToBeNumber(cleanedText, enableDecimal)) {
+    if (enableComma && !isPossibleToBeNumber(cleanedText, enableDecimal)) {
       return;
     }
   
@@ -69,20 +69,22 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
     return keys;
   }, [preventEventKeys, enableDecimal]);
   
-  const _onCopy = useCallback((event: ClipboardEvent<HTMLInputElement>) => {
+  //Only for input type is not number (When enableComma is true)
+  const customOnCopy = useCallback((event: ClipboardEvent<HTMLInputElement>) => {
     const {value} = event.target as HTMLInputElement;
-    event.clipboardData.setData('text/plain', cleanText(value, {enableComma}));
+    event.clipboardData.setData('text/plain', cleanText(value));
     event.preventDefault();
     onCopy?.(event);
-  }, [enableComma, onCopy]);
+  }, [onCopy]);
   
-  const _onCut = useCallback((event: ClipboardEvent<HTMLInputElement>) => {
+  //Only for input type is not number (When enableComma is true)
+  const customOnCut = useCallback((event: ClipboardEvent<HTMLInputElement>) => {
     const {value} = event.target as HTMLInputElement;
-    event.clipboardData.setData('text/plain', cleanText(value, {enableComma}));
+    event.clipboardData.setData('text/plain', cleanText(value));
     event.preventDefault();
     onChangeText?.('');
     onCut?.(event);
-  }, [enableComma, onChangeText, onCut]);
+  }, [onChangeText, onCut]);
   
   const type = enableComma ? undefined : 'number';
   
@@ -93,23 +95,22 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
           inputMode={type === 'number' ? undefined : enableDecimal ? 'decimal' : 'numeric'}
           value={enableComma ? numberWithComma(value) : value}
           preventEventKeys={_preventEventKeys}
-          onCopy={_onCopy}
-          onCut={_onCut}
+          onCopy={enableComma ? customOnCopy : onCopy}
+          onCut={enableComma ? customOnCut : onCut}
           {...rest}
       />
   );
 }
 
+//Only for input type is not number (When enableComma is true)
 function isPossibleToBeNumber(text: string, enableDecimal: boolean): boolean {
   
   const convertedNumber = Number(text);
   
-  //Only for input type is not number (When enableComma is true)
   if (Number.isNaN(convertedNumber)) {
     return false;
   }
   
-  //Only for input type is not number (When enableComma is true)
   const dotCount = count(text, '\\.');
   
   if (enableDecimal && dotCount > 1) {
@@ -150,13 +151,17 @@ const EMPTY_ARRAY = [] as string[];
 // https://stackoverflow.com/questions/64138536/react-input-type-number-fields-dont-trigger-onchange
 const BASE_IGNORE_KEYS = ['e', 'E', '+', '-'];
 
-function cleanText(text: string, {enableComma}: Pick<InputComputableNumberOption, 'enableComma'>) {
-  /**
-   * In all cases with InputComputableNumber component,
-   * we will remove spaces before and after strings because we believe that space entry is not required.
-   */
-  const trimmedText = text.trim();
-  return enableComma ? trimmedText.replace(/,/g, '') : trimmedText;
+/**
+ * Only for input type is not number (When enableComma is true)
+ *
+ * This function is not required if enableComma is false and the input type is number.
+ * This is because spaces cannot be entered or pasted by the input type number.
+ *
+ * However, if enableComma is true and becomes input type text,
+ * it is possible to enter a space, so the left and right spaces and commas must be deleted.
+ */
+function cleanText(text: string) {
+  return text.trim().replace(/,/g, '');
 }
 
 function splitNumberDot(value: string): { integer: string, decimal: string } {
