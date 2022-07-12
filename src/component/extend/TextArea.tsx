@@ -13,7 +13,7 @@ export default forwardRef(function TextArea(props: TextAreaProp, ref: Ref<HTMLTe
   const customOnChange = useCustomOnChange({onChange, onChangeText, maxLength});
   
   const customOnKeyDown = useCallback((event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (isMatchKeyboardEvent(event, {key: 'Enter', matchKeys: ['ctrlKey']})) {
+    if (isMatchKeyboardEvent(event, {key: 'Enter', specialKeys: ['ctrlKey']})) {
       onCtrlEnter?.(event);
     }
     

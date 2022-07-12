@@ -52,7 +52,7 @@ export default function MailListPage({mails}: PageProp) {
   
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
-      if (isMatchKeyboardEvent(event, {key: 'a', matchKeys: ['ctrlKey']})) {
+      if (isMatchKeyboardEvent(event, {key: 'a', specialKeys: ['ctrlKey']})) {
         toggleAllChecked();
         toast.info('전체 목록이 선택되었습니다.');
         event.preventDefault();

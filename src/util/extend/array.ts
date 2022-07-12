@@ -1,3 +1,5 @@
+export const EMPTY_ARRAY = [];
+
 export function replace<T>(array: Array<T>, condition: (value: T, index: number, array: Array<T>) => boolean, replaceValue: T) {
   
   return array.map((value, index, original) => {
