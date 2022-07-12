@@ -6,7 +6,7 @@ import {getDiffDate} from '@util/extend/date/date-util';
  * @param callback 미래에 실행할 콜백
  * 미래에, 전달한 timestamp가 되면, callback을 실행합니다.
  */
-export function useDateEffect(futureTimestamp: number, callback: () => void) {
+export function useRunCallbackInFuture(futureTimestamp: number, callback: () => void) {
   useEffect(() => {
     const timeout = futureTimestamp - new Date().getTime();
   
@@ -30,7 +30,7 @@ export function useDateEffect(futureTimestamp: number, callback: () => void) {
  * 자정이 되면 전달받은 callback을 실행합니다.
  * 이후 이 hooks가 다시 실행되는 경우, 다시 자정을 계산해서 그 자정이 되면 다시 callback을 실행시킵니다.
  */
-export function useMidnightEffect(callback: () => void) {
-  const midnight = getDiffDate(new Date(), [0, 0, 1], 3);
-  useDateEffect(midnight.getTime(), callback);
+export function useRunCallbackInMidnight(callback: () => void) {
+  const midnight = getDiffDate(new Date(), [0, 0, 1]);
+  useRunCallbackInFuture(midnight.getTime(), callback);
 }
