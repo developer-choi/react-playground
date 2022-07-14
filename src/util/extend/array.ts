@@ -1,13 +1,12 @@
 export const EMPTY_ARRAY = [];
 
-export function replace<T>(array: Array<T>, condition: (value: T, index: number, array: Array<T>) => boolean, replaceValue: T) {
+export function replace<T>(array: Array<T>, condition: (item: T, index: number, array: Array<T>) => boolean, replaceCallback: (item: T) => T) {
   
-  return array.map((value, index, original) => {
-    if (condition(value, index, original)) {
-      return replaceValue;
-      
+  return array.map((item, index, original) => {
+    if (condition(item, index, original)) {
+      return replaceCallback(item);
     } else {
-      return value;
+      return item;
     }
   });
 }
