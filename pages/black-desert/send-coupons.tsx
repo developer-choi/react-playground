@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState, ClipboardEvent} from 'react';
 import TextArea from '@component/extend/TextArea';
 import styled from 'styled-components';
 import {Button} from '@component/atom/button/button-presets';
@@ -9,6 +9,11 @@ export default function Page() {
   
   const [value, setValue] = useState('');
   const coupons = useMemo(() => parser(value), [value]);
+  
+  const onPaste = useCallback((event: ClipboardEvent<HTMLTextAreaElement>) => {
+    const data = event.clipboardData.getData('text');
+    setValue(data);
+  }, []);
   
   const sendCoupon = useCallback(() => {
     navigator.clipboard.writeText(`
@@ -56,7 +61,7 @@ main();
   
   return (
     <Wrap>
-      <StyledTextArea placeholder="검은사막 쿠폰번호를 복사붙여넣기 해주세요." value={value} onChangeText={setValue}/>
+      <StyledTextArea placeholder="검은사막 쿠폰번호를 복사붙여넣기 해주세요." value={value} onPaste={onPaste}/>
       {coupons.length > 0 &&
       <div>
         <H2>쿠폰번호 ({coupons.length}개)</H2>
@@ -106,12 +111,16 @@ const ButtonWrap = styled.div`
   margin-top: 10px;
 `;
 
+function cleanText(text: string) {
+  return text.trim().replace(/(\r,\t)/g, '');
+}
+
 function parser(text: string) {
   if (text.length === 0) {
     return [];
   }
   
-  const result = text.split('\n').filter(value => {
+  const result = text.split('\n').map(string => cleanText(string)).filter(value => {
     if (value.length !== 19) {
       return false;
     }
