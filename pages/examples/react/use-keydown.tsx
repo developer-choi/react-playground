@@ -5,8 +5,14 @@ import {useKeyDown} from '@util/custom-hooks/useKeyDown';
 import type {MatchKeyboardEvent} from '@util/extend/keyboard-event';
 import {EMPTY_ARRAY} from '@util/extend/array';
 import {isVideoInFullscreen} from '@util/extend/document';
+import type {GetStaticProps} from 'next';
+import VideoApi from '@api/VideoApi';
 
-export default function WindowKeyDownPage() {
+interface PageProp {
+  videoUrl: string;
+}
+
+export default function WindowKeyDownPage({videoUrl}: PageProp) {
   
   const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -37,8 +43,6 @@ export default function WindowKeyDownPage() {
     }
   }, []));
   
-  
-  
   return (
     <Wrap>
       <div>
@@ -53,7 +57,7 @@ export default function WindowKeyDownPage() {
         슬래시를 누르면, 입력박스로 포커스가 이동합니다. (구글 검색페이지 따라하기)
       </p>
       
-      <video ref={videoRef} src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" controls/>
+      <video ref={videoRef} src={videoUrl} controls/>
       
       <div>
         <p>유튜브 단축키 따라하기</p>
@@ -63,6 +67,17 @@ export default function WindowKeyDownPage() {
       
     </Wrap>
   );
+}
+
+export const getServerSideProps: GetStaticProps<PageProp> = async () => {
+  const api = new VideoApi();
+  const response = await api.getVideo(1);
+  
+  return {
+    props: {
+      videoUrl: response.data.video.url
+    }
+  };
 }
 
 const SLASH_KEYBOARD_EVENT: MatchKeyboardEvent = {
