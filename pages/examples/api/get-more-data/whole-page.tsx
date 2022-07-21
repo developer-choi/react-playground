@@ -1,44 +1,36 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import type {GetServerSideProps} from 'next';
 import PagingApi, {PagingListResponse} from '@api/PagingApi';
 import {InfiniteScrollRow} from '@pages/examples/api/infinite-scroll';
-import {handleErrorInClientSide} from '@util/api/client-side-error';
 import {Button} from '@component/atom/button/button-presets';
-import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
+import type {GetMoreDataApiHandler} from '@util/custom-hooks/useGetMoreData';
+import type {PagingListType} from '@pages/api/paging';
+import useGetMoreData from '@util/custom-hooks/useGetMoreData';
 
 export default function Page(props: PagingListResponse) {
-  const [data, setData] = useState<PagingListResponse>(props);
-  const [page, setPage] = useState(1);
-  
-  const fetchMoreData = useCallback(async () => {
-    setPage(prevState => prevState + 1);
+  const getApiHandler = useCallback<GetMoreDataApiHandler<PagingListType>>(async (page) => {
+    const api = new PagingApi();
+    const {data} = await api.getList(page);
+    return {
+      list: data.list,
+      total: data.total
+    };
   }, []);
   
-  useEffectFromTheSecondTime(useCallback(() => {
-    (async () => {
-      const pagingApi = new PagingApi();
-  
-      try {
-        const response = await pagingApi.getList(page);
-        setData(prevState => ({
-          total: response.data.total,
-          list: prevState.list.concat(response.data.list)
-        }));
-      } catch (error) {
-        handleErrorInClientSide(error);
-      }
-    })().then();
-  }, [page]));
-  
-  const {list, total} = data;
-  const haveMoreData = list.length < total;
+  const {list, getMoreData, haveMoreData} = useGetMoreData({
+    initialData: {
+      list: props.list,
+      total: props.total
+    },
+    getApiHandler
+  });
   
   return (
     <>
       {list.map(({key, color, order}) =>
         <InfiniteScrollRow key={key} style={{backgroundColor: color}}>{order}</InfiniteScrollRow>
       )}
-      {haveMoreData && <Button onClick={fetchMoreData}>더보기</Button>}
+      {haveMoreData && <Button onClick={getMoreData}>더보기</Button>}
     </>
   );
 }

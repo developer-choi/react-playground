@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import type {GetServerSideProps} from 'next';
 import type {Video} from '@type/response/video';
 import type {ParsedUrlQuery} from 'querystring';
@@ -6,9 +6,10 @@ import VideoApi from '@api/VideoApi';
 import styled from 'styled-components';
 import Link from 'next/link';
 import {InfiniteScrollRow} from '@pages/examples/api/infinite-scroll';
-import type {PagingListResponse} from '@api/PagingApi';
 import PagingApi from '@api/PagingApi';
 import {Button} from '@component/atom/button/button-presets';
+import useGetMoreData, {GetMoreDataApiHandler} from '@util/custom-hooks/useGetMoreData';
+import type {PagingListType} from '@pages/api/paging';
 
 interface PageProp {
   videos: Video[];
@@ -20,34 +21,22 @@ interface Param extends ParsedUrlQuery {
 }
 
 export default function Page({videos, video}: PageProp) {
-  const [pagingData, setPagingData] = useState<PagingListResponse & {page: number}>({list: [], total: 0, page: 1});
-  
-  const fetchMoreData = useCallback(() => {
-    setPagingData(prevState => ({
-      ...prevState,
-      page: prevState.page + 1
-    }));
-  }, []);
-  
-  useEffect(() => {
+  const getApiHandler = useCallback<GetMoreDataApiHandler<PagingListType>>(async (page) => {
     const api = new PagingApi();
-    
-    (async () => {
-      const {data} = await api.getList(pagingData.page);
-      setPagingData(prevState => ({
-        total: data.total,
-        list: prevState.list.concat(data.list),
-        page: pagingData.page
-      }));
-    })().then();
-  }, [pagingData.page]);
-  
-  useEffect(() => {
-    setPagingData(({total: 0, page: 1, list: []}));
+    const {data} = await api.getList(page, video.pk);
+    return {
+      list: data.list,
+      total: data.total
+    };
   }, [video.pk]);
   
-  const {list, total} = pagingData;
-  const haveMoreData = list.length < total;
+  const {list, haveMoreData, getInitialData, getMoreData} = useGetMoreData({
+    getApiHandler
+  });
+  
+  useEffect(() => {
+    getInitialData().then();
+  }, [getInitialData]);
   
   return (
     <Wrap>
@@ -56,7 +45,7 @@ export default function Page({videos, video}: PageProp) {
         {list.map(({key, order, color}) => (
           <InfiniteScrollRow key={key} style={{backgroundColor: color}}>{order}</InfiniteScrollRow>
         ))}
-        {haveMoreData && <Button onClick={fetchMoreData}>더보기</Button>}
+        {haveMoreData && <Button onClick={getMoreData}>더보기</Button>}
         
       </LeftWrap>
       <RightWrap>
