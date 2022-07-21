@@ -1,6 +1,7 @@
 import {useCallback, useState} from 'react';
 import type {PagingResponse} from '@type/response/common';
 import {handleErrorInClientSide} from '@util/api/client-side-error';
+import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
 
 export interface UseGetMoreDataParam<T> {
   initialData?: {
@@ -19,7 +20,13 @@ export interface UseGetMoreDataResult<T> {
 }
 
 export default function useGetMoreData<T>({initialData, getApiHandler}: UseGetMoreDataParam<T>): UseGetMoreDataResult<T> {
-  const [{page, list, total}, setData] = useState<Data<T>>(initialData ? {...initialData, page: 1} : INITIAL_DATA);
+  const [{page, list, total}, setData] = useState<Data<T>>(() => {
+    return initialize(initialData);
+  });
+  
+  useEffectFromTheSecondTime(useCallback(() => {
+    setData(initialize(initialData));
+  }, [initialData]));
   
   const getInitialData = useCallback(async () => {
     try {
@@ -57,6 +64,16 @@ export default function useGetMoreData<T>({initialData, getApiHandler}: UseGetMo
     haveMoreData
   };
 };
+
+function initialize<T>(data: UseGetMoreDataParam<T>['initialData']): Data<T> {
+  if (!data) {
+    return INITIAL_DATA;
+  }
+  
+  return {
+    ...data, page: 1
+  };
+}
 
 const INITIAL_DATA = {
   page: 1, list: [], total: 0
