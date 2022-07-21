@@ -35,7 +35,7 @@ export default function InfiniteScrollPage(props: PageProp) {
       </Head>
       <div>
         {list.map(({key, order, color}) => (
-          <Row key={key} style={{backgroundColor: color}}>{order}th row</Row>
+          <InfiniteScrollRow key={key} style={{backgroundColor: color}}>{order}th row</InfiniteScrollRow>
         ))}
       </div>
     </>
@@ -53,12 +53,12 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
   };
 }
 
-const Row = styled.div`
+export const InfiniteScrollRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   
-  height: 150px;
+  height: 100px;
   font-size: 25px;
   font-weight: bold;
   color: black;

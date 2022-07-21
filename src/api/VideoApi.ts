@@ -1,6 +1,6 @@
 import BaseApi from '@api/BaseApi';
 import type {AxiosResponse} from 'axios';
-import type {VideoResponse} from '@type/response/video';
+import type {VideoResponse, VideosResponse} from '@type/response/video';
 
 export default class VideoApi extends BaseApi {
   constructor() {
@@ -8,6 +8,10 @@ export default class VideoApi extends BaseApi {
   }
   
   getVideo(pk?: number): Promise<AxiosResponse<VideoResponse>> {
-    return this.axios.get('', {params: {pk}});
+    return this.axios.get('/one', {params: {pk}});
+  }
+  
+  getAllVideos(): Promise<AxiosResponse<VideosResponse>> {
+    return this.axios.get('/all');
   }
 }
