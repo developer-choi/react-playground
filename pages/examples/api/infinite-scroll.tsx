@@ -15,7 +15,7 @@ export default function InfiniteScrollPage(props: PageProp) {
   
   const fetchMoreApi = useCallback(async (requestPage: number) => {
     const api = new PagingApi();
-    const {list, total} = (await api.getList(requestPage)).data;
+    const {list, total} = (await api.getPaging(requestPage)).data;
     return {list, total};
   }, []);
   
@@ -44,7 +44,7 @@ export default function InfiniteScrollPage(props: PageProp) {
 
 export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
   const api = new PagingApi();
-  const {list, total} = (await api.getList(1)).data;
+   const {list, total} = (await api.getPaging(1)).data;
   return {
     props: {
       list,

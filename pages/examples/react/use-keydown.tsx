@@ -71,7 +71,7 @@ export default function WindowKeyDownPage({videoUrl}: PageProp) {
 
 export const getServerSideProps: GetStaticProps<PageProp> = async () => {
   const api = new VideoApi();
-  const response = await api.getVideo(1);
+  const response = await api.getVideoOne(1);
   
   return {
     props: {

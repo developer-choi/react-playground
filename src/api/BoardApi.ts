@@ -9,11 +9,15 @@ export default class BoardApi extends BaseApi {
     super('/board');
   }
   
-  getList(): Promise<AxiosResponse<BoardListResponse>> {
+  /** Naming Rule
+   * [HTTP-METHOD] + [API URL]
+   * GET /some/api/url ==> getSomeApiUrl()
+   */
+  getBoardList(): Promise<AxiosResponse<BoardListResponse>> {
     return this.axios.get('/list');
   }
   
-  createBoard({img, boardType, title, content}: CreateBoardParam) {
+  postBoardCreate({img, boardType, title, content}: CreateBoardParam) {
     const formData = new FormData();
     
     if (img) {

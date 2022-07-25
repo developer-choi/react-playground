@@ -7,7 +7,7 @@ export default class PagingApi extends BaseApi {
     super('paging');
   }
   
-  getList(page: number, parentPk?: number): Promise<AxiosResponse<PagingListResponse>> {
+  getPaging(page: number, parentPk?: number): Promise<AxiosResponse<PagingListResponse>> {
     return this.axios.get('', {params: {page, parentPk}});
   }
 }

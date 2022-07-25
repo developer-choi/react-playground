@@ -10,7 +10,7 @@ import useGetMoreData from '@util/custom-hooks/useGetMoreData';
 export default function Page(props: PagingListResponse) {
   const getApiHandler = useCallback<GetMoreDataApiHandler<PagingListType>>(async (page) => {
     const api = new PagingApi();
-    const {data} = await api.getList(page);
+    const {data} = await api.getPaging(page);
     return {
       list: data.list,
       total: data.total
@@ -37,7 +37,7 @@ export default function Page(props: PagingListResponse) {
 
 export const getServerSideProps: GetServerSideProps<PagingListResponse> = async () => {
   const pagingApi = new PagingApi();
-  const {data} = await pagingApi.getList(1);
+  const {data} = await pagingApi.getPaging(1);
   
   return {
     props: {

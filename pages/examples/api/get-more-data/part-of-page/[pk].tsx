@@ -23,7 +23,7 @@ interface Param extends ParsedUrlQuery {
 export default function Page({videos, video}: PageProp) {
   const getApiHandler = useCallback<GetMoreDataApiHandler<PagingListType>>(async (page) => {
     const api = new PagingApi();
-    const {data} = await api.getList(page, video.pk);
+    const {data} = await api.getPaging(page, video.pk);
     return {
       list: data.list,
       total: data.total
@@ -64,7 +64,7 @@ export default function Page({videos, video}: PageProp) {
 export const getServerSideProps: GetServerSideProps<PageProp, Param> = async ({params}) => {
   const {pk} = params as Param;
   const api = new VideoApi();
-  const [res1, res2] = await Promise.all([api.getVideo(Number(pk)), api.getAllVideos()]);
+  const [res1, res2] = await Promise.all([api.getVideoOne(Number(pk)), api.getVideoAll()]);
   
   return {
     props: {
