@@ -18,7 +18,7 @@ function pkExtractor(mail: Mail) {
   return mail.pk;
 }
 
-export default function MailListPage({mails}: PageProp) {
+export default function Page({mails}: PageProp) {
   const {onChangeChecked, haveSomeChecked, toggleAllChecked, checkedList, isCheckedItem, onMultipleChecked} = useCheckableList({list: mails, pkExtractor});
   const latestCheckedRef = useRef<number | null>(null);
   
@@ -33,7 +33,7 @@ export default function MailListPage({mails}: PageProp) {
     }
     
     if (confirm('선택한 항목을 삭제하시겠습니꺼?')) {
-      toast.info(checkedList.join(', ') + ' 쪽지가 삭제완료되었습니다.');
+      toast.info(checkedList.join(', ') + ' 메일이 삭제완료되었습니다.');
     }
   }, [checkedList, haveSomeChecked]);
   
@@ -54,7 +54,6 @@ export default function MailListPage({mails}: PageProp) {
     const handler = (event: KeyboardEvent) => {
       if (isMatchKeyboardEvent(event, {key: 'a', specialKeys: ['ctrlKey']})) {
         toggleAllChecked();
-        toast.info('전체 목록이 선택되었습니다.');
         event.preventDefault();
       }
   
