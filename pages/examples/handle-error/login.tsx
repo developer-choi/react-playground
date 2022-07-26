@@ -3,7 +3,7 @@ import Head from 'next/head';
 import {Button} from '@component/atom/button/button-presets';
 import {useRouter} from 'next/router';
 import {isCurrentlyLogin, LOGIN_REDIRECT_QUERY_KEY} from '@util/auth/auth';
-import {queryStringValueConvertString} from '@util/extend/query-string';
+import {validateValueInQueryString} from '@util/extend/query-string';
 import type {GetServerSideProps} from 'next';
 
 export default function LoginPage() {
@@ -11,7 +11,7 @@ export default function LoginPage() {
   const {query, replace} = useRouter();
   
   const onClick = useCallback(async () => {
-    await replace(queryStringValueConvertString(query[LOGIN_REDIRECT_QUERY_KEY]) ?? '/');
+    await replace(validateValueInQueryString(query[LOGIN_REDIRECT_QUERY_KEY]) ?? '/');
   }, [replace, query]);
   
   return (

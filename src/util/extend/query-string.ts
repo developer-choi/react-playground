@@ -4,20 +4,54 @@ import {stringify} from 'querystring';
 export type ParsedUrlQueryValue = ParsedUrlQuery['any-key'];
 
 /**
- * @param value 쿼리스트링에 들어있던 값
- * @return value가 string이 아니면 undefined를 반환합니다. (= undefined이거나 array이면 undefined를 반환합니다)
+ * @param queryValue Value in the Query String
+ * @return Returns the value as it is when the value is validated. Returns undefined if not valid.
  *
- * query string에 담을 수 있는 값의 타입은 undefined, string, string[] 총 3가지인데, 개발자가 허용하는 값의 타입은 string인 경우가 많았습니다.
- * 그러므로 개발자입장에서는 undefined도 string[]도 둘 다 유효하지 않은 값이기 때문에, 둘 다 걸러낼 필요성이 있었습니다.
- *
- * 또한, 빈문자열인 경우에도 유효하지 않은 값이라고 판단되어 똑같이 걸러낼 필요성이 있습니다.
+ * @example 'abc' ==> undefined
+ * @example ['a', 'b', 'c'] ==> undefined
+ * @example '' ==> undefined
  */
-export function queryStringValueConvertString(value: ParsedUrlQueryValue): string | undefined {
-  if (!value || Array.isArray(value)) {
+export function validateValueInQueryString(queryValue: ParsedUrlQueryValue): string | undefined {
+  if (!queryValue || Array.isArray(queryValue)) {
     return undefined;
   } else {
-    return value;
+    return queryValue;
   }
+}
+
+const FAKE_NUMBER_VALUES = ['-', '+', '0'];
+
+/**
+ * @param queryValue Value in the Query String
+ * @return Returns the value as it is when the value is validated. Returns undefined if not valid.
+ *
+ * @example 'abc' ==> undefined
+ * @example ['a', 'b', 'c'] ==> undefined
+ * @example '' ==> undefined
+ * @example '0123' ==> undefined
+ * @example '+123' ==> undefined
+ * @example '-123' ==> undefined
+ * @example '1234567890123456789012345678901234567890' ==> undefined (The value must be smaller than Number.MAX_SAFE_INTEGER)
+ * @example '123' ==> '123'
+ */
+export function validateNumberInQueryString(queryValue: ParsedUrlQueryValue): string | undefined {
+  const value = validateValueInQueryString(queryValue);
+  
+  if (!value) {
+    return undefined;
+  }
+  
+  const number = Number(value);
+  
+  if (Number.isNaN(number) || Number.MAX_SAFE_INTEGER <= number) {
+    return undefined;
+  }
+  
+  if (FAKE_NUMBER_VALUES.some(fake => value.startsWith(fake))) {
+    return undefined;
+  }
+  
+  return value;
 }
 
 /**

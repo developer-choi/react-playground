@@ -3,13 +3,21 @@ import type {Video} from '@type/response/video';
 
 export default function video(req: NextApiRequest, res: NextApiResponse) {
   const pk = Number(req.query.pk ?? 0);
-  res.json({
-    status: 200,
-    video: {
-      pk,
-      url: ALL_VIDEOS.find((video) => pk === video.pk)?.url
-    }
-  });
+  
+  const video = ALL_VIDEOS.find((video) => pk === video.pk);
+  
+  if (!video) {
+    res.status(404).send('');
+    
+  } else {
+    res.json({
+      status: 200,
+      video: {
+        pk,
+        url: video.url
+      }
+    });
+  }
 }
 
 export const ALL_VIDEOS: Video[] = [
