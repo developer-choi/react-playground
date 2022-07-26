@@ -17,7 +17,7 @@ export default function Page(props: PagingListResponse) {
     };
   }, []);
   
-  const {list, getMoreData, haveMoreData} = useGetMoreData({
+  const {list, setMoreData, haveMoreData} = useGetMoreData({
     initialData: {
       list: props.list,
       total: props.total
@@ -30,7 +30,7 @@ export default function Page(props: PagingListResponse) {
       {list.map(({key, color, order}) =>
         <InfiniteScrollRow key={key} style={{backgroundColor: color}}>{order}</InfiniteScrollRow>
       )}
-      {haveMoreData && <Button onClick={getMoreData}>더보기</Button>}
+      {haveMoreData && <Button onClick={setMoreData}>더보기</Button>}
     </>
   );
 }

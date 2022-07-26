@@ -14,8 +14,8 @@ export interface UseGetMoreDataParam<T> {
 export interface UseGetMoreDataResult<T> {
   list: T[];
   total: number;
-  getInitialData: () => Promise<void>;
-  getMoreData: () => Promise<void>;
+  setInitialData: () => Promise<void>;
+  setMoreData: () => Promise<void>;
   haveMoreData: boolean;
 }
 
@@ -28,7 +28,7 @@ export default function useGetMoreData<T>({initialData, getApiHandler}: UseGetMo
     setData(initialize(initialData));
   }, [initialData]));
   
-  const getInitialData = useCallback(async () => {
+  const setInitialData = useCallback(async () => {
     try {
       const response = await getApiHandler(1);
       setData({
@@ -41,7 +41,7 @@ export default function useGetMoreData<T>({initialData, getApiHandler}: UseGetMo
     }
   }, [getApiHandler]);
   
-  const getMoreData = useCallback(async () => {
+  const setMoreData = useCallback(async () => {
     try {
       const response = await getApiHandler(page + 1);
       setData(prevState => ({
@@ -59,8 +59,8 @@ export default function useGetMoreData<T>({initialData, getApiHandler}: UseGetMo
   return {
     list,
     total,
-    getInitialData,
-    getMoreData,
+    setInitialData,
+    setMoreData,
     haveMoreData
   };
 };

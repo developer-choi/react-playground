@@ -30,13 +30,13 @@ export default function Page({videos, video}: PageProp) {
     };
   }, [video.pk]);
   
-  const {list, haveMoreData, getInitialData, getMoreData} = useGetMoreData({
+  const {list, haveMoreData, setInitialData, setMoreData} = useGetMoreData({
     getApiHandler
   });
   
   useEffect(() => {
-    getInitialData().then();
-  }, [getInitialData]);
+    setInitialData().then();
+  }, [setInitialData, video.pk]);
   
   return (
     <Wrap>
@@ -45,7 +45,7 @@ export default function Page({videos, video}: PageProp) {
         {list.map(({key, order, color}) => (
           <InfiniteScrollRow key={key} style={{backgroundColor: color}}>{order}</InfiniteScrollRow>
         ))}
-        {haveMoreData && <Button onClick={getMoreData}>더보기</Button>}
+        {haveMoreData && <Button onClick={setMoreData}>더보기</Button>}
         
       </LeftWrap>
       <RightWrap>
