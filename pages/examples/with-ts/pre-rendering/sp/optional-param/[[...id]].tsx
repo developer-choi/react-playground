@@ -3,13 +3,24 @@ import Head from 'next/head';
 import type {GetStaticPaths, GetStaticProps} from 'next';
 import PropertyText from '@component/atom/PropertyText';
 
-type ParamType = {
-  id?: string[];
-};
-
 interface PageProp {
   genre?: string;
 }
+
+export default function SpOptionalParamPage({genre}: PageProp) {
+  return (
+      <>
+        <Head>
+          <title>sp-optional-param</title>
+        </Head>
+        <PropertyText>genre = {genre}</PropertyText>
+      </>
+  );
+}
+
+type ParamType = {
+  id?: string[];
+};
 
 export const getStaticPaths: GetStaticPaths<ParamType> = async () => {
   return {
@@ -30,14 +41,3 @@ export const getStaticProps: GetStaticProps<PageProp, ParamType> = async ({param
     }
   };
 };
-
-export default function SpOptionalParamPage({genre}: PageProp) {
-  return (
-      <>
-        <Head>
-          <title>sp-optional-param</title>
-        </Head>
-        <PropertyText>genre = {genre}</PropertyText>
-      </>
-  );
-}

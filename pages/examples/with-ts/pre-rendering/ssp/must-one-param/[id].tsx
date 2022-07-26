@@ -3,6 +3,32 @@ import Head from 'next/head';
 import type {GetServerSideProps} from 'next';
 import PropertyText from '@component/atom/PropertyText';
 
+interface PageProp {
+  userName: string;
+}
+
+export default function MustOneParamPage({userName}: PageProp){
+  console.log(userName);
+  return (
+      <>
+        <Head>
+          <title>must-one-param</title>
+        </Head>
+        <PropertyText>userName = {userName}</PropertyText>
+      </>
+  );
+}
+
+export const getServerSideProps: GetServerSideProps<PageProp, ParamType> = async ({params}) => {
+  //The type was determined as an assertion by the ParamType above.
+  const {id} = params as ParamType;
+  return {
+    props: {
+      userName: id
+    }
+  };
+};
+
 /**
  * The type of params must be string.
  *
@@ -16,29 +42,3 @@ import PropertyText from '@component/atom/PropertyText';
 type ParamType = {
   id: string;
 };
-
-interface PageProp {
-  userName: string;
-}
-
-export const getServerSideProps: GetServerSideProps<PageProp, ParamType> = async ({params}) => {
-  //The type was determined as an assertion by the ParamType above.
-  const {id} = params as ParamType;
-  return {
-    props: {
-      userName: id
-    }
-  };
-};
-
-export default function MustOneParamPage({userName}: PageProp){
-  console.log(userName);
-  return (
-      <>
-        <Head>
-          <title>must-one-param</title>
-        </Head>
-        <PropertyText>userName = {userName}</PropertyText>
-      </>
-  );
-}
