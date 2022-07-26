@@ -3,7 +3,29 @@ import type {PagingResponse} from '@type/response/common';
 import {handleErrorInClientSide} from '@util/api/client-side-error';
 import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
 
-export interface UseGetMoreDataParam<T> {
+export type UseGetMoreDataServerSideParam<T> = Required<UseGetMoreDataParam<T>>;
+export type UseGetMoreDataServerSideResult<T> = Omit<UseGetMoreDataResult<T>, 'setInitialData'>;
+
+export function useGetMoreDataServerSide<T>({initialData, getApiHandler}: UseGetMoreDataServerSideParam<T>): UseGetMoreDataServerSideResult<T> {
+  const {list, total, setMoreData, haveMoreData} = useGetMoreData({initialData, getApiHandler});
+
+  return {
+    list, total, setMoreData, haveMoreData
+  };
+}
+
+export type UseGetMoreDataClientSideParam<T> = Pick<UseGetMoreDataParam<T>, 'getApiHandler'>;
+export type UseGetMoreDataClientSideResult<T> = UseGetMoreDataResult<T>;
+
+export function useGetMoreDataClientSide<T>({getApiHandler}: UseGetMoreDataClientSideParam<T>): UseGetMoreDataClientSideResult<T> {
+  const {list, total, setInitialData, setMoreData, haveMoreData} = useGetMoreData({getApiHandler});
+
+  return {
+    list, total, setInitialData, setMoreData, haveMoreData
+  };
+}
+
+interface UseGetMoreDataParam<T> {
   initialData?: {
     list: T[];
     total: number;
@@ -11,7 +33,7 @@ export interface UseGetMoreDataParam<T> {
   getApiHandler: GetMoreDataApiHandler<T>;
 }
 
-export interface UseGetMoreDataResult<T> {
+interface UseGetMoreDataResult<T> {
   list: T[];
   total: number;
   setInitialData: () => Promise<void>;
@@ -19,7 +41,7 @@ export interface UseGetMoreDataResult<T> {
   haveMoreData: boolean;
 }
 
-export default function useGetMoreData<T>({initialData, getApiHandler}: UseGetMoreDataParam<T>): UseGetMoreDataResult<T> {
+function useGetMoreData<T>({initialData, getApiHandler}: UseGetMoreDataParam<T>): UseGetMoreDataResult<T> {
   const [{page, list, total}, setData] = useState<Data<T>>(() => {
     return initialize(initialData);
   });
@@ -63,7 +85,7 @@ export default function useGetMoreData<T>({initialData, getApiHandler}: UseGetMo
     setMoreData,
     haveMoreData
   };
-};
+}
 
 function initialize<T>(data: UseGetMoreDataParam<T>['initialData']): Data<T> {
   if (!data) {

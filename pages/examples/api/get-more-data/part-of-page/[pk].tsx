@@ -8,7 +8,7 @@ import Link from 'next/link';
 import {InfiniteScrollRow} from '@pages/examples/api/infinite-scroll';
 import PagingApi from '@api/PagingApi';
 import {Button} from '@component/atom/button/button-presets';
-import useGetMoreData, {GetMoreDataApiHandler} from '@util/custom-hooks/useGetMoreData';
+import {GetMoreDataApiHandler, useGetMoreDataClientSide} from '@util/custom-hooks/get-more-data';
 import type {PagingListType} from '@pages/api/paging';
 
 interface PageProp {
@@ -30,13 +30,14 @@ export default function Page({videos, video}: PageProp) {
     };
   }, [video.pk]);
   
-  const {list, haveMoreData, setInitialData, setMoreData} = useGetMoreData({
+  const {list, haveMoreData, setInitialData, setMoreData} = useGetMoreDataClientSide({
     getApiHandler
   });
   
   useEffect(() => {
     setInitialData().then();
-  }, [setInitialData, video.pk]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [video.pk]);
   
   return (
     <Wrap>

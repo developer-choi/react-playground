@@ -3,9 +3,9 @@ import type {GetServerSideProps} from 'next';
 import PagingApi, {PagingListResponse} from '@api/PagingApi';
 import {InfiniteScrollRow} from '@pages/examples/api/infinite-scroll';
 import {Button} from '@component/atom/button/button-presets';
-import type {GetMoreDataApiHandler} from '@util/custom-hooks/useGetMoreData';
+import type {GetMoreDataApiHandler} from '@util/custom-hooks/get-more-data';
+import {useGetMoreDataServerSide} from '@util/custom-hooks/get-more-data';
 import type {PagingListType} from '@pages/api/paging';
-import useGetMoreData from '@util/custom-hooks/useGetMoreData';
 
 export default function Page(props: PagingListResponse) {
   const getApiHandler = useCallback<GetMoreDataApiHandler<PagingListType>>(async (page) => {
@@ -17,7 +17,7 @@ export default function Page(props: PagingListResponse) {
     };
   }, []);
   
-  const {list, setMoreData, haveMoreData} = useGetMoreData({
+  const {list, setMoreData, haveMoreData} = useGetMoreDataServerSide({
     initialData: {
       list: props.list,
       total: props.total
