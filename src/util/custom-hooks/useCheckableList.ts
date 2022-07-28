@@ -1,61 +1,83 @@
-import {useCallback, useMemo, useState} from 'react';
+import {useCallback, useRef, useState} from 'react';
+import {replace} from '@util/extend/array';
+import {sortNumbersInAscending} from '@util/extend/number';
 
-export type PkType = string | number;
+type PkType = number;
 
-export interface UseCheckableListParam<T extends Object, P extends PkType = number> {
-  pkExtractor: (item: T) => P;
+export interface UseCheckableListParam<T extends Object> {
   list: T[];
+  pkExtractor: (item: T) => PkType;
 }
 
-export interface UseCheckableListResult<T extends Object, P extends PkType = number> {
-  checkedList: P[];
-  onChangeChecked: (checked: boolean, itemPk: P) => void;
-  onMultipleChecked: (itemPks: P[]) => void;
+export interface UseCheckableListResult<T extends Object> {
+  selectedList: PkType[];
+  onChangeChecked: (checked: boolean, index: number) => void;
+  onMultipleChecked: (index: number) => void;
   toggleAllChecked: () => void;
-  isCheckedItem: (pk: P) => boolean;
+  isCheckedItem: (index: number) => boolean;
   haveSomeChecked: boolean;
 }
 
 // 별도의 체크 목록 state를 위한 custom hooks
-export default function useCheckableList<T, P extends PkType>({pkExtractor, list}: UseCheckableListParam<T, P>): UseCheckableListResult<T, P> {
-  const pkList = useMemo(() => list.map(pkExtractor), [list, pkExtractor]);
-  const [checkedList, setCheckedList] = useState<P[]>([]);
-  
-  const isAllChecked = list.length === 0 ? false : list.length === checkedList.length;
+export default function useCheckableList<T>({pkExtractor, list}: UseCheckableListParam<T>): UseCheckableListResult<T> {
+  const [checkedList, setCheckedList] = useState(list.map(item => ({
+    pk: pkExtractor(item),
+    checked: false
+  })));
+  const lastCheckedIndexRef = useRef<number>();
+
+  const isAllChecked = list.length === 0 ? false : checkedList.every(({checked}) => checked);
   const haveSomeChecked = checkedList.length > 0;
   
-  const onChangeChecked = useCallback((checked: boolean, itemPk: P) => {
-    setCheckedList(prevState => {
-      if (checked) {
-        return prevState.concat(itemPk);
-      } else {
-        return prevState.filter(pk => pk !== itemPk);
-      }
-    });
+  const onChangeChecked = useCallback((checked: boolean, targetIndex: number) => {
+    setCheckedList(prevState => replace(prevState, ((value, index) => index === targetIndex), item => ({...item, checked})));
+    lastCheckedIndexRef.current = targetIndex;
   }, []);
   
   const toggleAllChecked = useCallback(() => {
-    if (isAllChecked) {
-      setCheckedList(prevState => prevState.length === 0 ? prevState : []);
-    } else {
-      setCheckedList(pkList);
-    }
-  }, [isAllChecked, pkList]);
+    setCheckedList(prevState => prevState.map(({pk}) => ({pk, checked: !isAllChecked})));
+  }, [isAllChecked]);
   
-  const onMultipleChecked = useCallback((itemPks: P[]) => {
-    setCheckedList(prevState => Array.from(new Set(prevState.concat(itemPks))));
+  const onMultipleChecked = useCallback((targetIndex: number) => {
+    if (!lastCheckedIndexRef.current) {
+      return;
+    }
+
+    const [startIndex, endIndex] = sortNumbersInAscending([targetIndex, lastCheckedIndexRef.current]);
+
+    setCheckedList(prevState => prevState.map((prev, index) => {
+      if (startIndex <= index && index < endIndex) {
+        return {
+          pk: prev.pk,
+          checked: true
+        };
+
+      } else {
+        return prev;
+      }
+    }));
   }, []);
   
-  const isCheckedItem = useCallback((pk: P) => {
-    return checkedList.includes(pk);
+  const isCheckedItem = useCallback((targetIndex: number) => {
+    return !!checkedList.find((value, index) => index === targetIndex)?.checked;
   }, [checkedList]);
+
+  const selectedList = checkedList.reduce((a, b) => {
+    if (b.checked) {
+      return a.concat(b.pk);
+    } else {
+      return a;
+    }
+  }, [] as PkType[]);
+
+  console.log(checkedList);
   
   return {
     onChangeChecked,
     onMultipleChecked,
     toggleAllChecked,
     isCheckedItem,
-    checkedList,
+    selectedList,
     haveSomeChecked,
   };
 }

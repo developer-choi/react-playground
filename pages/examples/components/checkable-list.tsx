@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import Head from 'next/head';
 import type {GetServerSideProps} from 'next';
 import {range} from '@util/extend/number';
@@ -19,36 +19,17 @@ function pkExtractor(mail: Mail) {
 }
 
 export default function Page({mails}: PageProp) {
-  const {onChangeChecked, haveSomeChecked, toggleAllChecked, checkedList, isCheckedItem, onMultipleChecked} = useCheckableList({list: mails, pkExtractor});
-  const latestCheckedRef = useRef<number | null>(null);
-  
-  const _onChangeChecked = useCallback((checked: boolean, mailPk: number, index: number) => {
-    onChangeChecked(checked, mailPk);
-    latestCheckedRef.current = index;
-  }, [onChangeChecked]);
-  
+  const {onChangeChecked, haveSomeChecked, toggleAllChecked, selectedList, isCheckedItem, onMultipleChecked} = useCheckableList({list: mails, pkExtractor});
+
   const deleteSomeMails = useCallback(() => {
     if (!haveSomeChecked) {
       return;
     }
     
     if (confirm('선택한 항목을 삭제하시겠습니꺼?')) {
-      toast.info(checkedList.join(', ') + ' 메일이 삭제완료되었습니다.');
+      toast.info(selectedList.join(', ') + ' 메일이 삭제완료되었습니다.');
     }
-  }, [checkedList, haveSomeChecked]);
-  
-  const _onMultipleChecked = useCallback((index: number) => {
-    const latestIndex = latestCheckedRef.current;
-  
-    if (latestIndex === null) {
-      return;
-    }
-    
-    const [startIndex, endIndex] = latestIndex < index ? [latestIndex, index] : [index, latestIndex];
-    
-    const multipleChecks = mails.slice(startIndex, endIndex).map(mail => mail.pk);
-    onMultipleChecked(multipleChecks);
-  }, [mails, onMultipleChecked]);
+  }, [selectedList, haveSomeChecked]);
   
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
@@ -69,7 +50,7 @@ export default function Page({mails}: PageProp) {
       window.removeEventListener('keydown', handler);
     };
   }, [toggleAllChecked, deleteSomeMails]);
-  
+
   return (
     <>
       <Head>
@@ -79,7 +60,13 @@ export default function Page({mails}: PageProp) {
       <Button onClick={deleteSomeMails}>선택삭제</Button>
       <ListWrap>
         {mails.map((mail, index) => (
-          <MailListItem key={mail.pk} index={index} mail={mail} checked={isCheckedItem(mail.pk)} onChangeChecked={_onChangeChecked} onMultipleChecked={_onMultipleChecked}/>
+          <MailListItem
+            key={mail.pk}
+            mail={mail}
+            checked={isCheckedItem(index)}
+            onChangeChecked={(checked) => onChangeChecked(checked, index)}
+            onMultipleChecked={() => onMultipleChecked(index)}
+          />
         ))}
       </ListWrap>
     </>
@@ -118,21 +105,16 @@ const ListWrap = styled.div`
 export interface MailListItemProp {
   mail: Mail;
   checked: boolean;
-  onChangeChecked: (checked: boolean, mailPk: number, index: number) => void;
-  onMultipleChecked: (index: number) => void;
-  index: number;
+  onChangeChecked: (checked: boolean) => void;
+  onMultipleChecked: () => void;
 }
 
 /**
  * 단순 체크해제 체크일때는 체크한 목록 하나만 리렌더링되고 나머지 다른 목록은 렌더링되지않기위해 memo() 사용.
  */
-export const MailListItem = memo(function MailListItem({mail, checked, onChangeChecked, onMultipleChecked, index}: MailListItemProp) {
-  const {pk, timestamp, title} = mail;
+export const MailListItem = memo(function MailListItem({mail, checked, onChangeChecked, onMultipleChecked}: MailListItemProp) {
+  const {timestamp, title} = mail;
   const [important, setImportant] = useState(mail.important);
-  
-  const _onChangeChecked = useCallback((checked: boolean) => {
-    onChangeChecked(checked, pk, index);
-  }, [onChangeChecked, pk, index]);
   
   const onChangeImportant = useCallback((checked: boolean) => {
     try {
@@ -144,13 +126,9 @@ export const MailListItem = memo(function MailListItem({mail, checked, onChangeC
     }
   }, []);
   
-  const _onMultipleChecked = useCallback(() => {
-    onMultipleChecked(index);
-  }, [onMultipleChecked, index]);
-  
   return (
     <Row>
-      <CheckBox onChangeChecked={_onChangeChecked} checked={checked} onShiftChecked={_onMultipleChecked}/>
+      <CheckBox onChangeChecked={onChangeChecked} checked={checked} onShiftChecked={onMultipleChecked}/>
       <CheckBox className="important-checkbox" onChangeChecked={onChangeImportant} checked={important}/>
       <Title>{title}</Title>
       <DateText>{moment(timestamp).format('YYYY.MM.DD HH:mm:ss')}</DateText>

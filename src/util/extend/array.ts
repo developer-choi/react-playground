@@ -1,9 +1,9 @@
 export const EMPTY_ARRAY = [];
 
-export function replace<T>(array: Array<T>, condition: (item: T, index: number, array: Array<T>) => boolean, replaceCallback: (item: T) => T) {
+export function replace<T>(array: Array<T>, conditionCallback: (item: T, index: number, array: Array<T>) => boolean, replaceCallback: (item: T) => T) {
   
   return array.map((item, index, original) => {
-    if (condition(item, index, original)) {
+    if (conditionCallback(item, index, original)) {
       return replaceCallback(item);
     } else {
       return item;
