@@ -64,7 +64,10 @@ export default function useCheckableList<T>({pkExtractor, list}: UseCheckableLis
   
   const onChangeChecked = useCallback((checked: boolean, targetIndex: number) => {
     setCheckedList(prevState => replace(prevState, ((value, index) => index === targetIndex), item => ({...item, checked})));
-    lastCheckedIndexRef.current = targetIndex;
+
+    if (checked) {
+      lastCheckedIndexRef.current = targetIndex;
+    }
   }, []);
   
   const toggleAllChecked = useCallback(() => {
