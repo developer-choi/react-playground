@@ -1,5 +1,5 @@
 import {useCallback, useRef, useState} from 'react';
-import {replace} from '@util/extend/array';
+import {removeDuplicatedItems, replace} from '@util/extend/array';
 import {sortNumbersInAscending} from '@util/extend/number';
 import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
 
@@ -12,10 +12,10 @@ export interface UseCheckableListParam<T extends Object> {
 
 export interface UseCheckableListResult<T extends Object> {
   selectedList: PkType[];
-  onChangeChecked: (checked: boolean, index: number) => void;
+  onChangeChecked: (checked: boolean, targetPk: number) => void;
   onMultipleChecked: (index: number) => void;
   toggleAllChecked: () => void;
-  isCheckedItem: (index: number) => boolean;
+  isCheckedItem: (targetPk: number) => boolean;
   haveSomeChecked: boolean;
 }
 
@@ -61,19 +61,19 @@ export default function useCheckableList<T>({pkExtractor, list}: UseCheckableLis
 
   const isAllChecked = list.length === 0 ? false : checkedList.every(({checked}) => checked);
   const haveSomeChecked = checkedList.some(({checked}) => checked);
-  
-  const onChangeChecked = useCallback((checked: boolean, targetIndex: number) => {
-    setCheckedList(prevState => replace(prevState, ((value, index) => index === targetIndex), item => ({...item, checked})));
+
+  const onChangeChecked = useCallback((checked: boolean, targetPk: number) => {
+    setCheckedList(prevState => replace(prevState, (({pk}) => pk === targetPk), item => ({...item, checked})));
 
     if (checked) {
-      lastCheckedIndexRef.current = targetIndex;
+      lastCheckedIndexRef.current = checkedList.findIndex(({pk}) => pk === targetPk);
     }
-  }, []);
-  
+  }, [checkedList]);
+
   const toggleAllChecked = useCallback(() => {
     setCheckedList(prevState => prevState.map(({pk}) => ({pk, checked: !isAllChecked})));
   }, [isAllChecked]);
-  
+
   const onMultipleChecked = useCallback((targetIndex: number) => {
     if (!lastCheckedIndexRef.current) {
       return;
@@ -93,9 +93,9 @@ export default function useCheckableList<T>({pkExtractor, list}: UseCheckableLis
       }
     }));
   }, []);
-  
-  const isCheckedItem = useCallback((targetIndex: number) => {
-    return !!checkedList.find((value, index) => index === targetIndex)?.checked;
+
+  const isCheckedItem = useCallback((targetPk: number) => {
+    return !!checkedList.find(({pk}) => pk === targetPk)?.checked;
   }, [checkedList]);
 
   const selectedList = checkedList.reduce((a, b) => {
@@ -105,6 +105,71 @@ export default function useCheckableList<T>({pkExtractor, list}: UseCheckableLis
       return a;
     }
   }, [] as PkType[]);
+
+  return {
+    onChangeChecked,
+    onMultipleChecked,
+    toggleAllChecked,
+    isCheckedItem,
+    selectedList,
+    haveSomeChecked,
+  };
+}
+
+function useAnotherWay<T>({pkExtractor, list}: UseCheckableListParam<T>): UseCheckableListResult<T> {
+  const [selectedList, setSelectedList] = useState<PkType[]>([]);
+
+  useEffectFromTheSecondTime(useCallback(() => {
+    setSelectedList(prevState => {
+
+      return list.reduce((a, b) => {
+        const pk = pkExtractor(b);
+
+        if (prevState.includes(pk)) {
+          return a.concat(pk);
+
+        } else {
+          return a;
+        }
+      }, [] as PkType[]);
+    });
+  }, [list, pkExtractor]));
+
+  const lastCheckedIndexRef = useRef<number>();
+
+  const isAllChecked = list.length === 0 ? false : selectedList.length === list.length;
+  const haveSomeChecked = selectedList.length > 0;
+
+  const onChangeChecked = useCallback((checked: boolean, targetPk: number) => {
+    setSelectedList(prevState => checked ? prevState.concat(targetPk) : prevState.filter((value) => value !== targetPk));
+
+    if (checked) {
+      lastCheckedIndexRef.current = list.findIndex((value => pkExtractor(value) === targetPk)) as number;
+    }
+  }, [list, pkExtractor]);
+
+  const toggleAllChecked = useCallback(() => {
+    if (isAllChecked) {
+      setSelectedList([]);
+
+    } else {
+      setSelectedList(list.map(value => pkExtractor(value)));
+    }
+  }, [isAllChecked, list, pkExtractor]);
+
+  const onMultipleChecked = useCallback((targetIndex: number) => {
+    if (!lastCheckedIndexRef.current) {
+      return;
+    }
+
+    const [startIndex, endIndex] = sortNumbersInAscending([targetIndex, lastCheckedIndexRef.current]);
+    const pks = list.slice(startIndex, endIndex).map((value => pkExtractor(value)));
+    setSelectedList(prevState => removeDuplicatedItems(prevState.concat(pks)));
+  }, [list, pkExtractor]);
+
+  const isCheckedItem = useCallback((targetPk: number) => {
+    return selectedList.includes(targetPk);
+  }, [selectedList]);
 
   return {
     onChangeChecked,

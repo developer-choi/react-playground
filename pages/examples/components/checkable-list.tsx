@@ -63,8 +63,8 @@ export default function Page({mails}: PageProp) {
           <MailListItem
             key={mail.pk}
             mail={mail}
-            checked={isCheckedItem(index)}
-            onChangeChecked={(checked) => onChangeChecked(checked, index)}
+            checked={isCheckedItem(mail.pk)}
+            onChangeChecked={(checked) => onChangeChecked(checked, mail.pk)}
             onMultipleChecked={() => onMultipleChecked(index)}
           />
         ))}
