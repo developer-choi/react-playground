@@ -60,7 +60,7 @@ export default function useCheckableList<T>({pkExtractor, list}: UseCheckableLis
   const lastCheckedIndexRef = useRef<number>();
 
   const isAllChecked = list.length === 0 ? false : checkedList.every(({checked}) => checked);
-  const haveSomeChecked = checkedList.length > 0;
+  const haveSomeChecked = checkedList.some(({checked}) => checked);
   
   const onChangeChecked = useCallback((checked: boolean, targetIndex: number) => {
     setCheckedList(prevState => replace(prevState, ((value, index) => index === targetIndex), item => ({...item, checked})));
