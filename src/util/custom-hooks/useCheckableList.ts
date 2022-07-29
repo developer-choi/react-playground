@@ -1,6 +1,7 @@
 import {useCallback, useRef, useState} from 'react';
 import {replace} from '@util/extend/array';
 import {sortNumbersInAscending} from '@util/extend/number';
+import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
 
 type PkType = number;
 
@@ -24,6 +25,38 @@ export default function useCheckableList<T>({pkExtractor, list}: UseCheckableLis
     pk: pkExtractor(item),
     checked: false
   })));
+
+  useEffectFromTheSecondTime(useCallback(() => {
+    setCheckedList(prevState => {
+      const prevSelectedList = prevState.reduce((a, b) => {
+
+        if (b.checked) {
+          return a.concat(b.pk);
+
+        } else {
+          return a;
+        }
+
+      }, [] as number[]);
+
+      return list.map(value => {
+        const pk = pkExtractor(value);
+
+        if (prevSelectedList.includes(pk)) {
+          return {
+            pk,
+            checked: true
+          };
+        } else {
+          return {
+            pk,
+            checked: false
+          };
+        }
+      });
+    });
+  }, [list, pkExtractor]));
+
   const lastCheckedIndexRef = useRef<number>();
 
   const isAllChecked = list.length === 0 ? false : checkedList.every(({checked}) => checked);
@@ -70,8 +103,6 @@ export default function useCheckableList<T>({pkExtractor, list}: UseCheckableLis
     }
   }, [] as PkType[]);
 
-  console.log(checkedList);
-  
   return {
     onChangeChecked,
     onMultipleChecked,
