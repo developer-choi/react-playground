@@ -64,3 +64,21 @@ export function urlStringify(query?: ParsedUrlQuery): string | '' {
     return `?${stringify(query)}`;
   }
 }
+
+/**
+ * @example {someArray: ['1', '2', '3'], someValue: 'abc'} ==> {someValue: 'abc'}
+ */
+export function removeArrayInQuery(query: ParsedUrlQuery): {[key: string]: string | undefined} {
+
+  const _query = Object.entries(query).filter(([, value]) => !Array.isArray(value)) as [string, string | undefined][];
+
+  return _query.reduce((a, [key, value]) => {
+
+    if (value) {
+      // eslint-disable-next-line no-param-reassign
+      a[key] = value;
+    }
+
+    return a;
+  }, {} as {[key: string]: string});
+}
