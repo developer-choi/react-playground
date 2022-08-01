@@ -54,10 +54,12 @@ export function validateNumberInQueryString(queryValue: ParsedUrlQueryValue): st
   return value;
 }
 
+export type ParsedQueryWithoutArray = { [key: string]: string | undefined };
+
 /**
  * @return query객체가 비어있으면 빈문자열반환, 있으면 ?가 포함된 stringify하여 반환.
  */
-export function urlStringify(query?: ParsedUrlQuery): string | '' {
+export function urlStringify(query?: ParsedQueryWithoutArray): string | '' {
   if (!query || Object.keys(query).length === 0) {
     return '';
   } else {
@@ -68,7 +70,7 @@ export function urlStringify(query?: ParsedUrlQuery): string | '' {
 /**
  * @example {someArray: ['1', '2', '3'], someValue: 'abc'} ==> {someValue: 'abc'}
  */
-export function removeArrayInQuery(query: ParsedUrlQuery): {[key: string]: string | undefined} {
+export function removeArrayInQuery(query: ParsedUrlQuery): ParsedQueryWithoutArray {
 
   const _query = Object.entries(query).filter(([, value]) => !Array.isArray(value)) as [string, string | undefined][];
 
