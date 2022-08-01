@@ -17,22 +17,22 @@ export default class BaseApi {
       ...rest
     });
   
-    this.axios.interceptors.response.use(response => {
-      const {status} = response.data;
-  
-      if (status === 200) {
-        return response;
-      }
-  
-      console.error(response);
-    
-      return Promise.reject(new CustomAxiosError(response));
-    }, (axiosError: AxiosError) => {
-  
-      console.error(axiosError);
-    
-      return Promise.reject(new CustomAxiosError(axiosError));
-    });
+    // this.axios.interceptors.response.use(response => {
+    //   const {status} = response.data;
+    //
+    //   if (status === 200) {
+    //     return response;
+    //   }
+    //
+    //   console.error(response);
+    //
+    //   return Promise.reject(new CustomAxiosError(response));
+    // }, (axiosError: AxiosError) => {
+    //
+    //   console.error(axiosError);
+    //
+    //   return Promise.reject(new CustomAxiosError(axiosError));
+    // });
   }
 }
 

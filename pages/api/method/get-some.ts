@@ -3,6 +3,6 @@ import {getApi} from '@util/extend/next-api';
 
 export default function getSome(req:NextApiRequest, res:NextApiResponse) {
   getApi(req, res, () => {
-    res.send('hello world');
+    res.status(200).send('hello world');
   });
 }

@@ -6,7 +6,7 @@ import type {Board} from '@type/response-sub/board-sub';
 
 export default class BoardApi extends BaseApi {
   constructor() {
-    super('/board');
+    super('/method');
   }
   
   /** Naming Rule
@@ -14,7 +14,7 @@ export default class BoardApi extends BaseApi {
    * GET /some/api/url ==> getSomeApiUrl()
    */
   getBoardList(): Promise<AxiosResponse<BoardListResponse>> {
-    return this.axios.get('/list');
+    return this.axios.get('/get-some');
   }
   
   postBoardCreate({img, boardType, title, content}: CreateBoardParam) {
@@ -32,7 +32,7 @@ export default class BoardApi extends BaseApi {
     
     formData.append('json', blob);
     
-    return this.axios.post('/create', formData, {headers: {'Content-Type': 'multipart/form-data', ...getCurrentlyLoginUserInfo()}});
+    return this.axios.post('/post-some', formData, {headers: {'Content-Type': 'multipart/form-data', ...getCurrentlyLoginUserInfo()}});
   }
 }
 

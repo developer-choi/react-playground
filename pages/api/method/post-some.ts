@@ -3,6 +3,6 @@ import {postApi} from '@util/extend/next-api';
 
 export default function postSome(req:NextApiRequest, res:NextApiResponse) {
   postApi(req, res, () => {
-    res.send('');
+    res.status(200).send('');
   });
 }
