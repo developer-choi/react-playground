@@ -5,7 +5,7 @@ const CHANNEL_URLS = {
   channel: {
     id: {
       // https://www.youtube.com/channel/UCPddv7POJAl7oaZOLdLUlnA
-      index: channelHome,
+      index: channelIdIndexUrl,
 
       /**
        * https://www.youtube.com/channel/UCPddv7POJAl7oaZOLdLUlnA/featured
@@ -13,10 +13,10 @@ const CHANNEL_URLS = {
        * https://www.youtube.com/channel/UCPddv7POJAl7oaZOLdLUlnA/channels
        * https://www.youtube.com/channel/UCPddv7POJAl7oaZOLdLUlnA/about
        */
-      featured: channelSub('featured'),
-      playlists: channelSub('playlists'),
-      channels: channelSub('channels'),
-      about: channelSub('about'),
+      featured: channelIdSubUrl('featured'),
+      playlists: channelIdSubUrl('playlists'),
+      channels: channelIdSubUrl('channels'),
+      about: channelIdSubUrl('about'),
 
       /**
        * https://www.youtube.com/channel/UCPddv7POJAl7oaZOLdLUlnA/videos
@@ -29,11 +29,11 @@ const CHANNEL_URLS = {
   }
 };
 
-function channelHome(channelId: string) {
+function channelIdIndexUrl(channelId: string) {
   return `/channel/${channelId}`;
 }
 
-function channelSub(subPath: 'featured' | 'playlists' | 'channels' | 'about') {
+function channelIdSubUrl(subPath: 'featured' | 'playlists' | 'channels' | 'about') {
 
   return function (channelId: string) {
     return `/channel/${channelId}/${subPath}`;
