@@ -4,7 +4,7 @@ import env from '@util/env';
 export default class BaseApi {
   readonly axios: AxiosInstance;
   
-  constructor(basePath: string, config: AxiosRequestConfig = {}) {
+  constructor(basePath?: string, config: AxiosRequestConfig = {}) {
     const { baseURL, ...rest } = config;
   
     this.axios = axios.create({
