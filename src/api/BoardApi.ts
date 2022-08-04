@@ -1,7 +1,7 @@
 import BaseApi from '@api/BaseApi';
 import type {AxiosResponse} from 'axios';
 import type {BoardListResponse} from '@type/response/board';
-import {getCurrentlyLoginUserInfo} from '@util/auth/auth';
+import {CurrentlyLoginUserInfo, getCurrentlyLoginUserInfo} from '@util/auth/auth';
 import type {Board} from '@type/response-sub/board-sub';
 
 export default class BoardApi extends BaseApi {
@@ -33,6 +33,11 @@ export default class BoardApi extends BaseApi {
     formData.append('json', blob);
     
     return this.axios.post('/post-some', formData, {headers: {'Content-Type': 'multipart/form-data', ...getCurrentlyLoginUserInfo()}});
+  }
+
+  postSomePrivateApi() {
+    const loginInfo = getCurrentlyLoginUserInfo() as CurrentlyLoginUserInfo; //Assume component checked for login
+    return this.axios.post('/some/private/api', {headers: loginInfo});
   }
 }
 
