@@ -1,8 +1,9 @@
 import BaseApi from '@api/BaseApi';
 import type {AxiosResponse} from 'axios';
 import type {BoardListResponse} from '@type/response/board';
-import {CurrentlyLoginUserInfo, getCurrentlyLoginUserInfo} from '@util/auth/auth';
+import {getLoginTokenClientSide, getLoginTokenServerSide, LoginToken} from '@util/auth/auth';
 import type {Board} from '@type/response-sub/board-sub';
+import type {GetServerSidePropsContext} from 'next';
 
 export default class BoardApi extends BaseApi {
   constructor() {
@@ -18,6 +19,7 @@ export default class BoardApi extends BaseApi {
   }
   
   postBoardCreate({img, boardType, title, content}: CreateBoardParam) {
+    const loginToken = getLoginTokenClientSide(); //Errors must be handled in components.
     const formData = new FormData();
     
     if (img) {
@@ -31,13 +33,31 @@ export default class BoardApi extends BaseApi {
     })], {type: 'application/json'});
     
     formData.append('json', blob);
-    
-    return this.axios.post('/post-some', formData, {headers: {'Content-Type': 'multipart/form-data', ...getCurrentlyLoginUserInfo()}});
+
+    return this.axios.post('/post-some', formData, {headers: {'Content-Type': 'multipart/form-data', ...loginToken}});
+
+    /** Example of a caller (Component)
+     * try {
+     *   const api = new BoardApi();
+     *   await api.postSomePrivateApi();
+     * } catch (error) {
+     *   handleErrorInClientSide(error);
+     * }
+     */
   }
 
-  postSomePrivateApi() {
-    const loginInfo = getCurrentlyLoginUserInfo() as CurrentlyLoginUserInfo; //Assume component checked for login
-    return this.axios.post('/some/private/api', {headers: loginInfo});
+  getSomePrivateApiClientSide(): Promise<AxiosResponse<SomePrivateApiResponse>> {
+    const loginInfo = getLoginTokenClientSide();
+    return this.getSomePrivateApi(loginInfo);
+  }
+
+  getSomePrivateApiServerSide(context: GetServerSidePropsContext): Promise<AxiosResponse<SomePrivateApiResponse>> {
+    const loginInfo = getLoginTokenServerSide(context);
+    return this.getSomePrivateApi(loginInfo);
+  }
+
+  private getSomePrivateApi(loginInfo: LoginToken): Promise<AxiosResponse<SomePrivateApiResponse>> {
+    return this.axios.get('/get-some', {headers: loginInfo});
   }
 }
 
@@ -47,3 +67,5 @@ export default class BoardApi extends BaseApi {
 export interface CreateBoardParam extends Pick<Board, 'title' | 'content' | 'boardType'> {
   img?: File;
 }
+
+type SomePrivateApiResponse = any;

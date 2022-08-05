@@ -1,6 +1,5 @@
 import type {GetServerSideProps, GetServerSidePropsContext} from 'next';
 import ServerSideError from '@util/auth/ServerSideError';
-import {CurrentlyLoginUserInfo, getCurrentlyLoginUserInfo, getLoginRedirectUrl} from '@util/auth/auth';
 import {FunctionComponent, useEffect} from 'react';
 import {useRouter} from 'next/router';
 
@@ -84,24 +83,3 @@ async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
  */
-
-/**
- * I'm thinking naming rule.
- * @throws ServerSideError
- *
- * TODO throwIfNotLoggedIn() 이거와 의도가 100% 겹침. 하나의 동작(로그인이 되어있는지 여부) 에 따라 다른 에러를 반환하기위해 함수를 매번 계속 새로 만들어야한다는것이 큰 단점.
- */
-export function getUserInfoSSP(context: GetServerSidePropsContext): CurrentlyLoginUserInfo {
-  const currentlyUserInfo = getCurrentlyLoginUserInfo();
-  
-  if (!currentlyUserInfo) {
-    throw new ServerSideError("로그인 후 이용이 가능합니다.", {
-      redirect: {
-        destination: getLoginRedirectUrl(context.resolvedUrl),
-        permanent: false
-      }
-    });
-  }
-  
-  return currentlyUserInfo;
-}

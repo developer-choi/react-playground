@@ -19,7 +19,8 @@ export interface BoardAnothertResponse {
   another: BoardAnother;
 }
 
-export interface BoardResponse {
+// GET /board/one
+export interface BoardOneResponse {
   pk: number;
   boardType: BoardType;
   dateString: string; //The format is yyyy-mm-dd.

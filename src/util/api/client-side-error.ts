@@ -1,4 +1,4 @@
-import {getLoginRedirectUrl} from '@util/auth/auth';
+import {AuthError, getLoginRedirectUrl} from '@util/auth/auth';
 import {useEffect} from 'react';
 import {CustomAxiosError} from '@api/BaseApi';
 import Router from 'next/router';
@@ -76,10 +76,16 @@ const SOME_MUST_LOGOUT_ERROR_CODE = 1234;
  * "로그인이 안되어있습니다. 로그인하시겠습니까?" 같은걸 물어보는 코드를 CustomAxiosError에서 한번 쓰고,
  * ClientSideError에서 또 써야해서 이중중복코드 생김.
  */
-export function handleErrorInClientSide(error: CustomAxiosError | ClientSideError | any) {
+export function handleErrorInClientSide(error: CustomAxiosError | ClientSideError | AuthError | any) {
 
-  if (!(error instanceof CustomAxiosError) && !(error instanceof ClientSideError) && !error.response) {
+  if (!(error instanceof CustomAxiosError) && !(error instanceof ClientSideError) && !(error instanceof AuthError) && !error.response) {
     alert(UN_EXPECTED_MESSAGE);
+    return;
+  }
+
+  if (error instanceof AuthError) {
+    alert(error.message);
+    location.href = error.option.redirectUrl;
     return;
   }
   
