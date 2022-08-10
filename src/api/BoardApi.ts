@@ -1,6 +1,5 @@
 import BaseApi from '@api/BaseApi';
 import type {AxiosResponse} from 'axios';
-import type {BoardListResponse} from '@type/response/board';
 import {getLoginTokenClientSide, getLoginTokenServerSide, LoginToken} from '@util/auth/auth';
 import type {Board} from '@type/response-sub/board-sub';
 import type {GetServerSidePropsContext} from 'next';
@@ -10,15 +9,7 @@ export default class BoardApi extends BaseApi {
     super('/method');
   }
   
-  /** Naming Rule
-   * [HTTP-METHOD] + [API URL]
-   * GET /some/api/url ==> getSomeApiUrl()
-   */
-  getBoardList(): Promise<AxiosResponse<BoardListResponse>> {
-    return this.axios.get('/get-some');
-  }
-  
-  postBoardCreate({img, boardType, title, content}: CreateBoardParam) {
+  postBoardCreate({img, boardType, title, content}: BoardCreateParam) {
     const loginToken = getLoginTokenClientSide(); //Errors must be handled in components.
     const formData = new FormData();
     
@@ -61,10 +52,7 @@ export default class BoardApi extends BaseApi {
   }
 }
 
-/** Naming Rule
- * [method name] + Param
- */
-export interface CreateBoardParam extends Pick<Board, 'title' | 'content' | 'boardType'> {
+export interface BoardCreateParam extends Pick<Board, 'title' | 'content' | 'boardType'> {
   img?: File;
 }
 
