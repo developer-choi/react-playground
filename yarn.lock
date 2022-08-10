@@ -3559,6 +3559,11 @@ sha.js@^2.4.0, sha.js@^2.4.8:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
+sha512-es@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/sha512-es/-/sha512-es-1.8.2.tgz#e635c4fc250321d8e41a690ff3fc276e06db37f0"
+  integrity sha512-CO1yCtu0fkb+N6BN6Jyx+STRh8uuEtzxsmu1zkLoJaSH19vGqcMF5ezeIzouCcITAvdMPwFlyyunZZ/9oOvj7Q==
+
 shallowequal@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
