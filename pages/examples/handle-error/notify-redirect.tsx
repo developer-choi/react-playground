@@ -1,109 +1,35 @@
 import React from 'react';
-import Head from 'next/head';
-import {
-  getServerSidePropsTemplate,
-  sspTemplate
-} from '@util/api/server-side-error';
-import ServerSideError from '@util/auth/ServerSideError';
-import BaseApi from '@api/BaseApi';
+import type {GetServerSidePropsContext} from 'next';
+import {validateNumberInQueryString} from '@util/extend/query-string';
+import BoardApi from '@api/BoardApi';
+import {handleServerSideError} from '@util/api/server-side-error';
 
-interface PageProp {
-  apiResponse: string;
-}
-
-export const getServerSideProps = getServerSidePropsTemplate<PageProp>(async () => {
-  const api = new SomeApi();
-  // TODO try-catch 컨셉으로 시도해봤으나 이렇게 기존 API 메소드 마다 전부 try catch로 error를 ServerSideError로 감싸줘야하는 수고가 발생함.
-  await api.someCommon1();
-  await api.someCommon2();
-  const { data } = await api.getSomeData1();
-  return {
-    props: {
-      apiResponse: data
-    }
-  };
-});
-
-const NotifyRedirectPage = ({}: PageProp) => {
-  
+export default function Page() {
   return (
-      <>
-        <Head>
-          <title>notify-redirect</title>
-        </Head>
-        <div>
-          notify-redirect Page
-        </div>
-      </>
+    <>
+      이 페이지는 글 상세내용 보는 페이지고 /board/9999 이동하려고했는데 9999 게시글이 없는 상황
+    </>
   );
 }
 
-export default sspTemplate(NotifyRedirectPage);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  try {
+    const boardNo = validateNumberInQueryString(context.params?.boardNo);
+    const api = new BoardApi();
+    const {data} = await api.getBoardOne(boardNo);
 
-class SomeApi extends BaseApi {
-  constructor() {
-    super('some');
-  }
-  
-  getSomeData1() {
-    try {
-      return new Promise<{data: string}>(resolve => {
-        resolve({
-          data: 'SOME_DATA'
-        });
-      });
-    
-    } catch (error) {
-      throw new ServerSideError(error.message, {
-        props: {
-          _notifyAndRedirect: {
-            message: 'Some Notify Message',
-            redirect: '/'
-          }
-        }
-      });
-    }
-  }
-  
-  someCommon1() {
-    try {
-      return new Promise<{data: string}>(resolve => {
-        resolve({
-          data: 'SOME_DATA'
-        });
-      });
-    
-    } catch (error) {
-      // TODO ?? 이 API는 ClientSide에서도 사용해야하는데 이렇게 API 메소드부터 이렇게 ServerSideError를 throws하도록 만들어야해서 문제가됨.
-      throw new ServerSideError(error.message, {
-        props: {
-          _notifyAndRedirect: {
-            message: 'Some Notify Message',
-            redirect: '/'
-          }
-        }
-      });
-    }
-  }
-  
-  someCommon2() {
-    try {
-      return new Promise<{data: string}>(resolve => {
-        resolve({
-          data: 'SOME_DATA'
-        });
-      });
-    
-    } catch (error) {
-      // TODO ?? 이 API는 ClientSide에서도 사용해야하는데 이렇게 API 메소드부터 이렇게 ServerSideError를 throws하도록 만들어야해서 문제가됨.
-      throw new ServerSideError(error.message, {
-        props: {
-          _notifyAndRedirect: {
-            message: 'Some Notify Message',
-            redirect: '/'
-          }
-        }
-      });
-    }
+    return {
+      props: {
+        board: data
+      }
+    };
+
+  } catch (error) {
+    return handleServerSideError(error, {
+      notifyRedirect: {
+        message: 'Posts that have been deleted or do not exist.',
+        destination: '/board/list?page=1'
+      }
+    });
   }
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
-import {getServerSidePropsTemplate} from '@util/api/server-side-error';
-import {AuthError} from '@util/auth/auth';
 import BoardApi from '@api/BoardApi';
+import type {GetServerSideProps} from 'next';
+import {handleServerSideError} from '@util/api/server-side-error';
 
 interface PageProp {
   username: string;
@@ -21,7 +21,7 @@ export default function PrivatePage({username}: PageProp) {
   );
 }
 
-export const getServerSideProps = getServerSidePropsTemplate<PageProp>(async (context) => {
+export const getServerSideProps: GetServerSideProps<PageProp> = async context => {
   try {
     const api = new BoardApi();
     const someData = await api.getSomePrivateApiServerSide(context);
@@ -32,15 +32,6 @@ export const getServerSideProps = getServerSidePropsTemplate<PageProp>(async (co
       }
     };
   } catch (error) {
-    if (error instanceof AuthError) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: error.option.redirectUrl
-        }
-      };
-    } else {
-      throw error;
-    }
+    return handleServerSideError(error);
   }
-});
+};

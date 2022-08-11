@@ -10,31 +10,37 @@ import {Provider} from 'react-redux';
 import {store} from '@store/store';
 import OgMeta from '@component/atom/OgMeta';
 import TwitterMeta from '@component/atom/TwitterMeta';
+import NotifyRedirect, {NotifyRedirectProps} from '../../test-service/components/temp/NotifyRedirect';
 
 export default function MyApp({Component, pageProps}: AppProps) {
+
+  if (pageProps.notifyRedirect) {
+    return <NotifyRedirect notifyRedirect={pageProps.notifyRedirect as NotifyRedirectProps['notifyRedirect']}/>
+  }
+
   return (
-      <>
-        <Head>
-          <title>react-playground</title>
-        </Head>
-        <OgMeta
-          title="React Playground"
-          image="/images/next-logo.png"
-          description="This project is for learning React and its environments."
-        />
-        <TwitterMeta
-          cardType="summary_large_image"
-          title="React Playground"
-          image="/images/next-logo.png"
-          description="This project is for learning React and its environments."
-        />
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <GlobalStyle/>
-            <Component {...pageProps}/>
-          </ThemeProvider>
-        </Provider>
-        <ToastContainer/>
-      </>
+    <>
+      <Head>
+        <title>react-playground</title>
+      </Head>
+      <OgMeta
+        title="React Playground"
+        image="/images/next-logo.png"
+        description="This project is for learning React and its environments."
+      />
+      <TwitterMeta
+        cardType="summary_large_image"
+        title="React Playground"
+        image="/images/next-logo.png"
+        description="This project is for learning React and its environments."
+      />
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle/>
+          <Component {...pageProps}/>
+        </ThemeProvider>
+      </Provider>
+      <ToastContainer/>
+    </>
   );
 }

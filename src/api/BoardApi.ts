@@ -3,10 +3,15 @@ import type {AxiosResponse} from 'axios';
 import {getLoginTokenClientSide, getLoginTokenServerSide, LoginToken} from '@util/auth/auth';
 import type {Board} from '@type/response-sub/board-sub';
 import type {GetServerSidePropsContext} from 'next';
+import type {BoardOneResponse} from '@type/response/board';
 
 export default class BoardApi extends BaseApi {
   constructor() {
     super('/method');
+  }
+
+  getBoardOne(boardNo: number): Promise<AxiosResponse<BoardOneResponse>> {
+    return this.axios.get('/get-some', {params: {boardNo}});
   }
   
   postBoardCreate({img, boardType, title, content}: BoardCreateParam) {

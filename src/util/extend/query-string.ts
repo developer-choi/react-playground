@@ -1,25 +1,41 @@
 import type {ParsedUrlQuery} from 'querystring';
 import {stringify} from 'querystring';
+import {range} from '@util/extend/number';
 
-export type ParsedUrlQueryValue = ParsedUrlQuery['any-key'];
-
-/**
- * @param queryValue Value in the Query String
- * @return Returns the value as it is when the value is validated. Returns undefined if not valid.
- *
- * @example 'abc' ==> undefined
- * @example ['a', 'b', 'c'] ==> undefined
- * @example '' ==> undefined
- */
-export function validateValueInQueryString(queryValue: ParsedUrlQueryValue): string | undefined {
-  if (!queryValue || Array.isArray(queryValue)) {
-    return undefined;
-  } else {
-    return queryValue;
+export class ValidateError extends Error {
+  constructor(message: string) {
+    super(message);
   }
 }
 
-const FAKE_NUMBER_VALUES = ['-', '+', '0'];
+export type QueryValue = ParsedUrlQuery['any-key'];
+
+/**
+ * @param queryValue string | string[] | undefined
+ * @param conditions 만약 전달된다면 이 안에있는 값일 경우에만 반환
+ * @example undefined => undefined
+ * @example (['a', 'b', 'c']) => undefined
+ * @example ('') => undefined
+ * @example ('abc', ['apple', 'banana']) => undefined
+ *
+ * @example ('abc') => 'abc'
+ * @example ('apple', ['apple', 'banana']) => 'apple'
+ */
+export function validateStringInQueryString<T extends string = string>(queryValue: QueryValue, conditions: T[] = []): T {
+  if (!queryValue || Array.isArray(queryValue)) {
+    throw new ValidateError('queryValue is not valid string');
+  }
+
+  if (conditions.length === 0) {
+    return queryValue as T;
+  }
+
+  if (!conditions.includes(queryValue as any)) {
+    throw new ValidateError('queryValue is not in the conditions');
+  }
+
+  return queryValue as T;
+}
 
 /**
  * @param queryValue Value in the Query String
@@ -34,24 +50,28 @@ const FAKE_NUMBER_VALUES = ['-', '+', '0'];
  * @example '1234567890123456789012345678901234567890' ==> undefined (The value must be smaller than Number.MAX_SAFE_INTEGER)
  * @example '123' ==> '123'
  */
-export function validateNumberInQueryString(queryValue: ParsedUrlQueryValue): string | undefined {
-  const value = validateValueInQueryString(queryValue);
-  
-  if (!value) {
-    return undefined;
+const NUMBERS = range(0, 9).map(value => value.toString());
+const MAX_INTEGER_LENGTH = Number.MAX_SAFE_INTEGER.toString().length;
+
+export function validateNumberInQueryString(queryValue: QueryValue): number {
+  // undefined, empty string, array
+  if (!queryValue || Array.isArray(queryValue) || queryValue.length > MAX_INTEGER_LENGTH) {
+    throw new ValidateError('queryValue is not valid number');
   }
-  
-  const number = Number(value);
-  
-  if (Number.isNaN(number) || Number.MAX_SAFE_INTEGER <= number) {
-    return undefined;
+
+  const chars = queryValue.split('');
+
+  // "+123", "-123"
+  if (chars.some(char => !NUMBERS.includes(char))) {
+    throw new ValidateError('queryValue is not valid number');
   }
-  
-  if (FAKE_NUMBER_VALUES.some(fake => value.startsWith(fake))) {
-    return undefined;
+
+  // "0123"
+  if (chars[0] === '0') {
+    throw new ValidateError('queryValue is not valid number');
   }
-  
-  return value;
+
+  return Number(queryValue);
 }
 
 export type ParsedQueryWithoutArray = { [key: string]: string | undefined };

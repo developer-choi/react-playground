@@ -2,16 +2,15 @@ import React, {useCallback} from 'react';
 import Head from 'next/head';
 import {Button} from '@component/atom/button/button-presets';
 import {useRouter} from 'next/router';
-import {isCurrentlyLogin, LOGIN_REDIRECT_QUERY_KEY} from '@util/auth/auth';
-import {validateValueInQueryString} from '@util/extend/query-string';
-import type {GetServerSideProps} from 'next';
+import {getSSPForNotLoggedIn, LOGIN_REDIRECT_QUERY_KEY} from '@util/auth/auth';
+import {validateStringInQueryString} from '@util/extend/query-string';
 
 export default function LoginPage() {
   
   const {query, replace} = useRouter();
   
   const onClick = useCallback(async () => {
-    await replace(validateValueInQueryString(query[LOGIN_REDIRECT_QUERY_KEY]) ?? '/');
+    await replace(validateStringInQueryString(query[LOGIN_REDIRECT_QUERY_KEY]) ?? '/');
   }, [replace, query]);
 
   return (
@@ -27,23 +26,4 @@ export default function LoginPage() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  if (isCurrentlyLogin(context)) {
-    /**
-     * Does not show "Already logged in".
-     * I don't think there's anyone who doesn't know if they're logged in.
-     * If there are more than one login page, this logic should be duplicated and separated separately.
-     * Since most login pages are unique, all logic is written directly in this function.
-     */
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/' // main page path
-      }
-    };
-  } else {
-    return {
-      props: {}
-    };
-  }
-}
+export const getServerSideProps = getSSPForNotLoggedIn;

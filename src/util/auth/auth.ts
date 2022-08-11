@@ -1,5 +1,5 @@
 import {urlStringify} from '@util/extend/query-string';
-import type {GetServerSidePropsContext} from 'next';
+import type {GetServerSideProps, GetServerSidePropsContext} from 'next';
 
 /**
  * 로그인이 되어있는 유저라면 반드시 갖고있어야하는 값의 타입.
@@ -28,6 +28,7 @@ function getLoginToken(context?: GetServerSidePropsContext): LoginToken | undefi
     anotherValue: 'ASDkjldas9023nasd-daskl-123lkda'
   };
 }
+
 export function getLoginTokenClientSide(): LoginToken {
   const loginToken = getLoginToken();
 
@@ -52,8 +53,23 @@ export function getLoginTokenServerSide(context: GetServerSidePropsContext): Log
   return loginToken;
 }
 
-export function isCurrentlyLogin(context?: GetServerSidePropsContext): boolean {
-  return !!getLoginToken(context);
+function isLoggedInServerSide(context: GetServerSidePropsContext): boolean {
+  return !!getLoginTokenServerSide(context);
+}
+
+export const getSSPForNotLoggedIn: GetServerSideProps = async (context) => {
+  if (isLoggedInServerSide(context)) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/' // main page path
+      }
+    };
+  } else {
+    return {
+      props: {}
+    };
+  }
 }
 
 export const LOGIN_REDIRECT_QUERY_KEY = 'redirectUrl';
