@@ -10,7 +10,7 @@ import {Provider} from 'react-redux';
 import {store} from '@store/store';
 import OgMeta from '@component/atom/OgMeta';
 import TwitterMeta from '@component/atom/TwitterMeta';
-import NotifyRedirect, {NotifyRedirectProps} from '../../test-service/components/temp/NotifyRedirect';
+import NotifyRedirect, {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
 
 export default function MyApp({Component, pageProps}: AppProps) {
 
