@@ -12,12 +12,22 @@ export type DateConstructorNumbersLength = 2 | 3 | 4 | 5 | 6 | 7;
  */
 export function getDiffDate(target: Date, diffs: number[], datePropertyLength?: DateConstructorNumbersLength): Date {
   const targetDateProperties = getDatePropertyArray(target);
-  const dateProperties = diffs.reduce((a, b, index) => {
+
+  const _diffs = new Array(7).fill(0).map((_, index) => {
+    if (index < diffs.length) {
+      return diffs[index];
+    } else {
+      return 0;
+    }
+  });
+
+  const dateProperties = _diffs.reduce((a, b, index) => {
     // eslint-disable-next-line no-param-reassign
     a[index] += b;
     return a;
   }, targetDateProperties);
-  return new Date(...dateProperties.slice(0, datePropertyLength ?? diffs.length) as DateConstructorNumbers);
+
+  return new Date(...dateProperties.slice(0, datePropertyLength ?? _diffs.length) as DateConstructorNumbers);
 }
 
 /**
