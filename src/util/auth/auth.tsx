@@ -1,5 +1,10 @@
 import {urlStringify} from '@util/extend/query-string';
 import type {GetServerSideProps, GetServerSidePropsContext} from 'next';
+import {getCookie} from '@util/extend/cookie';
+import {useAppDispatch, useAppSelector} from '@store/hooks';
+import {useEffect} from 'react';
+import UserApi from '@api/UserApi';
+import {setUserActionCreator} from '@store/reducers/user';
 
 /**
  * 로그인이 되어있는 유저라면 반드시 갖고있어야하는 값의 타입.
@@ -13,19 +18,16 @@ export interface LoginToken {
 }
 
 function getLoginToken(context?: GetServerSidePropsContext): LoginToken | undefined {
+  const userPk = getCookie('userPk', context);
+  const anotherValue = getCookie('anotherValue', context);
 
-  // ServerSide
-  if (context) {
-    return {
-      userPk: 1234,
-      anotherValue: 'ASDkjldas9023nasd-daskl-123lkda'
-    };
+  if (!userPk || !anotherValue) {
+    return undefined;
   }
 
-  // ClientSide
   return {
-    userPk: 1234,
-    anotherValue: 'ASDkjldas9023nasd-daskl-123lkda'
+    userPk: Number(userPk),
+    anotherValue
   };
 }
 
@@ -54,7 +56,11 @@ export function getLoginTokenServerSide(context: GetServerSidePropsContext): Log
 }
 
 function isLoggedInServerSide(context: GetServerSidePropsContext): boolean {
-  return !!getLoginTokenServerSide(context);
+  try {
+    return !!getLoginTokenServerSide(context);
+  } catch (error) {
+    return false;
+  }
 }
 
 export const getSSPForNotLoggedIn: GetServerSideProps = async (context) => {
@@ -72,7 +78,7 @@ export const getSSPForNotLoggedIn: GetServerSideProps = async (context) => {
   }
 }
 
-export const LOGIN_REDIRECT_QUERY_KEY = 'redirectUrl';
+const LOGIN_REDIRECT_QUERY_KEY = 'redirectUrl';
 
 export function getLoginRedirectUrl(redirectUrl?: string) {
   if (redirectUrl) {
@@ -80,6 +86,11 @@ export function getLoginRedirectUrl(redirectUrl?: string) {
   } else {
     return `/examples/handle-error/login`;
   }
+}
+
+export function getAfterLoginSuccessUrl() {
+  const params = new URLSearchParams(location.search);
+  return params.get(LOGIN_REDIRECT_QUERY_KEY) ?? '/';
 }
 
 export class AuthError extends Error {
@@ -93,4 +104,36 @@ export class AuthError extends Error {
 
 export interface AuthErrorOption {
   redirectUrl: string;
+}
+
+/**
+ * When rendering for the first time, return false even if you are logged in.
+ * Use it only when you show the UI depending on whether you are logged in.
+ *
+ * Correct example: <button>{isLoggedIn ? 'Logout' : 'Login'}</button>
+ * Incorrect example: useEffect(callback, [isLoggedIn])
+ */
+export function useIsLoggedIn() {
+  return useAppSelector(state => !!state.user.info);
+}
+
+/**
+ * This function must only be called in _app.tsx
+ */
+export function useInitialUpdateUserInfo() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const loginToken = getLoginTokenClientSide();
+        const api = new UserApi();
+        const {data: {info}} = await api.getUser(loginToken.userPk);
+        dispatch(setUserActionCreator(info));
+
+      } catch (error) {
+        // ignore AuthError
+      }
+    })().then();
+  }, [dispatch]);
 }

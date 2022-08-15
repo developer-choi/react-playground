@@ -21,5 +21,5 @@ const slice = createSlice({
   }
 });
 
-export const { increaseActionCreator, decreaseActionCreator } = slice.actions;
+export const {increaseActionCreator, decreaseActionCreator} = slice.actions;
 export default slice.reducer;

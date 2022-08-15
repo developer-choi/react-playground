@@ -1,17 +1,36 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import Head from 'next/head';
 import {Button} from '@component/atom/button/button-presets';
 import {useRouter} from 'next/router';
-import {getSSPForNotLoggedIn, LOGIN_REDIRECT_QUERY_KEY} from '@util/auth/auth';
-import {validateStringInQueryString} from '@util/extend/query-string';
+import {getAfterLoginSuccessUrl, getSSPForNotLoggedIn} from '@util/auth/auth';
+import {handleErrorInClientSide} from '@util/api/client-side-error';
+import AuthApi from '@api/AuthApi';
+import {useAppDispatch} from '@store/hooks';
+import {setUserActionCreator} from '@store/reducers/user';
 
 export default function LoginPage() {
-  
-  const {query, replace} = useRouter();
-  
+  const {prefetch, replace} = useRouter();
+  const dispatch = useAppDispatch();
+
   const onClick = useCallback(async () => {
-    await replace(validateStringInQueryString(query[LOGIN_REDIRECT_QUERY_KEY]) ?? '/');
-  }, [replace, query]);
+    const email = 'test-email';
+    const password = 'test-password';
+    const api = new AuthApi();
+
+    try {
+      const {data: {info}} = await api.postLogin(email, password);
+      dispatch(setUserActionCreator(info));
+      const redirectUrl = getAfterLoginSuccessUrl();
+      replace(redirectUrl).then();
+    } catch (error) {
+      handleErrorInClientSide(error);
+    }
+  }, [dispatch, replace]);
+
+  useEffect(() => {
+    const redirectUrl = getAfterLoginSuccessUrl();
+    prefetch(redirectUrl).then();
+  }, [prefetch, replace]);
 
   return (
     <>

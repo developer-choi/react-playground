@@ -11,11 +11,11 @@ import {store} from '@store/store';
 import OgMeta from '@component/atom/OgMeta';
 import TwitterMeta from '@component/atom/TwitterMeta';
 import NotifyRedirect, {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
+import {useInitialUpdateUserInfo} from '@util/auth/auth';
 
-export default function MyApp({Component, pageProps}: AppProps) {
-
-  if (pageProps.notifyRedirect) {
-    return <NotifyRedirect notifyRedirect={pageProps.notifyRedirect as NotifyRedirectProps['notifyRedirect']}/>
+export default function MyApp(props: AppProps) {
+  if (props.pageProps.notifyRedirect) {
+    return <NotifyRedirect notifyRedirect={props.pageProps.notifyRedirect as NotifyRedirectProps['notifyRedirect']}/>
   }
 
   return (
@@ -35,12 +35,20 @@ export default function MyApp({Component, pageProps}: AppProps) {
         description="This project is for learning React and its environments."
       />
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle/>
-          <Component {...pageProps}/>
-        </ThemeProvider>
+        <InnerApp {...props}/>
       </Provider>
       <ToastContainer/>
     </>
+  );
+}
+
+function InnerApp({Component, pageProps}: AppProps) {
+  useInitialUpdateUserInfo();
+
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyle/>
+      <Component {...pageProps}/>
+    </ThemeProvider>
   );
 }
