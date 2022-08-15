@@ -11,12 +11,10 @@ export class ValidateError extends Error {
 export type QueryValue = ParsedUrlQuery['any-key'];
 
 /**
- * @param queryValue string | string[] | undefined
- * @param conditions 만약 전달된다면 이 안에있는 값일 경우에만 반환
- * @example undefined => undefined
- * @example (['a', 'b', 'c']) => undefined
- * @example ('') => undefined
- * @example ('abc', ['apple', 'banana']) => undefined
+ * @example undefined => throw ValidateError
+ * @example (['a', 'b', 'c']) => throw ValidateError
+ * @example ('') => throw ValidateError
+ * @example ('abc', ['apple', 'banana']) => throw ValidateError
  *
  * @example ('abc') => 'abc'
  * @example ('apple', ['apple', 'banana']) => 'apple'
@@ -38,15 +36,12 @@ export function validateStringInQueryString<T extends string = string>(queryValu
 }
 
 /**
- * @param queryValue Value in the Query String
- * @return Returns the value as it is when the value is validated. Returns undefined if not valid.
- *
- * @example 'abc' ==> undefined
- * @example ['a', 'b', 'c'] ==> undefined
- * @example '' ==> undefined
- * @example '0123' ==> undefined
- * @example '+123' ==> undefined
- * @example '-123' ==> undefined
+ * @example 'abc' ==> throw ValidateError
+ * @example ['a', 'b', 'c'] ==> throw ValidateError
+ * @example '' ==> throw ValidateError
+ * @example '0123' ==> throw ValidateError
+ * @example '+123' ==> throw ValidateError
+ * @example '-123' ==> throw ValidateError
  * @example '1234567890123456789012345678901234567890' ==> undefined (The value must be smaller than Number.MAX_SAFE_INTEGER)
  * @example '123' ==> '123'
  */

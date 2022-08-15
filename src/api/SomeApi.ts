@@ -13,6 +13,10 @@ export default class SomeApi extends BaseApi {
     return this.axios.get('/list'); // ==> /some/list
   }
 
+  /**
+   * @exception AuthError If a user is not logged in
+   * @exception AxiosError If an API has some reasons (status: 400)
+   */
   postAlphaBeta({}: SomeAlphaBetaParam) {
     return this.axios.post('/alpha/beta'); // ==> /some/alpha/beta
   }
