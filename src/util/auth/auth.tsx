@@ -1,4 +1,3 @@
-import {urlStringify} from '@util/extend/query-string';
 import type {GetServerSideProps, GetServerSidePropsContext} from 'next';
 import {getCookie} from '@util/extend/cookie';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
@@ -82,7 +81,7 @@ const LOGIN_REDIRECT_QUERY_KEY = 'redirectUrl';
 
 export function getLoginRedirectUrl(redirectUrl?: string) {
   if (redirectUrl) {
-    return `/examples/handle-error/login${urlStringify({[LOGIN_REDIRECT_QUERY_KEY]: redirectUrl})}`;
+    return `/examples/handle-error/login?${LOGIN_REDIRECT_QUERY_KEY}=${redirectUrl}`;
   } else {
     return `/examples/handle-error/login`;
   }
