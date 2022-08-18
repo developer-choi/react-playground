@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import type {AppProps} from 'next/app';
 import {ThemeProvider} from 'styled-components';
 import {theme} from '@util/style/theme';
@@ -11,7 +11,8 @@ import {store} from '@store/store';
 import OgMeta from '@component/atom/OgMeta';
 import TwitterMeta from '@component/atom/TwitterMeta';
 import NotifyRedirect, {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
-import {useInitialUpdateUserInfo} from '@util/auth/auth';
+import {useAppDispatch} from '@store/hooks';
+import {thunkRefreshSetUser} from '@store/reducers/user';
 
 export default function MyApp(props: AppProps) {
   if (props.pageProps.notifyRedirect) {
@@ -43,7 +44,11 @@ export default function MyApp(props: AppProps) {
 }
 
 function InnerApp({Component, pageProps}: AppProps) {
-  useInitialUpdateUserInfo();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(thunkRefreshSetUser());
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>

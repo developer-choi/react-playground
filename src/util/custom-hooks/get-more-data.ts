@@ -1,6 +1,6 @@
 import {useCallback, useState} from 'react';
 import type {PagingResponse} from '@type/response/common';
-import {handleErrorInClientSide} from '@util/api/client-side-error';
+import {handleClientSideError} from '@util/handle-error/client-side-error';
 import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
 
 export type UseGetMoreDataServerSideParam<T> = Required<UseGetMoreDataParam<T>>;
@@ -59,7 +59,7 @@ function useGetMoreData<T>({initialData, getApiHandler}: UseGetMoreDataParam<T>)
         page: 1
       });
     } catch (error) {
-      handleErrorInClientSide(error);
+      handleClientSideError(error);
     }
   }, [getApiHandler]);
   
@@ -72,7 +72,7 @@ function useGetMoreData<T>({initialData, getApiHandler}: UseGetMoreDataParam<T>)
         total: response.total
       }));
     } catch (error) {
-      handleErrorInClientSide(error);
+      handleClientSideError(error);
     }
   }, [getApiHandler, page]);
   

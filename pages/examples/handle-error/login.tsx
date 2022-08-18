@@ -1,20 +1,30 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Head from 'next/head';
 import {Button} from '@component/atom/button/button-presets';
 import {useRouter} from 'next/router';
 import {getAfterLoginSuccessUrl, getSSPForNotLoggedIn} from '@util/auth/auth';
-import {handleErrorInClientSide} from '@util/api/client-side-error';
+import {handleClientSideError} from '@util/handle-error/client-side-error';
 import AuthApi from '@api/AuthApi';
 import {useAppDispatch} from '@store/hooks';
 import {setUserActionCreator} from '@store/reducers/user';
+import Form from '@component/extend/Form';
+import InputText from '@component/extend/InputText';
+import RequestError from '@util/handle-error/RequestError';
+import {haveAxiosResponse} from '@api/BaseApi';
+import {toast} from 'react-toastify';
+import styled from 'styled-components';
 
 export default function LoginPage() {
-  const {prefetch, replace} = useRouter();
+  const {prefetch, replace, push} = useRouter();
   const dispatch = useAppDispatch();
+  
+  const [email, setEmail] = useState('');
+  const emailRef = useRef<HTMLInputElement>(null);
+  
+  const [password, setPassword] = useState('');
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const onClick = useCallback(async () => {
-    const email = 'test-email';
-    const password = 'test-password';
     const api = new AuthApi();
 
     try {
@@ -22,10 +32,37 @@ export default function LoginPage() {
       dispatch(setUserActionCreator(info));
       const redirectUrl = getAfterLoginSuccessUrl();
       replace(redirectUrl).then();
+
     } catch (error) {
-      handleErrorInClientSide(error);
+      if(error instanceof RequestError) {
+        const {cause, content} = error;
+
+        switch (cause) {
+          case 'email':
+            emailRef.current?.focus();
+            toast.error(content);
+            return;
+          case 'password':
+            passwordRef.current?.focus();
+            toast.error(content);
+            return;
+          default:
+            handleClientSideError(error);
+            return;
+        }
+      }
+
+      const axiosError = haveAxiosResponse(error);
+
+      if (!axiosError || axiosError.response.data.customStatus !== 1234) {
+        handleClientSideError(error);
+        return;
+      }
+
+      toast.error('Login is restricted because the password is incorrect more than 10 times.');
+      await push('/');
     }
-  }, [dispatch, replace]);
+  }, [dispatch, email, password, push, replace]);
 
   useEffect(() => {
     const redirectUrl = getAfterLoginSuccessUrl();
@@ -37,12 +74,27 @@ export default function LoginPage() {
       <Head>
         <title>login</title>
       </Head>
-      <div>
-        여기는 로그인안하고 /examples/auth-flow/private 갔다가 리다이랙트되는 로그인 페이지임.
-        <Button onClick={onClick}>로그인버튼</Button>
-      </div>
+      <StyledForm>
+        <InputText ref={emailRef} type="email" value={email} onChangeText={setEmail} placeholder="email" name="email"/>
+        <InputText ref={passwordRef} type="password" value={password} onChangeText={setPassword} placeholder="password"/>
+        <Button onClick={onClick}>로그인</Button>
+      </StyledForm>
     </>
   );
 }
 
 export const getServerSideProps = getSSPForNotLoggedIn;
+
+const StyledForm = styled(Form)`
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  gap: 10px;
+  
+  input {
+    padding: 5px;
+    border: 2px solid ${props => props.theme.main};
+    border-radius: 5px;
+  }
+`;

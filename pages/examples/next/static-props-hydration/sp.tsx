@@ -31,8 +31,8 @@ export function TabMenus() {
 }
 
 const LINKS: { href: string; text: string; type: 'sp' | 'ssp' }[] = [
-  {type: 'sp', href: '/examples/api/static-props-hydration/sp', text: 'getStaticProps'},
-  {type: 'ssp', href: '/examples/api/static-props-hydration/ssp', text: 'getServerSideProps'},
+  {type: 'sp', href: '/examples/next/static-props-hydration/sp', text: 'getStaticProps'},
+  {type: 'ssp', href: '/examples/next/static-props-hydration/ssp', text: 'getServerSideProps'},
 ];
 
 const Tab = styled.div`

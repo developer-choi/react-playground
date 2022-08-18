@@ -1,7 +1,7 @@
 import React, {useCallback, useRef, useState} from 'react';
 import Form from '@component/extend/Form';
 import BoardApi from '@api/BoardApi';
-import {handleErrorInClientSide} from '@util/api/client-side-error';
+import {handleClientSideError} from '@util/handle-error/client-side-error';
 import styled from 'styled-components';
 import InputText from '@component/extend/InputText';
 import TextArea from '@component/extend/TextArea';
@@ -37,7 +37,7 @@ export default function Page() {
       await api.postBoardCreate({title: _title, content: _content, boardType: 'FREE'});
       alert('게시글 작성 성공');
     } catch (error) {
-      handleErrorInClientSide(error);
+      handleClientSideError(error);
     }
 
   }, [content, title]);

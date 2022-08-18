@@ -105,3 +105,13 @@ function getDefaultBaseURL(basePath = '') {
   const path = `/api/${basePath}`.replace(/\/\//g, '/');
   return `${origin}${path}`;
 }
+
+export type AxiosErrorWithResponse = AxiosError & {response: AxiosResponse};
+
+export function haveAxiosResponse(error: any): AxiosErrorWithResponse | undefined {
+  if (!error.isAxiosError || !error.response) {
+    return undefined;
+  }
+
+  return error;
+}

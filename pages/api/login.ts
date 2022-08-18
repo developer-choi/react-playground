@@ -8,8 +8,11 @@ export default function login(req: NextApiRequest, res: NextApiResponse) {
   postApi(req, res, () => {
     const {email, password} = req.body;
 
-    if (email !== 'test-email' || password !== 'test-password') {
-      res.status(400);
+    if (email !== 'test-email') {
+      res.status(400).json({message: 'The email is not exist.'});
+    } else if(password !== 'test-password') {
+      res.status(400).json({message: 'The password is not valid.'});
+
     } else {
       const expire = getDiffDate(new Date(), [2]).toUTCString();
 
