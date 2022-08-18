@@ -35,9 +35,9 @@ export default function LoginPage() {
 
     } catch (error) {
       if(error instanceof RequestError) {
-        const {cause, content} = error;
+        const {reason, content} = error;
 
-        switch (cause) {
+        switch (reason) {
           case 'email':
             emailRef.current?.focus();
             toast.error(content);

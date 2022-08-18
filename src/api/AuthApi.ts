@@ -34,11 +34,11 @@ export default class AuthApi extends BaseApi {
 
 function validateLogin(email: string, password: string) {
   if (email.length === 0) {
-    throw new RequestError({content: 'Please enter the email', cause: 'email'});
+    throw new RequestError({content: 'Please enter the email', reason: 'email'});
   }
 
   if (password.length === 0) {
-    throw new RequestError({content: 'Please enter the password', cause: 'password'});
+    throw new RequestError({content: 'Please enter the password', reason: 'password'});
   }
 
   return {
