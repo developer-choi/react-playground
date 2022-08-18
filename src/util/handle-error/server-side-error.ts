@@ -34,7 +34,9 @@ function handleValidateError(error: ValidateError, option?: HandleServerSideErro
   }
 
   return {
-    props: option.notifyRedirect
+    props: {
+      notifyRedirect: option.notifyRedirect
+    }
   };
 }
 
@@ -50,7 +52,9 @@ function handleAuthError(error: AuthError): GetServerSidePropsResult<any> {
 function handleAxiosError(error: any, option?: HandleServerSideErrorOption): GetServerSidePropsResult<any> {
   if (option?.notifyRedirect) {
     return {
-      props: option.notifyRedirect
+      props: {
+        notifyRedirect: option.notifyRedirect
+      }
     };
   }
 

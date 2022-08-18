@@ -77,7 +77,7 @@ export default function LoginPage() {
       <StyledForm>
         <InputText ref={emailRef} type="email" value={email} onChangeText={setEmail} placeholder="email" name="email"/>
         <InputText ref={passwordRef} type="password" value={password} onChangeText={setPassword} placeholder="password"/>
-        <Button onClick={onClick}>로그인</Button>
+        <Button type="submit" onClick={onClick}>로그인</Button>
       </StyledForm>
     </>
   );

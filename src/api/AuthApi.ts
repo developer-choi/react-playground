@@ -18,7 +18,7 @@ export default class AuthApi extends BaseApi {
     const {email: _email, password: _password} = validateLogin(email, password);
 
     return this.axios.post('/login', {
-      userEmail: _email,
+      email: _email,
       password: SHA512.hash(_password)
     });
   }

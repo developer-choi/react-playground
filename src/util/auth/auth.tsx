@@ -127,7 +127,7 @@ export const getSSPForNotLoggedIn: GetServerSideProps = async (context) => {
 const LOGIN_REDIRECT_KEY_NAME = 'redirectUrl';
 
 function getLoginRedirectUrl(redirectPath: string): string {
-  return `/not-private/login?${LOGIN_REDIRECT_KEY_NAME}=${redirectPath}`;
+  return `/examples/handle-error/login?${LOGIN_REDIRECT_KEY_NAME}=${redirectPath}`;
 }
 
 function getLoginRedirectUrlServerSide(context: GetServerSidePropsContext) {

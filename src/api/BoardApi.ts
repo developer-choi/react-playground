@@ -1,64 +1,42 @@
 import BaseApi from '@api/BaseApi';
-import type {AxiosResponse} from 'axios';
-import {getLoginTokenClientSide, getLoginTokenServerSide, LoginToken} from '@util/auth/auth';
+import {getLoginTokenClientSide, getLoginTokenServerSide} from '@util/auth/auth';
 import type {Board} from '@type/response-sub/board-sub';
 import type {GetServerSidePropsContext} from 'next';
-import type {BoardOneResponse} from '@type/response/board';
+import type {AxiosResponse} from 'axios';
+import type {BoardListResponse, BoardOneResponse} from '@type/response/board';
 
 export default class BoardApi extends BaseApi {
   constructor() {
-    super('/method');
+    super('/board');
   }
 
-  getBoardOne(boardNo: number): Promise<AxiosResponse<BoardOneResponse>> {
-    return this.axios.get('/get-some', {params: {boardNo}});
-  }
-  
-  postBoardCreate({img, boardType, title, content}: BoardCreateParam) {
+  postBoardCreate(param: BoardCreateParam) {
     const loginToken = getLoginTokenClientSide(); //Errors must be handled in components.
-    const formData = new FormData();
-    
-    if (img) {
-      formData.append('file', img);
+    return this.axios.post('/create', param, {headers: loginToken});
+  }
+
+  /**
+   * @exception ValidateError Occurs when the boardNo is invalid. (The boardNo must numeric.)
+   * @exception AxiosError Occurs when a article does not exist (status 404)
+   */
+  getBoardOne(context: GetServerSidePropsContext, pk: number): Promise<AxiosResponse<BoardOneResponse>> {
+    try {
+      const loginToken = getLoginTokenServerSide(context);
+      return this.axios.get('/one', {params: {pk}, headers: loginToken});
+    } catch (error) {
+      return this.axios.get('/one', {params: {pk}});
     }
-    
-    const blob = new Blob([JSON.stringify({
-      boardType,
-      title,
-      content,
-    })], {type: 'application/json'});
-    
-    formData.append('json', blob);
-
-    return this.axios.post('/post-some', formData, {headers: {'Content-Type': 'multipart/form-data', ...loginToken}});
-
-    /** Example of a caller (Component)
-     * try {
-     *   const api = new BoardApi();
-     *   await api.postSomePrivateApi();
-     * } catch (error) {
-     *   handleErrorInClientSide(error);
-     * }
-     */
   }
 
-  getSomePrivateApiClientSide(): Promise<AxiosResponse<SomePrivateApiResponse>> {
-    const loginInfo = getLoginTokenClientSide();
-    return this.getSomePrivateApi(loginInfo);
-  }
+  getBoardList(context: GetServerSidePropsContext, page: number): Promise<AxiosResponse<BoardListResponse>> {
+    try {
+      const loginToken = getLoginTokenServerSide(context);
+      return this.axios.get('/list', {params: {page}, headers: loginToken});
 
-  getSomePrivateApiServerSide(context: GetServerSidePropsContext): Promise<AxiosResponse<SomePrivateApiResponse>> {
-    const loginInfo = getLoginTokenServerSide(context);
-    return this.getSomePrivateApi(loginInfo);
-  }
-
-  private getSomePrivateApi(loginInfo: LoginToken): Promise<AxiosResponse<SomePrivateApiResponse>> {
-    return this.axios.get('/get-some', {headers: loginInfo});
+    } catch (error) {
+      return this.axios.get('/list', {params: {page}});
+    }
   }
 }
 
-export interface BoardCreateParam extends Pick<Board, 'title' | 'content' | 'boardType'> {
-  img?: File;
-}
-
-type SomePrivateApiResponse = any;
+export type BoardCreateParam = Pick<Board, 'title' | 'content' | 'boardType'>;

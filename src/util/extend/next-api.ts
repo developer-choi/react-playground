@@ -27,7 +27,7 @@ function apiHandler(req: NextApiRequest, res: NextApiResponse, httpMethod: HttpM
 
   if (method !== httpMethod) {
     res.setHeader('Allow', [httpMethod])
-    res.status(405).end(`Method ${method} Not Allowed`)
+    res.status(405).json({message: `Method ${method} Not Allowed`});
   } else {
     callback();
   }

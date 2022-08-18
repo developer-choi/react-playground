@@ -1,7 +1,7 @@
 import React from 'react';
 import type {GetServerSideProps} from 'next';
 import type {Video} from '@type/response/video';
-import {validateNumberInQueryString} from '@util/extend/query-string';
+import {validateNumberInQueryThrowError} from '@util/extend/query-string';
 import VideoApi from '@api/VideoApi';
 
 interface PageProp {
@@ -16,7 +16,7 @@ export default function Page({video}: PageProp) {
 }
 
 export const getServerSideProps: GetServerSideProps<PageProp, Param> = async ({params}) => {
-  const pk = validateNumberInQueryString(params?.pk);
+  const pk = validateNumberInQueryThrowError(params?.pk);
   
   if (pk === undefined) {
     return {

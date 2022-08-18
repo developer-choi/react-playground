@@ -3,14 +3,16 @@ import {postApi} from '@util/extend/next-api';
 import {getDiffDate} from '@util/extend/date/date-util';
 import type {UserInfo} from '@type/response-sub/user-sub';
 import type {LoginToken} from '@util/auth/auth';
+import SHA512 from 'sha512-es';
 
 export default function login(req: NextApiRequest, res: NextApiResponse) {
   postApi(req, res, () => {
     const {email, password} = req.body;
 
-    if (email !== 'test-email') {
+    if (email !== 'test-email@test.com') {
       res.status(400).json({message: 'The email is not exist.'});
-    } else if(password !== 'test-password') {
+
+    } else if(password !== PASSWORD_HASH) {
       res.status(400).json({message: 'The password is not valid.'});
 
     } else {
@@ -33,3 +35,5 @@ export const TEST_USER: UserInfo = {
   userPk: 1234,
   name: 'test-name'
 };
+
+const PASSWORD_HASH = SHA512.hash('test-password');

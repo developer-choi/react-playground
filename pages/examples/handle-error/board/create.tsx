@@ -1,17 +1,40 @@
 import React, {useCallback, useRef, useState} from 'react';
-import Form from '@component/extend/Form';
-import BoardApi from '@api/BoardApi';
-import {handleClientSideError} from '@util/handle-error/client-side-error';
+import type {GetServerSideProps} from 'next';
+import {getLoginTokenServerSide} from '@util/auth/auth';
+import {handleServerSideError} from '@util/handle-error/server-side-error';
 import styled from 'styled-components';
+import Form from '@component/extend/Form';
 import InputText from '@component/extend/InputText';
 import TextArea from '@component/extend/TextArea';
+import BoardApi from '@api/BoardApi';
+import {handleClientSideError} from '@util/handle-error/client-side-error';
 import {Button} from '@component/atom/button/button-presets';
+import {useRouter} from 'next/router';
 
 export default function Page() {
+  return (
+    <BoardForm/>
+  );
+}
 
+export const getServerSideProps: GetServerSideProps<{}> = async context => {
+  try {
+    getLoginTokenServerSide(context);
+
+    return {
+      props: {}
+    };
+
+  } catch (error) {
+    return handleServerSideError(error);
+  }
+};
+
+function BoardForm() {
+  const {push} = useRouter();
   const [title, setTitle] = useState('');
   const titleRef = useRef<HTMLInputElement>(null);
-  
+
   const [content, setContent] = useState('');
   const contentRef = useRef<HTMLTextAreaElement>(null);
 
@@ -35,12 +58,12 @@ export default function Page() {
 
     try {
       await api.postBoardCreate({title: _title, content: _content, boardType: 'FREE'});
-      alert('게시글 작성 성공');
+      await push('/examples/handle-error/board/list/1');
     } catch (error) {
       handleClientSideError(error);
     }
 
-  }, [content, title]);
+  }, [content, push, title]);
 
   const onReset = useCallback(() => {
     setTitle('');

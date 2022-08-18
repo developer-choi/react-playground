@@ -10,9 +10,9 @@ export interface OgMetaProps {
    * https://developers.facebook.com/tools/debug/
    * row 600 or more, 1.91:1 (ex: 600x314).
    */
-  image: string;
+  image?: string;
   title: string;
-  description: string;
+  description?: string;
 }
 
 export default function OgMeta({image, description, title}: OgMetaProps) {
@@ -23,9 +23,9 @@ export default function OgMeta({image, description, title}: OgMetaProps) {
    */
   return (
     <Head>
-      <meta key="og:image" property="og:image" content={image}/>
+      {image && <meta key="og:image" property="og:image" content={image}/>}
       <meta key="og:title" property="og:title" content={title}/>
-      <meta key="og:description" property="og:description" content={description}/>
+      {description && <meta key="og:description" property="og:description" content={description}/>}
     </Head>
   );
 };

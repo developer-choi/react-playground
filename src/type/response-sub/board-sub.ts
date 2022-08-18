@@ -4,10 +4,7 @@ export interface Board {
   content: string;
   timestamp: number;
   boardType: BoardType;
-}
-
-export interface BoardAnother {
-  someProperty: string;
+  isLike: boolean;
 }
 
 /**

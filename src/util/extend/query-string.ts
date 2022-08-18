@@ -19,7 +19,7 @@ export type QueryValue = ParsedUrlQuery['any-key'];
  * @example ('abc') => 'abc'
  * @example ('apple', ['apple', 'banana']) => 'apple'
  */
-export function validateStringInQueryString<T extends string = string>(queryValue: QueryValue, conditions: T[] = []): T {
+export function validateStringInQueryThrowError<T extends string = string>(queryValue: QueryValue, conditions: T[] = []): T {
   if (!queryValue || Array.isArray(queryValue)) {
     throw new ValidateError('queryValue is not valid string');
   }
@@ -35,6 +35,9 @@ export function validateStringInQueryString<T extends string = string>(queryValu
   return queryValue as T;
 }
 
+const NUMBERS = range(0, 9).map(value => value.toString());
+const MAX_INTEGER_LENGTH = Number.MAX_SAFE_INTEGER.toString().length;
+
 /**
  * @example 'abc' ==> throw ValidateError
  * @example ['a', 'b', 'c'] ==> throw ValidateError
@@ -45,10 +48,7 @@ export function validateStringInQueryString<T extends string = string>(queryValu
  * @example '1234567890123456789012345678901234567890' ==> undefined (The value must be smaller than Number.MAX_SAFE_INTEGER)
  * @example '123' ==> '123'
  */
-const NUMBERS = range(0, 9).map(value => value.toString());
-const MAX_INTEGER_LENGTH = Number.MAX_SAFE_INTEGER.toString().length;
-
-export function validateNumberInQueryString(queryValue: QueryValue): number {
+export function validateNumberInQueryThrowError(queryValue: QueryValue): number {
   // undefined, empty string, array
   if (!queryValue || Array.isArray(queryValue) || queryValue.length > MAX_INTEGER_LENGTH) {
     throw new ValidateError('queryValue is not valid number');
