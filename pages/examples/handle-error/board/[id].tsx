@@ -6,7 +6,11 @@ import {haveAxiosResponse} from '@api/BaseApi';
 import {handleServerSideError} from '@util/handle-error/server-side-error';
 import OgMeta from '@component/atom/OgMeta';
 import Head from 'next/head';
-import {useGetLoginUserPk, useIsLoggedIn} from '@util/auth/auth';
+import useAlertForNotLoggedIn, {useGetLoginUserPk, useLoginStatus} from '@util/auth/auth';
+import TextArea from '@component/extend/TextArea';
+import Form from '@component/extend/Form';
+import {useCallback} from 'react';
+import styled from 'styled-components';
 
 interface PageProp {
   board: Board;
@@ -47,7 +51,6 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async context =>
 function BoardOne({board}: PageProp) {
   const {title, content, authorUserPk} = board;
   const isMine = useGetLoginUserPk() === authorUserPk;
-  const isLoggedIn = useIsLoggedIn();
 
   return (
     <>
@@ -59,12 +62,36 @@ function BoardOne({board}: PageProp) {
         <header>{title}</header>
         <article>{content}</article>
         {isMine && <button>삭제</button>}
-        {isLoggedIn && <ReplyForm/>}
+        <ReplyForm/>
       </div>
     </>
   );
 }
 
 function ReplyForm() {
-  return null;
+  const loginStatus = useLoginStatus();
+  const mustLogin = useAlertForNotLoggedIn();
+
+  const addReply = useCallback(() => {
+    // logic
+  }, []);
+
+  return (
+    <StyledForm>
+      <TextArea onClick={loginStatus === 'initial' ? undefined : loginStatus ? addReply : mustLogin}/>
+      <button onClick={loginStatus === 'initial' ? undefined : loginStatus ? addReply : mustLogin}>댓글등록</button>
+    </StyledForm>
+  );
 }
+
+const StyledForm = styled(Form)`
+  display: flex;
+  
+  textarea, button {
+    border: 1px solid black;
+  }
+  
+  button {
+    padding: 5px 20px;
+  }
+`;

@@ -6,6 +6,8 @@ import {AuthError} from '@util/auth/AuthError';
 import {INITIAL_USER_INFO} from '@store/reducers/user';
 import {handleServerSideError} from '@util/handle-error/server-side-error';
 import {handleClientSideError} from '@util/handle-error/client-side-error';
+import {useRouter} from 'next/router';
+import {useCallback, useEffect, useState} from 'react';
 
 export interface LoginToken {
   userPk: number;
@@ -88,14 +90,14 @@ export function isLoggedInClientSide() {
  * return {userPk === authorPk ? <button onClick={removeReply}>Delete</button>}
  */
 export function useGetLoginUserPk(): number | undefined {
-  const loggedIn = useIsLoggedIn();
+  const loginStatus = useLoginStatus();
   const userPk = useAppSelector(state => state.user.info.userPk);
 
-  if (!loggedIn) {
-    return undefined;
+  if (loginStatus === true) {
+    return userPk;
 
   } else {
-    return userPk;
+    return undefined;
   }
 }
 
@@ -103,11 +105,34 @@ export function useGetLoginUserPk(): number | undefined {
  * When rendering for the first time, return false even if you are logged in.
  * Use it only when you show the UI depending on whether you are logged in.
  *
- * Correct example: <button>{isLoggedIn ? 'Logout' : 'Login'}</button>
+ * Correct example: <button>{isLoggedIn === 'initial' ? '' : isLoggedIn ? 'Logout' : 'Login'}</button>
  * Incorrect example: useEffect(callback, [isLoggedIn])
  */
-export function useIsLoggedIn() {
-  return useAppSelector(state => state.user.info !== INITIAL_USER_INFO);
+export function useLoginStatus(): boolean | 'initial' {
+  const [loginStatus, setLoginStatus] = useState<boolean | 'initial'>('initial');
+  const storeValue = useAppSelector(state => state.user.info !== INITIAL_USER_INFO);
+
+  useEffect(() => {
+    setLoginStatus(storeValue)
+  }, [storeValue]);
+
+  return loginStatus;
+}
+
+export default function useAlertForNotLoggedIn() {
+  const {push} = useRouter();
+
+  return useCallback(() => {
+    try {
+      getLoginTokenClientSide();
+    } catch (error) {
+      const {message, option: {loginPageUrlWithRedirectUrl}} = error as AuthError;
+
+      if (confirm(message)) {
+        push(loginPageUrlWithRedirectUrl).then();
+      }
+    }
+  }, [push]);
 }
 
 export const getSSPForNotLoggedIn: GetServerSideProps = async (context) => {
