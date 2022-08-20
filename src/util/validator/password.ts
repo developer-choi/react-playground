@@ -6,7 +6,7 @@ export const PASSWORD_LENGTH = {
   max: 20
 };
 
-export function validatePassword({value}: ValidateParam): ValidateResult {
+export function validatePassword(value: string): ValidateResult {
   const emptyResult = validateEmpty({value, prefix: '비밀번호를 '});
   
   if (!emptyResult.validated) {
@@ -33,7 +33,7 @@ export type ConfirmPasswordReason = 'INVALID_NEW_PASSWORD' | 'INVALID_CONFIRM_PA
 export type ValidateConfirmPasswordParam = Omit<ValidateParam, 'value'> & { newPassword: string, confirmPassword: string };
 
 export function validateConfirmPassword({newPassword, confirmPassword}: ValidateConfirmPasswordParam): ValidateResult<ConfirmPasswordReason> {
-  const passwordResult = validatePassword({value: newPassword});
+  const passwordResult = validatePassword(newPassword);
   
   if (!passwordResult.validated) {
     return {
@@ -43,7 +43,7 @@ export function validateConfirmPassword({newPassword, confirmPassword}: Validate
     };
   }
   
-  const confirmPasswordResult = validatePassword({value: confirmPassword});
+  const confirmPasswordResult = validatePassword(confirmPassword);
   
   if (!confirmPasswordResult.validated) {
     return {
@@ -75,7 +75,7 @@ export interface OriginPasswordResult {
 }
 
 export function validateOriginPassword({newPassword, confirmPassword, originPassword}: ValidateOriginPasswordParam): ValidateResult<OriginPasswordReason, OriginPasswordResult> {
-  const originPasswordResult = validatePassword({value: originPassword});
+  const originPasswordResult = validatePassword(originPassword);
   
   if (!originPasswordResult.validated) {
     return {

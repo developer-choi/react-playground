@@ -1,7 +1,7 @@
-import type {ValidateParam, ValidateResult} from '@util/validator/validator-core';
+import type {ValidateResult} from '@util/validator/validator-core';
 import {validateEmpty} from '@util/validator/validator-core';
 
-export function validateEmail({value}: ValidateParam): ValidateResult {
+export function validateEmail(value: string): ValidateResult {
   const emptyResult = validateEmpty({value, prefix: '이메일을 '});
 
   if (!emptyResult.validated) {
