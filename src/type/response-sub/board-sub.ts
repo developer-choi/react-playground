@@ -5,6 +5,7 @@ export interface Board {
   timestamp: number;
   boardType: BoardType;
   isLike: boolean;
+  authorUserPk: number;
 }
 
 /**

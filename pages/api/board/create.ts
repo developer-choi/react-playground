@@ -6,6 +6,7 @@ import {BOARD_LIST} from '@pages/api/board/list';
 export default function create(req: NextApiRequest, res: NextApiResponse) {
   postApi(req, res, async () => {
     const {title, content, boardType} = req.body as BoardCreateParam;
+    const userPk = Number(req.headers.userpk);
     const lastBoard = BOARD_LIST[BOARD_LIST.length - 1];
 
     BOARD_LIST.push({
@@ -14,7 +15,8 @@ export default function create(req: NextApiRequest, res: NextApiResponse) {
       title,
       content,
       isLike: false,
-      timestamp: new Date().getTime()
+      timestamp: new Date().getTime(),
+      authorUserPk: userPk
     });
 
     res.status(200).send('');

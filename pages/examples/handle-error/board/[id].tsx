@@ -6,26 +6,14 @@ import {haveAxiosResponse} from '@api/BaseApi';
 import {handleServerSideError} from '@util/handle-error/server-side-error';
 import OgMeta from '@component/atom/OgMeta';
 import Head from 'next/head';
+import {useGetLoginUserPk, useIsLoggedIn} from '@util/auth/auth';
 
 interface PageProp {
   board: Board;
 }
 
 export default function Page({board}: PageProp) {
-  const {title, content} = board;
-
-  return (
-    <>
-      <OgMeta title={title} description={content.slice(0, 30)}/>
-      <Head>
-        <title>{title}</title>
-      </Head>
-      <div>
-        <header>{title}</header>
-        <article>{content}</article>
-      </div>
-    </>
-  );
+  return <BoardOne board={board}/>
 }
 
 export const getServerSideProps: GetServerSideProps<PageProp> = async context => {
@@ -54,4 +42,29 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async context =>
       return handleServerSideError(error);
     }
   }
+}
+
+function BoardOne({board}: PageProp) {
+  const {title, content, authorUserPk} = board;
+  const isMine = useGetLoginUserPk() === authorUserPk;
+  const isLoggedIn = useIsLoggedIn();
+
+  return (
+    <>
+      <OgMeta title={title} description={content.slice(0, 30)}/>
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <div>
+        <header>{title}</header>
+        <article>{content}</article>
+        {isMine && <button>삭제</button>}
+        {isLoggedIn && <ReplyForm/>}
+      </div>
+    </>
+  );
+}
+
+function ReplyForm() {
+  return null;
 }

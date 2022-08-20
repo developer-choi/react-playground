@@ -27,12 +27,12 @@ export default function login(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export const TEST_TOKEN: LoginToken = {
-  userPk: 1234,
+  userPk: 1,
   anotherValue: 'abc1234'
 };
 
 export const TEST_USER: UserInfo = {
-  userPk: 1234,
+  userPk: 1,
   name: 'test-name'
 };
 
