@@ -57,7 +57,7 @@ function BoardForm() {
     const api = new BoardApi();
 
     try {
-      await api.postBoardCreate({title: _title, content: _content, boardType: 'FREE'});
+      await api.postCreate({title: _title, content: _content, boardType: 'FREE'});
       await push('/examples/handle-error/board/list/1');
     } catch (error) {
       handleClientSideError(error);

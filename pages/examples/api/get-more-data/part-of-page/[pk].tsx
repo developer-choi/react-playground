@@ -65,7 +65,7 @@ export default function Page({videos, video}: PageProp) {
 export const getServerSideProps: GetServerSideProps<PageProp, Param> = async ({params}) => {
   const {pk} = params as Param;
   const api = new VideoApi();
-  const [res1, res2] = await Promise.all([api.getVideoOne(Number(pk)), api.getVideoAll()]);
+  const [res1, res2] = await Promise.all([api.getOne(Number(pk)), api.getAll()]);
   
   return {
     props: {

@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async context =>
   const api = new BoardApi();
   try {
     const pageParam = validateNumberInQueryThrowError(context.params?.id);
-    const {data: {page, list, total}} = await api.getBoardList(context, pageParam);
+    const {data: {page, list, total}} = await api.getList(context, pageParam);
     return {
       props: {
         page, list, total

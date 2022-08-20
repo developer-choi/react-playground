@@ -7,11 +7,11 @@ export default class VideoApi extends BaseApi {
     super('/video');
   }
   
-  getVideoOne(pk: number | string): Promise<AxiosResponse<VideoResponse>> {
+  getOne(pk: number | string): Promise<AxiosResponse<VideoResponse>> {
     return this.axios.get('/one', {params: {pk}});
   }
   
-  getVideoAll(): Promise<AxiosResponse<VideosResponse>> {
+  getAll(): Promise<AxiosResponse<VideosResponse>> {
     return this.axios.get('/all');
   }
 }

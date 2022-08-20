@@ -10,7 +10,11 @@ export default class BoardApi extends BaseApi {
     super('/board');
   }
 
-  postBoardCreate(param: BoardCreateParam) {
+  /** Naming Rule
+   * [HTTP-METHOD] + [API URL (Without root path)]
+   * GET /some/alpha/beta/gamma ==> getAlphaBetaGamma()
+   */
+  postCreate(param: BoardCreateParam) {
     const loginToken = getLoginTokenClientSide(); //Errors must be handled in components.
     return this.axios.post('/create', param, {headers: loginToken});
   }
@@ -19,7 +23,7 @@ export default class BoardApi extends BaseApi {
    * @exception ValidateError Occurs when the boardNo is invalid. (The boardNo must numeric.)
    * @exception AxiosError Occurs when a article does not exist (status 404)
    */
-  getBoardOne(context: GetServerSidePropsContext, pk: number): Promise<AxiosResponse<BoardOneResponse>> {
+  getOne(context: GetServerSidePropsContext, pk: number): Promise<AxiosResponse<BoardOneResponse>> {
     try {
       const loginToken = getLoginTokenServerSide(context);
       return this.axios.get('/one', {params: {pk}, headers: loginToken});
@@ -28,7 +32,7 @@ export default class BoardApi extends BaseApi {
     }
   }
 
-  getBoardList(context: GetServerSidePropsContext, page: number): Promise<AxiosResponse<BoardListResponse>> {
+  getList(context: GetServerSidePropsContext, page: number): Promise<AxiosResponse<BoardListResponse>> {
     try {
       const loginToken = getLoginTokenServerSide(context);
       return this.axios.get('/list', {params: {page}, headers: loginToken});
@@ -39,4 +43,7 @@ export default class BoardApi extends BaseApi {
   }
 }
 
+/** Naming Rule
+ * [api path] + Param
+ */
 export type BoardCreateParam = Pick<Board, 'title' | 'content' | 'boardType'>;

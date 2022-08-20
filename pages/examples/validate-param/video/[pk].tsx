@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps<PageProp, Param> = async ({p
   
   try {
     const api = new VideoApi();
-    const response = await api.getVideoOne(pk);
+    const response = await api.getOne(pk);
   
     return {
       props: {
