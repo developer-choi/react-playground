@@ -6,6 +6,8 @@ import type {PagingResponse} from '@type/response/common';
 import type {Board} from '@type/response-sub/board-sub';
 import Link from 'next/link';
 import styled from 'styled-components';
+import {logoutInClientSide, useIsLoggedIn} from '@util/auth/auth';
+import {useCallback} from 'react';
 
 interface PageProp extends PagingResponse{
   list: Board[];
@@ -41,13 +43,24 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async context =>
 };
 
 function BoardList({list}: PageProp) {
+  const isLoggedIn = useIsLoggedIn();
+  const logout = useCallback(() => {
+    logoutInClientSide().then();
+  }, []);
+
   return (
     <Wrap>
+      {isLoggedIn && <button onClick={logout} style={{alignSelf: 'self-start'}}>로그아웃</button>}
       {list.map(({pk, title}) => (
         <Link key={pk} href={`/examples/handle-error/board/${pk}`} passHref>
           <StyledAnchor>{title}</StyledAnchor>
         </Link>
       ))}
+      {isLoggedIn && (
+        <Link href="/examples/handle-error/board/create">
+          <a style={{alignSelf: 'self-start'}}>글쓰기</a>
+        </Link>
+      )}
     </Wrap>
   )
 }

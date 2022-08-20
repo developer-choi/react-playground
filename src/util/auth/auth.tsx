@@ -2,9 +2,10 @@ import type {GetServerSideProps, GetServerSidePropsContext} from 'next';
 import {getCookie, removeCookie} from '@util/extend/cookie';
 import {useAppSelector} from '@store/hooks';
 import AuthApi from '@api/AuthApi';
-import {handleClientSideError} from '@util/handle-error/client-side-error';
 import {AuthError} from '@util/auth/AuthError';
 import {INITIAL_USER_INFO} from '@store/reducers/user';
+import {handleServerSideError} from '@util/handle-error/server-side-error';
+import {handleClientSideError} from '@util/handle-error/client-side-error';
 
 export interface LoginToken {
   userPk: number;
@@ -124,6 +125,18 @@ export const getSSPForNotLoggedIn: GetServerSideProps = async (context) => {
   }
 }
 
+export const getSSPForLoggedIn: GetServerSideProps<{}> = async context => {
+  try {
+    getLoginTokenServerSide(context);
+
+    return {
+      props: {}
+    };
+  } catch (error) {
+    return handleServerSideError(error);
+  }
+};
+
 const LOGIN_REDIRECT_KEY_NAME = 'redirectUrl';
 
 function getLoginRedirectUrl(redirectPath: string): string {
@@ -134,7 +147,7 @@ function getLoginRedirectUrlServerSide(context: GetServerSidePropsContext) {
   return getLoginRedirectUrl(context.resolvedUrl);
 }
 
-function getLoginRedirectUrlClientSide() {
+export function getLoginRedirectUrlClientSide() {
   return getLoginRedirectUrl(location.pathname);
 }
 
@@ -152,6 +165,11 @@ export async function logoutInClientSide(destination = '/') {
     removeCookie('anotherValue');
     location.replace(destination);
   } catch (error) {
-    handleClientSideError(error);
+    if (error instanceof AuthError) {
+      location.replace(destination);
+
+    } else {
+      handleClientSideError(error);
+    }
   }
 }

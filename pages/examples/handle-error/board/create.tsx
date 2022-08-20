@@ -1,7 +1,5 @@
 import React, {useCallback, useRef, useState} from 'react';
-import type {GetServerSideProps} from 'next';
-import {getLoginTokenServerSide} from '@util/auth/auth';
-import {handleServerSideError} from '@util/handle-error/server-side-error';
+import {getSSPForLoggedIn} from '@util/auth/auth';
 import styled from 'styled-components';
 import Form from '@component/extend/Form';
 import InputText from '@component/extend/InputText';
@@ -17,18 +15,7 @@ export default function Page() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<{}> = async context => {
-  try {
-    getLoginTokenServerSide(context);
-
-    return {
-      props: {}
-    };
-
-  } catch (error) {
-    return handleServerSideError(error);
-  }
-};
+export const getServerSideProps = getSSPForLoggedIn;
 
 function BoardForm() {
   const {push} = useRouter();

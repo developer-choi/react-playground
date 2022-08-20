@@ -18,10 +18,10 @@ export default function LoginPage() {
   const {prefetch, replace, push} = useRouter();
   const dispatch = useAppDispatch();
   
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('test-email@test.com');
   const emailRef = useRef<HTMLInputElement>(null);
   
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('test-password');
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const onClick = useCallback(async () => {
@@ -75,7 +75,7 @@ export default function LoginPage() {
         <title>login</title>
       </Head>
       <StyledForm>
-        <InputText ref={emailRef} type="email" value={email} onChangeText={setEmail} placeholder="email" name="email"/>
+        <InputText ref={emailRef} autoFocus type="email" value={email} onChangeText={setEmail} placeholder="email" name="email"/>
         <InputText ref={passwordRef} type="password" value={password} onChangeText={setPassword} placeholder="password"/>
         <Button type="submit" onClick={onClick}>로그인</Button>
       </StyledForm>
