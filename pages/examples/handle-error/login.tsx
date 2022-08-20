@@ -75,7 +75,7 @@ export default function LoginPage() {
         <title>login</title>
       </Head>
       <StyledForm>
-        <InputText ref={emailRef} autoFocus type="email" value={email} onChangeText={setEmail} placeholder="email" name="email"/>
+        <InputText ref={emailRef} autoFocus type="email" value={email} onChangeText={setEmail} placeholder="email" name="email" onInvalid={(e) => {e.preventDefault()}}/>
         <InputText ref={passwordRef} type="password" value={password} onChangeText={setPassword} placeholder="password"/>
         <Button type="submit" onClick={onClick}>로그인</Button>
       </StyledForm>

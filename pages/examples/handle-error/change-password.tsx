@@ -4,11 +4,16 @@ import styled from 'styled-components';
 import Form from '@component/extend/Form';
 import {flexDirectionColumn} from '@util/style/css';
 import InputText from '@component/extend/InputText';
-import {validateOriginPassword} from '@util/validator/password';
 import {toast} from 'react-toastify';
 import {Button} from '@component/atom/button/button-presets';
+import {getSSPForNotLoggedIn} from '@util/auth/auth';
+import AuthApi from '@api/AuthApi';
+import {useRouter} from 'next/router';
+import RequestError from '@util/handle-error/RequestError';
+import {handleClientSideError} from '@util/handle-error/client-side-error';
 
 export default function Page() {
+  const {replace} = useRouter();
   const [originPassword, setOriginPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -17,30 +22,33 @@ export default function Page() {
   const newPasswordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
   
-  const onSubmit = useCallback(() => {
-    const validateResult = validateOriginPassword({originPassword, newPassword, confirmPassword});
-  
-    if (!validateResult.validated) {
-  
-      switch (validateResult.reason) {
-        case 'INVALID_ORIGIN_PASSWORD':
-          originPasswordRef.current?.focus();
-          break;
-        case 'INVALID_NEW_PASSWORD':
-          newPasswordRef.current?.focus();
-          break;
-        case 'INVALID_CONFIRM_PASSWORD':
-        case 'NOT_MATCH':
-          confirmPasswordRef.current?.focus();
-          break;
+  const onSubmit = useCallback(async () => {
+    const api = new AuthApi();
+    try {
+      await api.putResetPassword({originPassword, newPassword, confirmPassword});
+      alert('비밀번호가 초기화되었습니다.');
+      await replace('/examples/handle-error/login');
+
+    } catch (error) {
+      if (error instanceof RequestError) {
+        switch (error.reason) {
+          case 'originPassword':
+            originPasswordRef.current?.focus();
+            break;
+          case 'newPassword':
+            newPasswordRef.current?.focus();
+            break;
+          case 'confirmPassword':
+            confirmPasswordRef.current?.focus();
+            break;
+        }
+        toast.error(error.content);
+        return;
       }
-  
-      toast.error(validateResult.errorMessage);
-      return;
+
+      handleClientSideError(error);
     }
-  
-    alert('유효성 검증 통과');
-  }, [confirmPassword, newPassword, originPassword]);
+  }, [confirmPassword, newPassword, originPassword, replace]);
   
   return (
     <>
@@ -56,6 +64,8 @@ export default function Page() {
     </>
   );
 }
+
+export const getServerSideProps = getSSPForNotLoggedIn;
 
 const StyledForm = styled(Form)`
   ${flexDirectionColumn};

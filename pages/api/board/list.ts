@@ -2,7 +2,7 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 import type {Board} from '@type/response-sub/board-sub';
 import {getDiffDate} from '@util/extend/date/date-util';
 import {getApi} from '@util/extend/next-api';
-import {TEST_USER} from '@pages/api/login';
+import {TEST_USER} from '@pages/api/auth/login';
 
 export default function list(req: NextApiRequest, res: NextApiResponse) {
   getApi(req, res, () => {

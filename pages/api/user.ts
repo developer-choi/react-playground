@@ -1,6 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {getApi} from '@util/extend/next-api';
-import {TEST_USER} from '@pages/api/login';
+import {TEST_USER} from '@pages/api/auth/login';
 
 export default function user(req: NextApiRequest, res: NextApiResponse) {
   getApi(req, res, () => {

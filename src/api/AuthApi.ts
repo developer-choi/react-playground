@@ -4,10 +4,12 @@ import type {UserInfoResponse} from '@type/response/user';
 import {getLoginTokenClientSide} from '@util/auth/auth';
 import SHA512 from 'sha512-es';
 import RequestError from '@util/handle-error/RequestError';
+import {validateEmail} from '@util/validator/email';
+import {validateOriginPassword, validatePassword} from '@util/validator/password';
 
 export default class AuthApi extends BaseApi {
   constructor() {
-    super('');
+    super('/auth');
   }
 
   /**
@@ -30,18 +32,57 @@ export default class AuthApi extends BaseApi {
     const loginToken = getLoginTokenClientSide();
     return this.axios.post('/logout', loginToken);
   }
+
+  putResetPassword(params: AuthResetPasswordParam) {
+    const {originPassword, newPassword} = validateResetPassword(params);
+    return this.axios.put('/reset-password', {originPassword, newPassword});
+  }
 }
 
 function validateLogin(email: string, password: string) {
-  if (email.length === 0) {
-    throw new RequestError({content: 'Please enter the email', reason: 'email'});
+  const emailResult = validateEmail({value: email});
+
+  if (!emailResult.validated) {
+    throw new RequestError({content: emailResult.errorMessage, reason: 'email'});
   }
 
-  if (password.length === 0) {
-    throw new RequestError({content: 'Please enter the password', reason: 'password'});
+  const passwordResult = validatePassword({value: password});
+
+  if (!passwordResult.validated) {
+    throw new RequestError({content: passwordResult.errorMessage, reason: 'password'});
   }
 
   return {
     email, password
+  };
+}
+
+export interface AuthResetPasswordParam {
+  originPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+function validateResetPassword({originPassword, newPassword, confirmPassword}: AuthResetPasswordParam): AuthResetPasswordParam {
+  const result = validateOriginPassword({newPassword, originPassword, confirmPassword});
+
+  if (!result.validated) {
+    switch (result.reason) {
+      case 'INVALID_ORIGIN_PASSWORD':
+        throw new RequestError({content: result.errorMessage, reason: 'originPassword'});
+
+      case 'INVALID_NEW_PASSWORD':
+      case 'ALL_PASSWORDS_ARE_SAME':
+        throw new RequestError({content: result.errorMessage, reason: 'newPassword'});
+
+      case 'INVALID_CONFIRM_PASSWORD':
+      case 'NOT_MATCH':
+      default:
+        throw new RequestError({content: result.errorMessage, reason: 'confirmPassword'});
+    }
+  }
+
+  return {
+    newPassword, confirmPassword, originPassword
   };
 }
