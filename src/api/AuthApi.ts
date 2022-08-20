@@ -40,13 +40,13 @@ export default class AuthApi extends BaseApi {
 }
 
 function validateLogin(email: string, password: string) {
-  const emailResult = validateEmail({value: email});
+  const emailResult = validateEmail(email);
 
   if (!emailResult.validated) {
     throw new RequestError({content: emailResult.errorMessage, reason: 'email'});
   }
 
-  const passwordResult = validatePassword({value: password});
+  const passwordResult = validatePassword(password);
 
   if (!passwordResult.validated) {
     throw new RequestError({content: passwordResult.errorMessage, reason: 'password'});
