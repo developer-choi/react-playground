@@ -50,10 +50,18 @@ function InnerApp({Component, pageProps}: AppProps) {
     dispatch(thunkRefreshSetUser());
   }, [dispatch]);
 
+  const Layout = 'layout' in Component ? (Component as any).layout : null;
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle/>
-      <Component {...pageProps}/>
+      {Layout === null ? (
+        <Component {...pageProps}/>
+      ) : (
+        <Layout>
+          <Component {...pageProps}/>
+        </Layout>
+      )}
     </ThemeProvider>
   );
 }
