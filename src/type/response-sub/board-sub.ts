@@ -12,3 +12,5 @@ export interface Board {
  * 자유게시판 / 공지사항
  */
 export type BoardType = 'FREE' | 'NOTICE';
+
+export type BoardSearchTab = 'title' | 'content' | 'author';

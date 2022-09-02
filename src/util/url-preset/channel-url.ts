@@ -1,44 +1,28 @@
 import {urlStringify} from '@util/extend/query-string';
 
 const CHANNEL_URLS = {
+  id: {
+    // /channel/UCPddv7POJAl7oaZOLdLUlnA
+    index: (channelId: string) => `/channel/${channelId}`,
 
-  channel: {
-    id: {
-      // https://www.youtube.com/channel/UCPddv7POJAl7oaZOLdLUlnA
-      index: channelIdIndexUrl,
+    /**
+     * /channel/UCPddv7POJAl7oaZOLdLUlnA/featured
+     * /channel/UCPddv7POJAl7oaZOLdLUlnA/playlists
+     * /channel/UCPddv7POJAl7oaZOLdLUlnA/channels
+     * /channel/UCPddv7POJAl7oaZOLdLUlnA/about
+     */
+    featured: (channelId: string) => `/channel/${channelId}/featured`,
+    playlists: (channelId: string) => `/channel/${channelId}/playlists`,
+    channels: (channelId: string) => `/channel/${channelId}/channels`,
+    about: (channelId: string) => `/channel/${channelId}/about`,
 
-      /**
-       * https://www.youtube.com/channel/UCPddv7POJAl7oaZOLdLUlnA/featured
-       * https://www.youtube.com/channel/UCPddv7POJAl7oaZOLdLUlnA/playlists
-       * https://www.youtube.com/channel/UCPddv7POJAl7oaZOLdLUlnA/channels
-       * https://www.youtube.com/channel/UCPddv7POJAl7oaZOLdLUlnA/about
-       */
-      featured: channelIdSubUrl('featured'),
-      playlists: channelIdSubUrl('playlists'),
-      channels: channelIdSubUrl('channels'),
-      about: channelIdSubUrl('about'),
-
-      /**
-       * https://www.youtube.com/channel/UCPddv7POJAl7oaZOLdLUlnA/videos
-       * https://www.youtube.com/channel/UCPddv7POJAl7oaZOLdLUlnA/videos?view=0&sort=da&flow=grid
-       */
-      videos: function (channelId: string, query?: VideosQuery) {
-        return `/channel/${channelId}/videos${urlStringify(query)}`;
-      }
-    },
-  }
+    /**
+     * /channel/UCPddv7POJAl7oaZOLdLUlnA/videos
+     * /channel/UCPddv7POJAl7oaZOLdLUlnA/videos?view=0&sort=da&flow=grid
+     */
+    videos: (channelId: string, query?: VideosQuery) => `/channel/${channelId}/videos${urlStringify(query)}`
+  },
 };
-
-function channelIdIndexUrl(channelId: string) {
-  return `/channel/${channelId}`;
-}
-
-function channelIdSubUrl(subPath: 'featured' | 'playlists' | 'channels' | 'about') {
-
-  return function (channelId: string) {
-    return `/channel/${channelId}/${subPath}`;
-  };
-}
 
 type VideosQuery = {
   sort?: 'da' | 'dd'; //da = asc, dd = desc (Youtube)
