@@ -10,5 +10,7 @@ export function useEffectFromTheSecondTime(effect: EffectCallback) {
     }
     
     effect();
-  }, [isFirstRendering, effect]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [effect]);
 }
