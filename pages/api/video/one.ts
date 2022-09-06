@@ -11,7 +11,6 @@ export default function video(req: NextApiRequest, res: NextApiResponse) {
     
   } else {
     res.json({
-      status: 200,
       video: {
         pk,
         url: video.url

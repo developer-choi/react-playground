@@ -19,6 +19,6 @@ export default function create(req: NextApiRequest, res: NextApiResponse) {
       authorUserPk: userPk
     });
 
-    res.status(200).send('');
+    res.send('');
   });
 }

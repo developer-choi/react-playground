@@ -6,7 +6,7 @@ import {TEST_USER} from '@pages/api/auth/login';
 
 export default function list(req: NextApiRequest, res: NextApiResponse) {
   getApi(req, res, () => {
-    res.status(200).json({total: BOARD_LIST.length, page: 1, list: BOARD_LIST});
+    res.json({total: BOARD_LIST.length, page: 1, list: BOARD_LIST});
   });
 }
 
