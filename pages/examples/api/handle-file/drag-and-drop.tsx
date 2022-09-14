@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import DragAndDrop from '@component/atom/DragAndDrop';
 import {flexCenter} from '@util/style/css';
-import {fileToDataUri} from '@util/extend/image';
+import {fileToImageElement} from '@util/extend/image';
 import {fileSizeToByte, getFileRule} from '@util/extend/file';
 import {handleClientSideError} from '@util/handle-error/client-side-error';
 
@@ -14,8 +14,8 @@ export default function DragAndDropPage() {
   const onChangeFiles = useCallback(async (files: File[]) => {
     setLoading(true);
     try {
-      const results = await Promise.all(files.map(file => fileToDataUri(file, IMAGE_RULE.convertOption)));
-      setImages(results.map(({dataUri}) => dataUri));
+      const results = await Promise.all(files.map(file => fileToImageElement(file, IMAGE_RULE.convertOption)));
+      setImages(results.map(({image}) => image.src));
     } catch (error) {
       handleClientSideError(error);
     } finally {

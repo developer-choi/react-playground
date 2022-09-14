@@ -1,4 +1,5 @@
 import {FileValidateOption, validateFile} from '@util/extend/file';
+import {ValidateError} from '@util/extend/query-string';
 
 export interface FileConvertOption {
   validate?: FileValidateOption;
@@ -26,14 +27,13 @@ export interface FileConvertOption {
  * error case를 테스트하는 방법은 간단하게 readAsDataURL의 첫 번째 매개변수에 읽을수없는 이상한문자열(특수문자 등)을 넣어보면
  * onerror callback이 호출됨.
  */
-export async function fileToDataUri(file: File, option?: FileConvertOption): Promise<{file: File, dataUri: string}> {
+async function fileToDataUri(file: File, option?: FileConvertOption): Promise<{file: File, dataUri: string}> {
   if (option?.validate) {
     validateFile(file, option.validate);
   }
 
-  const reader = new FileReader();
-
   return new Promise((resolve, reject) => {
+    const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
       resolve({
@@ -41,8 +41,9 @@ export async function fileToDataUri(file: File, option?: FileConvertOption): Pro
         dataUri: reader.result as string
       });
     };
-    reader.onerror = function () {
-      reject(reader.error);
+    reader.onerror = function (event) {
+      console.error('This file could not be converted.', reader.error, event);
+      reject(new ValidateError('This file could not be converted. Please select another file.'));
     };
   });
 }
@@ -50,7 +51,7 @@ export async function fileToDataUri(file: File, option?: FileConvertOption): Pro
 /**
  * @param src: Internal Image or External Image or Data Uri
  */
-function srcToImageElement(src: string): Promise<HTMLImageElement> {
+async function srcToImageElement(src: string): Promise<HTMLImageElement> {
   const image = new Image();
   image.src = src;
 
@@ -59,17 +60,19 @@ function srcToImageElement(src: string): Promise<HTMLImageElement> {
       resolve(image);
     };
 
-    image.onerror = function (data: any) {
-      reject(data);
+    image.onerror = function (...params) {
+      console.error('This src cannot be converted to an image.', src, params);
+      reject(new ValidateError('Unable to convert to image. Please select another file.'));
     };
   });
 }
 
 export async function fileToImageElement(file: File, option?: FileConvertOption) {
   const {file: convertedFile, dataUri} = await fileToDataUri(file, option);
+  const image = await srcToImageElement(dataUri);
 
   return {
-    image: await srcToImageElement(dataUri),
+    image,
     file: convertedFile
   };
 }
