@@ -1,55 +1,54 @@
-import React, {ComponentPropsWithoutRef, DragEvent, useCallback, useMemo, useState} from 'react';
+import React, {ComponentPropsWithoutRef, DragEvent, useCallback, useState} from 'react';
 import {myClassName} from '@util/libraries/classnames';
-import InputFile, {CustomInputFileProp, handleOnChangeFile} from '@component/extend/InputFile';
+import InputFile, {InputFileProp} from '@component/extend/InputFile';
 import styled from 'styled-components';
 
-export interface DragAndDropProps extends ComponentPropsWithoutRef<'label'>, Omit<CustomInputFileProp, 'onChangeFiles'> {
-  onDropFiles?: (files: File[]) => void;
+export interface DragAndDropProps extends ComponentPropsWithoutRef<'label'>, Pick<InputFileProp, 'onChangeFiles' | 'onChangeFile' | 'accept'> {
   enableClickToFileExplorer?: boolean;
 }
 
-export default function DragAndDrop({onDropFiles, className, enableClickToFileExplorer, children, allowExtensions, maxSize, onChangeImages, onConvertFileToImage, ...rest }: DragAndDropProps) {
+export default function DragAndDrop({className, enableClickToFileExplorer, children, onChangeFile, onChangeFiles, accept, ...rest}: DragAndDropProps) {
   const [dragging, setDragging] = useState(false);
-  
-  const inputTypeFileProps = useMemo<CustomInputFileProp>(() => ({
-    maxSize,
-    onChangeImages,
-    onChangeFiles: onDropFiles,
-    allowExtensions,
-    onConvertFileToImage
-  }), [maxSize, onChangeImages, onDropFiles, allowExtensions, onConvertFileToImage]);
-  
+
   const _onDrop = useCallback((event: DragEvent<HTMLLabelElement>) => {
     event.preventDefault(); // 이거 해야 onDrop 가능
     const files = Array.from(event.dataTransfer.files);
     setDragging(false);
-    handleOnChangeFile(files, inputTypeFileProps);
-  }, [inputTypeFileProps]);
-  
+    onChangeFiles?.(files);
+    onChangeFile?.(files[0]);
+  }, [onChangeFile, onChangeFiles]);
+
   const _onDragLeave = useCallback(() => {
     setDragging(false);
   }, []);
-  
+
   const _onDragEnter = useCallback(() => {
     setDragging(true);
   }, []);
-  
+
   const _onDragOver = useCallback((event: DragEvent<HTMLLabelElement>) => {
     event.preventDefault(); // 이거 해야 onDrop 가능
   }, []);
-  
+
   return (
-      <Wrap
-          className={myClassName({dragging, clickable: enableClickToFileExplorer}, className)}
-          onDrop={_onDrop}
-          onDragLeave={_onDragLeave}
-          onDragEnter={_onDragEnter}
-          onDragOver={_onDragOver}
-          {...rest}
-      >
-        {children}
-        {enableClickToFileExplorer && <StyledInputFile {...inputTypeFileProps} />}
-      </Wrap>
+    <Wrap
+      className={myClassName({dragging, clickable: enableClickToFileExplorer}, className)}
+      onDrop={_onDrop}
+      onDragLeave={_onDragLeave}
+      onDragEnter={_onDragEnter}
+      onDragOver={_onDragOver}
+      {...rest}
+    >
+      {children}
+      {enableClickToFileExplorer &&
+        <StyledInputFile
+          multiple={!!onChangeFiles}
+          onChangeFiles={onChangeFiles}
+          onChangeFile={onChangeFile}
+          accept={accept}
+        />
+      }
+    </Wrap>
   );
 };
 
