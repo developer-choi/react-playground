@@ -1,12 +1,7 @@
 import type {ParsedUrlQuery} from 'querystring';
 import {stringify} from 'querystring';
 import {range} from '@util/extend/number';
-
-export class ValidateError extends Error {
-  constructor(message: string) {
-    super(message);
-  }
-}
+import ValidateError from '@util/handle-error/ValidateError';
 
 export type QueryValue = ParsedUrlQuery['any-key'];
 

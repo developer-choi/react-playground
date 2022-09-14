@@ -1,5 +1,5 @@
 import {FileValidateOption, validateFile} from '@util/extend/file';
-import {ValidateError} from '@util/extend/query-string';
+import ValidateError from '@util/handle-error/ValidateError';
 
 export interface FileConvertOption {
   validate?: FileValidateOption;

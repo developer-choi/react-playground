@@ -1,8 +1,8 @@
 import type {GetServerSidePropsResult} from 'next';
 import {haveAxiosResponse} from '@api/BaseApi';
 import type {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
-import {ValidateError} from '@util/extend/query-string';
 import {AuthError} from '@util/auth/AuthError';
+import ValidateError from '@util/handle-error/ValidateError';
 
 export interface HandleServerSideErrorOption {
   notifyRedirect?: NotifyRedirectProps['notifyRedirect'];

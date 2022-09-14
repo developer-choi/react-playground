@@ -3,9 +3,9 @@ import type {AxiosResponse} from 'axios';
 import type {UserInfoResponse} from '@type/response/user';
 import {getLoginTokenClientSide} from '@util/auth/auth';
 import SHA512 from 'sha512-es';
-import RequestError from '@util/handle-error/RequestError';
 import {validateEmail} from '@util/validator/email';
 import {validateOriginPassword, validatePassword} from '@util/validator/password';
+import ValidateError from '@util/handle-error/ValidateError';
 
 export default class AuthApi extends BaseApi {
   constructor() {
@@ -43,13 +43,13 @@ function validateLogin(email: string, password: string) {
   const emailResult = validateEmail(email);
 
   if (!emailResult.validated) {
-    throw new RequestError({content: emailResult.errorMessage, reason: 'email'});
+    throw new ValidateError(emailResult.errorMessage, {reason: 'email'});
   }
 
   const passwordResult = validatePassword(password);
 
   if (!passwordResult.validated) {
-    throw new RequestError({content: passwordResult.errorMessage, reason: 'password'});
+    throw new ValidateError(passwordResult.errorMessage, {reason: 'password'});
   }
 
   return {
@@ -69,16 +69,16 @@ function validateResetPassword({originPassword, newPassword, confirmPassword}: A
   if (!result.validated) {
     switch (result.reason) {
       case 'INVALID_ORIGIN_PASSWORD':
-        throw new RequestError({content: result.errorMessage, reason: 'originPassword'});
+        throw new ValidateError(result.errorMessage, {reason: 'originPassword'});
 
       case 'INVALID_NEW_PASSWORD':
       case 'ALL_PASSWORDS_ARE_SAME':
-        throw new RequestError({content: result.errorMessage, reason: 'newPassword'});
+        throw new ValidateError(result.errorMessage, {reason: 'newPassword'});
 
       case 'INVALID_CONFIRM_PASSWORD':
       case 'NOT_MATCH':
       default:
-        throw new RequestError({content: result.errorMessage, reason: 'confirmPassword'});
+        throw new ValidateError(result.errorMessage, {reason: 'confirmPassword'});
     }
   }
 

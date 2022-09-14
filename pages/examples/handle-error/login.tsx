@@ -9,10 +9,10 @@ import {useAppDispatch} from '@store/hooks';
 import {setUserActionCreator} from '@store/reducers/user';
 import Form from '@component/extend/Form';
 import InputText from '@component/extend/InputText';
-import RequestError from '@util/handle-error/RequestError';
 import {haveAxiosResponse} from '@api/BaseApi';
 import {toast} from 'react-toastify';
 import styled from 'styled-components';
+import ValidateError from '@util/handle-error/ValidateError';
 
 export default function LoginPage() {
   const {prefetch, replace, push} = useRouter();
@@ -34,17 +34,17 @@ export default function LoginPage() {
       replace(redirectUrl).then();
 
     } catch (error) {
-      if(error instanceof RequestError) {
-        const {reason, content} = error;
+      if(error instanceof ValidateError) {
+        const {reason, message} = error;
 
         switch (reason) {
           case 'email':
             emailRef.current?.focus();
-            toast.error(content);
+            toast.error(message);
             return;
           case 'password':
             passwordRef.current?.focus();
-            toast.error(content);
+            toast.error(message);
             return;
           default:
             handleClientSideError(error);

@@ -9,8 +9,8 @@ import {Button} from '@component/atom/button/button-presets';
 import {getSSPForNotLoggedIn} from '@util/auth/auth';
 import AuthApi from '@api/AuthApi';
 import {useRouter} from 'next/router';
-import RequestError from '@util/handle-error/RequestError';
 import {handleClientSideError} from '@util/handle-error/client-side-error';
+import ValidateError from '@util/handle-error/ValidateError';
 
 export default function Page() {
   const {replace} = useRouter();
@@ -30,7 +30,7 @@ export default function Page() {
       await replace('/examples/handle-error/login');
 
     } catch (error) {
-      if (error instanceof RequestError) {
+      if (error instanceof ValidateError) {
         switch (error.reason) {
           case 'originPassword':
             originPasswordRef.current?.focus();
@@ -42,7 +42,7 @@ export default function Page() {
             confirmPasswordRef.current?.focus();
             break;
         }
-        toast.error(error.content);
+        toast.error(error.message);
         return;
       }
 

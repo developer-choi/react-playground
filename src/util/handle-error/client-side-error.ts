@@ -1,11 +1,10 @@
 import Router from 'next/router';
 import {AuthError} from '@util/auth/AuthError';
-import RequestError from '@util/handle-error/RequestError';
 import type {AxiosErrorWithResponse} from '@api/BaseApi';
 import {logoutInClientSide} from '@util/auth/auth';
 import {haveAxiosResponse} from '@api/BaseApi';
 import {toast} from 'react-toastify';
-import {ValidateError} from '@util/extend/query-string';
+import ValidateError from '@util/handle-error/ValidateError';
 
 export function handleClientSideError(error: any) {
   if (!error.isAxiosError) {
@@ -31,11 +30,6 @@ function handleErrorBeforeCallApi(error: any) {
     return;
   }
 
-  if(error instanceof RequestError) {
-    handleRequestError(error);
-    return;
-  }
-
   if (error instanceof ValidateError) {
     handleValidateError(error);
     return;
@@ -50,10 +44,6 @@ function handleAuthError(_error: AuthError) {
   if (confirm('로그인 후 이용이 가능합니다.')) {
     Router.push(_error.option.loginPageUrlWithRedirectUrl).then();
   }
-}
-
-function handleRequestError(error: RequestError) {
-  toast.error(`${error.title ?? ''}-${error.content}`);
 }
 
 function handleValidateError(error: ValidateError) {

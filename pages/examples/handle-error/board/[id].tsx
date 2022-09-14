@@ -1,6 +1,6 @@
 import type {GetServerSideProps} from 'next';
 import type {Board} from '@type/response-sub/board-sub';
-import {ValidateError, validateNumberInQueryThrowError} from '@util/extend/query-string';
+import {validateNumberInQueryThrowError} from '@util/extend/query-string';
 import BoardApi from '@api/BoardApi';
 import {haveAxiosResponse} from '@api/BaseApi';
 import {handleServerSideError} from '@util/handle-error/server-side-error';
@@ -11,6 +11,7 @@ import TextArea from '@component/extend/TextArea';
 import Form from '@component/extend/Form';
 import {useCallback} from 'react';
 import styled from 'styled-components';
+import ValidateError from '@util/handle-error/ValidateError';
 
 interface PageProp {
   board: Board;

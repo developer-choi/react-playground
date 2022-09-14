@@ -1,5 +1,5 @@
-import {ValidateError} from '@util/extend/query-string';
 import type {FileConvertOption} from '@util/extend/image';
+import ValidateError from '@util/handle-error/ValidateError';
 
 export interface FileRule {
   extensions: string[];
