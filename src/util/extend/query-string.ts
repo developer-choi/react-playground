@@ -34,14 +34,13 @@ const NUMBERS = range(0, 9).map(value => value.toString());
 const MAX_INTEGER_LENGTH = Number.MAX_SAFE_INTEGER.toString().length;
 
 /**
- * @example 'abc' ==> throw ValidateError
+ * @example '1ab' ==> throw ValidateError
  * @example ['a', 'b', 'c'] ==> throw ValidateError
  * @example '' ==> throw ValidateError
  * @example '0123' ==> throw ValidateError
  * @example '+123' ==> throw ValidateError
- * @example '-123' ==> throw ValidateError
- * @example '1234567890123456789012345678901234567890' ==> undefined (The value must be smaller than Number.MAX_SAFE_INTEGER)
- * @example '123' ==> '123'
+ * @example '1234567890123456789012345678901234567890' ==> throw ValidateError
+ * @example '123' ==> 123
  */
 export function validateNumberInQueryThrowError(queryValue: QueryValue): number {
   // undefined, empty string, array
