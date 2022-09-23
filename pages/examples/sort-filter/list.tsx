@@ -5,10 +5,12 @@ import {validateNumberInQueryThrowError, validSortInQuery} from '@util/extend/qu
 import {COURSE_ORDERBY} from '@util/services/course';
 import CourseTable, {CourseTableProp} from '@component/molecules/course/CourseTable';
 import CourseApi from '@api/CourseApi';
+import CourseFilterMenu from '@component/molecules/course/CourseFilterMenu';
 
 export default function Page({listResponse}: CourseTableProp) {
   return (
     <>
+      <CourseFilterMenu/>
       <CourseTable listResponse={listResponse}/>
     </>
   );
