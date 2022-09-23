@@ -21,7 +21,7 @@ export default async function list(req: NextApiRequest, res: NextApiResponse) {
     direction: direction as Direction | undefined
   };
 
-  const list = filterOrSortOrPagingList(serverCourseList.list, config);
+  const list = filterOrSortOrPagingList(COURSE_LIST_RESPONSE.list, config);
   const response: CourseListResponse = {
     list,
     total: list.length
@@ -60,7 +60,7 @@ const DUMMY_COURSE_LIST: Course[] = range(1, 100).map(value => {
   }
 });
 
-let serverCourseList: CourseListResponse = {
+const COURSE_LIST_RESPONSE: CourseListResponse = {
   list: DUMMY_COURSE_LIST,
   total: DUMMY_COURSE_LIST.length
 };
