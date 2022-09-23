@@ -1,4 +1,4 @@
-import type {Direction} from '@util/custom-hooks/useSortButton';
+import type {Direction} from '@util/custom-hooks/useSort';
 
 export const EMPTY_ARRAY = [];
 

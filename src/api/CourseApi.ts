@@ -2,7 +2,7 @@ import BaseApi from './BaseApi';
 import type {AxiosResponse} from 'axios';
 import type {CourseListResponse, CourseRoomsResponse, CourseTopicsResponse} from '@type/response/course';
 import type {CourseOrderby} from '@type/response-sub/course-sub';
-import type {Sort} from '@util/custom-hooks/useSortButton';
+import type {Sort} from '@util/custom-hooks/useSort';
 
 export default class CourseApi extends BaseApi {
   constructor() {

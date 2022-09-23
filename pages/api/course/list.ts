@@ -9,7 +9,7 @@ import type {CourseFilter} from '@api/CourseApi';
 import {DUMMY_ROOMS} from '@pages/api/course/rooms';
 import {randomNumber} from '@util/extend/random';
 import {DUMMY_TOPIC_ENGLISH, DUMMY_TOPIC_KOREAN, DUMMY_TOPIC_MATH} from '@pages/api/course/topics';
-import type {Direction, Sort} from '@util/custom-hooks/useSortButton';
+import type {Direction, Sort} from '@util/custom-hooks/useSort';
 
 export default async function list(req: NextApiRequest, res: NextApiResponse) {
   const {page, topic, room, orderby, direction} = req.query;
