@@ -21,4 +21,5 @@ export default function FilterButton<T>({value, onFilter, currentFilter, ...rest
 
 const Button = styled.button<{isActive: boolean}>`
   background: ${props => props.isActive ? props.theme.main : 'lightgray'};
+  margin: 1px;
 `;

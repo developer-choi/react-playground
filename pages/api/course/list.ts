@@ -2,7 +2,7 @@ import type {CourseListResponse} from '@type/response/course';
 import type {NextApiRequest, NextApiResponse} from 'next';
 import type {Course, CourseOrderby, Teacher} from '@type/response-sub/course-sub';
 import {COURSE_LIST_ARTICLE_PER_VIEW} from '@util/services/course';
-import {sortByString} from '@util/extend/array';
+import {sortByNumber, sortByString} from '@util/extend/array';
 import {range} from '@util/extend/number';
 import {getDiffDate} from '@util/extend/date/date-util';
 import type {CourseFilter} from '@api/CourseApi';
@@ -101,13 +101,13 @@ function courseListPaging(list: Course[], {page, articlePerPage, sort}: SlicePag
   }
 
   switch (sort.orderby) {
-    case 'topic': {
-      const result = sortByString(sort.direction, list, course => course.topic.name);
+    case 'startTimestamp': {
+      const result = sortByNumber(sort.direction, list, course => course.startTimestamp);
       return courseListPaging(result, {page, articlePerPage});
     }
 
     case 'room': {
-      const result = sortByString(sort.direction, list, course => course.teacher.name);
+      const result = sortByString(sort.direction, list, course => course.room.name);
       return courseListPaging(result, {page, articlePerPage});
     }
   }

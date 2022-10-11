@@ -56,19 +56,6 @@ export default function CourseFilterMenu({}: CourseFilterMenuProp) {
     }).then();
   }, [push, query, topic]);
 
-  const reset = useCallback(() => {
-    const _query = cleanQuery({
-      ...query,
-      topic: undefined,
-      room: undefined
-    });
-
-    push({
-      pathname: '/examples/sort-filter/list',
-      query: _query
-    }).then();
-  }, [push, query]);
-
   if (!filterInfo) {
     return null;
   }
@@ -87,7 +74,6 @@ export default function CourseFilterMenu({}: CourseFilterMenuProp) {
       </div>
       <div>
       </div>
-      <button onClick={reset}>필터초기화</button>
     </Wrap>
   );
 }
