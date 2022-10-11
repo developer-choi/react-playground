@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import {useRouter} from 'next/router';
-import {isActiveLink} from '@util/extend/link';
+import {isActiveLink} from '@util/extend/router';
 
 export default function ActiveLink() {
   const {asPath} = useRouter();

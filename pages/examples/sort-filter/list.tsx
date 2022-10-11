@@ -1,32 +1,26 @@
 import React, {useCallback} from 'react';
 import {handleServerSideError} from '@util/handle-error/server-side-error';
 import type {GetServerSideProps} from 'next';
-import {cleanQuery, validateNumberInQueryThrowError, validSortInQuery} from '@util/extend/query-string';
+import {validateNumberInQueryThrowError, validSortInQuery} from '@util/extend/query-string';
 import {COURSE_ORDERBY} from '@util/services/course';
 import CourseTable, {CourseTableProp} from '@component/molecules/course/CourseTable';
 import CourseApi from '@api/CourseApi';
 import CourseFilterMenu from '@component/molecules/course/CourseFilterMenu';
 import CourseSortMenu from '@component/molecules/course/CourseSortMenu';
-import {useRouter} from 'next/router';
 import styled from 'styled-components';
+import {useKeepQuery} from '@util/extend/router';
 
 export default function Page({listResponse}: CourseTableProp) {
-  const {query, push} = useRouter();
+  const {push} = useKeepQuery();
 
   const reset = useCallback(() => {
-    const _query = cleanQuery({
-      ...query,
+    push({
       topic: undefined,
       room: undefined,
       orderby: undefined,
       direction: undefined
     });
-
-    push({
-      pathname: '/examples/sort-filter/list',
-      query: _query
-    }).then();
-  }, [push, query]);
+  }, [push]);
 
   return (
     <>
