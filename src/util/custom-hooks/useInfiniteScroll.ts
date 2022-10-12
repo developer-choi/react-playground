@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {parseTotalPage} from '@util/paging';
+import {getTotalPage} from '@util/paging';
 import throttle from 'lodash/throttle';
 
 export interface ListData<T> {
@@ -20,57 +20,57 @@ export default function useInfiniteScroll<T>({initialData, fetchMoreApi, article
     total: initialData?.total ?? 0,
     page: 1
   });
-  
+
   const {total, loading, list, page} = pagingData;
-  
+
   useEffect(() => {
-    const totalPage = parseTotalPage({total, articlePerPage});
-  
+    const totalPage = getTotalPage({total, articlePerPage});
+
     if (page >= totalPage && loading) {
       return;
     }
-  
+
     const handler = throttle(() => {
       const {clientHeight, scrollHeight, scrollTop} = document.documentElement;
-    
+
       if ((scrollHeight - clientHeight - scrollTop) < 500) {
-  
+
         (async () => {
           if(loading) {
             return;
           }
-          
+
           try {
             const nextPage = page + 1;
-      
+
             setPagingData(({loading, ...rest}) => ({
               loading: true,
               ...rest
             }));
-      
+
             const {total, list} = await fetchMoreApi(nextPage);
-      
+
             setPagingData(prevState => ({
               page: nextPage,
               total,
               list: prevState.list.concat(list),
               loading: false
             }));
-      
+
           } catch (error) {
             console.error(error);
           }
         })().then();
       }
     }, 200);
-  
+
     window.addEventListener('scroll', handler);
-    
+
     return () => {
       window.removeEventListener('scroll', handler);
     };
   }, [articlePerPage, fetchMoreApi, loading, page, total]);
-  
+
   return {
     total, loading, list, page
   };
