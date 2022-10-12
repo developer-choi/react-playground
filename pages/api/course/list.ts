@@ -1,7 +1,7 @@
 import type {CourseListResponse} from '@type/response/course';
 import type {NextApiRequest, NextApiResponse} from 'next';
 import type {Course, CourseOrderby, Teacher} from '@type/response-sub/course-sub';
-import {COURSE_LIST_ARTICLE_PER_VIEW} from '@util/services/course';
+import {COURSE_LIST_ARTICLE_PER_PAGE} from '@util/services/course';
 import {sortByNumber, sortByString} from '@util/extend/array';
 import {range} from '@util/extend/number';
 import {getDiffDate} from '@util/extend/date/date-util';
@@ -21,10 +21,10 @@ export default async function list(req: NextApiRequest, res: NextApiResponse) {
     direction: direction as Direction | undefined
   };
 
-  const list = filterOrSortOrPagingList(COURSE_LIST_RESPONSE.list, config);
+  const {list, total} = filterOrSortOrPagingList(COURSE_LIST_RESPONSE.list, config);
   const response: CourseListResponse = {
     list,
-    total: list.length
+    total
   };
   res.json(response);
 }
@@ -77,7 +77,7 @@ function filterOrSortOrPagingList(list: Course[], {page, room, topic, orderby, d
   return courseListPaging(filterResult, {
     sort: !enableSort ? undefined : {orderby, direction} as Sort<CourseOrderby>,
     page,
-    articlePerPage: COURSE_LIST_ARTICLE_PER_VIEW
+    articlePerPage: COURSE_LIST_ARTICLE_PER_PAGE
   });
 }
 
@@ -95,9 +95,12 @@ interface SlicePagingConfig {
   sort?: Sort<CourseOrderby>;
 }
 
-function courseListPaging(list: Course[], {page, articlePerPage, sort}: SlicePagingConfig): Course[] {
+function courseListPaging(list: Course[], {page, articlePerPage, sort}: SlicePagingConfig): {list: Course[], total: number} {
   if (!sort) {
-    return list.slice((page - 1) * articlePerPage, page * articlePerPage);
+    return {
+      list: list.slice((page - 1) * articlePerPage, page * articlePerPage),
+      total: list.length
+    }
   }
 
   switch (sort.orderby) {

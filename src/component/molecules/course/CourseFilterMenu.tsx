@@ -33,13 +33,15 @@ export default function CourseFilterMenu({}: CourseFilterMenuProp) {
 
   const filterTopic = useCallback((pk: number | undefined) => {
     push({
-      topic: pk
+      topic: pk,
+      page: 1
     });
   }, [push]);
 
   const filterRoom = useCallback((pk: number | undefined) => {
     push({
-      room: pk
+      room: pk,
+      page: 1
     });
   }, [push]);
 

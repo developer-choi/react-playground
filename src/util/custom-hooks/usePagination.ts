@@ -33,20 +33,28 @@ export function usePagination(param: PaginationParam): UsePagingResult {
   }, [push]);
 
   const goFirstPage = useCallback(() => {
-    goPage(firstPage);
-  }, [firstPage, goPage]);
+    if (canFirst) {
+      goPage(firstPage);
+    }
+  }, [canFirst, firstPage, goPage]);
 
   const goPreviousPage = useCallback(() => {
-    goPage(previousPage)
-  }, [goPage, previousPage]);
+    if (canPrevious) {
+      goPage(previousPage)
+    }
+  }, [canPrevious, goPage, previousPage]);
 
   const goNextPage = useCallback(() => {
-    goPage(nextPage);
-  }, [goPage, nextPage]);
+    if (canNext) {
+      goPage(nextPage);
+    }
+  }, [canNext, goPage, nextPage]);
 
   const goLastPage = useCallback(() => {
-    goPage(lastPage);
-  }, [goPage, lastPage]);
+    if (canLast) {
+      goPage(lastPage);
+    }
+  }, [canLast, goPage, lastPage]);
 
   return {
     goPage, goFirstPage, goPreviousPage, canLast, canFirst, canNext, goLastPage, goNextPage, canPrevious, pages
