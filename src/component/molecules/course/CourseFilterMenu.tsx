@@ -8,10 +8,10 @@ import type {Room, Topic} from '@type/response-sub/course-sub';
 import {useKeepQuery} from '@util/extend/router';
 
 export interface CourseFilterMenuProp {
-
+  onReadyToFilter: (ready: boolean) => void;
 }
 
-export default function CourseFilterMenu({}: CourseFilterMenuProp) {
+export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp) {
   const [filterInfo, setFilterInfo] = useState<{topics: Topic[]; rooms: Room[];}>();
   const {query} = useRouter();
   const topic = Number(query.topic);
@@ -24,12 +24,13 @@ export default function CourseFilterMenu({}: CourseFilterMenuProp) {
       try {
         const [{data: {list: topics}}, {data: {list: rooms}}] = await Promise.all([api.getTopics(), api.getRooms()]);
         setFilterInfo({topics, rooms});
+        onReadyToFilter(true);
 
       } catch (error) {
         handleClientSideError(error);
       }
     })().then();
-  }, []);
+  }, [onReadyToFilter]);
 
   const filterTopic = useCallback((pk: number | undefined) => {
     push({

@@ -1,32 +1,16 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {handleServerSideError} from '@util/handle-error/server-side-error';
 import type {GetServerSideProps} from 'next';
 import {validateNumberInQueryThrowError, validSortInQuery} from '@util/extend/query-string';
 import {COURSE_ORDERBY} from '@util/services/course';
 import CourseTable, {CourseTableProp} from '@component/molecules/course/CourseTable';
 import CourseApi from '@api/CourseApi';
-import CourseFilterMenu from '@component/molecules/course/CourseFilterMenu';
-import CourseSortMenu from '@component/molecules/course/CourseSortMenu';
-import styled from 'styled-components';
-import {useKeepQuery} from '@util/extend/router';
+import CourseMenu from '@component/molecules/course/CourseMenu';
 
 export default function Page({listResponse}: CourseTableProp) {
-  const {push} = useKeepQuery();
-
-  const reset = useCallback(() => {
-    push({
-      topic: undefined,
-      room: undefined,
-      orderby: undefined,
-      direction: undefined
-    });
-  }, [push]);
-
   return (
     <>
-      <CourseFilterMenu/>
-      <CourseSortMenu/>
-      <ResetButton onClick={reset}>reset</ResetButton>
+      <CourseMenu/>
       <CourseTable listResponse={listResponse}/>
     </>
   );
@@ -60,9 +44,3 @@ export const getServerSideProps: GetServerSideProps<CourseTableProp> = async ({q
     });
   }
 }
-
-const ResetButton = styled.button`
-  display: block;
-  margin: 1px;
-  background: lightgray;
-`;
