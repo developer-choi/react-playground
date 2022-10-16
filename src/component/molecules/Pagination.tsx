@@ -8,18 +8,12 @@ export interface PaginationProp extends PaginationParam {
 }
 
 export default function Pagination({articlePerPage, pagePerView, currentPage, total}: PaginationProp) {
-  const {
-    canNext,
-    canLast,
-    canFirst,
-    canPrevious,
-    goLastPage,
-    goPage,
-    pages,
-    goPreviousPage,
-    goFirstPage,
-    goNextPage
-  } = usePagination({articlePerPage, pagePerView, currentPage, total});
+  const {pages, move, next, first, previous, last} = usePagination({
+    articlePerPage,
+    pagePerView,
+    currentPage,
+    total
+  });
 
   if (pages.length === 0) {
     return null;
@@ -27,13 +21,13 @@ export default function Pagination({articlePerPage, pagePerView, currentPage, to
 
   return (
     <Wrap>
-      <button className={myClassName({disable: !canFirst})} onClick={goFirstPage}>{'<<'}</button>
-      <button className={myClassName({disable: !canPrevious})} onClick={goPreviousPage}>{'<'}</button>
+      <button className={myClassName({disable: !first.movable})} onClick={first.move}>{'<<'}</button>
+      <button className={myClassName({disable: !previous.movable})} onClick={previous.move}>{'<'}</button>
       {pages.map(page => (
-        <button key={page} className={myClassName({active: currentPage === page})} onClick={() => goPage(page)}>{page}</button>
+        <button key={page} className={myClassName({active: currentPage === page})} onClick={() => move(page)}>{page}</button>
       ))}
-      <button className={myClassName({disable: !canNext})} onClick={goNextPage}>{'>'}</button>
-      <button className={myClassName({disable: !canLast})} onClick={goLastPage}>{'>>'}</button>
+      <button className={myClassName({disable: !next.movable})} onClick={next.move}>{'>'}</button>
+      <button className={myClassName({disable: !last.movable})} onClick={last.move}>{'>>'}</button>
     </Wrap>
   );
 }

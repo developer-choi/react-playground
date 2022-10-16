@@ -22,32 +22,32 @@ export interface PaginationParam {
   articlePerPage: number;
 }
 
+export interface MovablePageData {
+  page: number;
+  movable: boolean;
+}
+
 export interface Pagination {
   pages: number[];
-  canNext: boolean;
-  canPrevious: boolean;
-  canFirst: boolean;
-  canLast: boolean;
-  nextPage: number;
-  previousPage: number;
-  firstPage: number;
-  lastPage: number;
+  next: MovablePageData;
+  previous: MovablePageData;
+  first: MovablePageData;
+  last: MovablePageData;
 }
 
 export function getPagination({currentPage, pagePerView, articlePerPage, total}: PaginationParam): Pagination {
-  const defaultPage = currentPage; // 이동할 수 없는 페이지번호를 나타낼 때 현재 페이지번호를 저장하여 페이지이동이 일어나지 않도록 함.
+  const defaultPageData: MovablePageData = {
+    movable: false,
+    page: 1 // 이동할 수 없는 페이지번호를 나타낼 때 현재 페이지번호를 저장하여 페이지이동이 일어나지 않도록 함.
+  };
 
   if(total <= 0) {
     return {
       pages: [],
-      canFirst: false,
-      canPrevious: false,
-      canNext: false,
-      canLast: false,
-      firstPage: defaultPage,
-      lastPage: defaultPage,
-      previousPage: defaultPage,
-      nextPage: defaultPage
+      last: defaultPageData,
+      next: defaultPageData,
+      previous: defaultPageData,
+      first: defaultPageData
     };
   }
   const totalPage = getTotalPage({total, articlePerPage});
@@ -62,20 +62,28 @@ export function getPagination({currentPage, pagePerView, articlePerPage, total}:
   const canNext = endPage < totalPage;
   const canPrevious = startPage !== 1;
 
-  const nextPage = !canNext ? defaultPage : startPage + pagePerView;
-  const previousPage = !canPrevious ? defaultPage : startPage - pagePerView;
-  const firstPage = !canFirst ? defaultPage : 1;
-  const lastPage = !canLast ? defaultPage : totalPage;
+  const next: MovablePageData = !canNext ? defaultPageData : {
+    page: startPage + pagePerView,
+    movable: true
+  };
+  const previous: MovablePageData = !canPrevious ? defaultPageData : {
+    page: startPage - pagePerView,
+    movable: true
+  };
+  const first: MovablePageData = !canFirst ? defaultPageData : {
+    page: 1,
+    movable: true
+  };
+  const last: MovablePageData = !canLast ? defaultPageData : {
+    page: totalPage,
+    movable: true
+  };
 
   return {
-    canFirst,
-    canPrevious,
-    canNext,
-    canLast,
     pages,
-    nextPage,
-    previousPage,
-    firstPage,
-    lastPage
+    first,
+    previous,
+    next,
+    last
   };
 }
