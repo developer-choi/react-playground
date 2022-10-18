@@ -1,7 +1,7 @@
-import type {MovablePageData, Pagination, PaginationParam} from '@util/paging';
+import type {MovablePageData, Pagination, PaginationParam} from '@util/extend/pagination';
 import {useKeepQuery} from '@util/extend/router';
 import {useCallback} from 'react';
-import {getPagination} from '@util/paging';
+import {getPagination} from '@util/extend/pagination';
 
 export interface MovePageData extends MovablePageData {
   move: () => void;

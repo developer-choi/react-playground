@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {usePagination} from '@util/custom-hooks/usePagination';
-import type {PaginationParam} from '@util/paging';
+import type {PaginationParam} from '@util/extend/pagination';
 import {myClassName} from '@util/libraries/classnames';
 
 export interface PaginationProp extends PaginationParam {
