@@ -1,4 +1,11 @@
-export class LocalStorageObjectManager<V extends Object> {
+import {Dispatch, SetStateAction, useCallback, useEffect, useState} from 'react';
+import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
+
+/**************************************************************************************
+ * Not exports
+ **************************************************************************************/
+
+class LocalStorageObjectManager<V extends Object> {
   /**
    * @private
    * I think derived classes are need not access the key.
@@ -49,7 +56,7 @@ export class LocalStorageObjectManager<V extends Object> {
   }
 }
 
-export class LocalStorageArrayManager<E, P> extends LocalStorageObjectManager<E[]> {
+class LocalStorageArrayManager<E, P> extends LocalStorageObjectManager<E[]> {
   /**
    * @private The pkExtractor must not be accessible in public.
    * And I don't have any plan that makes derived classes extend this class. (= This is the reason that I don't set visibility to protected)
@@ -84,24 +91,51 @@ export class LocalStorageArrayManager<E, P> extends LocalStorageObjectManager<E[
   }
 }
 
-interface Board {
-  pk: number;
-  title: string;
+function useLocalStorageObjectManager<V extends Object>(manager: LocalStorageObjectManager<V>) {
+  const [state, setState] = useState<V | null>(null);
+
+  useEffect(() => {
+    setState(manager.parseItem());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffectFromTheSecondTime(useCallback(() => {
+    if (state !== null) {
+      manager.setStringifyItem(state);
+    }
+  }, [manager, state]));
+
+  return [state, setState] as [V | null, Dispatch<SetStateAction<V>>];
 }
 
-// Make your preset managers.
-export const boardManager = new LocalStorageArrayManager('text', (board: Board) => board.pk);
+function useLocalStorageArrayManager<E, P>(manager: LocalStorageArrayManager<E, P>) {
+  const [state, setState] = useLocalStorageObjectManager(manager);
 
-export interface GoYuGyeolManager {
+  /**
+   * If the localStorage's key is empty, this will return an empty array.
+   * Because of LocalStorageArrayManager's parseItem() is overridden.
+   */
+  return [state, setState] as [E[], Dispatch<SetStateAction<E[]>>];
+}
+
+/**************************************************************************************
+ * Exports
+ **************************************************************************************/
+
+interface GoYuGyeolManager {
   goyugyeolPrice: number;
   droughty: number;
   gipaPrice: number;
   blackStoneArmorPrice: number;
 }
 
-export const goYuGyeolManager = new LocalStorageObjectManager<GoYuGyeolManager>('goyugyeol', {
+const GOYUGYEOL_MANAGER = new LocalStorageObjectManager<GoYuGyeolManager>('goyugyeol', {
   gipaPrice: 3000000,
   goyugyeolPrice: 1600000,
   droughty: 999,
   blackStoneArmorPrice: 150000
 });
+
+export function useGoYuGyeolManager() {
+  return useLocalStorageObjectManager(GOYUGYEOL_MANAGER);
+}
