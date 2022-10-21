@@ -7,7 +7,7 @@ export default function Page() {
   
   const [sort, setSort] = useState<'desc' | 'asc'>('desc');
   
-  const _todos = useMemo<TodoType[]>(() => {
+  const sortedTodos = useMemo<TodoType[]>(() => {
   
     if(sort === 'desc') {
       return todos.sort((a, b) => a.key - b.key);
@@ -25,27 +25,53 @@ export default function Page() {
     <Wrap>
       <Button style={{marginRight: 5}} onClick={changeSort}>정렬변경</Button>
       <Ul>
-        {/*{_todos.map(({text}, index) => (*/}
-        {/*  <Todo key={index} text={text}/>*/}
-        {/*))}*/}
-        
-        {_todos.map(({text}) => (
-          <Todo key={randomNumber(1, 9999)} text={text}/>
-        ))}
-        
-        {/*{_todos.map(({text, key}) => (*/}
-        {/*  <Todo key={key} text={text}/>*/}
-        {/*))}*/}
+        {/*<WorstTodos todos={sortedTodos}/>*/}
+        {/*<NormalTodos todos={sortedTodos}/>*/}
+        <BestTodos todos={sortedTodos}/>
       </Ul>
     </Wrap>
   );
 };
 
+interface TodosProp {
+  todos: TodoType[];
+}
+
+function WorstTodos({todos}: TodosProp) {
+  return (
+    <>
+      {todos.map(({text}) => (
+        <Todo key={randomNumber(1, 9999)} text={text}/>
+      ))}
+    </>
+  )
+}
+
+function NormalTodos({todos}: TodosProp) {
+  return (
+    <>
+      {todos.map(({text}, index) => (
+        <Todo key={index} text={text}/>
+      ))}
+    </>
+  )
+}
+
+function BestTodos({todos}: TodosProp) {
+  return (
+    <>
+      {todos.map(({text, key}) => (
+        <Todo key={key} text={text}/>
+      ))}
+    </>
+  )
+}
+
 function Todo({text}: TodoType) {
   
   const initialText = useRef(text);
   const isFirstRender = useIsFirstRender();
-  
+
   useEffect(() => {
     console.log(text, 'mounted');
   
@@ -54,14 +80,14 @@ function Todo({text}: TodoType) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   useEffect(() => {
     if (isFirstRender) {
       return;
     }
-    
+
     console.log(initialText.current, text, 'updated');
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text]);
   
