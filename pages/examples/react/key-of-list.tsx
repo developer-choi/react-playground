@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import styled from 'styled-components';
-import useIsFirstRender from '@util/custom-hooks/useIsFirstRender';
+import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
 import {randomNumber} from '@util/extend/random';
 
 export default function Page() {
@@ -70,7 +70,6 @@ function BestTodos({todos}: TodosProp) {
 function Todo({text}: TodoType) {
   
   const initialText = useRef(text);
-  const isFirstRender = useIsFirstRender();
 
   useEffect(() => {
     console.log(text, 'mounted');
@@ -81,15 +80,11 @@ function Todo({text}: TodoType) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (isFirstRender) {
-      return;
-    }
-
+  useEffectFromTheSecondTime(useCallback(() => {
     console.log(initialText.current, text, 'updated');
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text]);
+  }, [text]));
   
   return (
     <li>{text}</li>

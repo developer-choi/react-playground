@@ -1,5 +1,4 @@
-import useIsFirstRender from '@util/custom-hooks/useIsFirstRender';
-import {EffectCallback, useEffect} from 'react';
+import {EffectCallback, useEffect, useRef} from 'react';
 
 export function useEffectFromTheSecondTime(effect: EffectCallback) {
   const isFirstRendering = useIsFirstRender();
@@ -13,4 +12,12 @@ export function useEffectFromTheSecondTime(effect: EffectCallback) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [effect]);
+}
+
+function useIsFirstRender() {
+  const ref = useRef(true);
+  useEffect(() => {
+    ref.current = false;
+  }, []);
+  return ref.current;
 }
