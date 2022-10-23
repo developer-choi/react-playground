@@ -3,7 +3,14 @@ import {Button} from '@component/atom/button/button-presets';
 
 export default function Page() {
   const asyncCallApi = useCallback(async () => {
-    await timeoutPromise(3000);
+    console.log('timeout start');
+
+    await timeoutPromise(3000); //Until terminated, a user can interact UI. (During processing, a user can click the 'Click me' button.)
+
+    console.log('timeout end');
+
+    bigTask(); //Until terminated, a user can't interact UI. (During processing, a user can't click the 'Click me' button.)
+
     console.log('asyncCallApi() end');
   }, []);
 
@@ -16,8 +23,13 @@ export default function Page() {
 }
 
 function timeoutPromise(time: number) {
-  console.log('timeoutPromise() call');
   return new Promise(resolve => {
     setTimeout(resolve, time);
   });
+}
+
+function bigTask() {
+  console.log('loop start');
+  for(let i = 0 ; i < 1e10 ; i++){}
+  console.log('loop end');
 }
