@@ -33,7 +33,7 @@ export default function Page() {
   return (
     <>
       <span ref={spanRef}></span>
-      <Button onClick={() => alert('Clicked')}>Click Me</Button>
+      <Button onClick={() => console.log('Clicked')}>Click Me</Button>
     </>
   );
 }
