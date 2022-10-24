@@ -29,6 +29,7 @@ export interface MovablePageData {
 
 export interface Pagination {
   pages: number[];
+  isExistPage: boolean;
   next: MovablePageData;
   previous: MovablePageData;
   first: MovablePageData;
@@ -44,6 +45,7 @@ export function getPagination({currentPage, pagePerView, articlePerPage, total}:
   if(total <= 0) {
     return {
       pages: [],
+      isExistPage: false,
       last: defaultPageData,
       next: defaultPageData,
       previous: defaultPageData,
@@ -81,6 +83,7 @@ export function getPagination({currentPage, pagePerView, articlePerPage, total}:
 
   return {
     pages,
+    isExistPage: true,
     first,
     previous,
     next,

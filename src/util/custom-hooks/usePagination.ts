@@ -7,7 +7,7 @@ export interface MovePageData extends MovablePageData {
   move: () => void;
 }
 
-export interface UsePagingResult extends Pick<Pagination, 'pages'> {
+export interface UsePagingResult extends Pick<Pagination, 'pages' | 'isExistPage'> {
   move: (page: number) => void;
   first: MovePageData;
   previous: MovePageData;
@@ -16,7 +16,7 @@ export interface UsePagingResult extends Pick<Pagination, 'pages'> {
 }
 
 export function usePagination(param: PaginationParam): UsePagingResult {
-  const {pages, next, last, first, previous} = getPagination(param);
+  const {pages, next, last, first, previous, isExistPage} = getPagination(param);
 
   const {push} = useKeepQuery();
 
@@ -41,6 +41,7 @@ export function usePagination(param: PaginationParam): UsePagingResult {
   return {
     move: moveSpecificPage,
     pages,
+    isExistPage,
     first: getMovePageData(first),
     previous: getMovePageData(previous),
     next: getMovePageData(next),

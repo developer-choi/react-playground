@@ -8,14 +8,14 @@ export interface PaginationProp extends PaginationParam {
 }
 
 export default function Pagination({articlePerPage, pagePerView, currentPage, total}: PaginationProp) {
-  const {pages, move, next, first, previous, last} = usePagination({
+  const {pages, move, next, first, previous, last, isExistPage} = usePagination({
     articlePerPage,
     pagePerView,
     currentPage,
     total
   });
 
-  if (pages.length === 0) {
+  if (!isExistPage) {
     return null;
   }
 
