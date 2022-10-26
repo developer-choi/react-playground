@@ -1,19 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import {usePagination} from '@util/custom-hooks/usePagination';
 import type {PaginationParam} from '@util/extend/pagination';
 import {myClassName} from '@util/libraries/classnames';
+import {usePagination} from '@util/extend/pagination';
 
 export interface PaginationProp extends PaginationParam {
+  onClickPage?: () => void;
 }
 
-export default function Pagination({articlePerPage, pagePerView, currentPage, total}: PaginationProp) {
-  const {pages, move, next, first, previous, last, isExistPage} = usePagination({
+export default function Pagination({articlePerPage, pagePerView, currentPage, total, onClickPage}: PaginationProp) {
+  const {pages, moveSpecificPage, next, first, previous, last, isExistPage} = usePagination({
     articlePerPage,
     pagePerView,
     currentPage,
-    total
-  });
+    total,
+  }, {customMove: onClickPage});
 
   if (!isExistPage) {
     return null;
@@ -24,7 +25,7 @@ export default function Pagination({articlePerPage, pagePerView, currentPage, to
       <button className={myClassName({disable: !first.movable})} onClick={first.move}>{'<<'}</button>
       <button className={myClassName({disable: !previous.movable})} onClick={previous.move}>{'<'}</button>
       {pages.map(page => (
-        <button key={page} className={myClassName({active: currentPage === page})} onClick={() => move(page)}>{page}</button>
+        <button key={page} className={myClassName({active: currentPage === page})} onClick={() => moveSpecificPage(page)}>{page}</button>
       ))}
       <button className={myClassName({disable: !next.movable})} onClick={next.move}>{'>'}</button>
       <button className={myClassName({disable: !last.movable})} onClick={last.move}>{'>>'}</button>

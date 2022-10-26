@@ -1,9 +1,8 @@
 import {range} from '@util/extend/number';
+import {useKeepQuery} from '@util/extend/router';
+import {useCallback} from 'react';
 
-interface TotalPageParam {
-  total: number;
-  articlePerPage: number;
-}
+type TotalPageParam = Pick<PaginationParam, 'total' | 'articlePerPage'>;
 
 export function getTotalPage({total, articlePerPage}: TotalPageParam) {
   const dividedValue = Math.floor(total / articlePerPage);
@@ -88,5 +87,60 @@ export function getPagination({currentPage, pagePerView, articlePerPage, total}:
     previous,
     next,
     last
+  };
+}
+
+export interface UsePaginationConfig {
+  customMove?: (page: number) => void;
+}
+
+export interface MovePageData extends MovablePageData {
+  move: () => void;
+}
+
+export interface UsePagingResult extends Pick<Pagination, 'pages' | 'isExistPage'> {
+  moveSpecificPage: (page: number) => void;
+  first: MovePageData;
+  previous: MovePageData;
+  next: MovePageData;
+  last: MovePageData;
+}
+
+export function usePagination(param: PaginationParam, config?: UsePaginationConfig): UsePagingResult {
+  const {pages, next, last, first, previous, isExistPage} = getPagination(param);
+
+  const {push} = useKeepQuery();
+
+  const moveSpecificPage = useCallback((page: number) => {
+    if (config?.customMove) {
+      config.customMove(page);
+      return;
+    }
+
+    push({
+      page
+    });
+  }, [config, push]);
+
+  const getMovePageData = useCallback(({page, movable}: MovablePageData) => {
+    return {
+      page,
+      movable,
+      move: () => {
+        if (movable) {
+          moveSpecificPage(page);
+        }
+      },
+    };
+  }, [moveSpecificPage]);
+
+  return {
+    moveSpecificPage,
+    pages,
+    isExistPage,
+    first: getMovePageData(first),
+    previous: getMovePageData(previous),
+    next: getMovePageData(next),
+    last: getMovePageData(last)
   };
 }
