@@ -13,10 +13,11 @@ import TwitterMeta from '@component/atom/TwitterMeta';
 import NotifyRedirect, {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
 import {useAppDispatch} from '@store/hooks';
 import {thunkRefreshSetUser} from '@store/reducers/user';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 export default function MyApp(props: AppProps) {
   if (props.pageProps.notifyRedirect) {
-    return <NotifyRedirect notifyRedirect={props.pageProps.notifyRedirect as NotifyRedirectProps['notifyRedirect']}/>
+    return <NotifyRedirect notifyRedirect={props.pageProps.notifyRedirect as NotifyRedirectProps['notifyRedirect']}/>;
   }
 
   return (
@@ -43,6 +44,8 @@ export default function MyApp(props: AppProps) {
   );
 }
 
+const queryClient = new QueryClient();
+
 function InnerApp({Component, pageProps}: AppProps) {
   const dispatch = useAppDispatch();
 
@@ -53,15 +56,17 @@ function InnerApp({Component, pageProps}: AppProps) {
   const Layout = 'layout' in Component ? (Component as any).layout : null;
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle/>
-      {Layout === null ? (
-        <Component {...pageProps}/>
-      ) : (
-        <Layout>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle/>
+        {Layout === null ? (
           <Component {...pageProps}/>
-        </Layout>
-      )}
-    </ThemeProvider>
+        ) : (
+          <Layout>
+            <Component {...pageProps}/>
+          </Layout>
+        )}
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
