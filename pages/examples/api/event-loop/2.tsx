@@ -1,5 +1,6 @@
 import React, {useCallback} from 'react';
 import {Button} from '@component/atom/button/button-presets';
+import {timeoutPromise} from '@util/extend/promise';
 
 export default function Page() {
   const asyncCallApi = useCallback(async () => {
@@ -20,12 +21,6 @@ export default function Page() {
       <Button onClick={() => console.log('Clicked')}>Click me</Button>
     </>
   );
-}
-
-function timeoutPromise(time: number) {
-  return new Promise(resolve => {
-    setTimeout(resolve, time);
-  });
 }
 
 function bigTask() {
