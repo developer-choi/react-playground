@@ -6,15 +6,15 @@ import {toast} from 'react-toastify';
 import {removeDuplicatedItems} from '@util/extend/array';
 
 export default function Page() {
-  
+
   const [value, setValue] = useState('');
   const coupons = useMemo(() => parser(value), [value]);
-  
+
   const onPaste = useCallback((event: ClipboardEvent<HTMLTextAreaElement>) => {
     const data = event.clipboardData.getData('text');
     setValue(data);
   }, []);
-  
+
   const sendCoupon = useCallback(() => {
     navigator.clipboard.writeText(`
     
@@ -58,7 +58,7 @@ main();
 `);
     toast.info('복사되었습니다.');
   }, [coupons]);
-  
+
   return (
     <Wrap>
       <StyledTextArea placeholder="검은사막 쿠폰번호를 복사붙여넣기 해주세요." value={value} onPaste={onPaste}/>
@@ -119,18 +119,18 @@ function parser(text: string) {
   if (text.length === 0) {
     return [];
   }
-  
-  const result = text.split('\n').map(string => cleanText(string)).filter(value => {
+
+  const result = text.split('\n').map(string => cleanText(string).split(' ')).flat().filter(value => {
     if (value.length !== 19) {
       return false;
     }
-  
+
     return value.split('-').length === 4;
   });
-  
+
   if (result.length === 0) {
     alert('쿠폰번호 파싱결과 쿠폰이 존재하지않음.');
   }
-  
+
   return removeDuplicatedItems(result);
 }
