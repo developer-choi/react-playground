@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {forwardRef, Ref, useCallback} from 'react';
 import InputText, {InputTextProp} from '@component/extend/InputText';
 import {parseString} from '@util/extend/string';
 
@@ -10,11 +10,11 @@ export interface InputIncomputableNumberProp extends Omit<InputTextProp, 'type' 
  * Overview: Input component used when you want to receive only numbers that cannot be operated.
  * For example, you can use it when you receive a phone number or zip code consisting only of numbers.
  */
-export default function InputIncomputableNumber({enableMask, onChangeText, ...rest}: InputIncomputableNumberProp) {
-  
+export default forwardRef(function InputIncomputableNumber({enableMask, onChangeText, ...rest}: InputIncomputableNumberProp, ref: Ref<HTMLInputElement>) {
+
   const _onChangeText = useCallback((text: string) => {
     const trimmedText = text.trim();
-  
+
     /**
      * The text consists of numbers only,
      * but since it has no purpose for the operation,
@@ -23,19 +23,20 @@ export default function InputIncomputableNumber({enableMask, onChangeText, ...re
      */
     onChangeText?.(parseString(trimmedText, NUMBERS));
   }, [onChangeText]);
-  
+
   const type = enableMask ? 'password' : 'number';
-  
+
   return (
-      <InputText
-          type={type}
-          inputMode={type === 'password' ? 'numeric' : undefined}
-          preventEventKeys={NOT_NUMERIC_KEY}
-          onChangeText={_onChangeText}
-          {...rest}
-      />
+    <InputText
+      ref={ref}
+      type={type}
+      inputMode={type === 'password' ? 'numeric' : undefined}
+      preventEventKeys={NOT_NUMERIC_KEY}
+      onChangeText={_onChangeText}
+      {...rest}
+    />
   );
-}
+});
 
 const NOT_NUMERIC_KEY = ['-', '.'];
 const NUMBERS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];

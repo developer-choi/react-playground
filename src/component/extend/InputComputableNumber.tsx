@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, ClipboardEvent} from 'react';
+import React, {useCallback, useMemo, ClipboardEvent, forwardRef, Ref} from 'react';
 import InputText, {InputTextProp} from '@component/extend/InputText';
 import {numberWithComma} from '@util/extend/number';
 import {count} from '@util/extend/string';
@@ -7,7 +7,7 @@ export interface InputComputableNumberOption {
   maxIntegerLength?: number;
   maxDecimalLength?: number;
   max?: number;
-  
+
   enableComma?: boolean;
   enableDecimal?: boolean;
 }
@@ -28,8 +28,8 @@ export type InputComputableNumberProp = Omit<InputTextProp, 'type' | 'min'> & In
  * If the user does not enter a value that can never be numeric, it does not prevent the user from entering freely.
  * So when a user submits a value that you enter, you need to verify it in the case of "000" or "."
  */
-export default function InputComputableNumber(props: InputComputableNumberProp) {
-  
+export default forwardRef(function InputComputableNumber(props: InputComputableNumberProp, ref: Ref<HTMLInputElement>) {
+
   const {
     maxIntegerLength = DEFAULT_MAX_INTEGER_LENGTH,
     maxDecimalLength,
@@ -43,32 +43,32 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
     onCut,
     ...rest
   } = props;
-  
+
   const _onChangeText = useCallback((text: string) => {
     const cleanedText = enableComma ? cleanText(text) : text;
-  
+
     if (enableComma && !isPossibleToBeNumber(cleanedText, enableDecimal)) {
       return;
     }
-  
+
     if (!validateNumber(cleanedText, {max, maxIntegerLength, maxDecimalLength})) {
       return;
     }
-    
+
     onChangeText?.(cleanedText);
-    
+
   }, [maxDecimalLength, maxIntegerLength, onChangeText, enableComma, enableDecimal, max]);
-  
+
   const _preventEventKeys = useMemo(() => {
     const keys = preventEventKeys.concat(BASE_IGNORE_KEYS);
-    
+
     if (!enableDecimal) {
       keys.push('.');
     }
-  
+
     return keys;
   }, [preventEventKeys, enableDecimal]);
-  
+
   //Only for input type is not number (When enableComma is true)
   const customOnCopy = useCallback((event: ClipboardEvent<HTMLInputElement>) => {
     const {value} = event.target as HTMLInputElement;
@@ -76,7 +76,7 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
     event.preventDefault();
     onCopy?.(event);
   }, [onCopy]);
-  
+
   //Only for input type is not number (When enableComma is true)
   const customOnCut = useCallback((event: ClipboardEvent<HTMLInputElement>) => {
     const {value} = event.target as HTMLInputElement;
@@ -85,63 +85,64 @@ export default function InputComputableNumber(props: InputComputableNumberProp) 
     onChangeText?.('');
     onCut?.(event);
   }, [onChangeText, onCut]);
-  
+
   const type = enableComma ? undefined : 'number';
-  
+
   return (
-      <InputText
-          onChangeText={_onChangeText}
-          type={type}
-          inputMode={type === 'number' ? undefined : enableDecimal ? 'decimal' : 'numeric'}
-          value={enableComma ? numberWithComma(value) : value}
-          preventEventKeys={_preventEventKeys}
-          onCopy={enableComma ? customOnCopy : onCopy}
-          onCut={enableComma ? customOnCut : onCut}
-          {...rest}
-      />
+    <InputText
+      ref={ref}
+      onChangeText={_onChangeText}
+      type={type}
+      inputMode={type === 'number' ? undefined : enableDecimal ? 'decimal' : 'numeric'}
+      value={enableComma ? numberWithComma(value) : value}
+      preventEventKeys={_preventEventKeys}
+      onCopy={enableComma ? customOnCopy : onCopy}
+      onCut={enableComma ? customOnCut : onCut}
+      {...rest}
+    />
   );
-}
+});
 
 //Only for input type is not number (When enableComma is true)
 function isPossibleToBeNumber(text: string, enableDecimal: boolean): boolean {
-  
+
   const convertedNumber = Number(text);
-  
+
   if (Number.isNaN(convertedNumber)) {
     return false;
   }
-  
+
   const dotCount = count(text, '\\.');
-  
+
   if (enableDecimal && dotCount > 1) {
     return false;
   }
-  
+
   if (!enableDecimal && dotCount > 0) {
     return false;
   }
-  
+
   return true;
 }
 
 function validateNumber(text: string, options: Pick<InputComputableNumberOption, 'max' | 'maxDecimalLength' | 'maxIntegerLength'>) {
   const {max, maxDecimalLength, maxIntegerLength} = options;
   const {decimal, integer} = splitNumberDot(text);
-  
+
   if (maxDecimalLength !== undefined && decimal.length > maxDecimalLength) {
     return false;
   }
-  
+
   if (maxIntegerLength !== undefined && integer.length > maxIntegerLength) {
     return false;
   }
-  
+
   const convertedNumber = Number(text);
-  
+
   if (max !== undefined && max < convertedNumber) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -164,7 +165,7 @@ function cleanText(text: string) {
   return text.trim().replace(/,/g, '');
 }
 
-function splitNumberDot(value: string): { integer: string, decimal: string } {
+function splitNumberDot(value: string): {integer: string, decimal: string} {
   const integer = Math.floor(Math.abs(Number(value))).toString();
   const dotIndex = value.indexOf('.');
   const decimal = dotIndex === -1 ? '' : value.slice(dotIndex + 1, value.length);

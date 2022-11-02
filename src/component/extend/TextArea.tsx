@@ -1,8 +1,8 @@
-import React, {ComponentPropsWithoutRef, forwardRef, KeyboardEvent, Ref, useCallback} from 'react';
-import {useCustomOnChange} from '@component/extend/InputText';
-import {isMatchKeyboardEvent} from '@util/extend/keyboard-event';
+import React, {ComponentProps, forwardRef, KeyboardEvent, Ref, useCallback} from "react";
+import {useCustomOnChange} from "@component/extend/InputText";
+import {isMatchKeyboardEvent} from "@util/extend/keyboard-event";
 
-export interface TextAreaProp extends ComponentPropsWithoutRef<'textarea'> {
+export interface TextAreaProp extends ComponentProps<'textarea'> {
   onChangeText?: (value: string) => void;
   onCtrlEnter?: (event: KeyboardEvent) => void;
 }
