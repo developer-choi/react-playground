@@ -3,7 +3,7 @@
  * const [state, setState] = useState({key1: 'value1', key2: 'value2', ...rest});
  * setState(prevState => keepRestPrevState(prevState, ['key1'], {key1: 'changed-value1'}));
  */
-export default function keepRestPrevState<V>(prevState: V, changeKeys: (keyof V)[], value: Partial<V>): V {
+export default function keepRestPrevState<V extends Object>(prevState: V, changeKeys: (keyof V)[], value: Partial<V>): V {
   return Object.keys(prevState).reduce((a, b) => {
     if (changeKeys.includes(b as keyof V)) {
       // @ts-ignore

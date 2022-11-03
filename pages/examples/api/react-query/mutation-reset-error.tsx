@@ -37,8 +37,7 @@ export default function Page() {
   return (
     <StyledForm onSubmit={onSubmit}>
       <InputText value={title} onChangeText={onChangeTitle} placeholder="대충 수정하기전 제목"/>
-      {/* 이렇게 매번 assertion 하는게 최선인가? */}
-      {error && <ErrorMessage>{(error as Error).message}</ErrorMessage>}
+      {!error ? null : <ErrorMessage>{(error as Error).message}</ErrorMessage>}
       <Button type="submit">수정</Button>
     </StyledForm>
   );

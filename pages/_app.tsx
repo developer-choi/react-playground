@@ -16,8 +16,9 @@ import {thunkRefreshSetUser} from '@store/reducers/user';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 export default function MyApp(props: AppProps) {
-  if (props.pageProps.notifyRedirect) {
-    return <NotifyRedirect notifyRedirect={props.pageProps.notifyRedirect as NotifyRedirectProps['notifyRedirect']}/>;
+  if ('notifyRedirect' in props.pageProps) {
+    const {notifyRedirect} = props.pageProps as NotifyRedirectProps;
+    return <NotifyRedirect notifyRedirect={notifyRedirect}/>;
   }
 
   return (
@@ -55,10 +56,14 @@ function InnerApp({Component, pageProps}: AppProps) {
 
   const Layout = 'layout' in Component ? (Component as any).layout : null;
 
+  //https://github.com/styled-components/styled-components/issues/3738
+  const ThemeProviderProxy: any = ThemeProvider;
+  const GlobalStyleProxy: any = GlobalStyle;
+
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle/>
+      <ThemeProviderProxy theme={theme}>
+        <GlobalStyleProxy/>
         {Layout === null ? (
           <Component {...pageProps}/>
         ) : (
@@ -66,7 +71,7 @@ function InnerApp({Component, pageProps}: AppProps) {
             <Component {...pageProps}/>
           </Layout>
         )}
-      </ThemeProvider>
+      </ThemeProviderProxy>
     </QueryClientProvider>
   );
 }

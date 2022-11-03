@@ -20,7 +20,7 @@ export interface UseCheckableListResult<T extends Object> {
 }
 
 // 별도의 체크 목록 state를 위한 custom hooks
-export default function useCheckableList<T>({pkExtractor, list}: UseCheckableListParam<T>): UseCheckableListResult<T> {
+export default function useCheckableList<T extends Object>({pkExtractor, list}: UseCheckableListParam<T>): UseCheckableListResult<T> {
   const [checkedList, setCheckedList] = useState(list.map(item => ({
     pk: pkExtractor(item),
     checked: false
@@ -116,7 +116,7 @@ export default function useCheckableList<T>({pkExtractor, list}: UseCheckableLis
   };
 }
 
-function useAnotherWay<T>({pkExtractor, list}: UseCheckableListParam<T>): UseCheckableListResult<T> {
+function useAnotherWay<T extends Object>({pkExtractor, list}: UseCheckableListParam<T>): UseCheckableListResult<T> {
   const [selectedList, setSelectedList] = useState<PkType[]>([]);
 
   useEffectFromTheSecondTime(useCallback(() => {
