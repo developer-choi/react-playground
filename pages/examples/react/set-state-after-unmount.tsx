@@ -1,27 +1,20 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import Head from 'next/head';
 import {Button} from '@component/atom/button/button-presets';
-import {useRunCallbackWhenMount} from '@util/custom-hooks/useRunCallbackWhenMount';
 import styled from 'styled-components';
 
 export default function SetStateAfterUnmountPage() {
-  
+
   const [visible, setVisible] = useState(true);
-  
+
   const unmount = useCallback(() => {
     setVisible(false);
   }, []);
-  
+
   return (
-      <>
-        <Head>
-          <title>set-state-after-unmount</title>
-        </Head>
-        <Wrap>
-          <Button onClick={unmount}>Children UnMount Button</Button>
-          {visible && <UserInfo userPk="A"/>}
-        </Wrap>
-      </>
+    <Wrap>
+      <Button onClick={unmount}>아래 버튼 누르고 2초안에 누르세요</Button>
+      {visible && <UserInfo userPk="A"/>}
+    </Wrap>
   );
 }
 
@@ -40,44 +33,40 @@ interface UserInfoProps {
 }
 
 function UserInfo({userPk}: UserInfoProps) {
-  const runCallbackWhenMount = useRunCallbackWhenMount();
   const [data, setData] = useState<string>();
-  
+
   useEffect(() => {
     (async () => {
       try {
         const data = await getUserDataApi(userPk);
-        runCallbackWhenMount(() => {
-          setData(data);
-        });
+        setData(data);
       } catch (error) {
         console.error(error);
       }
     })().then();
-  }, [userPk, runCallbackWhenMount]);
-  
+  }, [userPk]);
+
   const refreshUserData = useCallback(async () => {
     try {
       const data = await getUserDataApi(userPk);
-      runCallbackWhenMount(() => {
-        setData(data);
-      });
+      setData(data);
     } catch (error) {
       handleError();
     }
-  }, [userPk, runCallbackWhenMount]);
-  
+  }, [userPk]);
+
   return (
-      <>
-        <Button onClick={refreshUserData}>get {userPk} user data</Button>
-        <span>username = {data}</span>
-      </>
-  )
+    <>
+      <Button onClick={refreshUserData}>get {userPk} user data</Button>
+      <span>username = {data}</span>
+    </>
+  );
 }
 
 function getUserDataApi(userPk: string): Promise<string> {
   return new Promise(resolve => {
     setTimeout(() => {
+      console.log('Api respond data');
       resolve(`John${userPk}`);
     }, 2000);
   });
