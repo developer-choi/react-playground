@@ -5,19 +5,15 @@ import {all} from 'redux-saga/effects';
 import {configureStore} from '@reduxjs/toolkit';
 import counter from '@store/reducers/counter';
 import user from '@store/reducers/user';
-import {ageApi} from '@store/reducers/age';
-
-// https://redux-toolkit.js.org/tutorials/typescript#define-root-state-and-dispatch-types
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: {
     counter,
-    user,
-    [ageApi.reducerPath]: ageApi.reducer
+    user
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware, ageApi.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware),
   devTools: process.env.NODE_ENV === 'development'
 });
 
