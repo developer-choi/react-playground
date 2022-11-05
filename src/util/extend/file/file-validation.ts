@@ -5,43 +5,52 @@ import {cleanFileExtension, getFileExtension} from '@util/extend/file/file-exten
 export interface FileRule {
   extensions: string[];
   accept: string;
-  limitSize: number;
   validateOption: FileValidateOption;
 }
 
-export function getFileRule({limitSize, extensions}: Pick<FileRule, 'extensions' | 'limitSize'>): FileRule {
-  const _extensions = extensions.map(extension => cleanFileExtension(extension));
+export function getFileRule({limitSize, allowExtensions = [], maxCount}: FileValidateOption): FileRule {
+  const extensions = allowExtensions.map(extension => cleanFileExtension(extension));
 
   return {
-    extensions: _extensions,
-    limitSize,
-    accept: _extensions.map((value) => `.${value}`).join(','),
+    extensions,
+    accept: extensions.map((value) => `.${value}`).join(','),
     validateOption: {
       limitSize,
-      allowExtensions: _extensions
+      allowExtensions: extensions,
+      maxCount
     }
   };
 }
 
 export interface FileValidateOption {
-  allowExtensions: string[];
-  limitSize: number;
+  limitSize?: number;
+  allowExtensions?: string[];
+  maxCount?: number;
 }
 
 /**
  * @exception ValidateError 용량 제한 벗어난 경우
  * @exception ValidateError 확장자 벗어난 경우
  */
-export function validateFile(file: File, {limitSize, allowExtensions}: FileValidateOption) {
-  const {size, name} = file;
-
-  if (limitSize < size) {
-    throw new ValidateError(`파일의 용량은 ${getFileSizeDetail(limitSize).text} 를 초과하면 안됩니다.`);
+export function validateFiles(files: File[], {limitSize, allowExtensions, maxCount}: FileValidateOption) {
+  if ((maxCount !== undefined) && files.length > maxCount) {
+    throw new ValidateError(`최대 ${maxCount}개의 파일만 가능합니다.`);
   }
 
-  const extension = getFileExtension(name);
-  const _allowExtensions = allowExtensions.map(extension => cleanFileExtension(extension));
-  if (!extension || !_allowExtensions.includes(extension)) {
-    throw new ValidateError(`지원가능한 확장자는 ${_allowExtensions.join(', ')} 입니다.`);
-  }
+  files.forEach(file => {
+    const {size, name} = file;
+
+    if ((limitSize !== undefined) && (limitSize < size)) {
+      throw new ValidateError(`파일의 용량은 ${getFileSizeDetail(limitSize).text} 를 초과하면 안됩니다.`);
+    }
+
+    if(allowExtensions !== undefined) {
+      const extension = getFileExtension(name);
+      const _allowExtensions = allowExtensions.map(extension => cleanFileExtension(extension));
+
+      if (!extension || !_allowExtensions.includes(extension)) {
+        throw new ValidateError(`지원가능한 확장자는 ${_allowExtensions.join(', ')} 입니다.`);
+      }
+    }
+  });
 }

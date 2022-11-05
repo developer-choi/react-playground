@@ -2,12 +2,13 @@ import React, {ComponentPropsWithoutRef, DragEvent, useCallback, useState} from 
 import {myClassName} from '@util/libraries/classnames';
 import InputFile, {InputFileProp} from '@component/extend/InputFile';
 import styled from 'styled-components';
+import {preventDefault} from '@util/extend/event';
 
 export interface DragAndDropProps extends ComponentPropsWithoutRef<'label'>, Pick<InputFileProp, 'onChangeFiles' | 'onChangeFile' | 'accept'> {
-  enableClickToFileExplorer?: boolean;
+  enableFileExplorer?: boolean;
 }
 
-export default function DragAndDrop({className, enableClickToFileExplorer, children, onChangeFile, onChangeFiles, accept, ...rest}: DragAndDropProps) {
+export default function DragAndDrop({className, enableFileExplorer, children, onChangeFile, onChangeFiles, accept, ...rest}: DragAndDropProps) {
   const [dragging, setDragging] = useState(false);
 
   const _onDrop = useCallback((event: DragEvent<HTMLLabelElement>) => {
@@ -32,22 +33,21 @@ export default function DragAndDrop({className, enableClickToFileExplorer, child
 
   return (
     <Wrap
-      className={myClassName({dragging, clickable: enableClickToFileExplorer}, className)}
+      className={myClassName({dragging, clickable: enableFileExplorer}, className)}
       onDrop={_onDrop}
       onDragLeave={_onDragLeave}
       onDragEnter={_onDragEnter}
       onDragOver={_onDragOver}
+      onClick={enableFileExplorer ? undefined : preventDefault}
       {...rest}
     >
       {children}
-      {enableClickToFileExplorer &&
-        <StyledInputFile
-          multiple={!!onChangeFiles}
-          onChangeFiles={onChangeFiles}
-          onChangeFile={onChangeFile}
-          accept={accept}
-        />
-      }
+      <StyledInputFile
+        multiple={!!onChangeFiles}
+        onChangeFiles={onChangeFiles}
+        onChangeFile={onChangeFile}
+        accept={accept}
+      />
     </Wrap>
   );
 };

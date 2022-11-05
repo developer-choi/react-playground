@@ -8,7 +8,7 @@ import React, {
   useCallback
 } from 'react';
 import {toast} from 'react-toastify';
-import {preventDetault} from '@util/extend/event';
+import {preventDefault} from '@util/extend/event';
 
 export interface InputTextProp extends ComponentPropsWithoutRef<'input'> {
   onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
@@ -63,7 +63,7 @@ export default forwardRef(function InputText(props: InputTextProp, ref: Ref<HTML
       onChange={customOnChange}
       onKeyDown={customOnKeyDown}
       autoCapitalize={autoCapitalize}
-      onInvalid={preventDetault}
+      onInvalid={preventDefault}
       {...rest}
     />
   );

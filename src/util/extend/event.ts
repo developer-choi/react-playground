@@ -1,5 +1,5 @@
 import type {BaseSyntheticEvent} from 'react';
 
-export function preventDetault(event: BaseSyntheticEvent) {
+export function preventDefault(event: BaseSyntheticEvent) {
   event.preventDefault();
 }
