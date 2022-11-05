@@ -27,7 +27,6 @@ export default function useFilesToImages({keepPrevData = false, validateOption, 
   useEffect(() => {
     return () => {
       data.images.forEach(image => {
-        console.log('revoke', image);
         URL.revokeObjectURL(image.src);
       });
     };
