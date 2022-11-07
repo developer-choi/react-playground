@@ -1,8 +1,12 @@
 import {range} from '@util/extend/number';
 import {useKeepQuery} from '@util/extend/router';
 import {useCallback} from 'react';
+import type {UrlObject} from 'url';
 
-type TotalPageParam = Pick<PaginationParam, 'total' | 'articlePerPage'>;
+interface TotalPageParam {
+  total: number;
+  articlePerPage: number;
+}
 
 export function getTotalPage({total, articlePerPage}: TotalPageParam) {
   const dividedValue = Math.floor(total / articlePerPage);
@@ -14,11 +18,15 @@ export function getTotalPage({total, articlePerPage}: TotalPageParam) {
   return dividedValue + 1;
 }
 
+export interface PaginationConfig {
+  pagePerView: number;
+  articlePerPage: number;
+}
+
 export interface PaginationParam {
   currentPage: number;
   total: number;
-  pagePerView: number;
-  articlePerPage: number;
+  config: PaginationConfig;
 }
 
 export interface MovablePageData {
@@ -35,7 +43,7 @@ export interface Pagination {
   last: MovablePageData;
 }
 
-export function getPagination({currentPage, pagePerView, articlePerPage, total}: PaginationParam): Pagination {
+export function getPagination({currentPage, config: {pagePerView, articlePerPage}, total}: PaginationParam): Pagination {
   const defaultPageData: MovablePageData = {
     movable: false,
     page: 1 // 이동할 수 없는 페이지번호를 나타낼 때 현재 페이지번호를 저장하여 페이지이동이 일어나지 않도록 함.
@@ -91,15 +99,15 @@ export function getPagination({currentPage, pagePerView, articlePerPage, total}:
 }
 
 export interface UsePaginationConfig {
-  customMove?: (page: number) => void;
+  pageToHref: (page: number) => string | UrlObject;
 }
 
 export interface MovePageData extends MovablePageData {
-  move: () => void;
+  href: ReturnType<UsePaginationConfig['pageToHref']>;
 }
 
 export interface UsePagingResult extends Pick<Pagination, 'pages' | 'isExistPage'> {
-  moveSpecificPage: (page: number) => void;
+  pageToHref: UsePaginationConfig['pageToHref'];
   first: MovePageData;
   previous: MovePageData;
   next: MovePageData;
@@ -109,33 +117,26 @@ export interface UsePagingResult extends Pick<Pagination, 'pages' | 'isExistPage
 export function usePagination(param: PaginationParam, config?: UsePaginationConfig): UsePagingResult {
   const {pages, next, last, first, previous, isExistPage} = getPagination(param);
 
-  const {push} = useKeepQuery();
+  const {keepQueryUrlObject} = useKeepQuery();
 
-  const moveSpecificPage = useCallback((page: number) => {
-    if (config?.customMove) {
-      config.customMove(page);
-      return;
+  const defaultPageToHref = useCallback((page: number) => {
+    if (config?.pageToHref) {
+      return config.pageToHref(page);
     }
 
-    push({
-      page
-    });
-  }, [config, push]);
+    return keepQueryUrlObject({page});
+  }, [config, keepQueryUrlObject]);
 
   const getMovePageData = useCallback(({page, movable}: MovablePageData) => {
     return {
       page,
       movable,
-      move: () => {
-        if (movable) {
-          moveSpecificPage(page);
-        }
-      },
+      href: !movable ? defaultPageToHref(param.currentPage) : defaultPageToHref(page)
     };
-  }, [moveSpecificPage]);
+  }, [defaultPageToHref, param.currentPage]);
 
   return {
-    moveSpecificPage,
+    pageToHref: defaultPageToHref,
     pages,
     isExistPage,
     first: getMovePageData(first),

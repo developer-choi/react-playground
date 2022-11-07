@@ -4,7 +4,7 @@ import type {CourseListResponse} from '@type/response/course';
 import moment from 'moment';
 import Pagination from '@component/molecules/Pagination';
 import {useRouter} from 'next/router';
-import {COURSE_LIST_ARTICLE_PER_PAGE, COURSE_LIST_PAGE_PER_VIEW} from '@util/services/course';
+import {COURSE_PAGINATION_CONFIG} from '@util/services/course';
 
 export interface CourseTableProp {
   listResponse: CourseListResponse;
@@ -40,7 +40,11 @@ export default function CourseTable({listResponse}: CourseTableProp) {
         </tbody>
       </Table>
 
-      <Pagination currentPage={page} total={listResponse.total} pagePerView={COURSE_LIST_PAGE_PER_VIEW} articlePerPage={COURSE_LIST_ARTICLE_PER_PAGE}/>
+      <Pagination
+        currentPage={page}
+        total={listResponse.total}
+        config={COURSE_PAGINATION_CONFIG}
+      />
     </>
   );
 }

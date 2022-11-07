@@ -3,18 +3,18 @@ import styled from 'styled-components';
 import type {PaginationParam} from '@util/extend/pagination';
 import {myClassName} from '@util/libraries/classnames';
 import {usePagination} from '@util/extend/pagination';
+import Link from 'next/link';
 
 export interface PaginationProp extends PaginationParam {
-  onClickPage?: () => void;
+  pageToHref?: () => void;
 }
 
-export default function Pagination({articlePerPage, pagePerView, currentPage, total, onClickPage}: PaginationProp) {
-  const {pages, moveSpecificPage, next, first, previous, last, isExistPage} = usePagination({
-    articlePerPage,
-    pagePerView,
+export default function Pagination({config, currentPage, total}: PaginationProp) {
+  const {pages, pageToHref, next, first, previous, last, isExistPage} = usePagination({
+    config,
     currentPage,
     total,
-  }, {customMove: onClickPage});
+  });
 
   if (!isExistPage) {
     return null;
@@ -22,13 +22,24 @@ export default function Pagination({articlePerPage, pagePerView, currentPage, to
 
   return (
     <Wrap>
-      <button className={myClassName({disable: !first.movable})} onClick={first.move}>{'<<'}</button>
-      <button className={myClassName({disable: !previous.movable})} onClick={previous.move}>{'<'}</button>
+      <Link href={first.href} shallow={!first.movable}>
+        <a className={myClassName({disable: !first.movable})}>{'<<'}</a>
+      </Link>
+      <Link href={previous.href} shallow={!previous.movable}>
+        <a className={myClassName({disable: !previous.movable})}>{'<'}</a>
+      </Link>
+
       {pages.map(page => (
-        <button key={page} className={myClassName({active: currentPage === page})} onClick={() => moveSpecificPage(page)}>{page}</button>
+        <Link key={page} href={pageToHref(page)} shallow={currentPage === page}>
+          <a key={page} className={myClassName({active: currentPage === page})}>{page}</a>
+        </Link>
       ))}
-      <button className={myClassName({disable: !next.movable})} onClick={next.move}>{'>'}</button>
-      <button className={myClassName({disable: !last.movable})} onClick={last.move}>{'>>'}</button>
+      <Link href={next.href} shallow={!last.movable}>
+        <a className={myClassName({disable: !next.movable})}>{'>'}</a>
+      </Link>
+      <Link href={last.href} shallow={!last.movable}>
+        <a className={myClassName({disable: !last.movable})}>{'>>'}</a>
+      </Link>
     </Wrap>
   );
 }
@@ -36,7 +47,7 @@ export default function Pagination({articlePerPage, pagePerView, currentPage, to
 const Wrap = styled.div`
   display: flex;
   
-  > button {
+  > a {
     padding: 5px;
     margin: 2px 0;
     

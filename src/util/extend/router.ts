@@ -6,22 +6,27 @@ import type {ParsedUrlQueryInput} from 'querystring';
 export function useKeepQuery() {
   const router = useRouter();
 
-  /**
-   * Keep existing query
-   * Keep existing pathname
-   */
-  const push = useCallback((query: ParsedUrlQueryInput) => {
-    router.push({
+  const keepQueryUrlObject = useCallback((query: ParsedUrlQueryInput) => {
+    return {
       pathname: getRealPathname(router.asPath),
       query: cleanQuery({
         ...router.query,
         ...query
       })
-    }).then();
+    };
   }, [router]);
 
+  /**
+   * Keep existing query
+   * Keep existing pathname
+   */
+  const push = useCallback((query: ParsedUrlQueryInput) => {
+    router.push(keepQueryUrlObject(query));
+  }, [keepQueryUrlObject, router]);
+
   return {
-    push
+    push,
+    keepQueryUrlObject
   };
 }
 

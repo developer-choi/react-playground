@@ -1,7 +1,7 @@
 import type {CourseListResponse} from '@type/response/course';
 import type {NextApiRequest, NextApiResponse} from 'next';
 import type {Course, CourseOrderby, Teacher} from '@type/response-sub/course-sub';
-import {COURSE_LIST_ARTICLE_PER_PAGE} from '@util/services/course';
+import {COURSE_PAGINATION_CONFIG} from '@util/services/course';
 import {sortByNumber, sortByString} from '@util/extend/array';
 import {range} from '@util/extend/number';
 import {getDiffDate} from '@util/extend/date/date-util';
@@ -77,7 +77,7 @@ function filterOrSortOrPagingList(list: Course[], {page, room, topic, orderby, d
   return courseListPaging(filterResult, {
     sort: !enableSort ? undefined : {orderby, direction} as Sort<CourseOrderby>,
     page,
-    articlePerPage: COURSE_LIST_ARTICLE_PER_PAGE
+    articlePerPage: COURSE_PAGINATION_CONFIG.articlePerPage
   });
 }
 

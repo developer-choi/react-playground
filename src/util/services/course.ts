@@ -1,5 +1,9 @@
 import type {CourseOrderby} from '@type/response-sub/course-sub';
+import type {PaginationConfig} from '@util/extend/pagination';
 
-export const COURSE_LIST_ARTICLE_PER_PAGE = 20;
-export const COURSE_LIST_PAGE_PER_VIEW = 3;
+export const COURSE_PAGINATION_CONFIG: PaginationConfig = {
+  articlePerPage: 20,
+  pagePerView: 3
+};
+
 export const COURSE_ORDERBY: CourseOrderby[] = ['room', 'startTimestamp'];
