@@ -6,19 +6,23 @@
  */
 export function parseString(text: string, allowCharacters: string[]) {
   let _text = '';
-  
+
   for (const char of text) {
     if (!allowCharacters.includes(char)) {
       break;
     }
-    
+
     _text += char;
   }
-  
+
   return _text;
 }
 
 export function count(text: string, target: string) {
   const regex = new RegExp(target, 'g');
   return (text.match(regex) || []).length;
+}
+
+export function booleanToString(value: boolean) {
+  return value ? 'true' : 'false';
 }
