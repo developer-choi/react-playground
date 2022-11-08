@@ -7,7 +7,6 @@ import {useQuery} from '@tanstack/react-query';
 export default function Page() {
   const [page, setPage] = useState(1);
 
-  // 페이지를 증가시켜도,
   const increasePage = useCallback(() => {
     setPage(prevState => prevState + 1);
   }, []);
