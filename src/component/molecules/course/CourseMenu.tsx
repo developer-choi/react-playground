@@ -10,17 +10,17 @@ export interface CourseMenuProp {
 
 export default function CourseMenu({}: CourseMenuProp) {
 
-  const {push} = useKeepQuery();
+  const {pushKeepQuery} = useKeepQuery();
   const [readyToFilter, setReadyToFilter] = useState(false);
 
   const reset = useCallback(() => {
-    push({
+    pushKeepQuery({
       topic: undefined,
       room: undefined,
       orderby: undefined,
       direction: undefined
     });
-  }, [push]);
+  }, [pushKeepQuery]);
 
   return (
     <>

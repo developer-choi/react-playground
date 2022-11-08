@@ -53,10 +53,10 @@ export function myClassName(...args: ClassnamesArgument[]) {
     if (b === '' || b === undefined) {
       return a;
     }
-    
+
     if (typeof b === 'string') {
       a.push(b);
-      
+
     } else {
       const classNames = Object.entries(b).reduce<string[]>((a, [key, value]) => {
         if (value) {

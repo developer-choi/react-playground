@@ -16,7 +16,7 @@ export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp
   const {query} = useRouter();
   const topic = Number(query.topic);
   const room = Number(query.room);
-  const {push} = useKeepQuery();
+  const {pushKeepQuery} = useKeepQuery();
 
   useEffect(() => {
     (async () => {
@@ -33,18 +33,18 @@ export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp
   }, [onReadyToFilter]);
 
   const filterTopic = useCallback((pk: number | undefined) => {
-    push({
+    pushKeepQuery({
       topic: pk,
       page: 1
     });
-  }, [push]);
+  }, [pushKeepQuery]);
 
   const filterRoom = useCallback((pk: number | undefined) => {
-    push({
+    pushKeepQuery({
       room: pk,
       page: 1
     });
-  }, [push]);
+  }, [pushKeepQuery]);
 
   if (!filterInfo) {
     return null;

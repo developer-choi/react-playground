@@ -20,12 +20,12 @@ export function useKeepQuery() {
    * Keep existing query
    * Keep existing pathname
    */
-  const push = useCallback((query: ParsedUrlQueryInput) => {
+  const pushKeepQuery = useCallback((query: ParsedUrlQueryInput) => {
     router.push(keepQueryUrlObject(query));
   }, [keepQueryUrlObject, router]);
 
   return {
-    push,
+    pushKeepQuery,
     keepQueryUrlObject
   };
 }

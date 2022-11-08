@@ -11,7 +11,7 @@ export interface CourseSortMenuProp {
 
 export default function CourseSortMenu({}: CourseSortMenuProp) {
   const {query} = useRouter();
-  const {push} = useKeepQuery();
+  const {pushKeepQuery} = useKeepQuery();
 
   const currentSort: Sort<CourseOrderby> | undefined = (!query.orderby || !query.direction) ? undefined : {
     orderby: query.orderby as  CourseOrderby,
@@ -19,11 +19,11 @@ export default function CourseSortMenu({}: CourseSortMenuProp) {
   };
 
   const onSort = useCallback((sort?: Sort<CourseOrderby>) => {
-    push({
+    pushKeepQuery({
       orderby: sort?.orderby,
       direction: sort?.direction
     });
-  }, [push]);
+  }, [pushKeepQuery]);
 
   return (
     <>
