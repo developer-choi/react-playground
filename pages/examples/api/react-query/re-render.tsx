@@ -23,7 +23,7 @@ export default function Page() {
    * - 그래서 refetch했는데 받아온 데이터값이 같으면, 리렌더링이 안되고, 다르면 리렌더링됨, 블로그말은 진짜였음.
    * - 아 그대신.. 리패치된 데이터를 deepEqual로 일일히 비교해서 Reference Type이어도 데이터같으면 리렌더링안했음.
    *
-   * 3. 2페이지로 올릴경우 2페이지 데이터는 없어서 fetching 중에는 data = undefined로 나옴. (keepPrevData 기본값 false임)
+   * 3. 2페이지로 올릴경우 2페이지 데이터는 아직 캐시가 없어서 fetching 중에는 data = undefined로 나옴. (keepPrevData 기본값 false임)
    */
   const forceReRender = useForceReRender();
 
