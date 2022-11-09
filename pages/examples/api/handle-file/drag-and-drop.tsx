@@ -4,7 +4,7 @@ import DragAndDrop from '@component/atom/DragAndDrop';
 import {flexCenter} from '@util/style/css';
 import {getFileRule} from '@util/extend/file/file-validation';
 import {fileSizeToByte} from '@util/extend/file/file-size';
-import useFilesToImages from '@util/custom-hooks/useCreateObjectUrl';
+import useFilesToImages from '@util/custom-hooks/useFilesToImages';
 import Link from 'next/link';
 
 export default function DragAndDropPage() {
