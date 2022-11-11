@@ -23,6 +23,7 @@ export function count(text: string, target: string) {
   return (text.match(regex) || []).length;
 }
 
-export function booleanToString(value: boolean) {
-  return value ? 'true' : 'false';
+export function booleanToString(value: boolean, prefix = '') {
+  const stringValue = value ? 'true' : 'false';
+  return prefix + ` ${stringValue}`;
 }
