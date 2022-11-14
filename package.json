@@ -41,6 +41,7 @@
     "sha512-es": "^1.8.2",
     "styled-components": "5.3.6",
     "styled-reset": "^4.3.4",
+    "swiper": "^8.4.4",
     "video.js": "^7.14.3"
   },
   "devDependencies": {
