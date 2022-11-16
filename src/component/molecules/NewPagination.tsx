@@ -1,20 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
-import type {PaginationParam} from '@util/extend/pagination';
-import {myClassName} from '@util/libraries/classnames';
-import {usePagination} from '@util/extend/pagination';
+import {PaginationParam, useCorePagination, UsePaginationOption} from '@util/extend/pagination/pagination-core';
+import {getNewPagination} from '@util/extend/pagination/pagination-new';
 import Link from 'next/link';
+import {myClassName} from '@util/libraries/classnames';
+import styled from 'styled-components';
 
-export interface PaginationProp extends PaginationParam {
-  pageToHref?: () => void;
+export interface NewPaginationProps extends PaginationParam, Partial<UsePaginationOption> {
+
 }
 
-export default function Pagination({config, currentPage, total}: PaginationProp) {
-  const {pages, pageToHref, next, first, previous, last, isExistPage} = usePagination({
-    config,
-    currentPage,
-    total,
-  });
+export default function NewPagination({pageToHref, ...params}: NewPaginationProps) {
+  const newPagination = getNewPagination(params);
+  const {isExistPage, next, first, previous, totalPage, last} = useCorePagination(newPagination, params, {pageToHref});
 
   if (!isExistPage) {
     return null;
@@ -29,11 +26,8 @@ export default function Pagination({config, currentPage, total}: PaginationProp)
         <a className={myClassName({disable: !previous.movable})}>{'<'}</a>
       </Link>
 
-      {pages.map(page => (
-        <Link key={page} href={pageToHref(page)} shallow={currentPage === page}>
-          <a key={page} className={myClassName({active: currentPage === page})}>{page}</a>
-        </Link>
-      ))}
+      <span>{params.currentPage} / {totalPage}</span>
+
       <Link href={next.href} shallow={!last.movable}>
         <a className={myClassName({disable: !next.movable})}>{'>'}</a>
       </Link>
@@ -42,10 +36,11 @@ export default function Pagination({config, currentPage, total}: PaginationProp)
       </Link>
     </Wrap>
   );
-}
+};
 
 const Wrap = styled.div`
   display: flex;
+  align-items: center;
   
   > a {
     padding: 5px;

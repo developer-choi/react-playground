@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {getTotalPage} from '@util/extend/pagination';
+import {getTotalPage} from '@util/extend/pagination/pagination-core';
 import throttle from 'lodash/throttle';
 
 export interface ListData<T> {
@@ -24,7 +24,7 @@ export default function useInfiniteScroll<T>({initialData, fetchMoreApi, article
   const {total, loading, list, page} = pagingData;
 
   useEffect(() => {
-    const totalPage = getTotalPage({total, articlePerPage});
+    const {totalPage} = getTotalPage({total, articlePerPage});
 
     if (page >= totalPage && loading) {
       return;
@@ -36,7 +36,7 @@ export default function useInfiniteScroll<T>({initialData, fetchMoreApi, article
       if ((scrollHeight - clientHeight - scrollTop) < 500) {
 
         (async () => {
-          if(loading) {
+          if (loading) {
             return;
           }
 

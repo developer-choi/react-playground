@@ -1,5 +1,5 @@
 import type {CourseOrderby} from '@type/response-sub/course-sub';
-import type {PaginationConfig} from '@util/extend/pagination';
+import type {PaginationConfig} from '@util/extend/pagination/pagination-core';
 
 export const COURSE_PAGINATION_CONFIG: PaginationConfig = {
   articlePerPage: 20,

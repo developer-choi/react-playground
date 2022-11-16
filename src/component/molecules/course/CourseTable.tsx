@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import type {CourseListResponse} from '@type/response/course';
 import moment from 'moment';
-import Pagination from '@component/molecules/Pagination';
+import BasicPagination from '@component/molecules/BasicPagination';
 import {useRouter} from 'next/router';
 import {COURSE_PAGINATION_CONFIG} from '@util/services/course';
+import NewPagination from '@component/molecules/NewPagination';
 
 export interface CourseTableProp {
   listResponse: CourseListResponse;
@@ -40,7 +41,13 @@ export default function CourseTable({listResponse}: CourseTableProp) {
         </tbody>
       </Table>
 
-      <Pagination
+      <BasicPagination
+        currentPage={page}
+        total={listResponse.total}
+        config={COURSE_PAGINATION_CONFIG}
+      />
+
+      <NewPagination
         currentPage={page}
         total={listResponse.total}
         config={COURSE_PAGINATION_CONFIG}
