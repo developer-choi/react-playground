@@ -1,14 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 import {timeoutPromise} from '@util/extend/promise';
+import {useRouter} from 'next/router';
 
 export default function Page() {
   console.log('rendering');
+  const {isFallback} = useRouter();
+
+  if (isFallback) {
+    return (
+      <Wrap>
+        페 이 지 로 딩 중 (getStaticProps() 끝날 때까지)
+      </Wrap>
+    );
+  }
 
   return (
-    <Wrap>
-      페 이 지 로 딩 중 (getStaticProps() 끝날 때까지)
-    </Wrap>
+    <div>새로운 정적 페이지 생성완료</div>
   );
 };
 
@@ -40,9 +48,7 @@ export async function getStaticProps() {
   console.log('getStaticProps end');
 
   return {
-    redirect: {
-      permanent: false,
-      destination: '/'
+    props: {
     }
   };
 }
