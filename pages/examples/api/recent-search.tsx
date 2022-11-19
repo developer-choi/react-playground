@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import type {GetServerSideProps} from 'next';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
@@ -23,11 +23,15 @@ export default function Page({list, searchText}: PageProp) {
   const {value: visible, setTrue: open, setFalse: close} = useToggle(false);
   const {appendFirst, list: recentSearchList, removeByPk} = useRecentSearch();
 
-  const {register, handleSubmit} = useForm<FormData>({
+  const {register, handleSubmit, setValue} = useForm<FormData>({
     defaultValues: {
       searchText
     }
   });
+
+  useEffect(() => {
+    setValue('searchText', searchText);
+  }, [searchText, setValue]);
 
   const {push} = useRouter();
 
