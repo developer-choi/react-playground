@@ -4,9 +4,14 @@ import type {RootState} from '@store/store';
 import UserApi from '@api/UserApi';
 import {handleServerSideError} from '@util/handle-error/server-side-error';
 import {getLoginTokenClientSide} from '@util/auth/auth';
+import {AuthError} from '@util/auth/AuthError';
 
 export interface UserState {
-  info: UserInfo;
+  /**
+   * INITIAL_USER_INFO: 로그인 여부 아직모르는 상태
+   * undefined: 로그인 안되어있음.
+   */
+  info?: UserInfo;
 }
 
 export const INITIAL_USER_INFO: UserInfo = {
@@ -22,7 +27,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUserActionCreator: (state, {payload}: PayloadAction<UserInfo>) => {
+    setUserActionCreator: (state, {payload}: PayloadAction<UserInfo | undefined>) => {
       state.info = payload;
     }
   }
@@ -39,6 +44,11 @@ export function thunkRefreshSetUser(): ThunkAction<void, RootState, undefined, R
       const {data: {info}} = await api.getUser(loginToken.userPk);
       dispatch(setUserActionCreator(info));
     } catch (error) {
+      if (error instanceof AuthError) {
+        dispatch(setUserActionCreator(undefined));
+        return;
+      }
+
       handleServerSideError(error);
     }
   };

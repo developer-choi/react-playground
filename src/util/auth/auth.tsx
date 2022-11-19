@@ -7,7 +7,7 @@ import {INITIAL_USER_INFO} from '@store/reducers/user';
 import {handleServerSideError} from '@util/handle-error/server-side-error';
 import {handleClientSideError} from '@util/handle-error/client-side-error';
 import {useRouter} from 'next/router';
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback} from 'react';
 
 export interface LoginToken {
   userPk: number;
@@ -89,16 +89,15 @@ export function isLoggedInClientSide() {
  * const userPk = useGetLoginUserPk();
  * return {userPk === authorPk ? <button onClick={removeReply}>Delete</button>}
  */
-export function useGetLoginUserPk(): number | undefined {
+export function useGetLoginUserPk(): number | 'initial' | undefined {
   const loginStatus = useLoginStatus();
-  const userPk = useAppSelector(state => state.user.info.userPk);
+  const userPk = useAppSelector(state => state.user.info?.userPk);
 
-  if (loginStatus === true) {
-    return userPk;
-
-  } else {
-    return undefined;
+  if (loginStatus === 'initial') {
+    return 'initial';
   }
+
+  return userPk;
 }
 
 /**
@@ -109,14 +108,13 @@ export function useGetLoginUserPk(): number | undefined {
  * Incorrect example: useEffect(callback, [isLoggedIn])
  */
 export function useLoginStatus(): boolean | 'initial' {
-  const [loginStatus, setLoginStatus] = useState<boolean | 'initial'>('initial');
-  const storeValue = useAppSelector(state => state.user.info !== INITIAL_USER_INFO);
+  return useAppSelector(state => {
+    if (state.user.info === INITIAL_USER_INFO) {
+      return 'initial';
+    }
 
-  useEffect(() => {
-    setLoginStatus(storeValue)
-  }, [storeValue]);
-
-  return loginStatus;
+    return state.user.info !== undefined;
+  });
 }
 
 export default function useAlertForNotLoggedIn() {
