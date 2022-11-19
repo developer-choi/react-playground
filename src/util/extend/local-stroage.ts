@@ -1,6 +1,5 @@
-import {Dispatch, SetStateAction, useCallback, useEffect, useState} from 'react';
+import {Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState} from 'react';
 import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
-import {removeDuplicatedItems} from '@util/extend/array';
 
 export class LocalStorageObjectManager<V extends Object> {
   /**
@@ -9,10 +8,10 @@ export class LocalStorageObjectManager<V extends Object> {
    * Instead, derived classes can use super's methods.
    */
   private readonly key: string;
-  
+
   constructor(key: string, defaultValue?: V) {
     this.key = key;
-    
+
     if (defaultValue) {
       try {
         if (!this.getItem()) {
@@ -25,7 +24,7 @@ export class LocalStorageObjectManager<V extends Object> {
       }
     }
   }
-  
+
   /**
    * @private
    * Instead of this private method, use setStringifyItem().
@@ -41,28 +40,38 @@ export class LocalStorageObjectManager<V extends Object> {
   private getItem() {
     return localStorage.getItem(this.key);
   }
-  
+
   setStringifyItem(value: V) {
     this.setItem(JSON.stringify(value));
   }
-  
+
   parseItem() {
     const item = this.getItem()
     return item ? JSON.parse(item) as V : null;
   }
 }
 
-export class LocalStorageArrayManager<I, P> extends LocalStorageObjectManager<I[]> {
+export type PkType = string | number;
+
+export interface ArrayManagerConstructorParameter<I, P extends PkType> {
+  key: string;
+  pkExtractor: (item: I) => P;
+  enableDuplicated: boolean;
+}
+
+export class LocalStorageArrayManager<I, P extends PkType> extends LocalStorageObjectManager<I[]> {
   /**
    * @private The pkExtractor must not be accessible in public.
    * And I don't have any plan that makes derived classes extend this class. (= This is the reason that I don't set visibility to protected)
    * For the above two reasons, I set visibility to private.
    */
-  private readonly pkExtractor: (item: I) => P;
-  
-  constructor(key: string, pkExtractor: (item: I) => P) {
+  private readonly pkExtractor: ArrayManagerConstructorParameter<I, P>['pkExtractor'];
+  private readonly enableDuplicated: ArrayManagerConstructorParameter<I, P>['enableDuplicated'];
+
+  constructor({key, enableDuplicated, pkExtractor}: ArrayManagerConstructorParameter<I, P>) {
     super(key);
     this.pkExtractor = pkExtractor;
+    this.enableDuplicated = enableDuplicated;
   }
 
   parseItem(): I[] {
@@ -80,53 +89,78 @@ export class LocalStorageArrayManager<I, P> extends LocalStorageObjectManager<I[
       return [];
     }
   }
-  
+
   removeByPk(pk: P): I[] {
     const list = this.parseItem().filter(prev => this.pkExtractor(prev) !== pk);
     this.setStringifyItem(list);
     return list;
   }
-  
-  appendLast(item: I, enableDuplicated: boolean): I[] {
+
+  private removeDuplicatedItems(originalItems: I[]): I[] {
+    const record = originalItems.reduce((a, b) => {
+      const pk = this.pkExtractor(b);
+      // eslint-disable-next-line no-param-reassign
+      a[pk] = b;
+      return a;
+    }, {} as Record<P, I>);
+
+    return Object.entries<I>(record).map(([, item]) => item);
+  }
+
+  appendLast(item: I): I[] {
     const items = [...this.parseItem(), item];
-    const list = enableDuplicated ? items : removeDuplicatedItems(items);
+    const list = this.enableDuplicated ? items : this.removeDuplicatedItems(items);
     this.setStringifyItem(list);
     return list;
   }
-  
-  appendFirst(item: I, enableDuplicated: boolean): I[] {
-    const items = [...this.parseItem(), item];
-    const list = enableDuplicated ? items : removeDuplicatedItems(items);
+
+  appendFirst(item: I): I[] {
+    const items = [item, ...this.parseItem()];
+    const list = this.enableDuplicated ? items : this.removeDuplicatedItems(items);
     this.setStringifyItem(list);
     return list;
   }
 }
 
-export function useLocalStorageObjectManager<V extends Object>(manager: LocalStorageObjectManager<V>) {
+export function useLocalStorageObjectManager<V extends Object>(manager: LocalStorageObjectManager<V>, enabled = true) {
   const [state, setState] = useState<V | null>(null);
 
   useEffect(() => {
-    setState(manager.parseItem());
-  }, [manager]);
+    if (enabled) {
+      setState(manager.parseItem());
+    }
+  }, [enabled, manager]);
 
   useEffectFromTheSecondTime(useCallback(() => {
+    if (!enabled) {
+      return;
+    }
+    
     if (state !== null) {
       manager.setStringifyItem(state);
     }
-  }, [manager, state]));
+  }, [enabled, manager, state]));
 
   return [state, setState] as [V | null, Dispatch<SetStateAction<V>>];
 }
 
-export function useLocalStorageArrayManager<I, P>(manager: LocalStorageArrayManager<I, P>) {
-  const [state, setState] = useLocalStorageObjectManager(manager);
+export function useLocalStorageArrayManager<I, P extends PkType>({key, enableDuplicated, pkExtractor}: ArrayManagerConstructorParameter<I, P>, enabled = true) {
+  const manager = useMemo(() => new LocalStorageArrayManager({
+    key,
+    enableDuplicated,
+    pkExtractor
 
-  const appendFirst = useCallback((item: I, enableDuplicated: boolean) => {
-    setState(manager.appendFirst(item, enableDuplicated));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [key, enableDuplicated]);
+
+  const [state, setState] = useLocalStorageObjectManager(manager, enabled) as [I[], Dispatch<SetStateAction<I[]>>];
+
+  const appendFirst = useCallback((item: I) => {
+    setState(manager.appendFirst(item));
   }, [manager, setState]);
 
-  const appendLast = useCallback((item: I, enableDuplicated: boolean) => {
-    setState(manager.appendLast(item, enableDuplicated));
+  const appendLast = useCallback((item: I) => {
+    setState(manager.appendLast(item));
   }, [manager, setState]);
 
   const removeByPk = useCallback((pk: P) => {
@@ -134,7 +168,7 @@ export function useLocalStorageArrayManager<I, P>(manager: LocalStorageArrayMana
   }, [manager, setState]);
 
   return {
-    list: state,
+    list: state ?? [],
     appendFirst,
     appendLast,
     removeByPk

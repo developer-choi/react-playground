@@ -13,7 +13,7 @@ export function replace<T>(array: Array<T>, conditionCallback: (item: T, index: 
   });
 }
 
-export function removeDuplicatedItems<T>(array: T[]): T[] {
+export function removeDuplicatedItems<T extends string | number>(array: T[]): T[] {
   return Array.from(new Set(array));
 }
 
