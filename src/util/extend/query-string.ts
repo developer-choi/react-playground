@@ -32,6 +32,14 @@ export function validateStringInQueryThrowError<T extends string = string>(query
   return queryValue as T;
 }
 
+export function isStringInQueryThrowError(queryValue: QueryValue) {
+  if (typeof queryValue !== 'string') {
+    throw new ValidateError('Value is not string');
+  }
+
+  return queryValue as string;
+}
+
 const NUMBERS = range(0, 9).map(value => value.toString());
 const MAX_INTEGER_LENGTH = Number.MAX_SAFE_INTEGER.toString().length;
 
