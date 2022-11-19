@@ -4,8 +4,8 @@ import {
   ArrayManagerConstructorParameter,
   LocalStorageArrayManager,
   LocalStorageObjectManager,
-  PkType
 } from '@util/extend/local-stroage';
+import type {PkType} from '@util/extend/array';
 
 /**
  * @description
@@ -39,7 +39,7 @@ export function useLocalStorageObjectManager<V extends Object>(manager: LocalSto
  * LocalStorageArrayManager: 단순히 로컬스토리지에 읽고 쓰는것만 도와줍니다.
  * useLocalStorageArrayManager: 로컬스트토리지에 저장된 값이 변할때 화면도 따라 변하는것을 쉽게 구현하도록 도와줍니다.
  */
-export function useLocalStorageArrayManager<I, P extends PkType>({key, enableDuplicated, pkExtractor}: ArrayManagerConstructorParameter<I, P>, enabled = true) {
+export function useLocalStorageArrayManager<I extends Object, P extends PkType>({key, enableDuplicated, pkExtractor}: ArrayManagerConstructorParameter<I, P>, enabled = true) {
   const manager = useMemo(() => new LocalStorageArrayManager({
     key,
     enableDuplicated,

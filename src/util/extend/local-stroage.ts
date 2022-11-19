@@ -1,3 +1,6 @@
+import type {PkType} from '@util/extend/array';
+import {removeDuplicatedObject} from '@util/extend/array';
+
 /**
  * @description 로컬스토리지에 Object를 쉽고 안전하게 읽고 쓰기위해 만들었습니다.
  * 1. 매번 중복되는 코드를 제거하기 위해.
@@ -53,9 +56,7 @@ export class LocalStorageObjectManager<V extends Object> {
   }
 }
 
-export type PkType = string | number;
-
-export interface ArrayManagerConstructorParameter<I, P extends PkType> {
+export interface ArrayManagerConstructorParameter<I extends Object, P extends PkType> {
   key: string;
   pkExtractor: (item: I) => P;
   enableDuplicated: boolean;
@@ -64,7 +65,7 @@ export interface ArrayManagerConstructorParameter<I, P extends PkType> {
 /**
  * @description 로컬스토리지에 Array를 쉽고 안전하게 읽고 쓰기위해 만들었습니다.
  */
-export class LocalStorageArrayManager<I, P extends PkType> extends LocalStorageObjectManager<I[]> {
+export class LocalStorageArrayManager<I extends Object, P extends PkType> extends LocalStorageObjectManager<I[]> {
   /**
    * @private The pkExtractor must not be accessible in public.
    * And I don't have any plan that makes derived classes extend this class. (= This is the reason that I don't set visibility to protected)
@@ -101,27 +102,16 @@ export class LocalStorageArrayManager<I, P extends PkType> extends LocalStorageO
     return list;
   }
 
-  private removeDuplicatedItems(originalItems: I[]): I[] {
-    const record = originalItems.reduce((a, b) => {
-      const pk = this.pkExtractor(b);
-      // eslint-disable-next-line no-param-reassign
-      a[pk] = b;
-      return a;
-    }, {} as Record<P, I>);
-
-    return Object.entries<I>(record).map(([, item]) => item);
-  }
-
   appendLast(item: I): I[] {
     const items = [...this.parseItem(), item];
-    const list = this.enableDuplicated ? items : this.removeDuplicatedItems(items);
+    const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.pkExtractor);
     this.setStringifyItem(list);
     return list;
   }
 
   appendFirst(item: I): I[] {
     const items = [item, ...this.parseItem()];
-    const list = this.enableDuplicated ? items : this.removeDuplicatedItems(items);
+    const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.pkExtractor);
     this.setStringifyItem(list);
     return list;
   }

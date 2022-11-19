@@ -17,6 +17,19 @@ export function removeDuplicatedItems<T extends string | number>(array: T[]): T[
   return Array.from(new Set(array));
 }
 
+export type PkType = string | number;
+
+export function removeDuplicatedObject<I extends Object, P extends PkType>(items: I[], pkExtractor: (item: I) => P): I[] {
+  const record = items.reduce((a, b) => {
+    const pk = pkExtractor(b);
+    // eslint-disable-next-line no-param-reassign
+    a[pk] = b;
+    return a;
+  }, {} as Record<P, I>);
+
+  return Object.entries<I>(record).map(([, item]) => item);
+}
+
 export function sortByNumber<T>(direction: Direction, list: T[], valueExtractor: (item: T) => number) {
   return [...list].sort((a, b) => {
     if (direction === 'asc') {
