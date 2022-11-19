@@ -11,7 +11,7 @@ import {
   goyugyeolRevenue
 } from '@util/black-desert/goyugyeol';
 import {numberWithComma} from '@util/extend/number';
-import {useGoYuGyeolManager} from '@util/extend/localStroage';
+import {LocalStorageObjectManager, useLocalStorageObjectManager} from '@util/extend/local-stroage';
 import keepRestPrevState from '@util/extend/state';
 
 export default function GoyugyeolcalcPage() {
@@ -84,6 +84,24 @@ export default function GoyugyeolcalcPage() {
       <Info># 블랙스톤 방어구는 모두 팔았을 때를 기준으로 가정합니다.</Info>
     </StyledForm>
   );
+}
+
+interface GoYuGyeolManager {
+  goyugyeolPrice: number;
+  droughty: number;
+  gipaPrice: number;
+  blackStoneArmorPrice: number;
+}
+
+const GOYUGYEOL_MANAGER = new LocalStorageObjectManager<GoYuGyeolManager>('goyugyeol', {
+  gipaPrice: 3000000,
+  goyugyeolPrice: 1600000,
+  droughty: 999,
+  blackStoneArmorPrice: 150000
+});
+
+function useGoYuGyeolManager() {
+  return useLocalStorageObjectManager(GOYUGYEOL_MANAGER);
 }
 
 const StyledForm = styled(Form)`
