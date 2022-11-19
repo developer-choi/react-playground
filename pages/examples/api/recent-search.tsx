@@ -23,36 +23,11 @@ export default function Page({list, searchText}: PageProp) {
   const {value: visible, setTrue: open, setFalse: close} = useToggle(false);
   const {appendFirst, list: recentSearchList, removeByPk} = useRecentSearch();
 
-  const {register, handleSubmit, setValue} = useForm<FormData>({
-    defaultValues: {
-      searchText
-    }
-  });
-
-  useEffect(() => {
-    setValue('searchText', searchText);
-  }, [searchText, setValue]);
-
-  const {push} = useRouter();
-
-  const onError: SubmitErrorHandler<FormData> = useCallback(errors => {
-    alert(errors.searchText?.message as string);
-  }, []);
-
-  const onSubmit: SubmitHandler<FormData> = useCallback(data => {
-    push(`/examples/api/recent-search?searchText=${data.searchText}`);
-    close();
-    appendFirst({searchText: data.searchText});
-  }, [appendFirst, close, push]);
-
   return (
     <Wrap onClick={close}>
       <h1>게시글 검색페이지</h1>
 
-      <form onSubmit={handleSubmit(onSubmit, onError)} onClick={stopPropagation}>
-        <input placeholder="검색어를 입력해주세요." onFocus={open} onClick={open} {...register('searchText', {...OPTIONS})}/>
-        <Button type="submit">제출</Button>
-      </form>
+      <SearchForm searchText={searchText} appendFirst={appendFirst} openRecentSearch={open} closeRecentSearch={close}/>
 
       <RecentSearchList list={recentSearchList} removeByPk={removeByPk} visible={visible}/>
 
@@ -95,6 +70,44 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async ({query}) 
     };
   }
 };
+
+interface SearchFormProp {
+  appendFirst: (recentSearch: RecentSearch) => void;
+  openRecentSearch: () => void;
+  closeRecentSearch: () => void;
+  searchText: string;
+}
+
+function SearchForm({appendFirst, openRecentSearch, closeRecentSearch, searchText}: SearchFormProp) {
+  const {push} = useRouter();
+
+  const {register, handleSubmit, setValue} = useForm<FormData>({
+    defaultValues: {
+      searchText
+    }
+  });
+
+  useEffect(() => {
+    setValue('searchText', searchText);
+  }, [searchText, setValue]);
+
+  const onError: SubmitErrorHandler<FormData> = useCallback(errors => {
+    alert(errors.searchText?.message as string);
+  }, []);
+
+  const onSubmit: SubmitHandler<FormData> = useCallback(data => {
+    push(`/examples/api/recent-search?searchText=${data.searchText}`);
+    closeRecentSearch();
+    appendFirst({searchText: data.searchText});
+  }, [appendFirst, closeRecentSearch, push]);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit, onError)} onClick={stopPropagation}>
+      <input placeholder="검색어를 입력해주세요." onFocus={openRecentSearch} onClick={openRecentSearch} {...register('searchText', {...OPTIONS})}/>
+      <Button type="submit">제출</Button>
+    </form>
+  );
+}
 
 const OPTIONS: RegisterOptions = {
   required: {
