@@ -1,5 +1,5 @@
 import React, {forwardRef, useState} from 'react';
-import Accordion, {AccordionContentProp, AccordionHeaderProp} from '@component/Accordion';
+import Accordion, {AccordionContentProp, AccordionHeaderProp} from '@component/atom/Accordion';
 import styled from 'styled-components';
 
 export default function Page() {
