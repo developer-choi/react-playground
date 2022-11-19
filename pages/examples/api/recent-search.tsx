@@ -9,7 +9,7 @@ import {isStringInQueryThrowError} from '@util/extend/query-string';
 import {range} from '@util/extend/number';
 import {Button} from '@component/atom/button/button-presets';
 import {useGetLoginUserPk} from '@util/auth/auth';
-import {useLocalStorageArrayManager} from '@util/extend/local-stroage';
+import {useLocalStorageArrayManager} from '@util/custom-hooks/local-storage';
 import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
 import {stopPropagation} from '@util/extend/event';

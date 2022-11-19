@@ -11,7 +11,8 @@ import {
   goyugyeolRevenue
 } from '@util/black-desert/goyugyeol';
 import {numberWithComma} from '@util/extend/number';
-import {LocalStorageObjectManager, useLocalStorageObjectManager} from '@util/extend/local-stroage';
+import {LocalStorageObjectManager} from '@util/extend/local-stroage';
+import {useLocalStorageObjectManager} from '@util/custom-hooks/local-storage';
 import keepRestPrevState from '@util/extend/state';
 
 export default function GoyugyeolcalcPage() {

@@ -1,6 +1,8 @@
-import {Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState} from 'react';
-import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
-
+/**
+ * @description 로컬스토리지에 Object를 쉽고 안전하게 읽고 쓰기위해 만들었습니다.
+ * 1. 매번 중복되는 코드를 제거하기 위해.
+ * 2. localStorage의 key는 문자열이라서 오타로인해 잘못 읽고 쓸 우려가 있어서.
+ */
 export class LocalStorageObjectManager<V extends Object> {
   /**
    * @private
@@ -59,6 +61,9 @@ export interface ArrayManagerConstructorParameter<I, P extends PkType> {
   enableDuplicated: boolean;
 }
 
+/**
+ * @description 로컬스토리지에 Array를 쉽고 안전하게 읽고 쓰기위해 만들었습니다.
+ */
 export class LocalStorageArrayManager<I, P extends PkType> extends LocalStorageObjectManager<I[]> {
   /**
    * @private The pkExtractor must not be accessible in public.
@@ -120,57 +125,4 @@ export class LocalStorageArrayManager<I, P extends PkType> extends LocalStorageO
     this.setStringifyItem(list);
     return list;
   }
-}
-
-export function useLocalStorageObjectManager<V extends Object>(manager: LocalStorageObjectManager<V>, enabled = true) {
-  const [state, setState] = useState<V | null>(null);
-
-  useEffect(() => {
-    if (enabled) {
-      setState(manager.parseItem());
-    }
-  }, [enabled, manager]);
-
-  useEffectFromTheSecondTime(useCallback(() => {
-    if (!enabled) {
-      return;
-    }
-    
-    if (state !== null) {
-      manager.setStringifyItem(state);
-    }
-  }, [enabled, manager, state]));
-
-  return [state, setState] as [V | null, Dispatch<SetStateAction<V>>];
-}
-
-export function useLocalStorageArrayManager<I, P extends PkType>({key, enableDuplicated, pkExtractor}: ArrayManagerConstructorParameter<I, P>, enabled = true) {
-  const manager = useMemo(() => new LocalStorageArrayManager({
-    key,
-    enableDuplicated,
-    pkExtractor
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [key, enableDuplicated]);
-
-  const [state, setState] = useLocalStorageObjectManager(manager, enabled) as [I[], Dispatch<SetStateAction<I[]>>];
-
-  const appendFirst = useCallback((item: I) => {
-    setState(manager.appendFirst(item));
-  }, [manager, setState]);
-
-  const appendLast = useCallback((item: I) => {
-    setState(manager.appendLast(item));
-  }, [manager, setState]);
-
-  const removeByPk = useCallback((pk: P) => {
-    setState(manager.removeByPk(pk));
-  }, [manager, setState]);
-
-  return {
-    list: state ?? [],
-    appendFirst,
-    appendLast,
-    removeByPk
-  };
 }
