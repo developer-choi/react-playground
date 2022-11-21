@@ -30,12 +30,12 @@ export default function Page() {
 
   return (
     <FormProvider {...methods}>
-      <Wrap onSubmit={methods.handleSubmit(onSubmit)}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
         {totalCategories.map(category => (
           <CategoryComponent key={category.name} category={category}/>
         ))}
         <Button type="submit">제출</Button>
-      </Wrap>
+      </form>
       {selectedPropertyNames.map(propertyName => {
         const category = propertyNameToCategory(propertyName);
         return <span key={category.pk} style={{marginRight: 5}}>{category.name}</span>;
@@ -55,24 +55,23 @@ function CategoryComponent({category, parentData}: {category: Category, parentDa
   const thisData = useMemo(() => ({
     name: thisName,
     checked: thisChecked,
-    onChange: () => {
-      const allChildrenChecked = childrenNames.length === 0 ? false : childrenNames.every(name => watch(name));
-      setValue(thisName, allChildrenChecked);
+    onChange: (event: ChangeEvent<HTMLInputElement>) => {
+      if (childrenNames.length > 0) {
+        const allChildrenChecked = childrenNames.every(name => watch(name));
+        setValue(thisName, allChildrenChecked);
+      }
+
+      parentData?.onChange(event);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [thisName, thisChecked]);
+  }), [thisName, thisChecked, childrenNames, parentData, setValue, watch]);
 
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    parentData?.onChange(event);
-
-    if (childrenNames.length === 0) {
-      return;
-    }
-
     childrenNames.forEach(name => {
       setValue(name, event.target.checked);
     });
-  }, [childrenNames, parentData, setValue]);
+
+    thisData.onChange(event);
+  }, [childrenNames, setValue, thisData]);
 
   return (
     <CategoryWrap draggable={false}>
@@ -161,10 +160,6 @@ const totalCategories = [
   new Category('clothes', "의류", clothesCategories),
   new Category('shoes', "슈즈", shoesCategories)
 ];
-
-const Wrap = styled.form`
-
-`;
 
 const CategoryWrap = styled.label`
   display: block;
