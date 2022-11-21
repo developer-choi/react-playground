@@ -1,5 +1,5 @@
 import {Button} from '@component/atom/button/button-presets';
-import React, {useEffect, useMemo} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useMemo} from 'react';
 import {FormProvider, SubmitHandler, useForm, useFormContext} from 'react-hook-form';
 import styled from 'styled-components';
 import {useForceReRender} from '@util/custom-hooks/useForceReRender';
@@ -50,29 +50,33 @@ function CategoryComponent({category, parentData}: {category: Category, parentDa
   const thisName = categoryToPropertyName(category);
   const thisChecked = watch(thisName);
 
+  const childrenNames = category.childrens?.map(category => categoryToPropertyName(category)) ?? EMPTY_ARRAY;
+
   const thisData = useMemo(() => ({
     name: thisName,
     checked: thisChecked,
     onChange: () => {
-      const childrenNames = category.childrens?.map(category => categoryToPropertyName(category)) ?? EMPTY_ARRAY;
       const allChildrenChecked = childrenNames.length === 0 ? false : childrenNames.every(name => watch(name));
       setValue(thisName, allChildrenChecked);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [thisName, thisChecked]);
 
-  useEffect(() => {
-    if (parentData?.checked === undefined) {
+  const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    parentData?.onChange(event);
+
+    if (childrenNames.length === 0) {
       return;
     }
 
-    setValue(thisName, parentData.checked);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parentData?.checked]);
+    childrenNames.forEach(name => {
+      setValue(name, event.target.checked);
+    });
+  }, [childrenNames, parentData, setValue]);
 
   return (
     <CategoryWrap draggable={false}>
-      <input type="checkbox" {...register(thisName, {onChange: parentData?.onChange})}/>
+      <input type="checkbox" {...register(thisName, {onChange})}/>
       {category.name}
       {category.childrens?.map(children => (
         <CategoryComponent key={children.name} category={children} parentData={thisData}/>
@@ -101,14 +105,14 @@ function propertyNameToCategory(propertyName: string) {
 interface Data {
   name: string;
   checked: boolean;
-  onChange: () => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 class Category {
   pk: string;
   parentPk?: string;
   name: string;
-  childrens?: Category[];
+  childrens: Category[];
 
   constructor(pk: string, name: string, childrens?: Category[], parentPk?: string) {
     this.pk = pk;
