@@ -1,19 +1,46 @@
+import {Button} from '@component/atom/button/button-presets';
 import React from 'react';
+import {FormProvider, SubmitHandler, useForm, useFormContext} from 'react-hook-form';
 import styled from 'styled-components';
 
 export default function Page() {
+  const methods = useForm();
+
+  const onSubmit: SubmitHandler<any> = (data) => {
+    console.log("submit", data);
+  };
+
+  const selectedPropertyNames = Object.entries(methods.watch()).reduce((a, b) => {
+    if (b[1] === true) {
+      return a.concat(b[0] as string);
+    } else {
+      return a;
+    }
+  }, [] as string[]);
+
   return (
-    <>
-      {totalCategories.map(category => (
-        <CategoryComponent key={category.name} category={category}/>
-      ))}
-    </>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        {totalCategories.map(category => (
+          <CategoryComponent key={category.name} category={category}/>
+        ))}
+        <Button type="submit">제출</Button>
+      </form>
+      {selectedPropertyNames.map(propertyName => {
+        const category = propertyNameToCategory(propertyName);
+        return <span key={category.pk} style={{marginRight: 5}}>{category.name}</span>;
+      })}
+    </FormProvider>
   );
 }
 
 function CategoryComponent({category}: {category: Category}) {
+  const {register} = useFormContext();
+  const thisName = categoryToPropertyName(category);
+
   return (
-    <CategoryWrap>
+    <CategoryWrap draggable={false}>
+      <input type="checkbox" {...register(thisName)}/>
       {category.name}
       {category.childrens?.map(children => (
         <CategoryComponent key={children.name} category={children}/>
@@ -22,49 +49,71 @@ function CategoryComponent({category}: {category: Category}) {
   );
 }
 
+const separator = "&";
+
+function categoryToPropertyName({pk, name, parentPk = '', childrens = []}: Category) {
+  const childrensPk = childrens.map(({pk}) => pk).join(",");
+  return `${pk}${separator}${name}${separator}${parentPk}${separator}${childrensPk}`;
+}
+
+function propertyNameToCategory(propertyName: string) {
+  const [pk, name, parentPk, childrens] = propertyName.split(separator);
+  return {
+    pk,
+    name,
+    childrens: !childrens? [] : childrens.split(','),
+    parentPk: parentPk === '' ? undefined : parentPk
+  };
+}
+
 class Category {
+  pk: string;
+  parentPk?: string;
   name: string;
   childrens: Category[];
 
-  constructor(name: string, childrens?: Category[]) {
+  constructor(pk: string, name: string, childrens?: Category[], parentPk?: string) {
+    this.pk = pk;
     this.name = name;
     this.childrens = childrens ?? [];
+    this.parentPk = parentPk;
   }
 }
 
 const totBags = [
-  new Category('아디다스토트백'),
-  new Category('나이키토트백')
+  new Category('bag-1-adidas', '아디다스토트백', [], 'bag-1'),
+  new Category('bag-1-nike', '나이키토트백', [], 'bag-1')
 ];
 
 const bagCategories = [
-  new Category('토트백', totBags),
-  new Category('벨트백')
+  new Category('bag-1', '토트백', totBags, 'bag'),
+  new Category('bag-2', '벨트백', [], 'bag')
 ];
 
 const walletCategories = [
-  new Category('장지갑'),
-  new Category('카드지갑')
+  new Category('wallet-1', '장지갑', [], 'wallet'),
+  new Category('wallet-2', '카드지갑', [], 'wallet')
 ];
 
 const clothesCategories = [
-  new Category('아우터'),
-  new Category('스커트')
+  new Category('clothes-1', '아우터', [], 'clothes'),
+  new Category('clothes-2', '스커트', [], 'clothes')
 ];
 
 const shoesCategories = [
-  new Category('하이힐'),
-  new Category('부츠')
+  new Category('shoes-1', '하이힐', [], 'shoes'),
+  new Category('shoes-2', '부츠', [], 'shoes')
 ];
 
 const totalCategories = [
-  new Category("가방", bagCategories),
-  new Category("지갑", walletCategories),
-  new Category("의류", clothesCategories),
-  new Category("슈즈", shoesCategories)
+  new Category('bag', "가방", bagCategories),
+  new Category('wallet', "지갑", walletCategories),
+  new Category('clothes', "의류", clothesCategories),
+  new Category('shoes', "슈즈", shoesCategories)
 ];
 
-const CategoryWrap = styled.div`
+const CategoryWrap = styled.label`
+  display: block;
   margin-left: 20px;
   margin-top: 10px;
 `;
