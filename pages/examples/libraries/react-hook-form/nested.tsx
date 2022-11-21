@@ -50,7 +50,7 @@ function CategoryComponent({category, parentData}: {category: Category, parentDa
   const thisName = categoryToPropertyName(category);
   const thisChecked = watch(thisName);
 
-  const childrenNames = category.childrens?.map(category => categoryToPropertyName(category)) ?? EMPTY_ARRAY;
+  const childrenNames = getAllChildrens(category).map(category => categoryToPropertyName(category)) ?? EMPTY_ARRAY;
 
   const thisData = useMemo(() => ({
     name: thisName,
@@ -100,6 +100,14 @@ function propertyNameToCategory(propertyName: string) {
     childrens: !childrens? [] : childrens.split(','),
     parentPk: parentPk === '' ? undefined : parentPk
   };
+}
+
+function getAllChildrens({childrens}: Category): Category[] {
+  if (childrens.length === 0) {
+    return [];
+  }
+
+  return childrens.concat(childrens.map(children => getAllChildrens(children)).flat());
 }
 
 interface Data {
