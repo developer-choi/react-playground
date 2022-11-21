@@ -3,6 +3,7 @@ import React, {useEffect, useMemo} from 'react';
 import {FormProvider, SubmitHandler, useForm, useFormContext} from 'react-hook-form';
 import styled from 'styled-components';
 import {useForceReRender} from '@util/custom-hooks/useForceReRender';
+import {EMPTY_ARRAY} from '@util/extend/array';
 
 export default function Page() {
   const methods = useForm();
@@ -51,7 +52,13 @@ function CategoryComponent({category, parentData}: {category: Category, parentDa
 
   const thisData = useMemo(() => ({
     name: thisName,
-    checked: thisChecked
+    checked: thisChecked,
+    onChange: () => {
+      const childrenNames = category.childrens?.map(category => categoryToPropertyName(category)) ?? EMPTY_ARRAY;
+      const allChildrenChecked = childrenNames.length === 0 ? false : childrenNames.every(name => watch(name));
+      setValue(thisName, allChildrenChecked);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [thisName, thisChecked]);
 
   useEffect(() => {
@@ -65,7 +72,7 @@ function CategoryComponent({category, parentData}: {category: Category, parentDa
 
   return (
     <CategoryWrap draggable={false}>
-      <input type="checkbox" {...register(thisName)}/>
+      <input type="checkbox" {...register(thisName, {onChange: parentData?.onChange})}/>
       {category.name}
       {category.childrens?.map(children => (
         <CategoryComponent key={children.name} category={children} parentData={thisData}/>
@@ -94,13 +101,14 @@ function propertyNameToCategory(propertyName: string) {
 interface Data {
   name: string;
   checked: boolean;
+  onChange: () => void;
 }
 
 class Category {
   pk: string;
   parentPk?: string;
   name: string;
-  childrens: Category[];
+  childrens?: Category[];
 
   constructor(pk: string, name: string, childrens?: Category[], parentPk?: string) {
     this.pk = pk;
@@ -143,7 +151,7 @@ const totalCategories = [
 ];
 
 const Wrap = styled.form`
-  
+
 `;
 
 const CategoryWrap = styled.label`
