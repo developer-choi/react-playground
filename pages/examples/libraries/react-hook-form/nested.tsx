@@ -1,7 +1,8 @@
 import {Button} from '@component/atom/button/button-presets';
-import React from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {FormProvider, SubmitHandler, useForm, useFormContext} from 'react-hook-form';
 import styled from 'styled-components';
+import {useForceReRender} from '@util/custom-hooks/useForceReRender';
 
 export default function Page() {
   const methods = useForm();
@@ -18,14 +19,22 @@ export default function Page() {
     }
   }, [] as string[]);
 
+  //최초렌더링할 때, 강제로 1번만 리렌더링을 하여 모든 데이터의 값에 undefined가 아닌 false가 들어가도록 했습니다.
+  const forceReRender = useForceReRender();
+
+  useEffect(() => {
+    forceReRender();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+      <Wrap onSubmit={methods.handleSubmit(onSubmit)}>
         {totalCategories.map(category => (
           <CategoryComponent key={category.name} category={category}/>
         ))}
         <Button type="submit">제출</Button>
-      </form>
+      </Wrap>
       {selectedPropertyNames.map(propertyName => {
         const category = propertyNameToCategory(propertyName);
         return <span key={category.pk} style={{marginRight: 5}}>{category.name}</span>;
@@ -34,16 +43,32 @@ export default function Page() {
   );
 }
 
-function CategoryComponent({category}: {category: Category}) {
-  const {register} = useFormContext();
+function CategoryComponent({category, parentData}: {category: Category, parentData?: Data}) {
+  const {register, watch, setValue} = useFormContext();
+
   const thisName = categoryToPropertyName(category);
+  const thisChecked = watch(thisName);
+
+  const thisData = useMemo(() => ({
+    name: thisName,
+    checked: thisChecked
+  }), [thisName, thisChecked]);
+
+  useEffect(() => {
+    if (parentData?.checked === undefined) {
+      return;
+    }
+
+    setValue(thisName, parentData.checked);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [parentData?.checked]);
 
   return (
     <CategoryWrap draggable={false}>
       <input type="checkbox" {...register(thisName)}/>
       {category.name}
       {category.childrens?.map(children => (
-        <CategoryComponent key={children.name} category={children}/>
+        <CategoryComponent key={children.name} category={children} parentData={thisData}/>
       ))}
     </CategoryWrap>
   );
@@ -64,6 +89,11 @@ function propertyNameToCategory(propertyName: string) {
     childrens: !childrens? [] : childrens.split(','),
     parentPk: parentPk === '' ? undefined : parentPk
   };
+}
+
+interface Data {
+  name: string;
+  checked: boolean;
 }
 
 class Category {
@@ -111,6 +141,10 @@ const totalCategories = [
   new Category('clothes', "의류", clothesCategories),
   new Category('shoes', "슈즈", shoesCategories)
 ];
+
+const Wrap = styled.form`
+  
+`;
 
 const CategoryWrap = styled.label`
   display: block;
