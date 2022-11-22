@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {getTotalPage} from '@util/extend/pagination/pagination-core';
+import {getTotalPage} from '@util/pagination/pagination-core';
 import throttle from 'lodash/throttle';
 
 export interface ListData<T> {

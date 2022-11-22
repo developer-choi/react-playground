@@ -1,15 +1,15 @@
-import React from 'react';
+import React, {memo} from 'react';
 import styled from 'styled-components';
-import type {PaginationParam, UsePaginationOption} from '@util/extend/pagination/pagination-core';
+import type {PaginationParam, UsePaginationOption} from '@util/pagination/pagination-core';
 import {myClassName} from '@util/libraries/classnames';
-import {useBasicPagination} from '@util/extend/pagination/pagination-basic';
+import {useBasicPagination} from '@util/pagination/pagination-basic';
 import Link from 'next/link';
 
 export interface PaginationProp extends PaginationParam, Partial<UsePaginationOption> {
 
 }
 
-export default function BasicPagination({pageToHref, ...params}: PaginationProp) {
+export default memo(function BasicPagination({pageToHref, ...params}: PaginationProp) {
   const {currentPage} = params;
   const {pages, pageToHrefWithDefault, next, first, previous, last, isExistPage} = useBasicPagination(params);
 
@@ -39,7 +39,7 @@ export default function BasicPagination({pageToHref, ...params}: PaginationProp)
       </Link>
     </Wrap>
   );
-}
+});
 
 const Wrap = styled.div`
   display: flex;

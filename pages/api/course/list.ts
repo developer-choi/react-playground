@@ -47,7 +47,7 @@ const DUMMY_TEACHERS: Teacher[] = [
   }
 ];
 
-const DUMMY_COURSE_LIST: Course[] = range(1, 100).map(value => {
+const DUMMY_COURSE_LIST: Course[] = range(1, 300).map(value => {
   const teacher = DUMMY_TEACHERS[randomNumber(0, DUMMY_TEACHERS.length - 1)];
   const room = DUMMY_ROOMS.list[randomNumber(0, DUMMY_ROOMS.list.length - 1)];
   return {

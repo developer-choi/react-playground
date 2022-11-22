@@ -1,7 +1,7 @@
-import type {CorePagination, PaginationParam} from '@util/extend/pagination/pagination-core';
-import {DEFAULT_CORE_PAGINATION, getMovablePageData, getTotalPage} from '@util/extend/pagination/pagination-core';
+import type {CorePagination, PaginationParam} from '@util/pagination/pagination-core';
+import {DEFAULT_CORE_PAGINATION, getMovablePageData, getTotalPage} from '@util/pagination/pagination-core';
 
-export function getNewPagination({total, config, currentPage}: PaginationParam): CorePagination {
+export function getShortPagination({total, config, currentPage}: PaginationParam): CorePagination {
   if (total <= 0) {
     return DEFAULT_CORE_PAGINATION;
   }

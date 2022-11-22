@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps<CourseTableProp> = async ({q
   } catch (error) {
     return handleServerSideError(error, {
       notifyRedirect: {
-        destination: '/examples/sort-filter/list?page=1'
+        destination: '/examples/api/sort-filter/list?page=1'
       }
     });
   }

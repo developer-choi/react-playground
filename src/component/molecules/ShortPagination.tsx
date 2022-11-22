@@ -1,16 +1,16 @@
-import React from 'react';
-import {PaginationParam, useCorePagination, UsePaginationOption} from '@util/extend/pagination/pagination-core';
-import {getNewPagination} from '@util/extend/pagination/pagination-new';
+import React, {memo} from 'react';
+import {PaginationParam, useCorePagination, UsePaginationOption} from '@util/pagination/pagination-core';
+import {getShortPagination} from '@util/pagination/pagination-short';
 import Link from 'next/link';
 import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
 
-export interface NewPaginationProps extends PaginationParam, Partial<UsePaginationOption> {
+export interface ShortPaginationProp extends PaginationParam, Partial<UsePaginationOption> {
 
 }
 
-export default function NewPagination({pageToHref, ...params}: NewPaginationProps) {
-  const newPagination = getNewPagination(params);
+export default memo(function ShortPagination({pageToHref, ...params}: ShortPaginationProp) {
+  const newPagination = getShortPagination(params);
   const {isExistPage, next, first, previous, totalPage, last} = useCorePagination(newPagination, params, {pageToHref});
 
   if (!isExistPage) {
@@ -36,7 +36,7 @@ export default function NewPagination({pageToHref, ...params}: NewPaginationProp
       </Link>
     </Wrap>
   );
-};
+});
 
 const Wrap = styled.div`
   display: flex;

@@ -5,7 +5,7 @@ import moment from 'moment';
 import BasicPagination from '@component/molecules/BasicPagination';
 import {useRouter} from 'next/router';
 import {COURSE_PAGINATION_CONFIG} from '@util/services/course';
-import NewPagination from '@component/molecules/NewPagination';
+import ShortPagination from '@component/molecules/ShortPagination';
 
 export interface CourseTableProp {
   listResponse: CourseListResponse;
@@ -47,7 +47,7 @@ export default function CourseTable({listResponse}: CourseTableProp) {
         config={COURSE_PAGINATION_CONFIG}
       />
 
-      <NewPagination
+      <ShortPagination
         currentPage={page}
         total={listResponse.total}
         config={COURSE_PAGINATION_CONFIG}
