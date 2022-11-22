@@ -1,17 +1,17 @@
 import React, {memo} from 'react';
+import Link from 'next/link';
+import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
 import type {PaginationParam, UsePaginationOption} from '@util/pagination/pagination-core';
-import {myClassName} from '@util/libraries/classnames';
-import {useBasicPagination} from '@util/pagination/pagination-basic';
-import Link from 'next/link';
+import {useNearPagination} from '@util/pagination/pagination-core';
 
-export interface PaginationProp extends PaginationParam, Partial<UsePaginationOption> {
+export interface NearPaginationProp extends PaginationParam, Partial<UsePaginationOption> {
 
 }
 
-export default memo(function BasicPagination({pageToHref, ...params}: PaginationProp) {
+export default memo(function NearPagination({pageToHref, ...params}: NearPaginationProp) {
   const {currentPage} = params;
-  const {pages, pageToHrefWithDefault, next, first, previous, last, isExistPage} = useBasicPagination(params, {pageToHref});
+  const {isExistPage, next, first, previous, pages, pageToHrefWithDefault, last} = useNearPagination(params, {pageToHref});
 
   if (!isExistPage) {
     return null;
@@ -44,6 +44,7 @@ export default memo(function BasicPagination({pageToHref, ...params}: Pagination
 
 const Wrap = styled.div`
   display: flex;
+  align-items: center;
   
   > a {
     padding: 5px;

@@ -44,7 +44,7 @@ export function getBasicPagination({currentPage, config: {pagePerView, articlePe
 
 export type UseBasicPagingResult = UseCorePagingResult & Pick<BasicPagination, 'pages'>;
 
-export function useBasicPagination(param: PaginationParam, option?: UsePaginationOption): UseBasicPagingResult {
+export function useBasicPagination(param: PaginationParam, option?: Partial<UsePaginationOption>): UseBasicPagingResult {
   const basicPagination = getBasicPagination(param);
   const corePaginationResult = useCorePagination(basicPagination, param, option);
 

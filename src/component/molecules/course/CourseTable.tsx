@@ -6,6 +6,7 @@ import BasicPagination from '@component/molecules/BasicPagination';
 import {useRouter} from 'next/router';
 import {COURSE_PAGINATION_CONFIG} from '@util/services/course';
 import ShortPagination from '@component/molecules/ShortPagination';
+import NearPagination from '@component/molecules/NearPagination';
 
 export interface CourseTableProp {
   listResponse: CourseListResponse;
@@ -48,6 +49,12 @@ export default function CourseTable({listResponse}: CourseTableProp) {
       />
 
       <ShortPagination
+        currentPage={page}
+        total={listResponse.total}
+        config={COURSE_PAGINATION_CONFIG}
+      />
+
+      <NearPagination
         currentPage={page}
         total={listResponse.total}
         config={COURSE_PAGINATION_CONFIG}

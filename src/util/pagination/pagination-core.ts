@@ -1,6 +1,8 @@
 import {useKeepQuery} from '@util/extend/router';
 import {useCallback} from 'react';
 import type {UrlObject} from 'url';
+import type {UseBasicPagingResult} from '@util/pagination/pagination-basic';
+import {getNearPagination} from '@util/pagination/pagination-near';
 
 export interface TotalPageParam {
   total: number;
@@ -114,5 +116,15 @@ export function useCorePagination<T extends CorePagination>(corePagination: Core
     previous: getMovePageData(previous),
     next: getMovePageData(next),
     last: getMovePageData(last)
+  };
+}
+
+export function useNearPagination(param: PaginationParam, option?: Partial<UsePaginationOption>): UseBasicPagingResult {
+  const basicPagination = getNearPagination(param);
+  const corePaginationResult = useCorePagination(basicPagination, param, option);
+
+  return {
+    pages: basicPagination.pages,
+    ...corePaginationResult
   };
 }
