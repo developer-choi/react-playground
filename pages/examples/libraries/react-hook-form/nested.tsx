@@ -52,7 +52,7 @@ export default function Page() {
 }
 
 function CategoryComponent({category, parentData}: {category: Category, parentData?: Data}) {
-  const {register, watch, setValue} = useFormContext();
+  const {register, watch, setValue, getValues} = useFormContext();
 
   const thisName = categoryToPropertyName(category);
   const thisChecked = watch(thisName);
@@ -64,13 +64,13 @@ function CategoryComponent({category, parentData}: {category: Category, parentDa
     checked: thisChecked,
     onChange: (event: ChangeEvent<HTMLInputElement>) => {
       if (childrenNames.length > 0) {
-        const allChildrenChecked = childrenNames.every(name => watch(name));
+        const allChildrenChecked = childrenNames.every(name => getValues(name));
         setValue(thisName, allChildrenChecked);
       }
 
       parentData?.onChange(event);
     }
-  }), [thisName, thisChecked, childrenNames, parentData, setValue, watch]);
+  }), [thisName, thisChecked, childrenNames, parentData, setValue, getValues]);
 
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     childrenNames.forEach(name => {
