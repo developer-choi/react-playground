@@ -1,4 +1,4 @@
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import React, {useState} from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 

@@ -1,7 +1,7 @@
 import React, {MouseEvent, useCallback, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import Modal, {ModalProp} from '@component/molecules/modal/Modal';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 
 export interface ConfirmModalProp extends Omit<ModalProp, 'children'> {
   title: string;

@@ -2,7 +2,7 @@ import React, {useCallback, KeyboardEvent, useRef} from 'react';
 import styled from 'styled-components';
 import type {RegisterOptions, SubmitHandler} from 'react-hook-form';
 import {useForm} from 'react-hook-form';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import type {SubmitErrorHandler} from 'react-hook-form/dist/types/form';
 import {baseHandleErrors} from '@util/extend/react-hook-form';
 import {isMatchKeyboardEvent} from '@util/extend/keyboard-event';

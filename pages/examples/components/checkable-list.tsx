@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import CheckBox from '@component/atom/CheckBox';
 import moment from 'moment';
 import {isMatchKeyboardEvent} from '@util/extend/keyboard-event';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import {toast} from 'react-toastify';
 
 interface PageProp {

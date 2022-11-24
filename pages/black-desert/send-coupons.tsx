@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo, useState, ClipboardEvent} from 'react';
 import TextArea from '@component/extend/TextArea';
 import styled from 'styled-components';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import {toast} from 'react-toastify';
 import {removeDuplicatedItems} from '@util/extend/array';
 

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import type {PostcodeSummary} from '@util/custom-hooks/usePostcodePopup';
 import usePostcodePopup from '@util/custom-hooks/usePostcodePopup';
 

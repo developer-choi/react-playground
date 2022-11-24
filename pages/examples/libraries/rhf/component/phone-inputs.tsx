@@ -1,4 +1,4 @@
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import React from 'react';
 import type {
   FieldErrors,

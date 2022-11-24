@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import {InfiniteScrollRow} from '@pages/examples/api/infinite-scroll';
 import PagingApi from '@api/PagingApi';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import {GetMoreDataApiHandler, useGetMoreDataClientSide} from '@util/custom-hooks/get-more-data';
 import type {PagingListType} from '@pages/api/paging';
 

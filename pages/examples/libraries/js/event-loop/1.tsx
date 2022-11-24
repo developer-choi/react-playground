@@ -1,4 +1,4 @@
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import {useEffect, useRef} from 'react';
 
 export default function Page() {

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useForm} from 'react-hook-form';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 
 export default function Page() {
   const {register, watch, setValue} = useForm<Data>();

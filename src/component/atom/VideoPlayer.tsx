@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import videojs, {VideoJsPlayer, VideoJsPlayerOptions} from 'video.js';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import 'video.js/dist/video-js.css';
 import {isMatchKeyboardEvent, KeyboardEventSpecialKey} from '@util/extend/keyboard-event';
 

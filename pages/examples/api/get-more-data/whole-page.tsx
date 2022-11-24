@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import type {GetServerSideProps} from 'next';
 import PagingApi, {PagingListResponse} from '@api/PagingApi';
 import {InfiniteScrollRow} from '@pages/examples/api/infinite-scroll';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import type {GetMoreDataApiHandler} from '@util/custom-hooks/get-more-data';
 import {useGetMoreDataServerSide} from '@util/custom-hooks/get-more-data';
 import type {PagingListType} from '@pages/api/paging';

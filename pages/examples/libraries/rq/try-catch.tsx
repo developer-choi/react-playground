@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import ValidateError from '@util/handle-error/ValidateError';
 import {timeoutPromise} from '@util/extend/promise';
 import {useMutation} from '@tanstack/react-query';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 
 export default function Page() {
   const {mutateAsync} = useMutation(updateTodo, {

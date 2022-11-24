@@ -3,7 +3,7 @@ import {timeoutPromise} from '@util/extend/promise';
 import Form from '@component/extend/Form';
 import styled from 'styled-components';
 import InputText from '@component/extend/InputText';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import {useMutation} from '@tanstack/react-query';
 
 export default function Page() {

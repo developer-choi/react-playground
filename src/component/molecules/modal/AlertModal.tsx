@@ -2,7 +2,7 @@ import React, {MouseEvent, useCallback, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import type {ModalProp} from '@component/molecules/modal/Modal';
 import Modal from '@component/molecules/modal/Modal';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 
 export interface AlertModalProp extends Omit<ModalProp, 'children'> {
   onConfirm?: (event: MouseEvent<HTMLButtonElement>) => void;

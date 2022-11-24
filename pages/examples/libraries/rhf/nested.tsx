@@ -1,4 +1,4 @@
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import React, {ChangeEvent, useCallback, useEffect, useMemo} from 'react';
 import {FormProvider, SubmitHandler, useForm, useFormContext} from 'react-hook-form';
 import styled from 'styled-components';

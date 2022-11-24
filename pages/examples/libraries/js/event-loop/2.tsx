@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import {timeoutPromise} from '@util/extend/promise';
 
 export default function Page() {

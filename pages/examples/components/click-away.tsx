@@ -1,6 +1,6 @@
 import React from 'react';
 import ClickAwayListener from '@component/atom/ClickAwayListener';
-import { Button } from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import useToggle from '@util/custom-hooks/useToggle';
 import styled from 'styled-components';
 

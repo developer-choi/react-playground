@@ -5,7 +5,7 @@ import Form from '@component/extend/Form';
 import {flexDirectionColumn} from '@util/style/css';
 import InputText from '@component/extend/InputText';
 import {toast} from 'react-toastify';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import {getSSPForNotLoggedIn} from '@util/auth/auth';
 import AuthApi from '@api/AuthApi';
 import {useRouter} from 'next/router';

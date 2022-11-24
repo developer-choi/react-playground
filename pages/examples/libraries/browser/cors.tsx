@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import axios, {AxiosError} from 'axios';
 import {downloadImage} from '@util/extend/download';
 

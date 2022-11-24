@@ -1,4 +1,4 @@
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import {timeoutPromise} from '@util/extend/promise';
 import {useCallback, useState} from 'react';
 import {useQuery} from '@tanstack/react-query';

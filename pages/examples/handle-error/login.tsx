@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Head from 'next/head';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import {useRouter} from 'next/router';
 import {getAfterLoginSuccessUrl, getSSPForNotLoggedIn} from '@util/auth/auth';
 import {handleClientSideError} from '@util/handle-error/client-side-error';

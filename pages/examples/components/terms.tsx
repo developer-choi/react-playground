@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import CheckBox from '@component/atom/CheckBox';
 import type {GetStaticProps} from 'next';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import Form from '@component/extend/Form';
 import styled from 'styled-components';
 import {useTerms} from '@util/custom-hooks/useTerms';

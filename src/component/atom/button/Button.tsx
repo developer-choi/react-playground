@@ -1,6 +1,6 @@
-import type {ComponentPropsWithoutRef} from 'react';
-import styled, {css} from 'styled-components';
+import React from 'react';
 import {COLORS} from '@util/style/theme';
+import styled, {css} from 'styled-components';
 
 const buttonHoverEffect = css`
   //hover, active, disabled는 이 순서로 선언이 되야 opacity가 직관적으로 작동함.
@@ -31,7 +31,14 @@ const grayColorTemplate = css`
   background: ${COLORS.gray1};
 `;
 
-const ButtonExtend = styled.button.attrs(({type = 'button', ...rest}: ComponentPropsWithoutRef<'button'>) => ({type, ...rest}))`
+const Button = styled.button`
+  padding: 8px 15px;
+  min-width: 90px;
+  border-radius: 5px; //size에는 border-radius도 포함되고,
+  flex-shrink: 0; //버튼들 중에는 길이가 줄어들면 안되는 경우도 있어서 여기에 선언한다.
+  background-color: ${props => props.theme.main};
+  color: white;
+  
   //<SomeButton as='a'로 만들 때 필요한 css
   a& {
     // button은 이 값이 기본값이지만, a tag는 아님.
@@ -64,4 +71,4 @@ const ButtonExtend = styled.button.attrs(({type = 'button', ...rest}: ComponentP
   }
 `;
 
-export default ButtonExtend;
+export default Button;

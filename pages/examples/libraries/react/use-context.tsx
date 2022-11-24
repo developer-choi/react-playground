@@ -1,6 +1,6 @@
 import React, {createContext, memo, useCallback, useContext, useMemo, useState} from 'react';
 import Head from 'next/head';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import {useForceReRender} from '@util/custom-hooks/useForceReRender';
 
 interface ContextValue {

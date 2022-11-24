@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import CourseApi from '@api/CourseApi';
-import {Button} from '@component/atom/button/button-presets';
+import Button from '@component/atom/button/Button';
 import useToggle from '@util/custom-hooks/useToggle';
 
 export default function Page() {
