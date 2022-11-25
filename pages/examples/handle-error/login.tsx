@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import Head from 'next/head';
 import Button from '@component/atom/button/Button';
 import {useRouter} from 'next/router';
 import {getAfterLoginSuccessUrl, getSSPForNotLoggedIn} from '@util/auth/auth';
@@ -70,16 +69,11 @@ export default function LoginPage() {
   }, [prefetch, replace]);
 
   return (
-    <>
-      <Head>
-        <title>login</title>
-      </Head>
-      <StyledForm>
-        <InputText ref={emailRef} autoFocus type="email" value={email} onChangeText={setEmail} placeholder="email" name="email" onInvalid={(e) => {e.preventDefault()}}/>
-        <InputText ref={passwordRef} type="password" value={password} onChangeText={setPassword} placeholder="password"/>
-        <Button type="submit" onClick={onClick}>로그인</Button>
-      </StyledForm>
-    </>
+    <StyledForm>
+      <InputText ref={emailRef} autoFocus type="email" value={email} onChangeText={setEmail} placeholder="email" name="email" onInvalid={(e) => {e.preventDefault()}}/>
+      <InputText ref={passwordRef} type="password" value={password} onChangeText={setPassword} placeholder="password"/>
+      <Button type="submit" onClick={onClick}>로그인</Button>
+    </StyledForm>
   );
 }
 

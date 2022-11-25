@@ -1,5 +1,4 @@
 import React, {useCallback, useRef, useState} from 'react';
-import Head from 'next/head';
 import styled from 'styled-components';
 import Form from '@component/extend/Form';
 import {flexDirectionColumn} from '@util/style/css';
@@ -51,17 +50,12 @@ export default function Page() {
   }, [confirmPassword, newPassword, originPassword, replace]);
   
   return (
-    <>
-      <Head>
-        <title>비밀번호 변경하기</title>
-      </Head>
-      <StyledForm onSubmit={onSubmit}>
-        <InputText ref={originPasswordRef} value={originPassword} onChangeText={setOriginPassword} placeholder="기존비밀번호를 입력해주세요."/>
-        <InputText ref={newPasswordRef} value={newPassword} onChangeText={setNewPassword} placeholder="변경하실 비밀번호를 입력해주세요."/>
-        <InputText ref={confirmPasswordRef} value={confirmPassword} onChangeText={setConfirmPassword} placeholder="비밀번호를 다시 확인해주세요."/>
-        <Button type="submit">재설정</Button>
-      </StyledForm>
-    </>
+    <StyledForm onSubmit={onSubmit}>
+      <InputText ref={originPasswordRef} value={originPassword} onChangeText={setOriginPassword} placeholder="기존비밀번호를 입력해주세요."/>
+      <InputText ref={newPasswordRef} value={newPassword} onChangeText={setNewPassword} placeholder="변경하실 비밀번호를 입력해주세요."/>
+      <InputText ref={confirmPasswordRef} value={confirmPassword} onChangeText={setConfirmPassword} placeholder="비밀번호를 다시 확인해주세요."/>
+      <Button type="submit">재설정</Button>
+    </StyledForm>
   );
 }
 

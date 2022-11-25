@@ -1,5 +1,4 @@
 import React, {useCallback, useState} from 'react';
-import Head from 'next/head';
 import CheckBox, {CheckBoxLabelLeftProps, CheckBoxProps} from '@component/atom/CheckBox';
 import NaverCheckBoxSvg from '@component/svgs/NaverCheckBoxSvg';
 import styled from 'styled-components';
@@ -9,15 +8,10 @@ export default function CheckboxPage() {
   const [someValue, setSomeValue] = useState(false);
   
   return (
-      <>
-        <Head>
-          <title>check-box</title>
-        </Head>
-        <Wrap>
-          <CheckBox checked={someValue} onChangeChecked={setSomeValue} label="default checkbox"/>
-          <NaverCheckBox checked={someValue} onChangeChecked={setSomeValue} label="naver checkbox"/>
-        </Wrap>
-      </>
+    <Wrap>
+      <CheckBox checked={someValue} onChangeChecked={setSomeValue} label="default checkbox"/>
+      <NaverCheckBox checked={someValue} onChangeChecked={setSomeValue} label="naver checkbox"/>
+    </Wrap>
   );
 };
 

@@ -1,5 +1,4 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
-import Head from 'next/head';
 import type {GetServerSideProps} from 'next';
 import {range} from '@util/extend/number';
 import useCheckableList from '@util/custom-hooks/useCheckableList';
@@ -53,9 +52,6 @@ export default function Page({mails}: PageProp) {
 
   return (
     <>
-      <Head>
-        <title>mail</title>
-      </Head>
       <Button onClick={toggleAllChecked}>전체선택</Button>
       <Button onClick={deleteSomeMails}>선택삭제</Button>
       <ListWrap>

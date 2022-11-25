@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 import type {GetStaticPaths, GetStaticProps} from 'next';
 import PropertyText from '@component/atom/PropertyText';
 
@@ -9,12 +8,7 @@ interface PageProp {
 
 export default function SpOptionalParamPage({genre}: PageProp) {
   return (
-      <>
-        <Head>
-          <title>sp-optional-param</title>
-        </Head>
-        <PropertyText>genre = {genre}</PropertyText>
-      </>
+    <PropertyText>genre = {genre}</PropertyText>
   );
 }
 

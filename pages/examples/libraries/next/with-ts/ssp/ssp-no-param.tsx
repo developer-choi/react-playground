@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 import type {GetServerSideProps} from 'next';
 
 interface PageProp {
@@ -10,9 +9,6 @@ export default function SspNoParamPage({userPkList}: PageProp) {
   console.log(userPkList);
   return (
       <>
-        <Head>
-          <title>ssp-no-param</title>
-        </Head>
         {userPkList}
       </>
   );

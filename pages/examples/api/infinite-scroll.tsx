@@ -1,5 +1,4 @@
 import React, {useCallback} from 'react';
-import Head from 'next/head';
 import type {PagingListType} from '@pages/api/paging';
 import type {GetServerSideProps} from 'next';
 import styled from 'styled-components';
@@ -29,16 +28,11 @@ export default function InfiniteScrollPage(props: PageProp) {
   });
   
   return (
-    <>
-      <Head>
-        <title>infinite-scroll</title>
-      </Head>
-      <div>
-        {list.map(({key, order, color}) => (
-          <InfiniteScrollRow key={key} style={{backgroundColor: color}}>{order}th row</InfiniteScrollRow>
-        ))}
-      </div>
-    </>
+    <div>
+      {list.map(({key, order, color}) => (
+        <InfiniteScrollRow key={key} style={{backgroundColor: color}}>{order}th row</InfiniteScrollRow>
+      ))}
+    </div>
   );
 };
 

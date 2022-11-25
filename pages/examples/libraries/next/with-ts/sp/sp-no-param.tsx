@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 import type {GetStaticProps} from 'next';
 import PropertyText from '@component/atom/PropertyText';
 
@@ -10,12 +9,7 @@ interface PageProp {
 export default function SpNoParamPage({userPkList}: PageProp) {
   console.log(userPkList);
   return (
-      <>
-        <Head>
-          <title>sp-no-param</title>
-        </Head>
-        <PropertyText>userPkList = {userPkList}</PropertyText>
-      </>
+    <PropertyText>userPkList = {userPkList}</PropertyText>
   );
 }
 

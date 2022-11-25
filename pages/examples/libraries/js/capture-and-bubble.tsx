@@ -1,5 +1,4 @@
 import React, {MouseEventHandler, ReactNode, useRef} from 'react';
-import Head from 'next/head';
 import styled from 'styled-components';
 
 export default function CaptureAndBubblePage() {
@@ -19,17 +18,12 @@ export default function CaptureAndBubblePage() {
   ]);
   
   return (
-      <>
-        <Head>
-          <title>capture-and-bubble</title>
-        </Head>
-        <div>
-          <CaptureAndBubbleStyle>
-            <OverlapSquare squareArray={bubbleTest.current}/>
-            <OverlapSquare squareArray={bubbleTest2.current}/>
-          </CaptureAndBubbleStyle>
-        </div>
-      </>
+    <div>
+      <CaptureAndBubbleStyle>
+        <OverlapSquare squareArray={bubbleTest.current}/>
+        <OverlapSquare squareArray={bubbleTest2.current}/>
+      </CaptureAndBubbleStyle>
+    </div>
   );
 };
 

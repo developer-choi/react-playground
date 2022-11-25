@@ -1,5 +1,4 @@
 import React, {createContext, memo, useCallback, useContext, useMemo, useState} from 'react';
-import Head from 'next/head';
 import Button from '@component/atom/button/Button';
 import {useForceReRender} from '@util/custom-hooks/useForceReRender';
 
@@ -27,17 +26,12 @@ export default function UseContextPage() {
   const forceReRender = useForceReRender();
   
   return (
-      <>
-        <Head>
-          <title>use-context</title>
-        </Head>
-        <Context.Provider value={providerValue}>
-          <Children/>
-          <Button onClick={increase}>+</Button>
-          <Button onClick={decrease}>-</Button>
-          <Button onClick={forceReRender}>Force ReRender</Button>
-        </Context.Provider>
-      </>
+    <Context.Provider value={providerValue}>
+      <Children/>
+      <Button onClick={increase}>+</Button>
+      <Button onClick={decrease}>-</Button>
+      <Button onClick={forceReRender}>Force ReRender</Button>
+    </Context.Provider>
   );
 };
 

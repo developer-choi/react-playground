@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import Head from 'next/head';
 import styled from 'styled-components';
 import Form from '@component/extend/Form';
 import RadioLabel from '@component/atom/RadioLabel';
@@ -12,9 +11,6 @@ export default function RadioButtonsPage() {
   
   return (
       <>
-        <Head>
-          <title>radio-buttons</title>
-        </Head>
         <RadioWrap>
           <RadioGroup name="gender" value={gender} onChange={setGender}>
             <CustomRadio value="man"/>

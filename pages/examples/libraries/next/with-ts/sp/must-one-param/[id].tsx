@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 import type {GetStaticPaths, GetStaticProps} from 'next';
 import PropertyText from '@component/atom/PropertyText';
 
@@ -11,9 +10,6 @@ export default function SpMustOneParamPage({someData} : PageProp) {
   console.log(someData);
   return (
       <>
-        <Head>
-          <title>sp-must-one-param</title>
-        </Head>
         <PropertyText>allow params = {ALLOW_PARAMS.join(', ')}</PropertyText>
         <PropertyText>someData = {someData}</PropertyText>
       </>

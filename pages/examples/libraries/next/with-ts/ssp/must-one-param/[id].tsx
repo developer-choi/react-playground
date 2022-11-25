@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 import type {GetServerSideProps} from 'next';
 import PropertyText from '@component/atom/PropertyText';
 
@@ -10,12 +9,7 @@ interface PageProp {
 export default function MustOneParamPage({userName}: PageProp){
   console.log(userName);
   return (
-      <>
-        <Head>
-          <title>must-one-param</title>
-        </Head>
-        <PropertyText>userName = {userName}</PropertyText>
-      </>
+    <PropertyText>userName = {userName}</PropertyText>
   );
 }
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 import type {GetServerSideProps} from 'next';
 
 interface PageProp {
@@ -10,9 +9,6 @@ export default function SspOptionalParamsPage({nickNames}: PageProp) {
   console.log(nickNames);
   return (
       <>
-        <Head>
-          <title>ssp-optional-params</title>
-        </Head>
         {nickNames}
       </>
   );

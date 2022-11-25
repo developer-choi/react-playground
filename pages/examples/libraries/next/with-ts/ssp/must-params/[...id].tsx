@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 import type {GetServerSideProps} from 'next';
 import PropertyText from '@component/atom/PropertyText';
 
@@ -10,12 +9,7 @@ interface PageProp {
 export default function SspMustParamPage({userNameList}: PageProp) {
   console.log(userNameList);
   return (
-      <>
-        <Head>
-          <title>ssp-must-params</title>
-        </Head>
-        <PropertyText>{JSON.stringify(userNameList)}</PropertyText>
-      </>
+    <PropertyText>{JSON.stringify(userNameList)}</PropertyText>
   );
 }
 

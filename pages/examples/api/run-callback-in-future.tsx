@@ -1,5 +1,4 @@
 import React, {useCallback, useState} from 'react';
-import Head from 'next/head';
 import {getDiffDate} from '@util/extend/date/date-util';
 import {useRunCallbackInFuture} from '@util/custom-hooks/date-effect';
 
@@ -15,14 +14,9 @@ export default function Page() {
   useRunCallbackInFuture(getDiffDate(new Date(), [0, 0, 0, 0, 0, SECONDS]).getTime(), changeMessage);
   
   return (
-    <>
-      <Head>
-        <title>run-callback-in-future</title>
-      </Head>
-      <div>
-        {message}
-      </div>
-    </>
+    <div>
+      {message}
+    </div>
   );
 }
 

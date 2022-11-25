@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 import styled from 'styled-components';
 import libraryClassName, {myClassName} from '@util/libraries/classnames';
 
@@ -7,9 +6,6 @@ export default function ClassnamesPage() {
   
   return (
       <>
-        <Head>
-          <title>classnames</title>
-        </Head>
         <SomeComponent className={libraryClassName(false, undefined, null, '', 0)}/>
         <SomeComponent className={libraryClassName('active')}/>
         <SomeComponent className={libraryClassName('disabled')}/>
