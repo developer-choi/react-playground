@@ -3,7 +3,7 @@ import type {GetServerSideProps} from 'next';
 import env from '@util/env';
 import styled from 'styled-components';
 
-export interface PageProp {
+interface PageProp {
   publicEnv: string;
   privateEnv: string;
   commonEnv: string;
