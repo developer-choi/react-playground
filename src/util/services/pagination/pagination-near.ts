@@ -1,6 +1,6 @@
-import type {BasicPagination} from '@util/pagination/pagination-basic';
-import type {PaginationParam} from '@util/pagination/pagination-core';
-import {DEFAULT_CORE_PAGINATION, getMovablePageData, getTotalPage} from '@util/pagination/pagination-core';
+import type {BasicPagination} from '@util/services/pagination/pagination-basic';
+import type {PaginationParam} from '@util/services/pagination/pagination-core';
+import {DEFAULT_CORE_PAGINATION, getMovablePageData, getTotalPage} from '@util/services/pagination/pagination-core';
 import {range} from '@util/extend/number';
 
 //홀수

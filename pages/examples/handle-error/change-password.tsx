@@ -1,15 +1,15 @@
 import React, {useCallback, useRef, useState} from 'react';
 import styled from 'styled-components';
 import Form from '@component/extend/Form';
-import {flexDirectionColumn} from '@util/style/css';
+import {flexDirectionColumn} from '@util/services/style/css';
 import InputText from '@component/extend/InputText';
 import {toast} from 'react-toastify';
 import Button from '@component/atom/button/Button';
-import {getSSPForNotLoggedIn} from '@util/auth/auth';
+import {getSSPForNotLoggedIn} from '@util/services/auth/auth';
 import AuthApi from '@api/AuthApi';
 import {useRouter} from 'next/router';
-import {handleClientSideError} from '@util/handle-error/client-side-error';
-import ValidateError from '@util/handle-error/ValidateError';
+import {handleClientSideError} from '@util/services/handle-error/client-side-error';
+import ValidateError from '@util/services/handle-error/ValidateError';
 
 export default function Page() {
   const {replace} = useRouter();

@@ -1,4 +1,4 @@
-import ValidateError from '@util/handle-error/ValidateError';
+import ValidateError from '@util/services/handle-error/ValidateError';
 
 export type FileUnit = 'B' | 'KB' | 'MB' | 'GB' | 'TB';
 

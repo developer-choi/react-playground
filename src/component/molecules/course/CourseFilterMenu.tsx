@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {useRouter} from 'next/router';
 import CourseApi from '@api/CourseApi';
-import {handleClientSideError} from '@util/handle-error/client-side-error';
+import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import FilterButton from '@component/atom/FilterButton';
 import type {Room, Topic} from '@type/response-sub/course-sub';
 import {useKeepQuery} from '@util/extend/router';

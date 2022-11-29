@@ -2,7 +2,7 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 import {postApi} from '@util/extend/next-api';
 import {getDiffDate} from '@util/extend/date/date-util';
 import type {UserInfo} from '@type/response-sub/user-sub';
-import type {LoginToken} from '@util/auth/auth';
+import type {LoginToken} from '@util/services/auth/auth';
 import SHA512 from 'sha512-es';
 
 export default function login(req: NextApiRequest, res: NextApiResponse) {

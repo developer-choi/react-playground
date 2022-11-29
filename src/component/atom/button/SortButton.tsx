@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {theme} from '@util/style/theme';
+import {theme} from '@util/services/style/theme';
 import type {Sort} from '@util/custom-hooks/useSort';
 import useSort from '@util/custom-hooks/useSort';
 

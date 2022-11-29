@@ -1,10 +1,10 @@
 import Router from 'next/router';
-import {AuthError} from '@util/auth/AuthError';
+import {AuthError} from '@util/services/auth/AuthError';
 import type {AxiosErrorWithResponse} from '@api/BaseApi';
-import {logoutInClientSide} from '@util/auth/auth';
+import {logoutInClientSide} from '@util/services/auth/auth';
 import {haveAxiosResponse} from '@api/BaseApi';
 import {toast} from 'react-toastify';
-import ValidateError from '@util/handle-error/ValidateError';
+import ValidateError from '@util/services/handle-error/ValidateError';
 
 export function handleClientSideError(error: any) {
   if (!error.isAxiosError) {

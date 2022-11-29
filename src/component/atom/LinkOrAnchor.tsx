@@ -1,6 +1,6 @@
 import React, {ComponentPropsWithoutRef, useMemo} from 'react';
 import Link from 'next/link';
-import ValidateError from '@util/handle-error/ValidateError';
+import ValidateError from '@util/services/handle-error/ValidateError';
 
 export interface LinkOrAnchorProp extends ComponentPropsWithoutRef<'a'> {
   href: string;

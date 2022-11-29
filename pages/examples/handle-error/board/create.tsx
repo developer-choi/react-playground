@@ -1,11 +1,11 @@
 import React, {useCallback, useRef, useState} from 'react';
-import {getSSPForLoggedIn} from '@util/auth/auth';
+import {getSSPForLoggedIn} from '@util/services/auth/auth';
 import styled from 'styled-components';
 import Form from '@component/extend/Form';
 import InputText from '@component/extend/InputText';
 import TextArea from '@component/extend/TextArea';
 import BoardApi from '@api/BoardApi';
-import {handleClientSideError} from '@util/handle-error/client-side-error';
+import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import Button from '@component/atom/button/Button';
 import {useRouter} from 'next/router';
 

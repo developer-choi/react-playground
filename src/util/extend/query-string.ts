@@ -1,7 +1,7 @@
 import type {ParsedUrlQuery} from 'querystring';
 import {ParsedUrlQueryInput, stringify} from 'querystring';
 import {range} from '@util/extend/number';
-import ValidateError from '@util/handle-error/ValidateError';
+import ValidateError from '@util/services/handle-error/ValidateError';
 import type {Sort} from '@util/custom-hooks/useSort';
 import {DIRECTIONS} from '@util/custom-hooks/useSort';
 

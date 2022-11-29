@@ -1,5 +1,5 @@
 import React from 'react';
-import {handleServerSideError} from '@util/handle-error/server-side-error';
+import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import type {GetServerSideProps} from 'next';
 import {validateNumberInQueryThrowError, validSortInQuery} from '@util/extend/query-string';
 import {COURSE_ORDERBY} from '@util/services/course';

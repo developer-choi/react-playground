@@ -1,6 +1,6 @@
 import {useCallback, useState} from 'react';
 import type {PagingResponse} from '@type/response/common';
-import {handleClientSideError} from '@util/handle-error/client-side-error';
+import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
 
 export type UseGetMoreDataServerSideParam<T> = Required<UseGetMoreDataParam<T>>;

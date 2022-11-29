@@ -1,11 +1,11 @@
 import BaseApi from './BaseApi';
 import type {AxiosResponse} from 'axios';
 import type {UserInfoResponse} from '@type/response/user';
-import {getLoginTokenClientSide} from '@util/auth/auth';
+import {getLoginTokenClientSide} from '@util/services/auth/auth';
 import SHA512 from 'sha512-es';
-import {validateEmail} from '@util/validator/email';
-import {validateOriginPassword, validatePassword} from '@util/validator/password';
-import ValidateError from '@util/handle-error/ValidateError';
+import {validateEmail} from '@util/services/validator/email';
+import {validateOriginPassword, validatePassword} from '@util/services/validator/password';
+import ValidateError from '@util/services/handle-error/ValidateError';
 
 export default class AuthApi extends BaseApi {
   constructor() {

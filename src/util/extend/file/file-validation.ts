@@ -1,4 +1,4 @@
-import ValidateError from '@util/handle-error/ValidateError';
+import ValidateError from '@util/services/handle-error/ValidateError';
 import {getFileSizeDetail} from '@util/extend/file/file-size';
 import {cleanFileExtension, getFileExtension} from '@util/extend/file/file-extension';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {COLORS} from '@util/style/theme';
+import {COLORS} from '@util/services/style/theme';
 import styled, {css} from 'styled-components';
 
 const buttonHoverEffect = css`

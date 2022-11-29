@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import styled from 'styled-components';
-import type {PaginationParam, UsePaginationOption} from '@util/pagination/pagination-core';
+import type {PaginationParam, UsePaginationOption} from '@util/services/pagination/pagination-core';
 import {myClassName} from '@util/libraries/classnames';
-import {useBasicPagination} from '@util/pagination/pagination-basic';
+import {useBasicPagination} from '@util/services/pagination/pagination-basic';
 import Link from 'next/link';
 
 export interface PaginationProp extends PaginationParam, Partial<UsePaginationOption> {

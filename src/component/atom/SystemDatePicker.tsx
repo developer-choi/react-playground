@@ -1,6 +1,6 @@
 import React, {PropsWithChildren} from 'react';
 import styled, {css} from 'styled-components';
-import {absoluteAllZero} from '@util/style/css';
+import {absoluteAllZero} from '@util/services/style/css';
 import InputDate, {InputDateProp} from '@component/extend/InputDate';
 
 export default function SystemDatePicker({children, ...rest}: PropsWithChildren<InputDateProp>) {

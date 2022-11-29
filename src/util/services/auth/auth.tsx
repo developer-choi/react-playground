@@ -2,10 +2,10 @@ import type {GetServerSideProps, GetServerSidePropsContext} from 'next';
 import {getCookie, removeCookie} from '@util/extend/cookie';
 import {useAppSelector} from '@store/hooks';
 import AuthApi from '@api/AuthApi';
-import {AuthError} from '@util/auth/AuthError';
+import {AuthError} from '@util/services/auth/AuthError';
 import {INITIAL_USER_INFO} from '@store/reducers/user';
-import {handleServerSideError} from '@util/handle-error/server-side-error';
-import {handleClientSideError} from '@util/handle-error/client-side-error';
+import {handleServerSideError} from '@util/services/handle-error/server-side-error';
+import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import {useRouter} from 'next/router';
 import {useCallback} from 'react';
 

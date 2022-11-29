@@ -8,7 +8,7 @@ import useToggle from '@util/custom-hooks/useToggle';
 import {isStringInQueryThrowError} from '@util/extend/query-string';
 import {range} from '@util/extend/number';
 import Button from '@component/atom/button/Button';
-import {useGetLoginUserPk} from '@util/auth/auth';
+import {useGetLoginUserPk} from '@util/services/auth/auth';
 import {useLocalStorageArrayManager} from '@util/custom-hooks/local-storage';
 import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';

@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import type {AppProps} from 'next/app';
 import {ThemeProvider} from 'styled-components';
-import {theme} from '@util/style/theme';
-import {GlobalStyle} from '@util/style/global';
+import {theme} from '@util/services/style/theme';
+import {GlobalStyle} from '@util/services/style/global';
 import Head from 'next/head';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

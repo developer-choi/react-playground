@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Button from '@component/atom/button/Button';
 import {useRouter} from 'next/router';
-import {getAfterLoginSuccessUrl, getSSPForNotLoggedIn} from '@util/auth/auth';
-import {handleClientSideError} from '@util/handle-error/client-side-error';
+import {getAfterLoginSuccessUrl, getSSPForNotLoggedIn} from '@util/services/auth/auth';
+import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import AuthApi from '@api/AuthApi';
 import {useAppDispatch} from '@store/hooks';
 import {setUserActionCreator} from '@store/reducers/user';
@@ -11,7 +11,7 @@ import InputText from '@component/extend/InputText';
 import {haveAxiosResponse} from '@api/BaseApi';
 import {toast} from 'react-toastify';
 import styled from 'styled-components';
-import ValidateError from '@util/handle-error/ValidateError';
+import ValidateError from '@util/services/handle-error/ValidateError';
 
 export default function LoginPage() {
   const {prefetch, replace, push} = useRouter();

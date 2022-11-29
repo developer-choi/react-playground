@@ -1,8 +1,8 @@
 import {useKeepQuery} from '@util/extend/router';
 import {useCallback} from 'react';
 import type {UrlObject} from 'url';
-import type {UseBasicPagingResult} from '@util/pagination/pagination-basic';
-import {getNearPagination} from '@util/pagination/pagination-near';
+import type {UseBasicPagingResult} from '@util/services/pagination/pagination-basic';
+import {getNearPagination} from '@util/services/pagination/pagination-near';
 
 export interface TotalPageParam {
   total: number;

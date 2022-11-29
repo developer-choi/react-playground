@@ -1,5 +1,5 @@
 import BaseApi from '@api/BaseApi';
-import {getLoginTokenClientSide, getLoginTokenServerSide} from '@util/auth/auth';
+import {getLoginTokenClientSide, getLoginTokenServerSide} from '@util/services/auth/auth';
 import type {Board} from '@type/response-sub/board-sub';
 import type {GetServerSidePropsContext} from 'next';
 import type {AxiosResponse} from 'axios';

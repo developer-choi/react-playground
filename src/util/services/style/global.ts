@@ -1,6 +1,6 @@
 import {createGlobalStyle, css} from 'styled-components';
 import styledReset from 'styled-reset';
-import {myReset} from '@util/style/my-reset';
+import {myReset} from '@util/services/style/my-reset';
 
 const reset = css`
   ${styledReset};

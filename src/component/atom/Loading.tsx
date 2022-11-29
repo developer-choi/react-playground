@@ -1,6 +1,6 @@
 import type {ComponentPropsWithoutRef} from 'react';
 import styled, {keyframes} from 'styled-components';
-import {circleCss} from '@util/style/css';
+import {circleCss} from '@util/services/style/css';
 
 export interface LoadingProps extends ComponentPropsWithoutRef<'div'> {
   loading?: boolean;

@@ -2,8 +2,8 @@ import React, {memo} from 'react';
 import Link from 'next/link';
 import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
-import type {PaginationParam, UsePaginationOption} from '@util/pagination/pagination-core';
-import {useNearPagination} from '@util/pagination/pagination-core';
+import type {PaginationParam, UsePaginationOption} from '@util/services/pagination/pagination-core';
+import {useNearPagination} from '@util/services/pagination/pagination-core';
 
 export interface NearPaginationProp extends PaginationParam, Partial<UsePaginationOption> {
 

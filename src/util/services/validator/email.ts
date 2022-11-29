@@ -1,5 +1,5 @@
-import type {ValidateResult} from '@util/validator/validator-core';
-import {validateEmpty} from '@util/validator/validator-core';
+import type {ValidateResult} from '@util/services/validator/validator-core';
+import {validateEmpty} from '@util/services/validator/validator-core';
 
 export function validateEmail(value: string): ValidateResult {
   const emptyResult = validateEmpty({value, prefix: '이메일을 '});

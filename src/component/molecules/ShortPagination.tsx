@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
-import {PaginationParam, useCorePagination, UsePaginationOption} from '@util/pagination/pagination-core';
-import {getShortPagination} from '@util/pagination/pagination-short';
+import {PaginationParam, useCorePagination, UsePaginationOption} from '@util/services/pagination/pagination-core';
+import {getShortPagination} from '@util/services/pagination/pagination-short';
 import Link from 'next/link';
 import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';

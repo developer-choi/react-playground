@@ -1,14 +1,14 @@
 import type {GetServerSideProps} from 'next';
 import BoardApi from '@api/BoardApi';
 import {validateNumberInQueryThrowError} from '@util/extend/query-string';
-import {handleServerSideError} from '@util/handle-error/server-side-error';
+import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import type {PagingResponse} from '@type/response/common';
 import type {Board} from '@type/response-sub/board-sub';
 import Link from 'next/link';
 import styled from 'styled-components';
-import {logoutInClientSide, useLoginStatus} from '@util/auth/auth';
+import {logoutInClientSide, useLoginStatus} from '@util/services/auth/auth';
 import {useCallback} from 'react';
-import ValidateError from '@util/handle-error/ValidateError';
+import ValidateError from '@util/services/handle-error/ValidateError';
 
 interface PageProp extends PagingResponse{
   list: Board[];

@@ -3,15 +3,15 @@ import type {Board} from '@type/response-sub/board-sub';
 import {validateNumberInQueryThrowError} from '@util/extend/query-string';
 import BoardApi from '@api/BoardApi';
 import {haveAxiosResponse} from '@api/BaseApi';
-import {handleServerSideError} from '@util/handle-error/server-side-error';
+import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import OgMeta from '@component/atom/OgMeta';
 import Head from 'next/head';
-import useAlertForNotLoggedIn, {useGetLoginUserPk, useLoginStatus} from '@util/auth/auth';
+import useAlertForNotLoggedIn, {useGetLoginUserPk, useLoginStatus} from '@util/services/auth/auth';
 import TextArea from '@component/extend/TextArea';
 import Form from '@component/extend/Form';
 import {useCallback} from 'react';
 import styled from 'styled-components';
-import ValidateError from '@util/handle-error/ValidateError';
+import ValidateError from '@util/services/handle-error/ValidateError';
 
 interface PageProp {
   board: Board;

@@ -1,5 +1,5 @@
-import type {ValidateParam, ValidateResult} from '@util/validator/validator-core';
-import {validateEmpty} from '@util/validator/validator-core';
+import type {ValidateParam, ValidateResult} from '@util/services/validator/validator-core';
+import {validateEmpty} from '@util/services/validator/validator-core';
 
 export const PASSWORD_LENGTH = {
   min: 10,

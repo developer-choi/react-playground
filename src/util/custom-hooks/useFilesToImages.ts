@@ -1,8 +1,8 @@
-import ValidateError from '@util/handle-error/ValidateError';
+import ValidateError from '@util/services/handle-error/ValidateError';
 import {useCallback, useEffect, useState} from 'react';
 import type {FileValidateOption} from '@util/extend/file/file-validation';
 import {validateFiles} from '@util/extend/file/file-validation';
-import {handleClientSideError} from '@util/handle-error/client-side-error';
+import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 
 interface UseCreateObjectUrlsParam {
   keepPrevData?: boolean;
