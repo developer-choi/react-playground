@@ -69,6 +69,10 @@ const Button = styled.button`
     justify-content: center;
     align-items: center;
   }
+  
+  &.full {
+    width: 100%;
+  }
 `;
 
 export default Button;
