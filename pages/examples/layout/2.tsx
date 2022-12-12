@@ -1,0 +1,35 @@
+import React, {useCallback, useEffect, useState} from 'react';
+import SomeLayout from '@component/layouts/SomeLayout';
+import {setHeaderActionCreator} from '@store/reducers/layout';
+import {useAppDispatch} from '@store/hooks';
+import Button from '@component/atom/button/Button';
+
+export default function Page() {
+  const [number, setNumber] = useState(1);
+  const dispatch = useAppDispatch();
+
+  const increase = useCallback(() => {
+    setNumber(prevState => prevState + 1);
+    dispatch(setHeaderActionCreator({
+      title: `dynamic-title-${number}`
+    }));
+  }, [dispatch, number]);
+
+  useEffect(() => {
+    dispatch(setHeaderActionCreator({
+      title: 'initial page header',
+      onClickHeader: () => {
+        alert('The header clicked');
+      },
+    }));
+  }, [dispatch]);
+
+  return (
+    <>
+      layout2 page
+      <Button onClick={increase}>동적으로 레이아웃 바꾸기</Button>
+    </>
+  );
+}
+
+Page.layout = SomeLayout;

@@ -15,18 +15,23 @@ export default function SomeSidebar({}: SomeSidebarProp) {
 
   return (
     <Wrap>
-      {allLinks.map(({links, title}) => (
+      {ALL_LINKS.map(({links, title}) => (
         <Item key={title} title={title} links={links} isOpen={title === openedTitle} onClick={toggleCollapse}/>
       ))}
     </Wrap>
   );
 }
 
+export const SIDEBAR_WIDTH = 200;
+
 const Wrap = styled.aside`
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: ${SIDEBAR_WIDTH}px;
   background: ${props => props.theme.main};
+  position: fixed;
+  z-index: 10;
+  height: 100%;
 `;
 
 interface ItemProp {
@@ -46,7 +51,7 @@ function Item({links, title, isOpen, onClick}: ItemProp) {
   const style = !isOpen ? undefined : {
     maxHeight: navRef.current?.scrollHeight ?? 0
   };
-  
+
   return (
     <>
       <CollapseButton onClick={_onClick}>{title}</CollapseButton>
@@ -77,19 +82,13 @@ const CollapseButton = styled.button`
   padding: 10px;
 `;
 
-const upperPath = '/examples/layout/layout';
+const upperPath = '/examples/layout/';
 
 const links1: ItemProp['links'] = [
   {name: 'layout1', href: upperPath + 1},
   {name: 'layout2', href: upperPath + 2}
 ];
 
-const links2: ItemProp['links'] = [
-  {name: 'layout3', href: upperPath + 3},
-  {name: 'layout4', href: upperPath + 4}
-];
-
-const allLinks: {title: string, links: ItemProp['links']}[] = [
-  {title: '레이아웃 적용', links: links1},
-  {title: '레이아웃 미적용', links: links2}
+const ALL_LINKS: {title: string, links: ItemProp['links']}[] = [
+  {title: '아코디언 링크', links: links1},
 ];

@@ -1,7 +1,10 @@
 import React from 'react';
 import SomeLayout from '@component/layouts/SomeLayout';
+import {useLayout} from '@store/reducers/layout';
 
 export default function Page() {
+  useLayout('layout1 page header');
+
   return (
     <>
       layout1 page

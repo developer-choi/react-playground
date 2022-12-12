@@ -5,15 +5,23 @@ import {all} from 'redux-saga/effects';
 import {configureStore} from '@reduxjs/toolkit';
 import counter from '@store/reducers/counter';
 import user from '@store/reducers/user';
+import layout from '@store/reducers/layout';
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: {
     counter,
-    user
+    user,
+    layout
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware({
+    serializableCheck: {
+      //https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data
+      ignoredPaths: ['layout.headerProp.onClickHeader'], // Ignore state message
+      ignoredActionPaths: ['payload.onClickHeader'] // Ignore dispatch action message
+    }
+  }).concat(sagaMiddleware),
   devTools: process.env.NODE_ENV === 'development'
 });
 
