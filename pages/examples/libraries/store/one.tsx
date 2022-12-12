@@ -9,13 +9,12 @@ import {store} from '@store/store';
 import {decreaseAsyncActionCreator, increaseAsyncActionCreator} from '@store/sagas/count-saga';
 
 export default function OnePage({count}: {count: number}) {
-  
   return (
-      <>
-        <h1>One Page (ssr count {count})</h1>
-        <Navigation/>
-        <Counter/>
-      </>
+    <>
+      <h1>One Page (ssr count {count})</h1>
+      <Navigation/>
+      <Counter/>
+    </>
   );
 }
 
@@ -30,31 +29,31 @@ export async function getServerSideProps() {
 export function Counter() {
   const count = useAppSelector(state => state.counter.count);
   const dispatch = useAppDispatch();
-  
+
   const increase = useCallback(() => {
     dispatch(increaseActionCreator());
   }, [dispatch]);
-  
+
   const increaseAsync = useCallback(() => {
     dispatch(increaseAsyncActionCreator());
   }, [dispatch]);
-  
+
   const decrease = useCallback(() => {
     dispatch(decreaseActionCreator());
   }, [dispatch]);
-  
+
   const decreaseAsync = useCallback(() => {
     dispatch(decreaseAsyncActionCreator());
   }, [dispatch]);
-  
+
   return (
-      <CounterWrap>
-        <Button onClick={increaseAsync}>비동기 +</Button>
-        <Button onClick={increase}>+</Button>
-        <Count>{count}</Count>
-        <Button onClick={decrease}>-</Button>
-        <Button onClick={decreaseAsync}>비동기 -</Button>
-      </CounterWrap>
+    <CounterWrap>
+      <Button onClick={increaseAsync}>비동기 +</Button>
+      <Button onClick={increase}>+</Button>
+      <Count>{count}</Count>
+      <Button onClick={decrease}>-</Button>
+      <Button onClick={decreaseAsync}>비동기 -</Button>
+    </CounterWrap>
   );
 }
 
@@ -71,15 +70,15 @@ const Count = styled.div`
 
 export function Navigation() {
   const {pathname} = useRouter();
-  
+
   return (
-      <NavWrap>
-        {params.map(param => (
-            <Link passHref key={param} href={`/examples/store/${param}`}>
-              <Anchor className={pathname.endsWith(param) ? 'active' : ''}>{param}</Anchor>
-            </Link>
-        ))}
-      </NavWrap>
+    <NavWrap>
+      {params.map(param => (
+        <Link passHref key={param} href={`/examples/store/${param}`}>
+          <Anchor className={pathname.endsWith(param) ? 'active' : ''}>{param}</Anchor>
+        </Link>
+      ))}
+    </NavWrap>
   );
 }
 

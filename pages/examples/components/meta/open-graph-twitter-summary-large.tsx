@@ -2,7 +2,6 @@ import React from 'react';
 import TwitterMeta from '@component/atom/TwitterMeta';
 
 export default function Page() {
-  
   return (
     <>
       <TwitterMeta

@@ -8,9 +8,9 @@ interface PageProp {
 export default function SspNoParamPage({userPkList}: PageProp) {
   console.log(userPkList);
   return (
-      <>
-        {userPkList}
-      </>
+    <>
+      {userPkList}
+    </>
   );
 }
 

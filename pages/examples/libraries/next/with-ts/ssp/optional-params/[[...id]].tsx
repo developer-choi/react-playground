@@ -8,9 +8,9 @@ interface PageProp {
 export default function SspOptionalParamsPage({nickNames}: PageProp) {
   console.log(nickNames);
   return (
-      <>
-        {nickNames}
-      </>
+    <>
+      {nickNames}
+    </>
   );
 }
 

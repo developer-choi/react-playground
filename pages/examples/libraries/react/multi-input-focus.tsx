@@ -1,10 +1,7 @@
 import React, {useCallback, useRef} from 'react';
 import styled from 'styled-components';
 
-const MISSIONS = new Array(3).fill('').map((value, index) => `${index + 1}th misson`);
-
 export default function MultiInputFocusPage() {
-
   const inputsRef = useRef<HTMLInputElement[]>([]);
 
   const save = useCallback(() => {
@@ -35,6 +32,8 @@ export default function MultiInputFocusPage() {
     </>
   );
 }
+
+const MISSIONS = new Array(3).fill('').map((value, index) => `${index + 1}th misson`);
 
 const InputsWrap = styled.div`
   display: flex;

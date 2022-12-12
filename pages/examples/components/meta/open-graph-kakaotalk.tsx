@@ -2,7 +2,6 @@ import React from 'react';
 import OgMeta from '@component/atom/OgMeta';
 
 export default function Page() {
-  
   return (
     <>
       <OgMeta

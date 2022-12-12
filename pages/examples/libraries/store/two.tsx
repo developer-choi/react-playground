@@ -4,11 +4,11 @@ import {store} from '@store/store';
 
 export default function TwoPage({count}: {count: number}) {
   return (
-      <>
-        <h1>Two Page (ssr count {count})</h1>
-        <Navigation/>
-        <Counter/>
-      </>
+    <>
+      <h1>Two Page (ssr count {count})</h1>
+      <Navigation/>
+      <Counter/>
+    </>
   );
 }
 

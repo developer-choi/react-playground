@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 export default function FullscreenPage() {
   const boxRef = useRef<HTMLDivElement>(null);
-  
+
   const requestFullscreen = useCallback(async () => {
     if (!boxRef.current) {
       return;
@@ -13,12 +13,12 @@ export default function FullscreenPage() {
     await boxElement.requestFullscreen();
     console.log(document.fullscreenElement === boxElement);
   }, []);
-  
+
   return (
-      <Wrap>
-        <Button onClick={requestFullscreen}>박스를 풀스크린으로 만들기</Button>
-        <Box ref={boxRef}/>
-      </Wrap>
+    <Wrap>
+      <Button onClick={requestFullscreen}>박스를 풀스크린으로 만들기</Button>
+      <Box ref={boxRef}/>
+    </Wrap>
   );
 }
 

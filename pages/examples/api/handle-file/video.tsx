@@ -7,12 +7,12 @@ import styled from 'styled-components';
 export default function ApiProgressPage() {
   const [file, setFile] = useState<File>();
   const [percent, setPercent] = useState(0);
-  
+
   const save = useCallback(async () => {
-    if(!file) {
+    if (!file) {
       return;
     }
-    
+
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -30,14 +30,14 @@ export default function ApiProgressPage() {
       console.error(error);
     }
   }, [file]);
-  
+
   return (
-      <div>
-        {file?.name}
-        <InputFile onChangeFile={setFile}/>
-        <Button onClick={save}>Save</Button>
-        <Stick style={{width: `${percent * 100}%`}}/>
-      </div>
+    <div>
+      {file?.name}
+      <InputFile onChangeFile={setFile}/>
+      <Button onClick={save}>Save</Button>
+      <Stick style={{width: `${percent * 100}%`}}/>
+    </div>
   );
 }
 

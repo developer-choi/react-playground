@@ -13,28 +13,27 @@ interface PageProp {
 }
 
 export default function WindowKeyDownPage({videoUrl}: PageProp) {
-  
   const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
   useKeyDown(SLASH_KEYBOARD_EVENT, useCallback(event => {
     inputRef.current?.focus();
     event.preventDefault();
   }, []));
-  
+
   const videoRef = useRef<HTMLVideoElement>(null);
-  
+
   useKeyDown(MUTE_TOGGLE_KEYBOARD_EVENT, useCallback(() => {
     if (videoRef.current) {
       const videoElement = videoRef.current;
       videoElement.muted = !videoElement.muted;
     }
   }, []));
-  
+
   useKeyDown(FULLSCREEN_TOGGLE_KEYBOARD_EVENT, useCallback(() => {
     if (videoRef.current) {
       const videoElement = videoRef.current;
-  
+
       if (isVideoInFullscreen()) {
         document.exitFullscreen().then();
       } else {
@@ -42,29 +41,29 @@ export default function WindowKeyDownPage({videoUrl}: PageProp) {
       }
     }
   }, []));
-  
+
   return (
     <Wrap>
       <div>
         <Input value="윈도우에 포커스가 맞춰진 상태에서만 기능이 동작하는지를 테스트하기위한 포커스 다른데 맞추기용 입력박스"/>
       </div>
-      
+
       <div>
         <Input ref={inputRef} value={value} onChangeText={setValue}/>
       </div>
-      
+
       <p>
         슬래시를 누르면, 입력박스로 포커스가 이동합니다. (구글 검색페이지 따라하기)
       </p>
-      
+
       <video ref={videoRef} src={videoUrl} controls/>
-      
+
       <div>
         <p>유튜브 단축키 따라하기</p>
         <p>m을 누르시면 음소거 / 소리활성화가 반전됩니다.</p>
         <p>f를 누르시면 전체화면 / 초기화면이 반전됩니다.</p>
       </div>
-      
+
     </Wrap>
   );
 }
@@ -72,7 +71,7 @@ export default function WindowKeyDownPage({videoUrl}: PageProp) {
 export const getServerSideProps: GetStaticProps<PageProp> = async () => {
   const api = new VideoApi();
   const response = await api.getOne(1);
-  
+
   return {
     props: {
       videoUrl: response.data.video.url

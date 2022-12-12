@@ -2,18 +2,17 @@ import React, {forwardRef, Ref, useCallback, useImperativeHandle, useRef} from '
 import styled from 'styled-components';
 
 export default function UseImperativeExample() {
-  
   const childRef = useRef<ChildMethod>(null);
-  
+
   const onClick = useCallback(() => {
     childRef.current?.customFocus();
   }, []);
-  
+
   return (
-      <Wrap>
-        <button onClick={onClick}>CLICK ME</button>
-        <Child ref={childRef}/>
-      </Wrap>
+    <Wrap>
+      <button onClick={onClick}>CLICK ME</button>
+      <Child ref={childRef}/>
+    </Wrap>
   );
 }
 
@@ -38,14 +37,14 @@ interface ChildMethod {
 
 const Child = forwardRef(function Child(props: {}, ref: Ref<ChildMethod>) {
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
   useImperativeHandle(ref, () => ({
     customFocus: () => {
       inputRef.current?.focus();
     }
   }));
-  
+
   return (
-      <input ref={inputRef}/>
+    <input ref={inputRef}/>
   );
 });

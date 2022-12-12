@@ -10,21 +10,21 @@ const Context = createContext<ContextValue>({value: 0});
 
 export default function UseContextPage() {
   const [count, setCount] = useState(0);
-  
+
   const providerValue = useMemo<ContextValue>(() => ({
     value: count
   }), [count]);
-  
+
   const increase = useCallback(() => {
     setCount(prevState => prevState + 1);
   }, []);
-  
+
   const decrease = useCallback(() => {
     setCount(prevState => prevState - 1);
   }, []);
-  
+
   const forceReRender = useForceReRender();
-  
+
   return (
     <Context.Provider value={providerValue}>
       <Children/>
@@ -37,8 +37,8 @@ export default function UseContextPage() {
 
 const Children = memo(function Children() {
   const {value} = useContext(Context);
-  
+
   return (
-      <span>{value}</span>
+    <span>{value}</span>
   );
 });

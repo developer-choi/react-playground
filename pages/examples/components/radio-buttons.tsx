@@ -5,10 +5,9 @@ import RadioLabel from '@component/atom/RadioLabel';
 import RadioGroup from '@component/atom/RadioGroup';
 
 export default function RadioButtonsPage() {
-  
   const [gender, setGender] = useState('man');
   const [fruit, setFruit] = useState('strawberry');
-  
+
   return (
       <>
         <RadioWrap>

@@ -4,23 +4,22 @@ import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSec
 import {randomNumber} from '@util/extend/random';
 
 export default function Page() {
-  
   const [sort, setSort] = useState<'desc' | 'asc'>('desc');
-  
+
   const sortedTodos = useMemo<TodoType[]>(() => {
-  
+
     if(sort === 'desc') {
       return todos.sort((a, b) => a.key - b.key);
     } else {
       return todos.sort((a, b) => b.key - a.key);
     }
-    
+
   }, [sort]);
-  
+
   const changeSort = useCallback(() => {
     setSort(prevState => prevState === 'desc' ? 'asc' : 'desc');
   }, []);
-  
+
   return (
     <Wrap>
       <Button style={{marginRight: 5}} onClick={changeSort}>정렬변경</Button>
@@ -68,12 +67,11 @@ function BestTodos({todos}: TodosProp) {
 }
 
 function Todo({text}: TodoType) {
-  
   const initialText = useRef(text);
 
   useEffect(() => {
     console.log(text, 'mounted');
-  
+
     return () => {
       console.log(text, 'unmounted');
     };
@@ -85,7 +83,7 @@ function Todo({text}: TodoType) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text]));
-  
+
   return (
     <li>{text}</li>
   );

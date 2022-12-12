@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import SomeSidebar from '@component/layouts/some/SomeSidebar';
 
 export default function SomeLayout({children}: PropsWithChildren<any>) {
-
   return (
     <Wrap>
       <SomeSidebar/>

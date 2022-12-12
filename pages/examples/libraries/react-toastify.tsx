@@ -3,7 +3,6 @@ import Button from '@component/atom/button/Button';
 import {toast} from 'react-toastify';
 
 export default function ReactToastifyPage() {
-  
   const openDefaultToast = useCallback(() => {
     toast.info('Default Toast');
   }, []);

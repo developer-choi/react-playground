@@ -5,7 +5,6 @@ import axios, {AxiosError} from 'axios';
 import {downloadImage} from '@util/extend/download';
 
 export default function Page() {
-
   const onClick = useCallback(async () => {
     try {
       const response = await axios.post('http://localhost:8000/buy/expensive', {}, {

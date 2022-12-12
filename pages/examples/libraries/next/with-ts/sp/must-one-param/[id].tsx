@@ -6,13 +6,13 @@ interface PageProp {
   someData: number;
 }
 
-export default function SpMustOneParamPage({someData} : PageProp) {
+export default function SpMustOneParamPage({someData}: PageProp) {
   console.log(someData);
   return (
-      <>
-        <PropertyText>allow params = {ALLOW_PARAMS.join(', ')}</PropertyText>
-        <PropertyText>someData = {someData}</PropertyText>
-      </>
+    <>
+      <PropertyText>allow params = {ALLOW_PARAMS.join(', ')}</PropertyText>
+      <PropertyText>someData = {someData}</PropertyText>
+    </>
   );
 }
 

@@ -4,11 +4,11 @@ import {store} from '@store/store';
 
 export default function ThreePage({count}: {count: number}) {
   return (
-      <>
-        <h1>Three Page (ssr count {count})</h1>
-        <Navigation/>
-        <Counter/>
-      </>
+    <>
+      <h1>Three Page (ssr count {count})</h1>
+      <Navigation/>
+      <Counter/>
+    </>
   );
 }
 
