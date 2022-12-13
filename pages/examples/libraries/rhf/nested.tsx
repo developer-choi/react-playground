@@ -6,15 +6,19 @@ import {useForceReRender} from '@util/custom-hooks/useForceReRender';
 import {EMPTY_ARRAY} from '@util/extend/array';
 
 export default function Page() {
-  const methods = useForm({
-    defaultValues: {
-      [SEND_CATEGORIES]: []
+  const methods = useForm();
+
+  const selectedNames = Object.entries(methods.watch()).reduce((a, b) => {
+    if (b[1] === true) {
+      return a.concat(b[0] as string);
+    } else {
+      return a;
     }
-  });
+  }, [] as string[]);
 
-
-  const onSubmit: SubmitHandler<any> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<any> = () => {
+    const pks = selectedNames.map(name => categoryConverter.nameToPk(name));
+    console.log('result', removeChildren(pks, totalCategories));
   };
 
   //최초렌더링할 때, 강제로 1번만 리렌더링을 하여 모든 데이터의 값에 undefined가 아닌 false가 들어가도록 했습니다.
@@ -37,27 +41,37 @@ export default function Page() {
   );
 }
 
-const SEND_CATEGORIES = 'send-categories';
+function flatCategories(categoreis: Category[]): Category[] {
+  return categoreis.reduce((a, b) => {
+    if (b.childrens) {
+      return a.concat(b).concat(flatCategories(b.childrens));
+    }
+
+    return a.concat(b);
+  }, [] as Category[]);
+}
+
+function removeChildren(selectedCategoriesPk: number[], originalCategories: Category[]): number[] {
+  const originalHaveChildrenCategories = flatCategories(originalCategories).filter(({childrens}) => childrens.length > 0);
+
+  const removeTargets = originalHaveChildrenCategories.reduce((a, b) => {
+    if (b.childrens.every(original => selectedCategoriesPk.includes(original.pk))) {
+      return a.concat(b.childrens);
+    }
+
+    return a;
+  }, [] as Category[]);
+
+  return selectedCategoriesPk.filter(selectedPk => !removeTargets.find(target => target.pk === selectedPk));
+}
 
 function CategoryComponent({category, parentData}: {category: Category, parentData?: Data}) {
   const {register, watch, setValue, getValues} = useFormContext();
 
-  const thisName = categoryToCheckedListName(category);
+  const thisName = categoryConverter.pkToName(category);
   const thisChecked = watch(thisName);
 
-  const childrenNames = getAllChildrens(category).map(category => categoryToCheckedListName(category)) ?? EMPTY_ARRAY;
-
-  const setSendCategoryIds = useCallback((checked: boolean) => {
-    const value = getValues(SEND_CATEGORIES) as Category[];
-    const result = checked ? value.concat(category) : value.filter(prev => prev.pk !== category.pk);
-    setValue(SEND_CATEGORIES, result);
-  }, [category, getValues, setValue]);
-
-  const removeChildCategoryIds = useCallback(() => {
-    const value = getValues(SEND_CATEGORIES) as Category[];
-    const childPks = childrenNames.map(name => checkedListNameToCategoryId(name));
-    setValue(SEND_CATEGORIES, value.filter(prev => !childPks.includes(getValues(prev.pk))));
-  }, [childrenNames, getValues, setValue]);
+  const childrenNames = getAllChildrens(category).map(category => categoryConverter.pkToName(category)) ?? EMPTY_ARRAY;
 
   const thisData = useMemo(() => ({
     name: thisName,
@@ -66,27 +80,19 @@ function CategoryComponent({category, parentData}: {category: Category, parentDa
       if (childrenNames.length > 0) {
         const allChildrenChecked = childrenNames.every(name => getValues(name));
         setValue(thisName, allChildrenChecked);
-
-        if (allChildrenChecked) {
-          removeChildCategoryIds();
-        }
       }
 
       parentData?.onChange(event);
     }
-  }), [thisName, thisChecked, childrenNames, parentData, setValue, getValues, removeChildCategoryIds]);
+  }), [thisName, thisChecked, childrenNames, parentData, setValue, getValues]);
 
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const {checked} = event.target;
-
     childrenNames.forEach(name => {
-      setValue(name, checked);
+      setValue(name, event.target.checked);
     });
 
-    setSendCategoryIds(checked);
-
     thisData.onChange(event);
-  }, [childrenNames, setSendCategoryIds, setValue, thisData]);
+  }, [childrenNames, setValue, thisData]);
 
   return (
     <CategoryWrap draggable={false}>
@@ -99,13 +105,24 @@ function CategoryComponent({category, parentData}: {category: Category, parentDa
   );
 }
 
-function categoryToCheckedListName({pk}: Category) {
-  return `checked-list.${pk}`;
+interface FormNameConverter<T> {
+  nameToPk: (name: string) => number;
+  pkToName: (value: T) => string;
 }
 
-function checkedListNameToCategoryId(name: string) {
-  return Number(name.replace('checked-list.', ''));
+function formNameConverter<T>(prefix: string, pkExtractor: (value: T) => number): FormNameConverter<T> {
+  return {
+    nameToPk: (name: string) => {
+      return Number(name.replace(`${prefix}-`, ''));
+    },
+    pkToName: (value: T) => {
+      const pk = pkExtractor(value);
+      return `${prefix}-${pk}`;
+    }
+  };
 }
+
+const categoryConverter = formNameConverter('checked-list', (category: Category) => category.pk);
 
 function getAllChildrens({childrens}: Category): Category[] {
   if (childrens.length === 0) {
@@ -122,49 +139,47 @@ interface Data {
 }
 
 class Category {
-  pk: string;
-  parentPk?: string;
+  pk: number;
   name: string;
   childrens: Category[];
 
-  constructor(pk: string, name: string, childrens?: Category[], parentPk?: string) {
+  constructor(pk: number, name: string, childrens?: Category[]) {
     this.pk = pk;
     this.name = name;
     this.childrens = childrens ?? [];
-    this.parentPk = parentPk;
   }
 }
 
 const totBags = [
-  new Category('bag-1-adidas', '아디다스토트백', [], 'bag-1'),
-  new Category('bag-1-nike', '나이키토트백', [], 'bag-1')
+  new Category(3, '아디다스토트백', []),
+  new Category(4, '나이키토트백', [])
 ];
 
 const bagCategories = [
-  new Category('bag-1', '토트백', totBags, 'bag'),
-  new Category('bag-2', '벨트백', [], 'bag')
+  new Category(1, '토트백', totBags),
+  new Category(2, '벨트백', [])
 ];
 
 const walletCategories = [
-  new Category('wallet-1', '장지갑', [], 'wallet'),
-  new Category('wallet-2', '카드지갑', [], 'wallet')
+  new Category(11, '장지갑', []),
+  new Category(12, '카드지갑', [])
 ];
 
 const clothesCategories = [
-  new Category('clothes-1', '아우터', [], 'clothes'),
-  new Category('clothes-2', '스커트', [], 'clothes')
+  new Category(101, '아우터', []),
+  new Category(102, '스커트', [])
 ];
 
 const shoesCategories = [
-  new Category('shoes-1', '하이힐', [], 'shoes'),
-  new Category('shoes-2', '부츠', [], 'shoes')
+  new Category(1001, '하이힐', []),
+  new Category(1002, '부츠', [])
 ];
 
 const totalCategories = [
-  new Category('bag', '가방', bagCategories),
-  new Category('wallet', '지갑', walletCategories),
-  new Category('clothes', '의류', clothesCategories),
-  new Category('shoes', '슈즈', shoesCategories)
+  new Category(0, '가방', bagCategories),
+  new Category(10, '지갑', walletCategories),
+  new Category(100, '의류', clothesCategories),
+  new Category(1000, '슈즈', shoesCategories)
 ];
 
 const Form = styled.form`
