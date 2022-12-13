@@ -1,19 +1,20 @@
-import type {CSSProperties, ForwardRefExoticComponent, PropsWithoutRef, ReactNode, Ref, RefAttributes} from 'react';
-import React, {useEffect, useRef, useState} from 'react';
-import useIsFirstRender from '@util/custom-hooks/useIsFirstRender';
+import type {CSSProperties, ForwardRefExoticComponent, PropsWithoutRef, ReactNode, RefAttributes} from "react";
+import React, {useEffect, useRef, useState} from "react";
+import useIsFirstRender from "@util/custom-hooks/useIsFirstRender";
 
-export interface AccordionProp {
+export interface AccordionProp<T> {
   children: ReactNode;
-  renderHeader: (props: AccordionHeaderProp) => JSX.Element;
-  renderContent: ForwardRefExoticComponent<PropsWithoutRef<AccordionContentProp> & RefAttributes<any>>;
+  renderHeader: (props: AccordionHeaderProp<T>) => JSX.Element;
+  renderContent: ForwardRefExoticComponent<PropsWithoutRef<AccordionContentProp<T>> & RefAttributes<any>>;
   onChange: (collapsed: boolean) => void;
   collapsed: boolean;
+  additionalProps?: T;
 }
 
 /**
  * Limitations 중첩되게 못씀.
  */
-export default function Accordion({children, onChange, collapsed, renderHeader: Header, renderContent: Content}: AccordionProp) {
+export default function Accordion<T>({children, onChange, collapsed, renderHeader: Header, renderContent: Content, additionalProps}: AccordionProp<T>) {
   const [scrollHeight, setScrollHeight] = useState(0);
   const contentRef = useRef<any>(null);
   const isFirstRendering = useIsFirstRender();
@@ -33,21 +34,22 @@ export default function Accordion({children, onChange, collapsed, renderHeader: 
 
   return (
     <>
-      <Header collapsed={collapsed} onClick={() => onChange(!collapsed)}/>
-      <Content ref={contentRef} style={{...contentDefaultStyle, ...contentCollapsedStyle}}>
+      <Header collapsed={collapsed} onClick={() => onChange(!collapsed)} additionalProps={additionalProps ?? {}}/>
+      <Content ref={contentRef} style={{...contentDefaultStyle, ...contentCollapsedStyle}} additionalProps={additionalProps ?? {}}>
         {children}
       </Content>
     </>
   );
 }
 
-export interface AccordionHeaderProp {
+export interface AccordionHeaderProp<T = undefined> {
   onClick: () => void;
   collapsed: boolean;
+  additionalProps: Partial<T>;
 }
 
-export interface AccordionContentProp {
-  ref: Ref<any>;
+export interface AccordionContentProp<T = undefined> {
   style: CSSProperties;
   children: ReactNode;
+  additionalProps: Partial<T>;
 }
