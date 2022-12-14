@@ -9,8 +9,8 @@ import {resetObject} from '@util/extend/object';
 export default function Page() {
   const methods = useForm();
 
-  const onSubmit: SubmitHandler<any> = useCallback(() => {
-    const selectedNames = Object.entries(methods.watch()).reduce((a, b) => {
+  const onSubmit: SubmitHandler<any> = useCallback(data => {
+    const selectedNames = Object.entries(data).reduce((a, b) => {
       if (b[1] === true) {
         return a.concat(b[0] as string);
       } else {
@@ -20,7 +20,7 @@ export default function Page() {
 
     const categoryPks = categoryConverter.namesToPks(selectedNames);
     console.log('result', removeChildren(categoryPks, totalCategories));
-  }, [methods]);
+  }, []);
 
   //최초렌더링할 때, 강제로 1번만 리렌더링을 하여 모든 데이터의 값에 undefined가 아닌 false가 들어가도록 했습니다.
   const forceReRender = useForceReRender();
@@ -77,7 +77,6 @@ function CategoryComponent({category, parentData}: {category: Category, parentDa
 
   const thisName = categoryConverter.pkToName(category);
   const thisChecked = watch(thisName);
-
   const childrenNames = getAllChildrens(category).map(category => categoryConverter.pkToName(category)) ?? EMPTY_ARRAY;
 
   const thisData = useMemo(() => ({
