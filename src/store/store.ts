@@ -1,17 +1,9 @@
-import createSagaMiddleware from 'redux-saga';
-import countSaga from '@store/sagas/count-saga';
-import userSaga from '@store/sagas/user-saga';
-import {all} from 'redux-saga/effects';
 import {configureStore} from '@reduxjs/toolkit';
-import counter from '@store/reducers/counter';
 import user from '@store/reducers/user';
 import layout from '@store/reducers/layout';
 
-const sagaMiddleware = createSagaMiddleware();
-
 export const store = configureStore({
   reducer: {
-    counter,
     user,
     layout
   },
@@ -21,12 +13,8 @@ export const store = configureStore({
       ignoredPaths: ['layout.headerProp.onClickHeader'], // Ignore state message
       ignoredActionPaths: ['payload.onClickHeader'] // Ignore dispatch action message
     }
-  }).concat(sagaMiddleware),
+  }),
   devTools: process.env.NODE_ENV === 'development'
-});
-
-sagaMiddleware.run(function* () {
-  yield all([countSaga(), userSaga()]);
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
