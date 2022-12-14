@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useEffect, useMemo} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useMemo, useState} from 'react';
 import {FormProvider, SubmitHandler, useForm, useFormContext} from 'react-hook-form';
 import styled from 'styled-components';
 import {useForceReRender} from '@util/custom-hooks/useForceReRender';
@@ -8,6 +8,11 @@ import {resetObject} from '@util/extend/object';
 
 export default function Page() {
   const methods = useForm();
+  const [filterResultList, setFilterResultList] = useState<FilterResult[]>([]);
+
+  const deleteFilterResult = useCallback((pk: number) => {
+    setFilterResultList(prevState => prevState.filter(prev => prev.pk !== pk));
+  }, []);
 
   const onSubmit: SubmitHandler<any> = useCallback(data => {
     const selectedNames = Object.entries(data).reduce((a, b) => {
@@ -19,7 +24,17 @@ export default function Page() {
     }, [] as string[]);
 
     const categoryPks = categoryConverter.namesToPks(selectedNames);
-    console.log('result', removeChildren(categoryPks, totalCategories));
+
+    //pk들만 모아서 서버로 보내고
+    const result = removeChildren(categoryPks, totalCategories);
+
+    const categoryRecord = parseCategoryRecord(flatCategories(totalCategories));
+
+    //받아뒀던 카테고리로 뒤져서 이름 다시 맵핑
+    setFilterResultList(result.map(pk => ({
+      pk,
+      name: categoryRecord[pk].name
+    })));
   }, []);
 
   //최초렌더링할 때, 강제로 1번만 리렌더링을 하여 모든 데이터의 값에 undefined가 아닌 false가 들어가도록 했습니다.
@@ -35,6 +50,30 @@ export default function Page() {
     methods.reset(resetObject(values));
   }, [methods]);
 
+  useEffect(() => {
+    reset();
+
+    const checkedCategoryIds = filterResultList.map(({pk}) => pk);
+
+    //1. 체크됬던 부모들의 직계자식을 모아놓고,
+    const flatedCategories = flatCategories(totalCategories);
+    const firstCheckedChildren = flatedCategories.filter(category => checkedCategoryIds.includes(category.pk)).map(({childrens}) => childrens ?? []).flat();
+
+    //2. 체크됬던 직계자식들의 자식의자식의자식들까지 모두 루프돌기위해 또 펼칩니다.
+    const allCheckedChildren = flatCategories(firstCheckedChildren);
+
+    //필터를 적용할 떄는 부모 카테고리만 남기기 때문에, 먼저 부모 카테고리부터 다시 체크시킵니다.
+    //체크됬던 부모의 모든 자식카테고리들입니다.
+    checkedCategoryIds.map((pk => categoryConverter.pkToName(pk))).forEach(checkboxName => {
+      methods.setValue(checkboxName, true);
+    });
+
+    //부모가 체크됬으면 자식도 다시 다 체크시킵니다.
+    allCheckedChildren.map(({pk}) => categoryConverter.pkToName(pk)).forEach(checkboxName => {
+      methods.setValue(checkboxName, true);
+    });
+  }, [filterResultList, methods, reset]);
+
   return (
     <FormProvider {...methods}>
       <Form onSubmit={methods.handleSubmit(onSubmit)}>
@@ -44,8 +83,41 @@ export default function Page() {
         <Button type="button" className="gray" onClick={reset}>초기화</Button>
         <Button>제출</Button>
       </Form>
+      {filterResultList.length === 0 ? null : (
+        <FilterResultWrap>
+          <span>적용된 필터 목록 : </span>
+          {filterResultList.map(({pk, name}) => (
+            <FilterResultButton key={pk} type="button" onClick={() => deleteFilterResult(pk)}>{name} (X)</FilterResultButton>
+          ))}
+        </FilterResultWrap>
+      )}
     </FormProvider>
   );
+}
+
+const FilterResultWrap = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+`;
+
+const FilterResultButton = styled.button`
+  padding: 5px 12px;
+  font-size: 12px;
+  background: lightblue;
+`;
+
+interface FilterResult {
+  pk: number;
+  name: string;
+}
+
+function parseCategoryRecord(categories: Category[]) {
+  return categories.reduce((a, b) => {
+    // eslint-disable-next-line no-param-reassign
+    a[b.pk] = b;
+    return a;
+  }, {} as Record<number, Category>);
 }
 
 function flatCategories(categoreis: Category[]): Category[] {
@@ -75,9 +147,9 @@ function removeChildren(selectedCategoriesPk: number[], originalCategories: Cate
 function CategoryComponent({category, parentData}: {category: Category, parentData?: Data}) {
   const {register, watch, setValue, getValues} = useFormContext();
 
-  const thisName = categoryConverter.pkToName(category);
+  const thisName = categoryConverter.itemToName(category);
   const thisChecked = watch(thisName);
-  const childrenNames = getAllChildrens(category).map(category => categoryConverter.pkToName(category)) ?? EMPTY_ARRAY;
+  const childrenNames = getAllChildrens(category).map(category => categoryConverter.itemToName(category)) ?? EMPTY_ARRAY;
 
   const thisData = useMemo(() => ({
     name: thisName,
@@ -120,8 +192,12 @@ class FormNameConverter<T> {
     this.pkExtractor = pkExtractor;
   }
 
-  pkToName(value: T) {
+  itemToName(value: T) {
     const pk = this.pkExtractor(value);
+    return this.pkToName(pk);
+  }
+
+  pkToName(pk: number) {
     return `${this.replacePrefix}${pk}`;
   }
 
