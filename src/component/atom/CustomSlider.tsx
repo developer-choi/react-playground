@@ -7,28 +7,54 @@ export interface MinMaxRange {
   max: number;
 }
 
-/** Limitations
- * min값은 반드시 0만 가능. (음수 안되고 0보다 큰 양수도 안됨)
- * max값은 기본적으로 100만 가능하지만, 트릭을 통해 100보다 큰값도 가능함. 하지만 100 미만은 안됨.
- */
 export interface CustomSliderProp {
-  initialMax: number;
   onChange: (value: MinMaxRange) => void;
+  onAfterChange?: (value: MinMaxRange) => void;
+  value: MinMaxRange;
+  settingRange: MinMaxRange;
 }
 
-export function CustomSlider({initialMax, onChange}: CustomSliderProp) {
-  const magic = initialMax / 100;
+export function CustomSlider({onChange, onAfterChange, value, settingRange}: CustomSliderProp) {
+  const corredctedValue = decreaseMinMax(settingRange, value);
 
   return (
     <StyledSlider
+      value={[corredctedValue.min, corredctedValue.max]}
       //@ts-ignore
-      onChange={([min, max]) => onChange({min: min * magic, max: max * magic})}
+      onChange={([min, max]) => onChange(increaseMinMax(settingRange, {min, max}))}
+      onAfterChange={([min, max]) => onAfterChange?.(increaseMinMax(settingRange, {min, max}))}
       thumbClassName="button"
       trackClassName="track"
-      defaultValue={[0, initialMax]}
       pearling
     />
   );
+}
+
+const FIX_RANGE: MinMaxRange = {
+  min: 0,
+  max: 100
+};
+
+function getCorrectRate(settingRange: MinMaxRange) {
+  return (settingRange.max - settingRange.min) / (FIX_RANGE.max - FIX_RANGE.min);
+}
+
+function decreaseMinMax(settingRange: MinMaxRange, changeRange: MinMaxRange): MinMaxRange {
+  const magic = getCorrectRate(settingRange);
+
+  return {
+    min: (changeRange.min - settingRange.min) / magic,
+    max: (changeRange.max - settingRange.min) / magic
+  };
+}
+
+function increaseMinMax(settingRange: MinMaxRange, changeRange: MinMaxRange) {
+  const magic = getCorrectRate(settingRange);
+
+  return {
+    min: changeRange.min * magic + settingRange.min,
+    max: changeRange.max * magic + settingRange.min
+  };
 }
 
 const SQUARE = 15;

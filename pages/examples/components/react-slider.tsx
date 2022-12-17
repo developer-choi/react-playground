@@ -1,21 +1,61 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {numberWithComma} from '@util/extend/number';
 import {CustomSlider, MinMaxRange} from '@component/atom/CustomSlider';
+import Button from '@component/atom/button/Button';
 
 export default function Page() {
-  const [range, setRange] = useState<MinMaxRange>(INITIAL_RANGE);
+  const [settingRate, setSettingRate] = useState(INITIAL_RANGE);
+  const [range, setRange] = useState<MinMaxRange>(settingRate);
+  const [afterRange, setAfterRange] = useState<MinMaxRange>(settingRate);
+
+  useEffect(() => {
+    console.log('range', range);
+  }, [range]);
+
+  useEffect(() => {
+    console.log('afterRange', afterRange);
+  }, [afterRange]);
+
+  useEffect(() => {
+    setRange(settingRate);
+    setAfterRange(settingRate);
+  }, [settingRate]);
+
+  const increase = useCallback(() => {
+    setRange(prevState => ({
+      min: prevState.min + 10,
+      max: prevState.max
+    }));
+  }, []);
+
+  const decrease = useCallback(() => {
+    setRange(prevState => ({
+      min: prevState.min,
+      max: prevState.max - 10
+    }));
+  }, []);
+
+  const changeSettingRate = useCallback(() => {
+    setSettingRate(prevState => ({
+      min: prevState.min + 1000,
+      max: prevState.max + 1000
+    }));
+  }, []);
 
   return (
     <Wrap>
-      <CustomSlider initialMax={INITIAL_RANGE.max} onChange={setRange}/>
+      <CustomSlider settingRange={settingRate} value={range} onChange={setRange} onAfterChange={setAfterRange}/>
       <span>{numberWithComma(range.min)}</span> <span> ~ </span> <span>{numberWithComma(range.max)}</span>
+      <Button onClick={increase}>Increase</Button>
+      <Button onClick={decrease}>Decrease</Button>
+      <Button onClick={changeSettingRate}>Change setting rate</Button>
     </Wrap>
   );
 }
 
 const INITIAL_RANGE: MinMaxRange = {
-  min: 0,
+  min: 1000,
   max: 2000
 };
 
