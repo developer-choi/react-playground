@@ -1,9 +1,10 @@
-import Button from '@component/atom/button/Button';
 import React, {ChangeEvent, useCallback, useEffect, useMemo} from 'react';
 import {FormProvider, SubmitHandler, useForm, useFormContext} from 'react-hook-form';
 import styled from 'styled-components';
 import {useForceReRender} from '@util/custom-hooks/useForceReRender';
 import {EMPTY_ARRAY} from '@util/extend/array';
+import Button from '@component/atom/button/Button';
+import {resetObject} from '@util/extend/object';
 
 export default function Page() {
   const methods = useForm();
@@ -29,13 +30,19 @@ export default function Page() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const reset = useCallback(() => {
+    const values = methods.getValues();
+    methods.reset(resetObject(values));
+  }, [methods]);
+
   return (
     <FormProvider {...methods}>
       <Form onSubmit={methods.handleSubmit(onSubmit)}>
         {totalCategories.map(category => (
           <CategoryComponent key={category.name} category={category}/>
         ))}
-        <Button type="submit">제출</Button>
+        <Button type="button" className="gray" onClick={reset}>초기화</Button>
+        <Button>제출</Button>
       </Form>
     </FormProvider>
   );
