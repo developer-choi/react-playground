@@ -9,18 +9,18 @@ import {resetObject} from '@util/extend/object';
 export default function Page() {
   const methods = useForm();
 
-  const selectedNames = Object.entries(methods.watch()).reduce((a, b) => {
-    if (b[1] === true) {
-      return a.concat(b[0] as string);
-    } else {
-      return a;
-    }
-  }, [] as string[]);
+  const onSubmit: SubmitHandler<any> = useCallback(() => {
+    const selectedNames = Object.entries(methods.watch()).reduce((a, b) => {
+      if (b[1] === true) {
+        return a.concat(b[0] as string);
+      } else {
+        return a;
+      }
+    }, [] as string[]);
 
-  const onSubmit: SubmitHandler<any> = () => {
-    const pks = selectedNames.map(name => categoryConverter.nameToPk(name));
-    console.log('result', removeChildren(pks, totalCategories));
-  };
+    const categoryPks = categoryConverter.namesToPks(selectedNames);
+    console.log('result', removeChildren(categoryPks, totalCategories));
+  }, [methods]);
 
   //최초렌더링할 때, 강제로 1번만 리렌더링을 하여 모든 데이터의 값에 undefined가 아닌 false가 들어가도록 했습니다.
   const forceReRender = useForceReRender();
@@ -112,24 +112,30 @@ function CategoryComponent({category, parentData}: {category: Category, parentDa
   );
 }
 
-interface FormNameConverter<T> {
-  nameToPk: (name: string) => number;
-  pkToName: (value: T) => string;
+class FormNameConverter<T> {
+  private readonly replacePrefix: string;
+  private readonly pkExtractor: (value: T) => number;
+
+  constructor(prefix: string, pkExtractor: (value: T) => number) {
+    this.replacePrefix = prefix + '-';
+    this.pkExtractor = pkExtractor;
+  }
+
+  pkToName(value: T) {
+    const pk = this.pkExtractor(value);
+    return `${this.replacePrefix}${pk}`;
+  }
+
+  private nameToPk(name: string) {
+    return Number(name.replace(`${this.replacePrefix}`, ''));
+  }
+
+  namesToPks(names: string[]): number[] {
+    return names.map(name => this.nameToPk(name)).filter(pk => !Number.isNaN(pk));
+  }
 }
 
-function formNameConverter<T>(prefix: string, pkExtractor: (value: T) => number): FormNameConverter<T> {
-  return {
-    nameToPk: (name: string) => {
-      return Number(name.replace(`${prefix}-`, ''));
-    },
-    pkToName: (value: T) => {
-      const pk = pkExtractor(value);
-      return `${prefix}-${pk}`;
-    }
-  };
-}
-
-const categoryConverter = formNameConverter('checked-list', (category: Category) => category.pk);
+const categoryConverter = new FormNameConverter('checked-list-category', (category: Category) => category.pk);
 
 function getAllChildrens({childrens}: Category): Category[] {
   if (childrens.length === 0) {
