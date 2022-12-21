@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
@@ -7,17 +7,15 @@ export interface SomeSidebarProp {
 }
 
 export default function SomeSidebar({}: SomeSidebarProp) {
-  const [openedTitle, setOpenedTitle] = useState('');
-
-  const toggleCollapse = useCallback((title: string) => {
-    setOpenedTitle(prevState => prevState !== title ? title : '');
-  }, []);
-
   return (
     <Wrap>
-      {ALL_LINKS.map(({links, title}) => (
-        <Item key={title} title={title} links={links} isOpen={title === openedTitle} onClick={toggleCollapse}/>
-      ))}
+      <Nav>
+        {LINKS.map(({name, href}) => (
+          <Link key={name} href={href} passHref>
+            <Anchor>{name}</Anchor>
+          </Link>
+        ))}
+      </Nav>
     </Wrap>
   );
 }
@@ -34,61 +32,18 @@ const Wrap = styled.aside`
   height: 100%;
 `;
 
-interface ItemProp {
-  title: string;
-  links: {name: string, href: string}[];
-  isOpen: boolean;
-  onClick: (title: string) => void;
-}
-
-function Item({links, title, isOpen, onClick}: ItemProp) {
-  const navRef = useRef<HTMLInputElement>(null);
-
-  const _onClick = useCallback(() => {
-    onClick(title);
-  }, [onClick, title]);
-
-  const style = !isOpen ? undefined : {
-    maxHeight: navRef.current?.scrollHeight ?? 0
-  };
-
-  return (
-    <>
-      <CollapseButton onClick={_onClick}>{title}</CollapseButton>
-      <Nav ref={navRef} style={style}>
-        {links.map(({name, href}) => (
-          <Link key={name} href={href} passHref>
-            <Anchor>{name}</Anchor>
-          </Link>
-        ))}
-      </Nav>
-    </>
-  );
-}
-
 const Nav = styled.nav`
   display: flex;
   flex-direction: column;
-  transition: max-height 0.2s ease-out;
-  max-height: 0;
-  overflow: hidden;
 `;
 
 const Anchor = styled.a`
   padding: 10px;
 `;
 
-const CollapseButton = styled.button`
-  padding: 10px;
-`;
-
 const upperPath = '/examples/layout/';
 
-const links1: ItemProp['links'] = [
+const LINKS: {name: string, href: string}[] = [
   {name: 'layout1', href: upperPath + 1},
   {name: 'layout2', href: upperPath + 2}
-];
-
-const ALL_LINKS: {title: string, links: ItemProp['links']}[] = [
-  {title: '아코디언 링크', links: links1},
 ];

@@ -5,10 +5,10 @@ import {shallowEqual} from 'react-redux';
 import {SIDEBAR_WIDTH} from '@component/layouts/some/SomeSidebar';
 
 export default function SomeHeader() {
-  const {title, onClickHeader} = useAppSelector(state => state.layout.headerProp, shallowEqual);
+  const {title, onClickHeader, backgroundColor, height} = useAppSelector(state => state.layout.headerProp, shallowEqual);
 
   return (
-    <Wrap onClick={onClickHeader} style={{cursor: onClickHeader ? "pointer" : "auto"}}>
+    <Wrap onClick={onClickHeader} style={{cursor: onClickHeader ? "pointer" : "auto", backgroundColor, height}}>
       {title}
     </Wrap>
   );

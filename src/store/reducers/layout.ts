@@ -4,6 +4,8 @@ import {useEffect} from 'react';
 
 export interface HeaderProp {
   title: string;
+  backgroundColor?: string;
+  height?: number | string;
   onClickHeader?: () => void;
 }
 
@@ -13,7 +15,9 @@ export interface LayoutState {
 
 const initialState: LayoutState = {
   headerProp: {
-    title: ''
+    title: '',
+    backgroundColor: "yellow",
+    height: "auto"
   },
 };
 

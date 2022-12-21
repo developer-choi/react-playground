@@ -18,6 +18,8 @@ export default function Page() {
   useEffect(() => {
     dispatch(setHeaderActionCreator({
       title: 'initial page header',
+      height: 80,
+      backgroundColor: "red",
       onClickHeader: () => {
         alert('The header clicked');
       },
