@@ -1,17 +1,21 @@
-import React, {ComponentPropsWithoutRef, useMemo} from 'react';
-import Link from 'next/link';
+import React, {ComponentPropsWithoutRef} from 'react';
+import Link, {LinkProps} from 'next/link';
 import ValidateError from '@util/services/handle-error/ValidateError';
 
-export interface LinkOrAnchorProp extends ComponentPropsWithoutRef<'a'> {
+export interface LinkOrAnchorProp extends ComponentPropsWithoutRef<'a'>, Pick<LinkProps, 'prefetch'> {
   href: string;
 }
 
-export default function LinkOrAnchor({href, target, rel, ...rest}: LinkOrAnchorProp) {
-  const {isOurOrigin, link} = useMemo(() => isOurOriginLink(href, OUR_ORIGINS), [href]);
+export default function LinkOrAnchor({prefetch, href, target, rel, ...rest}: LinkOrAnchorProp) {
+  if (!href) {
+    return <a target={target} rel={rel} {...rest} />;
+  }
+
+  const {isOurOrigin, link} = isOurOriginLink(href, OUR_ORIGINS);
 
   if (isOurOrigin) {
     return (
-      <Link href={link}>
+      <Link href={link} prefetch={prefetch}>
         <a {...rest}/>
       </Link>
     );
