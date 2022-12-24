@@ -1,11 +1,19 @@
-import React, {useCallback, useRef, useState} from "react";
-import {range} from "@util/extend/number";
-import styled from "styled-components";
-import List, {ListRef} from "rc-virtual-list";
-import {SubmitErrorHandler, SubmitHandler, useForm} from "react-hook-form";
-import Button from "@component/atom/button/Button";
+import React, {useCallback, useMemo, useRef, useState} from 'react';
+import styled from 'styled-components';
+import List, {ListRef} from 'rc-virtual-list';
+import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
+import Button from '@component/atom/button/Button';
+import type {GetServerSideProps} from 'next';
+import type {Brand} from '@type/response-sub/brand-sub';
+import {parseBrandList} from '@util/services/brand';
+import {handleServerSideError} from '@util/services/handle-error/server-side-error';
+import BrandApi from '@api/BrandApi';
 
-export default function Page() {
+interface PageProp {
+  brandList: Brand[];
+}
+
+export default function Page({brandList}: PageProp) {
   const {handleSubmit, register} = useForm<Data>();
   const [searchText, setSearchText] = useState('');
   const listRef = useRef<ListRef>(null);
@@ -16,29 +24,23 @@ export default function Page() {
   };
 
   const onError: SubmitErrorHandler<Data> = (errors) => {
-    console.log("errors", errors);
+    console.log('errors', errors);
   };
 
-  const list = !searchText ? BRAND_ITEMS : BRAND_ITEMS.reduce((a, b) => {
-    const match = b.brands.filter(brand => brand.toLowerCase().includes(searchText.toLowerCase()));
-    if (match.length === 0) {
-      return a;
-    }
-    return a.concat({char: b.char, brands: match});
-  }, [] as Brand[]);
+  const {brandListWithCharList, charList} = useMemo(() => parseBrandList(brandList, searchText), [brandList, searchText]);
 
   const scrollToAlphabet = useCallback((alphabet: string) => {
-    const index = alphabets.findIndex(original => original === alphabet);
+    const index = charList.findIndex(original => original === alphabet);
     listRef.current?.scrollTo({
       index,
-      align: "top"
+      align: 'top'
     });
-  }, []);
+  }, [charList]);
 
   return (
     <Wrap>
       <ShortcutsWrap>
-        {list.map(({char}) => char).map(alphabet => (
+        {brandListWithCharList.map(({char}) => char).map(alphabet => (
           <Shortcut key={alphabet} onClick={() => scrollToAlphabet(alphabet)}>{alphabet}</Shortcut>
         ))}
       </ShortcutsWrap>
@@ -46,12 +48,12 @@ export default function Page() {
         <input {...register('searchText')}/>
         <Button>검색</Button>
       </Form>
-      <List ref={listRef} data={list} itemHeight={1000} height={200} itemKey="char">
-        {({char, brands}) => (
+      <List ref={listRef} data={brandListWithCharList} itemHeight={1000} height={200} itemKey="char">
+        {({char, brandList}) => (
           <Item>
             <Char>{char}</Char>
-            {brands.map(brand => (
-              <BrandName key={brand}>{brand}</BrandName>
+            {brandList.map(brand => (
+              <BrandName key={brand.pk}>{brand.name}</BrandName>
             ))}
           </Item>
         )}
@@ -59,6 +61,23 @@ export default function Page() {
     </Wrap>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
+  const api = new BrandApi();
+
+  try {
+    const {data: {list}} = await api.getList();
+
+    return {
+      props: {
+        brandList: list
+      }
+    };
+
+  } catch (error) {
+    return handleServerSideError(error);
+  }
+};
 
 const ShortcutsWrap = styled.div`
   
@@ -93,19 +112,3 @@ const BrandName = styled.div`
   height: 16px;
   border: 1px solid black;
 `;
-
-const alphabets = range("A".charCodeAt(0), "Z".charCodeAt(0)).map(value => String.fromCharCode(value));
-
-function makeBrands(prefix: string) {
-  return range(1, prefix.charCodeAt(0)).map(value => `${prefix}-${value}`);
-}
-
-interface Brand {
-  char: string;
-  brands: string[];
-}
-
-const BRAND_ITEMS: Brand[] = alphabets.map(alphabet => ({
-  char: alphabet,
-  brands: makeBrands(`${alphabet}-brand`)
-}));

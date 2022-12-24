@@ -3,17 +3,29 @@ import {haveAxiosResponse} from '@api/BaseApi';
 import type {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
 import {AuthError} from '@util/services/auth/AuthError';
 import ValidateError from '@util/services/handle-error/ValidateError';
+import type {AxiosError} from 'axios';
+import ConnectError from '@util/services/handle-error/ConnectError';
 
 export interface HandleServerSideErrorOption {
   notifyRedirect?: NotifyRedirectProps['notifyRedirect'];
 }
 
-export function handleServerSideError<T = any>(error: any, option?: HandleServerSideErrorOption): GetServerSidePropsResult<T> {
+export function handleServerSideError<T = any>(error: any, option?: HandleServerSideErrorOption): any {
   if (error instanceof ValidateError) {
     return handleValidateError(error, option);
 
   } else if (error instanceof AuthError) {
     return handleAuthError(error);
+
+  } else if(error instanceof ConnectError) {
+    return {
+      props: {
+        notifyRedirect: {
+          destination: "/",
+          message: error.message
+        } as NotifyRedirectProps['notifyRedirect']
+      }
+    };
 
   } else {
     const axiosError = haveAxiosResponse(error);
@@ -49,13 +61,25 @@ function handleAuthError(error: AuthError): GetServerSidePropsResult<any> {
   };
 }
 
-function handleAxiosError(error: any, option?: HandleServerSideErrorOption): GetServerSidePropsResult<any> {
+function handleAxiosError(error: AxiosError, option?: HandleServerSideErrorOption): GetServerSidePropsResult<any> {
   if (option?.notifyRedirect) {
     return {
       props: {
         notifyRedirect: option.notifyRedirect
       }
     };
+  }
+
+  console.log('Object.keys(error)', Object.keys(error));
+
+  if (error.response) {
+    console.error('error.response.data', error.response.data);
+    console.error('error.response.status', error.response.status);
+    console.error('error.response.headers', error.response.headers);
+  } else if (error.request) {
+    console.error('error.request', error.request);
+  } else {
+    console.error('error.message', error.message);
   }
 
   throw error;

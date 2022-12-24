@@ -16,6 +16,7 @@ import type {Category} from '@type/response-sub/category-sub';
 import type {GetStaticProps} from 'next';
 import CategoryApi from '@api/CategoryApi';
 import CategoryCheckbox from '@component/molecules/CategoryCheckbox';
+import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 
 interface PageProp {
   categories: Category[];
@@ -138,9 +139,7 @@ export const getStaticProps: GetStaticProps<PageProp> = async () => {
       }
     };
   } catch (error) {
-    return {
-      notFound: true
-    };
+    return handleServerSideError(error);
   }
 };
 

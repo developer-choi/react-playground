@@ -1,5 +1,6 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import env from '@util/env';
+import ConnectError from '@util/services/handle-error/ConnectError';
 
 export default class BaseApi {
   readonly axios: AxiosInstance;
@@ -19,8 +20,14 @@ export default class BaseApi {
         return response;
       }
 
-      console.error(response);
       return Promise.reject({response});
+
+    }, error => {
+      if(error.code === "ECONNREFUSED" && error.syscall === 'connect' && typeof error.address === 'string' && typeof error.port === 'number') {
+        throw new ConnectError(error.address, error.port);
+      }
+
+      throw error;
     });
   }
 }
@@ -34,7 +41,7 @@ function getDefaultBaseURL(basePath = '') {
 export type AxiosErrorWithResponse = AxiosError & {response: AxiosResponse};
 
 export function haveAxiosResponse(error: any): AxiosErrorWithResponse | undefined {
-  if (!error.isAxiosError || !error.response) {
+  if (!error.isAxiosError) {
     return undefined;
   }
 
