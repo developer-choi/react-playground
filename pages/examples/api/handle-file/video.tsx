@@ -1,8 +1,8 @@
 import React, {useCallback, useState} from 'react';
 import InputFile from '@component/extend/InputFile';
 import Button from '@component/atom/button/Button';
-import axios from 'axios';
 import styled from 'styled-components';
+import FileApi from '@api/FileApi';
 
 export default function ApiProgressPage() {
   const [file, setFile] = useState<File>();
@@ -13,19 +13,15 @@ export default function ApiProgressPage() {
       return;
     }
 
+    const api = new FileApi();
+
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      await axios.post('/api/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        onUploadProgress: ({total, loaded}: ProgressEvent) => {
-          const value = loaded / total;
-          console.log('percent', value * 100);
-          setPercent(value);
-        }
+      await api.postUpload(file, ({total, loaded}: ProgressEvent) => {
+        const value = loaded / total;
+        console.log('percent', value * 100);
+        setPercent(value);
       });
+
     } catch (error) {
       console.error(error);
     }
