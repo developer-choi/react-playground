@@ -9,9 +9,7 @@ import ValidateError from '@util/services/handle-error/ValidateError';
 
 export default class AuthApi extends BaseApi {
   constructor() {
-    super(undefined, {
-      baseURL: "http://localhost:8000/auth"
-    });
+    super('/auth');
   }
 
   /**

@@ -33,8 +33,8 @@ export default class BaseApi {
 }
 
 function getDefaultBaseURL(basePath = '') {
-  const origin = env.public.origin;
-  const path = `/api/${basePath}`.replace(/\/\//g, '/');
+  const origin = env.public.api;
+  const path = basePath.replace(/\/\//g, '/');
   return `${origin}${path}`;
 }
 

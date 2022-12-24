@@ -7,9 +7,7 @@ import type {BoardListResponse, BoardOneResponse} from '@type/response/board';
 
 export default class BoardApi extends BaseApi {
   constructor() {
-    super(undefined, {
-      baseURL: "http://localhost:8000/board"
-    });
+    super('/board');
   }
 
   /** Naming Rule

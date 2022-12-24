@@ -4,9 +4,7 @@ import type {CategoryListResponse} from '@type/response/category';
 
 export default class CategoryApi extends BaseApi {
   constructor() {
-    super(undefined, {
-      baseURL: "http://localhost:8000/category"
-    });
+    super('/category');
   }
 
   getList(): Promise<AxiosResponse<CategoryListResponse>> {

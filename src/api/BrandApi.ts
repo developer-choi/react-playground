@@ -4,9 +4,7 @@ import type {BrandListResponse} from '@type/response/brand';
 
 export default class BrandApi extends BaseApi {
   constructor() {
-    super(undefined, {
-      baseURL: "http://localhost:8000/brand"
-    });
+    super('/brand');
   }
 
   getList(): Promise<AxiosResponse<BrandListResponse>> {

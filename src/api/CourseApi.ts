@@ -6,9 +6,7 @@ import type {CourseSortType} from '@type/response-sub/course-sub';
 
 export default class CourseApi extends BaseApi {
   constructor() {
-    super(undefined, {
-      baseURL: "http://localhost:8000/course"
-    });
+    super('/course');
   }
 
   getList(page: number, config?: CourseListConfig): Promise<AxiosResponse<CourseListResponse>> {

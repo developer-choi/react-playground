@@ -4,9 +4,7 @@ import type {VideoResponse, VideoListResponse} from '@type/response/video';
 
 export default class VideoApi extends BaseApi {
   constructor() {
-    super(undefined, {
-      baseURL: "http://localhost:8000/video"
-    });
+    super('/video');
   }
   
   getOne(pk: number | string): Promise<AxiosResponse<VideoResponse>> {
