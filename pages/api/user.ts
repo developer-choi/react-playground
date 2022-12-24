@@ -1,6 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {getApi} from '@util/extend/next-api';
-import {TEST_USER} from '@pages/api/auth/login';
+import type {UserInfo} from '@type/response-sub/user-sub';
 
 export default function user(req: NextApiRequest, res: NextApiResponse) {
   getApi(req, res, () => {
@@ -15,3 +15,8 @@ export default function user(req: NextApiRequest, res: NextApiResponse) {
     }
   });
 }
+
+const TEST_USER: UserInfo = {
+  userPk: 1,
+  name: 'test-name'
+};

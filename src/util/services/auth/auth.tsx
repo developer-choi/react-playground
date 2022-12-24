@@ -1,5 +1,5 @@
 import type {GetServerSideProps, GetServerSidePropsContext} from 'next';
-import {getCookie, removeCookie} from '@util/extend/cookie';
+import {getCookie} from '@util/extend/cookie';
 import {useAppSelector} from '@store/hooks';
 import AuthApi from '@api/AuthApi';
 import {AuthError} from '@util/services/auth/AuthError';
@@ -133,7 +133,7 @@ export default function useAlertForNotLoggedIn() {
   }, [push]);
 }
 
-export const getSSPForNotLoggedIn: GetServerSideProps = async (context) => {
+export const getSSPForNotLoggedIn: GetServerSideProps = async context => {
   if (isLoggedInServerSide(context)) {
     return {
       redirect: {
@@ -183,9 +183,7 @@ export async function logoutInClientSide(destination = '/') {
   const api = new AuthApi();
 
   try {
-    await api.postLogout();
-    removeCookie('userPk');
-    removeCookie('anotherValue');
+    await api.putLogout();
     location.replace(destination);
   } catch (error) {
     if (error instanceof AuthError) {

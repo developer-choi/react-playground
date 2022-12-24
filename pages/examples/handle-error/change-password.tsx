@@ -5,14 +5,12 @@ import {flexDirectionColumn} from '@util/services/style/css';
 import InputText from '@component/extend/InputText';
 import {toast} from 'react-toastify';
 import Button from '@component/atom/button/Button';
-import {getSSPForNotLoggedIn} from '@util/services/auth/auth';
+import {getSSPForLoggedIn, logoutInClientSide} from '@util/services/auth/auth';
 import AuthApi from '@api/AuthApi';
-import {useRouter} from 'next/router';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import ValidateError from '@util/services/handle-error/ValidateError';
 
 export default function Page() {
-  const {replace} = useRouter();
   const [originPassword, setOriginPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -25,8 +23,8 @@ export default function Page() {
     const api = new AuthApi();
     try {
       await api.putResetPassword({originPassword, newPassword, confirmPassword});
-      alert('비밀번호가 초기화되었습니다.');
-      await replace('/examples/handle-error/login');
+      alert('비밀번호가 초기화되었습니다. 다시 로그인해주세요.');
+      await logoutInClientSide('/examples/handle-error/login');
 
     } catch (error) {
       if (error instanceof ValidateError) {
@@ -47,7 +45,7 @@ export default function Page() {
 
       handleClientSideError(error);
     }
-  }, [confirmPassword, newPassword, originPassword, replace]);
+  }, [confirmPassword, newPassword, originPassword]);
   
   return (
     <StyledForm onSubmit={onSubmit}>
@@ -59,7 +57,7 @@ export default function Page() {
   );
 }
 
-export const getServerSideProps = getSSPForNotLoggedIn;
+export const getServerSideProps = getSSPForLoggedIn;
 
 const StyledForm = styled(Form)`
   ${flexDirectionColumn};

@@ -9,7 +9,9 @@ import ValidateError from '@util/services/handle-error/ValidateError';
 
 export default class AuthApi extends BaseApi {
   constructor() {
-    super('/auth');
+    super(undefined, {
+      baseURL: "http://localhost:8000/auth"
+    });
   }
 
   /**
@@ -22,15 +24,21 @@ export default class AuthApi extends BaseApi {
     return this.axios.post('/login', {
       email: _email,
       password: SHA512.hash(_password)
+    }, {
+      // https://stackoverflow.com/questions/46288437/set-cookies-for-cross-origin-requests
+      withCredentials: true
     });
   }
 
   /**
    * @exception AuthError The user is not logged in
    */
-  postLogout() {
+  putLogout() {
     const loginToken = getLoginTokenClientSide();
-    return this.axios.post('/logout', loginToken);
+    return this.axios.put('/logout', loginToken, {
+      // https://stackoverflow.com/questions/46288437/set-cookies-for-cross-origin-requests
+      withCredentials: true
+    });
   }
 
   putResetPassword(params: AuthResetPasswordParam) {
