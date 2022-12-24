@@ -10,7 +10,7 @@ export interface HandleServerSideErrorOption {
   notifyRedirect?: NotifyRedirectProps['notifyRedirect'];
 }
 
-export function handleServerSideError<T = any>(error: any, option?: HandleServerSideErrorOption): any {
+export function handleServerSideError<T = any>(error: any, option?: HandleServerSideErrorOption): GetServerSidePropsResult<T> {
   if (error instanceof ValidateError) {
     return handleValidateError(error, option);
 
@@ -25,7 +25,7 @@ export function handleServerSideError<T = any>(error: any, option?: HandleServer
           message: error.message
         } as NotifyRedirectProps['notifyRedirect']
       }
-    };
+    } as any;
 
   } else {
     const axiosError = haveAxiosResponse(error);

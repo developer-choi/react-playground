@@ -10,20 +10,21 @@ import {
   FilterRecord,
   FilterResult,
   flatCategories,
-  parseCategoryRecord, parseFilterResultList
+  parseCategoryRecord,
+  parseFilterResultList
 } from '@util/services/category-filter';
 import type {Category} from '@type/response-sub/category-sub';
-import type {GetStaticProps} from 'next';
+import type {GetServerSideProps} from 'next';
 import CategoryApi from '@api/CategoryApi';
 import CategoryCheckbox from '@component/molecules/CategoryCheckbox';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 
 interface PageProp {
-  categories: Category[];
+  categoryList: Category[];
   filterRecord: FilterRecord;
 }
 
-export default function Page({filterRecord, categories}: PageProp) {
+export default function Page({filterRecord, categoryList}: PageProp) {
   const methods = useForm();
   const [filterResultList, setFilterResultList] = useState<FilterResult[]>([]);
 
@@ -40,12 +41,12 @@ export default function Page({filterRecord, categories}: PageProp) {
       }
     }, [] as string[]);
 
-    const categoryFilterResultList = categoryNamesToFilterResultList(selectedNames, categories);
+    const categoryFilterResultList = categoryNamesToFilterResultList(selectedNames, categoryList);
 
     return {
       category: categoryFilterResultList
     };
-  }, [categories]);
+  }, [categoryList]);
 
   const currentCheckedFilterList = getAllFilterResultList(methods.watch());
 
@@ -71,8 +72,8 @@ export default function Page({filterRecord, categories}: PageProp) {
     const checkedCategoryIds = filterResultList.map(({pk}) => pk);
 
     //1. 체크됬던 부모들의 직계자식을 모아놓고,
-    const flatedCategories = flatCategories(categories);
-    const firstCheckedChildren = flatedCategories.filter(category => checkedCategoryIds.includes(category.pk)).map(({childrens}) => childrens ?? []).flat();
+    const flatedCategories = flatCategories(categoryList);
+    const firstCheckedChildren = flatedCategories.filter(category => checkedCategoryIds.includes(category.pk)).map(({children}) => children ?? []).flat();
 
     //2. 체크됬던 직계자식들의 자식의자식의자식들까지 모두 루프돌기위해 또 펼칩니다.
     const allCheckedChildren = flatCategories(firstCheckedChildren);
@@ -86,7 +87,7 @@ export default function Page({filterRecord, categories}: PageProp) {
     allCheckedChildren.map(({pk}) => categoryConverter.pkToName(pk)).forEach(checkboxName => {
       methods.setValue(checkboxName, true);
     });
-  }, [categories, methods]);
+  }, [categoryList, methods]);
 
   useEffect(() => {
     reset();
@@ -94,7 +95,7 @@ export default function Page({filterRecord, categories}: PageProp) {
     const {category: categoryFilterResultList} = parseFilterResultList(filterResultList);
 
     updateFilterResultToCategory(categoryFilterResultList);
-  }, [categories, filterResultList, methods, reset, updateFilterResultToCategory]);
+  }, [categoryList, filterResultList, methods, reset, updateFilterResultToCategory]);
 
   return (
     <FormProvider {...methods}>
@@ -105,7 +106,7 @@ export default function Page({filterRecord, categories}: PageProp) {
         </div>
       )}
       <Form onSubmit={methods.handleSubmit(onSubmit)}>
-        {categories.map(category => (
+        {categoryList.map(category => (
           <CategoryCheckbox key={category.name} category={category}/>
         ))}
         <Button type="button" className="gray" onClick={reset}>초기화</Button>
@@ -123,16 +124,16 @@ export default function Page({filterRecord, categories}: PageProp) {
   );
 }
 
-export const getStaticProps: GetStaticProps<PageProp> = async () => {
+export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
   const api = new CategoryApi();
 
   try {
-    const {data: {categories}} = await api.getList();
-    const categoryRecord = parseCategoryRecord(flatCategories(categories));
+    const {data: {list: categoryList}} = await api.getList();
+    const categoryRecord = parseCategoryRecord(flatCategories(categoryList));
 
     return {
       props: {
-        categories,
+        categoryList,
         filterRecord: {
           category: categoryRecord
         }

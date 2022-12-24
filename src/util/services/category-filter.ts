@@ -22,8 +22,8 @@ export function parseCategoryRecord(categories: Category[]): CategoryRecord {
 
 export function flatCategories(categoreis: Category[]): Category[] {
   return categoreis.reduce((a, b) => {
-    if (b.childrens) {
-      return a.concat(b).concat(flatCategories(b.childrens));
+    if (b.children) {
+      return a.concat(b).concat(flatCategories(b.children));
     }
 
     return a.concat(b);
@@ -31,11 +31,11 @@ export function flatCategories(categoreis: Category[]): Category[] {
 }
 
 export function removeCategoryChildren(selectedCategoriesPk: number[], originalCategories: Category[]): number[] {
-  const originalHaveChildrenCategories = flatCategories(originalCategories).filter(({childrens}) => childrens.length > 0);
+  const originalHaveChildrenCategories = flatCategories(originalCategories).filter(({children}) => children.length > 0);
 
   const removeTargets = originalHaveChildrenCategories.reduce((a, b) => {
-    if (b.childrens.every(original => selectedCategoriesPk.includes(original.pk))) {
-      return a.concat(b.childrens);
+    if (b.children.every(original => selectedCategoriesPk.includes(original.pk))) {
+      return a.concat(b.children);
     }
 
     return a;

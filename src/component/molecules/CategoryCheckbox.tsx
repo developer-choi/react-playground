@@ -37,7 +37,7 @@ export default function CategoryCheckbox({category, parentData}: {category: Cate
     <CategoryWrap draggable={false}>
       <input type="checkbox" {...register(thisName, {onChange})}/>
       {category.name}
-      {category.childrens?.map(children => (
+      {category.children?.map(children => (
         <CategoryCheckbox key={children.name} category={children} parentData={thisData}/>
       ))}
     </CategoryWrap>
@@ -50,12 +50,12 @@ const CategoryWrap = styled.label`
   margin-top: 10px;
 `;
 
-function getAllChildren({childrens}: Category): Category[] {
-  if (childrens.length === 0) {
+function getAllChildren({children}: Category): Category[] {
+  if (children.length === 0) {
     return [];
   }
 
-  return childrens.concat(childrens.map(children => getAllChildren(children)).flat());
+  return children.concat(children.map(children => getAllChildren(children)).flat());
 }
 
 interface Data {
