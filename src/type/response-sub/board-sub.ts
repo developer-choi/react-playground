@@ -8,6 +8,11 @@ export interface Board {
   authorUserPk: number;
 }
 
+/** Naming Rule
+ * [api path] + Param
+ */
+export type BoardCreateParam = Pick<Board, 'title' | 'content' | 'boardType'>;
+
 /**
  * 자유게시판 / 공지사항
  */

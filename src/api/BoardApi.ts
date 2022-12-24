@@ -1,13 +1,15 @@
 import BaseApi from '@api/BaseApi';
 import {getLoginTokenClientSide, getLoginTokenServerSide} from '@util/services/auth/auth';
-import type {Board} from '@type/response-sub/board-sub';
+import type {BoardCreateParam} from '@type/response-sub/board-sub';
 import type {GetServerSidePropsContext} from 'next';
 import type {AxiosResponse} from 'axios';
 import type {BoardListResponse, BoardOneResponse} from '@type/response/board';
 
 export default class BoardApi extends BaseApi {
   constructor() {
-    super('/board');
+    super(undefined, {
+      baseURL: "http://localhost:8000/board"
+    });
   }
 
   /** Naming Rule
@@ -26,9 +28,9 @@ export default class BoardApi extends BaseApi {
   getOne(context: GetServerSidePropsContext, pk: number): Promise<AxiosResponse<BoardOneResponse>> {
     try {
       const loginToken = getLoginTokenServerSide(context);
-      return this.axios.get('/one', {params: {pk}, headers: loginToken});
+      return this.axios.get(`/${pk}`, {headers: loginToken});
     } catch (error) {
-      return this.axios.get('/one', {params: {pk}});
+      return this.axios.get(`/${pk}`);
     }
   }
 
@@ -42,8 +44,3 @@ export default class BoardApi extends BaseApi {
     }
   }
 }
-
-/** Naming Rule
- * [api path] + Param
- */
-export type BoardCreateParam = Pick<Board, 'title' | 'content' | 'boardType'>;
