@@ -4,10 +4,12 @@ import type {UserInfoResponse} from '@type/response/user';
 
 export default class UserApi extends BaseApi {
   constructor() {
-    super('/user');
+    super(undefined, {
+      baseURL: 'http://localhost:8000/user'
+    });
   }
 
   getUser(userPk: number): Promise<AxiosResponse<UserInfoResponse>> {
-    return this.axios.get('', {params: {userPk}});
+    return this.axios.get(`/info/${userPk}`);
   }
 }

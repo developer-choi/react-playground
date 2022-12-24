@@ -1,7 +1,6 @@
 import type {UserInfo} from '@type/response-sub/user-sub';
 
-// GET /login
-// GET /user
+// GET /user/info/[pk]
 export interface UserInfoResponse {
   info: UserInfo;
 }
