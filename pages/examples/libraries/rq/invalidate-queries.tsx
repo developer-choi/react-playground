@@ -26,7 +26,7 @@ export default function Page() {
 async function getApi(...args: any) {
   console.log('getApi call', args);
   const courseApi = new CourseApi();
-  return courseApi.getList(1, {});
+  return courseApi.getList(1);
 }
 
 async function postTodo({content}: {content: string}) {

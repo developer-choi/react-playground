@@ -47,8 +47,8 @@ function useGetMoreData<T>({initialData, getApiHandler}: UseGetMoreDataParam<T>)
   });
   
   useEffectFromTheSecondTime(useCallback(() => {
-    setData(initialize(initialData));
-  }, [initialData]));
+    setData(initialize({list: initialData?.list ?? [], total: initialData?.total ?? 0}));
+  }, [initialData?.list, initialData?.total]));
   
   const setInitialData = useCallback(async () => {
     try {

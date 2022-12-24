@@ -1,20 +1,19 @@
 import React, {useCallback} from 'react';
-import type {PagingListType} from '@pages/api/paging';
 import type {GetServerSideProps} from 'next';
 import styled from 'styled-components';
 import useInfiniteScroll from '@util/custom-hooks/useInfiniteScroll';
-import PagingApi from '@api/PagingApi';
+import CourseApi from '@api/CourseApi';
+import type {Course} from '@type/response-sub/course-sub';
 
 interface PageProp {
-  list: PagingListType[];
+  list: Course[];
   total: number;
 }
 
 export default function InfiniteScrollPage(props: PageProp) {
-  
   const fetchMoreApi = useCallback(async (requestPage: number) => {
-    const api = new PagingApi();
-    const {list, total} = (await api.getPaging(requestPage)).data;
+    const api = new CourseApi();
+    const {list, total} = (await api.getList(requestPage)).data;
     return {list, total};
   }, []);
   
@@ -29,16 +28,16 @@ export default function InfiniteScrollPage(props: PageProp) {
   
   return (
     <div>
-      {list.map(({key, order, color}) => (
-        <InfiniteScrollRow key={key} style={{backgroundColor: color}}>{order}th row</InfiniteScrollRow>
+      {list.map(({pk, title}) => (
+        <InfiniteScrollRow key={pk}>{title}</InfiniteScrollRow>
       ))}
     </div>
   );
 };
 
 export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
-  const api = new PagingApi();
-   const {list, total} = (await api.getPaging(1)).data;
+  const api = new CourseApi();
+   const {list, total} = (await api.getList(1)).data;
   return {
     props: {
       list,
@@ -55,5 +54,4 @@ export const InfiniteScrollRow = styled.div`
   height: 100px;
   font-size: 25px;
   font-weight: bold;
-  color: black;
 `;

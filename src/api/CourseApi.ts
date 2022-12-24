@@ -11,7 +11,7 @@ export default class CourseApi extends BaseApi {
     });
   }
 
-  getList(page: number, config: CourseListConfig): Promise<AxiosResponse<CourseListResponse>> {
+  getList(page: number, config?: CourseListConfig): Promise<AxiosResponse<CourseListResponse>> {
     return this.axios.get('/list', {params: {...config, page}});
   }
 

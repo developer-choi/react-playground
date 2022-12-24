@@ -6,10 +6,10 @@ import VideoApi from '@api/VideoApi';
 import styled from 'styled-components';
 import Link from 'next/link';
 import {InfiniteScrollRow} from '@pages/examples/api/infinite-scroll';
-import PagingApi from '@api/PagingApi';
 import Button from '@component/atom/button/Button';
 import {GetMoreDataApiHandler, useGetMoreDataClientSide} from '@util/custom-hooks/get-more-data';
-import type {PagingListType} from '@pages/api/paging';
+import CourseApi from '@api/CourseApi';
+import type {Course} from '@type/response-sub/course-sub';
 
 interface PageProp {
   videoList: Video[];
@@ -24,14 +24,15 @@ interface Param extends ParsedUrlQuery {
  * URL: http://localhost:3000/examples/api/get-more-data/part-of-page/1
  */
 export default function Page({videoList, video}: PageProp) {
-  const getApiHandler = useCallback<GetMoreDataApiHandler<PagingListType>>(async (page) => {
-    const api = new PagingApi();
-    const {data} = await api.getPaging(page, video.pk);
+  const getApiHandler = useCallback<GetMoreDataApiHandler<Course>>(async (page) => {
+    const api = new CourseApi();
+    //원래는 이게 댓글목록 API여서 여기서 본문글PK도 같이 보내야함
+    const {data: {list, total}} = await api.getList(page);
     return {
-      list: data.list,
-      total: data.total
+      list,
+      total
     };
-  }, [video.pk]);
+  }, []);
   
   const {list, haveMoreData, setInitialData, setMoreData} = useGetMoreDataClientSide({
     getApiHandler
@@ -46,8 +47,8 @@ export default function Page({videoList, video}: PageProp) {
     <Wrap>
       <LeftWrap>
         <StyledVideo src={video.url} controls/>
-        {list.map(({key, order, color}) => (
-          <InfiniteScrollRow key={key} style={{backgroundColor: color}}>{order}</InfiniteScrollRow>
+        {list.map(({pk, title}) => (
+          <InfiniteScrollRow key={pk}>{title}</InfiniteScrollRow>
         ))}
         {haveMoreData && <Button onClick={setMoreData}>더보기</Button>}
         
