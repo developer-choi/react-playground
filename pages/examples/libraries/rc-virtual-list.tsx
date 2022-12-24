@@ -20,7 +20,7 @@ export default function Page() {
   };
 
   const list = !searchText ? BRAND_ITEMS : BRAND_ITEMS.reduce((a, b) => {
-    const match = b.brands.filter(brand => brand.includes(searchText));
+    const match = b.brands.filter(brand => brand.toLowerCase().includes(searchText.toLowerCase()));
     if (match.length === 0) {
       return a;
     }
@@ -38,7 +38,7 @@ export default function Page() {
   return (
     <Wrap>
       <ShortcutsWrap>
-        {alphabets.map(alphabet => (
+        {list.map(({char}) => char).map(alphabet => (
           <Shortcut key={alphabet} onClick={() => scrollToAlphabet(alphabet)}>{alphabet}</Shortcut>
         ))}
       </ShortcutsWrap>
