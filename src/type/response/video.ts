@@ -3,9 +3,9 @@ export interface VideoResponse {
   video: Video;
 }
 
-// GET /videos
-export interface VideosResponse {
-  videos: Video[];
+// GET /video/list
+export interface VideoListResponse {
+  list: Video[];
 }
 
 export interface Video {

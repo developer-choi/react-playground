@@ -12,7 +12,7 @@ import {GetMoreDataApiHandler, useGetMoreDataClientSide} from '@util/custom-hook
 import type {PagingListType} from '@pages/api/paging';
 
 interface PageProp {
-  videos: Video[];
+  videoList: Video[];
   video: Video;
 }
 
@@ -20,7 +20,10 @@ interface Param extends ParsedUrlQuery {
   pk: string;
 }
 
-export default function Page({videos, video}: PageProp) {
+/**
+ * URL: http://localhost:3000/examples/api/get-more-data/part-of-page/1
+ */
+export default function Page({videoList, video}: PageProp) {
   const getApiHandler = useCallback<GetMoreDataApiHandler<PagingListType>>(async (page) => {
     const api = new PagingApi();
     const {data} = await api.getPaging(page, video.pk);
@@ -50,7 +53,7 @@ export default function Page({videos, video}: PageProp) {
         
       </LeftWrap>
       <RightWrap>
-        {videos.map(({pk, thumbnail}) => (
+        {videoList.map(({pk, thumbnail}) => (
           <Link key={pk} href={`/examples/api/get-more-data/part-of-page/${pk}`}>
             <a>
               <img src={thumbnail} alt="video thumbnail"/>
@@ -65,11 +68,11 @@ export default function Page({videos, video}: PageProp) {
 export const getServerSideProps: GetServerSideProps<PageProp, Param> = async ({params}) => {
   const {pk} = params as Param;
   const api = new VideoApi();
-  const [res1, res2] = await Promise.all([api.getOne(Number(pk)), api.getAll()]);
+  const [res1, res2] = await Promise.all([api.getOne(Number(pk)), api.getList()]);
   
   return {
     props: {
-      videos: res2.data.videos,
+      videoList: res2.data.list,
       video: res1.data.video
     }
   };

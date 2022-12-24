@@ -1,17 +1,19 @@
 import BaseApi from '@api/BaseApi';
 import type {AxiosResponse} from 'axios';
-import type {VideoResponse, VideosResponse} from '@type/response/video';
+import type {VideoResponse, VideoListResponse} from '@type/response/video';
 
 export default class VideoApi extends BaseApi {
   constructor() {
-    super('/video');
+    super(undefined, {
+      baseURL: "http://localhost:8000/video"
+    });
   }
   
   getOne(pk: number | string): Promise<AxiosResponse<VideoResponse>> {
-    return this.axios.get('/one', {params: {pk}});
+    return this.axios.get(`/${pk}`, {params: {pk}});
   }
   
-  getAll(): Promise<AxiosResponse<VideosResponse>> {
-    return this.axios.get('/all');
+  getList(): Promise<AxiosResponse<VideoListResponse>> {
+    return this.axios.get('/list');
   }
 }
