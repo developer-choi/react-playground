@@ -4,7 +4,6 @@ import type {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
 import {AuthError} from '@util/services/auth/AuthError';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import type {AxiosError} from 'axios';
-import ConnectError from '@util/services/handle-error/ConnectError';
 
 export interface HandleServerSideErrorOption {
   notifyRedirect?: NotifyRedirectProps['notifyRedirect'];
@@ -16,16 +15,6 @@ export function handleServerSideError<T = any>(error: any, option?: HandleServer
 
   } else if (error instanceof AuthError) {
     return handleAuthError(error);
-
-  } else if(error instanceof ConnectError) {
-    return {
-      props: {
-        notifyRedirect: {
-          destination: "/",
-          message: error.message
-        } as NotifyRedirectProps['notifyRedirect']
-      }
-    } as any;
 
   } else {
     const axiosError = haveAxiosResponse(error);

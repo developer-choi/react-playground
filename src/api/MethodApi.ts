@@ -4,14 +4,16 @@ import type {MethodGetSomeResponse, MethodPostSomeBody} from '@type/response/met
 
 export default class MethodApi extends BaseApi {
   constructor() {
-    super('/method');
+    super(undefined, {
+      baseURL: 'http://localhost:8000/method'
+    });
   }
 
   getSome(): Promise<AxiosResponse<MethodGetSomeResponse>> {
-    return this.axios.get('/get-some');
+    return this.axios.get('/some');
   }
 
   postSome(body: MethodPostSomeBody) {
-    return this.axios.post('/post-some', body);
+    return this.axios.post('/some', body);
   }
 }
