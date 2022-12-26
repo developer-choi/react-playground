@@ -1,15 +1,12 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {FormProvider, SubmitHandler, useForm} from 'react-hook-form';
 import styled from 'styled-components';
-import {useForceReRender} from '@util/custom-hooks/useForceReRender';
 import Button from '@component/atom/button/Button';
-import {resetObject} from '@util/extend/object';
 import {
-  categoryConverter,
-  categoryNamesToFilterResultList,
+  categoryPkListToFilterResultList,
   FilterRecord,
   FilterResult,
-  flatCategories,
+  flatDeepCategoryList,
   parseCategoryRecord,
   parseFilterResultList
 } from '@util/services/category-filter';
@@ -25,23 +22,13 @@ interface PageProp {
 }
 
 export default function Page({filterRecord, categoryList}: PageProp) {
-  const methods = useForm();
+  const methods = useForm<FilterFormData>({
+    defaultValues: DEFAULT_VALUE
+  });
   const [filterResultList, setFilterResultList] = useState<FilterResult[]>([]);
 
-  const deleteFilterResult = useCallback((pk: number) => {
-    setFilterResultList(prevState => prevState.filter(prev => prev.pk !== pk));
-  }, []);
-
-  const getAllFilterResultList = useCallback((data: any) => {
-    const selectedNames = Object.entries(data).reduce((a, b) => {
-      if (b[1] === true) {
-        return a.concat(b[0] as string);
-      } else {
-        return a;
-      }
-    }, [] as string[]);
-
-    const categoryFilterResultList = categoryNamesToFilterResultList(selectedNames, categoryList);
+  const getAllFilterResultList = useCallback((data: FilterFormData) => {
+    const categoryFilterResultList = categoryPkListToFilterResultList(data.categoryPkList, categoryList);
 
     return {
       category: categoryFilterResultList
@@ -50,64 +37,52 @@ export default function Page({filterRecord, categoryList}: PageProp) {
 
   const currentCheckedFilterList = getAllFilterResultList(methods.watch());
 
-  const onSubmit: SubmitHandler<any> = useCallback(data => {
+  const onSubmit: SubmitHandler<FilterFormData> = useCallback(data => {
     const {category} = getAllFilterResultList(data);
     setFilterResultList(category);
   }, [getAllFilterResultList]);
 
-  //최초렌더링할 때, 강제로 1번만 리렌더링을 하여 모든 데이터의 값에 undefined가 아닌 false가 들어가도록 했습니다.
-  const forceReRender = useForceReRender();
-
-  useEffect(() => {
-    forceReRender();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const reset = useCallback(() => {
-    const values = methods.getValues();
-    methods.reset(resetObject(values));
+    methods.reset(DEFAULT_VALUE);
   }, [methods]);
 
   const updateFilterResultToCategory = useCallback((filterResultList: FilterResult[]) => {
-    const checkedCategoryIds = filterResultList.map(({pk}) => pk);
+    const parentCategoryIds = filterResultList.filter(({type}) => type === 'category').map(({pk}) => pk);
+
+    //체크됬던 부모의 모든 자식의 자식을 얻기위한 과정
 
     //1. 체크됬던 부모들의 직계자식을 모아놓고,
-    const flatedCategories = flatCategories(categoryList);
-    const firstCheckedChildren = flatedCategories.filter(category => checkedCategoryIds.includes(category.pk)).map(({children}) => children ?? []).flat();
+    const directChildrenOfParent = flatDeepCategoryList(categoryList).filter(category => parentCategoryIds.includes(category.pk)).map(({children}) => children ?? []).flat();
 
     //2. 체크됬던 직계자식들의 자식의자식의자식들까지 모두 루프돌기위해 또 펼칩니다.
-    const allCheckedChildren = flatCategories(firstCheckedChildren);
+    const allChildrenOfCheckedParent = flatDeepCategoryList(directChildrenOfParent);
 
-    //필터를 적용할 떄는 부모 카테고리만 남기기 때문에, 먼저 부모 카테고리부터 다시 체크시킵니다.
-    checkedCategoryIds.map((pk => categoryConverter.pkToName(pk))).forEach(checkboxName => {
-      methods.setValue(checkboxName, true);
-    });
-
-    //부모가 체크됬으면 자식도 다시 다 체크시킵니다.
-    allCheckedChildren.map(({pk}) => categoryConverter.pkToName(pk)).forEach(checkboxName => {
-      methods.setValue(checkboxName, true);
-    });
+    const allCategoryIds = allChildrenOfCheckedParent.map(({pk}) => pk);
+    methods.setValue('categoryPkList', parentCategoryIds.concat(allCategoryIds).map(value => String(value)));
   }, [categoryList, methods]);
 
-  useEffect(() => {
-    reset();
+  const deleteFilterResult = useCallback((pk: number) => {
+    setFilterResultList(prevState => {
+      const nextState = prevState.filter(prev => prev.pk !== pk);
 
-    const {category: categoryFilterResultList} = parseFilterResultList(filterResultList);
+      const {category: categoryFilterResultList} = parseFilterResultList(nextState);
+      updateFilterResultToCategory(categoryFilterResultList);
 
-    updateFilterResultToCategory(categoryFilterResultList);
-  }, [categoryList, filterResultList, methods, reset, updateFilterResultToCategory]);
+      return nextState;
+    });
+  }, [updateFilterResultToCategory]);
+
+  console.log('watch', methods.watch());
 
   return (
     <FormProvider {...methods}>
-      {currentCheckedFilterList.category.length === 0 ? null : (
-        <div>
-          체크된 필터 목록:
-          <CheckedFilter>{currentCheckedFilterList.category.map(({pk, type}) => filterRecord[type][pk].name).join(', ')}</CheckedFilter>
-        </div>
-      )}
+      <div>
+        체크된 필터 목록:
+        <CheckedFilter>{currentCheckedFilterList.category.map(({pk, type}) => filterRecord[type][pk].name).join(', ')}</CheckedFilter>
+      </div>
       <Form onSubmit={methods.handleSubmit(onSubmit)}>
         {categoryList.map(category => (
-          <CategoryCheckbox key={category.name} category={category}/>
+          <CategoryCheckbox key={category.pk} category={category}/>
         ))}
         <Button type="button" className="gray" onClick={reset}>초기화</Button>
         <Button>제출</Button>
@@ -124,12 +99,16 @@ export default function Page({filterRecord, categoryList}: PageProp) {
   );
 }
 
+export interface FilterFormData {
+  categoryPkList: string[];
+}
+
 export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
   const api = new CategoryApi();
 
   try {
     const {data: {list: categoryList}} = await api.getList();
-    const categoryRecord = parseCategoryRecord(flatCategories(categoryList));
+    const categoryRecord = parseCategoryRecord(flatDeepCategoryList(categoryList));
 
     return {
       props: {
@@ -142,6 +121,10 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
   } catch (error) {
     return handleServerSideError(error);
   }
+};
+
+const DEFAULT_VALUE: FilterFormData = {
+  categoryPkList: []
 };
 
 const FilterResultWrap = styled.div`
@@ -158,6 +141,7 @@ const FilterResultButton = styled.button`
 
 const Form = styled.form`
   padding: 10px;
+  display: inline-block;
 `;
 
 const CheckedFilter = styled.span`
