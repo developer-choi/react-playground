@@ -5,33 +5,39 @@ import styled from 'styled-components';
 import type {Category} from '@type/response-sub/category-sub';
 import type {FilterFormData} from '@pages/examples/libraries/rhf/nested';
 import {flatDeepCategoryList} from '@util/services/category-filter';
+import type {FilterRecordResult} from '@util/custom-hooks/useFilterRecord';
 
 export interface CategoryCheckboxProp {
   category: Category;
   onChangeOfParent?: (event: ChangeEvent<HTMLInputElement>) => void;
+  appendCategoryRecord: FilterRecordResult['appendCategoryRecord'];
 }
 
-export default function CategoryCheckbox({category, onChangeOfParent}: CategoryCheckboxProp) {
+export default function CategoryCheckbox({category, onChangeOfParent, appendCategoryRecord}: CategoryCheckboxProp) {
   const {register, setValue, getValues} = useFormContext<FilterFormData>();
 
   const thisPk = String(category.pk);
+
   //this category의 모든 후손들 (자식, 자식의자식 포함)
-  const allChildrenPkList = flatDeepCategoryList(category.children).map(({pk}) => String(pk));
+  const allChildren = flatDeepCategoryList(category.children);
+  const allChildrenPkList = allChildren.map(({pk}) => String(pk));
 
   const onChangeNested = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    if (allChildrenPkList.length > 0) {
+    if (allChildren.length > 0) {
       const previousCategoryPkList = getValues('categoryPkList');
-      const allChilrenAreChecked = allChildrenPkList.every(childrenPk => previousCategoryPkList.includes(childrenPk));
+      const allChilrenAreChecked = allChildren.every(({pk}) => previousCategoryPkList.includes(String(pk)));
 
       if (allChilrenAreChecked) {
         setValue('categoryPkList', removeDuplicatedItems(previousCategoryPkList.concat(thisPk)));
+        appendCategoryRecord([category]);
+
       } else {
         setValue('categoryPkList', previousCategoryPkList.filter(previousPk => previousPk !== thisPk));
       }
     }
 
     onChangeOfParent?.(event);
-  }, [allChildrenPkList, getValues, onChangeOfParent, setValue, thisPk]);
+  }, [allChildren, appendCategoryRecord, category, getValues, onChangeOfParent, setValue, thisPk]);
 
   const {onChange: onChangeNative} = register('categoryPkList');
 
@@ -41,19 +47,20 @@ export default function CategoryCheckbox({category, onChangeOfParent}: CategoryC
 
     if (event.target.checked) {
       setValue('categoryPkList', removeDuplicatedItems(previousCategoryPkList.concat(allChildrenPkList)));
+      appendCategoryRecord(allChildren.concat(category));
     } else {
       setValue('categoryPkList', previousCategoryPkList.filter(previousPk => !allChildrenPkList.includes(previousPk)));
     }
 
     onChangeNested(event);
-  }, [allChildrenPkList, getValues, onChangeNative, onChangeNested, setValue]);
+  }, [allChildren, allChildrenPkList, appendCategoryRecord, category, getValues, onChangeNative, onChangeNested, setValue]);
 
   return (
     <CategoryWrap draggable={false}>
       <input type="checkbox" {...register('categoryPkList')} onChange={onChange} value={thisPk}/>
       {category.name}
       {category.children?.map(children => (
-        <CategoryCheckbox key={children.pk} category={children} onChangeOfParent={onChangeNested}/>
+        <CategoryCheckbox key={children.pk} category={children} onChangeOfParent={onChangeNested} appendCategoryRecord={appendCategoryRecord}/>
       ))}
     </CategoryWrap>
   );

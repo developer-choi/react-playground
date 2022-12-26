@@ -7,20 +7,6 @@ export interface FilterResult {
   type: FilterType;
 }
 
-export type CategoryRecord = Record<number, Category>;
-
-export interface FilterRecord {
-  category: CategoryRecord;
-}
-
-export function parseCategoryRecord(categoryList: Category[]): CategoryRecord {
-  return categoryList.reduce((a, b) => {
-    // eslint-disable-next-line no-param-reassign
-    a[b.pk] = b;
-    return a;
-  }, {} as CategoryRecord);
-}
-
 export function flatDeepCategoryList(categoryList: Category[]): Category[] {
   return categoryList.reduce((a, b) => {
     if (b.children) {

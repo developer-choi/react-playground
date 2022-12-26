@@ -4,10 +4,8 @@ import styled from 'styled-components';
 import Button from '@component/atom/button/Button';
 import {
   categoryPkListToFilterResultList,
-  FilterRecord,
   FilterResult,
   flatDeepCategoryList,
-  parseCategoryRecord,
   parseFilterResultList
 } from '@util/services/category-filter';
 import type {Category} from '@type/response-sub/category-sub';
@@ -15,16 +13,18 @@ import type {GetServerSideProps} from 'next';
 import CategoryApi from '@api/CategoryApi';
 import CategoryCheckbox from '@component/molecules/CategoryCheckbox';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
+import useFilterRecord from '@util/custom-hooks/useFilterRecord';
 
 interface PageProp {
   categoryList: Category[];
-  filterRecord: FilterRecord;
 }
 
-export default function Page({filterRecord, categoryList}: PageProp) {
+export default function Page({categoryList}: PageProp) {
   const methods = useForm<FilterFormData>({
     defaultValues: DEFAULT_VALUE
   });
+
+  const {filterRecord, appendCategoryRecord} = useFilterRecord();
   const [filterResultList, setFilterResultList] = useState<FilterResult[]>([]);
 
   const getAllFilterResultList = useCallback((data: FilterFormData) => {
@@ -72,7 +72,7 @@ export default function Page({filterRecord, categoryList}: PageProp) {
     });
   }, [updateFilterResultToCategory]);
 
-  console.log('watch', methods.watch());
+  console.log('watch', methods.watch(), filterRecord);
 
   return (
     <FormProvider {...methods}>
@@ -82,7 +82,7 @@ export default function Page({filterRecord, categoryList}: PageProp) {
       </div>
       <Form onSubmit={methods.handleSubmit(onSubmit)}>
         {categoryList.map(category => (
-          <CategoryCheckbox key={category.pk} category={category}/>
+          <CategoryCheckbox key={category.pk} category={category} appendCategoryRecord={appendCategoryRecord}/>
         ))}
         <Button type="button" className="gray" onClick={reset}>초기화</Button>
         <Button>제출</Button>
@@ -108,14 +108,10 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
 
   try {
     const {data: {list: categoryList}} = await api.getList();
-    const categoryRecord = parseCategoryRecord(flatDeepCategoryList(categoryList));
 
     return {
       props: {
         categoryList,
-        filterRecord: {
-          category: categoryRecord
-        }
       }
     };
   } catch (error) {
