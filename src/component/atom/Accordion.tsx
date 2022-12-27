@@ -9,19 +9,20 @@ export interface AccordionProp<T> {
   onChange: (collapsed: boolean) => void;
   collapsed: boolean;
   additionalProps?: T;
+  dependencyContent?: any;
 }
 
 /**
  * Limitations 중첩되게 못씀.
  */
-export default function Accordion<T>({children, onChange, collapsed, renderHeader: Header, renderContent: Content, additionalProps}: AccordionProp<T>) {
+export default function Accordion<T>({children, onChange, collapsed, renderHeader: Header, renderContent: Content, additionalProps, dependencyContent}: AccordionProp<T>) {
   const [scrollHeight, setScrollHeight] = useState(0);
   const contentRef = useRef<any>(null);
   const isFirstRendering = useIsFirstRender();
 
   useEffect(() => {
     setScrollHeight(contentRef.current?.scrollHeight as number);
-  }, []);
+  }, [dependencyContent]);
 
   const contentDefaultStyle = {
     overflow: 'hidden',
