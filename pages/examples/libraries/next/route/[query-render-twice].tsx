@@ -13,6 +13,8 @@ export default function BeRenderedTwoTimesPage() {
    *
    * Documentation: https://nextjs.org/docs/routing/dynamic-routes#caveats
    * Example: http://localhost:3000/examples/libraries/next/route/query-render-twice?key=value
+   *
+   * 그리고 dynamic page param도 처음에는 없음.
    */
   console.log('render', query);
 
