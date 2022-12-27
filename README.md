@@ -1,8 +1,14 @@
 # 소개
 <h3>Next, React를 자유롭게 공부하기위한 프로젝트 입니다.</h3>
+1. 특정 라이브러리 또는 프레임워크를 공부하기 위한 예제페이지가 있습니다.
+2. 특정 문제를 해결하기 위한 컴포넌트와 그 예제페이지가 있습니다.
 
-1. 특정 라이브러리 또는 프레임워크를 공부하기 위한 예제페이지가 있습니다. (/pages/examples/libraries 하위페이지)
-2. 특정 문제를 해결하기 위한 컴포넌트와 그 예제페이지가 있습니다. (/pages/examples/components 하위 페이지)
+# 실행방법
+1. 반드시 [로컬 API 서버](https://github.com/developer-choi/express-playground)를 먼저 실행한 다음 이 프로젝트를 실행해야합니다.
+2. Node.js 설치
+3. git bash 설치
+4. yarn install
+5. yarn dev
 
 # 주의사항
 1. 개인프로젝트 이기 때문에, 제 주장 100%로 구현이 되어있으며, 실무에서는 이렇게 하면 안됩니다.<br/>
