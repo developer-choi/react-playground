@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {useRouter} from 'next/router';
 import CourseApi from '@api/CourseApi';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
-import FilterButton from '@component/atom/FilterButton';
+import FilterButton from '@component/atom/forms/FilterButton';
 import type {Room, Topic} from '@type/response-sub/course-sub';
 import {useKeepQueryCourse} from '@util/services/course';
 

@@ -1,5 +1,5 @@
 import React, {createContext, memo, useCallback, useContext, useMemo, useState} from 'react';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import {useForceReRender} from '@util/custom-hooks/useForceReRender';
 
 interface ContextValue {

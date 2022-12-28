@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 
 export default function Page() {
   const {handleSubmit, register, watch, setValue} = useForm<Data>({

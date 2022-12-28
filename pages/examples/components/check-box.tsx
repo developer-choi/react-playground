@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
-import CheckBox, {CheckBoxLabelLeftProps, CheckBoxProps} from '@component/atom/CheckBox';
-import NaverCheckBoxSvg from '@component/atom/svgs/NaverCheckBoxSvg';
+import CheckBox, {CheckBoxLabelLeftProps, CheckBoxProps} from '@component/atom/forms/CheckBox';
+import NaverCheckBoxSvg from '@component/atom/forms/NaverCheckBoxSvg';
 import styled from 'styled-components';
 
 export default function CheckboxPage() {

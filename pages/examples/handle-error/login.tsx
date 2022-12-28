@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import {useRouter} from 'next/router';
 import {getAfterLoginSuccessUrl, getSSPForNotLoggedIn} from '@util/services/auth/auth';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
@@ -16,10 +16,10 @@ import ValidateError from '@util/services/handle-error/ValidateError';
 export default function LoginPage() {
   const {prefetch, replace, push} = useRouter();
   const dispatch = useAppDispatch();
-  
+
   const [email, setEmail] = useState('test-email@test.com');
   const emailRef = useRef<HTMLInputElement>(null);
-  
+
   const [password, setPassword] = useState('test-password');
   const passwordRef = useRef<HTMLInputElement>(null);
 

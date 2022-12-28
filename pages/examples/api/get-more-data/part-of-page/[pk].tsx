@@ -6,7 +6,7 @@ import VideoApi from '@api/VideoApi';
 import styled from 'styled-components';
 import Link from 'next/link';
 import {InfiniteScrollRow} from '@pages/examples/api/infinite-scroll';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import {GetMoreDataApiHandler, useGetMoreDataClientSide} from '@util/custom-hooks/get-more-data';
 import CourseApi from '@api/CourseApi';
 import type {Course} from '@type/response-sub/course-sub';
@@ -33,16 +33,16 @@ export default function Page({videoList, video}: PageProp) {
       total
     };
   }, []);
-  
+
   const {list, haveMoreData, setInitialData, setMoreData} = useGetMoreDataClientSide({
     getApiHandler
   });
-  
+
   useEffect(() => {
     setInitialData().then();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [video.pk]);
-  
+
   return (
     <Wrap>
       <LeftWrap>
@@ -51,7 +51,7 @@ export default function Page({videoList, video}: PageProp) {
           <InfiniteScrollRow key={pk}>{title}</InfiniteScrollRow>
         ))}
         {haveMoreData && <Button onClick={setMoreData}>더보기</Button>}
-        
+
       </LeftWrap>
       <RightWrap>
         {videoList.map(({pk, thumbnail}) => (
@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps<PageProp, Param> = async ({p
   const {pk} = params as Param;
   const api = new VideoApi();
   const [res1, res2] = await Promise.all([api.getOne(Number(pk)), api.getList()]);
-  
+
   return {
     props: {
       videoList: res2.data.list,

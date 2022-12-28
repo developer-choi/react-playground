@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import DragAndDrop from '@component/atom/DragAndDrop';
+import DragAndDrop from '@component/atom/forms/DragAndDrop';
 import {flexCenter} from '@util/services/style/css';
 import {getFileRule} from '@util/extend/file/file-validation';
 import {fileSizeToByte} from '@util/extend/file/file-size';

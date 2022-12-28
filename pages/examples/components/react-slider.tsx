@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {numberWithComma} from '@util/extend/number';
-import {CustomSlider, MinMaxRange} from '@component/atom/CustomSlider';
-import Button from '@component/atom/button/Button';
+import {CustomSlider, MinMaxRange} from '@component/atom/forms/CustomSlider';
+import Button from '@component/atom/element/Button';
 
 export default function Page() {
   const [settingRate, setSettingRate] = useState(INITIAL_RANGE);

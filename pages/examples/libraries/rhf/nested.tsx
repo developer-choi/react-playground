@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {FormProvider, SubmitHandler, useForm} from 'react-hook-form';
 import styled from 'styled-components';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import {
   categoryPkListToFilterResultList,
   FilterResult,

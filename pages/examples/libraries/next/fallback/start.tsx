@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import Link from 'next/link';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 
 export default function Page() {
   const [page, setPage] = useState(1);

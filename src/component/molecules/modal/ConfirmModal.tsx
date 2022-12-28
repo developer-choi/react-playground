@@ -1,7 +1,7 @@
 import React, {MouseEvent, useCallback, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import Modal, {ModalProp} from '@component/molecules/modal/Modal';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 
 export interface ConfirmModalProp extends Omit<ModalProp, 'children'> {
   title: string;
@@ -11,7 +11,7 @@ export interface ConfirmModalProp extends Omit<ModalProp, 'children'> {
 }
 
 export default function ConfirmModal({close, title, content, onCancel = close, onConfirm = close, visible, ...rest}: ConfirmModalProp) {
-  
+
   const _onCancel = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     if (!onCancel) {
       close();
@@ -19,7 +19,7 @@ export default function ConfirmModal({close, title, content, onCancel = close, o
       onCancel(event);
     }
   }, [onCancel, close]);
-  
+
   const _onConfirm = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     if (!onConfirm) {
       close();
@@ -27,15 +27,15 @@ export default function ConfirmModal({close, title, content, onCancel = close, o
       onConfirm(event);
     }
   }, [onConfirm, close]);
-  
+
   const confirmRef = useRef<HTMLButtonElement>(null);
-  
+
   useEffect(() => {
     if (visible) {
       confirmRef.current?.focus();
     }
   }, [visible]);
-  
+
   return (
       <Wrap close={close} visible={visible} {...rest}>
         <Title>{title}</Title>

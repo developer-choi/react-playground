@@ -1,6 +1,6 @@
 import React, {PropsWithChildren, useEffect, useState} from 'react';
-import RadioGroup from '@component/atom/RadioGroup';
-import RadioLabel from '@component/atom/RadioLabel';
+import RadioGroup from '@component/atom/forms/RadioGroup';
+import RadioLabel from '@component/atom/forms/RadioLabel';
 import useLogMount from '@util/custom-hooks/useLogMount';
 
 /**

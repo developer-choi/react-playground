@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import SomeLayout from '@component/layouts/SomeLayout';
 import {setHeaderActionCreator} from '@store/reducers/layout';
 import {useAppDispatch} from '@store/hooks';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 
 export default function Page() {
   const [number, setNumber] = useState(1);

@@ -1,6 +1,6 @@
 import React from 'react';
-import Collapsible, {CollapsibleContentProp, CollapsibleHeaderProp} from '@component/atom/Collapsible';
-import Button from '@component/atom/button/Button';
+import Collapsible, {CollapsibleContentProp, CollapsibleHeaderProp} from '@component/atom/forms/Collapsible';
+import Button from '@component/atom/element/Button';
 import styled from 'styled-components';
 
 export default function Page() {

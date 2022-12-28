@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import type {SubmitHandler, UseFormRegister} from 'react-hook-form';
 import {FieldPath, FieldValues, useForm} from 'react-hook-form';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 
 export default function Page() {
   const {register, setValue, handleSubmit} = useForm<Data>();

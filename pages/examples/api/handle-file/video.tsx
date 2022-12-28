@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import InputFile from '@component/extend/InputFile';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import styled from 'styled-components';
 import FileApi from '@api/FileApi';
 

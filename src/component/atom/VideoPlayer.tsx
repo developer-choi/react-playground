@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import videojs, {VideoJsPlayer, VideoJsPlayerOptions} from 'video.js';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import 'video.js/dist/video-js.css';
 import {isMatchKeyboardEvent, KeyboardEventSpecialKey} from '@util/extend/keyboard-event';
 
@@ -44,18 +44,18 @@ export function VideoPlayer({src, options}: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [player, setPlayer] = useState<VideoJsPlayer>();
   const [visibleUnMuteButton, setVisibleUnMuteButton] = useState(false);
-  
+
   useEffect(() => {
     if (!videoRef.current) {
       return;
     }
-    
+
     const {controls = true, autoplay, ...rest} = options ?? {};
     const instance = videojs(videoRef.current, {autoplay, controls, ...rest}, () => {
       instance.src(src);
-  
+
       (async () => {
-    
+
         /**
          * 크롬 자동재생 정책에 따라,
          * 자동재생이 실패할경우 mute를 true로 하여 항상 자동재생 자체는 성공할 수 있도록 구현.
@@ -79,21 +79,21 @@ export function VideoPlayer({src, options}: VideoPlayerProps) {
         }
       })().then();
     });
-  
+
     return () => {
       instance.dispose();
     };
   }, [src, options]);
-  
+
   const unmute = useCallback(() => {
     if (player) {
       setVisibleUnMuteButton(false);
       player.muted(false);
     }
   }, [player]);
-  
+
   useMappingShortcut(player);
-  
+
   return (
       <VideojsResetWrap>
         <div data-vjs-player>
@@ -139,9 +139,9 @@ function useMappingShortcut(player?: VideoJsPlayer, shortcuts = DEFAULT_SHORTCUT
     if (!player) {
       return;
     }
-    
+
     const handler = (event: KeyboardEvent) => {
-  
+
       if (isMatchKeyboardEvent(event, {key: ' '})) {
         if (player.paused()) {
           player.play();
@@ -150,16 +150,16 @@ function useMappingShortcut(player?: VideoJsPlayer, shortcuts = DEFAULT_SHORTCUT
         }
         return;
       }
-  
+
       shortcuts.forEach(({mapping, method}) => {
         if (isMatchKeyboardEvent(event, mapping)) {
           controlPlayer(player, method);
         }
       });
     };
-    
+
     window.addEventListener('keydown', handler)
-  
+
     return () => {
       window.removeEventListener('keydown', handler);
     };
@@ -182,13 +182,13 @@ function controlPlayer(player: VideoJsPlayer, method: keyof PlayerKeyboardMethod
       player.currentTime(currentTime <= 0 ? 0 : currentTime - SEEKING_UNIT);
       break;
     }
-    
+
     case 'volumeUp': {
       const volume = player.volume();
       player.volume(volume > 1 ? 1 : volume + VOLUME_UNIT);
       break;
     }
-    
+
     case 'volumeDown':
       const volume = player.volume();
       player.volume(volume <= 0 ? 0 : volume - VOLUME_UNIT);

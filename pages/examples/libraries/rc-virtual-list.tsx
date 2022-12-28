@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useRef, useState} from 'react';
 import styled from 'styled-components';
 import List, {ListRef} from 'rc-virtual-list';
 import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import type {GetServerSideProps} from 'next';
 import type {Brand} from '@type/response-sub/brand-sub';
 import {parseBrandList} from '@util/services/brand';

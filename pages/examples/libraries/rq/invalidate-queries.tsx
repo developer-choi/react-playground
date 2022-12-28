@@ -1,7 +1,7 @@
 import React from 'react';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import CourseApi from '@api/CourseApi';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 
 export default function Page() {
   const {data} = useQuery(['getTodo'], getApi);

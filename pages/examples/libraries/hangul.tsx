@@ -3,7 +3,7 @@ import type {GetServerSideProps} from 'next';
 import {useRouter} from 'next/router';
 import type {SubmitHandler} from 'react-hook-form';
 import {useForm} from 'react-hook-form';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import {disassemble} from 'hangul-js';
 
 interface PageProp {

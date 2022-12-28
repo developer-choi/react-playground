@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import type {GetServerSideProps} from 'next';
 import {InfiniteScrollRow} from '@pages/examples/api/infinite-scroll';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import type {GetMoreDataApiHandler} from '@util/custom-hooks/get-more-data';
 import {useGetMoreDataServerSide} from '@util/custom-hooks/get-more-data';
 import CourseApi from '@api/CourseApi';
@@ -20,7 +20,7 @@ export default function Page(props: CourseListResponse) {
       total
     };
   }, []);
-  
+
   const {list, setMoreData, haveMoreData} = useGetMoreDataServerSide({
     initialData: {
       list: props.list,
@@ -28,7 +28,7 @@ export default function Page(props: CourseListResponse) {
     },
     getApiHandler
   });
-  
+
   return (
     <>
       {list.map(({pk, title}) =>
@@ -42,7 +42,7 @@ export default function Page(props: CourseListResponse) {
 export const getServerSideProps: GetServerSideProps<CourseListResponse> = async () => {
   const api = new CourseApi();
   const {data: {total, list}} = await api.getList(1);
-  
+
   return {
     props: {
       list,

@@ -1,4 +1,4 @@
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import React from 'react';
 import type {SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
 import {useForm} from 'react-hook-form';

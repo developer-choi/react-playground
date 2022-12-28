@@ -1,12 +1,12 @@
 import React from 'react';
 import ClickAwayListener from '@component/atom/ClickAwayListener';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import useToggle from '@util/custom-hooks/useToggle';
 import styled from 'styled-components';
 
 export default function Page() {
   const {value: visible, setFalse: close, toggle} = useToggle(false);
-  
+
   return (
     <Wrap>
       <ClickAwayListener onClickAway={close}>

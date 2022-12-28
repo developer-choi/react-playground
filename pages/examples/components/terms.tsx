@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
-import CheckBox from '@component/atom/CheckBox';
+import CheckBox from '@component/atom/forms/CheckBox';
 import type {GetStaticProps} from 'next';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import Form from '@component/extend/Form';
 import styled from 'styled-components';
 import {useTerms} from '@util/custom-hooks/useTerms';
@@ -30,10 +30,10 @@ function LegacyTermsOfUse(props: PageProp) {
   const [terms, setTerms] = useState<(Term & { checked: boolean; })[]>(() => {
     return props.terms.map(term => ({...term, checked: false}));
   });
-  
+
   const allRequiredChecked = terms.every(({checked, required}) => !required || checked);
   const allChecked = terms.every(({checked}) => checked);
-  
+
   const onChangeChecked = useCallback((targetIndex: number, checked: boolean) => {
     setTerms(prevState => prevState.map((term, index) => {
       if (targetIndex === index) {
@@ -46,23 +46,23 @@ function LegacyTermsOfUse(props: PageProp) {
       }
     }));
   }, []);
-  
+
   const toggleAllAgree = useCallback(() => {
     setTerms(prevState => prevState.map(term => ({
       ...term,
       checked: !allChecked
     })));
   }, [allChecked]);
-  
+
   const onConfirm = useCallback(() => {
     if (!allRequiredChecked) {
       alert('필수 이용약관을 모두 동의해주세요.');
       return;
     }
-  
+
     alert('이용약관 체크 통과');
   }, [allRequiredChecked]);
-  
+
   return (
     <StyledForm>
       <CheckBox onChangeChecked={toggleAllAgree} checked={allChecked} label="전체동의"/>
@@ -76,16 +76,16 @@ function LegacyTermsOfUse(props: PageProp) {
 
 function NewTermsOfUse({terms}: PageProp) {
   const {allRequiredChecked, allChecked, toggleAllAgree, toggleAgree, isAgree} = useTerms(terms);
-  
+
   const onConfirm = useCallback(() => {
     if (!allRequiredChecked) {
       alert('필수 이용약관을 모두 동의해주세요.');
       return;
     }
-    
+
     alert('이용약관 체크 통과');
   }, [allRequiredChecked]);
-  
+
   return (
     <StyledForm>
       <CheckBox onChangeChecked={toggleAllAgree} checked={allChecked} label="전체동의"/>

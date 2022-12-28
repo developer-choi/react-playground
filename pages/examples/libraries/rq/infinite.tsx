@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {QueryKey, useInfiniteQuery} from '@tanstack/react-query';
 import type {QueryFunctionContext} from '@tanstack/query-core/build/lib/types';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 
 export default function Page() {
   const {

@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import TextArea from '@component/extend/TextArea';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import styled from 'styled-components';
 import MethodApi from '@api/MethodApi';
 import {useRouter} from 'next/router';

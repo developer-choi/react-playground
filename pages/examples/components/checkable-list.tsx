@@ -3,10 +3,10 @@ import type {GetServerSideProps} from 'next';
 import {range} from '@util/extend/number';
 import useCheckableList from '@util/custom-hooks/useCheckableList';
 import styled from 'styled-components';
-import CheckBox from '@component/atom/CheckBox';
+import CheckBox from '@component/atom/forms/CheckBox';
 import moment from 'moment';
 import {isMatchKeyboardEvent} from '@util/extend/keyboard-event';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import {toast} from 'react-toastify';
 
 interface PageProp {
@@ -24,27 +24,27 @@ export default function Page({mails}: PageProp) {
     if (!haveSomeChecked) {
       return;
     }
-    
+
     if (confirm('선택한 항목을 삭제하시겠습니꺼?')) {
       toast.info(selectedList.join(', ') + ' 메일이 삭제완료되었습니다.');
     }
   }, [selectedList, haveSomeChecked]);
-  
+
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
       if (isMatchKeyboardEvent(event, {key: 'a', specialKeys: ['ctrlKey']})) {
         toggleAllChecked();
         event.preventDefault();
       }
-  
+
       if (isMatchKeyboardEvent(event, {key: 'Delete'})) {
         deleteSomeMails();
         event.preventDefault();
       }
     };
-  
+
     window.addEventListener('keydown', handler);
-  
+
     return () => {
       window.removeEventListener('keydown', handler);
     };
@@ -111,17 +111,17 @@ export interface MailListItemProp {
 export const MailListItem = memo(function MailListItem({mail, checked, onChangeChecked, onMultipleChecked}: MailListItemProp) {
   const {timestamp, title} = mail;
   const [important, setImportant] = useState(mail.important);
-  
+
   const onChangeImportant = useCallback((checked: boolean) => {
     try {
       // Call a API and if result is success,
       setImportant(checked);
-      
+
     } catch (error) {
       handleError(error);
     }
   }, []);
-  
+
   return (
     <Row>
       <CheckBox onChangeChecked={onChangeChecked} checked={checked} onShiftChecked={onMultipleChecked}/>

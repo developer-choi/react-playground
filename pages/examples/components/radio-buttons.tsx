@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import Form from '@component/extend/Form';
-import RadioLabel from '@component/atom/RadioLabel';
-import RadioGroup from '@component/atom/RadioGroup';
+import RadioLabel from '@component/atom/forms/RadioLabel';
+import RadioGroup from '@component/atom/forms/RadioGroup';
 
 export default function RadioButtonsPage() {
   const [gender, setGender] = useState('man');

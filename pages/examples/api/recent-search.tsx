@@ -7,7 +7,7 @@ import {useForm} from 'react-hook-form';
 import useToggle from '@util/custom-hooks/useToggle';
 import {isStringInQueryThrowError} from '@util/extend/query-string';
 import {range} from '@util/extend/number';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import {useGetLoginUserPk} from '@util/services/auth/auth';
 import {useLocalStorageArrayManager} from '@util/custom-hooks/local-storage';
 import {myClassName} from '@util/libraries/classnames';
@@ -53,14 +53,14 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async ({query}) 
   try {
     const searchText = isStringInQueryThrowError(query.searchText);
     const {list} = await getApi(searchText);
-    
+
     return {
       props: {
         list,
         searchText
       }
     };
-    
+
   } catch (error) {
     return {
       props: {
@@ -126,7 +126,7 @@ async function getApi(searchText: string) {
       pk: value,
       title: `${searchText}-${value}`
     } as Board))
-  }; 
+  };
 }
 
 interface Board {
@@ -157,7 +157,7 @@ function RecentSearchList({visible, list, removeByPk}: RecentSearchListProp) {
             <button onClick={() => removeByPk(searchText)}>X</button>
           </li>
         ))}
-      </ul>  
+      </ul>
       }
     </RecentSearchListWrap>
   );

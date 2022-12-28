@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useForm, Resolver, SubmitHandler, RegisterOptions, SubmitErrorHandler} from 'react-hook-form';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import {numberWithComma} from '@util/extend/number';
 
 export default function Page() {

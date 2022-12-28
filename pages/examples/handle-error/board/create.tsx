@@ -6,7 +6,7 @@ import InputText from '@component/extend/InputText';
 import TextArea from '@component/extend/TextArea';
 import BoardApi from '@api/BoardApi';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
-import Button from '@component/atom/button/Button';
+import Button from '@component/atom/element/Button';
 import {useRouter} from 'next/router';
 
 export default function Page() {
