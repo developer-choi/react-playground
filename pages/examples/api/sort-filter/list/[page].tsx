@@ -16,9 +16,13 @@ export default function Page({listResponse}: CourseTableProp) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<CourseTableProp> = async ({query}) => {
+type ParamType = {
+  page: string;
+};
+
+export const getServerSideProps: GetServerSideProps<CourseTableProp, ParamType> = async ({params, query}) => {
   try {
-    const page = validateNumberInQueryThrowError(query.page);
+    const page = validateNumberInQueryThrowError(params?.page);
 
     //filter
     const topic = !query.topic ? undefined : validateNumberInQueryThrowError(query.topic);
@@ -39,7 +43,7 @@ export const getServerSideProps: GetServerSideProps<CourseTableProp> = async ({q
   } catch (error) {
     return handleServerSideError(error, {
       notifyRedirect: {
-        destination: '/examples/api/sort-filter/list?page=1'
+        destination: '/examples/api/sort-filter/list/1'
       }
     });
   }

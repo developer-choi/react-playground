@@ -1,17 +1,13 @@
 import React, {memo} from 'react';
-import {PaginationParam, useCorePagination, UsePaginationOption} from '@util/services/pagination/pagination-core';
-import {getShortPagination} from '@util/services/pagination/pagination-short';
-import Link from 'next/link';
-import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
+import type {MultiplePagesPaginationParam} from '@util/services/pagination/pagination-core';
+import {myClassName} from '@util/libraries/classnames';
+import Link from 'next/link';
+import {getBasicPagination} from '@util/services/pagination/pagination-basic';
 
-export interface ShortPaginationProp extends PaginationParam, Partial<UsePaginationOption> {
-
-}
-
-export default memo(function ShortPagination({pageToHref, ...params}: ShortPaginationProp) {
-  const newPagination = getShortPagination(params);
-  const {isExistPage, next, first, previous, totalPage, last} = useCorePagination(newPagination, params, {pageToHref});
+export default memo(function BasicPagination(props: MultiplePagesPaginationParam) {
+  const {currentPage} = props;
+  const {betweenLinkList, previous, isExistPage, next, last, first} = getBasicPagination(props);
 
   if (!isExistPage) {
     return null;
@@ -26,7 +22,11 @@ export default memo(function ShortPagination({pageToHref, ...params}: ShortPagin
         <a className={myClassName({disable: !previous.movable})}>{'<'}</a>
       </Link>
 
-      <span>{params.currentPage} / {totalPage}</span>
+      {betweenLinkList.map(({href, page}) => (
+        <Link key={page} href={href} shallow={currentPage === page}>
+          <a className={myClassName({active: currentPage === page})}>{page}</a>
+        </Link>
+      ))}
 
       <Link href={next.href} shallow={!last.movable}>
         <a className={myClassName({disable: !next.movable})}>{'>'}</a>
@@ -40,7 +40,6 @@ export default memo(function ShortPagination({pageToHref, ...params}: ShortPagin
 
 const Wrap = styled.div`
   display: flex;
-  align-items: center;
   
   > a {
     padding: 5px;

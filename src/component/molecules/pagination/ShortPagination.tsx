@@ -1,17 +1,13 @@
 import React, {memo} from 'react';
+import type {CorePaginationParam} from '@util/services/pagination/pagination-core';
+import {getShortPagination} from '@util/services/pagination/pagination-short';
 import Link from 'next/link';
 import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
-import type {PaginationParam, UsePaginationOption} from '@util/services/pagination/pagination-core';
-import {useNearPagination} from '@util/services/pagination/pagination-core';
 
-export interface NearPaginationProp extends PaginationParam, Partial<UsePaginationOption> {
-
-}
-
-export default memo(function NearPagination({pageToHref, ...params}: NearPaginationProp) {
-  const {currentPage} = params;
-  const {isExistPage, next, first, previous, pages, pageToHrefWithDefault, last} = useNearPagination(params, {pageToHref});
+export default memo(function ShortPagination(props: CorePaginationParam) {
+  const {currentPage} = props;
+  const {next, first, previous, totalPage, isExistPage, last} = getShortPagination(props);
 
   if (!isExistPage) {
     return null;
@@ -26,11 +22,7 @@ export default memo(function NearPagination({pageToHref, ...params}: NearPaginat
         <a className={myClassName({disable: !previous.movable})}>{'<'}</a>
       </Link>
 
-      {pages.map(page => (
-        <Link key={page} href={pageToHrefWithDefault(page)} shallow={currentPage === page}>
-          <a key={page} className={myClassName({active: currentPage === page})}>{page}</a>
-        </Link>
-      ))}
+      <span>{currentPage} / {totalPage}</span>
 
       <Link href={next.href} shallow={!last.movable}>
         <a className={myClassName({disable: !next.movable})}>{'>'}</a>

@@ -1,6 +1,12 @@
 import type {BasicPagination} from '@util/services/pagination/pagination-basic';
-import type {PaginationParam} from '@util/services/pagination/pagination-core';
-import {DEFAULT_CORE_PAGINATION, getMovablePageData, getTotalPage} from '@util/services/pagination/pagination-core';
+import type {MultiplePagesPaginationParam} from '@util/services/pagination/pagination-core';
+import {
+  DEFAULT_MOVE_BOTH_SIDE_PAGINATION,
+  DEFAULT_MULTIPLE_PAGINATION,
+  DEFAULT_MOVE_ONE_PAGINATION,
+  getTotalPage,
+  makePaginationLink
+} from '@util/services/pagination/pagination-core';
 import {range} from '@util/extend/number';
 
 //홀수
@@ -15,11 +21,12 @@ function getEvenNearStartPage({currentPage, pagePerView}: {currentPage: number, 
   return naturalHalf < currentPage ? currentPage - naturalHalf : 1;
 }
 
-export function getNearPagination({currentPage, total, config: {pagePerView, articlePerPage}}: PaginationParam): BasicPagination {
+export function getNearPagination({currentPage, total, config: {pagePerView, articlePerPage}, pageToHref}: MultiplePagesPaginationParam): BasicPagination {
   if (total <= 0) {
     return {
-      pages: [],
-      ...DEFAULT_CORE_PAGINATION
+      ...DEFAULT_MULTIPLE_PAGINATION,
+      ...DEFAULT_MOVE_BOTH_SIDE_PAGINATION,
+      ...DEFAULT_MOVE_ONE_PAGINATION
     };
   }
 
@@ -40,14 +47,15 @@ export function getNearPagination({currentPage, total, config: {pagePerView, art
   const endPage = tempEndPage > totalPage ? totalPage : tempEndPage;
 
   const pages = range(startPage, endPage);
+  const betweenLinkList = pages.map(page => ({page, href: pageToHref(page)}));
 
-  const next = getMovablePageData(currentPage < totalPage, currentPage + 1);
-  const previous = getMovablePageData(currentPage !== 1, currentPage - 1);
-  const first = getMovablePageData(currentPage > 1, 1);
-  const last = getMovablePageData(currentPage < totalPage, totalPage);
+  const next = makePaginationLink(currentPage < totalPage, currentPage + 1, pageToHref);
+  const previous = makePaginationLink(currentPage !== 1, currentPage - 1, pageToHref);
+  const first = makePaginationLink(currentPage > 1, 1, pageToHref);
+  const last = makePaginationLink(currentPage < totalPage, totalPage, pageToHref);
 
   return {
-    pages,
+    betweenLinkList,
     isExistPage,
     totalPage,
     first,

@@ -1,17 +1,13 @@
 import React, {memo} from 'react';
-import styled from 'styled-components';
-import type {PaginationParam, UsePaginationOption} from '@util/services/pagination/pagination-core';
-import {myClassName} from '@util/libraries/classnames';
-import {useBasicPagination} from '@util/services/pagination/pagination-basic';
 import Link from 'next/link';
+import {myClassName} from '@util/libraries/classnames';
+import styled from 'styled-components';
+import type {MultiplePagesPaginationParam} from '@util/services/pagination/pagination-core';
+import {getNearPagination} from '@util/services/pagination/pagination-near';
 
-export interface PaginationProp extends PaginationParam, Partial<UsePaginationOption> {
-
-}
-
-export default memo(function BasicPagination({pageToHref, ...params}: PaginationProp) {
-  const {currentPage} = params;
-  const {pages, pageToHrefWithDefault, next, first, previous, last, isExistPage} = useBasicPagination(params, {pageToHref});
+export default memo(function NearPagination(props: MultiplePagesPaginationParam) {
+  const {currentPage} = props;
+  const {isExistPage, previous, last, next, first, betweenLinkList} = getNearPagination(props);
 
   if (!isExistPage) {
     return null;
@@ -26,9 +22,9 @@ export default memo(function BasicPagination({pageToHref, ...params}: Pagination
         <a className={myClassName({disable: !previous.movable})}>{'<'}</a>
       </Link>
 
-      {pages.map(page => (
-        <Link key={page} href={pageToHrefWithDefault(page)} shallow={currentPage === page}>
-          <a key={page} className={myClassName({active: currentPage === page})}>{page}</a>
+      {betweenLinkList.map(({page, href}) => (
+        <Link key={page} href={href} shallow={currentPage === page}>
+          <a className={myClassName({active: currentPage === page})}>{page}</a>
         </Link>
       ))}
 
@@ -44,6 +40,7 @@ export default memo(function BasicPagination({pageToHref, ...params}: Pagination
 
 const Wrap = styled.div`
   display: flex;
+  align-items: center;
   
   > a {
     padding: 5px;

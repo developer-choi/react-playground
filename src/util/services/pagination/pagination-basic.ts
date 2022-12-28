@@ -1,16 +1,26 @@
 import {range} from '@util/extend/number';
-import type {CorePagination, PaginationParam, UseCorePagingResult, UsePaginationOption} from './pagination-core';
-import {DEFAULT_CORE_PAGINATION, getMovablePageData, getTotalPage, useCorePagination} from './pagination-core';
+import type {
+  MoveBothSidePagination,
+  MoveOnePagination,
+  MultiplePagesPagination,
+  MultiplePagesPaginationParam,
+} from './pagination-core';
+import {
+  DEFAULT_MOVE_BOTH_SIDE_PAGINATION,
+  DEFAULT_MULTIPLE_PAGINATION,
+  getTotalPage,
+  makePaginationLink,
+  DEFAULT_MOVE_ONE_PAGINATION
+} from './pagination-core';
 
-export interface BasicPagination extends CorePagination {
-  pages: number[];
-}
+export type BasicPagination = MultiplePagesPagination & MoveOnePagination & MoveBothSidePagination;
 
-export function getBasicPagination({currentPage, config: {pagePerView, articlePerPage}, total}: PaginationParam): BasicPagination {
+export function getBasicPagination({currentPage, config: {pagePerView, articlePerPage}, total, pageToHref}: MultiplePagesPaginationParam): BasicPagination {
   if (total <= 0) {
     return {
-      pages: [],
-      ...DEFAULT_CORE_PAGINATION
+      ...DEFAULT_MOVE_ONE_PAGINATION,
+      ...DEFAULT_MOVE_BOTH_SIDE_PAGINATION,
+      ...DEFAULT_MULTIPLE_PAGINATION
     };
   }
 
@@ -20,36 +30,25 @@ export function getBasicPagination({currentPage, config: {pagePerView, articlePe
   const endPage = tempEndPage > totalPage ? totalPage : tempEndPage;
 
   const pages = range(startPage, endPage);
+  const betweenLinkList = pages.map(page => ({page, href: pageToHref(page)}));
 
   const canFirst = currentPage > 1;
   const canLast = currentPage < totalPage;
   const canNext = endPage < totalPage;
   const canPrevious = startPage !== 1;
 
-  const next = getMovablePageData(canNext, startPage + pagePerView);
-  const previous = getMovablePageData(canPrevious, startPage - pagePerView);
-  const first = getMovablePageData(canFirst, 1);
-  const last = getMovablePageData(canLast, totalPage);
+  const next = makePaginationLink(canNext, startPage + pagePerView, pageToHref);
+  const previous = makePaginationLink(canPrevious, startPage - pagePerView, pageToHref);
+  const first = makePaginationLink(canFirst, 1, pageToHref);
+  const last = makePaginationLink(canLast, totalPage, pageToHref);
 
   return {
-    pages,
+    betweenLinkList,
     isExistPage,
     totalPage,
     first,
     previous,
     next,
     last
-  };
-}
-
-export type UseBasicPagingResult = UseCorePagingResult & Pick<BasicPagination, 'pages'>;
-
-export function useBasicPagination(param: PaginationParam, option?: Partial<UsePaginationOption>): UseBasicPagingResult {
-  const basicPagination = getBasicPagination(param);
-  const corePaginationResult = useCorePagination(basicPagination, param, option);
-
-  return {
-    pages: basicPagination.pages,
-    ...corePaginationResult
   };
 }

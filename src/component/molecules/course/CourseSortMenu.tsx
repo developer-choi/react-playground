@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import type {CourseOrderby} from '@type/response-sub/course-sub';
 import type {Direction, Sort} from '@util/custom-hooks/useSort';
 import SortButton from '@component/atom/button/SortButton';
-import {useKeepQuery} from '@util/extend/router';
+import {useKeepQueryCourse} from '@util/services/course';
 
 export interface CourseSortMenuProp {
 
@@ -11,7 +11,7 @@ export interface CourseSortMenuProp {
 
 export default function CourseSortMenu({}: CourseSortMenuProp) {
   const {query} = useRouter();
-  const {pushKeepQuery} = useKeepQuery();
+  const {pushFilterOrSort} = useKeepQueryCourse();
 
   const currentSort: Sort<CourseOrderby> | undefined = (!query.orderby || !query.direction) ? undefined : {
     orderby: query.orderby as  CourseOrderby,
@@ -19,11 +19,11 @@ export default function CourseSortMenu({}: CourseSortMenuProp) {
   };
 
   const onSort = useCallback((sort?: Sort<CourseOrderby>) => {
-    pushKeepQuery({
+    pushFilterOrSort({
       orderby: sort?.orderby,
       direction: sort?.direction
     });
-  }, [pushKeepQuery]);
+  }, [pushFilterOrSort]);
 
   return (
     <>
