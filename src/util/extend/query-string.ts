@@ -2,34 +2,42 @@ import type {ParsedUrlQuery} from 'querystring';
 import {ParsedUrlQueryInput, stringify} from 'querystring';
 import {range} from '@util/extend/number';
 import ValidateError from '@util/services/handle-error/ValidateError';
-import type {Sort} from '@util/custom-hooks/useSort';
-import {DIRECTIONS} from '@util/custom-hooks/useSort';
 
 export type QueryValue = ParsedUrlQuery['any-key'];
 
-/**
- * @example undefined => throw ValidateError
- * @example (['a', 'b', 'c']) => throw ValidateError
- * @example ('') => throw ValidateError
- * @example ('abc', ['apple', 'banana']) => throw ValidateError
- *
- * @example ('abc') => 'abc'
- * @example ('apple', ['apple', 'banana']) => 'apple'
- */
-export function validateStringInQueryThrowError<T extends string = string>(queryValue: QueryValue, conditions: T[] = []): T {
-  if (!queryValue || Array.isArray(queryValue)) {
-    throw new ValidateError('queryValue is not valid string');
+export function validateString(queryValue: QueryValue, required: boolean): string | undefined {
+  if (Array.isArray(queryValue)) {
+    throw new ValidateError('The queryValue is not valid string');
   }
+
+  if (required && !queryValue) {
+    throw new ValidateError('The queryValue is not exist');
+  }
+
+  return queryValue as string | undefined;
+}
+
+/**
+ * @return
+ * required === true ? T
+ * required === false ? T | undefined
+ */
+export function validateStringIncludes<T extends string = string>(queryValue: QueryValue, conditions: T[], required: boolean): T | undefined {
+  if (!required && !queryValue) {
+    return undefined;
+  }
+
+  const value = validateString(queryValue, required);
 
   if (conditions.length === 0) {
-    return queryValue as T;
+    throw new ValidateError('The conditions is required.');
   }
 
-  if (!conditions.includes(queryValue as any)) {
-    throw new ValidateError('queryValue is not in the conditions');
+  if (!conditions.includes(value as any)) {
+    throw new ValidateError('The queryValue is not in the conditions');
   }
 
-  return queryValue as T;
+  return queryValue as T | undefined;
 }
 
 export function isStringInQueryThrowError(queryValue: QueryValue) {
@@ -71,32 +79,6 @@ export function validateNumberInQueryThrowError(queryValue: QueryValue): number 
   }
 
   return Number(queryValue);
-}
-
-/**
- * @return 정렬순서(order), 정렬기준(value)가 둘 다 존재하면 매개변수를 그대로 반환 Sort<T> (= 사용자가 정렬을 하려고 요청한 경우)
- * @return 정렬순서(order), 정렬기준(value)가 둘 다 존재하지 않으면 undefined를 반환 (= 사용자가 정렬을 하지 않으려고 요청한 경우)
- * @exception ValidateError 정렬순서(order), 정렬기준(value) 둘중 하나만 undefined인 경우 (= 정렬을 하려고하는지 안하려고하는지 알 수 없는 경우)
- */
-export function validSortInQuery<T extends string>({orderbys, orderby, direction}: {orderby: QueryValue, direction: QueryValue, orderbys: T[]}): Partial<Sort<T>> {
-  const _orderby = !orderby ? undefined : validateStringInQueryThrowError(orderby, orderbys);
-  const _direction = !direction ? undefined : validateStringInQueryThrowError(direction, DIRECTIONS);
-
-  if (direction === undefined && orderby === undefined) {
-    return {
-      orderby: undefined,
-      direction: undefined
-    };
-  }
-
-  if (direction !== undefined && orderby !== undefined) {
-    return {
-      orderby: _orderby,
-      direction: _direction
-    };
-  }
-
-  throw new ValidateError('value, order 둘중 하나만 undefined 입니다.');
 }
 
 const REMOVE_VALUE_ARRAY = [undefined, null, '', Number.NaN];

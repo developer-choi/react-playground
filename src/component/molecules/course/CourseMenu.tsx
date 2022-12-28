@@ -16,8 +16,7 @@ export default function CourseMenu({}: CourseMenuProp) {
     pushFilterOrSort({
       topic: undefined,
       room: undefined,
-      orderby: undefined,
-      direction: undefined
+      sort: undefined
     });
   }, [pushFilterOrSort]);
 

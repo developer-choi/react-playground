@@ -23,4 +23,4 @@ export interface Room {
   name: string;
 }
 
-export type CourseOrderby = 'room' | 'startTimestamp';
+export type CourseSortType = 'room-asc' | 'room-desc' | 'start-asc' | 'start-desc';
