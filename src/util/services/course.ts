@@ -31,7 +31,7 @@ export function useKeepQueryCourse() {
   const {pushKeepQuery} = useKeepQuery();
 
   const pushFilterOrSort = useCallback((query: Partial<CourseUrlQuery>) => {
-    return pushKeepQuery(query, '/examples/api/sort-filter/list/1', ['page']);
+    return pushKeepQuery(query, '/feature/sort-filter/list/1', ['page']);
   }, [pushKeepQuery]);
 
   return {

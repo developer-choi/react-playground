@@ -41,7 +41,7 @@ const Anchor = styled.a`
   padding: 10px;
 `;
 
-const upperPath = '/examples/layout/';
+const upperPath = '/layout/';
 
 const LINKS: {name: string, href: string}[] = [
   {name: 'layout1', href: upperPath + 1},

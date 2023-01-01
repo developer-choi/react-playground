@@ -3,7 +3,7 @@ import {removeDuplicatedItems} from '@util/extend/array';
 import React, {ChangeEvent, useCallback} from 'react';
 import styled from 'styled-components';
 import type {Category} from '@type/response-sub/category-sub';
-import type {FilterFormData} from '@pages/examples/libraries/rhf/nested';
+import type {FilterFormData} from '@pages/libraries/rhf/nested';
 import {flatDeepCategoryList} from '@util/services/category-filter';
 import type {FilterRecordResult} from '@util/custom-hooks/useFilterRecord';
 

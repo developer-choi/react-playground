@@ -19,7 +19,7 @@ export default function CourseTable({listResponse}: CourseTableProp) {
 
   const pageToHref = useCallback((page: number) => {
     return {
-      pathname: `/examples/api/sort-filter/list/${page}`,
+      pathname: `/feature/sort-filter/list/${page}`,
       query: restQuery
     };
   }, [restQuery]);

@@ -163,7 +163,7 @@ export const getSSPForLoggedIn: GetServerSideProps<{}> = async context => {
 const LOGIN_REDIRECT_KEY_NAME = 'redirectUrl';
 
 function getLoginRedirectUrl(redirectPath: string): string {
-  return `/examples/handle-error/login?${LOGIN_REDIRECT_KEY_NAME}=${redirectPath}`;
+  return `/handle-error/login?${LOGIN_REDIRECT_KEY_NAME}=${redirectPath}`;
 }
 
 function getLoginRedirectUrlServerSide(context: GetServerSidePropsContext) {
