@@ -1,14 +1,14 @@
-import React from "react";
-import type {GetServerSideProps} from "next";
+import React from 'react';
+import type {GetServerSideProps} from 'next';
 
 interface PageProp {
-  count: number
+  pk: number;
 }
 
-const Page = ({count}: PageProp) => {
+const Page = ({pk}: PageProp) => {
   return (
     <div>
-      count = {count}
+      pk = {pk}
     </div>
   );
 };
@@ -16,7 +16,7 @@ const Page = ({count}: PageProp) => {
 export const getServerSideProps: GetServerSideProps = async ({query}) => {
   return {
     props: {
-      count: query.count
+      pk: query.pk
     }
   };
 };

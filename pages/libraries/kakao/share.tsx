@@ -6,7 +6,7 @@ import type {ScriptProps} from 'next/dist/client/script';
 import env from '@util/env';
 
 export default function Page() {
-  const {increase, count} = useCounter();
+  const {increase, count} = useCounter({initial: 1});
   const {scriptProps, shareButtonId, initialized} = useKakaoShare({
     shareButtonId: 'kakaotalk-sharing-btn',
     product: {
@@ -15,7 +15,7 @@ export default function Page() {
       regularPrice: 2855105,
       discountRate: 18,
       discountPrice: 2360600,
-      link: `/libraries/kakao/share-target?count=${count}`
+      pk: count
     }
   });
 
@@ -36,7 +36,7 @@ export interface KakaoShareParam {
     regularPrice: number;
     discountRate: number;
     discountPrice: number;
-    link: string;
+    pk: number;
   };
 }
 
@@ -70,14 +70,14 @@ function useKakaoShare({shareButtonId, product}: KakaoShareParam): KakaoShareRes
     onLoad
   }), [onLoad]);
 
-  const {regularPrice, discountPrice, discountRate, thumbnail, link, title} = product;
+  const {regularPrice, discountPrice, discountRate, thumbnail, pk, title} = product;
 
   useEffect(() => {
     if (!initialized || !window.Kakao) {
       return;
     }
 
-    const resultUrl = env.public.origin + link;
+    const resultUrl = env.public.origin + `/libraries/kakao/share-target?pk=${pk}`;
 
     window.Kakao.Share.createDefaultButton({
       container: `#${shareButtonId}`,
@@ -106,7 +106,7 @@ function useKakaoShare({shareButtonId, product}: KakaoShareParam): KakaoShareRes
         }
       ]
     });
-  }, [initialized, shareButtonId, regularPrice, discountPrice, discountRate, thumbnail, link, title]);
+  }, [initialized, shareButtonId, regularPrice, discountPrice, discountRate, thumbnail, title, pk]);
 
   return {
     scriptProps,
