@@ -47,7 +47,7 @@ const Page = () => {
         {
           title: "구매하기",
           link: {
-            webUrl: "https://atny.com/goods/view?no=1864435"
+            webUrl: "https://react-playground-eosin.vercel.app/libraries/kakao/share-target"
           }
         }
       ]
