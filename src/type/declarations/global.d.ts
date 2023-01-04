@@ -1,4 +1,4 @@
-import type {Kakao} from '@type/etc/kakao';
+import type {Kakao} from '@type/declarations/kakao';
 
 export {};
 
