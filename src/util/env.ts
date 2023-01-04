@@ -6,7 +6,8 @@ const env = {
   public: {
     origin: process.env.NEXT_PUBLIC_ORIGIN as string,
     pub: process.env.NEXT_PUBLIC_PUBLIC as string,
-    api: process.env.NEXT_PUBLIC_API
+    api: process.env.NEXT_PUBLIC_API,
+    kakaoJavascriptKey: process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
   }
 };
 

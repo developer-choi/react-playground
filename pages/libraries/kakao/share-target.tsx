@@ -1,11 +1,24 @@
 import React from "react";
+import type {GetServerSideProps} from "next";
 
-const Page = () => {
+interface PageProp {
+  count: number
+}
+
+const Page = ({count}: PageProp) => {
   return (
     <div>
-      실제로 공유되는 페이지
+      count = {count}
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({query}) => {
+  return {
+    props: {
+      count: query.count
+    }
+  };
 };
 
 export default Page;
