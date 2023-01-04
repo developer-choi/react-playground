@@ -3,6 +3,10 @@ import Img from '@component/atom/element/Img';
 
 export default function Page() {
   return (
-    <Img src="https://hello.world.com/404.png" errorSrc="/images/picture.png"/>
+    <>
+      <Img src="https://hello.world.com/404.png" behaviorWhenError="show-default-img"/>
+      <Img src="https://hello.world.com/404.png" behaviorWhenError="hidden"/>
+      <Img src="https://hello.world.com/404.png"/>
+    </>
   );
 }
