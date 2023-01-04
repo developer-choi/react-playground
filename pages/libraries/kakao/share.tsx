@@ -47,7 +47,10 @@ const Page = () => {
         {
           title: "구매하기",
           link: {
-            webUrl: "https://react-playground-eosin.vercel.app/libraries/kakao/share-target"
+            webUrl: "https://react-playground-eosin.vercel.app/libraries/kakao/share-target",
+            mobileWebUrl: "https://react-playground-eosin.vercel.app/libraries/kakao/share-target",
+            androidExecutionParams: "https://react-playground-eosin.vercel.app/libraries/kakao/share-target",
+            iosExecutionParams: "https://react-playground-eosin.vercel.app/libraries/kakao/share-target"
           }
         }
       ]
