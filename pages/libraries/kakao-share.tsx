@@ -30,34 +30,24 @@ const Page = () => {
       container: "#kakaotalk-sharing-btn",
       objectType: "commerce",
       content: {
-        title: "언제 어디든, 더 쉽고 편하게 당신의 일상을 더 즐겁게, 헤이 라이언의 이야기를 들려드릴게요.",
+        title: "[발렌시아가]여성지갑 - ATNY",
         imageUrl:
-          "http://k.kakaocdn.net/dn/dScJiJ/btqB3cwK1Hi/pv5qHVwetz5RZfPZR3C5K1/kakaolink40_original.png",
+          "https://img.atny.com/data/goods/ATNY/99/2019399/014_0d623e4c-ff68-4b02-b923-ef14df91f449_view.JPG",
         link: {
           // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-          mobileWebUrl: "https://react-playground-eosin.vercel.app",
           webUrl: "https://react-playground-eosin.vercel.app"
         }
       },
       commerce: {
-        productName: "카카오미니",
-        regularPrice: 100000,
-        discountRate: 10,
-        discountPrice: 90000
+        regularPrice: 2855105,
+        discountRate: 18,
+        discountPrice: 2360600
       },
       buttons: [
         {
           title: "구매하기",
           link: {
-            mobileWebUrl: "https://developers.kakao.com",
-            webUrl: "https://developers.kakao.com"
-          }
-        },
-        {
-          title: "공유하기",
-          link: {
-            mobileWebUrl: "https://developers.kakao.com",
-            webUrl: "https://developers.kakao.com"
+            webUrl: "https://atny.com/goods/view?no=1864435"
           }
         }
       ]
