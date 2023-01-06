@@ -7,7 +7,7 @@ import {
   getTotalPage,
   makePaginationLink
 } from '@util/services/pagination/pagination-core';
-import {range} from '@util/extend/number';
+import {range} from '@util/extend/data-type/number';
 
 //홀수
 function getOddNearStartPage({currentPage, pagePerView}: {currentPage: number, pagePerView: number}) {

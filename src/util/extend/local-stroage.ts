@@ -1,5 +1,5 @@
-import type {PkType} from '@util/extend/array';
-import {removeDuplicatedObject} from '@util/extend/array';
+import type {PkType} from '@util/extend/data-type/array';
+import {removeDuplicatedObject} from '@util/extend/data-type/array';
 
 /**
  * @description 로컬스토리지에 Object를 쉽고 안전하게 읽고 쓰기위해 만들었습니다.

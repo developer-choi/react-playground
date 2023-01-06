@@ -5,7 +5,7 @@ import {
   LocalStorageArrayManager,
   LocalStorageObjectManager,
 } from '@util/extend/local-stroage';
-import type {PkType} from '@util/extend/array';
+import type {PkType} from '@util/extend/data-type/array';
 
 export interface UseLocalStorageObjectManagerOption<V extends Object> {
   enabled?: boolean;

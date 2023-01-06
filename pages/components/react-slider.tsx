@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {numberWithComma} from '@util/extend/number';
+import {numberWithComma} from '@util/extend/data-type/number';
 import {CustomSlider, MinMaxRange} from '@component/atom/forms/CustomSlider';
 import Button from '@component/atom/element/Button';
 

@@ -1,5 +1,5 @@
 import {useFormContext} from 'react-hook-form';
-import {removeDuplicatedItems} from '@util/extend/array';
+import {removeDuplicatedItems} from '@util/extend/data-type/array';
 import React, {ChangeEvent, useCallback} from 'react';
 import styled from 'styled-components';
 import type {Category} from '@type/response-sub/category-sub';

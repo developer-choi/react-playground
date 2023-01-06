@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import type {GetServerSideProps} from 'next';
-import {numberWithComma} from '@util/extend/number';
+import {numberWithComma} from '@util/extend/data-type/number';
 import styled from 'styled-components';
 import produce from 'immer';
 import {randomNumber} from '@util/extend/random';

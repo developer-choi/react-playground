@@ -1,4 +1,4 @@
-import {range} from '@util/extend/number';
+import {range} from '@util/extend/data-type/number';
 import type {
   MoveBothSidePagination,
   MoveOnePagination,

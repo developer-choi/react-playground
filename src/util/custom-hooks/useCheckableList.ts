@@ -1,6 +1,6 @@
 import {useCallback, useRef, useState} from 'react';
-import {removeDuplicatedItems, replace} from '@util/extend/array';
-import {sortNumbersInAscending} from '@util/extend/number';
+import {removeDuplicatedItems, replace} from '@util/extend/data-type/array';
+import {sortNumbersInAscending} from '@util/extend/data-type/number';
 import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
 
 type PkType = number;

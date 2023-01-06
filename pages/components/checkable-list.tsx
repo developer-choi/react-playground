@@ -1,6 +1,6 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import type {GetServerSideProps} from 'next';
-import {range} from '@util/extend/number';
+import {range} from '@util/extend/data-type/number';
 import useCheckableList from '@util/custom-hooks/useCheckableList';
 import styled from 'styled-components';
 import CheckBox from '@component/atom/forms/CheckBox';

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import InputText from '@component/extend/InputText';
 import {useKeyDown} from '@util/custom-hooks/useKeyDown';
 import type {MatchKeyboardEvent} from '@util/extend/keyboard-event';
-import {EMPTY_ARRAY} from '@util/extend/array';
+import {EMPTY_ARRAY} from '@util/extend/data-type/array';
 import {isVideoInFullscreen} from '@util/extend/document';
 import type {GetStaticProps} from 'next';
 import VideoApi from '@api/VideoApi';

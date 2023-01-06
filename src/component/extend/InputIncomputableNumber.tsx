@@ -1,6 +1,6 @@
 import React, {forwardRef, Ref, useCallback} from 'react';
 import InputText, {InputTextProp} from '@component/extend/InputText';
-import {parseString} from '@util/extend/string';
+import {parseString} from '@util/extend/data-type/string';
 
 export interface InputIncomputableNumberProp extends Omit<InputTextProp, 'type' | 'preventEventKeys'> {
   enableMask?: boolean;

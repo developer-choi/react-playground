@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRouter} from 'next/router';
-import {booleanToString} from '@util/extend/string';
+import {booleanToString} from '@util/extend/data-type/string';
 
 /**
  * Whether the router fields are updated client-side and ready for use.

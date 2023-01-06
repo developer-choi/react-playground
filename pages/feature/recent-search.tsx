@@ -6,7 +6,7 @@ import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hoo
 import {useForm} from 'react-hook-form';
 import useToggle from '@util/custom-hooks/useToggle';
 import {isStringInQueryThrowError} from '@util/extend/query-string';
-import {range} from '@util/extend/number';
+import {range} from '@util/extend/data-type/number';
 import Button from '@component/atom/element/Button';
 import {useGetLoginUserPk} from '@util/services/auth/auth';
 import {useLocalStorageArrayManager} from '@util/custom-hooks/local-storage';

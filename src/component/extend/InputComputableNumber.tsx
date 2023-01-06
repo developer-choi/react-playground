@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo, ClipboardEvent, forwardRef, Ref} from 'react';
 import InputText, {InputTextProp} from '@component/extend/InputText';
-import {numberWithComma} from '@util/extend/number';
-import {count} from '@util/extend/string';
+import {numberWithComma} from '@util/extend/data-type/number';
+import {count} from '@util/extend/data-type/string';
 
 export interface InputComputableNumberOption {
   maxIntegerLength?: number;

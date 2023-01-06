@@ -1,5 +1,5 @@
 import {useCallback, useState} from 'react';
-import {replace} from '@util/extend/array';
+import {replace} from '@util/extend/data-type/array';
 
 interface CoreTerm {
   pk: number;
