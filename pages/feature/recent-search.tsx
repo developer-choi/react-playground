@@ -5,14 +5,14 @@ import {useRouter} from 'next/router';
 import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
 import {useForm} from 'react-hook-form';
 import useToggle from '@util/custom-hooks/useToggle';
-import {isStringInQueryThrowError} from '@util/extend/query-string';
+import {isStringInQueryThrowError} from '@util/extend/browser/query-string';
 import {range} from '@util/extend/data-type/number';
 import Button from '@component/atom/element/Button';
 import {useGetLoginUserPk} from '@util/services/auth/auth';
 import {useLocalStorageArrayManager} from '@util/custom-hooks/local-storage';
 import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
-import {stopPropagation} from '@util/extend/event';
+import {stopPropagation} from '@util/extend/browser/event';
 
 interface PageProp {
   searchText: string;

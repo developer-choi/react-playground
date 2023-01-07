@@ -2,7 +2,7 @@ import React, {ComponentPropsWithoutRef, DragEvent, useCallback, useState} from 
 import {myClassName} from '@util/libraries/classnames';
 import InputFile, {InputFileProp} from '@component/extend/InputFile';
 import styled from 'styled-components';
-import {preventDefault} from '@util/extend/event';
+import {preventDefault} from '@util/extend/browser/event';
 
 export interface DragAndDropProps extends ComponentPropsWithoutRef<'label'>, Pick<InputFileProp, 'onChangeFiles' | 'onChangeFile' | 'accept'> {
   enableFileExplorer?: boolean;

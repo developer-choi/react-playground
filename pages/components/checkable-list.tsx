@@ -5,7 +5,7 @@ import useCheckableList from '@util/custom-hooks/useCheckableList';
 import styled from 'styled-components';
 import CheckBox from '@component/atom/forms/CheckBox';
 import moment from 'moment';
-import {isMatchKeyboardEvent} from '@util/extend/keyboard-event';
+import {isMatchKeyboardEvent} from '@util/extend/browser/keyboard-event';
 import Button from '@component/atom/element/Button';
 import {toast} from 'react-toastify';
 

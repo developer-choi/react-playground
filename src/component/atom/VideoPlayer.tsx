@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import videojs, {VideoJsPlayer, VideoJsPlayerOptions} from 'video.js';
 import Button from '@component/atom/element/Button';
 import 'video.js/dist/video-js.css';
-import {isMatchKeyboardEvent, KeyboardEventSpecialKey} from '@util/extend/keyboard-event';
+import {isMatchKeyboardEvent, KeyboardEventSpecialKey} from '@util/extend/browser/keyboard-event';
 
 export interface VideoPlayerProps extends VideoJsPlayerOptions {
   src: string;

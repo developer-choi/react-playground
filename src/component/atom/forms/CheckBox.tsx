@@ -1,7 +1,7 @@
 import React, {ChangeEvent, ComponentPropsWithoutRef, ComponentType, MouseEvent, useCallback} from 'react';
 import styled from 'styled-components';
 import {myClassName} from '@util/libraries/classnames';
-import {isMatchSpecialKey} from '@util/extend/keyboard-event';
+import {isMatchSpecialKey} from '@util/extend/browser/keyboard-event';
 
 export interface CheckBoxLabelLeftProps {
   checked: boolean;

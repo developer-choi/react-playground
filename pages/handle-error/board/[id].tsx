@@ -1,6 +1,6 @@
 import type {GetServerSideProps} from 'next';
 import type {Board} from '@type/response-sub/board-sub';
-import {validateNumberInQueryThrowError} from '@util/extend/query-string';
+import {validateNumberInQueryThrowError} from '@util/extend/browser/query-string';
 import BoardApi from '@api/BoardApi';
 import {haveAxiosResponse} from '@api/BaseApi';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';

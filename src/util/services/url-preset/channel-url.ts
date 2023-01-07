@@ -1,4 +1,4 @@
-import {urlStringify} from '@util/extend/query-string';
+import {urlStringify} from '@util/extend/browser/query-string';
 
 const CHANNEL_URLS = {
   id: {

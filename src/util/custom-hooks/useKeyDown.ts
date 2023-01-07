@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {isMatchKeyboardEvent, isSomeKeyEnteredInWindow, MatchKeyboardEvent} from '@util/extend/keyboard-event';
+import {isMatchKeyboardEvent, isSomeKeyEnteredInWindow, MatchKeyboardEvent} from '@util/extend/browser/keyboard-event';
 
 export function useKeyDown(matchKeyboardEvent: MatchKeyboardEvent, callback: (event: KeyboardEvent) => void) {
   useEffect(() => {

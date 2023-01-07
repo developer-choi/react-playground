@@ -8,7 +8,7 @@ import React, {
   useCallback
 } from 'react';
 import {toast} from 'react-toastify';
-import {preventDefault} from '@util/extend/event';
+import {preventDefault} from '@util/extend/browser/event';
 
 export interface InputTextProp extends ComponentPropsWithoutRef<'input'> {
   onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;

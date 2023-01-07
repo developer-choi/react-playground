@@ -1,7 +1,7 @@
 import React from 'react';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import type {GetServerSideProps} from 'next';
-import {validateNumberInQueryThrowError, validateStringIncludes} from '@util/extend/query-string';
+import {validateNumberInQueryThrowError, validateStringIncludes} from '@util/extend/browser/query-string';
 import {COURSE_SORT_TYPES} from '@util/services/course';
 import CourseTable, {CourseTableProp} from '@component/molecules/course/CourseTable';
 import CourseApi from '@api/CourseApi';

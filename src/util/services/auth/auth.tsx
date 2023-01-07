@@ -1,5 +1,5 @@
 import type {GetServerSideProps, GetServerSidePropsContext} from 'next';
-import {getCookie} from '@util/extend/cookie';
+import {getCookie} from '@util/extend/browser/cookie';
 import {useAppSelector} from '@store/hooks';
 import AuthApi from '@api/AuthApi';
 import {AuthError} from '@util/services/auth/AuthError';

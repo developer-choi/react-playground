@@ -1,6 +1,6 @@
 import type {BoardSearchTab, BoardType} from '@type/response-sub/board-sub';
 import type {DynamicRouteType} from '@util/services/url-preset/root-url';
-import {urlStringify} from '@util/extend/query-string';
+import {urlStringify} from '@util/extend/browser/query-string';
 
 const BOARD_URLS = {
   board: {

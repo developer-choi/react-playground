@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router';
 import {useCallback} from 'react';
-import {cleanQuery} from '@util/extend/query-string';
+import {cleanQuery} from '@util/extend/browser/query-string';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type {UrlObject} from 'url';
 

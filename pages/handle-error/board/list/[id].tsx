@@ -1,6 +1,6 @@
 import type {GetServerSideProps} from 'next';
 import BoardApi from '@api/BoardApi';
-import {validateNumberInQueryThrowError} from '@util/extend/query-string';
+import {validateNumberInQueryThrowError} from '@util/extend/browser/query-string';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import type {PagingResponse} from '@type/response/common';
 import type {Board} from '@type/response-sub/board-sub';

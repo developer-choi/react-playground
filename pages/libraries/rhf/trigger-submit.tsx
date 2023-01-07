@@ -5,7 +5,7 @@ import {useForm} from 'react-hook-form';
 import Button from '@component/atom/element/Button';
 import type {SubmitErrorHandler} from 'react-hook-form/dist/types/form';
 import {baseHandleErrors} from '@util/extend/react-hook-form';
-import {isMatchKeyboardEvent} from '@util/extend/keyboard-event';
+import {isMatchKeyboardEvent} from '@util/extend/browser/keyboard-event';
 
 export default function Page() {
   const {register, handleSubmit} = useForm<Data>();

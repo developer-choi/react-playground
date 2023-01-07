@@ -1,8 +1,8 @@
 import React, {Dispatch, KeyboardEvent, SetStateAction, useCallback, useState} from 'react';
 import styled from 'styled-components';
 import InputText from '@component/extend/InputText';
-import type {MatchKeyboardEvent} from '@util/extend/keyboard-event';
-import {isMatchKeyboardEvent} from '@util/extend/keyboard-event';
+import type {MatchKeyboardEvent} from '@util/extend/browser/keyboard-event';
+import {isMatchKeyboardEvent} from '@util/extend/browser/keyboard-event';
 
 export interface InputListProp {
   list: string[];

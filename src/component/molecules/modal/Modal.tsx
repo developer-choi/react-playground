@@ -1,6 +1,6 @@
 import React, {ComponentPropsWithoutRef, MouseEvent, useCallback, useEffect} from 'react';
 import styled from 'styled-components';
-import {isMatchKeyboardEvent} from '@util/extend/keyboard-event';
+import {isMatchKeyboardEvent} from '@util/extend/browser/keyboard-event';
 
 export interface ModalProp extends Omit<ComponentPropsWithoutRef<'div'>, 'onClick'> {
   disableBackdropClick?: boolean;
