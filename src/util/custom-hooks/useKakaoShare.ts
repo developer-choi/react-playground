@@ -1,6 +1,7 @@
 import type {ScriptProps} from 'next/dist/client/script';
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import env from '@util/env';
+import type {KakaoCommerce} from '@type/declarations/kakao';
 
 export interface KakaoShareParam {
   shareButtonId: string; // #제외
@@ -8,8 +9,8 @@ export interface KakaoShareParam {
     title: string;
     thumbnail: string;
     regularPrice: number;
-    discountRate: number;
-    discountPrice: number;
+    discountRate?: number;
+    discountPrice?: number;
     pk: number;
   };
 }
@@ -64,11 +65,7 @@ export default function useKakaoShare({shareButtonId, product}: KakaoShareParam)
           webUrl: env.public.origin
         }
       },
-      commerce: {
-        regularPrice,
-        discountRate,
-        discountPrice
-      },
+      commerce: commerce({regularPrice, discountPrice, discountRate}),
       buttons: [
         {
           title: '구매하기',
@@ -88,4 +85,19 @@ export default function useKakaoShare({shareButtonId, product}: KakaoShareParam)
     shareButtonId: shareButtonId,
     initialized
   };
+}
+
+function commerce({regularPrice, discountPrice, discountRate}: Pick<KakaoShareParam['product'], 'regularPrice' | 'discountRate' | 'discountPrice'>): KakaoCommerce {
+  if (discountPrice && discountRate) {
+    return {
+      regularPrice,
+      discountPrice, 
+      discountRate
+    };
+    
+  } else {
+    return {
+      regularPrice
+    };
+  }
 }

@@ -2,18 +2,18 @@ export interface Kakao {
   Kakao: undefined | (KakaoShare & KakaoMethod);
 }
 
-export interface KakaoMethod {
+interface KakaoMethod {
   isInitialized: () => boolean;
   init: (javascriptKey: string) => void;
 }
 
 export interface KakaoShare {
   Share: {
-    createDefaultButton: (param: CreateDefaultButtonParam) => void;
+    createDefaultButton: (param: KakaoCreateDefaultButtonParam) => void;
   };
 }
 
-interface CreateDefaultButtonParam {
+interface KakaoCreateDefaultButtonParam {
   container: string;
   objectType: 'commerce';
   content: {
@@ -23,18 +23,26 @@ interface CreateDefaultButtonParam {
       webUrl: string;
     };
   };
-  commerce: {
-    regularPrice: number;
-    discountRate: number;
-    discountPrice: number;
-  };
-  buttons: {
-    title: string;
-    link: {
-      webUrl: string;
-      mobileWebUrl: string;
-      androidExecutionParams: string;
-      iosExecutionParams: string;
-    };
-  }[];
+  commerce: KakaoCommerce;
+  buttons: KakaoButton[];
+}
+
+interface KakaoButton {
+  title: string;
+  link: KakaoButtonLink;
+}
+
+interface KakaoButtonLink {
+  webUrl: string;
+  mobileWebUrl: string;
+  androidExecutionParams: string;
+  iosExecutionParams: string;
+}
+
+export type KakaoCommerce = {
+  regularPrice: number;
+} | {
+  regularPrice: number;
+  discountRate: number;
+  discountPrice: number;
 }
