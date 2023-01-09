@@ -1,4 +1,4 @@
-import React, {ComponentPropsWithoutRef} from 'react';
+import React, {ComponentPropsWithoutRef, useEffect, useState} from 'react';
 import Link, {LinkProps} from 'next/link';
 
 /**
@@ -12,15 +12,15 @@ export interface LinkOrAnchorProp extends ComponentPropsWithoutRef<'a'>, Pick<Li
 }
 
 export default function LinkOrAnchor({prefetch, href, target, rel, ...rest}: LinkOrAnchorProp) {
-  const {isOurOrigin, link} = isOurOriginLink(href, OUR_ORIGINS);
+  const originLink = useOriginLink(href);
 
-  if (!link) {
+  if (originLink === 'initial' || !originLink.href) {
     return <a {...rest} />;
   }
 
-  if (isOurOrigin) {
+  if (originLink.isOurOrigin) {
     return (
-      <Link href={link} prefetch={prefetch}>
+      <Link href={originLink.href} prefetch={prefetch}>
         <a {...rest}/>
       </Link>
     );
@@ -32,52 +32,59 @@ export default function LinkOrAnchor({prefetch, href, target, rel, ...rest}: Lin
     {target: '_blank', rel: 'noreferrer'};
 
   return (
-    <a href={link} target={innerProp.target} rel={innerProp.rel} {...rest}/>
+    <a href={originLink.href} target={innerProp.target} rel={innerProp.rel} {...rest}/>
   );
 }
 
-const OUR_ORIGINS = ['http://localhost:3000', 'https://react-playground-xi.vercel.app'];
+function useOriginLink(href: string) {
+  const [originLink, setOriginLink] = useState<'initial' | {href: string, isOurOrigin: boolean}>('initial');
 
-function isOurOriginLink(link: string, ourOrigins: string[]) {
-  try {
-    const {origin} = new URL(link);
+  useEffect(() => {
+    try {
+      //이 값은 항상 origin 맽 끝에 /가 없음
+      const {origin} = new URL(href);
 
-    if (!ourOrigins.some(origin => link.startsWith(origin))) {
-      return {
-        isOurOrigin: false,
-        link
-      };
-    }
+      if (origin !== location.origin) {
+        setOriginLink({
+          isOurOrigin: false,
+          href
+        });
+        return;
+      }
 
-    /**
-     * 이걸 안하면, link가 http://localhost:3000일 때
-     * 결과적으로 <Link href="" 이렇게 되서 현재 페이지로 데이터만 새로고침된다.
-     * 하지만 http://localhost:3000의 의미는 이 Origin의 root page를 가리키는 url이기 때문에,
-     * 직접 이렇게 작성했다.
-     */
-    if (origin === link) {
-      return {
+      /**
+       * 이걸 안하면, link가 http://localhost:3000일 때
+       * 결과적으로 <Link href="" 이렇게 되서 현재 페이지로 데이터만 새로고침된다.
+       * 하지만 http://localhost:3000의 의미는 이 Origin의 root page를 가리키는 url이기 때문에,
+       * 직접 이렇게 작성했다.
+       */
+      if (origin === href || origin + '/' === href) {
+        setOriginLink({
+          isOurOrigin: true,
+          href: '/'
+        });
+        return;
+      }
+
+      setOriginLink({
         isOurOrigin: true,
-        link: '/'
-      };
-    }
+        href: href.replaceAll(origin, '')
+      });
 
-    return {
-      isOurOrigin: true,
-      link: link.replaceAll(origin, '')
-    };
-
-  } catch (error) {
-    const originalMessage = (error as Error).message;
-    const message = `${originalMessage}
+    } catch (error) {
+      const originalMessage = (error as Error).message;
+      const message = `${originalMessage}
 Expected URL (example): https://some.domain.com/some/path
-Link(Parameter): ${link === '' ? '(empty string)' : link}
+Link(Parameter): ${href === '' ? '(empty string)' : href}
     `;
-    console.error(message);
+      console.error(message);
 
-    return {
-      isOurOrigin: false,
-      link: ''
-    };
-  }
+      setOriginLink({
+        isOurOrigin: false,
+        href: ''
+      });
+    }
+  }, [href]);
+
+  return originLink;
 }
