@@ -25,7 +25,7 @@ export default function PageElement({methods, children, data, className, ...rest
   if (pageToHref) {
     return (
       <Link href={pageToHref(page)} passHref {...DEFAULT_LINK_PROPS} {...restLinkProps}>
-        <Anchor className={_className} onClick={disable ? preventClick : undefined}>
+        <Anchor className={_className} onClick={(disable || active) ? preventClick : undefined}>
           {children}
         </Anchor>
       </Link>
