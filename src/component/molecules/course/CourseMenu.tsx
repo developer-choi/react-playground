@@ -2,23 +2,24 @@ import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import CourseFilterMenu from '@component/molecules/course/CourseFilterMenu';
 import CourseSortMenu from '@component/molecules/course/CourseSortMenu';
-import {useKeepQueryCourse} from '@util/services/course';
+import {useKeepQuery} from '@util/extend/router';
 
 export interface CourseMenuProp {
 
 }
 
 export default function CourseMenu({}: CourseMenuProp) {
-  const {pushFilterOrSort} = useKeepQueryCourse();
+  const {pushKeepQuery} = useKeepQuery();
   const [readyToFilter, setReadyToFilter] = useState(false);
 
   const reset = useCallback(() => {
-    pushFilterOrSort({
+    pushKeepQuery({
       topic: undefined,
       room: undefined,
-      sort: undefined
+      sort: undefined,
+      page: 1
     });
-  }, [pushFilterOrSort]);
+  }, [pushKeepQuery]);
 
   return (
     <>

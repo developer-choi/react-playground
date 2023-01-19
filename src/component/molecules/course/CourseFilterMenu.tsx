@@ -5,7 +5,7 @@ import CourseApi from '@api/CourseApi';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import FilterButton from '@component/atom/forms/FilterButton';
 import type {Room, Topic} from '@type/response-sub/course-sub';
-import {useKeepQueryCourse} from '@util/services/course';
+import {useKeepQuery} from '@util/extend/router';
 
 export interface CourseFilterMenuProp {
   onReadyToFilter: (ready: boolean) => void;
@@ -16,7 +16,7 @@ export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp
   const {query} = useRouter();
   const topic = Number(query.topic);
   const room = Number(query.room);
-  const {pushFilterOrSort} = useKeepQueryCourse();
+  const {pushKeepQuery} = useKeepQuery();
 
   useEffect(() => {
     (async () => {
@@ -33,16 +33,18 @@ export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp
   }, [onReadyToFilter]);
 
   const filterTopic = useCallback((pk: number | undefined) => {
-    pushFilterOrSort({
+    pushKeepQuery({
       topic: pk,
+      page: 1
     });
-  }, [pushFilterOrSort]);
+  }, [pushKeepQuery]);
 
   const filterRoom = useCallback((pk: number | undefined) => {
-    pushFilterOrSort({
+    pushKeepQuery({
       room: pk,
+      page: 1
     });
-  }, [pushFilterOrSort]);
+  }, [pushKeepQuery]);
 
   if (!filterInfo) {
     return null;

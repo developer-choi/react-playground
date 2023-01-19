@@ -19,8 +19,8 @@ export default function CourseTable({listResponse}: CourseTableProp) {
 
   const pageToHref = useCallback((page: number) => {
     return {
-      pathname: `/feature/sort-filter/list/${page}`,
-      query: restQuery
+      pathname: `/feature/sort-filter/list`,
+      query: {...restQuery, page}
     };
   }, [restQuery]);
 

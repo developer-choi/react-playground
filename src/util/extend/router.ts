@@ -11,18 +11,11 @@ export function useKeepQuery() {
    * Keep existing query
    * Keep existing pathname
    */
-  const pushKeepQuery = useCallback((query: ParsedUrlQueryInput, pathname?: string, removeParams: string[] = []) => {
-    const removeQuery = removeParams.reduce((a, b) => {
-      // eslint-disable-next-line no-param-reassign
-      a[b] = undefined;
-      return a;
-    }, {} as Record<string, undefined>);
-
+  const pushKeepQuery = useCallback((query: ParsedUrlQueryInput) => {
     const urlObject: UrlObject = {
-      pathname: pathname ? pathname : getRealPathname(router.asPath),
+      pathname: getRealPathname(router.asPath),
       query: cleanQuery({
         ...router.query,
-        ...removeQuery,
         ...query
       })
     };
