@@ -7,16 +7,40 @@ import {
 } from '@util/services/pagination/pagination-core';
 import {range} from '@util/extend/data-type/number';
 
+interface NearPageParam {
+  currentPage: number;
+  pagePerView: number;
+  totalPage: number;
+}
+
 //홀수
-function getOddNearStartPage({currentPage, pagePerView}: {currentPage: number, pagePerView: number}) {
+function getOddNearStartPage({currentPage, pagePerView, totalPage}: NearPageParam) {
   const naturalHalf = Math.floor(pagePerView / 2);
-  return (naturalHalf + 1) < currentPage ? currentPage - naturalHalf : 1;
+
+  if (currentPage >= (totalPage - naturalHalf)) {
+    return totalPage - pagePerView + 1;
+  }
+
+  if (currentPage <= (naturalHalf + 1)) {
+    return 1;
+  }
+
+  return currentPage - naturalHalf;
 }
 
 //짝수
-function getEvenNearStartPage({currentPage, pagePerView}: {currentPage: number, pagePerView: number}) {
+function getEvenNearStartPage({currentPage, pagePerView, totalPage}: NearPageParam) {
   const naturalHalf = pagePerView / 2;
-  return naturalHalf < currentPage ? currentPage - naturalHalf : 1;
+
+  if(currentPage >= (totalPage - naturalHalf)) {
+    return totalPage - pagePerView + 1;
+  }
+
+  if(currentPage <= naturalHalf) {
+    return 1;
+  }
+
+  return currentPage - naturalHalf + 1;
 }
 
 export function getNearPagination({currentPage, total, config: {pagePerView, articlePerPage}}: MultiplePagesPaginationParam): BasicPagination | null {
@@ -29,12 +53,14 @@ export function getNearPagination({currentPage, total, config: {pagePerView, art
   const startPage = pagePerView % 2 === 0 ?
     getEvenNearStartPage({
       currentPage,
-      pagePerView
+      pagePerView,
+      totalPage
     })
     :
     getOddNearStartPage({
       currentPage,
-      pagePerView
+      pagePerView,
+      totalPage
     });
 
   const tempEndPage = startPage + pagePerView - 1;
