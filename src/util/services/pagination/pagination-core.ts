@@ -1,69 +1,49 @@
 import type {LinkProps} from 'next/link';
 
-export type Href = LinkProps['href'];
+/***************************************************
+ * Common
+ ***************************************************/
 
-export interface TotalPageParam {
+type Href = LinkProps['href'];
+
+interface TotalPageParam {
   total: number;
   articlePerPage: number;
 }
 
 export function getTotalPage({total, articlePerPage}: TotalPageParam) {
   const dividedValue = Math.floor(total / articlePerPage);
-  const totalPage = (total % articlePerPage === 0) ? dividedValue : dividedValue + 1;
-
-  return {
-    totalPage,
-    isExistPage: totalPage > 0
-  };
+  return (total % articlePerPage === 0) ? dividedValue : dividedValue + 1;
 }
 
-/***************************************************
- * Common
- ***************************************************/
+export interface PaginationMethod {
+  onClickPage?: (page: number) => void;
+  pageToHref?: (page: number) => Href;
+}
 
-export interface PaginationLink {
-  movable: boolean;
+export interface PageElementData {
+  disable?: boolean; //Only first, previous, next, last
+  active?: boolean; //Only between pages
   page: number;
-  href: Href;
 }
 
-export function makePaginationLink(movable: boolean, page: number, pageToHref: CorePaginationParam<any>['pageToHref']) {
+//Only first, previous, next, last
+export function makePageElementData(disable: boolean, page: number): PageElementData {
   return {
-    movable,
+    disable,
     page,
-    href: pageToHref(page),
+    active: false
   };
 }
 
-/***************************************************
- * Default
- ***************************************************/
-
-export const DEFAULT_PAGINATION_LINK: PaginationLink = {
-  href: "",
-  page: 1,
-  movable: false
-};
-
-export const DEFAULT_MOVE_ONE_PAGINATION: MoveOnePagination = {
-  next: DEFAULT_PAGINATION_LINK,
-  previous: DEFAULT_PAGINATION_LINK
-};
-
-export const DEFAULT_MOVE_BOTH_SIDE_PAGINATION: MoveBothSidePagination = {
-  first: DEFAULT_PAGINATION_LINK,
-  last: DEFAULT_PAGINATION_LINK
-};
-
-export const DEFAULT_CORE_PAGINATION: CorePagination = {
-  totalPage: 0,
-  isExistPage: false
-};
-
-export const DEFAULT_MULTIPLE_PAGINATION: MultiplePagesPagination = {
-  ...DEFAULT_CORE_PAGINATION,
-  betweenLinkList: []
-};
+//Only between pages
+export function makeBetweenPageElementDataList(pages: number[], currentPage: number): PageElementData[] {
+  return pages.map(page => ({
+    page,
+    disable: false,
+    active: currentPage === page
+  }));
+}
 
 /***************************************************
  * Configs
@@ -85,33 +65,36 @@ export interface CorePaginationParam<T extends CorePaginationConfig = CorePagina
   currentPage: number;
   total: number;
   config: T;
-  pageToHref: (page: number) => Href;
+}
+
+export interface CorePaginationComponentProps extends CorePaginationParam {
+  methods: PaginationMethod;
 }
 
 export type MultiplePagesPaginationParam = CorePaginationParam<MultiplePagesPaginationConfig>;
+
+export interface MultiplePagesPaginationComponentProps extends MultiplePagesPaginationParam {
+  methods: PaginationMethod;
+}
 
 /***************************************************
  * Paginations
  ***************************************************/
 
 export interface MoveOnePagination {
-  next: PaginationLink;
-  previous: PaginationLink;
+  next: PageElementData;
+  previous: PageElementData;
 }
 
 export interface MoveBothSidePagination {
-  first: PaginationLink;
-  last: PaginationLink;
+  first: PageElementData;
+  last: PageElementData;
 }
 
 export interface CorePagination {
-  isExistPage: boolean;
   totalPage: number;
 }
 
 export interface MultiplePagesPagination extends CorePagination {
-  betweenLinkList: {
-    page: number;
-    href: Href;
-  }[];
+  betweenPageElementDataList: PageElementData[];
 }

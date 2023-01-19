@@ -13,7 +13,7 @@ export interface CourseTableProp {
 }
 
 export default function CourseTable({listResponse}: CourseTableProp) {
-  const {query} = useRouter();
+  const {query, push} = useRouter();
   const {page, ...restQuery} = query;
   const currentPage = Number(page);
 
@@ -23,6 +23,10 @@ export default function CourseTable({listResponse}: CourseTableProp) {
       query: restQuery
     };
   }, [restQuery]);
+
+  const onClickPage = useCallback((page: number) => {
+    push(pageToHref(page));
+  }, [pageToHref, push]);
 
   return (
     <>
@@ -51,21 +55,21 @@ export default function CourseTable({listResponse}: CourseTableProp) {
       </Table>
 
       <BasicPagination
-        pageToHref={pageToHref}
+        methods={{pageToHref}}
         currentPage={currentPage}
         total={listResponse.total}
         config={COURSE_PAGINATION_CONFIG}
       />
 
       <ShortPagination
-        pageToHref={pageToHref}
+        methods={{onClickPage}}
         currentPage={currentPage}
         total={listResponse.total}
         config={COURSE_PAGINATION_CONFIG}
       />
 
       <NearPagination
-        pageToHref={pageToHref}
+        methods={{onClickPage}}
         currentPage={currentPage}
         total={listResponse.total}
         config={COURSE_PAGINATION_CONFIG}

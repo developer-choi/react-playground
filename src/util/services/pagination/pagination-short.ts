@@ -4,39 +4,24 @@ import type {
   MoveBothSidePagination,
   MoveOnePagination
 } from '@util/services/pagination/pagination-core';
-import {
-  DEFAULT_MOVE_BOTH_SIDE_PAGINATION,
-  DEFAULT_CORE_PAGINATION,
-  DEFAULT_MOVE_ONE_PAGINATION,
-  getTotalPage, makePaginationLink
-} from '@util/services/pagination/pagination-core';
+import {getTotalPage, makePageElementData} from '@util/services/pagination/pagination-core';
 
 export type ShortPagination = CorePagination & MoveOnePagination & MoveBothSidePagination;
 
-export function getShortPagination({total, config, currentPage, pageToHref}: CorePaginationParam): ShortPagination {
+export function getShortPagination({total, config: {articlePerPage}, currentPage}: CorePaginationParam): ShortPagination | null {
   if (total <= 0) {
-    return {
-      ...DEFAULT_CORE_PAGINATION,
-      ...DEFAULT_MOVE_ONE_PAGINATION,
-      ...DEFAULT_MOVE_BOTH_SIDE_PAGINATION
-    };
+    return null;
   }
 
-  const {totalPage, isExistPage} = getTotalPage({total, articlePerPage: config.articlePerPage});
+  const totalPage = getTotalPage({total, articlePerPage});
 
-  const canFirst = currentPage > 1;
-  const canPrevious = currentPage > 1;
-  const canNext = currentPage < totalPage;
-  const canLast = currentPage < totalPage;
-
-  const first = makePaginationLink(canFirst, 1, pageToHref);
-  const previous = makePaginationLink(canPrevious, currentPage - 1, pageToHref);
-  const next = makePaginationLink(canNext, currentPage + 1, pageToHref);
-  const last = makePaginationLink(canLast, totalPage, pageToHref);
+  const first = makePageElementData(currentPage <= 1, 1);
+  const previous = makePageElementData(currentPage <= 1, currentPage - 1);
+  const next = makePageElementData(currentPage >= totalPage, currentPage + 1);
+  const last = makePageElementData(currentPage >= totalPage, totalPage);
 
   return {
     totalPage,
-    isExistPage,
     first,
     previous,
     next,

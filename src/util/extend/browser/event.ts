@@ -7,3 +7,8 @@ export function preventDefault(event: BaseSyntheticEvent) {
 export function stopPropagation(event: BaseSyntheticEvent) {
   event.stopPropagation();
 }
+
+export function preventClick(event: BaseSyntheticEvent) {
+  preventDefault(event);
+  stopPropagation(event);
+}

@@ -24,7 +24,7 @@ export default function useInfiniteScroll<T>({initialData, fetchMoreApi, article
   const {total, loading, list, page} = pagingData;
 
   useEffect(() => {
-    const {totalPage} = getTotalPage({total, articlePerPage});
+    const totalPage = getTotalPage({total, articlePerPage});
 
     if (page >= totalPage && loading) {
       return;

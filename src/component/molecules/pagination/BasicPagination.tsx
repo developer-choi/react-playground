@@ -1,58 +1,59 @@
 import React, {memo} from 'react';
 import styled from 'styled-components';
-import type {MultiplePagesPaginationParam} from '@util/services/pagination/pagination-core';
-import {myClassName} from '@util/libraries/classnames';
-import Link from 'next/link';
+import type {MultiplePagesPaginationComponentProps,} from '@util/services/pagination/pagination-core';
 import {getBasicPagination} from '@util/services/pagination/pagination-basic';
+import PageElement from '@component/atom/PageElement';
 
-export default memo(function BasicPagination(props: MultiplePagesPaginationParam) {
-  const {currentPage} = props;
-  const {betweenLinkList, previous, isExistPage, next, last, first} = getBasicPagination(props);
+export default memo(function BasicPagination({methods, ...params}: MultiplePagesPaginationComponentProps) {
+  const pagination = getBasicPagination(params);
 
-  if (!isExistPage) {
+  if (pagination === null) {
     return null;
   }
 
+  const {betweenPageElementDataList, next, last, first, previous} = pagination;
+
   return (
     <Wrap>
-      <Link href={first.href} shallow={!first.movable}>
-        <a className={myClassName({disable: !first.movable})}>{'<<'}</a>
-      </Link>
-      <Link href={previous.href} shallow={!previous.movable}>
-        <a className={myClassName({disable: !previous.movable})}>{'<'}</a>
-      </Link>
+      <StyledPageElement data={first} methods={methods}>
+        {'<<'}
+      </StyledPageElement>
 
-      {betweenLinkList.map(({href, page}) => (
-        <Link key={page} href={href} shallow={currentPage === page}>
-          <a className={myClassName({active: currentPage === page})}>{page}</a>
-        </Link>
+      <StyledPageElement data={previous} methods={methods}>
+        {'<'}
+      </StyledPageElement>
+
+      {betweenPageElementDataList.map(data => (
+        <StyledPageElement key={data.page} data={data} methods={methods}>
+          {data.page}
+        </StyledPageElement>
       ))}
 
-      <Link href={next.href} shallow={!last.movable}>
-        <a className={myClassName({disable: !next.movable})}>{'>'}</a>
-      </Link>
-      <Link href={last.href} shallow={!last.movable}>
-        <a className={myClassName({disable: !last.movable})}>{'>>'}</a>
-      </Link>
+      <StyledPageElement data={next} methods={methods}>
+        {'>'}
+      </StyledPageElement>
+
+      <StyledPageElement data={last} methods={methods}>
+        {'>>'}
+      </StyledPageElement>
     </Wrap>
   );
 });
 
 const Wrap = styled.div`
   display: flex;
+`;
+
+const StyledPageElement = styled(PageElement)`
+  padding: 5px;
+  margin: 2px 0;
   
-  > a {
-    padding: 5px;
-    margin: 2px 0;
-    
-    &.active {
-      background: ${props => props.theme.main};
-      color: white;
-    }
-    
-    &.disable {
-      color: lightgray;
-      cursor: not-allowed;
-    }
+  &.active {
+    background: ${props => props.theme.main};
+    color: white;
+  }
+  
+  &.disable {
+    color: lightgray;
   }
 `;
