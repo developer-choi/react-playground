@@ -74,6 +74,13 @@ export default function CourseTable({listResponse}: CourseTableProp) {
         total={listResponse.total}
         config={COURSE_PAGINATION_CONFIG}
       />
+
+      <NearPagination
+        methods={{onClickPage}}
+        currentPage={currentPage}
+        total={listResponse.total}
+        config={{articlePerPage: COURSE_PAGINATION_CONFIG.articlePerPage, pagePerView: 7}}
+      />
     </>
   );
 }
