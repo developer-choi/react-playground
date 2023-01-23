@@ -24,7 +24,7 @@ export function getBasicPagination({currentPage, config: {pagePerView, articlePe
   const endPage = tempEndPage > totalPage ? totalPage : tempEndPage;
 
   const pages = range(startPage, endPage);
-  const betweenPageElementList = makeBetweenPageElementDataList(pages, currentPage);
+  const betweenPageElementDataList = makeBetweenPageElementDataList(pages, currentPage);
 
   const first = makePageElementData(currentPage === 1, 1);
   const previous = makePageElementData(currentPage === 1, startPage - pagePerView);
@@ -32,7 +32,7 @@ export function getBasicPagination({currentPage, config: {pagePerView, articlePe
   const last = makePageElementData(endPage === totalPage, totalPage);
 
   return {
-    betweenPageElementDataList: betweenPageElementList,
+    betweenPageElementDataList,
     totalPage,
     first,
     previous,
