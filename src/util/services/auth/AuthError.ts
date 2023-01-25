@@ -8,5 +8,5 @@ export class AuthError extends Error {
 }
 
 interface AuthErrorOption {
-  loginPageUrlWithRedirectUrl: string;
+  redirectUrl: string;
 }

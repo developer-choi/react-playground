@@ -40,7 +40,7 @@ export function getLoginTokenClientSide(): LoginToken {
 
   if (!loginToken) {
     throw new AuthError('Login is required.', {
-      loginPageUrlWithRedirectUrl: getLoginRedirectUrlClientSide()
+      redirectUrl: getLoginRedirectUrl(`${location.pathname}${location.search}${location.hash}`)
     });
   }
 
@@ -56,7 +56,7 @@ export function getLoginTokenServerSide(context: GetServerSidePropsContext): Log
 
   if (!loginToken) {
     throw new AuthError("Login is required.", {
-      loginPageUrlWithRedirectUrl: getLoginRedirectUrlServerSide(context)
+      redirectUrl: getLoginRedirectUrl(context.resolvedUrl)
     });
   }
 
@@ -124,10 +124,10 @@ export default function useAlertForNotLoggedIn() {
     try {
       getLoginTokenClientSide();
     } catch (error) {
-      const {message, option: {loginPageUrlWithRedirectUrl}} = error as AuthError;
+      const {message, option: {redirectUrl}} = error as AuthError;
 
       if (confirm(message)) {
-        push(loginPageUrlWithRedirectUrl).then();
+        push(redirectUrl).then();
       }
     }
   }, [push]);
@@ -166,17 +166,15 @@ function getLoginRedirectUrl(redirectPath: string): string {
   return `/handle-error/login?${LOGIN_REDIRECT_KEY_NAME}=${redirectPath}`;
 }
 
-function getLoginRedirectUrlServerSide(context: GetServerSidePropsContext) {
-  return getLoginRedirectUrl(context.resolvedUrl);
-}
-
-export function getLoginRedirectUrlClientSide() {
-  return getLoginRedirectUrl(location.pathname);
-}
-
 export function getAfterLoginSuccessUrl() {
-  const params = new URLSearchParams(location.search);
-  return params.get(LOGIN_REDIRECT_KEY_NAME) ?? '/';
+  const redirectUrl = new URLSearchParams(location.search).get(LOGIN_REDIRECT_KEY_NAME);
+  const hash = location.hash;
+
+  if (redirectUrl === null) {
+    return "/" + hash;
+  }
+
+  return redirectUrl + hash;
 }
 
 export async function logoutInClientSide(destination = '/') {

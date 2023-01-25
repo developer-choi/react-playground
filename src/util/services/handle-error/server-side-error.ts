@@ -45,7 +45,7 @@ function handleAuthError(error: AuthError): GetServerSidePropsResult<any> {
   return {
     redirect: {
       permanent: false,
-      destination: error.option.loginPageUrlWithRedirectUrl
+      destination: error.option.redirectUrl
     }
   };
 }

@@ -42,7 +42,7 @@ function handleErrorBeforeCallApi(error: any) {
 
 function handleAuthError(_error: AuthError) {
   if (confirm('로그인 후 이용이 가능합니다.')) {
-    Router.push(_error.option.loginPageUrlWithRedirectUrl).then();
+    Router.push(_error.option.redirectUrl).then();
   }
 }
 
