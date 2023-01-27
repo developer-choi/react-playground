@@ -4,7 +4,7 @@ import type {LinkProps} from 'next/link';
  * Common
  ***************************************************/
 
-type Href = LinkProps['href'];
+export type Href = LinkProps['href'];
 
 interface TotalPageParam {
   total: number;
@@ -68,13 +68,13 @@ export interface CorePaginationParam<T extends CorePaginationConfig = CorePagina
 }
 
 export interface CorePaginationComponentProps extends CorePaginationParam {
-  methods: PaginationMethod;
+  methods?: PaginationMethod;
 }
 
 export type MultiplePagesPaginationParam = CorePaginationParam<MultiplePagesPaginationConfig>;
 
 export interface MultiplePagesPaginationComponentProps extends MultiplePagesPaginationParam {
-  methods: PaginationMethod;
+  methods?: PaginationMethod;
 }
 
 /***************************************************

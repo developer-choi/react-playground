@@ -1,25 +1,5 @@
-import React, {useEffect} from "react";
-import type {GetServerSideProps} from "next";
-import {getLoginTokenClientSide} from "@util/services/auth/auth";
-import {handleClientSideError} from "@util/services/handle-error/client-side-error";
+import React from 'react';
 
-export default function Page({resolvedUrl}: any) {
-
-  useEffect(() => {
-    try {
-      getLoginTokenClientSide();
-    } catch (error) {
-      handleClientSideError(error);
-    }
-  }, []);
-
-  return <span>{resolvedUrl}</span>;
+export default function Page() {
+  return null;
 }
-
-export const getServerSideProps: GetServerSideProps = async ({resolvedUrl}) => {
-  return {
-    props: {
-      resolvedUrl
-    }
-  };
-};
