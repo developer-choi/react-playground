@@ -22,13 +22,14 @@ export default function PageElement({methods = {}, children, data, className, re
 
   const {page, disable, active} = data;
   const _className = myClassName(className, {disable, active});
+  const prevent = disable || active;
 
   const href = useDefaultPageToHref(data.page, methods);
 
   if (href) {
     return (
       <Link href={href} passHref {...DEFAULT_LINK_PROPS} replace={replace}>
-        <Anchor className={_className} onClick={(disable || active) ? preventClick : undefined}>
+        <Anchor className={_className} onClick={prevent ? preventClick : undefined}>
           {children}
         </Anchor>
       </Link>
@@ -36,7 +37,7 @@ export default function PageElement({methods = {}, children, data, className, re
   }
 
   return (
-    <Anchor className={_className} onClick={disable ? preventClick : () => onClickPage?.(page)}>
+    <Anchor className={_className} onClick={prevent ? preventClick : () => onClickPage?.(page)}>
       {children}
     </Anchor>
   );
@@ -49,6 +50,7 @@ function useDefaultPageToHref(page: number, {onClickPage, pageToHref}: Paginatio
   useEffect(() => {
     if (pageToHref || onClickPage) {
       setHref(initializeHref(page, {pageToHref, onClickPage}));
+      return;
     }
 
     setHref(getKeepQuery({page}));
