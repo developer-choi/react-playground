@@ -20,9 +20,8 @@ export interface PageElementProp extends Pick<LinkProps, 'replace'> {
 export default function PageElement({methods = {}, children, data, className, replace}: PageElementProp) {
   const {onClickPage} = methods;
 
-  const {page, disable, active} = data;
+  const {page, disable, active, prevent} = data;
   const _className = myClassName(className, {disable, active});
-  const prevent = disable || active;
 
   const href = useDefaultPageToHref(data.page, methods);
 

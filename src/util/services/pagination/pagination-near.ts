@@ -3,7 +3,7 @@ import type {MultiplePagesPaginationParam} from '@util/services/pagination/pagin
 import {
   getTotalPage,
   makeMultiplePagesCommonPagination,
-  makePageElementData
+  makeMovePageElementData
 } from '@util/services/pagination/pagination-core';
 
 interface NearPageParam {
@@ -66,25 +66,25 @@ export function getNearPagination(param: MultiplePagesPaginationParam): BasicPag
 
   const {endPage, betweenPageElementDataList} = makeMultiplePagesCommonPagination({startPage, totalPage, param});
 
-  const first = makePageElementData({
+  const first = makeMovePageElementData({
     disable: startPage === 1,
     page: 1,
-    currentPage: currentPage
+    currentPage
   });
 
-  const previous = makePageElementData({
+  const previous = makeMovePageElementData({
     disable: currentPage === 1,
     page: currentPage - 1,
     currentPage
   });
 
-  const next = makePageElementData({
+  const next = makeMovePageElementData({
     disable: currentPage === totalPage,
     page: currentPage + 1,
     currentPage
   });
 
-  const last = makePageElementData({
+  const last = makeMovePageElementData({
     disable: endPage === totalPage,
     page: totalPage,
     currentPage

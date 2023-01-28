@@ -4,7 +4,7 @@ import type {
   MultiplePagesPagination,
   MultiplePagesPaginationParam,
 } from './pagination-core';
-import {getTotalPage, makeMultiplePagesCommonPagination, makePageElementData} from './pagination-core';
+import {getTotalPage, makeMultiplePagesCommonPagination, makeMovePageElementData} from './pagination-core';
 
 export type BasicPagination = MultiplePagesPagination & MoveOnePagination & MoveBothSidePagination;
 
@@ -19,25 +19,25 @@ export function getBasicPagination(param: MultiplePagesPaginationParam): BasicPa
   const startPage = Math.floor(((currentPage - 1) / pagePerView)) * pagePerView + 1;
   const {endPage, betweenPageElementDataList} = makeMultiplePagesCommonPagination({startPage, totalPage, param});
 
-  const first = makePageElementData({
+  const first = makeMovePageElementData({
     disable: currentPage === 1,
     page: 1,
     currentPage
   });
 
-  const previous = makePageElementData({
+  const previous = makeMovePageElementData({
     disable: first.disable as boolean,
     page: startPage - pagePerView,
     currentPage
   });
 
-  const next = makePageElementData({
+  const next = makeMovePageElementData({
     disable: endPage === totalPage,
     page: startPage + pagePerView,
     currentPage
   });
 
-  const last = makePageElementData({
+  const last = makeMovePageElementData({
     disable: next.disable as boolean,
     page: totalPage,
     currentPage

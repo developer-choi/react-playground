@@ -23,17 +23,21 @@ export interface PaginationMethod {
 }
 
 export interface PageElementData {
-  disable?: boolean; //Only first, previous, next, last
-  active?: boolean; //Only between pages
+  disable: boolean; //first, previous, next, last에서만 사용하고, 이동할 수 없는 페이지를 나타냄.
+  active: boolean; //between pages에서만 사용하고, 현재 페이지임을 나타냄
+  prevent: boolean; //(disable || active)로 계산되며, 눌렀을 때 페이지이동을 시킬지 말지 판단하는 데이터
   page: number;
 }
 
 //Only first, previous, next, last
-export function makePageElementData({currentPage, page, disable}: {disable: boolean, page: number, currentPage: number}): PageElementData {
+export function makeMovePageElementData({currentPage, page, disable}: {disable: boolean, page: number, currentPage: number}): PageElementData {
+  const active = false;
+
   return {
     page: disable ? currentPage : page,
     disable,
-    active: false
+    active,
+    prevent: disable || active
   };
 }
 
@@ -47,12 +51,14 @@ export function makeMultiplePagesCommonPagination({startPage, totalPage, param}:
 
   const betweenPageElementDataList = pages.map(page => {
     const active = currentPage === page;
+    const disable = false;
 
     return {
       page: active ? currentPage : page,
-      disable: false,
-      active
-    };
+      disable,
+      active,
+      prevent: disable || active
+    } as PageElementData;
   });
 
   return {

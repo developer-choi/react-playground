@@ -4,7 +4,7 @@ import type {
   MoveBothSidePagination,
   MoveOnePagination
 } from '@util/services/pagination/pagination-core';
-import {getTotalPage, makePageElementData} from '@util/services/pagination/pagination-core';
+import {getTotalPage, makeMovePageElementData} from '@util/services/pagination/pagination-core';
 
 export type ShortPagination = CorePagination & MoveOnePagination & MoveBothSidePagination;
 
@@ -15,25 +15,25 @@ export function getShortPagination({total, config: {articlePerPage}, currentPage
 
   const totalPage = getTotalPage({total, articlePerPage});
 
-  const first = makePageElementData({
+  const first = makeMovePageElementData({
     disable: currentPage <= 1,
     page: 1,
     currentPage: currentPage
   });
 
-  const previous = makePageElementData({
+  const previous = makeMovePageElementData({
     disable: first.disable as boolean,
     page: currentPage - 1,
     currentPage
   });
 
-  const next = makePageElementData({
+  const next = makeMovePageElementData({
     disable: currentPage >= totalPage,
     page: currentPage + 1,
     currentPage
   });
 
-  const last = makePageElementData({
+  const last = makeMovePageElementData({
     disable: next.disable as boolean,
     page: totalPage,
     currentPage
