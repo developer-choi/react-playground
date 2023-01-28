@@ -1,4 +1,5 @@
 import type {LinkProps} from 'next/link';
+import {range} from '@util/extend/data-type/number';
 
 /***************************************************
  * Common
@@ -28,21 +29,36 @@ export interface PageElementData {
 }
 
 //Only first, previous, next, last
-export function makePageElementData(disable: boolean, page: number): PageElementData {
+export function makePageElementData({currentPage, page, disable}: {disable: boolean, page: number, currentPage: number}): PageElementData {
   return {
+    page: disable ? currentPage : page,
     disable,
-    page,
     active: false
   };
 }
 
-//Only between pages
-export function makeBetweenPageElementDataList(pages: number[], currentPage: number): PageElementData[] {
-  return pages.map(page => ({
-    page,
-    disable: false,
-    active: currentPage === page
-  }));
+export function makeMultiplePagesCommonPagination({startPage, totalPage, param}: {startPage: number, totalPage: number, param: MultiplePagesPaginationParam}) {
+  const {currentPage, config: {pagePerView}} = param;
+
+  const tempEndPage = startPage + pagePerView - 1;
+  const endPage = tempEndPage > totalPage ? totalPage : tempEndPage;
+
+  const pages = range(startPage, endPage);
+
+  const betweenPageElementDataList = pages.map(page => {
+    const active = currentPage === page;
+
+    return {
+      page: active ? currentPage : page,
+      disable: false,
+      active
+    };
+  });
+
+  return {
+    betweenPageElementDataList,
+    endPage
+  };
 }
 
 /***************************************************

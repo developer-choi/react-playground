@@ -15,10 +15,29 @@ export function getShortPagination({total, config: {articlePerPage}, currentPage
 
   const totalPage = getTotalPage({total, articlePerPage});
 
-  const first = makePageElementData(currentPage <= 1, 1);
-  const previous = makePageElementData(currentPage <= 1, currentPage - 1);
-  const next = makePageElementData(currentPage >= totalPage, currentPage + 1);
-  const last = makePageElementData(currentPage >= totalPage, totalPage);
+  const first = makePageElementData({
+    disable: currentPage <= 1,
+    page: 1,
+    currentPage: currentPage
+  });
+
+  const previous = makePageElementData({
+    disable: first.disable as boolean,
+    page: currentPage - 1,
+    currentPage
+  });
+
+  const next = makePageElementData({
+    disable: currentPage >= totalPage,
+    page: currentPage + 1,
+    currentPage
+  });
+
+  const last = makePageElementData({
+    disable: next.disable as boolean,
+    page: totalPage,
+    currentPage
+  });
 
   return {
     totalPage,

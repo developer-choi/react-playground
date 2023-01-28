@@ -2,10 +2,9 @@ import type {BasicPagination} from '@util/services/pagination/pagination-basic';
 import type {MultiplePagesPaginationParam} from '@util/services/pagination/pagination-core';
 import {
   getTotalPage,
-  makeBetweenPageElementDataList,
+  makeMultiplePagesCommonPagination,
   makePageElementData
 } from '@util/services/pagination/pagination-core';
-import {range} from '@util/extend/data-type/number';
 
 interface NearPageParam {
   currentPage: number;
@@ -43,7 +42,9 @@ function getEvenNearStartPage({currentPage, pagePerView, totalPage}: NearPagePar
   return currentPage - naturalHalf + 1;
 }
 
-export function getNearPagination({currentPage, total, config: {pagePerView, articlePerPage}}: MultiplePagesPaginationParam): BasicPagination | null {
+export function getNearPagination(param: MultiplePagesPaginationParam): BasicPagination | null {
+  const {currentPage, total, config: {articlePerPage, pagePerView}} = param;
+
   if (total <= 0) {
     return null;
   }
@@ -63,16 +64,31 @@ export function getNearPagination({currentPage, total, config: {pagePerView, art
       totalPage
     });
 
-  const tempEndPage = startPage + pagePerView - 1;
-  const endPage = tempEndPage > totalPage ? totalPage : tempEndPage;
+  const {endPage, betweenPageElementDataList} = makeMultiplePagesCommonPagination({startPage, totalPage, param});
 
-  const pages = range(startPage, endPage);
-  const betweenPageElementDataList = makeBetweenPageElementDataList(pages, currentPage);
+  const first = makePageElementData({
+    disable: startPage === 1,
+    page: 1,
+    currentPage: currentPage
+  });
 
-  const first = makePageElementData(startPage === 1, 1);
-  const previous = makePageElementData(currentPage === 1, currentPage - 1);
-  const next = makePageElementData(currentPage === totalPage, currentPage + 1);
-  const last = makePageElementData(endPage === totalPage, totalPage);
+  const previous = makePageElementData({
+    disable: currentPage === 1,
+    page: currentPage - 1,
+    currentPage
+  });
+
+  const next = makePageElementData({
+    disable: currentPage === totalPage,
+    page: currentPage + 1,
+    currentPage
+  });
+
+  const last = makePageElementData({
+    disable: endPage === totalPage,
+    page: totalPage,
+    currentPage
+  });
 
   return {
     betweenPageElementDataList,
