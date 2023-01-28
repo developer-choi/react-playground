@@ -20,6 +20,10 @@ export default function Page() {
     };
   };
 
+  /**
+   * 렌더링 될때마다 새로 할당되기때문에 버그가 발생함.
+   * 그러므로 content를 custom할거면 useMemo로 감싸던가 이 페이지컴포넌트 바깥으로 뺴던가 해야함.
+   */
   const bugContent = forwardRef<any, AccordionContentProp<AdditionalProp>>(function Content({style, children}, ref) {
     return (
       <ContentWrap ref={ref} style={style}>
