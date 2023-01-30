@@ -3,19 +3,26 @@ import {useCallback} from 'react';
 import {cleanQuery} from '@util/extend/browser/query-string';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type {UrlObject} from 'url';
+import {EMPTY_ARRAY} from '@util/extend/data-type/array';
 
-export function useKeepQuery() {
+export function useKeepQuery(removeParamKeys: string[] = EMPTY_ARRAY) {
   const router = useRouter();
 
   const getKeepQuery = useCallback((query: ParsedUrlQueryInput) => {
+    const previousQuery = {...router.query};
+
+    removeParamKeys.forEach(key => {
+      delete previousQuery[key];
+    });
+    
     return {
       pathname: getRealPathname(router.asPath),
       query: cleanQuery({
-        ...router.query,
+        ...previousQuery,
         ...query
       })
     } as UrlObject;
-  }, [router.asPath, router.query]);
+  }, [removeParamKeys, router.asPath, router.query]);
 
   /**
    * Keep existing query
