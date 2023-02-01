@@ -17,10 +17,11 @@ export function getTotalPage({total, articlePerPage}: TotalPageParam) {
   return (total % articlePerPage === 0) ? dividedValue : dividedValue + 1;
 }
 
-export interface PaginationMethod {
-  onClickPage?: (page: number) => void;
-  pageToHref?: (page: number) => Href;
-}
+export type PaginationMethod = 'default' | {
+  pageToHref: (page: number) => Href;
+} | {
+  onClickPage: (page: number) => void;
+};
 
 export interface PageElementData {
   disable: boolean; //first, previous, next, last에서만 사용하고, 이동할 수 없는 페이지를 나타냄.
@@ -90,13 +91,13 @@ export interface CorePaginationParam<T extends CorePaginationConfig = CorePagina
 }
 
 export interface CorePaginationComponentProps extends CorePaginationParam {
-  methods?: PaginationMethod;
+  methods: PaginationMethod;
 }
 
 export type MultiplePagesPaginationParam = CorePaginationParam<MultiplePagesPaginationConfig>;
 
 export interface MultiplePagesPaginationComponentProps extends MultiplePagesPaginationParam {
-  methods?: PaginationMethod;
+  methods: PaginationMethod;
 }
 
 /***************************************************

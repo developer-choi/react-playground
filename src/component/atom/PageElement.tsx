@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import type {Href, PageElementData, PaginationMethod} from '@util/services/pagination/pagination-core';
 import Link, {LinkProps} from 'next/link';
 import {myClassName} from '@util/libraries/classnames';
@@ -11,23 +11,21 @@ import {useKeepQuery} from '@util/extend/router';
  * (현재 페이지 URL)에 추가로 page=n 이라는 query string만 추가됩니다.
  */
 export interface PageElementProp extends Pick<LinkProps, 'replace'> {
-  methods?: PaginationMethod;
+  methods: PaginationMethod;
   children: string | number;
   className?: string;
   data: PageElementData;
 }
 
-export default function PageElement({methods = {}, children, data, className, replace}: PageElementProp) {
-  const {onClickPage} = methods;
-
+export default function PageElement({methods, children, data, className, replace}: PageElementProp) {
   const {page, disable, active, prevent} = data;
   const _className = myClassName(className, {disable, active});
 
-  const href = useDefaultPageToHref(data.page, methods);
+  const result = useMethodsWithDefault(data.page, methods);
 
-  if (href) {
+  if ('href' in result) {
     return (
-      <Link href={href} passHref {...DEFAULT_LINK_PROPS} replace={replace}>
+      <Link href={result.href} passHref {...DEFAULT_LINK_PROPS} replace={replace}>
         <Anchor className={_className} onClick={prevent ? preventClick : undefined}>
           {children}
         </Anchor>
@@ -36,40 +34,36 @@ export default function PageElement({methods = {}, children, data, className, re
   }
 
   return (
-    <Anchor className={_className} onClick={prevent ? preventClick : () => onClickPage?.(page)}>
+    <Anchor className={_className} onClick={prevent ? preventClick : () => result.onClickPage(page)}>
       {children}
     </Anchor>
   );
 }
 
-function useDefaultPageToHref(page: number, {onClickPage, pageToHref}: PaginationMethod) {
-  const [href, setHref] = useState<Href | undefined>(initializeHref(page, {pageToHref, onClickPage}));
+type MethodsWithDefault = {
+  href: Href;
+} | {
+  onClickPage: (page: number) => void
+};
+
+function useMethodsWithDefault(page: number, methods: PaginationMethod): MethodsWithDefault {
   const {getKeepQuery} = useKeepQuery();
 
-  useEffect(() => {
-    if (pageToHref || onClickPage) {
-      setHref(initializeHref(page, {pageToHref, onClickPage}));
-      return;
-    }
+  if (methods === 'default') {
+    return {
+      href: getKeepQuery({page}),
+    };
 
-    setHref(getKeepQuery({page}));
-  }, [getKeepQuery, onClickPage, page, pageToHref]);
+  } else if ('pageToHref' in methods) {
+    return {
+      href: methods.pageToHref(page)
+    };
 
-  return href;
-}
-
-function initializeHref(page: number, method: PaginationMethod) {
-  const {onClickPage, pageToHref} = method ?? {};
-
-  if (onClickPage) {
-    return undefined;
+  } else {
+    return {
+      onClickPage: methods.onClickPage
+    };
   }
-
-  if (pageToHref) {
-    return pageToHref(page);
-  }
-
-  return undefined;
 }
 
 const DEFAULT_LINK_PROPS: Pick<LinkProps, 'scroll' | 'prefetch'> = {
