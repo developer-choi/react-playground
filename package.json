@@ -9,7 +9,10 @@
     "build:dev": "env-cmd -f .env.development next build && env-cmd -f .env.development next start",
     "build:prod": "next build && next start",
     "start": "next start",
-    "git-config": "git config --global user.name \"Yu Jin Choe\" && git config --global user.email forworkchoe@gmail.com"
+    "git-my-global-config": "git config --global user.name \"Yu Jin Choe\" && git config --global user.email forworkchoe@gmail.com",
+    "git-my-local-config": "git config --local user.name \"Yu Jin Choe\" && git config --local user.email forworkchoe@gmail.com",
+    "git-company-global-config": "git config --global user.name \"최유진 choeyujin\" && git config --global user.email yujinchoe@commerceon.co.kr",
+    "git-company-local-config": "git config --local user.name \"최유진 choeyujin\" && git config --local user.email yujinchoe@commerceon.co.kr"
   },
   "repository": {
     "type": "git",
