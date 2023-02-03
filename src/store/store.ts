@@ -1,11 +1,13 @@
 import {configureStore} from '@reduxjs/toolkit';
 import user from '@store/reducers/user';
 import layout from '@store/reducers/layout';
+import counter from '@store/reducers/counter';
 
 export const store = configureStore({
   reducer: {
     user,
-    layout
+    layout,
+    counter
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware({
     serializableCheck: {
