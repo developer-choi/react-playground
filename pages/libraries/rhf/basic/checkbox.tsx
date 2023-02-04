@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import Button from '@component/atom/element/Button';
 
@@ -33,7 +33,9 @@ export default function Page() {
    * array를 한번이상 체크하는경우 : array로 뜸 (다시 체크해제하면 빈배열뜸)
    * 위와같은 일을 안겪기 위해, defaultValue를 선언하면 매우좋음.
    */
-  console.log('watch', watch());
+  useEffect(() => {
+    console.log('watch', watch());
+  }, [watch]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

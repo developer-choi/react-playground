@@ -39,9 +39,11 @@ export default function Page() {
 
 function OriginalLayout({children}: PropsWithChildren) {
   useLogMount('original-layout');
+
   useEffect(() => {
     console.log('re-render', children);
   }, [children]);
+
   return (
     <div>{children}</div>
   );

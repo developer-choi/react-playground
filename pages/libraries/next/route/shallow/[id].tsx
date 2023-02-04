@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import Link from 'next/link';
 import type {GetServerSideProps} from 'next';
 import {Anchor} from '@component/atom/element/Anchor';
@@ -6,7 +6,9 @@ import useCounter from '@util/custom-hooks/useCounter';
 
 // http://localhost:3000/libraries/next/route/shallow/shallow-1
 export default function Page() {
-  console.log('re-render Page');
+  useEffect(() => {
+    console.log('re-render Page');
+  }, []);
 
   return (
     <>
@@ -49,7 +51,10 @@ function PathLink() {
 }
 
 const Memo = memo(function Memo() {
-  console.log('re-render Memo');
+  useEffect(() => {
+    console.log('re-render Memo');
+  }, []);
+
   return null;
 });
 

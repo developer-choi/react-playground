@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {timeoutPromise} from '@util/extend/promise';
 import {useRouter} from 'next/router';
 
 export default function Page() {
-  console.log('rendering');
   const {isFallback} = useRouter();
+
+  useEffect(() => {
+    console.log('rendering');
+  }, []);
 
   if (isFallback) {
     return (
@@ -33,6 +36,7 @@ export default function Page() {
  */
 export async function getStaticPaths() {
   console.log('getStaticPaths() call');
+
   return {
     paths: [{params: {id: '1'}}],
 

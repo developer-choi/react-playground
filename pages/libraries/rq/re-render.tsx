@@ -1,6 +1,6 @@
 import Button from '@component/atom/element/Button';
 import {timeoutPromise} from '@util/extend/promise';
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useForceReRender} from '@util/custom-hooks/useForceReRender';
 import {useQuery} from '@tanstack/react-query';
 
@@ -39,7 +39,9 @@ export default function Page() {
   // useQuery([QUERY_KEY, page], () => getApi(page));
   // useQuery([QUERY_KEY, page], () => getApi(page));
 
-  console.log('re-render', data);
+  useEffect(() => {
+    console.log('re-render', data);
+  }, [data]);
 
   return (
     <>

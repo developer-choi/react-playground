@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 
 export default function BeRenderedTwoTimesPage() {
@@ -16,7 +16,9 @@ export default function BeRenderedTwoTimesPage() {
    *
    * 그리고 dynamic page param도 처음에는 없음.
    */
-  console.log('render', query);
+  useEffect(() => {
+    console.log('render', query);
+  }, [query]);
 
   return (
     <div>

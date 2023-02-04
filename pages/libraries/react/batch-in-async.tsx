@@ -13,7 +13,9 @@ export default function Page() {
     });
   }, []);
 
-  console.log('re-render', value1, value2);
+  useEffect(() => {
+    console.log('re-render', value1, value2);
+  }, [value1, value2]);
 
   return (
     <>

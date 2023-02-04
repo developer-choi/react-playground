@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 export default function Page(props: any) {
-  console.log('props', props);
+  useEffect(() => {
+    console.log('props', props);
+  }, [props]);
+
   return (
     <div>Custom 404 page</div>
   );

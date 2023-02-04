@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import type {GetServerSideProps} from 'next';
 import {validateNumberInQueryThrowError} from '@util/extend/browser/query-string';
@@ -17,7 +17,9 @@ export default function Page() {
 function DeeeeeeeeepComponent() {
   const {query} = useRouter();
 
-  console.log('render', query);
+  useEffect(() => {
+    console.log('render', query);
+  }, [query]);
 
   return (
     <div>

@@ -65,6 +65,7 @@ async function getCourseList(...args: any) {
 
 async function addCourse({param1, param2}: {param1: number, param2: number}) {
   console.log('addCourse call', param1, param2);
+
   return {
     status: 200
   };

@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FormProvider, SubmitHandler, useForm} from 'react-hook-form';
 import styled from 'styled-components';
 import Button from '@component/atom/element/Button';
@@ -72,7 +72,9 @@ export default function Page({categoryList}: PageProp) {
     });
   }, [updateFilterResultToCategory]);
 
-  console.log('watch', methods.watch(), filterRecord);
+  useEffect(() => {
+    console.log('watch', methods.watch(), filterRecord);
+  }, [filterRecord, methods]);
 
   return (
     <FormProvider {...methods}>

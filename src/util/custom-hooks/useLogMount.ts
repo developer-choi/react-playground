@@ -1,7 +1,6 @@
 import {useEffect} from 'react';
 
 export default function useLogMount(name: string) {
-
   useEffect(() => {
     console.log(`${name} mounted`);
 
