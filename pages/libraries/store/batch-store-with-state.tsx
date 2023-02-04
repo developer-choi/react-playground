@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import useCounter from '@util/custom-hooks/useCounter';
 import Button from '@component/atom/element/Button';
@@ -21,8 +21,10 @@ export default function Page() {
     dispatch(increase());
   }, [dispatch, localCounter]);
 
-  //렌더링은 한번만됬음.
-  console.log('state', count, localCounter.count);
+  useEffect(() => {
+    //렌더링은 한번만됬음.
+    console.log('state', count, localCounter.count);
+  }, [count, localCounter.count]);
 
   return (
     <>
