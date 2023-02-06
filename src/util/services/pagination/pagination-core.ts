@@ -17,7 +17,7 @@ export function getTotalPage({total, articlePerPage}: TotalPageParam) {
   return (total % articlePerPage === 0) ? dividedValue : dividedValue + 1;
 }
 
-export type PaginationMethod = 'default' | {
+export type PaginationMethod = 'defaultPageToHref' | {
   pageToHref: (page: number) => Href;
 } | {
   onClickPage: (page: number) => void;

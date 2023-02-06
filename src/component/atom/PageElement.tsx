@@ -49,7 +49,7 @@ type MethodsWithDefault = {
 function useMethodsWithDefault(page: number, methods: PaginationMethod): MethodsWithDefault {
   const {getKeepQuery} = useKeepQuery();
 
-  if (methods === 'default') {
+  if (methods === 'defaultPageToHref') {
     return {
       href: getKeepQuery({page}),
     };
