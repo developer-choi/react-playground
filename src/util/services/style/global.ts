@@ -50,7 +50,6 @@ const toast = css`
 `;
 
 export const GlobalStyle = createGlobalStyle`
-
   ${reset};
   ${font};
   ${layout};
