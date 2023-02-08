@@ -3,44 +3,43 @@ import styled from 'styled-components';
 import {isMatchKeyboardEvent} from '@util/extend/browser/keyboard-event';
 
 export interface ModalProp extends Omit<ComponentPropsWithoutRef<'div'>, 'onClick'> {
-  disableBackdropClick?: boolean;
-  disableEscapeKeyDown?: boolean;
+  disableEasilyClose?: boolean;
   visible: boolean;
   close: () => void;
 }
 
-export default function Modal({disableBackdropClick = false, disableEscapeKeyDown = false, visible, close, ...rest}: ModalProp) {
+export default function Modal({disableEasilyClose = false, visible, close, ...rest}: ModalProp) {
 
   const onBackdropClick = useCallback(() => {
-    if (!disableBackdropClick) {
+    if (!disableEasilyClose) {
       close();
     }
-  }, [disableBackdropClick, close]);
+  }, [disableEasilyClose, close]);
 
   const onInnerClick = useCallback((event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
   }, []);
-  
+
   useEffect(() => {
     const escToClose = (event: KeyboardEvent) => {
-      if (!disableEscapeKeyDown && isMatchKeyboardEvent(event, {key: 'Escape'})) {
+      if (!disableEasilyClose && isMatchKeyboardEvent(event, {key: 'Escape'})) {
         close();
       }
     };
-  
+
     window.addEventListener('keydown', escToClose);
-  
+
     return () => {
       window.removeEventListener('keydown', escToClose);
     };
-    
-  }, [visible, disableEscapeKeyDown, close]);
-  
+
+  }, [visible, disableEasilyClose, close]);
+
   useEffect(() => {
     if(visible) {
       document.body.style.overflow = "hidden";
       document.body.focus();
-      
+
     } else {
       document.body.style.overflow = "auto";
     }
