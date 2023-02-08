@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import type {GetServerSideProps} from 'next';
-import {InfiniteScrollRow} from '@pages/feature/infinite-scroll';
+import {InfiniteScrollRow} from '@pages/biz/infinite-scroll';
 import Button from '@component/atom/element/Button';
 import type {GetMoreDataApiHandler} from '@util/custom-hooks/get-more-data';
 import {useGetMoreDataServerSide} from '@util/custom-hooks/get-more-data';
@@ -9,7 +9,7 @@ import type {CourseListResponse} from '@type/response/course';
 import type {Course} from '@type/response-sub/course-sub';
 
 /**
- * http://localhost:3000/feature/get-more-data/whole-page
+ * http://localhost:3000/biz/get-more-data/whole-page
  */
 export default function Page(props: CourseListResponse) {
   const getApiHandler = useCallback<GetMoreDataApiHandler<Course>>(async (page) => {

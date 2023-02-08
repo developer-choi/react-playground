@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps<CourseTableProp> = async ({q
   } catch (error) {
     return handleServerSideError(error, {
       notifyRedirect: {
-        destination: '/feature/sort-filter/list?page=1'
+        destination: '/biz/sort-filter/list?page=1'
       }
     });
   }

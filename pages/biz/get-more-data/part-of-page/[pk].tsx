@@ -5,7 +5,7 @@ import type {ParsedUrlQuery} from 'querystring';
 import VideoApi from '@api/VideoApi';
 import styled from 'styled-components';
 import Link from 'next/link';
-import {InfiniteScrollRow} from '@pages/feature/infinite-scroll';
+import {InfiniteScrollRow} from '@pages/biz/infinite-scroll';
 import Button from '@component/atom/element/Button';
 import {GetMoreDataApiHandler, useGetMoreDataClientSide} from '@util/custom-hooks/get-more-data';
 import CourseApi from '@api/CourseApi';
@@ -21,7 +21,7 @@ interface Param extends ParsedUrlQuery {
 }
 
 /**
- * URL: http://localhost:3000/feature/get-more-data/part-of-page/1
+ * URL: http://localhost:3000/biz/get-more-data/part-of-page/1
  */
 export default function Page({videoList, video}: PageProp) {
   const getApiHandler = useCallback<GetMoreDataApiHandler<Course>>(async (page) => {
