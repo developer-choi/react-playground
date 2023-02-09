@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
   };
 }
 
-export const InfiniteScrollRow = styled.div`
+const InfiniteScrollRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
