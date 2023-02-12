@@ -10,6 +10,8 @@ export interface EssentialModalProp {
   closeModal: () => void;
 }
 
+export type CloseModalCallback = EssentialModalProp['closeModal'];
+
 type WithoutEssentialModalProp<T> = Omit<T, keyof EssentialModalProp>;
 
 export interface ModalPayload<P extends EssentialModalProp> {
@@ -64,11 +66,21 @@ export function useDispatchOpenModal() {
    * Frequently used callbacks
    ****************************************************************************/
 
-  const openAlertModal = useCallback((props: WithoutEssentialModalProp<AlertModalProp>) => {
-    openModal({
-      Component: AlertModal,
-      props
-    });
+  const openAlertModal = useCallback((props: string | WithoutEssentialModalProp<AlertModalProp>) => {
+    if (typeof props === 'string') {
+      openModal({
+        Component: AlertModal,
+        props: {
+          content: props
+        }
+      });
+
+    } else {
+      openModal({
+        Component: AlertModal,
+        props
+      });
+    }
   }, [openModal]);
 
   const openConfirmModal = useCallback((props: WithoutEssentialModalProp<ConfirmModalProp>) => {

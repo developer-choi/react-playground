@@ -2,12 +2,13 @@ import React, {MouseEvent, useCallback, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import Modal, {ModalProp} from '@component/molecules/modal/Modal';
 import Button from '@component/atom/element/Button';
+import type {CloseModalCallback} from '@store/reducers/modal';
 
 export interface ConfirmModalProp extends Omit<ModalProp, 'children'> {
-  title: string;
+  title?: string;
   content: string;
-  onCancel?: (event: MouseEvent<HTMLButtonElement>) => void;
-  onConfirm?: (event: MouseEvent<HTMLButtonElement>) => void;
+  onCancel?: (closeModal: CloseModalCallback, event: MouseEvent<HTMLButtonElement>) => void;
+  onConfirm?: (closeModal: CloseModalCallback, event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function ConfirmModal({closeModal, title, content, onCancel = closeModal, onConfirm = closeModal, ...rest}: ConfirmModalProp) {
@@ -15,7 +16,7 @@ export default function ConfirmModal({closeModal, title, content, onCancel = clo
     if (!onCancel) {
       closeModal();
     } else {
-      onCancel(event);
+      onCancel(closeModal, event);
     }
   }, [onCancel, closeModal]);
 
@@ -23,22 +24,22 @@ export default function ConfirmModal({closeModal, title, content, onCancel = clo
     if (!onConfirm) {
       closeModal();
     } else {
-      onConfirm(event);
+      onConfirm(closeModal, event);
     }
   }, [onConfirm, closeModal]);
 
-  const confirmRef = useRef<HTMLButtonElement>(null);
+  const cancelRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    confirmRef.current?.focus();
+    cancelRef.current?.focus();
   }, []);
 
   return (
     <Wrap closeModal={closeModal} {...rest}>
-      <Title>{title}</Title>
+      {!title ? null : <Title>{title}</Title>}
       <Content>{content}</Content>
-      <Button onClick={_onCancel}>취소</Button>
-      <Button ref={confirmRef} onClick={_onConfirm}>확인</Button>
+      <Button ref={cancelRef} onClick={_onCancel}>취소</Button>
+      <Button onClick={_onConfirm}>확인</Button>
     </Wrap>
   );
 }

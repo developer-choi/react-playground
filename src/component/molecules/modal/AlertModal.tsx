@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import type {ModalProp} from '@component/molecules/modal/Modal';
 import Modal from '@component/molecules/modal/Modal';
 import Button from '@component/atom/element/Button';
+import type {CloseModalCallback} from '@store/reducers/modal';
 
 export interface AlertModalProp extends Omit<ModalProp, 'children'> {
-  onConfirm?: (event: MouseEvent<HTMLButtonElement>) => void;
+  onConfirm?: (closeModal: CloseModalCallback, event: MouseEvent<HTMLButtonElement>) => void;
   title?: string;
   content: string;
 }
@@ -15,7 +16,7 @@ export default function AlertModal({closeModal, onConfirm = closeModal, title, c
     if (!onConfirm) {
       closeModal();
     } else {
-      onConfirm(event);
+      onConfirm(closeModal, event);
     }
 
   }, [closeModal, onConfirm]);

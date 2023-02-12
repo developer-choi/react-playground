@@ -4,7 +4,7 @@ import {useDispatchOpenModal} from '@store/reducers/modal';
 import AlertModal from '@component/molecules/modal/AlertModal';
 
 export default function Page() {
-  const {openModal, openAlertModal} = useDispatchOpenModal();
+  const {openModal, openConfirmModal, openAlertModal} = useDispatchOpenModal();
 
   const onClick = useCallback(() => {
     openModal({
@@ -17,16 +17,25 @@ export default function Page() {
   }, [openModal]);
 
   const onClick2 = useCallback(() => {
-    openAlertModal({
-      content: "World",
-      disableEasilyClose: true
-    });
+    openAlertModal("World");
   }, [openAlertModal]);
+
+  const onClick3 = useCallback(() => {
+    openConfirmModal({
+      content: "World",
+      disableEasilyClose: true,
+      onConfirm: (closeModal) => {
+        alert('Confirmed');
+        closeModal();
+      }
+    });
+  }, [openConfirmModal]);
 
   return (
     <>
       <Button onClick={onClick}>Open modal</Button>
       <Button onClick={onClick2}>Open Alert modal</Button>
+      <Button onClick={onClick3}>Open Confirm modal</Button>
     </>
   );
 }
