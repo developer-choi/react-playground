@@ -10,39 +10,36 @@ export interface ConfirmModalProp extends Omit<ModalProp, 'children'> {
   onConfirm?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
-export default function ConfirmModal({close, title, content, onCancel = close, onConfirm = close, visible, ...rest}: ConfirmModalProp) {
-
+export default function ConfirmModal({closeModal, title, content, onCancel = closeModal, onConfirm = closeModal, ...rest}: ConfirmModalProp) {
   const _onCancel = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     if (!onCancel) {
-      close();
+      closeModal();
     } else {
       onCancel(event);
     }
-  }, [onCancel, close]);
+  }, [onCancel, closeModal]);
 
   const _onConfirm = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     if (!onConfirm) {
-      close();
+      closeModal();
     } else {
       onConfirm(event);
     }
-  }, [onConfirm, close]);
+  }, [onConfirm, closeModal]);
 
   const confirmRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (visible) {
-      confirmRef.current?.focus();
-    }
-  }, [visible]);
+    confirmRef.current?.focus();
+  }, []);
 
   return (
-      <Wrap close={close} visible={visible} {...rest}>
-        <Title>{title}</Title>
-        <Content>{content}</Content>
-        <Button onClick={_onCancel}>취소</Button>
-        <Button ref={confirmRef} onClick={_onConfirm}>확인</Button>
-      </Wrap>
+    <Wrap closeModal={closeModal} {...rest}>
+      <Title>{title}</Title>
+      <Content>{content}</Content>
+      <Button onClick={_onCancel}>취소</Button>
+      <Button ref={confirmRef} onClick={_onConfirm}>확인</Button>
+    </Wrap>
   );
 }
 

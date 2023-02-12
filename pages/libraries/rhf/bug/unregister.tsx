@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react';
 import Modal, {ModalProp} from '@component/molecules/modal/Modal';
 import Button from '@component/atom/element/Button';
-import useToggle from '@util/custom-hooks/useToggle';
 import styled from 'styled-components';
 import {RegisterOptions, SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
 import type {FieldError} from 'react-hook-form/dist/types/errors';
+import {useDispatchOpenModal} from '@store/reducers/modal';
 // import {baseHandleErrors} from '@util/extend/react-hook-form';
 
 /**
@@ -20,27 +20,27 @@ import type {FieldError} from 'react-hook-form/dist/types/errors';
  * (3) Submit 해보면 얼럿메시지는 "text 입력하샘" 뜨는데 정작 포커스는 secondContent로 가는 버그가 있음.
  *
  * 버그 해결방법
- * 1. 8번 코드라인의 import { baseHandleErrors } 주석을 해제하고,
- * 1. 45번 코드라인의 shouldFocusError: false 주석을 해제하고,
- * 2. 51번 코드라인의 legacyBaseHandleErrors(...) 코드라인 주석하고
- * 3. 52번 코드라인의 baseHandleErrors(...) 코드라인 주석을 해제하면됨.
+ * 1. import { baseHandleErrors } 주석을 해제하고,
+ * 1. shouldFocusError: false 주석을 해제하고,
+ * 2. legacyBaseHandleErrors(...) 코드라인 주석하고
+ * 3. baseHandleErrors(...) 코드라인 주석을 해제하면됨.
  */
 export default function Page() {
-  const {value: visible, setTrue: open, setFalse: close} = useToggle(false);
-
+  const {openModal} = useDispatchOpenModal();
+  
+  const open = useCallback(() => {
+    openModal({
+      props: {},
+      Component: InquiryModal
+    })
+  }, [openModal]);
+  
   return (
-    <>
-      <Button onClick={open}>Click Me</Button>
-      {!visible ? null : <InquiryModal visible={visible} close={close}/>}
-    </>
+    <Button onClick={open}>Click Me</Button>
   );
 }
 
-interface InquiryModalProps extends Omit<ModalProp, 'children'> {
-
-}
-
-function InquiryModal(props: InquiryModalProps) {
+function InquiryModal({closeModal, ...rest}: Omit<ModalProp, 'children'>) {
   const {register, handleSubmit, watch} = useForm<InquiryFormData>({
     // shouldFocusError: false
   });
@@ -54,13 +54,13 @@ function InquiryModal(props: InquiryModalProps) {
 
   const onSubmit: SubmitHandler<InquiryFormData> = useCallback(data => {
     console.log('submit', data);
-    props.close();
-  }, [props]);
+    closeModal();
+  }, [closeModal]);
 
   const visibleInput = watch('type') === 'complicated';
 
   return (
-    <Modal {...props}>
+    <Modal closeModal={closeModal} {...rest}>
       <Wrap onSubmit={handleSubmit(onSubmit, onError)}>
         <StyledTextArea {...register('firstContent', FIRST_TEXT_AREA_OPTIONS)}/>
         <select {...register('type')}>
@@ -72,7 +72,7 @@ function InquiryModal(props: InquiryModalProps) {
         <StyledTextArea {...register('secondContent', SECOND_TEXT_AREA_OPTIONS)}/>
         <StyledTextArea {...register('thirdContent', THIRD_TEXT_AREA_OPTIONS)}/>
         <Button>Submit</Button>
-        <Button type="button" className="gray" onClick={props.close}>Close</Button>
+        <Button type="button" className="gray" onClick={closeModal}>Close</Button>
       </Wrap>
     </Modal>
   );

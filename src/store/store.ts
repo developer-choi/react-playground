@@ -3,19 +3,21 @@ import user from '@store/reducers/user';
 import layout from '@store/reducers/layout';
 import counter from '@store/reducers/counter';
 import twiceCounter from '@store/reducers/twice-counter';
+import modal from '@store/reducers/modal';
 
 export const store = configureStore({
   reducer: {
     user,
     layout,
     counter,
-    twiceCounter
+    twiceCounter,
+    modal
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware({
     serializableCheck: {
       //https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data
-      ignoredPaths: ['layout.headerProp.onClickHeader'], // Ignore state message
-      ignoredActionPaths: ['payload.onClickHeader'] // Ignore dispatch action message
+      ignoredPaths: ['layout.headerProp.onClickHeader', 'modal.modals'], // Ignore state message
+      ignoredActionPaths: ['payload.onClickHeader', 'payload.Component'] // Ignore dispatch action message
     }
   }),
   devTools: process.env.NODE_ENV === 'development'

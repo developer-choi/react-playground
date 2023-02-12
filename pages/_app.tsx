@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import type {AppProps} from 'next/app';
 import {ThemeProvider} from 'styled-components';
 import {theme} from '@util/services/style/theme';
@@ -11,9 +11,10 @@ import {store} from '@store/store';
 import OgMeta from '@component/atom/OgMeta';
 import TwitterMeta from '@component/atom/TwitterMeta';
 import NotifyRedirect, {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
-import {useAppDispatch} from '@store/hooks';
+import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {thunkRefreshSetUser} from '@store/reducers/user';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {closeModal} from '@store/reducers/modal';
 
 export default function MyApp(props: AppProps) {
   if ('notifyRedirect' in props.pageProps) {
@@ -71,7 +72,25 @@ function InnerApp({Component, pageProps}: AppProps) {
             <Component {...pageProps}/>
           </Layout>
         )}
+        <ModalRender/>
       </ThemeProviderProxy>
     </QueryClientProvider>
+  );
+}
+
+function ModalRender() {
+  const modals = useAppSelector(state => state.modal.modals);
+  const dispatch = useAppDispatch();
+
+  const close = useCallback((pk: number) => {
+    dispatch(closeModal(pk));
+  }, [dispatch]);
+
+  return (
+    <>
+      {modals.map(({pk, Component, props}) => (
+        <Component key={pk} closeModal={() => close(pk)} {...props}/>
+      ))}
+    </>
   );
 }

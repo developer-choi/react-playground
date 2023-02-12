@@ -6,35 +6,32 @@ import Button from '@component/atom/element/Button';
 
 export interface AlertModalProp extends Omit<ModalProp, 'children'> {
   onConfirm?: (event: MouseEvent<HTMLButtonElement>) => void;
-  title: string;
+  title?: string;
   content: string;
 }
 
-export default function AlertModal({close, onConfirm = close, title, content, visible, ...rest}: AlertModalProp) {
-
+export default function AlertModal({closeModal, onConfirm = closeModal, title, content, ...rest}: AlertModalProp) {
   const _onConfirm = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     if (!onConfirm) {
-      close();
+      closeModal();
     } else {
       onConfirm(event);
     }
 
-  }, [close, onConfirm]);
+  }, [closeModal, onConfirm]);
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (visible) {
-      buttonRef.current?.focus();
-    }
-  }, [visible]);
+    buttonRef.current?.focus();
+  }, []);
 
   return (
-      <Wrap close={close} visible={visible} {...rest}>
-        <Title>{title}</Title>
-        <Content>{content}</Content>
-        <Button ref={buttonRef} onClick={_onConfirm}>확인</Button>
-      </Wrap>
+    <Wrap closeModal={closeModal} {...rest}>
+      {!title ? null : <Title>{title}</Title>}
+      <Content>{content}</Content>
+      <Button ref={buttonRef} onClick={_onConfirm}>확인</Button>
+    </Wrap>
   );
 }
 
