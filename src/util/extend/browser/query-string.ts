@@ -104,7 +104,7 @@ export function cleanQuery(query: ParsedUrlQueryInput) {
 /**
  * @return query객체가 비어있으면 빈문자열반환, 있으면 ?가 포함된 stringify하여 반환.
  */
-export function urlStringify(query?: ParsedUrlQuery): string {
+export function urlStringify(query?: ParsedUrlQueryInput): string {
   const cleanedQuery = query ? cleanQuery(query) : {};
 
   if (!cleanedQuery || Object.keys(cleanedQuery).length === 0) {
