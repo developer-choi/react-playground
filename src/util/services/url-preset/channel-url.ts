@@ -1,7 +1,7 @@
 import {urlStringify} from '@util/extend/browser/query-string';
 
 const CHANNEL_URLS = {
-  id: {
+  channelId: {
     // /channel/UCPddv7POJAl7oaZOLdLUlnA
     index: (channelId: string) => `/channel/${channelId}`,
 

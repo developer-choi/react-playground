@@ -3,13 +3,13 @@ import type {DynamicRouteType} from '@util/services/url-preset/root-url';
 import {urlStringify} from '@util/extend/browser/query-string';
 
 const BOARD_URLS = {
-  board: {
-    boardType: {
-      create: (boardType: BoardType) => `/board/${boardType}/create`,
-      list: ({boardType, page, searchTab, searchWord}: BoardListUrlParam) => `/board/${boardType}/list/${page}${urlStringify({searchTab, searchWord})}`,
-      boardNo: ({boardNo, boardType, page}: BoardNoUrlParam) => `/board/${boardType}/${boardNo}${urlStringify({page: page?.toString()})}`,
-      defaultList: '/board/all/list/1'
-    }
+  boardType: {
+    create: (boardType: BoardType) => `/board/${boardType}/create`,
+    list: {
+      index: ({boardType, page, searchTab, searchWord}: BoardListUrlParam) => `/board/${boardType}/list/${page}${urlStringify({searchTab, searchWord})}`,
+      default: '/board/all/list/1'
+    },
+    boardNo: ({boardNo, boardType, page}: BoardNoUrlParam) => `/board/${boardType}/${boardNo}${urlStringify({page: page?.toString()})}`,
   }
 };
 
