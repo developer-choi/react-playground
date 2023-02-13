@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import Link from 'next/link';
 import type {GetServerSideProps} from 'next';
 import {Anchor} from '@component/atom/element/Anchor';
-import useCounter from '@util/custom-hooks/useCounter';
+import useCounter from '@util/services/counter';
 
 // http://localhost:3000/libraries/next/route/shallow/shallow-1
 export default function Page() {

@@ -1,6 +1,6 @@
 import type {CSSProperties, ForwardRefExoticComponent, PropsWithoutRef, ReactNode, RefAttributes} from "react";
 import React, {useEffect, useRef, useState} from "react";
-import useIsFirstRender from "@util/custom-hooks/useIsFirstRender";
+import {useIsFirstRender} from '@util/extend/react';
 
 export interface AccordionProp<T> {
   children: ReactNode;

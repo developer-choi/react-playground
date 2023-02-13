@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import useClickOutside from '@util/custom-hooks/useClickOutside';
+import {useClickOutside} from '@util/extend/event/event';
 
 // http://localhost:3000/libraries/html/click-outside
 export default function Page() {

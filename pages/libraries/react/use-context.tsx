@@ -1,6 +1,6 @@
 import React, {createContext, memo, useCallback, useContext, useMemo, useState} from 'react';
 import Button from '@component/atom/element/Button';
-import {useForceReRender} from '@util/custom-hooks/useForceReRender';
+import {useForceReRender} from '@util/extend/react';
 
 interface ContextValue {
   value: number;

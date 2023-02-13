@@ -3,7 +3,7 @@ import type {Href, PageElementData, PaginationMethod} from '@util/services/pagin
 import Link, {LinkProps} from 'next/link';
 import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
-import {preventClick} from '@util/extend/browser/event';
+import {preventClick} from '@util/extend/event/event';
 import {useKeepQuery} from '@util/extend/router';
 
 /**

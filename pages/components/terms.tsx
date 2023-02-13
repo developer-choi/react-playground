@@ -4,7 +4,7 @@ import type {GetStaticProps} from 'next';
 import Button from '@component/atom/element/Button';
 import Form from '@component/extend/Form';
 import styled from 'styled-components';
-import {useTerms} from '@util/custom-hooks/useTerms';
+import {useTerms} from '@util/services/terms-of-use';
 
 interface Term {
   pk: number;

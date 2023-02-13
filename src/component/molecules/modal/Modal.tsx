@@ -1,6 +1,6 @@
 import React, {MouseEvent, PropsWithChildren, useCallback, useEffect} from 'react';
 import styled from 'styled-components';
-import {isMatchKeyboardEvent} from '@util/extend/browser/keyboard-event';
+import {isMatchKeyboardEvent} from '@util/extend/event/keyboard-event';
 import type {EssentialModalProp} from '@store/reducers/modal';
 
 export interface ModalProp extends PropsWithChildren<EssentialModalProp> {

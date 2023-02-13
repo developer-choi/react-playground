@@ -5,7 +5,7 @@ export type Mapping = Record<string, unknown>;
 export interface ArgumentArray extends Array<Argument> {}
 export type Argument = Value | Mapping | ArgumentArray;
 
-export default function libraryClassName(...args: ArgumentArray) {
+function libraryClassName(...args: ArgumentArray) {
   var classes = [];
 
   for (var i = 0; i < args.length; i++) {

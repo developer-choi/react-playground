@@ -1,3 +1,5 @@
+import {useEffect} from 'react';
+
 export type KeyboardEventSpecialKey = 'ctrlKey' | 'altKey' | 'metaKey' | 'shiftKey';
 const SPECIAL_KEYS: KeyboardEventSpecialKey[] = ['shiftKey', 'metaKey', 'ctrlKey', 'altKey'];
 
@@ -54,4 +56,26 @@ export function isSomeKeyEnteredInWindow(windowKeyDownEvent: KeyboardEvent) {
    * 그러므로 길이가 1인걸로 체크하는것으로 결정했습니다.
    */
   return key.length === 1;
+}
+
+export function useKeyDown(matchKeyboardEvent: MatchKeyboardEvent, callback: (event: KeyboardEvent) => void) {
+  useEffect(() => {
+    const keydownCallback = (event: KeyboardEvent) => {
+      if (!isSomeKeyEnteredInWindow(event)) {
+        return;
+      }
+
+      if (!isMatchKeyboardEvent(event, matchKeyboardEvent)) {
+        return;
+      }
+
+      callback(event);
+    };
+
+    window.addEventListener('keydown', keydownCallback);
+
+    return () => {
+      window.removeEventListener('keydown', keydownCallback);
+    };
+  }, [callback, matchKeyboardEvent]);
 }

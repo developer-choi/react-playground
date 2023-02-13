@@ -1,6 +1,20 @@
+import type {BaseSyntheticEvent} from 'react';
 import {useEffect, useRef} from 'react';
 
-export default function useClickOutside<T extends HTMLElement>() {
+export function preventDefault(event: BaseSyntheticEvent) {
+  event.preventDefault();
+}
+
+export function stopPropagation(event: BaseSyntheticEvent) {
+  event.stopPropagation();
+}
+
+export function preventClick(event: BaseSyntheticEvent) {
+  preventDefault(event);
+  stopPropagation(event);
+}
+
+export function useClickOutside<T extends HTMLElement>() {
   const ref = useRef<T>(null);
 
   useEffect(() => {

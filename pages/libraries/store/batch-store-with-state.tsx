@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
-import useCounter from '@util/custom-hooks/useCounter';
+import useCounter from '@util/services/counter';
 import Button from '@component/atom/element/Button';
 import {increase} from '@store/reducers/counter';
 

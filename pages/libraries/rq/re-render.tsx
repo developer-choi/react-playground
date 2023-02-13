@@ -1,7 +1,7 @@
 import Button from '@component/atom/element/Button';
 import {timeoutPromise} from '@util/extend/promise';
 import {useCallback, useEffect, useState} from 'react';
-import {useForceReRender} from '@util/custom-hooks/useForceReRender';
+import {useForceReRender} from '@util/extend/react';
 import {useQuery} from '@tanstack/react-query';
 
 export default function Page() {

@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import type {GetServerSideProps} from 'next';
 import styled from 'styled-components';
-import useInfiniteScroll from '@util/custom-hooks/useInfiniteScroll';
+import useInfiniteScroll from '@util/services/legacy/legacy-infinite-scroll';
 import CourseApi from '@api/CourseApi';
 import type {Course} from '@type/response-sub/course-sub';
 

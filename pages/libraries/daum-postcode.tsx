@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Button from '@component/atom/element/Button';
-import type {PostcodeSummary} from '@util/custom-hooks/usePostcodePopup';
-import usePostcodePopup from '@util/custom-hooks/usePostcodePopup';
+import type {PostcodeSummary} from '@util/services/daum-postcode';
+import usePostcodePopup from '@util/services/daum-postcode';
 
 export default function Page() {
   const [summary, setSummary] = useState<PostcodeSummary>();

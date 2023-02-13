@@ -6,14 +6,13 @@ import {
   categoryPkListToFilterResultList,
   FilterResult,
   flatDeepCategoryList,
-  parseFilterResultList
+  parseFilterResultList, useFilterRecord
 } from '@util/services/category-filter';
 import type {Category} from '@type/response-sub/category-sub';
 import type {GetServerSideProps} from 'next';
 import CategoryApi from '@api/CategoryApi';
 import CategoryCheckbox from '@component/molecules/CategoryCheckbox';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
-import useFilterRecord from '@util/custom-hooks/useFilterRecord';
 
 interface PageProp {
   categoryList: Category[];

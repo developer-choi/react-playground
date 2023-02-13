@@ -1,7 +1,7 @@
 import React from 'react';
 import ClickAwayListener from '@component/atom/ClickAwayListener';
 import Button from '@component/atom/element/Button';
-import useToggle from '@util/custom-hooks/useToggle';
+import {useToggle} from '@util/extend/react';
 import styled from 'styled-components';
 
 export default function Page() {

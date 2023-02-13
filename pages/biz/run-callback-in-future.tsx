@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {getDiffDate} from '@util/extend/date/date-util';
-import {useRunCallbackInFuture} from '@util/custom-hooks/date-effect';
+import {useRunCallbackInFuture} from '@util/extend/date/date-future';
 
 export default function Page() {
   const [message, setMessage] = useState(`The callback is scheduled to run in ${SECONDS} seconds.`);

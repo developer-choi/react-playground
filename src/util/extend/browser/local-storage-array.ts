@@ -1,60 +1,6 @@
-import type {PkType} from '@util/extend/data-type/array';
-import {removeDuplicatedObject} from '@util/extend/data-type/array';
-
-/**
- * @description 로컬스토리지에 Object를 쉽고 안전하게 읽고 쓰기위해 만들었습니다.
- * 1. 매번 중복되는 코드를 제거하기 위해.
- * 2. localStorage의 key는 문자열이라서 오타로인해 잘못 읽고 쓸 우려가 있어서.
- */
-export class LocalStorageObjectManager<V extends Object> {
-  /**
-   * @private
-   * I think derived classes are need not access the key.
-   * Instead, derived classes can use super's methods.
-   */
-  private readonly key: string;
-
-  constructor(key: string, defaultValue?: V) {
-    this.key = key;
-
-    if (defaultValue) {
-      try {
-        if (!this.getItem()) {
-          this.setStringifyItem(defaultValue);
-        }
-      } catch (error) {
-        if (!(error instanceof ReferenceError)) {
-          throw error;
-        }
-      }
-    }
-  }
-
-  /**
-   * @private
-   * Instead of this private method, use setStringifyItem().
-   */
-  private setItem(value: string) {
-    localStorage.setItem(this.key, value);
-  }
-
-  /**
-   * @private
-   * Instead of this private method, use parseItem().
-   */
-  private getItem() {
-    return localStorage.getItem(this.key);
-  }
-
-  setStringifyItem(value: V) {
-    this.setItem(JSON.stringify(value));
-  }
-
-  parseItem() {
-    const item = this.getItem()
-    return item ? JSON.parse(item) as V : null;
-  }
-}
+import {PkType, removeDuplicatedObject} from '@util/extend/data-type/array';
+import {LocalStorageObjectManager, useLocalStorageObjectManager} from '@util/extend/browser/local-storage-object';
+import {Dispatch, SetStateAction, useCallback, useMemo} from 'react';
 
 export interface ArrayManagerConstructorParameter<I extends Object, P extends PkType> {
   key: string;
@@ -115,4 +61,40 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
     this.setStringifyItem(list);
     return list;
   }
+}
+
+/**
+ * @description
+ * LocalStorageArrayManager: 단순히 로컬스토리지에 읽고 쓰는것만 도와줍니다.
+ * useLocalStorageArrayManager: 로컬스트토리지에 저장된 값이 변할때 화면도 따라 변하는것을 쉽게 구현하도록 도와줍니다.
+ */
+export function useLocalStorageArrayManager<I extends Object, P extends PkType>({key, enableDuplicated, pkExtractor}: ArrayManagerConstructorParameter<I, P>, enabled = true) {
+  const manager = useMemo(() => new LocalStorageArrayManager({
+    key,
+    enableDuplicated,
+    pkExtractor
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [key, enableDuplicated]);
+
+  const [state, setState] = useLocalStorageObjectManager(manager, {enabled, defaultValue: []}) as [I[], Dispatch<SetStateAction<I[]>>];
+
+  const appendFirst = useCallback((item: I) => {
+    setState(manager.appendFirst(item));
+  }, [manager, setState]);
+
+  const appendLast = useCallback((item: I) => {
+    setState(manager.appendLast(item));
+  }, [manager, setState]);
+
+  const removeByPk = useCallback((pk: P) => {
+    setState(manager.removeByPk(pk));
+  }, [manager, setState]);
+
+  return {
+    list: state,
+    appendFirst,
+    appendLast,
+    removeByPk
+  };
 }

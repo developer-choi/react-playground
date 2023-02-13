@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import styled from 'styled-components';
-import {useEffectFromTheSecondTime} from '@util/custom-hooks/useEffectFromTheSecondTime';
+import {useEffectFromTheSecondTime} from '@util/extend/react';
 import {randomNumber} from '@util/extend/random';
 
 export default function Page() {
