@@ -1,10 +1,9 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import type {CourseListResponse} from '@type/response/course';
 import moment from 'moment';
 import BasicPagination from '@component/molecules/pagination/BasicPagination';
-import {useRouter} from 'next/router';
-import {COURSE_PAGINATION_CONFIG} from '@util/services/course';
+import {COURSE_PAGINATION_CONFIG, useCourseUIControl} from '@util/services/course';
 import ShortPagination from '@component/molecules/pagination/ShortPagination';
 import NearPagination from '@component/molecules/pagination/NearPagination';
 
@@ -13,20 +12,7 @@ export interface CourseTableProp {
 }
 
 export default function CourseTable({listResponse}: CourseTableProp) {
-  const {query, push} = useRouter();
-  const {page, ...restQuery} = query;
-  const currentPage = Number(page);
-
-  const pageToHref = useCallback((page: number) => {
-    return {
-      pathname: `/biz/general-list/paginated`,
-      query: {...restQuery, page}
-    };
-  }, [restQuery]);
-
-  const onClickPage = useCallback((page: number) => {
-    push(pageToHref(page));
-  }, [pageToHref, push]);
+  const {currentPage, pageToHref, onClickPage} = useCourseUIControl();
 
   return (
     <>
