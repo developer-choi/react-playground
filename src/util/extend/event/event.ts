@@ -14,6 +14,7 @@ export function preventClick(event: BaseSyntheticEvent) {
   stopPropagation(event);
 }
 
+// https://stackoverflow.com/a/42234988
 export function useClickOutside<T extends HTMLElement>() {
   const ref = useRef<T>(null);
 
