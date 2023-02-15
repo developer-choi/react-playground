@@ -20,7 +20,7 @@ interface PageProp {
 }
 
 export default function Page({list, searchText}: PageProp) {
-  const {value: visible, setTrue: open, setFalse: close} = useToggle(false);
+  const {value: visible, setTrue: open, setFalse: close} = useToggle();
   const {appendFirst, list: recentSearchList, removeByPk} = useRecentSearch();
 
   return (

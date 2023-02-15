@@ -52,7 +52,7 @@ export function usePrevious<T>(value: T) {
   return ref.current;
 }
 
-export function useToggle(initialValue: boolean) {
+export function useToggle(initialValue = false) {
   const [value, setValue] = useState(initialValue);
 
   const toggle = useCallback(() => {

@@ -5,7 +5,7 @@ import Button from '@component/atom/element/Button';
 import {useToggle} from '@util/extend/react';
 
 export default function Page() {
-  const {setTrue: hide, value: isHide} = useToggle(false);
+  const {setTrue: hide, value: isHide} = useToggle();
 
   if (isHide) {
     return null;

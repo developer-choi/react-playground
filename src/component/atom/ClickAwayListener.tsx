@@ -6,7 +6,6 @@ export interface ClickAwayListenerProps {
 }
 
 export default function ClickAwayListener({ onClickAway, children }: ClickAwayListenerProps) {
-  
   const onClick = useCallback((event: React.MouseEvent) => {
     event.stopPropagation();
   }, []);

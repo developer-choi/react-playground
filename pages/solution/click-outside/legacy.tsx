@@ -5,7 +5,7 @@ import {useToggle} from '@util/extend/react';
 import styled from 'styled-components';
 
 export default function Page() {
-  const {value: visible, setFalse: close, toggle} = useToggle(false);
+  const {value: visible, setFalse: close, toggle} = useToggle();
 
   return (
     <Wrap>
