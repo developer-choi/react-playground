@@ -1,8 +1,7 @@
 import React, {PropsWithChildren, useState} from 'react';
 import RadioGroup from '@component/atom/forms/RadioGroup';
 import RadioLabel from '@component/atom/forms/RadioLabel';
-import {useLogMount} from '@util/extend/react';
-import {useLogWhenRendering} from '@util/extend/test';
+import {useLogMount, useLogWhenRendering} from '@util/extend/test';
 
 /**
  * A <==> B 갈떄는 unmount, mount됨.

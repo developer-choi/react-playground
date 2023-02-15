@@ -3,7 +3,7 @@ import {usePrevious} from '@util/extend/react';
 import {isEqual} from 'lodash';
 
 interface DebugOption {
-  debug?: boolean;
+  debug: boolean;
   messages: any;
 }
 
@@ -32,6 +32,18 @@ export function useLogWhenRendering(...messages: any[]) {
 
     console.log(...messages);
   }, [messages, previousMessages]);
+}
+
+export function useLogMount(name: string) {
+  useEffect(() => {
+    console.log(`${name} mounted`);
+
+    return () => {
+      console.log(`${name} unmounted`);
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 }
 
 export function timeoutPromise(timeout: number) {

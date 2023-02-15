@@ -41,23 +41,20 @@ export function useClickOutside<T extends HTMLElement>({callback, ignoreClassNam
 
       const target = event.target as HTMLElement;
 
-      const isMatchIgnoreClassName = ignoreClassName && target.classList.contains(ignoreClassName);
+      const isMatchIgnoreClassName = !!ignoreClassName && target.classList.contains(ignoreClassName);
       const isInside = wrapperRef.current.contains(target);
       const isIgnore = isMatchIgnoreClassName || isInside;
 
       if (isIgnore) {
-        if (isMatchIgnoreClassName) {
-          debugLog({
-            debug: !!debug,
-            messages: `${debug} ignored because isMatchIgnoreClassName true`
-          });
-        }
-        if (isInside) {
-          debugLog({
-            debug: !!debug,
-            messages: `${debug} ignored because isInside true`
-          });
-        }
+        debugLog({
+          debug: !!debug && isMatchIgnoreClassName,
+          messages: `${debug} ignored because isMatchIgnoreClassName true`
+        });
+
+        debugLog({
+          debug: !!debug && isInside,
+          messages: `${debug} ignored because isInside true`
+        });
         return;
       }
 

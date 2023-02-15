@@ -1,13 +1,14 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import styled from 'styled-components';
 import {useEffectFromTheSecondTime} from '@util/extend/react';
 import {randomNumber} from '@util/extend/random';
+import {useLogMount} from '@util/extend/test';
 
+// http://localhost:3000/study/react/key-of-list
 export default function Page() {
   const [sort, setSort] = useState<'desc' | 'asc'>('desc');
 
   const sortedTodos = useMemo<TodoType[]>(() => {
-
     if(sort === 'desc') {
       return todos.sort((a, b) => a.key - b.key);
     } else {
@@ -69,14 +70,7 @@ function BestTodos({todos}: TodosProp) {
 function Todo({text}: TodoType) {
   const initialText = useRef(text);
 
-  useEffect(() => {
-    console.log(text, 'mounted');
-
-    return () => {
-      console.log(text, 'unmounted');
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useLogMount(text);
 
   useEffectFromTheSecondTime(useCallback(() => {
     console.log(initialText.current, text, 'updated');

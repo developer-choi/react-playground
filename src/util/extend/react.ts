@@ -30,18 +30,6 @@ export function useEffectFromTheSecondTime(effect: EffectCallback) {
   }, [effect]);
 }
 
-export function useLogMount(name: string) {
-  useEffect(() => {
-    console.log(`${name} mounted`);
-
-    return () => {
-      console.log(`${name} unmounted`);
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-}
-
 export function usePrevious<T>(value: T) {
   const ref = useRef<T>();
 
