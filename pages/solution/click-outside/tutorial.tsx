@@ -18,12 +18,11 @@ export default function Page() {
 }
 
 const Box = styled.div`
-  width: 150px;
-  height: 150px;
+  display: inline-flex;
+  padding: 20px;
   background-color: red;
   color: white;
   
-  display: flex;
   align-items: center;
   justify-content: center;
 `;

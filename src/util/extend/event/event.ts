@@ -47,10 +47,10 @@ export function useClickOutside<T extends HTMLElement>({callback, ignoreClassNam
 
       if (isIgnore) {
         if (isMatchIgnoreClassName) {
-          debugLog(!!debug, `${debug} ignore because isMatchIgnoreClassName true`);
+          debugLog(!!debug, `${debug} ignored because isMatchIgnoreClassName true`);
         }
         if (isInside) {
-          debugLog(!!debug, `${debug} ignore because isInside true`);
+          debugLog(!!debug, `${debug} ignored because isInside true`);
         }
         return;
       }
