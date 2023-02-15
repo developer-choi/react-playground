@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {FormProvider, SubmitHandler, useForm} from 'react-hook-form';
 import styled from 'styled-components';
 import Button from '@component/atom/element/Button';
@@ -6,13 +6,15 @@ import {
   categoryPkListToFilterResultList,
   FilterResult,
   flatDeepCategoryList,
-  parseFilterResultList, useFilterRecord
+  parseFilterResultList,
+  useFilterRecord
 } from '@util/services/category-filter';
 import type {Category} from '@type/response-sub/category-sub';
 import type {GetServerSideProps} from 'next';
 import CategoryApi from '@api/CategoryApi';
 import CategoryCheckbox from '@component/molecules/CategoryCheckbox';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
+import {useLogWhenRendering} from '@util/extend/test';
 
 interface PageProp {
   categoryList: Category[];
@@ -71,9 +73,7 @@ export default function Page({categoryList}: PageProp) {
     });
   }, [updateFilterResultToCategory]);
 
-  useEffect(() => {
-    console.log('watch', methods.watch(), filterRecord);
-  }, [filterRecord, methods]);
+  useLogWhenRendering('watch', methods.watch(), filterRecord);
 
   return (
     <FormProvider {...methods}>

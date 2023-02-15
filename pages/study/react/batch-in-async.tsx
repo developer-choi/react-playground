@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useLogWhenRendering} from '@util/extend/test';
 
 export default function Page() {
   const [value1, setValue1] = useState('1');
@@ -13,9 +14,7 @@ export default function Page() {
     });
   }, []);
 
-  useEffect(() => {
-    console.log('re-render', value1, value2);
-  }, [value1, value2]);
+  useLogWhenRendering('re-render', value1, value2);
 
   return (
     <>

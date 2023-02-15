@@ -3,6 +3,7 @@ import Button from '@component/atom/element/Button';
 import {useToggle} from '@util/extend/react';
 import styled from 'styled-components';
 import type {ClickOutsideParam} from '@util/extend/event/event';
+import {useLogWhenRendering} from '@util/extend/test';
 
 // URL: http://localhost:3000/solution/click-outside/bug1
 export default function Page() {
@@ -17,13 +18,11 @@ export default function Page() {
   //   ignoreClassName: "IGNORE"
   // });
 
-  useEffect(() => {
-    /**
-     * 박스를 토글하는 로직과, 바깥을 클릭하는 로직이 둘 다 실행되서 결과적으로 박스가 안뜨는 버그가있음.
-     * 이걸 해결하기위해 useClickOutside() 에서는 ignoreClassName을 추가했음.
-     */
-    console.log('visible', visible);
-  }, [visible]);
+  /**
+   * 박스를 토글하는 로직과, 바깥을 클릭하는 로직이 둘 다 실행되서 결과적으로 박스가 안뜨는 버그가있음.
+   * 이걸 해결하기위해 useClickOutside() 에서는 ignoreClassName을 추가했음.
+   */
+  useLogWhenRendering('visible', visible);
 
   return (
     <>

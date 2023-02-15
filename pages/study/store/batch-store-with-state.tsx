@@ -1,8 +1,9 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import useCounter from '@util/services/counter';
 import Button from '@component/atom/element/Button';
 import {increase} from '@store/reducers/counter';
+import {useLogWhenRendering} from '@util/extend/test';
 
 /**
  * Store의 state와
@@ -21,10 +22,8 @@ export default function Page() {
     dispatch(increase());
   }, [dispatch, localCounter]);
 
-  useEffect(() => {
-    //렌더링은 한번만됬음.
-    console.log('state', count, localCounter.count);
-  }, [count, localCounter.count]);
+  //렌더링은 한번만됬음.
+  useLogWhenRendering('state', count, localCounter.count);
 
   return (
     <>

@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import Button from '@component/atom/element/Button';
 import {useQuery} from '@tanstack/react-query';
-import {timeoutPromise} from '@util/extend/test';
+import {timeoutPromise, useLogWhenRendering} from '@util/extend/test';
 
 export default function Page() {
   const [page, setPage] = useState(1);
@@ -18,7 +18,7 @@ export default function Page() {
    * 다른탭 갔다가 오는 refetch를 이용하면, false true false ==> false false false로 계속 찍힘.
    * ?? 내가 이해했던 그 isInitialLoading이 아님. 컴포넌트 마운트 된 이래로 최초로 loading됬을 때 가 아니었음...
    */
-  console.log('re-render', isLoading, isFetching, isInitialLoading);
+  useLogWhenRendering('re-render', isLoading, isFetching, isInitialLoading);
 
   return (
     <Button onClick={increase}>Trigger</Button>

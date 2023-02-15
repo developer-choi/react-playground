@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useRouter} from 'next/router';
+import {useLogWhenRendering} from '@util/extend/test';
 
 export default function BeRenderedTwoTimesPage() {
   const {query} = useRouter();
@@ -16,9 +17,7 @@ export default function BeRenderedTwoTimesPage() {
    *
    * 그리고 dynamic page param도 처음에는 없음.
    */
-  useEffect(() => {
-    console.log('render', query);
-  }, [query]);
+  useLogWhenRendering('render', query);
 
   return (
     <div>

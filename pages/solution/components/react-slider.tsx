@@ -3,19 +3,15 @@ import styled from 'styled-components';
 import {numberWithComma} from '@util/extend/data-type/number';
 import {CustomSlider, MinMaxRange} from '@component/atom/forms/CustomSlider';
 import Button from '@component/atom/element/Button';
+import {useLogWhenRendering} from '@util/extend/test';
 
 export default function Page() {
   const [settingRate, setSettingRate] = useState(INITIAL_RANGE);
   const [range, setRange] = useState<MinMaxRange>(settingRate);
   const [afterRange, setAfterRange] = useState<MinMaxRange>(settingRate);
 
-  useEffect(() => {
-    console.log('range', range);
-  }, [range]);
-
-  useEffect(() => {
-    console.log('afterRange', afterRange);
-  }, [afterRange]);
+  useLogWhenRendering('range', range);
+  useLogWhenRendering('afterRange', afterRange);
 
   useEffect(() => {
     setRange(settingRate);

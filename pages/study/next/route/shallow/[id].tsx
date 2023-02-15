@@ -1,14 +1,13 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import Link from 'next/link';
 import type {GetServerSideProps} from 'next';
 import {Anchor} from '@component/atom/element/Anchor';
 import useCounter from '@util/services/counter';
+import {useLogWhenRendering} from '@util/extend/test';
 
 // http://localhost:3000/study/next/route/shallow/shallow-1
 export default function Page() {
-  useEffect(() => {
-    console.log('re-render Page');
-  }, []);
+  useLogWhenRendering('re-render Page');
 
   return (
     <>
@@ -51,9 +50,7 @@ function PathLink() {
 }
 
 const Memo = memo(function Memo() {
-  useEffect(() => {
-    console.log('re-render Memo');
-  }, []);
+  useLogWhenRendering('re-render Memo');
 
   return null;
 });

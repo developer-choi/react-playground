@@ -1,8 +1,9 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import Button from '@component/atom/element/Button';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {increase} from '@store/reducers/counter';
 import {increaseTwice} from '@store/reducers/twice-counter';
+import {useLogWhenRendering} from '@util/extend/test';
 
 export default function Page() {
   const dispatch = useAppDispatch();
@@ -15,9 +16,7 @@ export default function Page() {
     dispatch(increaseTwice());
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log('state', normalCount, twiceCount);
-  }, [normalCount, twiceCount]);
+  useLogWhenRendering('state', normalCount, twiceCount);
 
   return (
     <>

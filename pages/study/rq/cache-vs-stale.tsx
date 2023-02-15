@@ -1,6 +1,6 @@
 import Button from '@component/atom/element/Button';
-import {timeoutPromise} from '@util/extend/test';
-import {useCallback, useEffect, useState} from 'react';
+import {timeoutPromise, useLogWhenRendering} from '@util/extend/test';
+import {useCallback, useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 
 export default function Page() {
@@ -31,9 +31,7 @@ export default function Page() {
     // cacheTime: 0 이거 주석풀면 아무것도 모르는 멍청한 사람이 되버림.
   });
 
-  useEffect(() => {
-    console.log('re-render', data);
-  }, [data]);
+  useLogWhenRendering('re-render', data);
 
   return (
     <>

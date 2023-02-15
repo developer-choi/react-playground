@@ -1,14 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import {timeoutPromise} from '@util/extend/test';
+import {timeoutPromise, useLogWhenRendering} from '@util/extend/test';
 import {useRouter} from 'next/router';
 
 export default function Page() {
   const {isFallback} = useRouter();
 
-  useEffect(() => {
-    console.log('rendering');
-  }, []);
+  useLogWhenRendering('rendering')
 
   if (isFallback) {
     return (

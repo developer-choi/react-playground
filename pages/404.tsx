@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
+import {useLogWhenRendering} from '@util/extend/test';
 
 export default function Page(props: any) {
-  useEffect(() => {
-    console.log('props', props);
-  }, [props]);
+  useLogWhenRendering('props', props);
 
   return (
     <div>Custom 404 page</div>
