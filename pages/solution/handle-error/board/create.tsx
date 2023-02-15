@@ -45,7 +45,7 @@ function BoardForm() {
 
     try {
       await api.postCreate({title: _title, content: _content, boardType: 'FREE'});
-      await push('/handle-error/board/list/1');
+      await push('/solution/handle-error/board/list/1');
     } catch (error) {
       handleClientSideError(error);
     }

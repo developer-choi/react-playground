@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async context =>
     if (error instanceof ValidateError) {
       return handleServerSideError(error, {
         notifyRedirect: {
-          destination: '/handle-error/board/list/1'
+          destination: '/solution/handle-error/board/list/1'
         }
       });
 
@@ -53,12 +53,12 @@ function BoardList({list}: PageProp) {
     <Wrap>
       {loginStatus === true && <button onClick={logout} style={{alignSelf: 'self-start'}}>로그아웃</button>}
       {list.map(({pk, title}) => (
-        <Link key={pk} href={`/handle-error/board/${pk}`} passHref>
+        <Link key={pk} href={`/solution/handle-error/board/${pk}`} passHref>
           <StyledAnchor>{title}</StyledAnchor>
         </Link>
       ))}
       {loginStatus === true && (
-        <Link href="/handle-error/board/create">
+        <Link href="/solution/handle-error/board/create">
           <a style={{alignSelf: 'self-start'}}>글쓰기</a>
         </Link>
       )}

@@ -24,7 +24,7 @@ export default function Page() {
     try {
       await api.putResetPassword({originPassword, newPassword, confirmPassword});
       alert('비밀번호가 초기화되었습니다. 다시 로그인해주세요.');
-      await logoutInClientSide('/handle-error/login');
+      await logoutInClientSide('/solution/handle-error/login');
 
     } catch (error) {
       if (error instanceof ValidateError) {

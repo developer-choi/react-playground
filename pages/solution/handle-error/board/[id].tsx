@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async context =>
       return handleServerSideError(error, {
         notifyRedirect: {
           message: 'The article has been deleted or does not exist.',
-          destination: '/handle-error/board/list/1'
+          destination: '/solution/handle-error/board/list/1'
         }
       });
 
