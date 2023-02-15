@@ -10,7 +10,7 @@ export function stopPropagation(event: BaseSyntheticEvent) {
   event.stopPropagation();
 }
 
-export function preventClick(event: BaseSyntheticEvent) {
+export function ignoreEvent(event: BaseSyntheticEvent) {
   preventDefault(event);
   stopPropagation(event);
 }

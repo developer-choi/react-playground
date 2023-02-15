@@ -3,7 +3,7 @@ import type {Href, PageElementData, PaginationMethod} from '@util/services/pagin
 import Link, {LinkProps} from 'next/link';
 import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
-import {preventClick} from '@util/extend/event/event';
+import {ignoreEvent} from '@util/extend/event/event';
 import {useKeepQuery} from '@util/extend/router';
 
 /**
@@ -26,7 +26,7 @@ export default function PageElement({methods, children, data, className, replace
   if ('href' in result) {
     return (
       <Link href={result.href} passHref {...DEFAULT_LINK_PROPS} replace={replace}>
-        <Anchor className={_className} onClick={prevent ? preventClick : undefined}>
+        <Anchor className={_className} onClick={prevent ? ignoreEvent : undefined}>
           {children}
         </Anchor>
       </Link>
@@ -34,7 +34,7 @@ export default function PageElement({methods, children, data, className, replace
   }
 
   return (
-    <Anchor className={_className} onClick={prevent ? preventClick : () => result.onClickPage(page)}>
+    <Anchor className={_className} onClick={prevent ? ignoreEvent : () => result.onClickPage(page)}>
       {children}
     </Anchor>
   );
