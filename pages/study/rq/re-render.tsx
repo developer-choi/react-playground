@@ -1,5 +1,5 @@
 import Button from '@component/atom/element/Button';
-import {timeoutPromise} from '@util/extend/promise';
+import {timeoutPromise} from '@util/extend/test';
 import {useCallback, useEffect, useState} from 'react';
 import {useForceReRender} from '@util/extend/react';
 import {useQuery} from '@tanstack/react-query';

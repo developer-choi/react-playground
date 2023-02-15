@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import Button from '@component/atom/element/Button';
-import {timeoutPromise} from '@util/extend/promise';
+import {timeoutPromise} from '@util/extend/test';
 
 export default function Page() {
   const asyncCallApi = useCallback(async () => {

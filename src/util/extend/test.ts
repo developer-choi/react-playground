@@ -3,3 +3,9 @@ export function debugLog(debug: boolean, message: string) {
     console.log(message);
   }
 }
+
+export function timeoutPromise(timeout: number) {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}

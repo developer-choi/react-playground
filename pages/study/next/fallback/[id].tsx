@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
-import {timeoutPromise} from '@util/extend/promise';
+import {timeoutPromise} from '@util/extend/test';
 import {useRouter} from 'next/router';
 
 export default function Page() {

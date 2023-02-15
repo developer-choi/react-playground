@@ -2,7 +2,7 @@ import React from 'react';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import CourseApi from '@api/CourseApi';
 import Button from '@component/atom/element/Button';
-import {timeoutPromise} from '@util/extend/promise';
+import {timeoutPromise} from '@util/extend/test';
 
 export default function Page() {
   const {data} = useQuery(['getTodo'], getCourseList);

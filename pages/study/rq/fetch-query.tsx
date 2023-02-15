@@ -1,7 +1,7 @@
 import Button from '@component/atom/element/Button';
 import {useCallback} from 'react';
 import {useQueryClient} from '@tanstack/react-query';
-import {timeoutPromise} from '@util/extend/promise';
+import {timeoutPromise} from '@util/extend/test';
 
 export default function Page() {
   const queryClient = useQueryClient();

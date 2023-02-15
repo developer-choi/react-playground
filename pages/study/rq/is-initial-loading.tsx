@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import Button from '@component/atom/element/Button';
 import {useQuery} from '@tanstack/react-query';
-import {timeoutPromise} from '@util/extend/promise';
+import {timeoutPromise} from '@util/extend/test';
 
 export default function Page() {
   const [page, setPage] = useState(1);
