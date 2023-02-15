@@ -12,7 +12,7 @@ export default function BeRenderedTwoTimesPage() {
    * To avoid this case, You can declare getServerSideProps().
    *
    * Documentation: https://nextjs.org/docs/routing/dynamic-routes#caveats
-   * Example: http://localhost:3000/libraries/next/route/query-render-twice?key=value
+   * Example: http://localhost:3000/study/next/route/query-render-twice?key=value
    *
    * 그리고 dynamic page param도 처음에는 없음.
    */

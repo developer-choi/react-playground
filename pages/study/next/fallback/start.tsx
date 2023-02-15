@@ -15,7 +15,7 @@ export default function Page() {
 
   return (
     <>
-      <Link href={`/libraries/next/fallback/${page}`}>
+      <Link href={`/study/next/fallback/${page}`}>
         <a>
           fallback/{page} 페이지 가는 링크
         </a>

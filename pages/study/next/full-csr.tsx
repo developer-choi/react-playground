@@ -4,9 +4,9 @@ import type {GetServerSideProps} from 'next';
 import {validateNumberInQueryThrowError} from '@util/extend/browser/query-string';
 
 /** Cases
- * http://localhost:3000/libraries/next/full-csr?page=1
- * http://localhost:3000/libraries/next/full-csr?page=a
- * http://localhost:3000/libraries/next/full-csr
+ * http://localhost:3000/study/next/full-csr?page=1
+ * http://localhost:3000/study/next/full-csr?page=a
+ * http://localhost:3000/study/next/full-csr
  */
 export default function Page() {
   return (
@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
     return {
       redirect: {
         permanent: false,
-        destination: '/libraries/next/full-csr?page=1'
+        destination: '/study/next/full-csr?page=1'
       }
     };
   }

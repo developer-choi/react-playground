@@ -52,7 +52,7 @@ export default function useKakaoShare({shareButtonId, product}: KakaoShareParam)
       return;
     }
 
-    const resultUrl = env.public.origin + `/libraries/kakao/share-target?pk=${pk}`;
+    const resultUrl = env.public.origin + `/study/kakao/share-target?pk=${pk}`;
 
     window.Kakao.Share.createDefaultButton({
       container: `#${shareButtonId}`,

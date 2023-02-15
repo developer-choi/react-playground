@@ -8,7 +8,7 @@ import {useDispatchOpenModal} from '@store/reducers/modal';
 // import {baseHandleErrors} from '@util/extend/react-hook-form';
 
 /**
- * http://localhost:3000/libraries/rhf/bug/unregister
+ * http://localhost:3000/study/rhf/bug/unregister
  *
  * 버그 재현방법
  * 1. 위 URL로 접속

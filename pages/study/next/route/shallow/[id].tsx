@@ -4,7 +4,7 @@ import type {GetServerSideProps} from 'next';
 import {Anchor} from '@component/atom/element/Anchor';
 import useCounter from '@util/services/counter';
 
-// http://localhost:3000/libraries/next/route/shallow/shallow-1
+// http://localhost:3000/study/next/route/shallow/shallow-1
 export default function Page() {
   useEffect(() => {
     console.log('re-render Page');
@@ -24,7 +24,7 @@ function PathWithShallowLink() {
   const {increase, count} = useCounter({log: 'shallow-link'});
 
   return (
-    <Link href={`/libraries/next/route/shallow/path-with-shallow-${count}`} shallow prefetch={false}>
+    <Link href={`/study/next/route/shallow/path-with-shallow-${count}`} shallow prefetch={false}>
       <Anchor onClick={increase} className="block">Shallow Link</Anchor>
     </Link>
   );
@@ -34,7 +34,7 @@ function QueryLink() {
   const {increase, count} = useCounter({log: 'query-link'});
 
   return (
-    <Link href={`/libraries/next/route/shallow/query?query=${count}`} prefetch={false}>
+    <Link href={`/study/next/route/shallow/query?query=${count}`} prefetch={false}>
       <Anchor onClick={increase} className="block">Query Link</Anchor>
     </Link>
   );
@@ -44,7 +44,7 @@ function PathLink() {
   const {increase, count} = useCounter({log: 'path-link'});
 
   return (
-    <Link href={`/libraries/next/route/shallow/path-${count}`} prefetch={false}>
+    <Link href={`/study/next/route/shallow/path-${count}`} prefetch={false}>
       <Anchor onClick={increase} className="block">Path Link</Anchor>
     </Link>
   );

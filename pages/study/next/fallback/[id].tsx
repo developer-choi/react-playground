@@ -24,10 +24,10 @@ export default function Page() {
 };
 
 /**
- * In development, Case 1. http://localhost:3000/libraries/next/fallback/1로 접속할 때
+ * In development, Case 1. http://localhost:3000/study/next/fallback/1로 접속할 때
  * ==> fallback true, false, blocking 모두 동일하게 동작함. 1.5초 뒤에 /페이지로 이동됨.
  *
- * In development, Case2. http://localhost:3000/libraries/next/fallback/2로 접속할 때
+ * In development, Case2. http://localhost:3000/study/next/fallback/2로 접속할 때
  * (1) false: getStaticPaths() ==> 404에러 순서로 실행됨. (이 예제에서는 즉시 404페이지로 보임)
  * (2) true: getStaticPaths() ==> rendering ==> getStaticProps() 순서로 실행됨. (이 예제에서는 1.5초동안 로딩 보이고나서 리다이랙트됨)
  * (3) 'blocking': getStaticPaths() ==> getStaticProps() ==> rendering 순서로 실행됨. (이 예제에서는 1.5초동안 렌더링이 안되다가 getStaticProps()가 종료되면 그 때 렌더링됨)
