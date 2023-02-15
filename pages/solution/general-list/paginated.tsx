@@ -7,7 +7,7 @@ import CourseTable, {CourseTableProp} from '@component/molecules/course/CourseTa
 import CourseApi from '@api/CourseApi';
 import CourseMenu from '@component/molecules/course/CourseMenu';
 
-// URL: http://localhost:3000/biz/general-list/paginated
+// URL: http://localhost:3000/solution/general-list/paginated
 export default function Page({listResponse}: CourseTableProp) {
   return (
     <>
@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps<CourseTableProp> = async ({q
   } catch (error) {
     return handleServerSideError(error, {
       notifyRedirect: {
-        destination: '/biz/general-list/paginated?page=1'
+        destination: '/solution/general-list/paginated?page=1'
       }
     });
   }

@@ -96,7 +96,7 @@ function SearchForm({appendFirst, openRecentSearch, closeRecentSearch, searchTex
   }, []);
 
   const onSubmit: SubmitHandler<FormData> = useCallback(data => {
-    push(`/feature/recent-search?searchText=${data.searchText}`);
+    push(`/solution/recent-search?searchText=${data.searchText}`);
     closeRecentSearch();
     appendFirst({searchText: data.searchText});
   }, [appendFirst, closeRecentSearch, push]);
@@ -151,7 +151,7 @@ function RecentSearchList({visible, list, removeByPk}: RecentSearchListProp) {
       <ul>
         {list.map(({searchText}) => (
           <li key={searchText}>
-            <Link href={`/feature/recent-search?searchText=${searchText}`}>
+            <Link href={`/solution/recent-search?searchText=${searchText}`}>
               <a>{searchText}</a>
             </Link>
             <button onClick={() => removeByPk(searchText)}>X</button>
