@@ -1,5 +1,5 @@
 import React from 'react';
-import {COURSE_SORT_ITEMS, useCourseUIControl} from '@util/services/course';
+import {COURSE_SORT, useCourseUIControl} from '@util/services/course';
 import styled from 'styled-components';
 import {myClassName} from '@util/libraries/classnames';
 
@@ -12,8 +12,8 @@ export default function CourseSortMenu({}: CourseSortMenuProp) {
 
   return (
     <>
-      {COURSE_SORT_ITEMS.map(({sort, name}) => (
-        <SortButton key={sort} type="button" className={myClassName({active: sort === currentSort})} onClick={() => onSort(sort)}>
+      {COURSE_SORT.itemList.map(({value, name}) => (
+        <SortButton key={value} type="button" className={myClassName({active: value === currentSort})} onClick={() => onSort(value)}>
           {name}
         </SortButton>
       ))}

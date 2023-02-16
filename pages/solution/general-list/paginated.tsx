@@ -2,7 +2,7 @@ import React from 'react';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import type {GetServerSideProps} from 'next';
 import {validateNumberInQueryThrowError, validateStringIncludes} from '@util/extend/browser/query-string';
-import {COURSE_SORT_TYPES} from '@util/services/course';
+import {COURSE_SORT} from '@util/services/course';
 import CourseTable, {CourseTableProp} from '@component/molecules/course/CourseTable';
 import CourseApi from '@api/CourseApi';
 import CourseMenu from '@component/molecules/course/CourseMenu';
@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps<CourseTableProp> = async ({q
     const topic = !query.topic ? undefined : validateNumberInQueryThrowError(query.topic);
     const room = !query.room ? undefined : validateNumberInQueryThrowError(query.room);
 
-    const sort = validateStringIncludes(query.sort, COURSE_SORT_TYPES, false);
+    const sort = validateStringIncludes(query.sort, COURSE_SORT.typeList, false);
 
     const api = new CourseApi();
     const {data: listResponse} = await api.getList(page, {room, topic, sort});
