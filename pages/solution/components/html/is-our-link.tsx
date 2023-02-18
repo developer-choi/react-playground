@@ -11,7 +11,7 @@ export default function Page() {
       <StyledLink href="http://localhost:3000">
         http://localhost:3000
       </StyledLink>
-      <StyledLink href="http://localhost:3000/solution/components/is-our-link">
+      <StyledLink href="http://localhost:3000/solution/components/html/is-our-link">
         /components/is-our-link
       </StyledLink>
       <StyledLink href="">
