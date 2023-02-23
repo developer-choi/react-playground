@@ -1,11 +1,11 @@
 import React from 'react';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import type {GetServerSideProps} from 'next';
-import {validateNumberInQueryThrowError, validateStringIncludes} from '@util/extend/browser/query-string';
 import {COURSE_SORT} from '@util/services/course';
 import CourseTable, {CourseTableProp} from '@component/molecules/course/CourseTable';
 import CourseApi from '@api/CourseApi';
 import CourseMenu from '@component/molecules/course/CourseMenu';
+import {validateIncludeString, validateNumber} from '@util/extend/browser/query-string';
 
 // URL: http://localhost:3000/solution/general-list/paginated
 export default function Page({listResponse}: CourseTableProp) {
@@ -19,13 +19,13 @@ export default function Page({listResponse}: CourseTableProp) {
 
 export const getServerSideProps: GetServerSideProps<CourseTableProp> = async ({query}) => {
   try {
-    const page = validateNumberInQueryThrowError(query.page);
+    const page = validateNumber(query.page);
 
     //filter
-    const topic = !query.topic ? undefined : validateNumberInQueryThrowError(query.topic);
-    const room = !query.room ? undefined : validateNumberInQueryThrowError(query.room);
+    const topic = validateNumber(query.topic, {required: false});
+    const room = validateNumber(query.room, {required: false})
 
-    const sort = validateStringIncludes(query.sort, COURSE_SORT.typeList, false);
+    const sort = validateIncludeString(query.sort, COURSE_SORT.typeList, {required: false});
 
     const api = new CourseApi();
     const {data: listResponse} = await api.getList(page, {room, topic, sort});

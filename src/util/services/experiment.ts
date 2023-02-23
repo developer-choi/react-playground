@@ -1,9 +1,9 @@
 import type {ParsedUrlQuery} from 'querystring';
 import {useRouter} from 'next/router';
 import type {GetServerSideProps} from 'next';
-import {validateNumberInQueryThrowError, validateStringIncludes} from '@util/extend/browser/query-string';
 import {COURSE_SORT} from '@util/services/course';
 import {useKeepQuery} from '@util/extend/router';
+import {validateIncludeString, validateNumber} from '@util/extend/browser/query-string';
 
 /**
  * 장점: hooks, ssr 모두 query에 같은 키로 접근한 값을 얻어올 수 있음.
@@ -52,10 +52,10 @@ function useSomeUI() {
 
 const getServerSideProps: GetServerSideProps = async ({query}) => {
   const queryResult = experimentalCourseQuery(query);
-  const page = validateNumberInQueryThrowError(queryResult.page);
-  const topic = !queryResult.topic ? undefined : validateNumberInQueryThrowError(queryResult.topic);
-  const room = !queryResult.room ? undefined : validateNumberInQueryThrowError(queryResult.room);
-  const sort = validateStringIncludes(queryResult.sort, COURSE_SORT.typeList, false);
+  const page = validateNumber(queryResult.page);
+  const topic = validateNumber(queryResult.topic, {required: false});
+  const room = validateNumber(queryResult.room, {required: false});
+  const sort = validateIncludeString(queryResult.sort, COURSE_SORT.typeList, {required: false});
 
   return {
     props: {

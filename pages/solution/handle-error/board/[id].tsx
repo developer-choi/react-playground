@@ -1,6 +1,5 @@
 import type {GetServerSideProps} from 'next';
 import type {Board} from '@type/response-sub/board-sub';
-import {validateNumberInQueryThrowError} from '@util/extend/browser/query-string';
 import BoardApi from '@api/BoardApi';
 import {haveAxiosResponse} from '@api/BaseApi';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
@@ -12,6 +11,7 @@ import Form from '@component/extend/Form';
 import {useCallback} from 'react';
 import styled from 'styled-components';
 import ValidateError from '@util/services/handle-error/ValidateError';
+import {validateNumber} from '@util/extend/browser/query-string';
 
 interface PageProp {
   board: Board;
@@ -24,7 +24,7 @@ export default function Page({board}: PageProp) {
 export const getServerSideProps: GetServerSideProps<PageProp> = async context => {
   const api = new BoardApi();
   try {
-    const id = validateNumberInQueryThrowError(context.params?.id);
+    const id = validateNumber(context.params?.id);
     const {data: {board}} = await api.getOne(context, id);
     return {
       props: {

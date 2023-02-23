@@ -5,7 +5,6 @@ import {useRouter} from 'next/router';
 import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
 import {useForm} from 'react-hook-form';
 import {useToggle} from '@util/extend/react';
-import {isStringInQueryThrowError} from '@util/extend/browser/query-string';
 import {range} from '@util/extend/data-type/number';
 import Button from '@component/atom/element/Button';
 import {useGetLoginUserPk} from '@util/services/auth/auth';
@@ -13,6 +12,7 @@ import {useLocalStorageArrayManager} from '@util/extend/browser/local-storage-ar
 import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
 import {stopPropagation} from '@util/extend/event/event';
+import {validateString} from '@util/extend/browser/query-string';
 
 interface PageProp {
   searchText: string;
@@ -51,7 +51,7 @@ export default function Page({list, searchText}: PageProp) {
 
 export const getServerSideProps: GetServerSideProps<PageProp> = async ({query}) => {
   try {
-    const searchText = isStringInQueryThrowError(query.searchText);
+    const searchText = validateString(query.searchText);
     const {list} = await getApi(searchText);
 
     return {

@@ -1,8 +1,8 @@
 import React from 'react';
 import {useRouter} from 'next/router';
 import type {GetServerSideProps} from 'next';
-import {validateNumberInQueryThrowError} from '@util/extend/browser/query-string';
 import {useLogWhenRendering} from '@util/extend/test';
+import {validateNumber} from '@util/extend/browser/query-string';
 
 /** Cases
  * http://localhost:3000/study/next/full-csr?page=1
@@ -29,7 +29,7 @@ function DeeeeeeeeepComponent() {
 
 export const getServerSideProps: GetServerSideProps = async ({query}) => {
   try {
-    validateNumberInQueryThrowError(query.page);
+    validateNumber(query.page);
 
     return {
       props: {}

@@ -5,80 +5,106 @@ import ValidateError from '@util/services/handle-error/ValidateError';
 
 export type QueryValue = ParsedUrlQuery['any-key'];
 
-export function validateString(queryValue: QueryValue, required: boolean): string | undefined {
-  if (Array.isArray(queryValue)) {
-    throw new ValidateError('The queryValue is not valid string');
-  }
+export function validateString<B extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<B>): ConditionalValueType<string, B> {
+  const {throwable = true, required = true} = options ?? {};
+  let errorMessage = '';
 
   if (required && !queryValue) {
-    throw new ValidateError('The queryValue is not exist');
+    errorMessage = 'The queryValue is not exist';
   }
 
-  return queryValue as string | undefined;
+  if (!errorMessage && Array.isArray(queryValue)) {
+    errorMessage = 'The queryValue is Array.';
+  }
+
+  if (!errorMessage) {
+    return queryValue as string;
+  }
+
+  if (!throwable) {
+    return undefined as ConditionalValueType<string, B>;
+  }
+
+  throw new ValidateError(errorMessage);
 }
 
-/**
- * @return
- * required === true ? T
- * required === false ? T | undefined
- */
-export function validateStringIncludes<T extends string = string>(queryValue: QueryValue, conditions: T[], required: boolean): T | undefined {
-  if (!required && !queryValue) {
-    return undefined;
+export function validateIncludeString<S extends string, B extends boolean = true>(queryValue: QueryValue, includeList: S[], options?: ValidateQueryOption<B>): ConditionalValueType<S, B> {
+  const {throwable = true, required = true} = options ?? {};
+  let errorMessage = '';
+
+  let result = validateString(queryValue, {throwable, required});
+
+  //가능한 상태는, string 아니면 undefined. 만약 에러라면 이 라인 실행안되고 에러만 던져짐.
+  if (result === undefined) {
+    return undefined as ConditionalValueType<S, B>;
   }
 
-  const value = validateString(queryValue, required);
-
-  if (conditions.length === 0) {
-    throw new ValidateError('The conditions is required.');
+  if (includeList.length === 0) {
+    errorMessage = 'The includeList is required.';
   }
 
-  if (!conditions.includes(value as any)) {
-    throw new ValidateError('The queryValue is not in the conditions');
+  if (!includeList.includes(queryValue as any)) {
+    errorMessage = 'The queryValue is not in the conditions';
   }
 
-  return queryValue as T | undefined;
+  if (!errorMessage) {
+    return queryValue as S;
+  }
+
+  if (!throwable) {
+    return undefined as ConditionalValueType<S, B>;
+  }
+
+  throw new ValidateError(errorMessage);
 }
 
-export function isStringInQueryThrowError(queryValue: QueryValue) {
-  if (typeof queryValue !== 'string') {
-    throw new ValidateError('Value is not string');
+//+123 -123 0123 셋다안되고 123가능.
+export function validateNumber<B extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<B>): ConditionalValueType<number, B> {
+  const {throwable = true, required = true} = options ?? {};
+  let errorMessage = '';
+
+  let validatedString = validateString(queryValue, {throwable, required});
+
+  //가능한 상태는, string 아니면 undefined. 만약 에러라면 이 라인 실행안되고 에러만 던져짐.
+  if (validatedString === undefined) {
+    return undefined as ConditionalValueType<number, B>;
   }
 
-  return queryValue as string;
+  if (validatedString.length > MAX_INTEGER_LENGTH) {
+    errorMessage = 'The queryValue is exceed maxLength.';
+  }
+
+  const chars = validatedString.split('');
+
+  // "+123", "-123", "a123"
+  if (chars.some(char => !NUMBERS.includes(char))) {
+    errorMessage = 'queryValue is not valid number';
+  }
+
+  // "0123"
+  if (chars[0] === '0') {
+    errorMessage = 'queryValue is not valid number';
+  }
+
+  if (!errorMessage) {
+    return Number(queryValue);
+  }
+
+  if (!throwable) {
+    return undefined as ConditionalValueType<number, B>;
+  }
+
+  throw new ValidateError(errorMessage);
 }
 
 const NUMBERS = range(0, 9).map(value => value.toString());
 const MAX_INTEGER_LENGTH = Number.MAX_SAFE_INTEGER.toString().length;
 
-/**
- * @example '1ab' ==> throw ValidateError
- * @example ['a', 'b', 'c'] ==> throw ValidateError
- * @example '' ==> throw ValidateError
- * @example '0123' ==> throw ValidateError
- * @example '+123' ==> throw ValidateError
- * @example '1234567890123456789012345678901234567890' ==> throw ValidateError
- * @example '123' ==> 123
- */
-export function validateNumberInQueryThrowError(queryValue: QueryValue): number {
-  // undefined, empty string, array
-  if (!queryValue || Array.isArray(queryValue) || queryValue.length > MAX_INTEGER_LENGTH) {
-    throw new ValidateError('queryValue is not valid number');
-  }
+type ConditionalValueType<V, B extends boolean> = B extends true ? V : V | undefined;
 
-  const chars = queryValue.split('');
-
-  // "+123", "-123"
-  if (chars.some(char => !NUMBERS.includes(char))) {
-    throw new ValidateError('queryValue is not valid number');
-  }
-
-  // "0123"
-  if (chars[0] === '0') {
-    throw new ValidateError('queryValue is not valid number');
-  }
-
-  return Number(queryValue);
+interface ValidateQueryOption<B extends boolean> {
+  required?: boolean;
+  throwable?: B;
 }
 
 const REMOVE_VALUE_ARRAY = [undefined, null, '', Number.NaN];
