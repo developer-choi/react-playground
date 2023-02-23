@@ -20,7 +20,8 @@ export default function Page() {
   const buttonCapture = clickHandler('buttonCapture');
 
   /**
-   * Expected (event-flow.html처럼)
+   * [Expected] (event-flow.html처럼)
+   *
    * wrap1 capture / eventPhase 1
    * wrap2 capture / eventPhase 1
    * button capture / eventPhase 2
@@ -28,7 +29,8 @@ export default function Page() {
    * wrap1 bubble / eventPhase 3
    * wrap2 bubble / eventPhase 3
    *
-   * Result
+   * [Result]
+   *
    * wrap1 capture / eventPhase 1
    * wrap2 capture / eventPhase 1
    * button capture / eventPhase 1
