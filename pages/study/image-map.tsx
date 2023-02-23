@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
-import ImageMap from 'image-map';
 import styled from 'styled-components';
+import ImageMap from 'image-map';
 
+// URL: http://localhost:3000/study/image-map
 export default function Page() {
   useEffect(() => {
-    ImageMap('#target', 500);
+    ImageMap('#target', 200);
   }, []);
 
   return (
