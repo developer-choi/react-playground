@@ -3,13 +3,10 @@ import type {AppProps} from 'next/app';
 import {ThemeProvider} from 'styled-components';
 import {theme} from '@util/services/style/theme';
 import {GlobalStyle} from '@util/services/style/global';
-import Head from 'next/head';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Provider} from 'react-redux';
 import {store} from '@store/store';
-import OgMeta from '@component/atom/OgMeta';
-import TwitterMeta from '@component/atom/TwitterMeta';
 import NotifyRedirect, {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {thunkRefreshSetUser} from '@store/reducers/user';
@@ -24,20 +21,6 @@ export default function MyApp(props: AppProps) {
 
   return (
     <>
-      <Head>
-        <title>react-playground</title>
-      </Head>
-      <OgMeta
-        title="React Playground"
-        image="/images/next-logo.png"
-        description="This project is for learning React and its environments."
-      />
-      <TwitterMeta
-        cardType="summary_large_image"
-        title="React Playground"
-        image="/images/next-logo.png"
-        description="This project is for learning React and its environments."
-      />
       <Provider store={store}>
         <InnerApp {...props}/>
       </Provider>
