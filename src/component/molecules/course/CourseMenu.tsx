@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import CourseFilterMenu from '@component/molecules/course/CourseFilterMenu';
 import CourseSortMenu from '@component/molecules/course/CourseSortMenu';
-import {useCourseUIControl} from '@util/services/course';
+import {useCourseQueryString} from '@util/services/course';
 
 export interface CourseMenuProp {
 
@@ -10,7 +10,7 @@ export interface CourseMenuProp {
 
 export default function CourseMenu({}: CourseMenuProp) {
   const [readyToFilter, setReadyToFilter] = useState(false);
-  const {reset} = useCourseUIControl();
+  const {reset} = useCourseQueryString();
 
   return (
     <>

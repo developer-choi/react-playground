@@ -1,5 +1,5 @@
 import React from 'react';
-import {COURSE_SORT, useCourseUIControl} from '@util/services/course';
+import {COURSE_SORT, useCourseQueryString} from '@util/services/course';
 import styled from 'styled-components';
 import {myClassName} from '@util/libraries/classnames';
 
@@ -8,7 +8,7 @@ export interface CourseSortMenuProp {
 }
 
 export default function CourseSortMenu({}: CourseSortMenuProp) {
-  const {onSort, currentSort} = useCourseUIControl();
+  const {onSort, currentSort} = useCourseQueryString();
 
   return (
     <>

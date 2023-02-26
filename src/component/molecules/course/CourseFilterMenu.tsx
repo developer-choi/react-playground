@@ -4,7 +4,7 @@ import CourseApi from '@api/CourseApi';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import FilterButton from '@component/atom/forms/FilterButton';
 import type {Room, Topic} from '@type/response-sub/course-sub';
-import {useCourseUIControl} from '@util/services/course';
+import {useCourseQueryString} from '@util/services/course';
 
 export interface CourseFilterMenuProp {
   onReadyToFilter: (ready: boolean) => void;
@@ -12,7 +12,7 @@ export interface CourseFilterMenuProp {
 
 export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp) {
   const [filterInfo, setFilterInfo] = useState<{topics: Topic[]; rooms: Room[];}>();
-  const {currentFilter, applyFilterTopic, applyFilterRoom} = useCourseUIControl();
+  const {currentFilter, applyFilterTopic, applyFilterRoom} = useCourseQueryString();
 
   useEffect(() => {
     (async () => {

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import type {CourseListResponse} from '@type/response/course';
 import moment from 'moment';
 import BasicPagination from '@component/molecules/pagination/BasicPagination';
-import {COURSE_PAGINATION_CONFIG, useCourseUIControl} from '@util/services/course';
+import {COURSE_PAGINATION_CONFIG, useCourseQueryString} from '@util/services/course';
 import ShortPagination from '@component/molecules/pagination/ShortPagination';
 import NearPagination from '@component/molecules/pagination/NearPagination';
 
@@ -12,7 +12,7 @@ export interface CourseTableProp {
 }
 
 export default function CourseTable({listResponse}: CourseTableProp) {
-  const {currentPage, pageToHref, onClickPage} = useCourseUIControl();
+  const {currentPage, pageToHref, onClickPage} = useCourseQueryString();
 
   return (
     <>
