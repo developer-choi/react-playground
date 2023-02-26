@@ -127,6 +127,12 @@ export function cleanQuery(query: ParsedUrlQueryInput) {
   }, {} as Record<string, ParsedUrlQueryInput['any']>);
 }
 
+export function getTypedQueryCallback<K extends string>() {
+  return function (query: ParsedUrlQuery): Record<K, QueryValue> {
+    return query as Record<K, QueryValue>;
+  };
+}
+
 /**
  * @return query객체가 비어있으면 빈문자열반환, 있으면 ?가 포함된 stringify하여 반환.
  */

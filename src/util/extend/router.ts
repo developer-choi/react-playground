@@ -1,14 +1,15 @@
 import {TransitionOptions, useRouter} from 'next/router';
 import {useCallback} from 'react';
 import {cleanQuery} from '@util/extend/browser/query-string';
-import type {ParsedUrlQueryInput} from 'querystring';
 import type {UrlObject} from 'url';
 import {EMPTY_ARRAY} from '@util/extend/data-type/array';
 
-export function useKeepQuery(removeParamKeys: string[] = EMPTY_ARRAY) {
+type TypedQuery<K extends string> = Partial<Record<K, undefined | string | number>>;
+
+export function useKeepQuery<K extends string>(removeParamKeys: string[] = EMPTY_ARRAY) {
   const router = useRouter();
 
-  const getKeepQuery = useCallback((query: ParsedUrlQueryInput) => {
+  const getKeepQuery = useCallback((query: TypedQuery<K>) => {
     const previousQuery = {...router.query};
 
     removeParamKeys.forEach(key => {
@@ -28,11 +29,11 @@ export function useKeepQuery(removeParamKeys: string[] = EMPTY_ARRAY) {
    * Keep existing query
    * Keep existing pathname
    */
-  const pushKeepQuery = useCallback((query: ParsedUrlQueryInput, options?: TransitionOptions) => {
+  const pushKeepQuery = useCallback((query: TypedQuery<K>, options?: TransitionOptions) => {
     router.push(getKeepQuery(query), undefined, options);
   }, [getKeepQuery, router]);
 
-  const replaceKeepQuery = useCallback((query: ParsedUrlQueryInput, options?: TransitionOptions) => {
+  const replaceKeepQuery = useCallback((query: TypedQuery<K>, options?: TransitionOptions) => {
     router.replace(getKeepQuery(query), undefined, options);
   }, [getKeepQuery, router]);
 
