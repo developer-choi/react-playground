@@ -3,21 +3,23 @@ import {useCallback} from 'react';
 import {cleanQuery} from '@util/extend/browser/query-string';
 import type {UrlObject} from 'url';
 import {replaceMultiple} from '@util/extend/data-type/string';
+import {EMPTY_ARRAY} from '@util/extend/data-type/array';
 
 type TypedQuery<K extends string> = Partial<Record<K, undefined | string | number>>;
 type TypedParam<P extends string> = Record<P, string | number>;
 
-export function useKeepQuery<K extends string, P extends string>() {
+/**
+ * @param paramKeys page에 dynamic parameter를 사용하는경우 전달. (반드시 미리 변수에 할당해서 전달하여 함수를 실행할 때마다 새로 배열만들지않도록)
+ */
+export function useKeepQuery<K extends string, P extends string = string>(paramKeys: P[] = EMPTY_ARRAY) {
   const router = useRouter();
 
   const getKeepQuery = useCallback((query: TypedQuery<K>, param?: TypedParam<P>) => {
     const previousQuery = {...router.query};
 
-    if (param) {
-      Object.keys(param).forEach(key => {
-        delete previousQuery[key];
-      });
-    }
+    paramKeys.forEach(key => {
+      delete previousQuery[key];
+    });
 
     const pathname = !param ? getRealPathname(router.asPath) : replaceMultiple({
       original: router.pathname,
@@ -32,7 +34,7 @@ export function useKeepQuery<K extends string, P extends string>() {
         ...query
       }),
     } as UrlObject;
-  }, [router.asPath, router.pathname, router.query]);
+  }, [paramKeys, router.asPath, router.pathname, router.query]);
 
   /**
    * Keep existing query

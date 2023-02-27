@@ -20,13 +20,14 @@ export const COURSE_SORT = itemListToDataOfType([
 
 type CourseQueryStringKey = 'page' | 'sort' | 'room';
 type CourseParamKey = 'topic';
+const COURSE_PARAM_KEYS: CourseParamKey[] = ['topic'];
 
 export const getCourseQuery = getTypedQueryCallback<CourseQueryStringKey, CourseParamKey>();
 
 // course 페이지를 컨트롤 (query-string 기반으로 페이지이동, 필터, 정렬 등)하기위한 공통 hooks
 export function useCourseQueryString() {
   const query = getCourseQuery(useRouter().query);
-  const {replaceKeepQuery, getKeepQuery} = useKeepQuery<CourseQueryStringKey, CourseParamKey>();
+  const {replaceKeepQuery, getKeepQuery} = useKeepQuery<CourseQueryStringKey, CourseParamKey>(COURSE_PARAM_KEYS);
 
   //모든 쿼리스트링 유효성검증은 getSSR에서 진행
   const currentPage = Number(query.page) as number;
