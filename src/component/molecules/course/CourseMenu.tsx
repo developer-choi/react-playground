@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import CourseFilterMenu from '@component/molecules/course/CourseFilterMenu';
 import CourseSortMenu from '@component/molecules/course/CourseSortMenu';
 import {useCourseQueryString} from '@util/services/course';
+import CourseTopicMenu from '@component/molecules/course/CourseTopicMenu';
 
 export interface CourseMenuProp {
 
@@ -14,6 +15,7 @@ export default function CourseMenu({}: CourseMenuProp) {
 
   return (
     <>
+      <CourseTopicMenu/>
       <CourseFilterMenu onReadyToFilter={setReadyToFilter}/>
       {readyToFilter && (
         <>

@@ -7,7 +7,7 @@ import CourseApi from '@api/CourseApi';
 import CourseMenu from '@component/molecules/course/CourseMenu';
 import {validateIncludeString, validateNumber} from '@util/extend/browser/query-string';
 
-// URL: http://localhost:3000/solution/general-list/paginated
+// URL: http://localhost:3000/solution/general-list/1/paginated?page=1
 export default function Page({listResponse}: CourseTableProp) {
   return (
     <>
@@ -17,14 +17,17 @@ export default function Page({listResponse}: CourseTableProp) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<CourseTableProp> = async (context) => {
+type ParamType = {
+  topic: string;
+};
+
+export const getServerSideProps: GetServerSideProps<CourseTableProp, ParamType> = async (context) => {
   try {
     const query = getCourseQuery(context.query);
 
     const page = validateNumber(query.page);
+    const topic = validateNumber(context.params?.topic);
 
-    //filter
-    const topic = validateNumber(query.topic, {required: false});
     const room = validateNumber(query.room, {required: false})
 
     const sort = validateIncludeString(query.sort, COURSE_SORT.typeList, {required: false});

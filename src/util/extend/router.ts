@@ -2,39 +2,48 @@ import {TransitionOptions, useRouter} from 'next/router';
 import {useCallback} from 'react';
 import {cleanQuery} from '@util/extend/browser/query-string';
 import type {UrlObject} from 'url';
-import {EMPTY_ARRAY} from '@util/extend/data-type/array';
+import {replaceMultiple} from '@util/extend/data-type/string';
 
 type TypedQuery<K extends string> = Partial<Record<K, undefined | string | number>>;
+type TypedParam<P extends string> = Record<P, string | number>;
 
-export function useKeepQuery<K extends string>(removeParamKeys: string[] = EMPTY_ARRAY) {
+export function useKeepQuery<K extends string, P extends string>() {
   const router = useRouter();
 
-  const getKeepQuery = useCallback((query: TypedQuery<K>) => {
+  const getKeepQuery = useCallback((query: TypedQuery<K>, param?: TypedParam<P>) => {
     const previousQuery = {...router.query};
 
-    removeParamKeys.forEach(key => {
-      delete previousQuery[key];
+    if (param) {
+      Object.keys(param).forEach(key => {
+        delete previousQuery[key];
+      });
+    }
+
+    const pathname = !param ? getRealPathname(router.asPath) : replaceMultiple({
+      original: router.pathname,
+      replaceRecord: param,
+      keyCallback: key => `[${key}]`
     });
 
     return {
-      pathname: getRealPathname(router.asPath),
+      pathname,
       query: cleanQuery({
         ...previousQuery,
         ...query
-      })
+      }),
     } as UrlObject;
-  }, [removeParamKeys, router.asPath, router.query]);
+  }, [router.asPath, router.pathname, router.query]);
 
   /**
    * Keep existing query
    * Keep existing pathname
    */
-  const pushKeepQuery = useCallback((query: TypedQuery<K>, options?: TransitionOptions) => {
-    router.push(getKeepQuery(query), undefined, options);
+  const pushKeepQuery = useCallback((query: TypedQuery<K>, params?: TypedParam<P>, options?: TransitionOptions) => {
+    router.push(getKeepQuery(query, params), undefined, options);
   }, [getKeepQuery, router]);
 
-  const replaceKeepQuery = useCallback((query: TypedQuery<K>, options?: TransitionOptions) => {
-    router.replace(getKeepQuery(query), undefined, options);
+  const replaceKeepQuery = useCallback((query: TypedQuery<K>, params?: TypedParam<P>, options?: TransitionOptions) => {
+    router.replace(getKeepQuery(query, params), undefined, options);
   }, [getKeepQuery, router]);
 
   return {

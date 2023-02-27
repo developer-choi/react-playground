@@ -127,9 +127,9 @@ export function cleanQuery(query: ParsedUrlQueryInput) {
   }, {} as Record<string, ParsedUrlQueryInput['any']>);
 }
 
-export function getTypedQueryCallback<K extends string>() {
-  return function (query: ParsedUrlQuery): Record<K, QueryValue> {
-    return query as Record<K, QueryValue>;
+export function getTypedQueryCallback<K extends string, P extends string = string>() {
+  return function (query: ParsedUrlQuery): Record<K | P, QueryValue> {
+    return query as Record<K | P, QueryValue>;
   };
 }
 

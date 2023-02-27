@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import CourseApi from '@api/CourseApi';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import FilterButton from '@component/atom/forms/FilterButton';
-import type {Room, Topic} from '@type/response-sub/course-sub';
+import type {Room} from '@type/response-sub/course-sub';
 import {useCourseQueryString} from '@util/services/course';
 
 export interface CourseFilterMenuProp {
@@ -11,15 +11,15 @@ export interface CourseFilterMenuProp {
 }
 
 export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp) {
-  const [filterInfo, setFilterInfo] = useState<{topics: Topic[]; rooms: Room[];}>();
-  const {currentFilter, applyFilterTopic, applyFilterRoom} = useCourseQueryString();
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const {currentRoom, applyFilterRoom} = useCourseQueryString();
 
   useEffect(() => {
     (async () => {
       const api = new CourseApi();
       try {
-        const [{data: {list: topics}}, {data: {list: rooms}}] = await Promise.all([api.getTopics(), api.getRooms()]);
-        setFilterInfo({topics, rooms});
+        const {data: {list}} = await api.getRooms();
+        setRooms(list);
         onReadyToFilter(true);
 
       } catch (error) {
@@ -28,20 +28,15 @@ export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp
     })().then();
   }, [onReadyToFilter]);
 
-  if (!filterInfo) {
+  if (!rooms) {
     return null;
   }
 
   return (
     <Wrap>
       <div>
-        {filterInfo.topics.map(({pk, name}) => (
-          <FilterButton currentFilter={currentFilter.topic} key={pk} onFilter={applyFilterTopic} value={pk}>{name}</FilterButton>
-        ))}
-      </div>
-      <div>
-        {filterInfo.rooms.map(({pk, name}) => (
-          <FilterButton currentFilter={currentFilter.room} key={pk} onFilter={applyFilterRoom} value={pk}>{name}</FilterButton>
+        {rooms.map(({pk, name}) => (
+          <FilterButton currentFilter={currentRoom} key={pk} onFilter={applyFilterRoom} value={pk}>{name}</FilterButton>
         ))}
       </div>
     </Wrap>

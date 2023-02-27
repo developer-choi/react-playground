@@ -18,30 +18,30 @@ export const COURSE_SORT = itemListToDataOfType([
   {value: 'room-desc', name: '강의실 내림차순'},
 ]);
 
-type CourseQueryStringKey = 'page' | 'sort' | 'topic' | 'room';
+type CourseQueryStringKey = 'page' | 'sort' | 'room';
+type CourseParamKey = 'topic';
 
-export const getCourseQuery = getTypedQueryCallback<CourseQueryStringKey>();
+export const getCourseQuery = getTypedQueryCallback<CourseQueryStringKey, CourseParamKey>();
 
 // course 페이지를 컨트롤 (query-string 기반으로 페이지이동, 필터, 정렬 등)하기위한 공통 hooks
 export function useCourseQueryString() {
   const query = getCourseQuery(useRouter().query);
-  const {replaceKeepQuery, getKeepQuery} = useKeepQuery<CourseQueryStringKey>();
+  const {replaceKeepQuery, getKeepQuery} = useKeepQuery<CourseQueryStringKey, CourseParamKey>();
 
   //모든 쿼리스트링 유효성검증은 getSSR에서 진행
   const currentPage = Number(query.page) as number;
   const currentSort = query.sort as CourseSortType | undefined;
 
-  const topic = query.topic === undefined ? undefined : Number(query.topic);
-  const room = query.room === undefined ? undefined : Number(query.room);
-  const currentFilter = {
-    topic,
-    room
-  };
+  const currentTopic = Number(query.topic);
+  const currentRoom = query.room === undefined ? undefined : Number(query.room);
 
-  const applyFilterTopic = useCallback((pk: number | undefined) => {
+  const applyFilterTopic = useCallback((pk: number) => {
     replaceKeepQuery({
+      page: 1,
+      room: undefined,
+      sort: undefined
+    }, {
       topic: pk,
-      page: 1
     });
   }, [replaceKeepQuery]);
 
@@ -54,7 +54,6 @@ export function useCourseQueryString() {
 
   const reset = useCallback(() => {
     replaceKeepQuery({
-      topic: undefined,
       room: undefined,
       sort: undefined,
       page: 1
@@ -83,7 +82,8 @@ export function useCourseQueryString() {
   return {
     currentPage,
     currentSort,
-    currentFilter,
+    currentTopic,
+    currentRoom,
     applyFilterRoom,
     applyFilterTopic,
     onSort,

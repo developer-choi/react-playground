@@ -27,3 +27,15 @@ export function booleanToString(value: boolean, prefix = '') {
   const stringValue = value ? 'true' : 'false';
   return prefix + ` ${stringValue}`;
 }
+
+interface ReplaceMultipleParam {
+  original: string;
+  replaceRecord: Record<string, string | number>;
+  keyCallback: (key: string) => string;
+}
+
+export function replaceMultiple({replaceRecord, original, keyCallback}: ReplaceMultipleParam) {
+  return Object.entries(replaceRecord).reduce((a, [key, value]) => {
+    return a.replace(keyCallback ? keyCallback(key) : key, value.toString());
+  }, original);
+}
