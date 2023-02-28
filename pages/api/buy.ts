@@ -1,5 +1,5 @@
-import type {NextApiRequest, NextApiResponse} from "next";
-import cors from "cors";
+import type { NextApiRequest, NextApiResponse } from 'next'
+import cors from 'cors'
 
 // Helper method to wait for a middleware to execute before continuing
 // And to throw an error when an error happens in a middleware
@@ -11,12 +11,12 @@ function runMiddleware(
   return new Promise((resolve, reject) => {
     fn(req, res, (result: any) => {
       if (result instanceof Error) {
-        return reject(result);
+        return reject(result)
       }
 
-      return resolve(result);
-    });
-  });
+      return resolve(result)
+    })
+  })
 }
 
 export default async function handler(
@@ -25,10 +25,10 @@ export default async function handler(
 ) {
   // Run the middleware
   await runMiddleware(req, res, cors({
-    methods: "POST",
-    origin: ["http://localhost:3001"]
+    methods: ['POST'],
+    origin: ['http://localhost:3001']
   }));
 
   // Rest of the API logic
-  res.json({message: "Hello Everyone"});
+  res.json({ message: 'Hello Everyone!22' })
 }
