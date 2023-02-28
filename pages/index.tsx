@@ -1,10 +1,5 @@
-import React, {useEffect} from "react";
-import axios from "axios";
+import React from 'react';
 
 export default function Page() {
-  useEffect(() => {
-    axios.get("https://react-playground-eosin.vercel.app/api/buy");
-  }, []);
-
   return null;
 }
