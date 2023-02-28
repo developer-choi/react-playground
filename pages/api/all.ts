@@ -25,8 +25,7 @@ export default async function handler(
 ) {
   // Run the middleware
   await runMiddleware(req, res, cors({
-    methods: "POST",
-    origin: ["http://localhost:3001"]
+    origin: "*"
   }));
 
   // Rest of the API logic
