@@ -29,5 +29,5 @@ export default async function handler(
   }));
 
   // Rest of the API logic
-  res.json({headers: req.headers, url: req.url, method: req.method});
+  res.json({message: "Hello Everyone"});
 }

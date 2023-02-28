@@ -32,6 +32,12 @@ export default function MyApp(props: AppProps) {
 const queryClient = new QueryClient();
 
 function InnerApp({Component, pageProps}: AppProps) {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(thunkRefreshSetUser());
+  }, [dispatch]);
+
   const Layout = 'layout' in Component ? (Component as any).layout : null;
 
   //https://github.com/styled-components/styled-components/issues/3738
