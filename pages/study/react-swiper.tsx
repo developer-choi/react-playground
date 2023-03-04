@@ -5,17 +5,24 @@ import 'swiper/css/navigation';
 import {Navigation} from 'swiper';
 import styled from 'styled-components';
 
+// URL: http://localhost:3000/study/react-swiper
 export default function Page() {
   return (
     <Wrap>
       <Swiper navigation modules={[Navigation]} loop className="swiper-wrap">
         <SwiperSlide>Slide 1</SwiperSlide>
         <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
+
+        {/* Bug */}
+        <CustomSlide/>
       </Swiper>
     </Wrap>
+  );
+}
+
+function CustomSlide() {
+  return (
+    <SwiperSlide>Slide 6</SwiperSlide>
   );
 }
 
