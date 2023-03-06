@@ -27,7 +27,7 @@ export const getStaticProps: GetStaticProps<PageProp> = async () => {
   const {hour, minute, second} = destructDate();
   const time = `${hour}:${minute}:${second}`
   console.log('start', time);
-  await timeoutPromise(3000);
+  await timeoutPromise(TTFB_TIMEOUT);
   console.log('end');
 
   return {
@@ -37,3 +37,5 @@ export const getStaticProps: GetStaticProps<PageProp> = async () => {
     revalidate: 1
   };
 };
+
+const TTFB_TIMEOUT = 3000;

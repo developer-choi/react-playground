@@ -16,6 +16,10 @@ import styled from 'styled-components';
  * 4. 마우스 호버 해보면 /some /some2 둘 다 304가 응답되는것 확인
  * 5. 이후 F5 새로고침했을 때 또다시 304 응답되는것 확인 (= 동일한 브라우저로 모든창닫고 다시 들어와도 여전히 304 응답됨)
  * 6. 새로 다시 yarn build:dev 명령어로 빌드한 후 다시 실행했을 때는 또다시 200이 응답되는것 확인
+ *
+ * SSR 동작방법)
+ * 1. ssg처럼, fetch/XHR항목에 json파일이 나타나며, getSSR()이 반환되야 이 json파일이 생성됨.
+ * 2. 그래서 getSSR()이 5초걸리면 이 json파일도 TTFB 5초걸림.
  */
 export default function Page() {
   return (

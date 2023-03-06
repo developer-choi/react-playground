@@ -23,10 +23,12 @@ export const getStaticPaths: GetStaticPaths<ParamType> = async () => {
 };
 
 export const getStaticProps: GetStaticProps<{}, ParamType> = async () => {
-  await timeoutPromise(10000);
+  await timeoutPromise(TTFB_TIMEOUT);
   return {
     props: {
     },
     revalidate: 1
   };
 }
+
+const TTFB_TIMEOUT = 10000;

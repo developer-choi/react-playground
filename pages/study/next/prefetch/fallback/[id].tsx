@@ -35,7 +35,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps() {
   console.log('getStaticProps start');
-  await timeoutPromise(3000);
+  await timeoutPromise(TTFB_TIMEOUT);
   console.log('getStaticProps end');
 
   return {
@@ -43,6 +43,8 @@ export async function getStaticProps() {
     }
   };
 }
+
+const TTFB_TIMEOUT = 3000;
 
 const Wrap = styled.div`
   height: 100%;

@@ -29,9 +29,11 @@ export const getStaticProps: GetStaticProps<{}, ParamType> = async ({params}) =>
     };
   }
 
-  await timeoutPromise(2000);
+  await timeoutPromise(TTFB_TIMEOUT);
 
   return {
     notFound: true
   };
 }
+
+const TTFB_TIMEOUT = 2000;
