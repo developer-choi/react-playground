@@ -5,6 +5,7 @@ export interface Course {
   teacher: Teacher;
   room: Room;
   startTimestamp: number;
+  like: boolean;
 }
 
 export interface Topic {

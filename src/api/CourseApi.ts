@@ -20,6 +20,14 @@ export default class CourseApi extends BaseApi {
   getRooms(): Promise<AxiosResponse<CourseRoomsResponse>> {
     return this.axios.get('/rooms');
   }
+
+  putLike(pk: number): Promise<AxiosResponse<void>> {
+    return this.axios.put('/like', {pk});
+  }
+
+  putCancelLike(pk: number): Promise<AxiosResponse<void>> {
+    return this.axios.put('/cancel-like', {pk});
+  }
 }
 
 type CourseListConfig = Partial<CourseFilter> & Partial<Sort<CourseSortType>>;

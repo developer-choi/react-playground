@@ -6,6 +6,7 @@ import BasicPagination from '@component/molecules/pagination/BasicPagination';
 import {COURSE_PAGINATION_CONFIG, useCourseQueryString} from '@util/services/course';
 import ShortPagination from '@component/molecules/pagination/ShortPagination';
 import NearPagination from '@component/molecules/pagination/NearPagination';
+import {CourseLikeButton} from '@component/atom/like-button';
 
 export interface CourseTableProp {
   listResponse: CourseListResponse;
@@ -24,17 +25,19 @@ export default function CourseTable({listResponse}: CourseTableProp) {
           <td>선생님</td>
           <td>강의실</td>
           <td>시작시간</td>
+          <td>좋아요</td>
         </tr>
         </thead>
 
         <tbody>
-        {listResponse.list.map(({pk, title, topic, teacher, room, startTimestamp}) => (
+        {listResponse.list.map(({pk, title, topic, teacher, room, startTimestamp, like}) => (
           <tr key={pk}>
             <td>{title}</td>
             <td>{topic.name}</td>
             <td>{teacher.name}</td>
             <td>{room.name}</td>
             <td>{moment(startTimestamp).format('YYYY-MM-DD HH:mm')}</td>
+            <td><CourseLikeButton initial={like} pk={pk}/></td>
           </tr>
         ))}
         </tbody>
