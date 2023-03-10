@@ -18,8 +18,16 @@ export function removeDuplicatedItems<T extends string | number>(array: T[]): T[
 
 export type PkType = string | number;
 
-export function removeDuplicatedObject<I extends Object, P extends PkType>(items: I[], pkExtractor: (item: I) => P): I[] {
-  const record = items.reduce((a, b) => {
+/**
+ * @param items 중복을 제거하고싶은 배열
+ * @param pkExtractor 배열의 PK를 추출하는 함수
+ * @param recent 'first' = 배열 뒤에있는 중복을 삭제하고 앞에있는것을 남김
+ * @param recent 'last' = 배열 앞에있는 중복을 삭제하고 뒤에있는것을 남김
+ */
+export function removeDuplicatedObject<I extends Object, P extends PkType>(items: I[], pkExtractor: (item: I) => P, recent: 'last' | 'first'): I[] {
+  const _items = recent === 'last' ? items : [...items].reverse();
+
+  const record = _items.reduce((a, b) => {
     const pk = pkExtractor(b);
     // eslint-disable-next-line no-param-reassign
     a[pk] = b;
