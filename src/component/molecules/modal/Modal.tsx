@@ -5,9 +5,10 @@ import type {EssentialModalProp} from '@store/reducers/modal';
 
 export interface ModalProp extends PropsWithChildren<EssentialModalProp> {
   disableEasilyClose?: boolean;
+  className?: string;
 }
 
-export default function Modal({disableEasilyClose = false, closeModal, children}: ModalProp) {
+export default function Modal({disableEasilyClose = false, closeModal, children, className}: ModalProp) {
   const onBackdropClick = useCallback(() => {
     if (!disableEasilyClose) {
       closeModal();
@@ -46,7 +47,7 @@ export default function Modal({disableEasilyClose = false, closeModal, children}
 
   return (
     <Backdrop onClick={onBackdropClick}>
-      <Inner onClick={onInnerClick}>
+      <Inner onClick={onInnerClick} className={className}>
         {children}
       </Inner>
     </Backdrop>

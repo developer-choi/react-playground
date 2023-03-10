@@ -37,7 +37,9 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
         return array;
       }
     } catch (error) {
-      console.error('An empty array was returned because an error occurred while JSON.parse().', error);
+      if(!(error instanceof ReferenceError)) {
+        console.error('An empty array was returned because an error occurred while JSON.parse().', error);
+      }
       return [];
     }
   }

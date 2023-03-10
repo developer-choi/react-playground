@@ -17,7 +17,7 @@ export const store = configureStore({
     serializableCheck: {
       //https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data
       ignoredPaths: ['layout.headerProp.onClickHeader', 'modal.modals'], // Ignore state message
-      ignoredActionPaths: ['payload.onClickHeader', 'payload.Component'] // Ignore dispatch action message
+      ignoredActionPaths: ['payload.onClickHeader', 'payload.Component', 'payload.props.closeDuringOneDay'] // Ignore dispatch action message
     }
   }),
   devTools: process.env.NODE_ENV === 'development'
