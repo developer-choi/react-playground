@@ -47,7 +47,13 @@ export class LocalStorageObjectManager<V extends Object> {
   }
 
   setStringifyItem(value: V) {
-    this.setItem(JSON.stringify(value));
+    try {
+      this.setItem(JSON.stringify(value));
+    } catch (error) {
+      if (!(error instanceof ReferenceError)) {
+        throw error;
+      }
+    }
   }
 
   parseItem() {

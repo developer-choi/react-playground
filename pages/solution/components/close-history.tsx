@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import {getDiffDate} from '@util/extend/date/date-util';
 import {forceAddCloseHistory, forceClearAddCloseHistory, useCloseHistory} from '@util/extend/date/close-history';
 
+// URL: http://localhost:3000/solution/components/close-history
 export default function Page() {
   const {openModal} = useDispatchOpenModal();
   const apple = useAppleCloseHistory();
@@ -25,7 +26,6 @@ export default function Page() {
   const onClick = useCallback(() => {
     forceAddCloseHistory(PK, getDiffDate(new Date(), [0, 0, 0, -26]).getTime()); //26시간전 기록생성
     // forceAddCloseHistory(PK, getDiffDate(new Date(), [0, 0, -1]).getTime()); //1일전 기록생성
-    // forceAddCloseHistory(PK, getDiffDate(new Date(), [0, 0, -2]).getTime()); //2일전 기록생성
   }, []);
 
   return (
@@ -70,5 +70,9 @@ function useAppleCloseHistory() {
       value: 1,
       diffType: 'date'
     },
+    clearPeriod: {
+      value: 5,
+      diffType: 'date'
+    }
   });
 }
