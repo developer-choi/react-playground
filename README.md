@@ -1,6 +1,10 @@
 # Next, React를 자유롭게 공부하기위한 프로젝트 입니다.
 1. /study: 공부를 위한 예제페이지가 있습니다.<br/>
 2. /solution: 특정 문제를 해결한 예제페이지가 있습니다.
+<ul>
+<li>실무에서 검증이 된 솔루션도 있고</li>
+<li>실험단계의 솔루션도 있습니다.</li>
+</ul>
 
 # 실행방법
 1. 반드시 [로컬 API 서버](https://github.com/developer-choi/express-playground)를 먼저 실행한 다음 이 프로젝트를 실행해야합니다.
