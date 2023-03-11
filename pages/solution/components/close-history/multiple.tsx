@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import {useDispatchOpenModal} from '@store/reducers/modal';
 import {
   CloseHistoryManager,
-  forceClearAddCloseHistory,
+  forceClearCloseHistory,
 } from '@util/extend/date/close-history';
 import {getDiffDate} from '@util/extend/date/date-util';
 import Button from '@component/atom/element/Button';
@@ -36,7 +36,7 @@ export default function Page() {
   return (
     <div>
       <Button onClick={onClick}>테스트용 기록생성</Button>
-      <Button onClick={forceClearAddCloseHistory}>초기화</Button>
+      <Button onClick={forceClearCloseHistory}>초기화</Button>
     </div>
   );
 }

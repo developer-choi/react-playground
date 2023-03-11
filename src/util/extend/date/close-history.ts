@@ -86,7 +86,7 @@ export class CloseHistoryManager {
   }
 }
 
-export function forceClearAddCloseHistory() {
+export function forceClearCloseHistory() {
   manager.setStringifyItem([]);
 }
 

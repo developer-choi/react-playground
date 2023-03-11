@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import {getDiffDate} from '@util/extend/date/date-util';
 import {
   CloseHistoryManager,
-  forceClearAddCloseHistory,
+  forceClearCloseHistory,
 } from '@util/extend/date/close-history';
 
 // URL: http://localhost:3000/solution/components/close-history/single
@@ -34,7 +34,7 @@ export default function Page() {
   return (
     <div>
       <Button onClick={onClick}>테스트용 기록생성</Button>
-      <Button onClick={forceClearAddCloseHistory}>초기화</Button>
+      <Button onClick={forceClearCloseHistory}>초기화</Button>
     </div>
   );
 }
