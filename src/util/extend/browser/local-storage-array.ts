@@ -52,14 +52,14 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
 
   appendLast(item: I): I[] {
     const items = [...this.parseItem(), item];
-    const list = this.enableDuplicated ? items : removeDuplicatedObject(items.concat(), this.pkExtractor, 'last');
+    const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.pkExtractor, 'last');
     this.setStringifyItem(list);
     return list;
   }
 
   appendFirst(item: I): I[] {
     const items = [item, ...this.parseItem()];
-    const list = this.enableDuplicated ? items : removeDuplicatedObject(items.concat(), this.pkExtractor, 'first');
+    const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.pkExtractor, 'first');
     this.setStringifyItem(list);
     return list;
   }

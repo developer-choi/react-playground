@@ -75,8 +75,7 @@ const Title = styled.div`
   font-size: 20px;
 `;
 
-const UNIUQUE_KEY = 'special-event';
-const manager = new CloseHistoryManager(UNIUQUE_KEY);
+const manager = new CloseHistoryManager('special-event');
 
 function useActiveEventPopupInCloseHistory() {
   const {data} = useQuery({
