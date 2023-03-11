@@ -1,0 +1,127 @@
+import React, {useCallback, useEffect} from 'react';
+import {useDispatchOpenModal} from '@store/reducers/modal';
+import {
+  CloseHistoryManager,
+  forceClearAddCloseHistory,
+} from '@util/extend/date/close-history';
+import {getDiffDate} from '@util/extend/date/date-util';
+import Button from '@component/atom/element/Button';
+import Modal, {ModalProp} from '@component/molecules/modal/Modal';
+import styled from 'styled-components';
+import {useQuery} from '@tanstack/react-query';
+
+// URL: http://localhost:3000/solution/components/close-history/multiple
+export default function Page() {
+  const {openModal} = useDispatchOpenModal();
+  const activeEventPopupData = useActiveEventPopupInCloseHistory();
+
+  useEffect(() => {
+    if (activeEventPopupData) {
+      openModal({
+        Component: EventPopup,
+        props: {
+          disableEasilyClose: false,
+          data: activeEventPopupData,
+          closeDuringOneDay: () => manager.closeDuringSpecificPeriod(activeEventPopupData.pk)
+        }
+      });
+    }
+  }, [activeEventPopupData, openModal]);
+
+  const onClick = useCallback(() => {
+    manager.addCloseHistory(2, getDiffDate(new Date(), [0, 0, 0, -50]).getTime()); //26시간전 기록 강제생성
+    // manager.addCloseHistory('special-event-1', getDiffDate(new Date(), [0, 0, -1]).getTime()); //1일전 기록생성
+  }, []);
+
+  return (
+    <div>
+      <Button onClick={onClick}>테스트용 기록생성</Button>
+      <Button onClick={forceClearAddCloseHistory}>초기화</Button>
+    </div>
+  );
+}
+
+interface EventPopupProp extends Omit<ModalProp, 'children'> {
+  closeDuringOneDay: () => void;
+  data: SpecialEvent;
+}
+
+function EventPopup({closeDuringOneDay, data, ...rest}: EventPopupProp) {
+  const _closeDuringOneDay = useCallback(() => {
+    closeDuringOneDay();
+    rest.closeModal();
+  }, [closeDuringOneDay, rest]);
+
+  return (
+    <Wrap {...rest}>
+      <Title>{data.name}</Title>
+      <div>
+        <Button onClick={rest.closeModal}>그냥닫기</Button>
+        <Button onClick={_closeDuringOneDay}>1일간 보지않기</Button>
+      </div>
+    </Wrap>
+  );
+}
+
+const Wrap = styled(Modal)`
+  width: 300px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const Title = styled.div`
+  font-size: 20px;
+`;
+
+const UNIUQUE_KEY = 'special-event';
+const manager = new CloseHistoryManager(UNIUQUE_KEY);
+
+function useActiveEventPopupInCloseHistory() {
+  const {data} = useQuery({
+    queryKey: ['event-popup-in-close-history'],
+    queryFn: () => getSpecialEventListApi(),
+    refetchOnWindowFocus: false
+  });
+
+  if (!data) {
+    return undefined;
+  }
+  
+  const activePk = manager.getActiveTargetInCloseHistory({
+    pkList: data.map(event => event.pk),
+    closePeriod: {
+      value: 1,
+      diffType: 'date'
+    },
+    clearPeriod: {
+      value: 5,
+      diffType: 'date'
+    }
+  });
+
+  if (activePk) {
+    return data.find(({pk}) => pk === activePk);
+  }
+}
+
+interface SpecialEvent {
+  pk: number;
+  name: string;
+}
+
+async function getSpecialEventListApi() {
+  const response: SpecialEvent[] = [
+    {
+      pk: 1,
+      name: '할인율 10% 이벤트'
+    },
+    {
+      pk: 2,
+      name: '할인율 20% 이벤트'
+    },
+  ];
+
+  return response;
+}

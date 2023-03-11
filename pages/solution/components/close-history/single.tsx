@@ -4,28 +4,31 @@ import Button from '@component/atom/element/Button';
 import {useDispatchOpenModal} from '@store/reducers/modal';
 import styled from 'styled-components';
 import {getDiffDate} from '@util/extend/date/date-util';
-import {forceAddCloseHistory, forceClearAddCloseHistory, useCloseHistory} from '@util/extend/date/close-history';
+import {
+  CloseHistoryManager,
+  forceClearAddCloseHistory,
+} from '@util/extend/date/close-history';
 
-// URL: http://localhost:3000/solution/components/close-history
+// URL: http://localhost:3000/solution/components/close-history/single
 export default function Page() {
   const {openModal} = useDispatchOpenModal();
-  const apple = useAppleCloseHistory();
+  const activeApplePopupPk = getActiveApplePopupInCloseHistory();
 
   useEffect(() => {
-    if (apple.target) {
+    if (activeApplePopupPk) {
       openModal({
         Component: ApplePopup,
         props: {
           disableEasilyClose: false,
-          closeDuringOneDay: apple.closeDuringSpecificPeriod
+          closeDuringOneDay: () => manager.closeDuringSpecificPeriod(activeApplePopupPk)
         }
       });
     }
-  }, [apple.closeDuringSpecificPeriod, apple.target, openModal]);
+  }, [activeApplePopupPk, openModal]);
 
   const onClick = useCallback(() => {
-    forceAddCloseHistory(PK, getDiffDate(new Date(), [0, 0, 0, -26]).getTime()); //26시간전 기록생성
-    // forceAddCloseHistory(PK, getDiffDate(new Date(), [0, 0, -1]).getTime()); //1일전 기록생성
+    manager.addCloseHistory(PK, getDiffDate(new Date(), [0, 0, 0, -26]).getTime()); //26시간전 기록생성
+    // manager.addCloseHistory(PK, getDiffDate(new Date(), [0, 0, -6]).getTime()); //6일전 기록생성
   }, []);
 
   return (
@@ -63,8 +66,10 @@ const Wrap = styled(Modal)`
 
 const PK = 'apple-popup';
 
-function useAppleCloseHistory() {
-  return useCloseHistory({
+const manager = new CloseHistoryManager();
+
+function getActiveApplePopupInCloseHistory() {
+  return manager.getActiveTargetInCloseHistory({
     pkList: [PK],
     closePeriod: {
       value: 1,

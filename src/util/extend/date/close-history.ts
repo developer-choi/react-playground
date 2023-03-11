@@ -1,86 +1,107 @@
-import {useCallback, useMemo} from 'react';
 import {getDiffBetweenDate} from '@util/extend/date/date-util';
 import {LocalStorageArrayManager} from '@util/extend/browser/local-storage-array';
 import moment from 'moment';
+import {findItem} from '@util/extend/data-type/array';
 
-export interface CloseHistoryParam {
-  pkList: string[]; //굉장히 여러개의 n일간 안보기 팝업목록중에, 하나를 골라서 띄우고싶기 위해서.
+export interface CloseHistoryParam<T extends string | number> {
+  pkList: T[]; //여러개의 n일간 안보기 팝업목록중에, 하나를 골라서 띄우고싶기 위해서.
 
-  //다시 뜨기 위한 계산방법
+  //다시 뜨기 위한 계산방법, 이 기간값보다 차이가 작아야 팝업이 뜸.
   closePeriod: MatchPeriod;
 
-  //기록을 삭제하기위한 계산방법
+  //기록을 삭제하기위한 계산방법, 이 기간값보다 차이가 크면 기록에서 삭제함.
   clearPeriod?: MatchPeriod;
 }
 
-/**
- * @param 여러개의 n일간 안보기 팝업목록
- * @return 그중에 띄워야하는 팝업의 PK
- */
-export function useCloseHistory({pkList, closePeriod, clearPeriod}: CloseHistoryParam) {
-  const target = useMemo(() => {
+type ConditionalPkResult<T extends string | number> = T extends number ? number | undefined : string | undefined;
+
+export class CloseHistoryManager {
+  uniquePrefix: string; //여러 종류의 n일간 안보기팝업을 구분할 수 있는 유니크한 이름
+
+  constructor(uniquePrefix = "") {
+    this.uniquePrefix = uniquePrefix;
+  }
+
+  /**
+   * @param 여러개의 n일간 안보기 팝업목록
+   * @return 그중에 띄워야하는 팝업의 PK
+   */
+  getActiveTargetInCloseHistory<T extends string | number>({pkList, closePeriod, clearPeriod}: CloseHistoryParam<T>): ConditionalPkResult<T> {
+    const pkListToCloseHistoryKey = pkList.map(pk => this.makeCloseHistoryKey(pk));
+
+    const historyList = manager.parseItem();
+
     if (clearPeriod) {
-      const resultList = manager.parseItem().filter(({closedTimestamp, pk}) => {
-        if (!pkList.includes(pk)) {
+      const resultList = historyList.filter((history) => {
+        if (!pkListToCloseHistoryKey.find((param) => history.pkInLocalStorage === param.pkInLocalStorage)) {
           return true;
         }
 
-        const diffValue = getDiffPeriod(new Date(), closedTimestamp, clearPeriod.diffType);
+        const diffValue = getDiffPeriod(new Date(), history.closedTimestamp, clearPeriod.diffType);
         return diffValue <= clearPeriod.value;
       });
 
       manager.setStringifyItem(resultList);
     }
-    
-    const historyList = manager.parseItem();
 
-    return pkList.find(pk => {
-      const findHistory = historyList.find(history => history.pk === pk);
+    return findItem(pkListToCloseHistoryKey, ({pkInLocalStorage, originalPk}) => {
+      const findHistory = historyList.find(history => history.pkInLocalStorage === pkInLocalStorage);
 
       if (!findHistory) {
-        return true;
+        return originalPk;
       }
 
       const diffValue = getDiffPeriod(new Date(), findHistory.closedTimestamp, closePeriod.diffType);
-      return diffValue >= closePeriod.value;
+      const validated = diffValue >= closePeriod.value;
+
+      if (!validated) {
+        return false;
+      }
+
+      return originalPk;
+    }) as ConditionalPkResult<T>;
+  }
+
+  closeDuringSpecificPeriod(pk: string | number) {
+    this.addCloseHistory(pk, new Date().getTime());
+  }
+
+  addCloseHistory(pk: string | number, timestamp: number) {
+    const {originalPk, pkInLocalStorage} = this.makeCloseHistoryKey(pk);
+
+    manager.appendFirst({
+      pkInLocalStorage,
+      originalPk,
+      closedTimestamp: timestamp,
+      closedDateFormat: moment(timestamp).format('YYYY.MM.DD HH:mm:ss')
     });
-  }, [clearPeriod, closePeriod, pkList]);
+  }
 
-  const closeDuringSpecificPeriod = useCallback(() => {
-    if (!target) {
-      throw new Error('이 팝업은 처음부터 뜰 수 없었던 팝업이기때문에, 닫는 로직이 실행되는것 자체가 문제임.');
-    }
-
-    forceAddCloseHistory(target, new Date().getTime());
-  }, [target]);
-
-  return {
-    target,
-    closeDuringSpecificPeriod,
-  };
-}
-
-//테스트용으로 강제로 과거히스토리 만들고싶을 때 사용
-export function forceAddCloseHistory(pk: string, timestamp: number) {
-  manager.appendFirst({
-    pk,
-    closedTimestamp: timestamp,
-    closedDateFormat: moment(timestamp).format('YYYY.MM.DD HH:mm:ss')
-  });
+  private makeCloseHistoryKey(pk: string | number): CloseHistoryKey {
+    return {
+      //originalPk자체가 다른 n일동안 안보기 팝업의 PK와 구분될 수 있는 string값이라면, pkInlocalStorage값도 동일하게 설정
+      pkInLocalStorage: !this.uniquePrefix ? pk.toString() : `${this.uniquePrefix}-${pk}`,
+      originalPk: pk
+    };
+  }
 }
 
 export function forceClearAddCloseHistory() {
   manager.setStringifyItem([]);
 }
 
-interface CloseHistory {
+interface CloseHistoryKey {
   /**
    * @example
    * main-event-banner-${bannerPk} //동적인 경우
    * event-induction //정적인 경우
+   * 로컬스토리지 안에서, 다른 유형의 n일간 보지않기 팝업을 구분할 수 있는값
    */
-  pk: string;
+  pkInLocalStorage: string;
+  originalPk: number | string; //n일간 보지않기 팝업 원본데이터의 PK
+}
 
+interface CloseHistory extends CloseHistoryKey {
   //닫았을 때 timestamp
   closedTimestamp: number;
   closedDateFormat: string;
@@ -104,5 +125,5 @@ function getDiffPeriod(targetDate: Date, closedTimestamp: number, diffType: Matc
 const manager = new LocalStorageArrayManager({
   key: 'close-during-specific-period',
   enableDuplicated: false, //같은 PK면 닫은기록에는 하나만 생성되야함.
-  pkExtractor: (value: CloseHistory) => value.pk
+  pkExtractor: (value: CloseHistory) => value.pkInLocalStorage
 });

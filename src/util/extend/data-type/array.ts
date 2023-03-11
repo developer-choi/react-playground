@@ -2,7 +2,9 @@ import type {Direction} from '@type/response-sub/common-sub';
 
 export const EMPTY_ARRAY = [];
 
-export function replace<T>(array: Array<T>, conditionCallback: (item: T, index: number, array: Array<T>) => boolean, replaceCallback: (item: T) => T) {
+type LoopCallback<I, R> = (item: I, index: number, array: Array<I>) => R;
+
+export function replace<T>(array: Array<T>, conditionCallback: LoopCallback<T, boolean>, replaceCallback: (item: T) => T) {
   return array.map((item, index, original) => {
     if (conditionCallback(item, index, original)) {
       return replaceCallback(item);
@@ -10,6 +12,22 @@ export function replace<T>(array: Array<T>, conditionCallback: (item: T, index: 
       return item;
     }
   });
+}
+
+// 루프돌려서 콜백에서 반환한 값을 그대로 반환
+export function findItem<I, R>(list: I[], resultCallback: LoopCallback<I, R | false>): R | undefined {
+  for (let i = 0 ; i < list.length ; i++) {
+    const item = list[i];
+    const result = resultCallback(item, i, list);
+
+    if (result === false) {
+      continue;
+    }
+
+    return result;
+  }
+
+  return undefined;
 }
 
 export function removeDuplicatedItems<T extends string | number>(array: T[]): T[] {
