@@ -62,27 +62,8 @@ export default function useFilesToImages({keepPrevData = false, validateOption, 
       return;
     }
 
-    try {
-      if (validateOption) {
-        validateFiles([file], validateOption);
-      }
-
-      const image = await srcToImageElement(URL.createObjectURL(file));
-      
-      setData({
-        files: [file],
-        images: [image]
-      });
-      
-    } catch (error) {
-      if (!handleError || !(error instanceof ValidateError)) {
-        handleClientSideError(error);
-        return;
-      }
-
-      handleError(error);
-    }
-  }, [handleError, validateOption]);
+    return onChangeFiles([file]);
+  }, [onChangeFiles]);
 
   return {
     files: data.files,
