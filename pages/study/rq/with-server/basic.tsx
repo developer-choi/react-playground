@@ -10,6 +10,11 @@ import type {GetServerSideProps} from 'next';
 export default function Page() {
   const {data} = useQuery({queryKey: [QUERY_KEY], queryFn: getApi});
 
+  /** 실행결과
+   * TTFB 1초뒤에
+   * 최초 페이지 렌더링 시점부터 데이터가 존재하게됨. (= SSR처럼)
+   */
+
   return (
     <>
       {data}
@@ -33,7 +38,6 @@ type ParamType = {
 export const getServerSideProps: GetServerSideProps<DehydratedStateProps, ParamType> = async () => {
   const queryClient = new QueryClient();
 
-  // queryClient.prefetchQuery({
   await queryClient.prefetchQuery({
     queryKey: [QUERY_KEY],
     queryFn: getApi
