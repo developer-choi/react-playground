@@ -10,28 +10,22 @@ import {store} from '@store/store';
 import NotifyRedirect, {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {thunkRefreshSetUser} from '@store/reducers/user';
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {QueryClient, QueryClientProvider, Hydrate, DehydratedStateProps} from '@tanstack/react-query';
 import {closeModal} from '@store/reducers/modal';
 
-export default function MyApp(props: AppProps) {
-  if ('notifyRedirect' in props.pageProps) {
-    const {notifyRedirect} = props.pageProps as NotifyRedirectProps;
-    return <NotifyRedirect notifyRedirect={notifyRedirect}/>;
-  }
+export type PageProp = DehydratedStateProps & NotifyRedirectProps;
 
+export default function MyApp(props: AppProps<PageProp>) {
   return (
-    <>
-      <Provider store={store}>
-        <InnerApp {...props}/>
-      </Provider>
-      <ToastContainer/>
-    </>
+    <Provider store={store}>
+      <ReduxInnerApp {...props}/>
+    </Provider>
   );
 }
 
 const queryClient = new QueryClient();
 
-function InnerApp({Component, pageProps}: AppProps) {
+function ReduxInnerApp({Component, pageProps}: AppProps<PageProp>) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -44,19 +38,26 @@ function InnerApp({Component, pageProps}: AppProps) {
   const ThemeProviderProxy: any = ThemeProvider;
   const GlobalStyleProxy: any = GlobalStyle;
 
+  if (pageProps.notifyRedirect) {
+    return <NotifyRedirect notifyRedirect={pageProps.notifyRedirect}/>;
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProviderProxy theme={theme}>
-        <GlobalStyleProxy/>
-        {Layout === null ? (
-          <Component {...pageProps}/>
-        ) : (
-          <Layout>
+      <Hydrate state={pageProps.dehydratedState}>
+        <ThemeProviderProxy theme={theme}>
+          <GlobalStyleProxy/>
+          {Layout === null ? (
             <Component {...pageProps}/>
-          </Layout>
-        )}
-        <ModalRender/>
-      </ThemeProviderProxy>
+          ) : (
+            <Layout>
+              <Component {...pageProps}/>
+            </Layout>
+          )}
+          <ModalRender/>
+          <ToastContainer/>
+        </ThemeProviderProxy>
+      </Hydrate>
     </QueryClientProvider>
   );
 }
