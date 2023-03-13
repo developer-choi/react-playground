@@ -5,14 +5,14 @@ import {useDispatchOpenModal} from '@store/reducers/modal';
 import styled from 'styled-components';
 import {getDiffDate} from '@util/extend/date/date-util';
 import {
-  CloseHistoryManager,
-  forceClearCloseHistory,
-} from '@util/extend/date/close-history';
+  ClosedHistoryManager,
+  forceClearClosedHistory,
+} from '@util/extend/date/closed-history';
 
-// URL: http://localhost:3000/solution/components/close-history/single
+// URL: http://localhost:3000/solution/components/closed-history/single
 export default function Page() {
   const {openModal} = useDispatchOpenModal();
-  const activeApplePopupPk = getActiveApplePopupInCloseHistory();
+  const activeApplePopupPk = getActiveApplePopupInClosedHistory();
 
   useEffect(() => {
     if (activeApplePopupPk) {
@@ -27,14 +27,14 @@ export default function Page() {
   }, [activeApplePopupPk, openModal]);
 
   const onClick = useCallback(() => {
-    manager.addCloseHistory(PK, getDiffDate(new Date(), [0, 0, 0, -26]).getTime()); //26시간전 기록생성
-    // manager.addCloseHistory(PK, getDiffDate(new Date(), [0, 0, -6]).getTime()); //6일전 기록생성
+    manager.addManuallyClosedHistory(PK, getDiffDate(new Date(), [0, 0, 0, -26]).getTime()); //n시간전 기록생성
+    // manager.addManuallyClosedHistory(PK, getDiffDate(new Date(), [0, 0, -6]).getTime()); //n일전 기록생성
   }, []);
 
   return (
     <div>
       <Button onClick={onClick}>테스트용 기록생성</Button>
-      <Button onClick={forceClearCloseHistory}>초기화</Button>
+      <Button onClick={forceClearClosedHistory}>초기화</Button>
     </div>
   );
 }
@@ -66,10 +66,10 @@ const Wrap = styled(Modal)`
 
 const PK = 'apple-popup';
 
-const manager = new CloseHistoryManager();
+const manager = new ClosedHistoryManager();
 
-function getActiveApplePopupInCloseHistory() {
-  return manager.getActiveTargetInCloseHistory({
+function getActiveApplePopupInClosedHistory() {
+  return manager.getActiveInClosedHistory({
     pkList: [PK],
     closePeriod: {
       value: 1,

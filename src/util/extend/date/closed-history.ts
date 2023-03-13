@@ -3,7 +3,7 @@ import {LocalStorageArrayManager} from '@util/extend/browser/local-storage-array
 import moment from 'moment';
 import {findItem} from '@util/extend/data-type/array';
 
-export interface CloseHistoryParam<T extends string | number> {
+export interface ClosedHistoryParam<T extends string | number> {
   pkList: T[]; //여러개의 n일간 안보기 팝업목록중에, 하나를 골라서 띄우고싶기 위해서.
 
   //다시 뜨기 위한 계산방법, 이 기간값보다 차이가 작아야 팝업이 뜸.
@@ -15,7 +15,7 @@ export interface CloseHistoryParam<T extends string | number> {
 
 type ConditionalPkResult<T extends string | number> = T extends number ? number | undefined : string | undefined;
 
-export class CloseHistoryManager {
+export class ClosedHistoryManager {
   uniquePrefix: string; //여러 종류의 n일간 안보기팝업을 구분할 수 있는 유니크한 이름
 
   constructor(uniquePrefix = "") {
@@ -26,14 +26,14 @@ export class CloseHistoryManager {
    * @param 여러개의 n일간 안보기 팝업목록
    * @return 그중에 띄워야하는 팝업의 PK
    */
-  getActiveTargetInCloseHistory<T extends string | number>({pkList, closePeriod, clearPeriod}: CloseHistoryParam<T>): ConditionalPkResult<T> {
-    const pkListToCloseHistoryKey = pkList.map(pk => this.makeCloseHistoryKey(pk));
+  getActiveInClosedHistory<T extends string | number>({pkList, closePeriod, clearPeriod}: ClosedHistoryParam<T>): ConditionalPkResult<T> {
+    const pkListToClosedHistoryKey = pkList.map(pk => this.makeClosedHistoryKey(pk));
 
     const historyList = manager.parseItem();
 
     if (clearPeriod) {
       const resultList = historyList.filter((history) => {
-        if (!pkListToCloseHistoryKey.find((param) => history.pkInLocalStorage === param.pkInLocalStorage)) {
+        if (!pkListToClosedHistoryKey.find((param) => history.pkInLocalStorage === param.pkInLocalStorage)) {
           return true;
         }
 
@@ -44,7 +44,7 @@ export class CloseHistoryManager {
       manager.setStringifyItem(resultList);
     }
 
-    return findItem(pkListToCloseHistoryKey, ({pkInLocalStorage, originalPk}) => {
+    return findItem(pkListToClosedHistoryKey, ({pkInLocalStorage, originalPk}) => {
       const findHistory = historyList.find(history => history.pkInLocalStorage === pkInLocalStorage);
 
       if (!findHistory) {
@@ -63,11 +63,11 @@ export class CloseHistoryManager {
   }
 
   closeDuringSpecificPeriod(pk: string | number) {
-    this.addCloseHistory(pk, new Date().getTime());
+    this.addManuallyClosedHistory(pk, new Date().getTime());
   }
 
-  addCloseHistory(pk: string | number, timestamp: number) {
-    const {originalPk, pkInLocalStorage} = this.makeCloseHistoryKey(pk);
+  addManuallyClosedHistory(pk: string | number, timestamp: number) {
+    const {originalPk, pkInLocalStorage} = this.makeClosedHistoryKey(pk);
 
     manager.appendFirst({
       pkInLocalStorage,
@@ -77,7 +77,7 @@ export class CloseHistoryManager {
     });
   }
 
-  private makeCloseHistoryKey(pk: string | number): CloseHistoryKey {
+  private makeClosedHistoryKey(pk: string | number): ClosedHistoryKey {
     return {
       //originalPk자체가 다른 n일동안 안보기 팝업의 PK와 구분될 수 있는 string값이라면, pkInlocalStorage값도 동일하게 설정
       pkInLocalStorage: !this.uniquePrefix ? pk.toString() : `${this.uniquePrefix}-${pk}`,
@@ -86,11 +86,11 @@ export class CloseHistoryManager {
   }
 }
 
-export function forceClearCloseHistory() {
+export function forceClearClosedHistory() {
   manager.setStringifyItem([]);
 }
 
-interface CloseHistoryKey {
+interface ClosedHistoryKey {
   /**
    * @example
    * main-event-banner-${bannerPk} //동적인 경우
@@ -101,7 +101,7 @@ interface CloseHistoryKey {
   originalPk: number | string; //n일간 보지않기 팝업 원본데이터의 PK
 }
 
-interface CloseHistory extends CloseHistoryKey {
+interface ClosedHistory extends ClosedHistoryKey {
   //닫았을 때 timestamp
   closedTimestamp: number;
   closedDateFormat: string;
@@ -123,7 +123,7 @@ function getDiffPeriod(targetDate: Date, closedTimestamp: number, diffType: Matc
 }
 
 const manager = new LocalStorageArrayManager({
-  key: 'close-during-specific-period',
+  key: 'closed-history-in-specific-period',
   enableDuplicated: false, //같은 PK면 닫은기록에는 하나만 생성되야함.
-  pkExtractor: (value: CloseHistory) => value.pkInLocalStorage
+  pkExtractor: (value: ClosedHistory) => value.pkInLocalStorage
 });

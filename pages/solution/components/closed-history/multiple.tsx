@@ -1,19 +1,19 @@
 import React, {useCallback, useEffect} from 'react';
 import {useDispatchOpenModal} from '@store/reducers/modal';
 import {
-  CloseHistoryManager,
-  forceClearCloseHistory,
-} from '@util/extend/date/close-history';
+  ClosedHistoryManager,
+  forceClearClosedHistory,
+} from '@util/extend/date/closed-history';
 import {getDiffDate} from '@util/extend/date/date-util';
 import Button from '@component/atom/element/Button';
 import Modal, {ModalProp} from '@component/molecules/modal/Modal';
 import styled from 'styled-components';
 import {useQuery} from '@tanstack/react-query';
 
-// URL: http://localhost:3000/solution/components/close-history/multiple
+// URL: http://localhost:3000/solution/components/closed-history/multiple
 export default function Page() {
   const {openModal} = useDispatchOpenModal();
-  const activeEventPopupData = useActiveEventPopupInCloseHistory();
+  const activeEventPopupData = useActiveEventPopupInClosedHistory();
 
   useEffect(() => {
     if (activeEventPopupData) {
@@ -29,14 +29,14 @@ export default function Page() {
   }, [activeEventPopupData, openModal]);
 
   const onClick = useCallback(() => {
-    manager.addCloseHistory(2, getDiffDate(new Date(), [0, 0, 0, -50]).getTime()); //26시간전 기록 강제생성
-    // manager.addCloseHistory('special-event-1', getDiffDate(new Date(), [0, 0, -1]).getTime()); //1일전 기록생성
+    manager.addManuallyClosedHistory(2, getDiffDate(new Date(), [0, 0, 0, -1]).getTime()); //n시간전 기록 강제생성
+    // manager.addManuallyClosedHistory('special-event-1', getDiffDate(new Date(), [0, 0, -1]).getTime()); //n일전 기록생성
   }, []);
 
   return (
     <div>
       <Button onClick={onClick}>테스트용 기록생성</Button>
-      <Button onClick={forceClearCloseHistory}>초기화</Button>
+      <Button onClick={forceClearClosedHistory}>초기화</Button>
     </div>
   );
 }
@@ -75,11 +75,11 @@ const Title = styled.div`
   font-size: 20px;
 `;
 
-const manager = new CloseHistoryManager('special-event');
+const manager = new ClosedHistoryManager('special-event');
 
-function useActiveEventPopupInCloseHistory() {
+function useActiveEventPopupInClosedHistory() {
   const {data} = useQuery({
-    queryKey: ['event-popup-in-close-history'],
+    queryKey: ['event-popup-in-closed-history'],
     queryFn: () => getSpecialEventListApi(),
     refetchOnWindowFocus: false
   });
@@ -87,8 +87,8 @@ function useActiveEventPopupInCloseHistory() {
   if (!data) {
     return undefined;
   }
-  
-  const activePk = manager.getActiveTargetInCloseHistory({
+
+  const activePk = manager.getActiveInClosedHistory({
     pkList: data.map(event => event.pk),
     closePeriod: {
       value: 1,
