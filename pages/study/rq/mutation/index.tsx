@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import CourseApi from '@api/CourseApi';
 import Button from '@component/atom/element/Button';
@@ -7,7 +7,7 @@ import {timeoutPromise} from '@util/extend/test';
 export default function Page() {
   const {data} = useQuery(['getTodo'], getCourseList);
 
-  const mutation = useMutation(addCourse, {
+  const {mutate} = useMutation(addCourse, {
     onMutate: (variables) => {
       console.log('onMutate', variables);
       return {
@@ -25,12 +25,16 @@ export default function Page() {
     }
   });
 
+  const onClick = useCallback(() => {
+    mutate({param1: 1, param2: 2});
+  }, [mutate]);
+
   return (
     <>
       {data?.data?.list.map(({pk, title}) => (
         <div key={pk}>{title}</div>
       ))}
-      <Button onClick={() => mutation.mutate({param1: 1, param2: 2})}>Add Course</Button>
+      <Button onClick={onClick}>Add Course</Button>
     </>
   );
 }

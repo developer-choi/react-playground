@@ -3,7 +3,7 @@ import {useDelay} from '@util/extend/time';
 import {timeoutPromise} from '@util/extend/test';
 import {useQuery} from '@tanstack/react-query';
 
-// URL: http://localhost:3000/study/rq/delay
+// URL: http://localhost:3000/study/rq/option/delay
 export default function Page() {
   const enabled = useDelay(1000);
 

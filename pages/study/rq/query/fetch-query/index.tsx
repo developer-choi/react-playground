@@ -23,7 +23,7 @@ export default function Page() {
 
 async function api(parameter: number) {
   console.log('call API', parameter);
-  timeoutPromise(200);
+  await timeoutPromise(200);
 
   return {
     data: 'value'

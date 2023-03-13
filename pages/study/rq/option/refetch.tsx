@@ -1,7 +1,7 @@
 import React from 'react';
 import {useQuery} from '@tanstack/react-query';
 
-// URL: http://localhost:3000/study/rq/stale-cache/refetch
+// URL: http://localhost:3000/study/rq/option/refetch
 export default function Page() {
   const {data} = useQuery({
     queryKey: ['rq-enabled'],

@@ -3,7 +3,7 @@ import {timeoutPromise, useLogWhenRendering} from '@util/extend/test';
 import {useCallback, useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 
-// URL: http://localhost:3000/study/rq/stale-cache
+// URL: http://localhost:3000/study/rq/option/stale-vs-cache
 export default function Page() {
   const [page, setPage] = useState(1);
 
