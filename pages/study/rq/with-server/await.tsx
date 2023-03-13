@@ -32,7 +32,7 @@ async function getApi() {
   return 'data';
 }
 
-const QUERY_KEY = 'with-server/basic';
+const QUERY_KEY = 'with-server/await';
 
 type ParamType = {
   fruit: string;
