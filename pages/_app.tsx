@@ -18,47 +18,56 @@ export type PageProp = DehydratedPageProps & NotifyRedirectProps;
 export default function MyApp(props: AppProps<PageProp>) {
   return (
     <Provider store={store}>
-      <ReduxInnerApp {...props}/>
+      <ReduxApp {...props}/>
     </Provider>
   );
 }
 
 export const QUERY_CLIENT_INSTANCE = new QueryClient();
 
-function ReduxInnerApp({Component, pageProps}: AppProps<PageProp>) {
+function ReduxApp(props: AppProps<PageProp>) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(thunkRefreshSetUser());
   }, [dispatch]);
 
-  const Layout = 'layout' in Component ? (Component as any).layout : null;
-
   //https://github.com/styled-components/styled-components/issues/3738
   const ThemeProviderProxy: any = ThemeProvider;
   const GlobalStyleProxy: any = GlobalStyle;
 
-  if (pageProps.notifyRedirect) {
-    return <NotifyRedirect notifyRedirect={pageProps.notifyRedirect}/>;
-  }
-
   return (
     <QueryClientProvider client={QUERY_CLIENT_INSTANCE}>
-      <Hydrate state={pageProps.dehydratedState}>
+      <Hydrate state={props.pageProps.dehydratedState}>
         <ThemeProviderProxy theme={theme}>
           <GlobalStyleProxy/>
-          {Layout === null ? (
-            <Component {...pageProps}/>
-          ) : (
-            <Layout>
-              <Component {...pageProps}/>
-            </Layout>
-          )}
+          <PageComponent {...props}/>
           <ModalRender/>
           <ToastContainer/>
         </ThemeProviderProxy>
       </Hydrate>
     </QueryClientProvider>
+  );
+}
+
+//어떤 컴포넌트를 렌더링하더라도, GlobalStyle을 적용받아야하므로 별도로 분리.
+function PageComponent({Component, pageProps}: AppProps<PageProp>) {
+  const Layout = 'layout' in Component ? (Component as any).layout : null;
+
+  if (pageProps.notifyRedirect) {
+    return <NotifyRedirect notifyRedirect={pageProps.notifyRedirect}/>;
+  }
+
+  if(Layout === null) {
+    return (
+      <Component {...pageProps}/>
+    );
+  }
+
+  return (
+    <Layout>
+      <Component {...pageProps}/>
+    </Layout>
   );
 }
 
