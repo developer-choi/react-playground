@@ -1,6 +1,6 @@
 import React from 'react';
 import type {GetServerSideProps} from 'next';
-import {dehydrate, DehydratedStateProps, useQuery} from '@tanstack/react-query';
+import {dehydrate, DehydratedPageProps, useQuery} from '@tanstack/react-query';
 import {timeoutPromise} from '@util/extend/test';
 import {getMessageOfBothSide} from '@util/extend/next';
 import {useRouter} from 'next/router';
@@ -65,7 +65,7 @@ type ParamType = {
   fruit: string;
 };
 
-export const getServerSideProps: GetServerSideProps<DehydratedStateProps, ParamType> = async ({params}) => {
+export const getServerSideProps: GetServerSideProps<DehydratedPageProps, ParamType> = async ({params}) => {
   const fruit = params?.fruit;
 
   const cache = QUERY_CLIENT_INSTANCE.getQueryData([QUERY_KEY, fruit]);

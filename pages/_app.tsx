@@ -10,10 +10,10 @@ import {store} from '@store/store';
 import NotifyRedirect, {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {thunkRefreshSetUser} from '@store/reducers/user';
-import {QueryClient, QueryClientProvider, Hydrate, DehydratedStateProps} from '@tanstack/react-query';
+import {QueryClient, QueryClientProvider, Hydrate, DehydratedPageProps} from '@tanstack/react-query';
 import {closeModal} from '@store/reducers/modal';
 
-export type PageProp = DehydratedStateProps & NotifyRedirectProps;
+export type PageProp = DehydratedPageProps & NotifyRedirectProps;
 
 export default function MyApp(props: AppProps<PageProp>) {
   return (

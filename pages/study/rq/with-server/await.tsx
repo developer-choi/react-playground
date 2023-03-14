@@ -1,5 +1,5 @@
 import React from 'react';
-import {dehydrate, DehydratedStateProps, QueryClient, useQuery} from '@tanstack/react-query';
+import {dehydrate, DehydratedPageProps, QueryClient, useQuery} from '@tanstack/react-query';
 import {getMessageOfBothSide} from '@util/extend/next';
 import {timeoutPromise, useLogWhenRendering} from '@util/extend/test';
 import type {GetServerSideProps} from 'next';
@@ -38,7 +38,7 @@ type ParamType = {
   fruit: string;
 };
 
-export const getServerSideProps: GetServerSideProps<DehydratedStateProps, ParamType> = async () => {
+export const getServerSideProps: GetServerSideProps<DehydratedPageProps, ParamType> = async () => {
   const queryClient = new QueryClient();
 
   /**

@@ -1,5 +1,5 @@
 import React from 'react';
-import {dehydrate, DehydratedStateProps, useQuery} from '@tanstack/react-query';
+import {dehydrate, DehydratedPageProps, useQuery} from '@tanstack/react-query';
 import {getMessageOfBothSide} from '@util/extend/next';
 import {timeoutPromise, useLogWhenRendering} from '@util/extend/test';
 import type {GetServerSideProps} from 'next';
@@ -39,7 +39,7 @@ type ParamType = {
   fruit: string;
 };
 
-export const getServerSideProps: GetServerSideProps<DehydratedStateProps, ParamType> = async () => {
+export const getServerSideProps: GetServerSideProps<DehydratedPageProps, ParamType> = async () => {
   /**
    * query client instance를 동일하게 재사용해도,
    * 처음에 의도했던대로 작동하지는 않았음. (의도는 await.tsx페이지에 이 라인에 주석으로 작성함)
