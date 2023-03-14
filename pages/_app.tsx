@@ -23,7 +23,7 @@ export default function MyApp(props: AppProps<PageProp>) {
   );
 }
 
-const queryClient = new QueryClient();
+export const QUERY_CLIENT_INSTANCE = new QueryClient();
 
 function ReduxInnerApp({Component, pageProps}: AppProps<PageProp>) {
   const dispatch = useAppDispatch();
@@ -43,7 +43,7 @@ function ReduxInnerApp({Component, pageProps}: AppProps<PageProp>) {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={QUERY_CLIENT_INSTANCE}>
       <Hydrate state={pageProps.dehydratedState}>
         <ThemeProviderProxy theme={theme}>
           <GlobalStyleProxy/>

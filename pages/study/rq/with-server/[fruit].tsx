@@ -1,11 +1,12 @@
 import React from 'react';
 import type {GetServerSideProps} from 'next';
-import {dehydrate, DehydratedStateProps, QueryClient, useQuery} from '@tanstack/react-query';
+import {dehydrate, DehydratedStateProps, useQuery} from '@tanstack/react-query';
 import {timeoutPromise} from '@util/extend/test';
 import {getMessageOfBothSide} from '@util/extend/next';
 import {useRouter} from 'next/router';
 import styled from 'styled-components';
 import Link from 'next/link';
+import {QUERY_CLIENT_INSTANCE} from '@pages/_app';
 
 /* Official https://tanstack.com/query/v4/docs/react/guides/ssr
  * TEST URL: http://localhost:3000/study/rq/with-server/apple
@@ -17,9 +18,8 @@ export default function Page() {
   /**
    * apple페이지에서
    * banana 페이지 갔다가
-   * 다시 apple 페이지 가도
-   * 여전히 TTFB 1초 걸림.
-   * (= cache로 인한 latency 숨겨짐이 작동하지않음)
+   * 다시 apple 페이지 가면
+   * TTFB 거의없음. (= cache가 의도대로 작동함)
    */
 
   return (
@@ -66,13 +66,12 @@ type ParamType = {
 };
 
 export const getServerSideProps: GetServerSideProps<DehydratedStateProps, ParamType> = async ({params}) => {
-  const queryClient = new QueryClient();
   const fruit = params?.fruit;
 
-  const cache = queryClient.getQueryData([QUERY_KEY, fruit]);
+  const cache = QUERY_CLIENT_INSTANCE.getQueryData([QUERY_KEY, fruit]);
   console.log('cache', cache);
 
-  await queryClient.prefetchQuery({
+  await QUERY_CLIENT_INSTANCE.prefetchQuery({
     queryKey: [QUERY_KEY, fruit],
     queryFn: () => getApi(fruit),
     staleTime: Infinity
@@ -80,7 +79,7 @@ export const getServerSideProps: GetServerSideProps<DehydratedStateProps, ParamT
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: dehydrate(QUERY_CLIENT_INSTANCE),
     },
   }
 };
