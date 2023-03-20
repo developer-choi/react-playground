@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import type {GetServerSideProps} from 'next';
 import styled from 'styled-components';
-import useInfiniteScroll from '@util/services/legacy/legacy-infinite-scroll';
+import useLegacyInfiniteQuery from '@util/services/legacy/legacy-infinite-query';
 import CourseApi from '@api/CourseApi';
 import type {Course} from '@type/response-sub/course-sub';
 
@@ -16,8 +16,8 @@ export default function InfiniteScrollPage(props: PageProp) {
     const {list, total} = (await api.getList(requestPage)).data;
     return {list, total};
   }, []);
-  
-  const {list} = useInfiniteScroll({
+
+  const {list} = useLegacyInfiniteQuery({
     fetchMoreApi,
     articlePerPage: 20,
     initialData: {
@@ -25,7 +25,7 @@ export default function InfiniteScrollPage(props: PageProp) {
       list: props.list
     }
   });
-  
+
   return (
     <div>
       {list.map(({pk, title}) => (

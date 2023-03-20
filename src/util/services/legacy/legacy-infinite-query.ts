@@ -2,18 +2,18 @@ import {useEffect, useState} from 'react';
 import {getTotalPage} from '@util/services/pagination/pagination-core';
 import throttle from 'lodash/throttle';
 
-export interface ListData<T> {
+interface ListData<T> {
   total: number;
   list: T[];
 }
 
-export interface InfiniteScrollParam<T> {
+interface InfiniteQueryParam<T> {
   initialData?: ListData<T>;
   articlePerPage: number;
   fetchMoreApi: (requestPage: number) => Promise<ListData<T>>;
 }
 
-export default function useInfiniteScroll<T>({initialData, fetchMoreApi, articlePerPage}: InfiniteScrollParam<T>) {
+export default function useLegacyInfiniteQuery<T>({initialData, fetchMoreApi, articlePerPage}: InfiniteQueryParam<T>) {
   const [pagingData, setPagingData] = useState({
     loading: false,
     list: initialData?.list ?? [],
