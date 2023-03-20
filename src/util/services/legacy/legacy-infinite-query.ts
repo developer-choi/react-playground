@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import {getTotalPage} from '@util/services/pagination/pagination-core';
-import throttle from 'lodash/throttle';
+import {useInfiniteScroll} from '@util/extend/event/scroll';
 
 interface ListData<T> {
   total: number;
@@ -23,53 +23,40 @@ export default function useLegacyInfiniteQuery<T>({initialData, fetchMoreApi, ar
 
   const {total, loading, list, page} = pagingData;
 
-  useEffect(() => {
-    const totalPage = getTotalPage({total, articlePerPage});
+  const callback = useCallback(async () => {
+    try {
+      const nextPage = page + 1;
 
-    if (page >= totalPage && loading) {
-      return;
+      setPagingData(({loading, ...rest}) => ({
+        loading: true,
+        ...rest
+      }));
+
+      const {total, list} = await fetchMoreApi(nextPage);
+
+      setPagingData(prevState => ({
+        page: nextPage,
+        total,
+        list: prevState.list.concat(list),
+        loading: false
+      }));
+
+    } catch (error) {
+      console.error(error);
     }
+  }, [fetchMoreApi, page]);
 
-    const handler = throttle(() => {
-      const {clientHeight, scrollHeight, scrollTop} = document.documentElement;
+  const enabled = useMemo(() => {
+    const totalPage = getTotalPage({total, articlePerPage});
+    return page < totalPage && !loading;
+  }, [articlePerPage, loading, page, total]);
 
-      if ((scrollHeight - clientHeight - scrollTop) < 500) {
+  useInfiniteScroll({
+    enabled,
+    offset: 500,
+    callback
+  });
 
-        (async () => {
-          if (loading) {
-            return;
-          }
-
-          try {
-            const nextPage = page + 1;
-
-            setPagingData(({loading, ...rest}) => ({
-              loading: true,
-              ...rest
-            }));
-
-            const {total, list} = await fetchMoreApi(nextPage);
-
-            setPagingData(prevState => ({
-              page: nextPage,
-              total,
-              list: prevState.list.concat(list),
-              loading: false
-            }));
-
-          } catch (error) {
-            console.error(error);
-          }
-        })().then();
-      }
-    }, 200);
-
-    window.addEventListener('scroll', handler);
-
-    return () => {
-      window.removeEventListener('scroll', handler);
-    };
-  }, [articlePerPage, fetchMoreApi, loading, page, total]);
 
   return {
     total, loading, list, page

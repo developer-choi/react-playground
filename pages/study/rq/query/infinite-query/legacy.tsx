@@ -10,6 +10,7 @@ interface PageProp {
   total: number;
 }
 
+// URL: http://localhost:3000/study/rq/query/infinite-query/legacy
 export default function InfiniteScrollPage(props: PageProp) {
   const fetchMoreApi = useCallback(async (requestPage: number) => {
     const api = new CourseApi();
