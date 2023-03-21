@@ -4,7 +4,7 @@ import Button from '@component/atom/element/Button';
 import {useToggle} from '@util/extend/react';
 import {useClickOutside} from '@util/extend/event/event';
 
-// URL: http://localhost:3000/solution/click-outside/complicated
+// URL: http://localhost:3000/experimental/click-outside/complicated
 export default function Page() {
   return (
     <Wrap>

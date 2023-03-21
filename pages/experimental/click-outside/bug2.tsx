@@ -4,7 +4,7 @@ import {useClickOutside} from '@util/extend/event/event';
 import styled from 'styled-components';
 import Button from '@component/atom/element/Button';
 
-// URL: http://localhost:3000/solution/click-outside/bug2
+// URL: http://localhost:3000/experimental/click-outside/bug2
 export default function Page() {
   const {value: visible, setTrue: openBox, setFalse: closeBox} = useToggle();
 

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {useClickOutside} from '@util/extend/event/event';
 
-// http://localhost:3000/solution/click-outside/tutorial
+// URL: http://localhost:3000/experimental/click-outside/tutorial
 export default function Page() {
   const {wrapperRef} = useClickOutside<HTMLDivElement>({
     callback: () => {

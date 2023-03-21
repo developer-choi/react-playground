@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import type {ClickOutsideParam} from '@util/extend/event/event';
 import {useLogWhenRendering} from '@util/extend/test';
 
-// URL: http://localhost:3000/solution/click-outside/bug1
+// URL: http://localhost:3000/experimental/click-outside/bug1
 export default function Page() {
   const {value: visible, toggle, setFalse: closeBox} = useToggle();
 
