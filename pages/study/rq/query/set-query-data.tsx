@@ -19,9 +19,12 @@ export default function Page() {
   const queryClient = useQueryClient();
 
   const update = useCallback(() => {
-    queryClient.setQueryData(["some-query"], (prevValue) => {
-      console.log("prevValue", prevValue);
-      return (prevValue as Item[]).concat(makeItem(count));
+    queryClient.setQueryData<Item[]>(["some-query"], (prevValue) => {
+      if (prevValue === undefined) {
+        return prevValue;
+      }
+
+      return prevValue.concat(makeItem(count));
     });
 
     increase();
