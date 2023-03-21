@@ -3,6 +3,7 @@ import {range} from "@util/extend/data-type/number";
 import {useQuery, useQueryClient} from "@tanstack/react-query";
 import Button from "@component/atom/element/Button";
 import useCounter from "@util/services/counter";
+import {safeUpdateCallback} from "@util/extend/react-query";
 
 // URL: http://localhost:3000/study/rq/query/set-query-data
 export default function Page() {
@@ -19,13 +20,9 @@ export default function Page() {
   const queryClient = useQueryClient();
 
   const update = useCallback(() => {
-    queryClient.setQueryData<Item[]>(["some-query"], (prevValue) => {
-      if (prevValue === undefined) {
-        return prevValue;
-      }
-
+    queryClient.setQueryData(["some-query"], safeUpdateCallback<Item[]>((prevValue) => {
       return prevValue.concat(makeItem(count));
-    });
+    }));
 
     increase();
   }, [count, increase, queryClient]);
