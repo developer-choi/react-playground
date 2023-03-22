@@ -4,38 +4,44 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
 import {useForm} from 'react-hook-form';
-import {useToggle} from '@util/extend/react';
 import {range} from '@util/extend/data-type/number';
 import Button from '@component/atom/element/Button';
 import {useGetLoginUserPk} from '@util/services/auth/auth';
 import {useLocalStorageArrayManager} from '@util/extend/browser/local-storage-array';
-import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
-import {stopPropagation} from '@util/extend/event/event';
 import {validateString} from '@util/extend/browser/query-string';
 
 interface PageProp {
   searchText: string;
-  list: Board[];
+  searchResult: Board[];
 }
 
-export default function Page({list, searchText}: PageProp) {
-  const {value: visible, setTrue: open, setFalse: close} = useToggle();
+export default function Page({searchResult, searchText}: PageProp) {
   const {appendFirst, list: recentSearchList, removeByPk} = useRecentSearch();
+  const {push} = useRouter();
+
+  const onSearch = useCallback((text: string) => {
+    push({
+      query: {
+        searchText: text
+      }
+    });
+    appendFirst({searchText: text});
+  }, [appendFirst, push]);
 
   return (
-    <Wrap onClick={close}>
+    <Wrap>
       <h1>게시글 검색페이지</h1>
 
-      <SearchForm searchText={searchText} appendFirst={appendFirst} openRecentSearch={open} closeRecentSearch={close}/>
+      <SearchForm searchText={searchText} onSearch={onSearch}/>
 
-      <RecentSearchList list={recentSearchList} removeByPk={removeByPk} visible={visible}/>
+      <RecentSearchList list={recentSearchList} removeItem={removeByPk}/>
 
-      {list.length === 0 ? null : (
-        <>
+      {searchResult.length === 0 ? null : (
+        <div>
           <h2>검색결과</h2>
           <ul>
-            {list.map(({pk, title}) => (
+            {searchResult.map(({pk, title}) => (
               <li key={pk}>
                 <Link href={`/some/board/view/${pk}`}>
                   <a>{title}</a>
@@ -43,7 +49,7 @@ export default function Page({list, searchText}: PageProp) {
               </li>
             ))}
           </ul>
-        </>
+        </div>
       )}
     </Wrap>
   );
@@ -56,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async ({query}) 
 
     return {
       props: {
-        list,
+        searchResult: list,
         searchText
       }
     };
@@ -64,7 +70,7 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async ({query}) 
   } catch (error) {
     return {
       props: {
-        list: [],
+        searchResult: [],
         searchText: ''
       }
     };
@@ -72,15 +78,11 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async ({query}) 
 };
 
 interface SearchFormProp {
-  appendFirst: (recentSearch: RecentSearch) => void;
-  openRecentSearch: () => void;
-  closeRecentSearch: () => void;
+  onSearch: (text: string) => void;
   searchText: string;
 }
 
-function SearchForm({appendFirst, openRecentSearch, closeRecentSearch, searchText}: SearchFormProp) {
-  const {push} = useRouter();
-
+function SearchForm({onSearch, searchText}: SearchFormProp) {
   const {register, handleSubmit, setValue} = useForm<FormData>({
     defaultValues: {
       searchText
@@ -96,14 +98,12 @@ function SearchForm({appendFirst, openRecentSearch, closeRecentSearch, searchTex
   }, []);
 
   const onSubmit: SubmitHandler<FormData> = useCallback(data => {
-    push(`/solution/recent-search?searchText=${data.searchText}`);
-    closeRecentSearch();
-    appendFirst({searchText: data.searchText});
-  }, [appendFirst, closeRecentSearch, push]);
+    onSearch(data.searchText);
+  }, [onSearch]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit, onError)} onClick={stopPropagation}>
-      <input placeholder="검색어를 입력해주세요." onFocus={openRecentSearch} onClick={openRecentSearch} {...register('searchText', {...OPTIONS})}/>
+    <form onSubmit={handleSubmit(onSubmit, onError)}>
+      <input placeholder="검색어를 입력해주세요." autoComplete="off" {...register('searchText', {...OPTIONS})}/>
       <Button type="submit">제출</Button>
     </form>
   );
@@ -135,29 +135,27 @@ interface Board {
 }
 
 interface RecentSearchListProp {
-  visible: boolean;
   list: RecentSearch[];
-  removeByPk: (pk: RecentSearch['searchText']) => void;
+  removeItem: (pk: RecentSearch['searchText']) => void;
 }
 
-function RecentSearchList({visible, list, removeByPk}: RecentSearchListProp) {
-
+function RecentSearchList({list, removeItem}: RecentSearchListProp) {
   return (
-    <RecentSearchListWrap className={myClassName({visible})}>
+    <RecentSearchListWrap>
       <h2>최근검색어</h2>
       {list.length === 0 ?
-      <p>최근검색어 목록이 없습니다.</p>
-      :
-      <ul>
-        {list.map(({searchText}) => (
-          <li key={searchText}>
-            <Link href={`/solution/recent-search?searchText=${searchText}`}>
-              <a>{searchText}</a>
-            </Link>
-            <button onClick={() => removeByPk(searchText)}>X</button>
-          </li>
-        ))}
-      </ul>
+        <p>최근검색어 목록이 없습니다.</p>
+        :
+        <ul>
+          {list.map(({searchText}) => (
+            <li key={searchText}>
+              <Link href={`/solution/recent-search?searchText=${searchText}`}>
+                <a>{searchText}</a>
+              </Link>
+              <button type="button" onClick={() => removeItem(searchText)}>X</button>
+            </li>
+          ))}
+        </ul>
       }
     </RecentSearchListWrap>
   );
@@ -168,16 +166,12 @@ const Wrap = styled.div`
 `;
 
 const RecentSearchListWrap = styled.div`
-  display: none;
+  display: flex;
   flex-direction: column;
   box-shadow: 0 0 10px #6e6e6e;
   margin-top: 20px;
   margin-bottom: 20px;
   width: 300px;
-  
-  &.visible {
-    display: flex;
-  }
   
   button {
     margin-left: 20px;
