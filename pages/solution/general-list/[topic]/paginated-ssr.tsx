@@ -7,7 +7,7 @@ import CourseApi from '@api/CourseApi';
 import CourseMenu from '@component/molecules/course/CourseMenu';
 import {validateIncludeString, validateNumber} from '@util/extend/browser/query-string';
 
-// URL: http://localhost:3000/solution/general-list/1/paginated?page=1
+// URL: http://localhost:3000/solution/general-list/1/paginated-ssr?page=1
 export default function Page({listResponse}: CourseTableProp) {
   return (
     <>

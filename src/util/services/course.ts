@@ -5,6 +5,8 @@ import {useCallback} from 'react';
 import {useKeepQuery} from '@util/extend/router';
 import {itemListToDataOfType} from '@util/extend/data-type/object';
 import {getTypedQueryCallback} from '@util/extend/browser/query-string';
+import {useQuery} from '@tanstack/react-query';
+import CourseApi from '@api/CourseApi';
 
 export const COURSE_PAGINATION_CONFIG: MultiplePagesPaginationConfig = {
   articlePerPage: 20,
@@ -92,4 +94,20 @@ export function useCourseQueryString() {
     onClickPage,
     reset
   };
+}
+
+//useCourseListQuery()로 이름짓지않는다.
+export function useCourseList() {
+  const {currentPage, currentTopic, currentRoom, currentSort} = useCourseQueryString();
+
+  return useQuery({
+    queryKey: ['course-list', currentTopic, currentRoom, currentSort, currentPage],
+    queryFn: () => new CourseApi().getList(currentPage, {
+      room: currentRoom,
+      sort: currentSort,
+      topic: currentTopic
+    }),
+    refetchOnWindowFocus: false,
+    keepPreviousData: true
+  });
 }
