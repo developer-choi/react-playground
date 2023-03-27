@@ -22,7 +22,7 @@ export function debugLog({debug = true, messages}: DebugOption) {
 
 export function useLogWhenRendering(...messages: any[]) {
   const previousMessages = usePrevious(messages);
-  
+
   useEffect(() => {
     const hasChanged = previousMessages === undefined ? true : !isEqual(previousMessages, messages);
 
@@ -32,6 +32,12 @@ export function useLogWhenRendering(...messages: any[]) {
 
     console.log(...messages);
   }, [messages, previousMessages]);
+}
+
+export function useLogWhenAllRendering(...messages: any[]) {
+  useEffect(() => {
+    console.log(...messages);
+  });
 }
 
 export function useLogMount(name: string) {
