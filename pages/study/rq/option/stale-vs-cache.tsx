@@ -20,7 +20,21 @@ const example1 = {
   TTFB: 0
 };
 
-const example: Example = example1;
+/** Flow2
+ * 1. 1페이지로 최초 접속하고,
+ * 2. 5초 이상의 시간을 보낸뒤 (staleTime 5초)
+ * 3. 1페이지인상태로 탭전환 한번 하고,
+ * 4. refetching된게 확인되면 (5초가 정확하게 지났는지 타이머들고 체크하기가 뭐해서...)
+ * 5. 3초 지나기전에 최대한빨리 2페이지갔다가 다시 1페이지로 복귀하면,
+ * 6. fetching이 발생하지않음.
+ */
+const example2 = {
+  staleTime: 7000,
+  cacheTime: 3000,
+  TTFB: 0
+};
+
+const example: Example = example2;
 
 // URL: http://localhost:3000/study/rq/option/stale-vs-cache
 export default function Page() {
