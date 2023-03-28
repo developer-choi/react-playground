@@ -1,1 +1,1 @@
-export type NumbericString = `${number}`;
+export type NumericString = `${number}`;

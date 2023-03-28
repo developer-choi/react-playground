@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {range} from '@util/extend/data-type/number';
-import type {NumbericString} from '@type/string';
+import type {NumericString} from '@type/string';
 import {useForm} from 'react-hook-form';
 import {useQuery} from '@tanstack/react-query';
 import {useLogWhenRendering} from '@util/extend/test';
@@ -45,7 +45,7 @@ export default function Page() {
     }
 
     if (allChecked) {
-      setValue('deletePks', data.map(mail => mail.pk.toString() as NumbericString));
+      setValue('deletePks', data.map(mail => mail.pk.toString() as NumericString));
     } else {
       setValue('deletePks', []);
     }
@@ -79,7 +79,7 @@ interface Mail {
 }
 
 interface MailListFormData {
-  deletePks: NumbericString[];
+  deletePks: NumericString[];
   allChecked: boolean;
 }
 
