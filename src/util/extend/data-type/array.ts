@@ -61,6 +61,17 @@ export function removeDuplicatedObject<I extends Object, P extends PkType>(items
   return result.reverse();
 }
 
+export function popSpecificIndex<T>(array: T[], index: number) {
+  const copy = [...array];
+  const item = copy[index];
+  copy.splice(index, 1);
+
+  return {
+    rest: copy,
+    item
+  };
+}
+
 export function sortByNumber<T>(direction: Direction, list: T[], valueExtractor: (item: T) => number) {
   return [...list].sort((a, b) => {
     if (direction === 'asc') {

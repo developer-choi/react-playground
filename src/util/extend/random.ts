@@ -1,3 +1,5 @@
+import {popSpecificIndex} from '@util/extend/data-type/array';
+
 /**
  * @example (0, 3) --> -2이상 3이하의 랜덤한 숫자 반환
  * @example (3, -2) --> -2이상 3이하의 랜덤한 숫자 반환
@@ -32,9 +34,26 @@ export function makeRandomString(anagramArray: Array<string | number>, length: n
   return result.join('');
 }
 
-export function randomFromArray<T>(dummies: T[]): T {
-  const randomIndex = randomNumber(0, dummies.length - 1);
-  return dummies[randomIndex];
+export function randomIndex(array: any[]): number {
+  return randomNumber(0, array.length - 1);
+}
+
+export function randomInArray<T>(array: T[]): T {
+  const index = randomIndex(array);
+  return array[index];
+}
+
+export function shuffleArray<T>(array: T[]): T[] {
+  const result = [] as T[];
+
+  array.reduce((a) => {
+    const index = randomIndex(a);
+    const {item, rest} = popSpecificIndex(a, index);
+    result.push(item);
+    return rest;
+  }, array);
+
+  return result;
 }
 
 export function randomHexColor() {
