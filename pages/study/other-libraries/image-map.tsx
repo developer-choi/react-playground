@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import ImageMap from 'image-map';
 
-// URL: http://localhost:3000/study/image-map
+// URL: http://localhost:3000/study/other-libraries/image-map
 export default function Page() {
   useEffect(() => {
     ImageMap('#target', 200);
@@ -10,7 +10,7 @@ export default function Page() {
 
   return (
     <>
-      <Img id="target" useMap="#image-map" src="/images/map.png"/>
+      <Img id="target" useMap="@pages/study/third-party/image-map#image-map" src="/images/map.png"/>
 
       <map name="image-map">
         <area onClick={() => console.log("1")} coords="131,29,481,145" shape="rect"/>
