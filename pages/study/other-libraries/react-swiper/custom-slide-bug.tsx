@@ -5,7 +5,7 @@ import 'swiper/css/navigation';
 import {Navigation} from 'swiper';
 import styled from 'styled-components';
 
-// URL: http://localhost:3000/study/react-swiper
+// URL: http://localhost:3000/study/other-libraries/react-swiper/custom-slide-bug
 export default function Page() {
   return (
     <Wrap>
