@@ -1,9 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
-import {Swiper, SwiperSlide} from 'swiper/react';
-import {Navigation} from 'swiper';
 import 'swiper/css';
-import 'swiper/css/navigation';
+import {Swiper, SwiperProps, SwiperSlide} from 'swiper/react';
+import styled from 'styled-components';
 
 /**
  * 첫 페이지 로딩 때 이미지가 겁나크게보임. (뷰포트 꽉채움)
@@ -23,22 +21,27 @@ import 'swiper/css/navigation';
 // URL: http://localhost:3000/study/other-libraries/react-swiper/first-loading
 export default function Page() {
   return (
-    <Swiper navigation modules={[Navigation]} slidesPerView={3} spaceBetween={50}>
-      {IMAGES.map(image => (
+    <Swiper {...swiperProps}>
+      {imageList.map(image => (
         <SwiperSlide key={image}>
-          <Img src={image} alt="스와이퍼 이미지"/>
+          <Img src={image}/>
         </SwiperSlide>
       ))}
     </Swiper>
   );
 }
 
-const IMAGES = [
-  '/images/product/product1.jfif',
-  '/images/product/product2.jfif',
-  '/images/product/product1.jfif'
-]
-
 const Img = styled.img`
   width: 100%;
 `;
+
+const swiperProps: SwiperProps = {
+  slidesPerView: 8.1,
+  spaceBetween: 6
+};
+
+const imageList = [
+  'https://oksite.kr/storage/images/banner/YoTmEhHQYaC5COBi0DIe5gI3ctAsCUkNNdI9vvpz.jpg',
+  'https://oksite.kr/storage/images/banner/9uPUPcW3PLZLpWGPlhcIlNUzBEMq4LPElBpWeyur.jpg',
+  'https://oksite.kr/storage/images/banner/D1YZ9XAOyDACo0T14DzlrWfo1fHVDNgJm48pRE2Q.jpg',
+];
