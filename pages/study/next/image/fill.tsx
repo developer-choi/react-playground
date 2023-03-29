@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
 /** Flow
  * 브라우저 가로길이를 줄여보면,
@@ -17,35 +17,45 @@ import styled from 'styled-components';
 //http://localhost:3000/study/next/image/fill
 export default function Page() {
   return (
-    <>
-      <FillWrapper>
-        <Image src={URL} alt="ALT" layout="fill" priority/>
-      </FillWrapper>
-      <FillWrapper2>
-        <Image width={400} height={400} src={URL} alt="ALT" layout="fill" priority/>
-      </FillWrapper2>
-      {/*<Image width={400} height={400} src={URL} alt="ALT" layout="fill" priority/>*/}
-    </>
+    <WrapperChildBorder>
+      <StandardFillWrapper>
+        <Image src={EXTERNAL_IMAGE_URL} alt="ALT" layout="fill" priority/>
+      </StandardFillWrapper>
+      <WrongFillWrapper>
+        <Image width={400} height={400} src={EXTERNAL_IMAGE_URL} alt="ALT" layout="fill"/>
+      </WrongFillWrapper>
+      {/*<Image width={400} height={400} src={EXTERNAL_IMAGE_URL} alt="ALT" layout="fill" priority/>*/}
+    </WrapperChildBorder>
   );
 }
 
-const URL = 'https://picsum.photos/536/354';
+// 268/177가 원본 비율
+export const EXTERNAL_IMAGE_URL = 'https://picsum.photos/536/354';
 
-export const ImageLayoutWrapper = styled.div`
+export const WrapperChildBorder = styled.div`
+  height: 100%;
+  
+  > * {
+    border: 5px solid red !important;
+  }
+`;
+
+const sizeCss = css`
   width: 90%;
   height: 90%;
   max-width: 800px;
   max-height: 600px;
-  border: 5px solid red;
 `;
 
-const FillWrapper = styled(ImageLayoutWrapper)`
+const StandardFillWrapper = styled.div`
+  ${sizeCss};
   position: relative;
   
   img {
     object-fit: cover;
   }
 `;
-const FillWrapper2 = styled(ImageLayoutWrapper)`
+const WrongFillWrapper = styled.div`
+  ${sizeCss};
   position: relative;
 `;
