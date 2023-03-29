@@ -23,7 +23,7 @@ const font = css`
 const layout = css`
   
   html, body, #__next {
-    height: 100%;
+    min-height: 100%;
   }
   
   body {
