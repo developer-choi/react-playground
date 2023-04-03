@@ -7,7 +7,7 @@ interface FallbackImageProp extends Omit<ImageProps, 'onError' | 'src'> {
   fallback?: {
     behavior?: FallbackBehavior;
     replaceImage?: string;
-    custonOnError?: ImageProps['onError'];
+    customOnError?: ImageProps['onError'];
   };
   src: ImageProps['src'] | undefined | null;
 }
@@ -17,14 +17,14 @@ export interface AdvancedImageFallbackProp extends FallbackImageProp {
 }
 
 export default function AdvancedImage({alt, src, fallback, ...rest}: AdvancedImageFallbackProp) {
-  const {behavior, custonOnError, replaceImage} = fallback ?? {};
+  const {behavior, customOnError, replaceImage} = fallback ?? {};
 
   const [customSrc, setCustomSrc] = useState(src ?? "");
   const [hidden, setHidden] = useState(false);
 
   const _onError = useCallback((event: SyntheticEvent<HTMLImageElement>) => {
-    if (custonOnError) {
-      custonOnError(event);
+    if (customOnError) {
+      customOnError(event);
       return;
     }
 
@@ -39,7 +39,7 @@ export default function AdvancedImage({alt, src, fallback, ...rest}: AdvancedIma
     }
 
     setCustomSrc(replaceImage ?? DEFAULT_FALLBACK_IMAGE);
-  }, [behavior, custonOnError, replaceImage]);
+  }, [behavior, customOnError, replaceImage]);
 
   useEffect(() => {
     setCustomSrc(src ?? "");
