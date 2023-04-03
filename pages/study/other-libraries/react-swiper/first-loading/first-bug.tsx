@@ -18,7 +18,7 @@ import styled from 'styled-components';
  * 단순 버그예제 확보를 위해 이 페이지 만듬.
  */
 
-// URL: http://localhost:3000/study/other-libraries/react-swiper/first-loading
+// URL: http://localhost:3000/study/other-libraries/react-swiper/first-loading/first-bug
 export default function Page() {
   return (
     <Swiper {...swiperProps}>
