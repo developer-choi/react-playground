@@ -49,15 +49,15 @@ function OriginalHtml() {
     <div className="swiper">
       <div className="swiper-wrapper">
         <div className="swiper-slide">
-          <img src="https://oksite.kr/storage/images/banner/YoTmEhHQYaC5COBi0DIe5gI3ctAsCUkNNdI9vvpz.jpg"
+          <Img src="https://oksite.kr/storage/images/banner/YoTmEhHQYaC5COBi0DIe5gI3ctAsCUkNNdI9vvpz.jpg"
                className="second-bug__Img-sc-nhflz1-0 gPAImI"/>
         </div>
         <div className="swiper-slide">
-          <img src="https://oksite.kr/storage/images/banner/9uPUPcW3PLZLpWGPlhcIlNUzBEMq4LPElBpWeyur.jpg"
+          <Img src="https://oksite.kr/storage/images/banner/9uPUPcW3PLZLpWGPlhcIlNUzBEMq4LPElBpWeyur.jpg"
                className="second-bug__Img-sc-nhflz1-0 gPAImI"/>
         </div>
         <div className="swiper-slide">
-          <img src="https://oksite.kr/storage/images/banner/D1YZ9XAOyDACo0T14DzlrWfo1fHVDNgJm48pRE2Q.jpg"
+          <Img src="https://oksite.kr/storage/images/banner/D1YZ9XAOyDACo0T14DzlrWfo1fHVDNgJm48pRE2Q.jpg"
                className="second-bug__Img-sc-nhflz1-0 gPAImI"/>
         </div>
       </div>
@@ -82,15 +82,15 @@ function FixWidthHtml() {
     <div className="swiper">
       <div className="swiper-wrapper">
         <div className="swiper-slide" style={{width: 200}}>
-          <img src="https://oksite.kr/storage/images/banner/YoTmEhHQYaC5COBi0DIe5gI3ctAsCUkNNdI9vvpz.jpg"
+          <Img src="https://oksite.kr/storage/images/banner/YoTmEhHQYaC5COBi0DIe5gI3ctAsCUkNNdI9vvpz.jpg"
                className="second-bug__Img-sc-nhflz1-0 gPAImI"/>
         </div>
         <div className="swiper-slide" style={{width: 200}}>
-          <img src="https://oksite.kr/storage/images/banner/9uPUPcW3PLZLpWGPlhcIlNUzBEMq4LPElBpWeyur.jpg"
+          <Img src="https://oksite.kr/storage/images/banner/9uPUPcW3PLZLpWGPlhcIlNUzBEMq4LPElBpWeyur.jpg"
                className="second-bug__Img-sc-nhflz1-0 gPAImI"/>
         </div>
         <div className="swiper-slide" style={{width: 200}}>
-          <img src="https://oksite.kr/storage/images/banner/D1YZ9XAOyDACo0T14DzlrWfo1fHVDNgJm48pRE2Q.jpg"
+          <Img src="https://oksite.kr/storage/images/banner/D1YZ9XAOyDACo0T14DzlrWfo1fHVDNgJm48pRE2Q.jpg"
                className="second-bug__Img-sc-nhflz1-0 gPAImI"/>
         </div>
       </div>
