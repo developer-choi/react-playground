@@ -1,13 +1,16 @@
 import Image, {ImageProps} from 'next/image';
-import React, {SyntheticEvent, useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
-export type FallbackBehavior = 'hidden' | 'replaced-image';
+/**
+ * default (기본값): 기본적으로 엑박이미지와 alt 텍스트 노출
+ * replace-image: 대체이미지로 교체
+ */
+export type FallbackBehavior = 'default' | 'replace-image';
 
 interface FallbackImageProp extends Omit<ImageProps, 'onError' | 'src'> {
   fallback?: {
     behavior?: FallbackBehavior;
     replaceImage?: string;
-    customOnError?: ImageProps['onError'];
   };
   src: ImageProps['src'] | undefined | null;
 }
@@ -17,38 +20,21 @@ export interface AdvancedImageFallbackProp extends FallbackImageProp {
 }
 
 export default function AdvancedImage({alt, src, fallback, ...rest}: AdvancedImageFallbackProp) {
-  const {behavior, customOnError, replaceImage} = fallback ?? {};
-
+  const {behavior = 'default', replaceImage} = fallback ?? {};
   const [customSrc, setCustomSrc] = useState(src ?? "");
-  const [hidden, setHidden] = useState(false);
 
-  const _onError = useCallback((event: SyntheticEvent<HTMLImageElement>) => {
-    if (customOnError) {
-      customOnError(event);
-      return;
-    }
-
+  const _onError = useCallback(() => {
     // 기본동작으로 엑박이미지 노출
-    if (behavior === undefined) {
-      return;
-    }
-
-    if (behavior === 'hidden') {
-      setHidden(true);
+    if (behavior === 'default') {
       return;
     }
 
     setCustomSrc(replaceImage ?? DEFAULT_FALLBACK_IMAGE);
-  }, [behavior, customOnError, replaceImage]);
+  }, [behavior, replaceImage]);
 
   useEffect(() => {
     setCustomSrc(src ?? "");
-    setHidden(false);
   }, [src]);
-
-  if (hidden) {
-    return null;
-  }
 
   return (
     <Image alt={alt} onError={_onError} src={customSrc} {...rest}/>

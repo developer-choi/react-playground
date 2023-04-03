@@ -7,8 +7,7 @@ export default function Page() {
   return (
     <Wrapper>
       <AdvancedImage alt="ALT TEXT" src="/images/some.png" width={200} height={100} layout="fixed"/>
-      <AdvancedImage fallback={{behavior: 'hidden'}}  alt="ALT TEXT" src="/images/some.png" width={200} height={100} layout="fixed"/>
-      <AdvancedImage fallback={{behavior: 'replaced-image'}} alt="ALT TEXT" src="/images/some.png" width={200} height={100} layout="fixed"/>
+      <AdvancedImage fallback={{behavior: 'replace-image'}} alt="ALT TEXT" src="/images/some.png" width={200} height={100} layout="fixed"/>
     </Wrapper>
   );
 }
