@@ -19,7 +19,7 @@ import Image from 'next/image';
  * 1(2), 1(3)만 추가로 해결되면됨.
  */
 
-// URL: http://localhost:3000/study/other-libraries/react-swiper/product-swiper
+// URL: http://localhost:3000/study/other-libraries/react-swiper/first-loading/first-step
 export default function Page() {
   return (
     <Layout>
