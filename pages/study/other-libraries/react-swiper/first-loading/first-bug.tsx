@@ -4,7 +4,8 @@ import {Swiper, SwiperProps, SwiperSlide} from 'swiper/react';
 import styled from 'styled-components';
 
 /** Flow
- * 첫 페이지 로딩 때 이미지가 겁나크게보임. (뷰포트 꽉채움)
+ * BugImg ==> 첫 페이지 로딩 때 이미지가 겁나크게보임. (뷰포트 꽉채움)
+ * MotivationImg ==> 이후 로딩때 (평상시)에 이미지 겹쳐보임 
  */
 
 // URL: http://localhost:3000/study/other-libraries/react-swiper/first-loading/first-bug
@@ -13,15 +14,20 @@ export default function Page() {
     <Swiper {...swiperProps}>
       {imageList.map(image => (
         <SwiperSlide key={image}>
-          <Img src={image}/>
+          <BugImg src={image}/>
+          {/*<MotivationImg src={image}/>*/}
         </SwiperSlide>
       ))}
     </Swiper>
   );
 }
 
-const Img = styled.img`
+const BugImg = styled.img`
   width: 100%;
+`;
+
+const MotivationImg = styled.img`
+//  width 100% 안했음.
 `;
 
 const swiperProps: SwiperProps = {
