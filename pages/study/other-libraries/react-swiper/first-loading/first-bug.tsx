@@ -2,6 +2,7 @@ import React from 'react';
 import 'swiper/css';
 import {Swiper, SwiperProps, SwiperSlide} from 'swiper/react';
 import styled from 'styled-components';
+import {IMAGE_LIST} from '@util/dummy-image';
 
 /** Flow
  * BugImg ==> 첫 페이지 로딩 때 이미지가 겁나크게보임. (뷰포트 꽉채움)
@@ -44,8 +45,4 @@ const swiperProps: SwiperProps = {
   spaceBetween: 6
 };
 
-const imageList = [
-  'https://oksite.kr/storage/images/banner/YoTmEhHQYaC5COBi0DIe5gI3ctAsCUkNNdI9vvpz.jpg',
-  'https://oksite.kr/storage/images/banner/9uPUPcW3PLZLpWGPlhcIlNUzBEMq4LPElBpWeyur.jpg',
-  'https://oksite.kr/storage/images/banner/D1YZ9XAOyDACo0T14DzlrWfo1fHVDNgJm48pRE2Q.jpg',
-];
+const imageList = IMAGE_LIST.rectangular.slice(0, 3);

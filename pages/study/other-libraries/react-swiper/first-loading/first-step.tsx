@@ -3,6 +3,7 @@ import 'swiper/css';
 import styled from 'styled-components';
 import {Swiper, SwiperProps, SwiperSlide} from 'swiper/react';
 import Image from 'next/image';
+import {IMAGE_LIST} from '@util/dummy-image';
 
 /** Flow
  * 1. 최초로딩 시점
@@ -26,7 +27,7 @@ export default function Page() {
       <AnotherContents/>
 
       <Swiper {...swiperProps}>
-        {imageList.map((image, index) => (
+        {IMAGE_LIST.rectangular.map((image, index) => (
           <SwiperSlide key={index}>
             <ImageWrapper>
               <Image src={image} alt="상품이미지" layout="responsive" width={200} height={200}/>
@@ -71,15 +72,3 @@ const swiperProps: SwiperProps = {
   slidesPerView: 5.5,
   spaceBetween: 10
 };
-
-const imageList = [
-  'https://oksite.kr/storage/images/banner/YoTmEhHQYaC5COBi0DIe5gI3ctAsCUkNNdI9vvpz.jpg',
-  'https://oksite.kr/storage/images/banner/9uPUPcW3PLZLpWGPlhcIlNUzBEMq4LPElBpWeyur.jpg',
-  'https://oksite.kr/storage/images/banner/D1YZ9XAOyDACo0T14DzlrWfo1fHVDNgJm48pRE2Q.jpg',
-  'https://oksite.kr/storage/images/banner/YoTmEhHQYaC5COBi0DIe5gI3ctAsCUkNNdI9vvpz.jpg',
-  'https://oksite.kr/storage/images/banner/9uPUPcW3PLZLpWGPlhcIlNUzBEMq4LPElBpWeyur.jpg',
-  'https://oksite.kr/storage/images/banner/D1YZ9XAOyDACo0T14DzlrWfo1fHVDNgJm48pRE2Q.jpg',
-  'https://oksite.kr/storage/images/banner/YoTmEhHQYaC5COBi0DIe5gI3ctAsCUkNNdI9vvpz.jpg',
-  'https://oksite.kr/storage/images/banner/9uPUPcW3PLZLpWGPlhcIlNUzBEMq4LPElBpWeyur.jpg',
-  'https://oksite.kr/storage/images/banner/D1YZ9XAOyDACo0T14DzlrWfo1fHVDNgJm48pRE2Q.jpg',
-];

@@ -2,6 +2,7 @@ import React from 'react';
 import 'swiper/css';
 import {Swiper, SwiperProps, SwiperSlide} from 'swiper/react';
 import styled from 'styled-components';
+import {IMAGE_LIST} from '@util/dummy-image';
 
 /** [Original / OriginalHtml]
  * Performance 탭으로 스크린샷떠가며 확인하면 로딩순서는 다음과같음. (단계별 캡처 필요)
@@ -107,8 +108,4 @@ const swiperProps: SwiperProps = {
   spaceBetween: 20
 };
 
-const imageList = [
-  'https://oksite.kr/storage/images/banner/YoTmEhHQYaC5COBi0DIe5gI3ctAsCUkNNdI9vvpz.jpg',
-  'https://oksite.kr/storage/images/banner/9uPUPcW3PLZLpWGPlhcIlNUzBEMq4LPElBpWeyur.jpg',
-  'https://oksite.kr/storage/images/banner/D1YZ9XAOyDACo0T14DzlrWfo1fHVDNgJm48pRE2Q.jpg',
-];
+const imageList = IMAGE_LIST.rectangular.slice(0, 3);
