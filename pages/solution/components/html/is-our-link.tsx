@@ -1,7 +1,8 @@
 import React from 'react';
-import LinkOrAnchor from '@component/atom/LinkOrAnchor';
+import OptionalLink from '@component/atom/OptionalLink';
 import styled from 'styled-components';
 
+// URL: http://localhost:3000/solution/components/html/is-our-link
 export default function Page() {
   return (
     <>
@@ -12,16 +13,16 @@ export default function Page() {
         http://localhost:3000
       </StyledLink>
       <StyledLink href="http://localhost:3000/solution/components/html/is-our-link">
-        /components/is-our-link
+        http://localhost:3000/solution/components/html/is-our-link
       </StyledLink>
-      <StyledLink href="">
-        empty href
+      <StyledLink href={undefined}>
+        undefined href
       </StyledLink>
     </>
   );
 }
 
-const StyledLink = styled(LinkOrAnchor)`
+const StyledLink = styled(OptionalLink)`
   display: block;
   padding: 5px;
 `;

@@ -7,12 +7,12 @@ import Link, {LinkProps} from 'next/link';
  * @example ("https://some.production.com/some/directory") ==> <Link href="/some/directory">으로 작동
  * @example ("") ==> <a>으로 작동
  */
-export interface LinkOrAnchorProp extends ComponentPropsWithoutRef<'a'>, Pick<LinkProps, 'prefetch'> {
-  href: string;
+export interface OptionalLinkProp extends Omit<ComponentPropsWithoutRef<'a'>, 'href'>, Pick<LinkProps, 'prefetch'> {
+  href: string | undefined | null;
 }
 
-export default function LinkOrAnchor({prefetch, href, target, rel, ...rest}: LinkOrAnchorProp) {
-  const originLink = useOriginLink(href);
+export default function OptionalLink({prefetch, href, target, rel, ...rest}: OptionalLinkProp) {
+  const originLink = useOriginLink(href ?? '');
 
   if (originLink === 'initial' || !originLink.href) {
     return <a {...rest} />;
