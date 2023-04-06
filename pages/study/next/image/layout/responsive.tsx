@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import {EXTERNAL_IMAGE_URL, WrapperChildBorder} from '@pages/study/next/image/fill';
+import {EXTERNAL_IMAGE_URL, WrapperChildBorder} from '@pages/study/next/image/layout/fill';
 import styled from 'styled-components';
 
 /** Flow (맨밑 styled-components > max 500px, min 300px로 설정)

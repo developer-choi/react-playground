@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import {EXTERNAL_IMAGE_URL, WrapperChildBorder} from '@pages/study/next/image/fill';
+import {EXTERNAL_IMAGE_URL, WrapperChildBorder} from '@pages/study/next/image/layout/fill';
 
 /** intrinsic Flow
  * 브라우저 가로길이를 줄여보면,
