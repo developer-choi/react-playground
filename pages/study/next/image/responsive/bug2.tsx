@@ -13,7 +13,7 @@ import {IMAGE_LIST} from '@util/dummy-image';
  * 5. 1200px 미만에서는 첫 페이지 로딩시점에 레이아웃시프트 현상이 발생함. (800px에서 제일잘보임)
  */
 
-// URL: http://localhost:3000/study/other-libraries/react-swiper/product-swiper
+// URL: http://localhost:3000/study/next/image/responsive/bug2
 export default function Page() {
   return (
     <Layout>

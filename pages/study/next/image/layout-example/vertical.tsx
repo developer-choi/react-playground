@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
+import {IMAGE_LIST} from '@util/dummy-image';
 
 /**
  * 브랜드랭킹 Vertical 솔루션임.
@@ -50,8 +51,8 @@ function Original({src, width}: Prop) {
   );
 }
 
-const image1 = 'https://oksite.kr/storage/images/banner/ebppI8N5VV8AzTabdVQdKBnPUj2qcYrIMDTmKDqa.jpg';
-const image2 = 'https://img.atny.com/data/goods/ATNY/32/1223832/20220729224517067_W22---ralph_lauren_kids---875511005SPORT_PINK()NEWPORT_NAVY_list1.JPG';
+const image1 = IMAGE_LIST.bigRectangular[0];
+const image2 = IMAGE_LIST.rectangular[0];
 
 const Wrapper = styled.div`
   > * {

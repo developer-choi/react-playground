@@ -8,11 +8,11 @@ module.exports = {
       },
       {
         protocol: 'https',
-        hostname: 'oksite.kr'
+        hostname: 'ad-img.gmarket.com'
       },
       {
         protocol: 'https',
-        hostname: 'img.atny.com'
+        hostname: 'hi.esmplus.com'
       }
     ]
   }

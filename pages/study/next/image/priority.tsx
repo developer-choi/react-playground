@@ -12,7 +12,10 @@ import {IMAGE_LIST} from '@util/dummy-image';
 // URL: http://localhost:3000/study/next/image/priority
 export default function Page() {
   return (
-    <Html/>
+    <>
+      <Original/>
+      <Html/>
+    </>
   );
 }
 
@@ -107,10 +110,10 @@ const html = `
     <img
       alt="배너이미지"
       srcset="
-        /_next/image?url=https%3A%2F%2Foksite.kr%2Fstorage%2Fimages%2Fbanner%2FebppI8N5VV8AzTabdVQdKBnPUj2qcYrIMDTmKDqa.jpg&amp;w=1080&amp;q=75 1x,
-        /_next/image?url=https%3A%2F%2Foksite.kr%2Fstorage%2Fimages%2Fbanner%2FebppI8N5VV8AzTabdVQdKBnPUj2qcYrIMDTmKDqa.jpg&amp;w=1920&amp;q=75 2x
+        /_next/image?url=https%3A%2F%2Fad-img.gmarket.com%2FADS%2FContents_%2F2023_03_31_07_20_55%2F581d90d3503b4469.JPG&amp;w=1080&amp;q=75 1x,
+        /_next/image?url=https%3A%2F%2Fad-img.gmarket.com%2FADS%2FContents_%2F2023_03_31_07_20_55%2F581d90d3503b4469.JPG&amp;w=1920&amp;q=75 2x
       "
-      src="/_next/image?url=https%3A%2F%2Foksite.kr%2Fstorage%2Fimages%2Fbanner%2FebppI8N5VV8AzTabdVQdKBnPUj2qcYrIMDTmKDqa.jpg&amp;w=1920&amp;q=75"
+      src="/_next/image?url=https%3A%2F%2Fad-img.gmarket.com%2FADS%2FContents_%2F2023_03_31_07_20_55%2F581d90d3503b4469.JPG&amp;w=1920&amp;q=75"
       decoding="async"
       data-nimg="intrinsic"
       style="
@@ -185,10 +188,10 @@ const html = `
   <img
     alt="배너이미지"
     srcset="
-      /_next/image?url=https%3A%2F%2Foksite.kr%2Fstorage%2Fimages%2Fbanner%2FebppI8N5VV8AzTabdVQdKBnPUj2qcYrIMDTmKDqa.jpg&amp;w=1080&amp;q=75 1x,
-      /_next/image?url=https%3A%2F%2Foksite.kr%2Fstorage%2Fimages%2Fbanner%2FebppI8N5VV8AzTabdVQdKBnPUj2qcYrIMDTmKDqa.jpg&amp;w=1920&amp;q=75 2x
+      /_next/image?url=https%3A%2F%2Fad-img.gmarket.com%2FADS%2FContents_%2F2023_03_31_07_20_55%2F581d90d3503b4469.JPG&amp;w=1080&amp;q=75 1x,
+      /_next/image?url=https%3A%2F%2Fad-img.gmarket.com%2FADS%2FContents_%2F2023_03_31_07_20_55%2F581d90d3503b4469.JPG&amp;w=1920&amp;q=75 2x
     "
-    src="/_next/image?url=https%3A%2F%2Foksite.kr%2Fstorage%2Fimages%2Fbanner%2FebppI8N5VV8AzTabdVQdKBnPUj2qcYrIMDTmKDqa.jpg&amp;w=1920&amp;q=75"
+    src="/_next/image?url=https%3A%2F%2Fad-img.gmarket.com%2FADS%2FContents_%2F2023_03_31_07_20_55%2F581d90d3503b4469.JPG&amp;w=1920&amp;q=75"
     decoding="async"
     data-nimg="intrinsic"
     style="

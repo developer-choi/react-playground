@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
+import {IMAGE_LIST} from '@util/dummy-image';
 
 /**
  * layout fill만 사용할 경우, (objectFit props없이)
@@ -13,7 +14,7 @@ export default function Page() {
   return (
     <Wrapper>
       <Image
-        src="https://oksite.kr/storage/images/banner/ebppI8N5VV8AzTabdVQdKBnPUj2qcYrIMDTmKDqa.jpg"
+        src={IMAGE_LIST.bigRectangular[0]}
         alt="배너이미지"
         layout="fill"
       />

@@ -50,16 +50,16 @@ function OriginalHtml() {
     <div className="swiper">
       <div className="swiper-wrapper">
         <div className="swiper-slide">
-          <Img src="https://oksite.kr/storage/images/banner/YoTmEhHQYaC5COBi0DIe5gI3ctAsCUkNNdI9vvpz.jpg"
-               className="second-bug__Img-sc-nhflz1-0 gPAImI"/>
+          <Img src="https://hi.esmplus.com/b/2023/03/23/1679539130521oddtsou.png"
+               className="second-bug__Img-sc-nhflz1-0 cZLKmm"/>
         </div>
         <div className="swiper-slide">
-          <Img src="https://oksite.kr/storage/images/banner/9uPUPcW3PLZLpWGPlhcIlNUzBEMq4LPElBpWeyur.jpg"
-               className="second-bug__Img-sc-nhflz1-0 gPAImI"/>
+          <Img src="https://hi.esmplus.com/b/2023/03/23/1679539207398w77t7u4.png"
+               className="second-bug__Img-sc-nhflz1-0 cZLKmm"/>
         </div>
         <div className="swiper-slide">
-          <Img src="https://oksite.kr/storage/images/banner/D1YZ9XAOyDACo0T14DzlrWfo1fHVDNgJm48pRE2Q.jpg"
-               className="second-bug__Img-sc-nhflz1-0 gPAImI"/>
+          <Img src="https://hi.esmplus.com/b/2023/03/23/167953926169784i86ks.png"
+               className="second-bug__Img-sc-nhflz1-0 cZLKmm"/>
         </div>
       </div>
     </div>
@@ -83,16 +83,16 @@ function FixWidthHtml() {
     <div className="swiper">
       <div className="swiper-wrapper">
         <div className="swiper-slide" style={{width: 200}}>
-          <Img src="https://oksite.kr/storage/images/banner/YoTmEhHQYaC5COBi0DIe5gI3ctAsCUkNNdI9vvpz.jpg"
-               className="second-bug__Img-sc-nhflz1-0 gPAImI"/>
+          <Img src="https://hi.esmplus.com/b/2023/03/23/1679539130521oddtsou.png"
+               className="second-bug__Img-sc-nhflz1-0 cZLKmm"/>
         </div>
         <div className="swiper-slide" style={{width: 200}}>
-          <Img src="https://oksite.kr/storage/images/banner/9uPUPcW3PLZLpWGPlhcIlNUzBEMq4LPElBpWeyur.jpg"
-               className="second-bug__Img-sc-nhflz1-0 gPAImI"/>
+          <Img src="https://hi.esmplus.com/b/2023/03/23/1679539207398w77t7u4.png"
+               className="second-bug__Img-sc-nhflz1-0 cZLKmm"/>
         </div>
         <div className="swiper-slide" style={{width: 200}}>
-          <Img src="https://oksite.kr/storage/images/banner/D1YZ9XAOyDACo0T14DzlrWfo1fHVDNgJm48pRE2Q.jpg"
-               className="second-bug__Img-sc-nhflz1-0 gPAImI"/>
+          <Img src="https://hi.esmplus.com/b/2023/03/23/167953926169784i86ks.png"
+               className="second-bug__Img-sc-nhflz1-0 cZLKmm"/>
         </div>
       </div>
     </div>
