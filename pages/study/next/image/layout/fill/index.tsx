@@ -4,27 +4,19 @@ import styled, {css} from 'styled-components';
 
 /** Flow
  * 브라우저 가로길이를 줄여보면,
+ * 위의 이미지가 crop되는것을 볼 수 있다.
  *
- * (1) 위의 이미지가 crop되는것을 볼 수 있다.
- * (2) 아래 이미지는 width height를 삭제하라는 경고만뜨고 이미지 비율깨진다.
- *
- * 그래서, layout fill은 object-fit하고 같이써야하는 경우 외에 쓰임새가 있는지 잘 모르겠다.
- * 일단 parent element에 반드시 position relative를 선언해야하긴해서,
- *
- * (3) 단독으로 width height를 선언하면 오히려 버그남. 아래 주석처리된거 풀면 난리남. 반드시 parent element도 필요하고 relative도 필요함.
+ * objectFit은, wrapper에 > img로 적용하지않고,
+ * Image props에 objectFit이 있으니 이걸 활용하자.
  */
 
-//http://localhost:3000/study/next/image/fill
+//http://localhost:3000/study/next/image/layout/fill
 export default function Page() {
   return (
     <WrapperChildBorder>
       <StandardFillWrapper>
-        <Image src={EXTERNAL_IMAGE_URL} alt="ALT" layout="fill" priority/>
+        <Image src={EXTERNAL_IMAGE_URL} alt="ALT" layout="fill" objectFit="cover"/>
       </StandardFillWrapper>
-      <WrongFillWrapper>
-        <Image width={400} height={400} src={EXTERNAL_IMAGE_URL} alt="ALT" layout="fill"/>
-      </WrongFillWrapper>
-      {/*<Image width={400} height={400} src={EXTERNAL_IMAGE_URL} alt="ALT" layout="fill" priority/>*/}
     </WrapperChildBorder>
   );
 }
@@ -48,14 +40,6 @@ const sizeCss = css`
 `;
 
 const StandardFillWrapper = styled.div`
-  ${sizeCss};
-  position: relative;
-  
-  img {
-    object-fit: cover;
-  }
-`;
-const WrongFillWrapper = styled.div`
   ${sizeCss};
   position: relative;
 `;
