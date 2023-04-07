@@ -13,6 +13,10 @@ module.exports = {
       {
         protocol: 'https',
         hostname: 'hi.esmplus.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'image.gmarket.co.kr'
       }
     ]
   }

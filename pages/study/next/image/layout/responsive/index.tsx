@@ -22,7 +22,7 @@ import styled from 'styled-components';
  * 오류 > 3은 뭐 원래 기대도안했음;
  */
 
-//http://localhost:3000/study/next/image/responsive
+//http://localhost:3000/study/next/image/layout/responsive
 export default function Page() {
   return (
     <WrapperChildBorder>
