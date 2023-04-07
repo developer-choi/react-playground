@@ -13,7 +13,7 @@ import {IMAGE_LIST} from '@util/dummy-image';
 export default function Page() {
   return (
     <Layout>
-      <AnotherContents/>
+      <AnotherContents style={{marginTop: 0}}/>
       <Swiper {...swiperProps}>
         {IMAGE_LIST.rectangular.map((image, index) => (
           <SwiperSlide key={index}>
@@ -36,6 +36,7 @@ const AnotherContents = styled.div`
 `;
 
 const Layout = styled.div`
+  padding-top: 20px;
   margin: 0 auto;
   max-width: 1200px;
   min-width: 800px;
