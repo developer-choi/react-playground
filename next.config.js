@@ -9,6 +9,10 @@ module.exports = {
       {
         protocol: 'https',
         hostname: 'oksite.kr'
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.atny.com'
       }
     ]
   }
