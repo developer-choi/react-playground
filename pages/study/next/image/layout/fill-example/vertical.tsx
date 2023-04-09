@@ -10,7 +10,7 @@ import {IMAGE} from '@util/dummy-image';
  * Limitation
  * Container에 height를 줘야함.
  */
-// URL: http://localhost:3000/study/next/image/layout-example/vertical
+// URL: http://localhost:3000/study/next/image/layout/fill-example/vertical
 export default function Page() {
   return (
     <Wrapper>

@@ -11,7 +11,7 @@ import {IMAGE} from '@util/dummy-image';
  * 이미지 가로길이보다 더 적게 브라우저 사이즈 줄이면 (236px미만)
  * <img width="auto" height={fixValue}/>와 동작이 달라짐.
  */
-// URL: http://localhost:3000/study/next/image/layout-example/horizontal
+// URL: http://localhost:3000/study/next/image/layout/fill-example/horizontal
 export default function Page() {
   return (
     <Wrapper>

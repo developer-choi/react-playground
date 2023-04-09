@@ -9,7 +9,7 @@ import Image from 'next/image';
  * 2. intrinsic: 컨테이너 사이즈 크기가 작아지든 어떠한 경우에서든 아이콘이 원래 크기보다 작아진다? 에러임.
  */
 
-// URL: http://localhost:3000/study/next/image/layout/fixed/icon
+// URL: http://localhost:3000/study/next/image/layout/fixed-example/icon
 export default function Page() {
   return (
     <>

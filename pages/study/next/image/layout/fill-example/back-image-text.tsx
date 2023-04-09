@@ -7,7 +7,7 @@ import Image from 'next/image';
  * Image에 fill이 제격일것같음.
  */
 
-// URL: http://localhost:3000/study/next/image/layout/fill/example/back-image-text
+// URL: http://localhost:3000/study/next/image/layout/fill-example/back-image-text
 export default function Page() {
   return (
     <Section>

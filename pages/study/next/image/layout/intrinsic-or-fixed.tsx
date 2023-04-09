@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import {EXTERNAL_IMAGE_URL, WrapperChildBorder} from '@pages/study/next/image/layout/fill';
+import {IMAGE} from '@util/dummy-image';
 
 /** intrinsic Flow
  * 브라우저 가로길이를 줄여보면,
@@ -14,7 +14,7 @@ import {EXTERNAL_IMAGE_URL, WrapperChildBorder} from '@pages/study/next/image/la
  * 컨테이너 크기 줄어들어도 이미지 원래크기 유지함.
  */
 
-//http://localhost:3000/study/next/image/intrinsic-or-fixed
+//http://localhost:3000/study/next/image/layout/intrinsic-or-fixed
 export default function Page() {
   return (
     <>
@@ -26,24 +26,19 @@ export default function Page() {
 
 function IntrinsicExample() {
   return (
-    <>
-      <WrapperChildBorder>
-        <Image width={400} height={400} src={EXTERNAL_IMAGE_URL} alt="ALT" layout="intrinsic"/>
-      </WrapperChildBorder>
-
-      <Image width={400} height={400} src={EXTERNAL_IMAGE_URL} alt="ALT" layout="intrinsic"/>
-    </>
+    <div>
+      <Image width={square} height={square} src={src} alt="ALT" layout="intrinsic"/>
+    </div>
   );
 }
 
 function FixedExample() {
   return (
-    <>
-      <WrapperChildBorder>
-        <Image width={400} height={400} src={EXTERNAL_IMAGE_URL} alt="ALT" layout="fixed"/>
-      </WrapperChildBorder>
-
-      <Image width={400} height={400} src={EXTERNAL_IMAGE_URL} alt="ALT" layout="fixed"/>
-    </>
+    <div>
+      <Image width={square} height={square} src={src} alt="ALT" layout="fixed"/>
+    </div>
   );
 }
+
+const src = IMAGE.single.starcraft.src;
+const square = 450;
