@@ -36,7 +36,7 @@ const example2 = {
 
 const example: Example = example2;
 
-// URL: http://localhost:3000/study/rq/option/stale-vs-cache
+// URL: http://localhost:3000/study/rq/query/stale-vs-cache
 export default function Page() {
   const [page, setPage] = useState(1);
 
