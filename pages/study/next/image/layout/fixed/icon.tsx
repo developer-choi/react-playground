@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {IMAGE_LIST} from '@util/dummy-image';
+import {IMAGE} from '@util/dummy-image';
 import Image from 'next/image';
 
 /** 아이콘 불러오는데는 fixed가 최적임.
@@ -22,7 +22,7 @@ export default function Page() {
 function MainNavSection() {
   return (
     <Section>
-      {IMAGE_LIST.icon.map(image => (
+      {IMAGE.list.icon.map(image => (
         <a key={image}>
           <Image src={image} alt="아이콘이미지" layout="fixed" width={60} height={60}/>
         </a>

@@ -1,4 +1,4 @@
-export const IMAGE_LIST = {
+const list = {
   rectangular: [
     'https://hi.esmplus.com/b/2023/03/23/1679539130521oddtsou.png',
     'https://hi.esmplus.com/b/2023/03/23/1679539207398w77t7u4.png',
@@ -29,7 +29,14 @@ export const IMAGE_LIST = {
   ]
 };
 
-export const STARCRAFT_IMAGE = {
-  src: '/images/ratio-test.jpg',
-  ratio: 2560 / 1440
+const single = {
+  starcraft: {
+    src: '/images/ratio-test.jpg',
+    ratio: 2560 / 1440
+  }
+};
+
+export const IMAGE = {
+  list,
+  single
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import 'swiper/css';
 import {Swiper, SwiperProps, SwiperSlide} from 'swiper/react';
 import styled from 'styled-components';
-import {IMAGE_LIST} from '@util/dummy-image';
+import {IMAGE} from '@util/dummy-image';
 
 /** Flow
  * BugImg ==> 첫 페이지 로딩 때 이미지가 겁나크게보임. (뷰포트 꽉채움)
@@ -45,4 +45,4 @@ const swiperProps: SwiperProps = {
   spaceBetween: 6
 };
 
-const imageList = IMAGE_LIST.rectangular.slice(0, 3);
+const imageList = IMAGE.list.rectangular.slice(0, 3);

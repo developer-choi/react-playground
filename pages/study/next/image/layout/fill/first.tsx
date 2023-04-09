@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import {IMAGE_LIST} from '@util/dummy-image';
+import {IMAGE} from '@util/dummy-image';
 
 /**
  * 보면, 아무것도 화면에 안나옴.
@@ -16,7 +16,7 @@ export default function Page() {
   return (
     <Wrapper>
       <Image
-        src={IMAGE_LIST.bigRectangular[0]}
+        src={IMAGE.list.bigRectangular[0]}
         alt="배너이미지"
         layout="fill"
       />

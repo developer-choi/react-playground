@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import type {SwiperProps} from 'swiper/react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import Image from 'next/image';
-import {IMAGE_LIST} from '@util/dummy-image';
+import {IMAGE} from '@util/dummy-image';
 
 /**
  * priority true로 설정하면,
@@ -30,7 +30,7 @@ function Solved() {
   return (
     <SolvedWrap>
       <Swiper {...swiperProps}>
-        {IMAGE_LIST.bigRectangular.map(image => (
+        {IMAGE.list.bigRectangular.map(image => (
           <SwiperSlide key={image}>
             <Image
               src={image}
@@ -51,7 +51,7 @@ function Original() {
   return (
     <Wrap>
       <Swiper {...swiperProps}>
-        {IMAGE_LIST.bigRectangular.map(image => (
+        {IMAGE.list.bigRectangular.map(image => (
           <SwiperSlide key={image}>
             <Image
               src={image}

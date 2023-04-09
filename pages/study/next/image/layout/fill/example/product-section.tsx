@@ -1,5 +1,5 @@
 import React from 'react';
-import {IMAGE_LIST} from '@util/dummy-image';
+import {IMAGE} from '@util/dummy-image';
 import styled from 'styled-components';
 import Image from 'next/image';
 
@@ -14,7 +14,7 @@ import Image from 'next/image';
 export default function Page() {
   return (
     <Section>
-      {IMAGE_LIST.rectangular.slice(0, 5).map(image => (
+      {IMAGE.list.rectangular.slice(0, 5).map(image => (
         <Item key={image}>
           <ImageWrap>
             <Image src={image} layout="fill" alt="상품이미지"/>

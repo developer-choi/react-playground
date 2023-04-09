@@ -2,7 +2,7 @@ import React from 'react';
 import 'swiper/css';
 import {Swiper, SwiperProps, SwiperSlide} from 'swiper/react';
 import styled from 'styled-components';
-import {IMAGE_LIST} from '@util/dummy-image';
+import {IMAGE} from '@util/dummy-image';
 
 /** [Original / OriginalHtml]
  * Performance 탭으로 스크린샷떠가며 확인하면 로딩순서는 다음과같음. (단계별 캡처 필요)
@@ -108,4 +108,4 @@ const swiperProps: SwiperProps = {
   spaceBetween: 20
 };
 
-const imageList = IMAGE_LIST.rectangular.slice(0, 3);
+const imageList = IMAGE.list.rectangular.slice(0, 3);

@@ -1,7 +1,7 @@
 import React from 'react';
 import type {GetServerSideProps} from 'next';
 import Image from 'next/image';
-import {IMAGE_LIST} from '@util/dummy-image';
+import {IMAGE} from '@util/dummy-image';
 
 /** Flow
  * priority 여부에 따라, 최초로딩 시점의 HTML이 약간 차이가있다.
@@ -216,7 +216,7 @@ const html = `
 </span>
 `;
 
-const src = IMAGE_LIST.bigRectangular[0];
+const src = IMAGE.list.bigRectangular[0];
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return {

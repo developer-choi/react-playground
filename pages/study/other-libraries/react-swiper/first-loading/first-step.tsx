@@ -3,7 +3,7 @@ import 'swiper/css';
 import styled from 'styled-components';
 import {Swiper, SwiperProps, SwiperSlide} from 'swiper/react';
 import Image from 'next/image';
-import {IMAGE_LIST} from '@util/dummy-image';
+import {IMAGE} from '@util/dummy-image';
 
 /** Flow
  * 1. 최초로딩 시점
@@ -27,7 +27,7 @@ export default function Page() {
       <AnotherContents style={{marginTop: 0}}/>
 
       <Swiper {...swiperProps}>
-        {IMAGE_LIST.rectangular.map((image, index) => (
+        {IMAGE.list.rectangular.map((image, index) => (
           <SwiperSlide key={index}>
             <ImageWrapper>
               <Image src={image} alt="상품이미지" layout="responsive" width={200} height={200}/>

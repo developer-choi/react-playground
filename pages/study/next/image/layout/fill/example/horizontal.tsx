@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from "next/image";
 import styled from "styled-components";
-import {IMAGE_LIST} from '@util/dummy-image';
+import {IMAGE} from '@util/dummy-image';
 
 /**
  * 브랜드랭킹 Horizontal 솔루션임.
@@ -51,8 +51,8 @@ function Original({src, height}: Prop) {
   );
 }
 
-const image1 = IMAGE_LIST.bigRectangular[0];
-const image2 = IMAGE_LIST.rectangular[0];
+const image1 = IMAGE.list.bigRectangular[0];
+const image2 = IMAGE.list.rectangular[0];
 
 const Wrapper = styled.div`
   > * {
