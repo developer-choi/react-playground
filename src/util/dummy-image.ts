@@ -28,3 +28,8 @@ export const IMAGE_LIST = {
     'https://image.gmarket.co.kr/hanbando/202103/c69251b0-0135-4434-bd23-5889309bba78.png'
   ]
 };
+
+export const STARCRAFT_IMAGE = {
+  src: '/images/ratio-test.jpg',
+  ratio: 2560 / 1440
+};
