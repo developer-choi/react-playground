@@ -40,6 +40,14 @@ function useOriginLink(href: string) {
   const [originLink, setOriginLink] = useState<'initial' | {href: string, isOurOrigin: boolean}>('initial');
 
   useEffect(() => {
+    if(href.startsWith('/')) {
+      setOriginLink({
+        isOurOrigin: true,
+        href
+      });
+      return;
+    }
+
     try {
       //이 값은 항상 origin 맽 끝에 /가 없음
       const {origin} = new URL(href);
@@ -77,7 +85,7 @@ function useOriginLink(href: string) {
 Expected URL (example): https://some.domain.com/some/path
 Link(Parameter): ${href === '' ? '(empty string)' : href}
     `;
-      console.error(message);
+      console.warn(message);
 
       setOriginLink({
         isOurOrigin: false,
