@@ -1,4 +1,3 @@
-import {useScrollRestorationSolution1} from '@util/extend/next';
 import {useQuery} from '@tanstack/react-query';
 import {getScrollRestorationDummyApi, ScrollRestorationLinkList} from '@pages/study/next/scroll-restoration/target';
 
@@ -10,15 +9,13 @@ import {getScrollRestorationDummyApi, ScrollRestorationLinkList} from '@pages/st
  *
  * 4. (O) (내부) 목적지에서 뒤로가기눌렀을 때 목적지의 스크롤은 유지 됨.
  *
- * ==> default/csr-rq랑 다를게없음, 최소조건 만족함.
+ * ==> 최소조건은 만족함.
  */
 
-// URL: http://localhost:3000/study/next/scroll-restoration/solution1/csr-rq
+// URL: http://localhost:3000/study/next/scroll-restoration/default/csr-rq
 export default function Page() {
-  useScrollRestorationSolution1();
-
   const {data = []} = useQuery({
-    queryKey: ['solution1-csr'],
+    queryKey: ['default-csr-rq'],
     queryFn: getScrollRestorationDummyApi
   });
 

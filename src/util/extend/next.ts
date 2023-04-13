@@ -43,7 +43,7 @@ export function useScrollRestorationSolution1() {
     router.events.on('routeChangeComplete', () => {
       if (shouldScrollRestore) {
         const {x, y} = shouldScrollRestore;
-        setTimeout(() => window.scrollTo(x, y), 0);
+        setTimeout(() => window.scrollTo({top: y, left: x, behavior: 'smooth'}), 0);
         shouldScrollRestore = null;
       }
       window.history.scrollRestoration = 'auto';
