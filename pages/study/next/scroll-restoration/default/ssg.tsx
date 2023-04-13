@@ -4,18 +4,18 @@ import {range} from "@util/extend/data-type/number";
 import Link from "next/link";
 
 /** Flow (Only Production)
- * 1. 스크롤 좀 내린다음
- * 2. 링크 아무거나 클릭하고
- * 3. 뒤로가기 했을 때
- *
- * 항상 스크롤복원이 안됨.
+ * 1. (O) URL 직접치고 들어가면 맨위로 스크롤
+ * 2. (△) 스크롤 좀 내리고 새로고침하면 스크롤 복구됨. (약간의 높이 오차있음)
+ * 3. (O) 스크롤 안내리고 링크 타고 들어갔다가 뒤로가기하면 스크롤 맨위로감
+ * 4. (△) 스크롤 내리고 링크타고 들어갔다가 뒤로가기하면 스크롤 복구됨. (약간의 높이 오차있음)
  */
 
+// URL: http://localhost:3000/study/next/scroll-restoration/default/ssg
 export default function Page() {
   return (
     <Wrap>
       {list.map(value => (
-        <Link key={value} href="/" scroll={false} passHref>
+        <Link key={value} href="/" passHref>
           <Row>{value}</Row>
         </Link>
       ))}
