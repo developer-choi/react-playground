@@ -2,21 +2,16 @@ import styled from "styled-components";
 import {flexCenter} from "@util/services/style/css";
 import {range} from "@util/extend/data-type/number";
 import Link from "next/link";
-import {useScrollRestorationSolution1} from '@util/extend/next';
+import {useScrollRestorationSolution2} from '@util/extend/next';
 
 /** Flow (Only Production)
- * 1. (O) URL 직접치고 들어가면 맨위로 스크롤
- * 2. (△) 스크롤 좀 내리고 새로고침하면 스크롤 복구됨. (약간의 높이 오차있음)
- * 3. (O) 스크롤 안내리고 링크 타고 들어갔다가 뒤로가기하면 스크롤 맨위로감
- * 4. (△) 스크롤 내리고 링크타고 들어갔다가 뒤로가기하면 스크롤 복구됨. (약간의 높이 오차있음)
- *
- * 기존 default/ssg와 동일하게 동작됨.
+ * 1. 새로고침했을 때 Layout Shift때문에 너무 보기흉함.
+ * 2. 링크타고 들어갔다가 뒤로가기했을때도 Layout Shift때문에 너무 보기흉함.
  */
 
-// URL: http://localhost:3000/study/next/scroll-restoration/solution1/ssg
+// URL: http://localhost:3000/study/next/scroll-restoration/solution2/ssg
 export default function Page() {
-  useScrollRestorationSolution1();
-
+  useScrollRestorationSolution2();
   return (
     <Wrap>
       {list.map(value => (

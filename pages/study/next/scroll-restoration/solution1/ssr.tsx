@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import {flexCenter} from '@util/services/style/css';
 import {range} from '@util/extend/data-type/number';
 import Link from 'next/link';
-import {useScrollRestoration} from '@util/extend/next';
+import {useScrollRestorationSolution1} from '@util/extend/next';
 
 /** Flow (Only Production)
  * 1. (O) URL 직접치고 들어가면 맨위로 스크롤
@@ -15,7 +15,7 @@ import {useScrollRestoration} from '@util/extend/next';
 
 // URL: http://localhost:3000/study/next/scroll-restoration/solution1/ssr
 export default function Page() {
-  useScrollRestoration();
+  useScrollRestorationSolution1();
 
   return (
     <Wrap>

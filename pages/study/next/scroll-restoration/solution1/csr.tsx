@@ -3,8 +3,7 @@ import {flexCenter} from '@util/services/style/css';
 import {range} from '@util/extend/data-type/number';
 import Link from 'next/link';
 import {useEffect, useState} from 'react';
-import {useRouter} from 'next/router';
-import {useScrollRestoration} from '@util/extend/next';
+import {useScrollRestorationSolution1} from '@util/extend/next';
 import {timeoutPromise} from '@util/extend/test';
 
 /** Flow (Only Production)
@@ -18,7 +17,7 @@ import {timeoutPromise} from '@util/extend/test';
 
 // URL: http://localhost:3000/study/next/scroll-restoration/solution1/csr
 export default function Page() {
-  useScrollRestoration();
+  useScrollRestorationSolution1();
 
   const [list, setList] = useState<number[]>([]);
 
