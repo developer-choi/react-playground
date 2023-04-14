@@ -1,9 +1,11 @@
-import styled from 'styled-components';
-import {flexCenter} from '@util/services/style/css';
-import {range} from '@util/extend/data-type/number';
-import Link from 'next/link';
 import type {GetServerSideProps} from 'next';
-import {useScrollRestorationSolution2} from '@util/extend/next';
+import {useScrollRestorationSolution2} from '@util/extend/legacy/legacy-scroll-restoration2';
+import {
+  getScrollRestorationDummyApi,
+  SCROLL_RESTORATION_HREFS,
+  ScrollRestorationExamplePageProp,
+  ScrollRestorationLinkList
+} from '@component/others/scroll-restoration';
 
 /** Flow (Only Production)
  * 1. 새로고침했을 때 Layout Shift때문에 너무 보기흉함.
@@ -11,38 +13,18 @@ import {useScrollRestorationSolution2} from '@util/extend/next';
  */
 
 // URL: http://localhost:3000/study/next/scroll-restoration/solution2/ssr
-export default function Page() {
+export default function Page({list}: ScrollRestorationExamplePageProp) {
   useScrollRestorationSolution2();
+
   return (
-    <Wrap>
-      {list.map(value => (
-        <Link key={value} href="/" passHref>
-          <Row>{value}</Row>
-        </Link>
-      ))}
-    </Wrap>
+    <ScrollRestorationLinkList list={list}/>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps<ScrollRestorationExamplePageProp> = async () => {
   return {
     props: {
+      list: await getScrollRestorationDummyApi(SCROLL_RESTORATION_HREFS.solution2)
     }
   };
 };
-
-
-const Wrap = styled.div`
-  padding: 20px;
-`;
-
-const list = range(1, 100);
-
-const Row = styled.a`
-  height: 200px;
-  border: 5px solid red;
-  ${flexCenter};
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
-`;
