@@ -92,12 +92,14 @@ export interface CorePaginationParam<T extends CorePaginationConfig = CorePagina
 
 export interface CorePaginationComponentProps extends CorePaginationParam {
   methods: PaginationMethod;
+  linkProps?: Pick<LinkProps, 'scroll' | 'replace'>;
 }
 
 export type MultiplePagesPaginationParam = CorePaginationParam<MultiplePagesPaginationConfig>;
 
 export interface MultiplePagesPaginationComponentProps extends MultiplePagesPaginationParam {
   methods: PaginationMethod;
+  linkProps?: Pick<LinkProps, 'scroll' | 'replace'>;
 }
 
 /***************************************************

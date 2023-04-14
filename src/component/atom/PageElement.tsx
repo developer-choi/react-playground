@@ -10,14 +10,14 @@ import {useKeepQuery} from '@util/extend/router';
  * methods를 아에 전달하지않을경우, 기본값으로 pageToHref가 작동되며
  * (현재 페이지 URL)에 추가로 page=n 이라는 query string만 추가됩니다.
  */
-export interface PageElementProp extends Pick<LinkProps, 'replace'> {
+export interface PageElementProp extends Pick<LinkProps, 'replace' | 'scroll'> {
   methods: PaginationMethod;
   children: string | number;
   className?: string;
   data: PageElementData;
 }
 
-export default function PageElement({methods, children, data, className, replace}: PageElementProp) {
+export default function PageElement({methods, children, data, className, ...linkProps}: PageElementProp) {
   const {page, disable, active, prevent} = data;
   const _className = myClassName(className, {disable, active});
 
@@ -25,7 +25,7 @@ export default function PageElement({methods, children, data, className, replace
 
   if ('href' in result) {
     return (
-      <Link href={result.href} passHref {...DEFAULT_LINK_PROPS} replace={replace}>
+      <Link href={result.href} passHref {...DEFAULT_LINK_PROPS} {...linkProps}>
         <Anchor className={_className} onClick={prevent ? ignoreEvent : undefined}>
           {children}
         </Anchor>

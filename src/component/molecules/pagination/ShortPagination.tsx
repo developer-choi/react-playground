@@ -4,7 +4,7 @@ import {getShortPagination} from '@util/services/pagination/pagination-short';
 import styled from 'styled-components';
 import PageElement from '@component/atom/PageElement';
 
-export default memo(function ShortPagination({methods, ...params}: CorePaginationComponentProps) {
+export default memo(function ShortPagination({methods, linkProps, ...params}: CorePaginationComponentProps) {
   const pagination = getShortPagination(params);
 
   if (pagination === null) {
@@ -16,21 +16,21 @@ export default memo(function ShortPagination({methods, ...params}: CorePaginatio
 
   return (
     <Wrap>
-      <StyledPageElement data={first} methods={methods}>
+      <StyledPageElement data={first} methods={methods} {...linkProps}>
         {'<<'}
       </StyledPageElement>
 
-      <StyledPageElement data={previous} methods={methods}>
+      <StyledPageElement data={previous} methods={methods} {...linkProps}>
         {'<'}
       </StyledPageElement>
 
       <span>{currentPage} / {totalPage}</span>
 
-      <StyledPageElement data={next} methods={methods}>
+      <StyledPageElement data={next} methods={methods} {...linkProps}>
         {'>'}
       </StyledPageElement>
 
-      <StyledPageElement data={last} methods={methods}>
+      <StyledPageElement data={last} methods={methods} {...linkProps}>
         {'>>'}
       </StyledPageElement>
     </Wrap>

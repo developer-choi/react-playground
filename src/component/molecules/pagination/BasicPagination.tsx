@@ -4,7 +4,7 @@ import type {MultiplePagesPaginationComponentProps,} from '@util/services/pagina
 import {getBasicPagination} from '@util/services/pagination/pagination-basic';
 import PageElement from '@component/atom/PageElement';
 
-export default memo(function BasicPagination({methods, ...params}: MultiplePagesPaginationComponentProps) {
+export default memo(function BasicPagination({methods, linkProps, ...params}: MultiplePagesPaginationComponentProps) {
   const pagination = getBasicPagination(params);
 
   if (pagination === null) {
@@ -15,25 +15,25 @@ export default memo(function BasicPagination({methods, ...params}: MultiplePages
 
   return (
     <Wrap>
-      <StyledPageElement data={first} methods={methods}>
+      <StyledPageElement data={first} methods={methods} {...linkProps}>
         {'<<'}
       </StyledPageElement>
 
-      <StyledPageElement data={previous} methods={methods}>
+      <StyledPageElement data={previous} methods={methods} {...linkProps}>
         {'<'}
       </StyledPageElement>
 
       {betweenPageElementDataList.map(data => (
-        <StyledPageElement key={data.page} data={data} methods={methods}>
+        <StyledPageElement key={data.page} data={data} methods={methods} {...linkProps}>
           {data.page}
         </StyledPageElement>
       ))}
 
-      <StyledPageElement data={next} methods={methods}>
+      <StyledPageElement data={next} methods={methods} {...linkProps}>
         {'>'}
       </StyledPageElement>
 
-      <StyledPageElement data={last} methods={methods}>
+      <StyledPageElement data={last} methods={methods} {...linkProps}>
         {'>>'}
       </StyledPageElement>
     </Wrap>
