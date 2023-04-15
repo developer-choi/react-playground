@@ -44,7 +44,8 @@ export async function getStaticProps() {
   };
 }
 
-const TTFB_TIMEOUT = 3000;
+// const TTFB_TIMEOUT = 3000;
+const TTFB_TIMEOUT = 10;
 
 const Wrap = styled.div`
   height: 100%;

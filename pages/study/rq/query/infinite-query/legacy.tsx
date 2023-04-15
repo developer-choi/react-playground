@@ -14,7 +14,7 @@ interface PageProp {
 export default function InfiniteScrollPage(props: PageProp) {
   const fetchMoreApi = useCallback(async (requestPage: number) => {
     const api = new CourseApi();
-    const {list, total} = (await api.getList(requestPage)).data;
+    const {list, total} = (await api.getList({page: requestPage})).data;
     return {list, total};
   }, []);
 
@@ -38,7 +38,7 @@ export default function InfiniteScrollPage(props: PageProp) {
 
 export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
   const api = new CourseApi();
-   const {list, total} = (await api.getList(1)).data;
+   const {list, total} = (await api.getList({page: 1})).data;
   return {
     props: {
       list,

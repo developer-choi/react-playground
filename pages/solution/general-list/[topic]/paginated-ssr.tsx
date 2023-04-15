@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps<CourseTableProp, ParamType> 
     const sort = validateIncludeString(query.sort, COURSE_SORT.typeList, {required: false});
 
     const api = new CourseApi();
-    const {data: listResponse} = await api.getList(page, {room, topic, sort});
+    const {data: listResponse} = await api.getList({page, room, topic, sort});
 
     return {
       props: {

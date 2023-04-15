@@ -42,7 +42,7 @@ export default function Page() {
 async function getCourseList(...args: any) {
   console.log('getCourseList call', args);
   const courseApi = new CourseApi();
-  return courseApi.getList(1, {});
+  return courseApi.getList({page: 1});
 }
 
 async function addCourse({param1, param2}: {param1: number, param2: number}) {

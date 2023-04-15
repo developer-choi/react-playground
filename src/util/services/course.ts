@@ -102,7 +102,8 @@ export function useCourseList() {
 
   return useQuery({
     queryKey: ['course-list', currentTopic, currentRoom, currentSort, currentPage],
-    queryFn: () => new CourseApi().getList(currentPage, {
+    queryFn: () => new CourseApi().getList({
+      page: currentPage,
       room: currentRoom,
       sort: currentSort,
       topic: currentTopic

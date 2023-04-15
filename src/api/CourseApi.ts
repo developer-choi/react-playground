@@ -9,8 +9,8 @@ export default class CourseApi extends BaseApi {
     super('/course');
   }
 
-  getList(page: number, config?: CourseListConfig): Promise<AxiosResponse<CourseListResponse>> {
-    return this.axios.get('/list', {params: {...config, page}});
+  getList(param: CourseListApiParam): Promise<AxiosResponse<CourseListResponse>> {
+    return this.axios.get('/list', {params: param});
   }
 
   getTopics(): Promise<AxiosResponse<CourseTopicsResponse>> {
@@ -30,7 +30,10 @@ export default class CourseApi extends BaseApi {
   }
 }
 
-type CourseListConfig = Partial<CourseFilter> & Partial<Sort<CourseSortType>>;
+interface CourseListApiParam extends Partial<CourseFilter>, Partial<Sort<CourseSortType>> {
+  articlePerPage?: number;
+  page: number;
+}
 
 export interface CourseFilter {
   topic: number;
