@@ -5,7 +5,6 @@ import type {Course} from '@type/response-sub/course-sub';
 import CourseApi from '@api/CourseApi';
 import styled from 'styled-components';
 import {flexCenter} from '@util/services/style/css';
-import {useInfiniteScroll} from '@util/extend/event/scroll';
 import List from 'rc-virtual-list';
 
 /**
@@ -32,11 +31,6 @@ export default function Page() {
   });
 
   const disabledNextPage = !hasNextPage || isFetching;
-
-  useInfiniteScroll({
-    callback: fetchNextPage,
-    enabled: !disabledNextPage
-  });
 
   const onScroll = useCallback((event: UIEvent<HTMLElement>) => {
     if (disabledNextPage) {
