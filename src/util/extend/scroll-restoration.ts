@@ -82,7 +82,7 @@ export function useScrollRestoration() {
 
       if (cache && cacheManager.isMatchBackOrForward(thisAsPath)) {
         const {top, left} = cache;
-        setTimeout(() => window.scrollTo({top, left, behavior: 'smooth'}), 0);
+        setTimeout(() => window.scrollTo({top, left}), 0);
       }
 
       cacheManager.onRouteChangeComplete();
