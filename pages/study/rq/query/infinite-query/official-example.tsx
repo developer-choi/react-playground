@@ -13,7 +13,7 @@ export default function Page() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ['projects'],
+    queryKey: ['official-example'],
     queryFn,
     getNextPageParam,
     initialData: {

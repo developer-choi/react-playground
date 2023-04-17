@@ -24,7 +24,7 @@ export default function Page() {
     hasNextPage,
     isFetching,
   } = useInfiniteQuery({
-    queryKey: ['projects'],
+    queryKey: ['infinite-scroll-solution'],
     queryFn,
     getNextPageParam,
     refetchOnWindowFocus: false
