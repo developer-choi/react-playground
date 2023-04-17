@@ -45,7 +45,7 @@ export default function Page() {
 
 interface PageData {
   courseList: Course[];
-  page: number;
+  // page: number;
   nextPage: number | undefined;
 }
 
@@ -64,7 +64,7 @@ async function queryFn(params: QueryFunctionContext<QueryKey, number>): Promise<
 
   return {
     courseList: list,
-    page: pageParam,
+    // page: pageParam,
     nextPage: pageParam >= totalPage ? undefined : pageParam + 1,
   };
 }
