@@ -3,15 +3,14 @@ import throttle from 'lodash/throttle';
 
 interface InfiniteScrollParam {
   enabled?: boolean;
-  targetElement?: HTMLElement;
   offset?: number;
   callback: () => void;
 }
 
-export function useInfiniteScroll({enabled = true, offset = 500, targetElement, callback}: InfiniteScrollParam) {
+export function useInfiniteScroll({enabled = true, offset = 500, callback}: InfiniteScrollParam) {
   useEffect(() => {
     const handler = throttle(() => {
-      const {clientHeight, scrollHeight, scrollTop} = targetElement ?? document.documentElement;
+      const {clientHeight, scrollHeight, scrollTop} = document.documentElement;
 
       if ((scrollHeight - clientHeight - scrollTop) <= offset) {
         callback();
@@ -29,5 +28,5 @@ export function useInfiniteScroll({enabled = true, offset = 500, targetElement, 
     return () => {
       window.removeEventListener('scroll', handler);
     };
-  }, [callback, enabled, offset, targetElement]);
+  }, [callback, enabled, offset]);
 }

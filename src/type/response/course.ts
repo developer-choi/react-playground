@@ -4,6 +4,7 @@ import type {Course, Room, Topic} from '@type/response-sub/course-sub';
 export interface CourseListResponse {
   list: Course[];
   total: number;
+  totalPage: number;
 }
 
 // GET /course/topics
