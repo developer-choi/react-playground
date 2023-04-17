@@ -28,8 +28,8 @@ export default function Page(props: {selectors: SelectorsByUserAgent}) {
 }
 
 export async function getServerSideProps({req}: GetServerSidePropsContext) {
-  const userAgent = req.headers['user-agent'];
-  const selectors = getSelectorsByUserAgent(userAgent as string);
+  const userAgent = req.headers['user-agent'] as string;
+  const selectors = getSelectorsByUserAgent(userAgent);
 
   return {
     props: {
