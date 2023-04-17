@@ -1,11 +1,11 @@
-import React, {UIEvent, useCallback} from 'react';
+import React from 'react';
 import {QueryKey, useInfiniteQuery} from '@tanstack/react-query';
 import type {QueryFunctionContext} from '@tanstack/query-core/build/lib/types';
 import type {Course} from '@type/response-sub/course-sub';
 import CourseApi from '@api/CourseApi';
 import styled from 'styled-components';
 import {flexCenter} from '@util/services/style/css';
-import List from 'rc-virtual-list';
+import {useInfiniteScroll} from '../../../../../src/util/extend/event/scroll';
 
 // URL: http://localhost:3000/study/rq/query/infinite-query/solution
 export default function Page() {
@@ -23,17 +23,10 @@ export default function Page() {
 
   const disabledNextPage = !hasNextPage || isFetching;
 
-  const onScroll = useCallback((event: UIEvent<HTMLElement>) => {
-    if (disabledNextPage) {
-      return;
-    }
-
-    const {scrollHeight, clientHeight, scrollTop} = event.target as HTMLElement;
-
-    if ((scrollHeight - clientHeight - scrollTop) <= 500) {
-      fetchNextPage();
-    }
-  }, [disabledNextPage, fetchNextPage]);
+  useInfiniteScroll({
+    callback: fetchNextPage,
+    enabled: !disabledNextPage
+  });
 
   if (!data) {
     return null;
@@ -43,11 +36,9 @@ export default function Page() {
 
   return (
     <>
-      <List data={list} itemHeight={200} fullHeight height={1289} itemKey="pk" onScroll={onScroll}>
-        {({title}) => (
-          <Row>{title}</Row>
-        )}
-      </List>
+      {list.map(({pk, title}) => (
+        <Row key={pk}>{title}</Row>
+      ))}
     </>
   );
 }
@@ -62,6 +53,9 @@ interface PageData {
  * 문제점1. 매번 queryFn에서 반환한 리스트 데이터를 펼쳐야함.
  * 문제점2. 매번 nextPage 타입 추가하고, getNextPageParam만들어야함.
  * 문제점3. 매번 isFetchingNext 일 때 실행안하도록 구현 추가해야함.
+ *
+ * 시도1. useNewInfiniteQuery() 이런식으로 useInfinityQuery() 자체를 재정의하려고했음.
+ * - 제네릭부터 시작해서 똑같이 따라 쳐야하는 의미없는 코드가 너무많아서 포기했음.
  */
 async function queryFn(params: QueryFunctionContext<QueryKey, number>): Promise<PageData> {
   const {pageParam = 1} = params;
