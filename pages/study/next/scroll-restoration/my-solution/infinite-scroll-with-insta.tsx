@@ -9,9 +9,10 @@ import type {QueryFunctionContext} from '@tanstack/query-core/build/lib/types';
 import CourseApi from '@api/CourseApi';
 import styled from 'styled-components';
 
-/**
- * 목적지 갔다가 뒤로가기했을 때 스크롤복원이 안됨.
- * 원인은, 뒤로가기해서 왔을 때 start state가 0이어서 캐싱된 데이터가 있다 하더라도 0번부터 잘려서 나오기때문...
+/** Flow
+ * 1. 스크롤내려도 virtual기능 잘 작동하고,
+ * 2. 갔다가 되돌아와도 스크롤복원 잘 됨.
+ * 3. 하지만 갔다가 되돌아왔을 때 최초로딩시점에 렌더링해야하는게 너무많은게 단점. (최초에는 모든목록 싹다그려서 늘려놓고 계산되면 그재서야 위아래 다 짜르니까.)
  */
 
 /**
@@ -21,9 +22,7 @@ import styled from 'styled-components';
 export default function Page() {
   useScrollRestoration();
 
-  const [start, setStart] = useState(0);
-  const [paddingTop, setPaddingTop] = useState(0);
-  const [paddingBottom, setPaddingBottom] = useState(0);
+  const [magic, setMagic] = useState<Magic>();
 
   const {
     data,
@@ -40,30 +39,34 @@ export default function Page() {
   const items = data?.pages.map(({courseList}) => courseList).flat() ?? EMPTY_ARRAY;
 
   const slicedItems = useMemo(() => {
+    if (!magic) {
+      return items;
+    }
+
+    const {start} = magic;
+    
     const s = Math.floor(start) - ROW_COUNT / 2 < 0 ? 0 : Math.floor(start) - ROW_COUNT / 2;
     const e = s + ROW_COUNT;
     return items.slice(s, e);
-  }, [start, items]);
+  }, [magic, items]);
 
   useEffect(() => {
     lastRow = items.length - 1;
   }, [items]);
 
-  const updatePaddingTop = useCallback((currentStart: number) => {
-    // 현재 스크린에 있는 아이템의 번호가 10번이라면, 1~9번에 차지하는 높이를 그대로 paddingTop 으로 사용.
-    const start =
-      Math.floor(currentStart) - ROW_COUNT / 2 < 0
-        ? 0
-        : Math.floor(currentStart) - ROW_COUNT / 2;
-    setPaddingTop(start * ROW_HEIGHT);
-  }, []);
+  const updateIndex = useCallback(() => {
+    const {scrollTop} = document.documentElement;
+    const currentStart = Math.floor(scrollTop / ROW_HEIGHT);
 
-  const updatePaddingBottom = useCallback((currentStart: number) => {
-    const s =
+    // 현재 스크린에 있는 아이템의 번호가 10번이라면, 1~9번에 차지하는 높이를 그대로 paddingTop 으로 사용.
+    const tempStart =
       Math.floor(currentStart) - ROW_COUNT / 2 < 0
         ? 0
         : Math.floor(currentStart) - ROW_COUNT / 2;
-    let currentViewLastRow = s + ROW_COUNT;
+
+    const paddingTop = tempStart * ROW_HEIGHT;
+
+    let currentViewLastRow = tempStart + ROW_COUNT;
 
     // 현재 마지막 번호가 노출되는 최대 번호보다 같거나 작으면 paddingBottom 이 필요없음.
     // 현재까지 받아온 마지막 row 번호 - 현재 노출되어 있는 마지막 row 번호
@@ -72,17 +75,23 @@ export default function Page() {
     } else {
       currentViewLastRow = lastRow - currentViewLastRow;
     }
-    setPaddingBottom(currentViewLastRow * ROW_HEIGHT);
+    const paddingBottom = currentViewLastRow * ROW_HEIGHT;
+
+    setMagic({
+      start: currentStart,
+      paddingTop,
+      paddingBottom
+    });
   }, []);
+
+  useEffect(() => {
+    updateIndex();
+  }, [updateIndex]);
 
   useEffect(() => {
     const onScroll = () => {
       const {clientHeight, scrollTop, scrollHeight} = document.documentElement;
-      const currentStart = Math.floor(scrollTop / ROW_HEIGHT);
-
-      updatePaddingTop(currentStart);
-      updatePaddingBottom(currentStart);
-      setStart(currentStart);
+      updateIndex();
 
       if (!hasNextPage || isFetching) {
         return;
@@ -98,12 +107,12 @@ export default function Page() {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [fetchNextPage, hasNextPage, isFetching, updatePaddingBottom, updatePaddingTop]);
+  }, [fetchNextPage, hasNextPage, isFetching, updateIndex]);
 
   return (
     <div
       className="App"
-      style={{paddingTop: paddingTop + 'px', paddingBottom: paddingBottom + 'px'}}
+      style={{paddingTop: magic?.paddingTop, paddingBottom: magic?.paddingBottom}}
     >
       {slicedItems.map(({pk, title}) => (
         <Link href={SCROLL_RESTORATION_HREFS.mySolution} key={pk} passHref>
@@ -116,6 +125,12 @@ export default function Page() {
   );
 }
 
+interface Magic {
+  start: number;
+  paddingTop: number;
+  paddingBottom: number;
+}
+
 const ROW_COUNT = 20; // /course/list articlePerPage 기본값 20임
 const ROW_HEIGHT = 350; // 밑에 Row 스타일에 height 330에 margin-bottom 20 합쳐서 350
 let lastRow = 20; // /course/list articlePerPage 기본값 20임
@@ -126,11 +141,6 @@ interface PageData {
   nextPage: number | undefined;
 }
 
-/**
- * 문제점1. 매번 queryFn에서 반환한 리스트 데이터를 펼쳐야함.
- * 문제점2. 매번 nextPage 타입 추가하고, getNextPageParam만들어야함.
- * 문제점3. 매번 isFetchingNext 일 때 실행안하도록 구현 추가해야함.
- */
 async function queryFn(params: QueryFunctionContext<QueryKey, number>): Promise<PageData> {
   const {pageParam = 1} = params;
   const api = new CourseApi();
