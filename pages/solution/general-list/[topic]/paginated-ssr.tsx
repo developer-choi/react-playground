@@ -3,9 +3,9 @@ import {handleServerSideError} from '@util/services/handle-error/server-side-err
 import type {GetServerSideProps} from 'next';
 import {COURSE_SORT, getCourseQuery} from '@util/services/course';
 import CourseTable, {CourseTableProp} from '@component/molecules/course/CourseTable';
-import CourseApi from '@api/CourseApi';
 import CourseMenu from '@component/molecules/course/CourseMenu';
 import {validateIncludeString, validateNumber} from '@util/extend/browser/query-string';
+import {getCourseListApi} from '@api/course-api';
 
 // URL: http://localhost:3000/solution/general-list/1/paginated-ssr?page=1
 export default function Page({listResponse}: CourseTableProp) {
@@ -32,8 +32,7 @@ export const getServerSideProps: GetServerSideProps<CourseTableProp, ParamType> 
 
     const sort = validateIncludeString(query.sort, COURSE_SORT.typeList, {required: false});
 
-    const api = new CourseApi();
-    const {data: listResponse} = await api.getList({page, room, topic, sort});
+    const listResponse = await getCourseListApi({page, room, topic, sort});
 
     return {
       props: {

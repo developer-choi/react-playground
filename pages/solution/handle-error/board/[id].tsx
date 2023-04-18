@@ -1,7 +1,6 @@
 import type {GetServerSideProps} from 'next';
 import type {Board} from '@type/response-sub/board-sub';
-import BoardApi from '@api/BoardApi';
-import {haveAxiosResponse} from '@api/BaseApi';
+import {haveAxiosResponse} from '@api/config';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import OgMeta from '@component/atom/OgMeta';
 import Head from 'next/head';
@@ -12,6 +11,7 @@ import {useCallback} from 'react';
 import styled from 'styled-components';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {validateNumber} from '@util/extend/browser/query-string';
+import {getBoardOneApi} from '@api/board-api';
 
 interface PageProp {
   board: Board;
@@ -22,10 +22,9 @@ export default function Page({board}: PageProp) {
 }
 
 export const getServerSideProps: GetServerSideProps<PageProp> = async context => {
-  const api = new BoardApi();
   try {
     const id = validateNumber(context.params?.id);
-    const {data: {board}} = await api.getOne(context, id);
+    const {board} = await getBoardOneApi(context, id);
     return {
       props: {
         board

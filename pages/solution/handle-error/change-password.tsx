@@ -6,9 +6,9 @@ import InputText from '@component/extend/InputText';
 import {toast} from 'react-toastify';
 import Button from '@component/atom/element/Button';
 import {getSSPForLoggedIn, logoutInClientSide} from '@util/services/auth/auth';
-import AuthApi from '@api/AuthApi';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import ValidateError from '@util/services/handle-error/ValidateError';
+import {putAuthResetPasswordApi} from '@api/auth-api';
 
 export default function Page() {
   const [originPassword, setOriginPassword] = useState('');
@@ -20,9 +20,8 @@ export default function Page() {
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = useCallback(async () => {
-    const api = new AuthApi();
     try {
-      await api.putResetPassword({originPassword, newPassword, confirmPassword});
+      await putAuthResetPasswordApi({originPassword, newPassword, confirmPassword});
       alert('비밀번호가 초기화되었습니다. 다시 로그인해주세요.');
       await logoutInClientSide('/solution/handle-error/login');
 

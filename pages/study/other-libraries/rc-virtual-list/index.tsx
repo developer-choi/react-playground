@@ -7,7 +7,7 @@ import type {GetServerSideProps} from 'next';
 import type {Brand} from '@type/response-sub/brand-sub';
 import {parseBrandList} from '@util/services/brand';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
-import BrandApi from '@api/BrandApi';
+import {getBrandListApi} from '@api/brand-api';
 
 interface PageProp {
   brandList: Brand[];
@@ -63,10 +63,8 @@ export default function Page({brandList}: PageProp) {
 }
 
 export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
-  const api = new BrandApi();
-
   try {
-    const {data: {list}} = await api.getList();
+    const {list} = await getBrandListApi();
 
     return {
       props: {

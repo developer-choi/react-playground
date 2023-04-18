@@ -1,5 +1,5 @@
 import type {GetServerSidePropsResult} from 'next';
-import {haveAxiosResponse} from '@api/BaseApi';
+import {haveAxiosResponse} from '@api/config';
 import type {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
 import {AuthError} from '@util/services/auth/AuthError';
 import ValidateError from '@util/services/handle-error/ValidateError';

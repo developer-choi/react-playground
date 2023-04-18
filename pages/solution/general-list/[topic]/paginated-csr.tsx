@@ -24,7 +24,7 @@ export default function Page() {
   return (
     <>
       <CourseMenu/>
-      <CourseTable listResponse={data.data}/>
+      <CourseTable listResponse={data}/>
     </>
   );
 }

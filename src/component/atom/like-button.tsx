@@ -2,7 +2,7 @@ import React, {PropsWithChildren, useCallback, useState} from 'react';
 import styled from 'styled-components';
 import Button from '@component/atom/element/Button';
 import {myClassName} from '@util/libraries/classnames';
-import CourseApi from '@api/CourseApi';
+import {putCourseCancelLikeApi, putCourseLikeApi} from '@api/course-api';
 
 export interface CourseLikeButtonProp {
   initial: boolean;
@@ -11,12 +11,11 @@ export interface CourseLikeButtonProp {
 
 export function CourseLikeButton({initial, pk}: CourseLikeButtonProp) {
   const toggleApi = useCallback((nextLike: boolean) => {
-    const api = new CourseApi();
 
     if (nextLike) {
-      return api.putLike(pk);
+      return putCourseLikeApi(pk);
     } else {
-      return api.putCancelLike(pk);
+      return putCourseCancelLikeApi(pk);
     }
   }, [pk]);
   

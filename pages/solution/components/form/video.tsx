@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import InputFile from '@component/extend/InputFile';
 import Button from '@component/atom/element/Button';
 import styled from 'styled-components';
-import FileApi from '@api/FileApi';
+import {postFileUploadApi} from '@api/file-api';
 
 export default function ApiProgressPage() {
   const [file, setFile] = useState<File>();
@@ -13,10 +13,8 @@ export default function ApiProgressPage() {
       return;
     }
 
-    const api = new FileApi();
-
     try {
-      await api.postUpload(file, ({total, loaded}: ProgressEvent) => {
+      await postFileUploadApi(file, ({total, loaded}: ProgressEvent) => {
         const value = loaded / total;
         console.log('percent', value * 100);
         setPercent(value);

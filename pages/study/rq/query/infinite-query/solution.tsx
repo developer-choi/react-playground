@@ -2,10 +2,10 @@ import React from 'react';
 import {QueryKey, useInfiniteQuery} from '@tanstack/react-query';
 import type {QueryFunctionContext} from '@tanstack/query-core/build/lib/types';
 import type {Course} from '@type/response-sub/course-sub';
-import CourseApi from '@api/CourseApi';
 import styled from 'styled-components';
 import {flexCenter} from '@util/services/style/css';
-import {useInfiniteScroll} from '../../../../../src/util/extend/event/scroll';
+import {useInfiniteScroll} from '@util/extend/event/scroll';
+import {getCourseListApi} from '@api/course-api';
 
 // URL: http://localhost:3000/study/rq/query/infinite-query/solution
 export default function Page() {
@@ -59,8 +59,7 @@ interface PageData {
  */
 async function queryFn(params: QueryFunctionContext<QueryKey, number>): Promise<PageData> {
   const {pageParam = 1} = params;
-  const api = new CourseApi();
-  const {data: {list, totalPage}} = await api.getList({page: pageParam});
+  const {list, totalPage} = await getCourseListApi({page: pageParam});
 
   return {
     courseList: list,

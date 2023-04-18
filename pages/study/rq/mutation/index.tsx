@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useMutation, useQuery} from '@tanstack/react-query';
-import CourseApi from '@api/CourseApi';
+import {getCourseListApi} from '@api/course-api';
 import Button from '@component/atom/element/Button';
 import {timeoutPromise} from '@util/extend/test';
 
@@ -31,7 +31,7 @@ export default function Page() {
 
   return (
     <>
-      {data?.data?.list.map(({pk, title}) => (
+      {data?.list.map(({pk, title}) => (
         <div key={pk}>{title}</div>
       ))}
       <Button onClick={onClick}>Add Course</Button>
@@ -41,8 +41,7 @@ export default function Page() {
 
 async function getCourseList(...args: any) {
   console.log('getCourseList call', args);
-  const courseApi = new CourseApi();
-  return courseApi.getList({page: 1});
+  return getCourseListApi({page: 1});
 }
 
 async function addCourse({param1, param2}: {param1: number, param2: number}) {

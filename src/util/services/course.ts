@@ -6,7 +6,7 @@ import {useKeepQuery} from '@util/extend/router';
 import {itemListToDataOfType} from '@util/extend/data-type/object';
 import {getTypedQueryCallback} from '@util/extend/browser/query-string';
 import {useQuery} from '@tanstack/react-query';
-import CourseApi from '@api/CourseApi';
+import {getCourseListApi} from '@api/course-api';
 
 export const COURSE_PAGINATION_CONFIG: MultiplePagesPaginationConfig = {
   articlePerPage: 20,
@@ -102,7 +102,7 @@ export function useCourseList() {
 
   return useQuery({
     queryKey: ['course-list', currentTopic, currentRoom, currentSort, currentPage],
-    queryFn: () => new CourseApi().getList({
+    queryFn: () => getCourseListApi({
       page: currentPage,
       room: currentRoom,
       sort: currentSort,

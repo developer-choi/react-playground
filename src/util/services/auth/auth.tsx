@@ -1,13 +1,13 @@
 import type {GetServerSideProps, GetServerSidePropsContext} from 'next';
 import {getCookie} from '@util/extend/browser/cookie';
 import {useAppSelector} from '@store/hooks';
-import AuthApi from '@api/AuthApi';
 import {AuthError} from '@util/services/auth/AuthError';
 import {INITIAL_USER_INFO} from '@store/reducers/user';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import {useRouter} from 'next/router';
 import {useCallback} from 'react';
+import {putAuthLogoutApi} from '@api/auth-api';
 
 export interface LoginToken {
   userPk: number;
@@ -178,10 +178,8 @@ export function getAfterLoginSuccessUrl() {
 }
 
 export async function logoutInClientSide(destination = '/') {
-  const api = new AuthApi();
-
   try {
-    await api.putLogout();
+    await putAuthLogoutApi();
     location.replace(destination);
   } catch (error) {
     if (error instanceof AuthError) {

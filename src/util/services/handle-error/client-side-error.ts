@@ -1,8 +1,8 @@
 import Router from 'next/router';
 import {AuthError} from '@util/services/auth/AuthError';
-import type {AxiosErrorWithResponse} from '@api/BaseApi';
+import type {AxiosErrorWithResponse} from '@api/config';
 import {logoutInClientSide} from '@util/services/auth/auth';
-import {haveAxiosResponse} from '@api/BaseApi';
+import {haveAxiosResponse} from '@api/config';
 import {toast} from 'react-toastify';
 import ValidateError from '@util/services/handle-error/ValidateError';
 

@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import type {Topic} from '@type/response-sub/course-sub';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
-import CourseApi from '@api/CourseApi';
 import {useCourseQueryString} from '@util/services/course';
 import {myClassName} from '@util/libraries/classnames';
+import {getCourseTopicsApi} from '@api/course-api';
 
 export interface CourseTopicMenuProp {
 
@@ -17,8 +17,7 @@ export default function CourseTopicMenu({}: CourseTopicMenuProp) {
   useEffect(() => {
     (async () => {
       try {
-        const api = new CourseApi();
-        const {data: {list}} = await api.getTopics();
+        const {list} = await getCourseTopicsApi();
         setTopics(list);
       } catch (error) {
         handleClientSideError(error);

@@ -6,7 +6,7 @@ import type {MatchKeyboardEvent} from '@util/extend/event/keyboard-event';
 import {EMPTY_ARRAY} from '@util/extend/data-type/array';
 import {isVideoInFullscreen} from '@util/extend/browser/document';
 import type {GetStaticProps} from 'next';
-import VideoApi from '@api/VideoApi';
+import {getVideoOneApi} from '@api/video-api';
 
 interface PageProp {
   videoUrl: string;
@@ -69,12 +69,11 @@ export default function WindowKeyDownPage({videoUrl}: PageProp) {
 }
 
 export const getServerSideProps: GetStaticProps<PageProp> = async () => {
-  const api = new VideoApi();
-  const response = await api.getOne(1);
+  const {video: {url}} = await getVideoOneApi(1);
 
   return {
     props: {
-      videoUrl: response.data.video.url
+      videoUrl: url
     }
   };
 }

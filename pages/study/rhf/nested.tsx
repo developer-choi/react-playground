@@ -11,10 +11,10 @@ import {
 } from '@util/services/category-filter';
 import type {Category} from '@type/response-sub/category-sub';
 import type {GetServerSideProps} from 'next';
-import CategoryApi from '@api/CategoryApi';
 import CategoryCheckbox from '@component/molecules/CategoryCheckbox';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import {useLogWhenRendering} from '@util/extend/test';
+import {getCategoryListApi} from '@api/category-api';
 
 interface PageProp {
   categoryList: Category[];
@@ -105,10 +105,8 @@ export interface FilterFormData {
 }
 
 export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
-  const api = new CategoryApi();
-
   try {
-    const {data: {list: categoryList}} = await api.getList();
+    const {list: categoryList} = await getCategoryListApi();
 
     return {
       props: {

@@ -2,8 +2,8 @@ import React, {useCallback} from 'react';
 import type {GetServerSideProps} from 'next';
 import styled from 'styled-components';
 import useLegacyInfiniteQuery from '@util/services/legacy/legacy-infinite-query';
-import CourseApi from '@api/CourseApi';
 import type {Course} from '@type/response-sub/course-sub';
+import {getCourseListApi} from '@api/course-api';
 
 interface PageProp {
   list: Course[];
@@ -13,8 +13,7 @@ interface PageProp {
 // URL: http://localhost:3000/study/rq/query/infinite-query/legacy
 export default function InfiniteScrollPage(props: PageProp) {
   const fetchMoreApi = useCallback(async (requestPage: number) => {
-    const api = new CourseApi();
-    const {list, total} = (await api.getList({page: requestPage})).data;
+    const {list, total} = await getCourseListApi({page: requestPage});
     return {list, total};
   }, []);
 
@@ -37,8 +36,7 @@ export default function InfiniteScrollPage(props: PageProp) {
 };
 
 export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
-  const api = new CourseApi();
-   const {list, total} = (await api.getList({page: 1})).data;
+   const {list, total} = await getCourseListApi({page: 1});
   return {
     props: {
       list,

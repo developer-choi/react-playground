@@ -2,9 +2,9 @@ import React, {useCallback, useState} from 'react';
 import TextArea from '@component/extend/TextArea';
 import Button from '@component/atom/element/Button';
 import styled from 'styled-components';
-import MethodApi from '@api/MethodApi';
 import {useRouter} from 'next/router';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
+import {getMethodSomeApi, postMethodSomeApi} from '@api/method-api';
 
 export default function Page({value}: {value: any}) {
   const {reload} = useRouter();
@@ -14,8 +14,7 @@ alert("Textarea XSS Attacked");
 </script>`);
 
   const postScript = useCallback(async (value: string) => {
-    const api = new MethodApi();
-    await api.postSome({value});
+    await postMethodSomeApi({value});
     reload();
   }, [reload]);
 
@@ -32,12 +31,11 @@ alert("Textarea XSS Attacked");
 }
 
 export async function getServerSideProps() {
-  const api = new MethodApi();
   try {
-    const {data} = await api.getSome();
+    const {value} = await getMethodSomeApi();
     return {
       props: {
-        value: data.value
+        value
       }
     };
   } catch (error) {

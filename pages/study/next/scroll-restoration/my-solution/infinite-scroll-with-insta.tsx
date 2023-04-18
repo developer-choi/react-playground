@@ -6,8 +6,8 @@ import Link from 'next/link';
 import {SCROLL_RESTORATION_HREFS} from '@component/others/scroll-restoration';
 import type {Course} from '@type/response-sub/course-sub';
 import type {QueryFunctionContext} from '@tanstack/query-core/build/lib/types';
-import CourseApi from '@api/CourseApi';
 import styled from 'styled-components';
+import {getCourseListApi} from '@api/course-api';
 
 /** Flow
  * 1. 스크롤내려도 virtual기능 잘 작동하고,
@@ -143,8 +143,7 @@ interface PageData {
 
 async function queryFn(params: QueryFunctionContext<QueryKey, number>): Promise<PageData> {
   const {pageParam = 1} = params;
-  const api = new CourseApi();
-  const {data: {list, totalPage}} = await api.getList({page: pageParam});
+  const {list, totalPage} = await getCourseListApi({page: pageParam});
 
   return {
     courseList: list,

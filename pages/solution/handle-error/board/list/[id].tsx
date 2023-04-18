@@ -1,5 +1,4 @@
 import type {GetServerSideProps} from 'next';
-import BoardApi from '@api/BoardApi';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import type {PagingResponse} from '@type/response/common';
 import type {Board} from '@type/response-sub/board-sub';
@@ -9,6 +8,7 @@ import {logoutInClientSide, useLoginStatus} from '@util/services/auth/auth';
 import {useCallback} from 'react';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {validateNumber} from '@util/extend/browser/query-string';
+import {getBoardListApi} from '@api/board-api';
 
 interface PageProp extends PagingResponse{
   list: Board[];
@@ -19,10 +19,9 @@ export default function Page(props: PageProp) {
 }
 
 export const getServerSideProps: GetServerSideProps<PageProp> = async context => {
-  const api = new BoardApi();
   try {
     const pageParam = validateNumber(context.params?.id);
-    const {data: {page, list, total}} = await api.getList(context, pageParam);
+    const {page, list, total} = await getBoardListApi(context, pageParam);
     return {
       props: {
         page, list, total

@@ -3,15 +3,15 @@ import Button from '@component/atom/element/Button';
 import {useRouter} from 'next/router';
 import {getAfterLoginSuccessUrl, getSSPForNotLoggedIn} from '@util/services/auth/auth';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
-import AuthApi from '@api/AuthApi';
 import {useAppDispatch} from '@store/hooks';
 import {setUserActionCreator} from '@store/reducers/user';
 import Form from '@component/extend/Form';
 import InputText from '@component/extend/InputText';
-import {haveAxiosResponse} from '@api/BaseApi';
+import {haveAxiosResponse} from '@api/config';
 import {toast} from 'react-toastify';
 import styled from 'styled-components';
 import ValidateError from '@util/services/handle-error/ValidateError';
+import {postAuthLoginApi} from '@api/auth-api';
 
 export default function LoginPage() {
   const {prefetch, replace, push} = useRouter();
@@ -24,10 +24,8 @@ export default function LoginPage() {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const onClick = useCallback(async () => {
-    const api = new AuthApi();
-
     try {
-      const {data: {info}} = await api.postLogin(email, password);
+      const {info} = await postAuthLoginApi(email, password);
       dispatch(setUserActionCreator(info));
       const redirectUrl = getAfterLoginSuccessUrl();
       replace(redirectUrl).then();

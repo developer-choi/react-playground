@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import Form from '@component/extend/Form';
 import InputText from '@component/extend/InputText';
 import TextArea from '@component/extend/TextArea';
-import BoardApi from '@api/BoardApi';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import Button from '@component/atom/element/Button';
 import {useRouter} from 'next/router';
+import {postBoardApi} from '@api/board-api';
 
 export default function Page() {
   return (
@@ -41,10 +41,8 @@ function BoardForm() {
       return;
     }
 
-    const api = new BoardApi();
-
     try {
-      await api.postCreate({title: _title, content: _content, boardType: 'FREE'});
+      await postBoardApi({title: _title, content: _content, boardType: 'FREE'});
       await push('/solution/handle-error/board/list/1');
     } catch (error) {
       handleClientSideError(error);

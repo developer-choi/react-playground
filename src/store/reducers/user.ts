@@ -1,10 +1,10 @@
 import {createSlice, PayloadAction, ThunkAction} from '@reduxjs/toolkit';
 import type {UserInfo} from '@type/response-sub/user-sub';
 import type {RootState} from '@store/store';
-import UserApi from '@api/UserApi';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import {getLoginTokenClientSide} from '@util/services/auth/auth';
 import {AuthError} from '@util/services/auth/AuthError';
+import {getUserInfoOneApi} from '@api/user-api';
 
 export interface UserState {
   /**
@@ -40,8 +40,7 @@ export function thunkRefreshSetUser(): ThunkAction<void, RootState, undefined, R
   return async function (dispatch) {
     try {
       const loginToken = getLoginTokenClientSide();
-      const api = new UserApi();
-      const {data: {info}} = await api.getUser(loginToken.userPk);
+      const {info} = await getUserInfoOneApi(loginToken.userPk);
       dispatch(setUserActionCreator(info));
     } catch (error) {
       if (error instanceof AuthError) {

@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import CourseApi from '@api/CourseApi';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import FilterButton from '@component/atom/forms/FilterButton';
 import type {Room} from '@type/response-sub/course-sub';
 import {useCourseQueryString} from '@util/services/course';
+import {getCourseRoomsApi} from '@api/course-api';
 
 export interface CourseFilterMenuProp {
   onReadyToFilter: (ready: boolean) => void;
@@ -16,9 +16,8 @@ export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp
 
   useEffect(() => {
     (async () => {
-      const api = new CourseApi();
       try {
-        const {data: {list}} = await api.getRooms();
+        const {list} = await getCourseRoomsApi();
         setRooms(list);
         onReadyToFilter(true);
 
