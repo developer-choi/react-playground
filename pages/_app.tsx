@@ -12,6 +12,7 @@ import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {thunkRefreshSetUser} from '@store/reducers/user';
 import {QueryClient, QueryClientProvider, Hydrate, DehydratedPageProps} from '@tanstack/react-query';
 import {closeModal} from '@store/reducers/modal';
+import PageLoadingLayer from "@component/molecules/layer/PageLoadingLayer";
 
 export type PageProp = DehydratedPageProps & NotifyRedirectProps;
 
@@ -27,6 +28,7 @@ export const QUERY_CLIENT_INSTANCE = new QueryClient();
 
 function ReduxApp(props: AppProps<PageProp>) {
   const dispatch = useAppDispatch();
+  const visibleLoadingLayer = useAppSelector(state => state.loadingLayer.visible);
 
   useEffect(() => {
     dispatch(thunkRefreshSetUser());
@@ -43,6 +45,9 @@ function ReduxApp(props: AppProps<PageProp>) {
           <GlobalStyleProxy/>
           <PageComponent {...props}/>
           <ModalRender/>
+          {!visibleLoadingLayer ? null : (
+            <PageLoadingLayer/>
+          )}
           <ToastContainer/>
         </ThemeProviderProxy>
       </Hydrate>

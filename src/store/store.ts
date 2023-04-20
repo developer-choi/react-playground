@@ -4,6 +4,7 @@ import layout from '@store/reducers/layout';
 import counter from '@store/reducers/counter';
 import twiceCounter from '@store/reducers/twice-counter';
 import modal from '@store/reducers/modal';
+import loadingLayer from "@store/reducers/loading-layer";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     layout,
     counter,
     twiceCounter,
-    modal
+    modal,
+    loadingLayer
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware({
     serializableCheck: {

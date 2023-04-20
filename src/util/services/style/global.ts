@@ -8,7 +8,6 @@ const reset = css`
 `;
 
 const font = css`
-
   // @font-face {
   //   font-family: KoreanFont2;
   //   src: url(...);
@@ -21,7 +20,6 @@ const font = css`
 `;
 
 const layout = css`
-  
   html, body, #__next {
     height: 100%;
   }
@@ -31,6 +29,10 @@ const layout = css`
     //background-color: #04caf4; 전체 배경색 지정할일이 있거나
     //color: black; 기본 색상을 지정할 일이 있거나,
     //font-size: 14px; 기본 폰트 크기를 좀 줄이고싶을 때.
+    
+    &.loading, &.loading * {
+      cursor: wait;
+    }
   }
 `;
 
