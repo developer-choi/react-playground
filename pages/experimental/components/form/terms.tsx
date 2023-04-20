@@ -6,6 +6,7 @@ import Form from '@component/extend/Form';
 import styled from 'styled-components';
 import {useTerms} from '@util/services/terms-of-use';
 
+// URL: http://localhost:3000/experimental/components/form/terms
 interface Term {
   pk: number;
   title: string;

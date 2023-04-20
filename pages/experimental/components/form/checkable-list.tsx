@@ -9,6 +9,7 @@ import {isMatchKeyboardEvent} from '@util/extend/event/keyboard-event';
 import Button from '@component/atom/element/Button';
 import {toast} from 'react-toastify';
 
+// URL: http://localhost:3000/experimental/components/form/checkable-list
 interface PageProp {
   mails: Mail[];
 }

@@ -3,6 +3,7 @@ import Collapsible, {CollapsibleContentProp, CollapsibleHeaderProp} from '@compo
 import Button from '@component/atom/element/Button';
 import styled from 'styled-components';
 
+// URL: http://localhost:3000/experimental/components/nested-collapsible
 export default function Page() {
   return (
     <Collapsible renderHeader={Header} renderContent={Content}>

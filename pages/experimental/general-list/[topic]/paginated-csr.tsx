@@ -8,7 +8,7 @@ import {validateIncludeString, validateNumber} from '@util/extend/browser/query-
 import styled from 'styled-components';
 import {flexCenter} from '@util/services/style/css';
 
-// URL: http://localhost:3000/solution/general-list/1/paginated-csr?page=1
+// URL: http://localhost:3000/experimental/general-list/1/paginated-csr?page=1
 export default function Page() {
   const {data} = useCourseList();
 

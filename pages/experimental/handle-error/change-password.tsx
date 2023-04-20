@@ -10,6 +10,7 @@ import {handleClientSideError} from '@util/services/handle-error/client-side-err
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {putAuthResetPasswordApi} from '@api/auth-api';
 
+// URL: http://localhost:3000/experimental/handle-error/change-password
 export default function Page() {
   const [originPassword, setOriginPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');

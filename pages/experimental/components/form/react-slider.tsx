@@ -5,6 +5,7 @@ import {CustomSlider, MinMaxRange} from '@component/atom/forms/CustomSlider';
 import Button from '@component/atom/element/Button';
 import {useLogWhenRendering} from '@util/extend/test';
 
+// URL: http://localhost:3000/experimental/components/form/react-slider
 export default function Page() {
   const [settingRate, setSettingRate] = useState(INITIAL_RANGE);
   const [range, setRange] = useState<MinMaxRange>(settingRate);

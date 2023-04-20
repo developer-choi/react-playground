@@ -3,6 +3,7 @@ import Button from '@component/atom/element/Button';
 import type {PostcodeSummary} from '@util/services/daum-postcode';
 import usePostcodePopup from '@util/services/daum-postcode';
 
+// URL: http://localhost:3000/solution/daum-postcode
 export default function Page() {
   const [summary, setSummary] = useState<PostcodeSummary>();
   const open = usePostcodePopup(setSummary);

@@ -13,6 +13,7 @@ import ValidateError from '@util/services/handle-error/ValidateError';
 import {validateNumber} from '@util/extend/browser/query-string';
 import {getBoardOneApi} from '@api/board-api';
 
+// URL: http://localhost:3000/experimental/handle-error/board/1
 interface PageProp {
   board: Board;
 }

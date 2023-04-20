@@ -11,6 +11,7 @@ import {useLocalStorageArrayManager} from '@util/extend/browser/local-storage-ar
 import styled from 'styled-components';
 import {validateString} from '@util/extend/browser/query-string';
 
+// URL: http://localhost:3000/solution/recent-search
 interface PageProp {
   searchText: string;
   searchResult: Board[];

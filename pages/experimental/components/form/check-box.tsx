@@ -3,6 +3,7 @@ import CheckBox, {CheckBoxLabelLeftProps, CheckBoxProps} from '@component/atom/f
 import NaverCheckBoxSvg from '@component/atom/forms/NaverCheckBoxSvg';
 import styled from 'styled-components';
 
+// URL: http://localhost:3000/experimental/components/form/check-box
 export default function CheckboxPage() {
   const [someValue, setSomeValue] = useState(false);
 

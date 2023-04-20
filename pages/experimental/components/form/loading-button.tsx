@@ -3,7 +3,7 @@ import {useMutation} from '@tanstack/react-query';
 import Button from '@component/atom/element/Button';
 import {timeoutPromise} from '@util/extend/test';
 
-// URL: http://localhost:3000/solution/components/form/loading-button
+// URL: http://localhost:3000/experimental/components/form/loading-button
 export default function Page() {
   const {mutate, mutateAsync, isLoading} = useMutation(someAsyncApi);
 

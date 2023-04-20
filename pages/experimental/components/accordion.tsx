@@ -2,6 +2,7 @@ import React, {forwardRef, useState} from 'react';
 import Accordion, {AccordionContentProp, AccordionHeaderProp} from '@component/atom/Accordion';
 import styled from 'styled-components';
 
+// URL: http://localhost:3000/experimental/components/accordion
 export default function Page() {
   const [fruit, setFruit] = useState<Fruit | undefined>('kiwi');
 

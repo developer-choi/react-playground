@@ -7,7 +7,7 @@ import CourseMenu from '@component/molecules/course/CourseMenu';
 import {validateIncludeString, validateNumber} from '@util/extend/browser/query-string';
 import {getCourseListApi} from '@api/course-api';
 
-// URL: http://localhost:3000/solution/general-list/1/paginated-ssr?page=1
+// URL: http://localhost:3000/experimental/general-list/1/paginated-ssr?page=1
 export default function Page({listResponse}: CourseTableProp) {
   return (
     <>
@@ -27,9 +27,7 @@ export const getServerSideProps: GetServerSideProps<CourseTableProp, ParamType> 
 
     const page = validateNumber(query.page);
     const topic = validateNumber(context.params?.topic);
-
     const room = validateNumber(query.room, {required: false})
-
     const sort = validateIncludeString(query.sort, COURSE_SORT.typeList, {required: false});
 
     const listResponse = await getCourseListApi({page, room, topic, sort});

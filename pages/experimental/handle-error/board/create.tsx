@@ -9,6 +9,7 @@ import Button from '@component/atom/element/Button';
 import {useRouter} from 'next/router';
 import {postBoardApi} from '@api/board-api';
 
+// URL: http://localhost:3000/experimental/handle-error/board/create
 export default function Page() {
   return (
     <BoardForm/>

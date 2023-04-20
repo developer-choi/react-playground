@@ -4,6 +4,7 @@ import {setHeaderActionCreator} from '@store/reducers/layout';
 import {useAppDispatch} from '@store/hooks';
 import Button from '@component/atom/element/Button';
 
+// URL: http://localhost:3000/experimental/layout/2
 export default function Page() {
   const [number, setNumber] = useState(1);
   const dispatch = useAppDispatch();

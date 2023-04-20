@@ -4,6 +4,7 @@ import Form from '@component/extend/Form';
 import RadioLabel from '@component/atom/forms/RadioLabel';
 import RadioGroup from '@component/atom/forms/RadioGroup';
 
+// URL: http://localhost:3000/experimental/components/form/radio-buttons
 export default function RadioButtonsPage() {
   const [gender, setGender] = useState('man');
   const [fruit, setFruit] = useState('strawberry');

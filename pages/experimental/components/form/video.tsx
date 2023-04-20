@@ -4,6 +4,7 @@ import Button from '@component/atom/element/Button';
 import styled from 'styled-components';
 import {postFileUploadApi} from '@api/file-api';
 
+// URL: http://localhost:3000/experimental/components/form/video
 export default function ApiProgressPage() {
   const [file, setFile] = useState<File>();
   const [percent, setPercent] = useState(0);

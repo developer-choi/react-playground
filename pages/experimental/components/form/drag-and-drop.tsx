@@ -7,6 +7,7 @@ import {fileSizeToByte} from '@util/extend/file/file-size';
 import useFilesToImages from '@util/extend/file/file-converter';
 import Link from 'next/link';
 
+// URL: http://localhost:3000/experimental/components/form/drag-and-drop
 export default function DragAndDropPage() {
   const {images, onChangeFiles} = useFilesToImages({
     validateOption: IMAGE_RULE.validateOption

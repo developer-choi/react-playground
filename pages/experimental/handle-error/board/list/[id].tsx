@@ -10,6 +10,7 @@ import ValidateError from '@util/services/handle-error/ValidateError';
 import {validateNumber} from '@util/extend/browser/query-string';
 import {getBoardListApi} from '@api/board-api';
 
+// URL: http://localhost:3000/experimental/handle-error/board/list/1
 interface PageProp extends PagingResponse{
   list: Board[];
 }
@@ -57,7 +58,7 @@ function BoardList({list}: PageProp) {
         </Link>
       ))}
       {loginStatus === true && (
-        <Link href="/solution/handle-error/board/create">
+        <Link href="/experimental/handle-error/board/create">
           <a style={{alignSelf: 'self-start'}}>글쓰기</a>
         </Link>
       )}
