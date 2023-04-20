@@ -34,7 +34,7 @@ export const SCROLL_RESTORATION_HREFS = {
   default: '/study/next/scroll-restoration/default/target',
   solution1: '/study/next/scroll-restoration/solution1/target',
   solution2: '/study/next/scroll-restoration/solution2/target',
-  mySolution: '/study/next/scroll-restoration/my-solution/target',
+  mySolution: '/solution/scroll-restoration/target',
 };
 
 const SCROLL_RESTORATION_RANGE = range(1, 10);

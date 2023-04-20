@@ -16,7 +16,7 @@ import {getCourseListApi} from '@api/course-api';
  * 스크롤 내려서 데이터 더 불러온 다음에 목적지갔다가 되돌아왔을 때 더불러왔던 데이터 그대로 다 남아있음.
  */
 
-// URL: http://localhost:3000/study/next/scroll-restoration/my-solution/infinite-scroll
+// URL: http://localhost:3000/solution/scroll-restoration/infinite-scroll
 export default function Page() {
   useScrollRestoration();
 

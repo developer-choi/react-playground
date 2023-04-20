@@ -8,12 +8,14 @@ import styled from 'styled-components';
 import {flexCenter} from '@util/services/style/css';
 import {useScrollRestoration} from '@util/extend/scroll-restoration';
 import Link from 'next/link';
+import {validateNumber} from '@util/extend/browser/query-string';
+import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 
 interface PageProp {
   page: number;
 }
 
-// URL: http://localhost:3000/study/next/scroll-restoration/my-solution/pagination?page=1
+// URL: http://localhost:3000/solution/scroll-restoration/pagination?page=1
 export default function Page({page}: PageProp) {
   useScrollRestoration();
 
@@ -58,19 +60,28 @@ const Row = styled.div`
 
 export const getServerSideProps: GetServerSideProps<DehydratedPageProps & PageProp> = async ({query}) => {
   const queryClient = new QueryClient();
-  const page = Number(query.page);
 
-  await queryClient.prefetchQuery({
-    queryKey: ['my-solution/pagination', page],
-    queryFn: () => getApi(page),
-  });
+  try {
+    const page = validateNumber(query.page);
 
-  return {
-    props: {
-      page,
-      dehydratedState: dehydrate(queryClient)
-    }
-  };
+    await queryClient.prefetchQuery({
+      queryKey: ['my-solution/pagination', page],
+      queryFn: () => getApi(page),
+    });
+
+    return {
+      props: {
+        page,
+        dehydratedState: dehydrate(queryClient)
+      }
+    };
+  } catch (error) {
+    return handleServerSideError(error, {
+      notifyRedirect: {
+        destination: '/solution/scroll-restoration/pagination?page=1'
+      }
+    });
+  }
 };
 
 

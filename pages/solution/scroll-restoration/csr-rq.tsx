@@ -15,7 +15,7 @@ import {useScrollRestoration} from '@util/extend/scroll-restoration';
  * ==> 최소조건은 만족함.
  * ==> 2번이 오차없이 뒤로가기할떄 항상 출발지 스크롤복원이 잘됨.
  */
-// URL: http://localhost:3000/study/next/scroll-restoration/my-solution/csr-rq
+// URL: http://localhost:3000/solution/scroll-restoration/csr-rq
 export default function Page() {
   useScrollRestoration();
 

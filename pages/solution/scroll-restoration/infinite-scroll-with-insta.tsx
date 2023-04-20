@@ -16,7 +16,7 @@ import {getCourseListApi} from '@api/course-api';
  */
 
 /**
- * LOCAL URL: http://localhost:3000/study/next/scroll-restoration/my-solution/infinite-scroll-with-insta
+ * LOCAL URL: http://localhost:3000/solution/scroll-restoration/infinite-scroll-with-insta
  * BLOG URL: https://mygumi.tistory.com/376
  */
 export default function Page() {
