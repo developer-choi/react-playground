@@ -5,7 +5,20 @@ import ValidateError from '@util/services/handle-error/ValidateError';
 
 export type QueryValue = ParsedUrlQuery['any-key'];
 
-export function validateString<B extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<B>): ConditionalValueType<string, B> {
+interface ValidateQueryOption<R extends boolean, T extends boolean> {
+  required?: R;
+  throwable?: T;
+}
+
+/**
+ * @example required false, throwable false ==> V | undefined
+ * @example required false, throwable true ==> V | undefined
+ * @example required true, throwable false ==> V | undefined
+ * @example required true, throwable true ==> V
+ */
+type ConditionalValueType<V, R extends boolean, T extends boolean> = (R | T) extends true ? V : V | undefined;
+
+export function validateString<R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<R, T>): ConditionalValueType<string, R, T> {
   const {throwable = true, required = true} = options ?? {};
   let errorMessage = '';
 
@@ -22,13 +35,13 @@ export function validateString<B extends boolean = true>(queryValue: QueryValue,
   }
 
   if (!throwable) {
-    return undefined as ConditionalValueType<string, B>;
+    return undefined as ConditionalValueType<string, R, T>;
   }
 
   throw new ValidateError(errorMessage);
 }
 
-export function validateIncludeString<S extends string, B extends boolean = true>(queryValue: QueryValue, includeList: S[], options?: ValidateQueryOption<B>): ConditionalValueType<S, B> {
+export function validateIncludeString<S extends string, R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, includeList: S[], options?: ValidateQueryOption<R, T>): ConditionalValueType<S, R, T> {
   const {throwable = true, required = true} = options ?? {};
   let errorMessage = '';
 
@@ -36,7 +49,7 @@ export function validateIncludeString<S extends string, B extends boolean = true
 
   //가능한 상태는, string 아니면 undefined. 만약 에러라면 이 라인 실행안되고 에러만 던져짐.
   if (result === undefined) {
-    return undefined as ConditionalValueType<S, B>;
+    return undefined as ConditionalValueType<S, R, T>;
   }
 
   if (includeList.length === 0) {
@@ -52,14 +65,14 @@ export function validateIncludeString<S extends string, B extends boolean = true
   }
 
   if (!throwable) {
-    return undefined as ConditionalValueType<S, B>;
+    return undefined as ConditionalValueType<S, R, T>;
   }
 
   throw new ValidateError(errorMessage);
 }
 
 //+123 -123 0123 셋다안되고 123가능.
-export function validateNumber<B extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<B>): ConditionalValueType<number, B> {
+export function validateNumber<R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<R, T>): ConditionalValueType<number, R, T> {
   const {throwable = true, required = true} = options ?? {};
   let errorMessage = '';
 
@@ -67,7 +80,7 @@ export function validateNumber<B extends boolean = true>(queryValue: QueryValue,
 
   //가능한 상태는, string 아니면 undefined. 만약 에러라면 이 라인 실행안되고 에러만 던져짐.
   if (validatedString === undefined) {
-    return undefined as ConditionalValueType<number, B>;
+    return undefined as ConditionalValueType<number, R, T>;
   }
 
   if (validatedString.length > MAX_INTEGER_LENGTH) {
@@ -91,7 +104,7 @@ export function validateNumber<B extends boolean = true>(queryValue: QueryValue,
   }
 
   if (!throwable) {
-    return undefined as ConditionalValueType<number, B>;
+    return undefined as ConditionalValueType<number, R, T>;
   }
 
   throw new ValidateError(errorMessage);
@@ -99,13 +112,6 @@ export function validateNumber<B extends boolean = true>(queryValue: QueryValue,
 
 const NUMBERS = range(0, 9).map(value => value.toString());
 const MAX_INTEGER_LENGTH = Number.MAX_SAFE_INTEGER.toString().length;
-
-type ConditionalValueType<V, B extends boolean> = B extends true ? V : V | undefined;
-
-interface ValidateQueryOption<B extends boolean> {
-  required?: boolean;
-  throwable?: B;
-}
 
 const REMOVE_VALUE_ARRAY = [undefined, null, '', Number.NaN];
 
@@ -145,3 +151,39 @@ export function urlStringify(query?: ParsedUrlQueryInput): string {
     return `?${stringify(cleanedQuery)}`;
   }
 }
+
+/* validateString() Type Inference 체크용 주석
+const canUndefined1 = validateString('', {required: false, throwable: false});
+const canUndefined2 = validateString('', {required: false, throwable: true});
+const canUndefined3 = validateString('', {required: true, throwable: false});
+
+const mayString1 = validateString('', {required: true, throwable: true});
+const mayString2 = validateString('');
+
+console.log(mayString1, mayString2, canUndefined1, canUndefined2, canUndefined3);
+*/
+
+/* validateIncludeString() Type Inference 체크용 주석
+type Fruit = 'apple' | 'banana';
+const FRUITS: Fruit[] = ['apple', 'banana'];
+
+const canUndefined1 = validateIncludeString('', FRUITS, {required: false, throwable: false});
+const canUndefined2 = validateIncludeString('', FRUITS, {required: false, throwable: true});
+const canUndefined3 = validateIncludeString('', FRUITS, {required: true, throwable: false});
+
+const mayFruit1 = validateIncludeString('', FRUITS, {required: true, throwable: true});
+const mayFruit2 = validateIncludeString('', FRUITS);
+
+console.log(mayFruit1, mayFruit2, canUndefined1, canUndefined2, canUndefined3);
+*/
+
+/*
+const canUndefined1 = validateNumber('',  {required: false, throwable: false});
+const canUndefined2 = validateNumber('',  {required: false, throwable: true});
+const canUndefined3 = validateNumber('',  {required: true, throwable: false});
+
+const mayNumber1 = validateNumber('',  {required: true, throwable: true});
+const mayNumber2 = validateNumber('');
+
+console.log(mayNumber1, mayNumber2, canUndefined1, canUndefined2, canUndefined3);
+*/
