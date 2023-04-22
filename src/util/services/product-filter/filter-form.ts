@@ -84,7 +84,7 @@ export function useCurrentCheckedFilterResultList(productListPageParam: ProductL
   return useFilterResultWithName(productListPageParam, willSubmittedFormData);
 }
 
-//[현재 적용된 필터]가 변경되면 [현재 체크된 필터]에도 반영하기위함.
+// [현재 적용된 필터 = query string]이 변경되면 [현재 체크된 필터 = form data]에도 반영하기위함.
 export function useRefreshFilterFormData(productListPageParam: ProductListPageParam) {
   const {currentFilterListRecord} = useFilterQueryString();
 
@@ -101,15 +101,14 @@ export function useRefreshFilterFormData(productListPageParam: ProductListPagePa
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productListPageParam.type, productListPageParam.uniqueKey]);
 
-  //TODO 이부분이 애트니와 다름. 네이밍과 parameter type이 다름.
+  //쿼리스트링에 있던 값으로 폼데이터 > 카테고리 필터값 복원하는 로직
   const refreshCategoryFilter = useCallback((parentCategoryPkList: number[]) => {
     const categoryPkList = restoreCategoryChildren(parentCategoryPkList, categoryList);
     setValue('category', categoryPkList);
   }, [categoryList, setValue]);
 
-  //TODO 이부분이 애트니와 다름. 네이밍과 parameter type이 다름.
+  //쿼리스트링에 있던 값으로 폼데이터 > 일반 필터값 복원하는 로직
   const refreshRestFilter = useCallback((record: Record<Exclude<FilterType, 'category'>, number[]>) => {
-    //카테고리필터를 제외한 일반필터를 폼데이터에 반영, FilterListRecord ==> FilterFormData 타입으로 데이터변환하여 폼데이터에 최신화함.
     Object.entries(record).forEach(([filterType, pkList]) => {
       setValue(filterType as FilterType, pkList.map(pk => String(pk) as NumericString));
     });

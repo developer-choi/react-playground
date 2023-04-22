@@ -1,16 +1,22 @@
-import type {CategoryFilter, GeneralFilter} from '@type/response-sub/filter-sub';
 import React from 'react';
-import type {FilterType} from '@util/services/product-filter/filter-common';
+import type {FilterType, ProductListPageParam} from '@util/services/product-filter/filter-common';
 import {CategoryCheckbox, GeneralFilterCheckbox} from '@component/filter/FilterCheckbox';
+import {useFilterListQuery} from '@util/services/product-filter/filter-common';
 
 export interface CategoryFilterListUIProp {
-  filterList: CategoryFilter[];
+  productListPageParam: ProductListPageParam;
 }
 
-export function CategoryFilterListUI({filterList}: CategoryFilterListUIProp) {
+export function CategoryFilterListUI({productListPageParam}: CategoryFilterListUIProp) {
+  const {data} = useFilterListQuery(productListPageParam);
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <>
-      {filterList.map(category => (
+      {data.categoryList.map(category => (
         <CategoryCheckbox key={category.pk} category={category} />
       ))}
     </>
@@ -18,11 +24,19 @@ export function CategoryFilterListUI({filterList}: CategoryFilterListUIProp) {
 }
 
 export interface GeneralFilterListUIProp {
-  filterList: GeneralFilter[];
   filterType: FilterType;
+  productListPageParam: ProductListPageParam;
 }
 
-export function GeneralFilterListUI({filterList, filterType}: GeneralFilterListUIProp) {
+export function GeneralFilterListUI({filterType, productListPageParam}: GeneralFilterListUIProp) {
+  const {data} = useFilterListQuery(productListPageParam);
+
+  if (!data) {
+    return null;
+  }
+
+  const filterList = data[`${filterType}List`];
+
   return (
     <>
       {filterList.map(filter => (

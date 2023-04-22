@@ -4,7 +4,6 @@ import Button from '@component/atom/element/Button';
 import {useHandleFilterForm, useRefreshFilterFormData} from '@util/services/product-filter/filter-form';
 import {CategoryFilterListUI, GeneralFilterListUI} from '@component/filter/FilterListUI';
 import type {ProductListPageParam} from '@util/services/product-filter/filter-common';
-import {useFilterListQuery} from '@util/services/product-filter/filter-common';
 
 export interface FilterFormProp {
   productListPageParam: ProductListPageParam;
@@ -13,21 +12,14 @@ export interface FilterFormProp {
 export default function FilterForm({productListPageParam}: FilterFormProp) {
   useRefreshFilterFormData(productListPageParam);
 
-  const {data} = useFilterListQuery(productListPageParam);
   const {onSubmit, reset} = useHandleFilterForm(productListPageParam);
-
-  if (!data) {
-    return null;
-  }
-
-  const {categoryList, brandList, colorList, sizeList} = data;
 
   return (
     <Form onSubmit={onSubmit}>
-      <CategoryFilterListUI filterList={categoryList}/>
-      <GeneralFilterListUI filterType="brand" filterList={brandList}/>
-      <GeneralFilterListUI filterType="color" filterList={colorList}/>
-      <GeneralFilterListUI filterType="size" filterList={sizeList}/>
+      <CategoryFilterListUI productListPageParam={productListPageParam}/>
+      <GeneralFilterListUI filterType="brand" productListPageParam={productListPageParam}/>
+      <GeneralFilterListUI filterType="color" productListPageParam={productListPageParam}/>
+      <GeneralFilterListUI filterType="size" productListPageParam={productListPageParam}/>
       <Button className="gray" onClick={reset}>초기화</Button>
       <Button type="submit">제출</Button>
     </Form>
