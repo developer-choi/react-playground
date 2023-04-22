@@ -124,8 +124,14 @@ export function useFilterResultWithName(productListPageParam: ProductListPagePar
   const pkOriginalRecord = useFilterPkOriginalRecordQuery(productListPageParam);
 
   return useMemo(() => {
-    return filterResultList.map(({pk, type}) => {
+    return filterResultList.reduce((a, {pk, type}) => {
       const original = pkOriginalRecord[type][pk];
+
+      //API가 아직 응답되지않아서 원본데이터가 없거나, 없는 필터의 PK가 쿼리스트링에 있는경우
+      if (original === undefined) {
+        return a;
+      }
+
       let name: string;
 
       switch (type) {
@@ -137,11 +143,13 @@ export function useFilterResultWithName(productListPageParam: ProductListPagePar
           name = (original as GeneralFilter).name;
       }
 
-      return {
+      a.push({
         pk,
         type,
         name
-      };
-    });
+      });
+
+      return a;
+    }, [] as FilterResultWithName[]);
   }, [pkOriginalRecord, filterResultList]);
 }
