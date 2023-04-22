@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {useCurrentCheckedFilterResultList} from '@util/services/product-filter/filter-form';
-import type {ProductListPageParam} from '@util/services/product-filter/filter-common';
+import type {ProductListPageParam} from '@type/services/filter';
 
 interface CheckedFilterListProp {
   productListPageParam: ProductListPageParam;

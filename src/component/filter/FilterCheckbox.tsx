@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react';
 import styled from 'styled-components';
 import type {CategoryFilter, GeneralFilter} from '@type/response-sub/filter-sub';
 import {useHandleCategoryCheckbox, useHandleGeneralCheckbox} from '@util/services/product-filter/filter-form';
-import type {FilterType} from '@util/services/product-filter/filter-common';
+import type {FilterType} from '@type/services/filter';
 
 export interface CategoryCheckboxProp {
   category: CategoryFilter;

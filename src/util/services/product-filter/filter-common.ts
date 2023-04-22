@@ -1,4 +1,3 @@
-import type {FilterFormData} from '@util/services/product-filter/filter-form';
 import type {NumericString} from '@type/string';
 import type {FilterListResponse} from '@type/response/filter';
 import type {CategoryFilter, GeneralFilter} from '@type/response-sub/filter-sub';
@@ -7,42 +6,17 @@ import {useQuery, useQueryClient} from '@tanstack/react-query';
 import {useEffect, useMemo} from 'react';
 import {getFilterListApi} from '@api/filter-api';
 import {flatDeepCategoryList} from '@util/services/product-filter/category-filter';
+import type {
+  FilterFormData,
+  FilterListRecord,
+  FilterResult,
+  FilterType,
+  ProductListPageParam
+} from '@type/services/filter';
 
-/**
- * 주로 필터 데이터를 변환하는 함수와
- * 공통 데이터타입 포함.
- */
-
-//https://corners.gmarket.co.kr/BestSellers
-export type GmarketBestCategoryType = 'all' | 'fashion-clothes' | 'shoes';
-
-/**
- * 상품리스트 페이지의 타입.
- * 단순 카테고리 상품리스트 / 브랜드 상품리스트 / 검색리스트 / 베스트 상품리스트 (지마켓 베스트)
- */
-export type ProductListPageType = 'category' | 'brand' | 'search' | 'g-market-best';
-
-//상품리스트 페이지를 구분할 수 있는값
-export interface ProductListPageParam {
-  type: ProductListPageType;
-
-  /**
-   * 카테고리상품리스트, 브랜드상품리스트에서는 uniqueKey가 카테고리PK, 브랜드PK가 되고,
-   * 검색리스트에서는 검색어가되고,
-   * 지마켓베스트 상품리스트에서는 지마켓 베스트 카테고리가됨.
-   */
-  uniqueKey: number | string | GmarketBestCategoryType;
-
-  page: number;
-}
-
-export type FilterType = 'category' | 'brand' | 'size' | 'color';
-export type FilterListRecord = Record<FilterType, number[]>;
-
-export interface FilterResult {
-  pk: number;
-  type: FilterType;
-}
+/*************************************************************************************************************
+ * Exported functions
+ *************************************************************************************************************/
 
 export function useFilterListQuery({type, uniqueKey}: FilterListApiParam) {
   return useQuery({
@@ -52,40 +26,10 @@ export function useFilterListQuery({type, uniqueKey}: FilterListApiParam) {
   });
 }
 
-type GeneralFilterPkOriginalRecord = Record<Exclude<FilterType, 'category'>, Record<number, GeneralFilter>>;
-
-export interface FilterPkOriginalRecord extends GeneralFilterPkOriginalRecord {
+export interface FilterPkOriginalRecord extends Record<Exclude<FilterType, 'category'>, Record<number, GeneralFilter>> {
   category: Record<number, CategoryFilter>;
 }
 
-export function filterListResponseToPkOriginalRecord(response: FilterListResponse): FilterPkOriginalRecord {
-  const {colorList, sizeList, categoryList, brandList} = response;
-
-  const responseByFilterType: Record<FilterType, GeneralFilter[] | CategoryFilter[]> = {
-    color: colorList,
-    brand: brandList,
-    size: sizeList,
-    category: flatDeepCategoryList(categoryList)
-  };
-
-  return Object.entries(responseByFilterType).reduce((a, [filterType, filterList]) => {
-    filterList.forEach(filter => {
-      // eslint-disable-next-line no-param-reassign
-      a[filterType as FilterType][filter.pk] = filter;
-    });
-
-    return a;
-  }, {...INITIAL_FILTER_PK_ORIGINAL_RECORD});
-}
-
-const INITIAL_FILTER_PK_ORIGINAL_RECORD: FilterPkOriginalRecord = {
-  category: {},
-  size: {},
-  brand: {},
-  color: {}
-};
-
-//TODO 테스트필요
 export function useFilterPkOriginalRecordQuery({type, uniqueKey}: FilterListApiParam): FilterPkOriginalRecord {
   const queryClient = useQueryClient();
   const {data} = useFilterListQuery({type, uniqueKey});
@@ -94,7 +38,6 @@ export function useFilterPkOriginalRecordQuery({type, uniqueKey}: FilterListApiP
     return ['filter-pk-original-record', type, uniqueKey]
   }, [type, uniqueKey]);
   
-  //TODO 새로운시도 ㅇㅇ
   const result = useQuery<FilterPkOriginalRecord>({
     queryKey,
     enabled: false
@@ -153,3 +96,34 @@ export function useFilterResultWithName(productListPageParam: ProductListPagePar
     }, [] as FilterResultWithName[]);
   }, [pkOriginalRecord, filterResultList]);
 }
+
+/*************************************************************************************************************
+ * Non Export
+ *************************************************************************************************************/
+
+function filterListResponseToPkOriginalRecord(response: FilterListResponse): FilterPkOriginalRecord {
+  const {colorList, sizeList, categoryList, brandList} = response;
+
+  const responseByFilterType: Record<FilterType, GeneralFilter[] | CategoryFilter[]> = {
+    color: colorList,
+    brand: brandList,
+    size: sizeList,
+    category: flatDeepCategoryList(categoryList)
+  };
+
+  return Object.entries(responseByFilterType).reduce((a, [filterType, filterList]) => {
+    filterList.forEach(filter => {
+      // eslint-disable-next-line no-param-reassign
+      a[filterType as FilterType][filter.pk] = filter;
+    });
+
+    return a;
+  }, {...INITIAL_FILTER_PK_ORIGINAL_RECORD});
+}
+
+const INITIAL_FILTER_PK_ORIGINAL_RECORD: FilterPkOriginalRecord = {
+  category: {},
+  size: {},
+  brand: {},
+  color: {}
+};

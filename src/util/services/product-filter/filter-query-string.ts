@@ -4,16 +4,19 @@ import type {ParsedUrlQuery} from 'querystring';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {useKeepQuery} from '@util/extend/router';
 import {useCallback, useMemo} from 'react';
-import type {FilterFormData} from '@util/services/product-filter/filter-form';
 import produce from 'immer';
-import type {FilterListRecord, FilterResult, FilterType} from '@util/services/product-filter/filter-common';
-import {ProductListPageParam, useFilterResultWithName} from '@util/services/product-filter/filter-common';
+import type {
+  FilterFormData,
+  FilterListRecord,
+  FilterResult,
+  FilterType,
+  ProductListPageParam
+} from '@type/services/filter';
+import {useFilterResultWithName} from '@util/services/product-filter/filter-common';
 
-type ProductListQueryKey = FilterType | 'page';
-type ProductListParamKey = 'categoryPk' | 'brandPk' | 'gmarket-best-category';
-const PRODUCT_LIST_PARAM_KEY: ProductListParamKey[] = ['brandPk', 'gmarket-best-category', 'categoryPk'];
-
-export const getFilterQuery = getTypedQueryCallback<ProductListQueryKey, ProductListParamKey>();
+/*************************************************************************************************************
+ * Exported functions
+ *************************************************************************************************************/
 
 //쿼리스트링으로부터 필터값을 읽고 쓰는 함수
 export function useFilterQueryString() {
@@ -61,8 +64,6 @@ export function useCurrentAppliedFilterResultList(productListPageParam: ProductL
   return useFilterResultWithName(productListPageParam, currentFilterListRecord);
 }
 
-const SEPARATOR_QUERY_STRING = '_';
-
 /**
  * 쿼리스트링으로부터 필터값을 가져옵니다.
  * @exception ValidateError 필터가 존재하는데 이상한값인경우
@@ -103,3 +104,15 @@ export function validateFilterQueryString(query: ParsedUrlQuery) {
     filterListRecord
   };
 }
+
+export const getFilterQuery = getTypedQueryCallback<ProductListQueryKey, ProductListParamKey>();
+
+/*************************************************************************************************************
+ * Non Export
+ *************************************************************************************************************/
+
+type ProductListQueryKey = FilterType | 'page';
+type ProductListParamKey = 'categoryPk' | 'brandPk' | 'gmarket-best-category';
+const PRODUCT_LIST_PARAM_KEY: ProductListParamKey[] = ['brandPk', 'gmarket-best-category', 'categoryPk'];
+
+const SEPARATOR_QUERY_STRING = '_';

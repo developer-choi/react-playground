@@ -1,7 +1,7 @@
 import React from 'react';
-import type {FilterType, ProductListPageParam} from '@util/services/product-filter/filter-common';
 import {CategoryCheckbox, GeneralFilterCheckbox} from '@component/filter/FilterCheckbox';
 import {useFilterListQuery} from '@util/services/product-filter/filter-common';
+import type {FilterType, ProductListPageParam} from '@type/services/filter';
 
 export interface CategoryFilterListUIProp {
   productListPageParam: ProductListPageParam;

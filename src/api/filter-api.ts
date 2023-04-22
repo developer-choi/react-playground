@@ -1,6 +1,6 @@
 import {makeAxiosInstance} from './config';
 import type {FilterListResponse} from '@type/response/filter';
-import type {ProductListPageParam} from '@util/services/product-filter/filter-common';
+import type {ProductListPageParam} from '@type/services/filter';
 
 const axiosInstance = makeAxiosInstance('/filter');
 

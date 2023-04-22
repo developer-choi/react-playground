@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import type {GetServerSideProps} from 'next';
 import {validateFilterQueryString} from '@util/services/product-filter/filter-query-string';
 import ProductListPage from '@component/filter/ProductListPage';
-import type {ProductListPageParam} from '@util/services/product-filter/filter-common';
+import type {ProductListPageParam} from '@type/services/filter';
 
 interface PageProp {
   pageInQuery: number;

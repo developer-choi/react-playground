@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '@component/atom/element/Button';
 import {useHandleFilterForm, useRefreshFilterFormData} from '@util/services/product-filter/filter-form';
 import {CategoryFilterListUI, GeneralFilterListUI} from '@component/filter/FilterListUI';
-import type {ProductListPageParam} from '@util/services/product-filter/filter-common';
+import type {ProductListPageParam} from '@type/services/filter';
 
 export interface FilterFormProp {
   productListPageParam: ProductListPageParam;

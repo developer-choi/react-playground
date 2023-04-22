@@ -1,5 +1,4 @@
 import {SubmitHandler, useFormContext} from 'react-hook-form';
-import type {FilterType, ProductListPageParam} from '@util/services/product-filter/filter-common';
 import {useFilterListQuery, useFilterResultWithName} from '@util/services/product-filter/filter-common';
 import type {NumericString} from '@type/string';
 import {ChangeEvent, ComponentPropsWithoutRef, useCallback, useEffect, useMemo} from 'react';
@@ -12,40 +11,18 @@ import {
 } from '@util/services/product-filter/category-filter';
 import type {CategoryCheckboxProp, GeneralFilterCheckboxProp} from '@component/filter/FilterCheckbox';
 import type {CategoryFilter} from '@type/response-sub/filter-sub';
+import type {FilterFormData, FilterType, ProductListPageParam} from '@type/services/filter';
 
 /**
  * 필터폼 전체를 컨트롤하는 모듈입니다.
  * 
  * 여기에서 export하는 함수 모두
- * <FormProvider 하위 컴포넌트에서 사용해야합니다.
- * 
- * 1. 필터폼에서 제출하고 리셋하는 hooks가 있고,
- * 2. [현재 적용된 필터]가 변경되면 [현재 체크된 필터]에도 반영하는 최신화로직이 있습니다.
+ * <FormProvider 하위 컴포넌트에서 사용헤야함.
  */
 
-/**
- * TODO 필터 폼데이터를 이렇게잡는게 아주 유효했음. 변환함수 절반이 줄어듬.
- * 1. onSubmitCategory()부터 시작해서 onSubmitShipping()까지 다 필요없어짐.
- */
-export type FilterFormData = Record<FilterType, NumericString[]>;
-
-export const DEFAULT_FILTER_FORM_DATA: FilterFormData = {
-  category: [],
-  brand: [],
-  color: [],
-  size: []
-};
-
-function convertFormDataWhenSubmit(formData: FilterFormData, originalCategoryFilterList: CategoryFilter[]): FilterFormData {
-  const {category, ...rest} = formData;
-
-  const removedCategoryPkList = removeCategoryChildren(category, originalCategoryFilterList);
-
-  return {
-    ...rest,
-    category: removedCategoryPkList,
-  };
-}
+/*************************************************************************************************************
+ * Exported functions
+ *************************************************************************************************************/
 
 // 상품필터목록에서 useFormContext()에서 onSubmit, reset 2개 커스텀했음.
 export function useHandleFilterForm(productListPageParam: ProductListPageParam) {
@@ -192,5 +169,31 @@ export function useHandleGeneralCheckbox({filterType, filter}: GeneralFilterChec
     ...rest,
     value: filter.pk,
     onChange
+  };
+}
+
+/*************************************************************************************************************
+ * Exported variables
+ *************************************************************************************************************/
+
+export const DEFAULT_FILTER_FORM_DATA: FilterFormData = {
+  category: [],
+  brand: [],
+  color: [],
+  size: []
+};
+
+/*************************************************************************************************************
+ * Non Export
+ *************************************************************************************************************/
+
+function convertFormDataWhenSubmit(formData: FilterFormData, originalCategoryFilterList: CategoryFilter[]): FilterFormData {
+  const {category, ...rest} = formData;
+
+  const removedCategoryPkList = removeCategoryChildren(category, originalCategoryFilterList);
+
+  return {
+    ...rest,
+    category: removedCategoryPkList,
   };
 }

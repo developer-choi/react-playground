@@ -4,7 +4,7 @@ import {
   useCurrentAppliedFilterResultList,
   useFilterQueryString
 } from '@util/services/product-filter/filter-query-string';
-import type {ProductListPageParam} from '@util/services/product-filter/filter-common';
+import type {ProductListPageParam} from '@type/services/filter';
 
 interface AppliedFilterResultListProp {
   productListPageParam: ProductListPageParam;
