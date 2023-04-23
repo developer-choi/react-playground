@@ -26,10 +26,6 @@ export function useFilterListQuery({type, uniqueKey}: FilterListApiParam) {
   });
 }
 
-export interface FilterPkOriginalRecord extends Record<Exclude<FilterType, 'category'>, Record<number, GeneralFilter>> {
-  category: Record<number, CategoryFilter>;
-}
-
 export function useFilterPkOriginalRecordQuery({type, uniqueKey}: FilterListApiParam): FilterPkOriginalRecord {
   const queryClient = useQueryClient();
   const {data} = useFilterListQuery({type, uniqueKey});
@@ -53,10 +49,6 @@ export function useFilterPkOriginalRecordQuery({type, uniqueKey}: FilterListApiP
   }, [data, queryClient, queryKey]);
 
   return result.data ?? INITIAL_FILTER_PK_ORIGINAL_RECORD;
-}
-
-export interface FilterResultWithName extends FilterResult {
-  name: string;
 }
 
 export function useFilterResultWithName(productListPageParam: ProductListPageParam, data: FilterListRecord | FilterFormData): FilterResultWithName[] {
@@ -100,6 +92,14 @@ export function useFilterResultWithName(productListPageParam: ProductListPagePar
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
+
+interface FilterResultWithName extends FilterResult {
+  name: string;
+}
+
+interface FilterPkOriginalRecord extends Record<Exclude<FilterType, 'category'>, Record<number, GeneralFilter>> {
+  category: Record<number, CategoryFilter>;
+}
 
 function filterListResponseToPkOriginalRecord(response: FilterListResponse): FilterPkOriginalRecord {
   const {colorList, sizeList, categoryList, brandList} = response;
