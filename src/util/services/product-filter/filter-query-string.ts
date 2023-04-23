@@ -12,7 +12,7 @@ import type {
   FilterType,
   ProductListPageParam
 } from '@type/services/filter';
-import {useFilterResultWithName} from '@util/services/product-filter/filter-common';
+import {useFilterPkListToResult} from '@util/services/product-filter/filter-common';
 
 /*************************************************************************************************************
  * Exported functions
@@ -21,6 +21,7 @@ import {useFilterResultWithName} from '@util/services/product-filter/filter-comm
 //쿼리스트링으로부터 필터값을 읽고 쓰는 함수
 export function useFilterQueryString() {
   const originalQuery = useRouter().query;
+
   const {filterListRecord: currentFilterListRecord} = useMemo(() => {
     return validateFilterQueryString(originalQuery)
   }, [originalQuery]);
@@ -37,7 +38,6 @@ export function useFilterQueryString() {
     replaceKeepQuery(stringifiedRecord);
   }, [replaceKeepQuery]);
 
-  //TODO 이부분이 애트니와 로직이 다른데 이게나은듯.
   const removeFilterInQueryString = useCallback(({pk, type}: FilterResult) => {
     const nextFilterRecord = produce(currentFilterListRecord, draft => {
       const target = draft[type];
@@ -52,8 +52,7 @@ export function useFilterQueryString() {
   }, [applyFilterInQueryString, currentFilterListRecord]);
 
   return {
-    //현재 적용된 필터목록 (출처: 쿼리스트링)
-    currentFilterListRecord, //TODO 이부분이 현재 애트니와 데이터타입이 다른데 다른게나은듯? 쓰이는곳 보니까 데이터변환 한번 덜하고 좋은듯. FilterResult 타입은 FilterResult컴포넌트빼고 아무도안쓰니까 FilterReesult컴포넌트에서 보여주기직전에 변환하는게 나은듯?
+    currentFilterListRecord,
     applyFilterInQueryString,
     removeFilterInQueryString
   };
@@ -61,7 +60,7 @@ export function useFilterQueryString() {
 
 export function useCurrentAppliedFilterResultList(productListPageParam: ProductListPageParam) {
   const {currentFilterListRecord} = useFilterQueryString();
-  return useFilterResultWithName(productListPageParam, currentFilterListRecord);
+  return useFilterPkListToResult(productListPageParam, currentFilterListRecord);
 }
 
 /**
@@ -78,8 +77,7 @@ export function validateFilterQueryString(query: ParsedUrlQuery) {
   }
 
   const filterListRecord: FilterListRecord = Object.entries(filterQuery).map(([filterType, queryString]) => {
-    //TODO validateString() required false일 때 버그가있어서 임시 타입 Assertion
-    const validatedString = validateString(queryString, {required: false}) as string | undefined;
+    const validatedString = validateString(queryString, {required: false});
     const splitResult = validatedString?.split(SEPARATOR_QUERY_STRING).map(value => Number(value)) ?? [];
 
     if (splitResult.some(value => Number.isNaN(value))) {

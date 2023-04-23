@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from '@component/atom/element/Button';
-import {useHandleFilterForm, useRefreshFilterFormData} from '@util/services/product-filter/filter-form';
+import {useHandleFilterForm} from '@util/services/product-filter/filter-form';
 import {CategoryFilterListUI, GeneralFilterListUI} from '@component/filter/FilterListUI';
 import type {ProductListPageParam} from '@type/services/filter';
 
@@ -10,8 +10,6 @@ export interface FilterFormProp {
 }
 
 export default function FilterForm({productListPageParam}: FilterFormProp) {
-  useRefreshFilterFormData(productListPageParam);
-
   const {onSubmit, reset} = useHandleFilterForm(productListPageParam);
 
   return (

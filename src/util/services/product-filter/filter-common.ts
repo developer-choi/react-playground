@@ -2,9 +2,9 @@ import type {NumericString} from '@type/string';
 import type {FilterListResponse} from '@type/response/filter';
 import type {CategoryFilter, GeneralFilter} from '@type/response-sub/filter-sub';
 import type {FilterListApiParam} from '@api/filter-api';
+import {getFilterListApi} from '@api/filter-api';
 import {useQuery, useQueryClient} from '@tanstack/react-query';
 import {useEffect, useMemo} from 'react';
-import {getFilterListApi} from '@api/filter-api';
 import {flatDeepCategoryList} from '@util/services/product-filter/category-filter';
 import type {
   FilterFormData,
@@ -26,35 +26,10 @@ export function useFilterListQuery({type, uniqueKey}: FilterListApiParam) {
   });
 }
 
-export function useFilterPkOriginalRecordQuery({type, uniqueKey}: FilterListApiParam): FilterPkOriginalRecord {
-  const queryClient = useQueryClient();
-  const {data} = useFilterListQuery({type, uniqueKey});
-
-  const queryKey = useMemo(() => {
-    return ['filter-pk-original-record', type, uniqueKey]
-  }, [type, uniqueKey]);
-  
-  const result = useQuery<FilterPkOriginalRecord>({
-    queryKey,
-    enabled: false
-  })
-
-  useEffect(() => {
-    const filterPkOriginalRecord = queryClient.getQueryData<FilterPkOriginalRecord>(queryKey);
-    
-    if (!filterPkOriginalRecord && data) {
-      queryClient.setQueryData(queryKey, filterListResponseToPkOriginalRecord(data));
-    }
-
-  }, [data, queryClient, queryKey]);
-
-  return result.data ?? INITIAL_FILTER_PK_ORIGINAL_RECORD;
-}
-
-export function useFilterResultWithName(productListPageParam: ProductListPageParam, data: FilterListRecord | FilterFormData): FilterResultWithName[] {
+export function useFilterPkListToResult(productListPageParam: ProductListPageParam, data: FilterListRecord | FilterFormData): FilterResult[] {
   const filterResultList = Object.entries(data).reduce((a, [filterType, pkList]) => {
     return a.concat(pkList.map((pk: number | NumericString) => ({pk: Number(pk), type: filterType as FilterType})));
-  }, [] as FilterResult[]).flat();
+  }, [] as Omit<FilterResult, 'name'>[]).flat();
 
   const pkOriginalRecord = useFilterPkOriginalRecordQuery(productListPageParam);
 
@@ -85,7 +60,7 @@ export function useFilterResultWithName(productListPageParam: ProductListPagePar
       });
 
       return a;
-    }, [] as FilterResultWithName[]);
+    }, [] as FilterResult[]);
   }, [pkOriginalRecord, filterResultList]);
 }
 
@@ -93,12 +68,29 @@ export function useFilterResultWithName(productListPageParam: ProductListPagePar
  * Non Export
  *************************************************************************************************************/
 
-interface FilterResultWithName extends FilterResult {
-  name: string;
-}
+function useFilterPkOriginalRecordQuery({type, uniqueKey}: FilterListApiParam): FilterPkOriginalRecord {
+  const queryClient = useQueryClient();
+  const {data} = useFilterListQuery({type, uniqueKey});
 
-interface FilterPkOriginalRecord extends Record<Exclude<FilterType, 'category'>, Record<number, GeneralFilter>> {
-  category: Record<number, CategoryFilter>;
+  const queryKey = useMemo(() => {
+    return ['filter-pk-original-record', type, uniqueKey]
+  }, [type, uniqueKey]);
+
+  const result = useQuery<FilterPkOriginalRecord>({
+    queryKey,
+    enabled: false
+  })
+
+  useEffect(() => {
+    const filterPkOriginalRecord = queryClient.getQueryData<FilterPkOriginalRecord>(queryKey);
+
+    if (!filterPkOriginalRecord && data) {
+      queryClient.setQueryData(queryKey, filterListResponseToPkOriginalRecord(data));
+    }
+
+  }, [data, queryClient, queryKey]);
+
+  return result.data ?? INITIAL_FILTER_PK_ORIGINAL_RECORD;
 }
 
 function filterListResponseToPkOriginalRecord(response: FilterListResponse): FilterPkOriginalRecord {
@@ -119,6 +111,10 @@ function filterListResponseToPkOriginalRecord(response: FilterListResponse): Fil
 
     return a;
   }, {...INITIAL_FILTER_PK_ORIGINAL_RECORD});
+}
+
+interface FilterPkOriginalRecord extends Record<Exclude<FilterType, 'category'>, Record<number, GeneralFilter>> {
+  category: Record<number, CategoryFilter>;
 }
 
 const INITIAL_FILTER_PK_ORIGINAL_RECORD: FilterPkOriginalRecord = {
