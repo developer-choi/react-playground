@@ -1,10 +1,9 @@
 import type {NumericString} from '@type/string';
 import type {FilterListResponse} from '@type/response/filter';
 import type {CategoryFilter, GeneralFilter} from '@type/response-sub/filter-sub';
-import type {FilterListApiParam} from '@api/filter-api';
 import {getFilterListApi} from '@api/filter-api';
 import {useQuery, useQueryClient} from '@tanstack/react-query';
-import {useEffect, useMemo} from 'react';
+import {createContext, PropsWithChildren, useContext, useEffect, useMemo} from 'react';
 import {flatDeepCategoryList} from '@util/services/product-filter/category-filter';
 import type {
   FilterFormData,
@@ -18,7 +17,27 @@ import type {
  * Exported functions
  *************************************************************************************************************/
 
-export function useFilterListQuery({type, uniqueKey}: FilterListApiParam) {
+export function useProductListPageParam() {
+  const value = useContext(ProductListPageParamContext);
+
+  if (value === undefined) {
+    throw new Error('context의 value값이 전달되지 않았습니다. 최상위 부모 컴포넌트에 ProductListPageParamProvider가 감싸져있는지 확인하세요.');
+  }
+
+  return value;
+}
+
+export function ProductListPageParamProvider({children, value}: PropsWithChildren<{value: ProductListPageParam}>) {
+  return (
+    <ProductListPageParamContext.Provider value={value}>
+      {children}
+    </ProductListPageParamContext.Provider>
+  )
+}
+
+export function useFilterListQuery() {
+  const {type, uniqueKey} = useProductListPageParam();
+
   return useQuery({
     queryKey: ['filter-list', type, uniqueKey],
     queryFn: () => getFilterListApi({type, uniqueKey}),
@@ -26,12 +45,12 @@ export function useFilterListQuery({type, uniqueKey}: FilterListApiParam) {
   });
 }
 
-export function useFilterPkListToResult(productListPageParam: ProductListPageParam, data: FilterListRecord | FilterFormData): FilterResult[] {
+export function useFilterPkListToResult(data: FilterListRecord | FilterFormData): FilterResult[] {
   const filterResultList = Object.entries(data).reduce((a, [filterType, pkList]) => {
     return a.concat(pkList.map((pk: number | NumericString) => ({pk: Number(pk), type: filterType as FilterType})));
   }, [] as Omit<FilterResult, 'name'>[]).flat();
 
-  const pkOriginalRecord = useFilterPkOriginalRecordQuery(productListPageParam);
+  const pkOriginalRecord = useFilterPkOriginalRecordQuery();
 
   return useMemo(() => {
     return filterResultList.reduce((a, {pk, type}) => {
@@ -68,9 +87,12 @@ export function useFilterPkListToResult(productListPageParam: ProductListPagePar
  * Non Export
  *************************************************************************************************************/
 
-function useFilterPkOriginalRecordQuery({type, uniqueKey}: FilterListApiParam): FilterPkOriginalRecord {
+const ProductListPageParamContext = createContext<ProductListPageParam>(null as any);
+
+function useFilterPkOriginalRecordQuery(): FilterPkOriginalRecord {
+  const {type, uniqueKey} = useProductListPageParam();
   const queryClient = useQueryClient();
-  const {data} = useFilterListQuery({type, uniqueKey});
+  const {data} = useFilterListQuery();
 
   const queryKey = useMemo(() => {
     return ['filter-pk-original-record', type, uniqueKey]

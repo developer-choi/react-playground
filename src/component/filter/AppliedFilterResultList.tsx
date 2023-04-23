@@ -4,14 +4,9 @@ import {
   useCurrentAppliedFilterResultList,
   useFilterQueryString
 } from '@util/services/product-filter/filter-query-string';
-import type {ProductListPageParam} from '@type/services/filter';
 
-interface AppliedFilterResultListProp {
-  productListPageParam: ProductListPageParam;
-}
-
-export default function AppliedFilterResultList({productListPageParam}: AppliedFilterResultListProp) {
-  const itemList = useCurrentAppliedFilterResultList(productListPageParam);
+export default function AppliedFilterResultList() {
+  const itemList = useCurrentAppliedFilterResultList();
   const {removeFilterInQueryString} = useFilterQueryString();
 
   return (

@@ -10,7 +10,6 @@ import type {
   FilterListRecord,
   FilterResult,
   FilterType,
-  ProductListPageParam
 } from '@type/services/filter';
 import {useFilterPkListToResult} from '@util/services/product-filter/filter-common';
 
@@ -58,9 +57,9 @@ export function useFilterQueryString() {
   };
 }
 
-export function useCurrentAppliedFilterResultList(productListPageParam: ProductListPageParam) {
+export function useCurrentAppliedFilterResultList() {
   const {currentFilterListRecord} = useFilterQueryString();
-  return useFilterPkListToResult(productListPageParam, currentFilterListRecord);
+  return useFilterPkListToResult(currentFilterListRecord);
 }
 
 /**

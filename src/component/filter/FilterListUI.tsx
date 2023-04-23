@@ -1,14 +1,10 @@
 import React from 'react';
 import {CategoryCheckbox, GeneralFilterCheckbox} from '@component/filter/FilterCheckbox';
 import {useFilterListQuery} from '@util/services/product-filter/filter-common';
-import type {FilterType, ProductListPageParam} from '@type/services/filter';
+import type {FilterType} from '@type/services/filter';
 
-export interface CategoryFilterListUIProp {
-  productListPageParam: ProductListPageParam;
-}
-
-export function CategoryFilterListUI({productListPageParam}: CategoryFilterListUIProp) {
-  const {data} = useFilterListQuery(productListPageParam);
+export function CategoryFilterListUI() {
+  const {data} = useFilterListQuery();
 
   if (!data) {
     return null;
@@ -25,11 +21,10 @@ export function CategoryFilterListUI({productListPageParam}: CategoryFilterListU
 
 export interface GeneralFilterListUIProp {
   filterType: FilterType;
-  productListPageParam: ProductListPageParam;
 }
 
-export function GeneralFilterListUI({filterType, productListPageParam}: GeneralFilterListUIProp) {
-  const {data} = useFilterListQuery(productListPageParam);
+export function GeneralFilterListUI({filterType}: GeneralFilterListUIProp) {
+  const {data} = useFilterListQuery();
 
   if (!data) {
     return null;

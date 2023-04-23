@@ -1,14 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import {useCurrentCheckedFilterResultList} from '@util/services/product-filter/filter-form';
-import type {ProductListPageParam} from '@type/services/filter';
 
-interface CheckedFilterListProp {
-  productListPageParam: ProductListPageParam;
-}
-
-export default function CheckedFilterList({productListPageParam}: CheckedFilterListProp) {
-  const currentCheckedFilterList = useCurrentCheckedFilterResultList(productListPageParam);
+export default function CheckedFilterList() {
+  const currentCheckedFilterList = useCurrentCheckedFilterResultList();
 
   return (
     <div>

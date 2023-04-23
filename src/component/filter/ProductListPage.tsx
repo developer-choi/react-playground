@@ -3,6 +3,7 @@ import AppliedFilterResultList from '@component/filter/AppliedFilterResultList';
 import FilteredProductList from '@component/filter/FilteredProductList';
 import React from 'react';
 import type {ProductListPageParam} from '@type/services/filter';
+import {ProductListPageParamProvider} from '@util/services/product-filter/filter-common';
 
 interface ProductListPageProp {
   productListPageParam: ProductListPageParam;
@@ -10,10 +11,10 @@ interface ProductListPageProp {
 
 export default function ProductListPage({productListPageParam}: ProductListPageProp) {
   return (
-    <>
-      <FilterController productListPageParam={productListPageParam}/>
-      <AppliedFilterResultList productListPageParam={productListPageParam}/>
+    <ProductListPageParamProvider value={productListPageParam}>
+      <FilterController/>
+      <AppliedFilterResultList/>
       <FilteredProductList/>
-    </>
+    </ProductListPageParamProvider>
   );
 }

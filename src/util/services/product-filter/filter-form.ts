@@ -1,5 +1,9 @@
 import {SubmitHandler, useFormContext} from 'react-hook-form';
-import {useFilterListQuery, useFilterPkListToResult} from '@util/services/product-filter/filter-common';
+import {
+  useFilterListQuery,
+  useFilterPkListToResult,
+  useProductListPageParam
+} from '@util/services/product-filter/filter-common';
 import type {NumericString} from '@type/string';
 import {ChangeEvent, ComponentPropsWithoutRef, useCallback, useEffect, useMemo} from 'react';
 import {useFilterQueryString} from '@util/services/product-filter/filter-query-string';
@@ -11,7 +15,7 @@ import {
 } from '@util/services/product-filter/category-filter';
 import type {CategoryCheckboxProp, GeneralFilterCheckboxProp} from '@component/filter/FilterCheckbox';
 import type {CategoryFilter} from '@type/response-sub/filter-sub';
-import type {FilterFormData, FilterType, ProductListPageParam} from '@type/services/filter';
+import type {FilterFormData, FilterType} from '@type/services/filter';
 
 /** Notice
  * 여기에서 export하는 함수 모두
@@ -28,10 +32,11 @@ import type {FilterFormData, FilterType, ProductListPageParam} from '@type/servi
  * (1) 다룬 종류의 상품리스트로 이동할 경우 폼데이터 초기화
  * (2) 쿼리스트링이 변하면 (최초 로딩포함) 폼데이터에 반영
  */
-export function useHandleFilterForm(productListPageParam: ProductListPageParam) {
+export function useHandleFilterForm() {
+  const {type, uniqueKey} = useProductListPageParam();
   const methods = useFormContext<FilterFormData>();
   const {applyFilterInQueryString} = useFilterQueryString();
-  const {data} = useFilterListQuery(productListPageParam);
+  const {data} = useFilterListQuery();
 
   const onSubmit: SubmitHandler<FilterFormData> = useCallback(formData => {
     if (!data) {
@@ -52,9 +57,9 @@ export function useHandleFilterForm(productListPageParam: ProductListPageParam) 
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productListPageParam.type, productListPageParam.uniqueKey]);
+  }, [type, uniqueKey]);
 
-  useRefreshFilterFormData(productListPageParam);
+  useRefreshFilterFormData();
 
   return {
     setValue: methods.setValue,
@@ -63,16 +68,16 @@ export function useHandleFilterForm(productListPageParam: ProductListPageParam) 
   };
 }
 
-export function useCurrentCheckedFilterResultList(productListPageParam: ProductListPageParam) {
+export function useCurrentCheckedFilterResultList() {
   const {watch} = useFormContext<FilterFormData>();
-  const {data} = useFilterListQuery(productListPageParam);
+  const {data} = useFilterListQuery();
   const currentFormData = watch();
 
   const willSubmittedFormData = useMemo(() => {
     return convertFormDataWhenSubmit(currentFormData, data?.categoryList ?? []);
   }, [data?.categoryList, currentFormData]);
 
-  return useFilterPkListToResult(productListPageParam, willSubmittedFormData);
+  return useFilterPkListToResult(willSubmittedFormData);
 }
 
 export function useHandleCategoryCheckbox({category, onChangeRecursiveOfParent}: CategoryCheckboxProp) {
@@ -168,10 +173,10 @@ function convertFormDataWhenSubmit(formData: FilterFormData, originalCategoryFil
 }
 
 // [현재 적용된 필터 = query string]이 변경되면 [현재 체크된 필터 = form data]에도 반영하기위함.
-function useRefreshFilterFormData(productListPageParam: ProductListPageParam) {
+function useRefreshFilterFormData() {
   const {currentFilterListRecord} = useFilterQueryString();
   const {setValue} = useFormContext<FilterFormData>();
-  const {data} = useFilterListQuery(productListPageParam);
+  const {data} = useFilterListQuery();
   const categoryList = data?.categoryList ?? EMPTY_ARRAY;
 
   //쿼리스트링에 있던 값으로 폼데이터 > 카테고리 필터값 복원하는 로직
