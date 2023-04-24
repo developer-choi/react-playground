@@ -7,11 +7,15 @@ import {useCallback, useMemo} from 'react';
 import produce from 'immer';
 import type {
   FilterFormData,
-  FilterListRecord,
+  FilterPkListInQueryString,
   FilterResult,
   FilterType,
+  PriceFilterType,
+  PriceFilterValue,
+  RegularFilterPkList,
+  RegularFilterType,
 } from '@type/services/filter';
-import {useFilterPkListToResult} from '@util/services/product-filter/filter-common';
+import {REGULAR_FILTER_TYPE_LIST, useFilterPkListToResult} from '@util/services/product-filter/filter-common';
 
 /*************************************************************************************************************
  * Exported functions
@@ -21,45 +25,42 @@ import {useFilterPkListToResult} from '@util/services/product-filter/filter-comm
 export function useFilterQueryString() {
   const originalQuery = useRouter().query;
 
-  const {filterListRecord: currentFilterListRecord} = useMemo(() => {
+  const {filterPkList: currentFilterPkList} = useMemo(() => {
     return validateFilterQueryString(originalQuery)
   }, [originalQuery]);
 
   const {replaceKeepQuery} = useKeepQuery<ProductListQueryKey>(PRODUCT_LIST_PARAM_KEY);
 
-  const applyFilterInQueryString = useCallback((record: FilterListRecord | FilterFormData) => {
-    const stringifiedRecord = Object.entries(record).reduce((a, [filterType, pkList]) => {
+  const applyFilterInQueryString = useCallback((data: FilterPkListInQueryString | FilterFormData) => {
+    const {['min-price']: minPrice, ['max-price']: maxPrice, ...regularFilter} = data;
+
+    const stringifiedRecord = Object.entries(regularFilter).reduce((a, [filterType, pkList]) => {
       // eslint-disable-next-line no-param-reassign
-      a[filterType as FilterType] = pkList.join(SEPARATOR_QUERY_STRING);
+      a[filterType as RegularFilterType] = pkList.join(SEPARATOR_QUERY_STRING);
       return a;
-    }, {} as Record<FilterType, string>);
+    }, {} as Record<FilterType, string | undefined>);
+
+    stringifiedRecord['min-price'] = minPrice?.toString();
+    stringifiedRecord['max-price'] = maxPrice?.toString();
 
     replaceKeepQuery(stringifiedRecord);
   }, [replaceKeepQuery]);
 
-  const removeFilterInQueryString = useCallback(({pk, type}: FilterResult) => {
-    const nextFilterRecord = produce(currentFilterListRecord, draft => {
-      const target = draft[type];
-      const index = target.findIndex(value => value === pk);
-
-      if (index !== -1) {
-        target.splice(index, 1);
-      }
-    });
-
+  const removeFilterInQueryString = useCallback((filterResult: FilterResult) => {
+    const nextFilterRecord = removeSpecificFilter(currentFilterPkList, filterResult);
     applyFilterInQueryString(nextFilterRecord);
-  }, [applyFilterInQueryString, currentFilterListRecord]);
+  }, [applyFilterInQueryString, currentFilterPkList]);
 
   return {
-    currentFilterListRecord,
+    currentFilterPkList,
     applyFilterInQueryString,
     removeFilterInQueryString
   };
 }
 
 export function useCurrentAppliedFilterResultList() {
-  const {currentFilterListRecord} = useFilterQueryString();
-  return useFilterPkListToResult(currentFilterListRecord);
+  const {currentFilterPkList} = useFilterQueryString();
+  return useFilterPkListToResult(currentFilterPkList);
 }
 
 /**
@@ -68,14 +69,15 @@ export function useCurrentAppliedFilterResultList() {
  */
 export function validateFilterQueryString(query: ParsedUrlQuery) {
   const typedQuery = getFilterQuery(query);
-  const filterQuery: Record<FilterType, QueryValue> = {
+
+  const regularFilterQuery: Record<RegularFilterType, QueryValue> = {
     color: typedQuery.color,
     size: typedQuery.size,
     brand: typedQuery.brand,
     category: typedQuery.category
-  }
+  };
 
-  const filterListRecord: FilterListRecord = Object.entries(filterQuery).map(([filterType, queryString]) => {
+  const regularFilterResult: RegularFilterPkList<number> = Object.entries(regularFilterQuery).map(([filterType, queryString]) => {
     const validatedString = validateString(queryString, {required: false});
     const splitResult = validatedString?.split(SEPARATOR_QUERY_STRING).map(value => Number(value)) ?? [];
 
@@ -90,15 +92,23 @@ export function validateFilterQueryString(query: ParsedUrlQuery) {
     };
   }).reduce((a, b) => {
     // eslint-disable-next-line no-param-reassign
-    a[b.filterType as FilterType] = b.list;
+    a[b.filterType as RegularFilterType] = b.list;
     return a;
-  }, {} as FilterListRecord);
+  }, {} as RegularFilterPkList<number>);
+
+  const priceFilterResult: PriceFilterValue = {
+    'min-price': validateNumber(typedQuery['min-price'], {required: false}),
+    'max-price': validateNumber(typedQuery['max-price'], {required: false})
+  };
 
   const page = validateNumber(typedQuery.page);
 
   return {
     page,
-    filterListRecord
+    filterPkList: {
+      ...regularFilterResult,
+      ...priceFilterResult
+    }
   };
 }
 
@@ -107,6 +117,25 @@ export const getFilterQuery = getTypedQueryCallback<ProductListQueryKey, Product
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
+
+function removeSpecificFilter(currentFilterPkList: FilterPkListInQueryString, removeTarget: FilterResult): FilterPkListInQueryString {
+  const {pk, type} = removeTarget;
+
+  return produce(currentFilterPkList, draft => {
+    if (REGULAR_FILTER_TYPE_LIST.includes(type as RegularFilterType)) {
+      const target = draft[type] as number[];
+      const index = target.findIndex(value => value === pk);
+
+      if (index !== -1) {
+        target.splice(index, 1);
+      }
+
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      draft[type as PriceFilterType] = undefined;
+    }
+  });
+}
 
 type ProductListQueryKey = FilterType | 'page';
 type ProductListParamKey = 'categoryPk' | 'brandPk' | 'gmarket-best-category';

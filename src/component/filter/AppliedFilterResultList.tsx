@@ -15,7 +15,7 @@ export default function AppliedFilterResultList() {
         <FilterResultWrap>
           <span>적용된 필터 목록 : </span>
           {itemList.map((item) => (
-            <FilterResultButton key={item.pk} type="button" onClick={() => removeFilterInQueryString(item)}>{item.name} (X)</FilterResultButton>
+            <FilterResultButton key={`${item.type}-${item.pk}`} type="button" onClick={() => removeFilterInQueryString(item)}>{item.name} (X)</FilterResultButton>
           ))}
         </FilterResultWrap>
       )}

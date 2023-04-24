@@ -5,4 +5,6 @@ export interface FilterListResponse {
   sizeList: GeneralFilter[];
   colorList: GeneralFilter[];
   brandList: GeneralFilter[];
+  maxPrice: number;
+  minPrice: number;
 }

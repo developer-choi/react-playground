@@ -7,11 +7,13 @@ import {createContext, PropsWithChildren, useContext, useEffect, useMemo} from '
 import {flatDeepCategoryList} from '@util/services/product-filter/category-filter';
 import type {
   FilterFormData,
-  FilterListRecord,
+  FilterPkListInQueryString,
+  FilterPkOriginalRecord,
   FilterResult,
-  FilterType,
-  ProductListPageParam
+  ProductListPageParam,
+  RegularFilterType
 } from '@type/services/filter';
+import {priceToFilterResult} from '@util/services/product-filter/price-filter';
 
 /*************************************************************************************************************
  * Exported functions
@@ -45,51 +47,22 @@ export function useFilterListQuery() {
   });
 }
 
-export function useFilterPkListToResult(data: FilterListRecord | FilterFormData): FilterResult[] {
-  const filterResultList = Object.entries(data).reduce((a, [filterType, pkList]) => {
-    return a.concat(pkList.map((pk: number | NumericString) => ({pk: Number(pk), type: filterType as FilterType})));
-  }, [] as Omit<FilterResult, 'name'>[]).flat();
-
+/**
+ * 1. 폼데이터 ==> [현재 체크된 목록]
+ * 2. 쿼리스트링 ==> [현재 적용된 목록]
+ * 으로 변환하기위한 함수
+ */
+export function useFilterPkListToResult(data: FilterPkListInQueryString | FilterFormData): FilterResult[] {
   const pkOriginalRecord = useFilterPkOriginalRecordQuery();
 
   return useMemo(() => {
-    return filterResultList.reduce((a, {pk, type}) => {
-      const original = pkOriginalRecord[type][pk];
-
-      //API가 아직 응답되지않아서 원본데이터가 없거나, 없는 필터의 PK가 쿼리스트링에 있는경우
-      if (original === undefined) {
-        return a;
-      }
-
-      let name: string;
-
-      switch (type) {
-        case 'category':
-          name = (original as CategoryFilter).name;
-          break;
-
-        default:
-          name = (original as GeneralFilter).name;
-      }
-
-      a.push({
-        pk,
-        type,
-        name
-      });
-
-      return a;
-    }, [] as FilterResult[]);
-  }, [pkOriginalRecord, filterResultList]);
+    const regularFilterResultList =  regularToFilterResult(data, pkOriginalRecord); //name을 제외하고 가공해서 하나의 배열로 펼침
+    const priceFilterResultList = priceToFilterResult(data, pkOriginalRecord);
+    return regularFilterResultList.concat(priceFilterResultList);
+  }, [data, pkOriginalRecord]);
 }
 
-/*************************************************************************************************************
- * Non Export
- *************************************************************************************************************/
-
-const ProductListPageParamContext = createContext<ProductListPageParam>(null as any);
-
-function useFilterPkOriginalRecordQuery(): FilterPkOriginalRecord {
+export function useFilterPkOriginalRecordQuery(): FilterPkOriginalRecord {
   const {type, uniqueKey} = useProductListPageParam();
   const queryClient = useQueryClient();
   const {data} = useFilterListQuery();
@@ -115,33 +88,92 @@ function useFilterPkOriginalRecordQuery(): FilterPkOriginalRecord {
   return result.data ?? INITIAL_FILTER_PK_ORIGINAL_RECORD;
 }
 
-function filterListResponseToPkOriginalRecord(response: FilterListResponse): FilterPkOriginalRecord {
-  const {colorList, sizeList, categoryList, brandList} = response;
+/*************************************************************************************************************
+ * Exported variables
+ *************************************************************************************************************/
+export const INITIAL_FILTER_PK_ORIGINAL_RECORD: FilterPkOriginalRecord = {
+  category: {},
+  size: {},
+  brand: {},
+  color: {},
+  maxPrice: 0,
+  minPrice: 0
+};
 
-  const responseByFilterType: Record<FilterType, GeneralFilter[] | CategoryFilter[]> = {
+export const REGULAR_FILTER_TYPE_LIST: RegularFilterType[] = ['size', 'category', 'brand', 'color'];
+
+/*************************************************************************************************************
+ * Non Export
+ *************************************************************************************************************/
+
+function regularToFilterResult(data: FilterPkListInQueryString | FilterFormData, pkOriginalRecord: FilterPkOriginalRecord): FilterResult[] {
+  const {category, color, brand, size} = data;
+  const regularFilter: Record<RegularFilterType, (NumericString | number)[]> = {category, brand, size, color}
+
+  const tempFilterResultList = Object.entries(regularFilter).reduce((a, [filterType, pkList]) => {
+    return a.concat(pkList.map((pk: number | NumericString) => ({pk: Number(pk), type: filterType as RegularFilterType, name: undefined})));
+  }, [] as TempRegularFilterResult[]).flat();
+
+  return tempFilterResultList.reduce((a, {pk, type}) => {
+    const original = pkOriginalRecord[type as RegularFilterType][pk as number];
+
+    //API가 아직 응답되지않아서 원본데이터가 없거나, 없는 필터의 PK가 쿼리스트링에 있는경우
+    if (original === undefined) {
+      return a;
+    }
+
+    let name: string;
+
+    switch (type) {
+      case 'category':
+        name = (original as CategoryFilter).name;
+        break;
+
+      default:
+        name = (original as GeneralFilter).name;
+    }
+
+    a.push({
+      pk,
+      type,
+      name
+    });
+
+    return a;
+  }, [] as FilterResult[]);
+}
+
+function filterListResponseToPkOriginalRecord(response: FilterListResponse): FilterPkOriginalRecord {
+  const {colorList, sizeList, categoryList, brandList, maxPrice, minPrice} = response;
+
+  const responseByFilterType: Record<RegularFilterType, GeneralFilter[] | CategoryFilter[]> = {
     color: colorList,
     brand: brandList,
     size: sizeList,
     category: flatDeepCategoryList(categoryList)
   };
 
-  return Object.entries(responseByFilterType).reduce((a, [filterType, filterList]) => {
+  const {category, color, brand, size} = Object.entries(responseByFilterType).reduce((a, [filterType, filterList]) => {
     filterList.forEach(filter => {
       // eslint-disable-next-line no-param-reassign
-      a[filterType as FilterType][filter.pk] = filter;
+      a[filterType as RegularFilterType][filter.pk] = filter;
     });
 
     return a;
   }, {...INITIAL_FILTER_PK_ORIGINAL_RECORD});
+
+  return {
+    size,
+    brand,
+    color,
+    category,
+    maxPrice,
+    minPrice
+  };
 }
 
-interface FilterPkOriginalRecord extends Record<Exclude<FilterType, 'category'>, Record<number, GeneralFilter>> {
-  category: Record<number, CategoryFilter>;
-}
-
-const INITIAL_FILTER_PK_ORIGINAL_RECORD: FilterPkOriginalRecord = {
-  category: {},
-  size: {},
-  brand: {},
-  color: {}
+type TempRegularFilterResult = Omit<FilterResult, 'name'> & {
+  name: undefined | string;
 };
+
+const ProductListPageParamContext = createContext<ProductListPageParam>(null as any);

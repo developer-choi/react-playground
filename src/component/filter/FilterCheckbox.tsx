@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react';
 import styled from 'styled-components';
 import type {CategoryFilter, GeneralFilter} from '@type/response-sub/filter-sub';
 import {useHandleCategoryCheckbox, useHandleGeneralCheckbox} from '@util/services/product-filter/filter-form';
-import type {FilterType} from '@type/services/filter';
+import type {RegularFilterType} from '@type/services/filter';
 
 export interface CategoryCheckboxProp {
   category: CategoryFilter;
@@ -24,7 +24,7 @@ export function CategoryCheckbox({category, onChangeRecursiveOfParent}: Category
 }
 
 export interface GeneralFilterCheckboxProp {
-  filterType: FilterType;
+  filterType: Exclude<RegularFilterType, 'category'>;
   filter: GeneralFilter;
 }
 

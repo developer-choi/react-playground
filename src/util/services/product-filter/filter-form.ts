@@ -15,7 +15,7 @@ import {
 } from '@util/services/product-filter/category-filter';
 import type {CategoryCheckboxProp, GeneralFilterCheckboxProp} from '@component/filter/FilterCheckbox';
 import type {CategoryFilter} from '@type/response-sub/filter-sub';
-import type {FilterFormData, FilterType} from '@type/services/filter';
+import type {FilterFormData, PriceFilterValue, RegularFilterType} from '@type/services/filter';
 
 /** Notice
  * 여기에서 export하는 함수 모두
@@ -154,7 +154,9 @@ export const DEFAULT_FILTER_FORM_DATA: FilterFormData = {
   category: [],
   brand: [],
   color: [],
-  size: []
+  size: [],
+  'max-price': undefined,
+  'min-price': undefined
 };
 
 /*************************************************************************************************************
@@ -174,7 +176,7 @@ function convertFormDataWhenSubmit(formData: FilterFormData, originalCategoryFil
 
 // [현재 적용된 필터 = query string]이 변경되면 [현재 체크된 필터 = form data]에도 반영하기위함.
 function useRefreshFilterFormData() {
-  const {currentFilterListRecord} = useFilterQueryString();
+  const {currentFilterPkList} = useFilterQueryString();
   const {setValue} = useFormContext<FilterFormData>();
   const {data} = useFilterListQuery();
   const categoryList = data?.categoryList ?? EMPTY_ARRAY;
@@ -185,20 +187,25 @@ function useRefreshFilterFormData() {
     setValue('category', categoryPkList);
   }, [categoryList, setValue]);
 
+  const refreshPriceFilter = useCallback((price: PriceFilterValue) => {
+    setValue('min-price', price['min-price']);
+    setValue('max-price', price['max-price']);
+  }, [setValue]);
+
   //쿼리스트링에 있던 값으로 폼데이터 > 일반 필터값 복원하는 로직
-  const refreshRestFilter = useCallback((record: Record<Exclude<FilterType, 'category'>, number[]>) => {
+  const refreshRestFilter = useCallback((record: Record<Exclude<RegularFilterType, 'category'>, number[]>) => {
     Object.entries(record).forEach(([filterType, pkList]) => {
-      setValue(filterType as FilterType, pkList.map(pk => String(pk) as NumericString));
+      setValue(filterType as RegularFilterType, pkList.map(pk => String(pk) as NumericString));
     });
   }, [setValue]);
 
   useEffect(() => {
-    //TODO 이부분에 가격필터 추가예정
-    const {category, ...restRecord} = currentFilterListRecord;
+    const {category, brand, size, color, ...price} = currentFilterPkList;
 
     refreshCategoryFilter(category);
-    refreshRestFilter(restRecord);
+    refreshPriceFilter(price);
+    refreshRestFilter({brand, size, color});
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentFilterListRecord]);
+  }, [currentFilterPkList]);
 }

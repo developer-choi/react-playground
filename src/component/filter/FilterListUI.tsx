@@ -1,7 +1,7 @@
 import React from 'react';
 import {CategoryCheckbox, GeneralFilterCheckbox} from '@component/filter/FilterCheckbox';
 import {useFilterListQuery} from '@util/services/product-filter/filter-common';
-import type {FilterType} from '@type/services/filter';
+import type {RegularFilterType} from '@type/services/filter';
 
 export function CategoryFilterListUI() {
   const {data} = useFilterListQuery();
@@ -20,7 +20,7 @@ export function CategoryFilterListUI() {
 }
 
 export interface GeneralFilterListUIProp {
-  filterType: FilterType;
+  filterType: Exclude<RegularFilterType, 'category'>;
 }
 
 export function GeneralFilterListUI({filterType}: GeneralFilterListUIProp) {
