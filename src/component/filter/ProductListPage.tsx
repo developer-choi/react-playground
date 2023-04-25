@@ -4,6 +4,7 @@ import FilteredProductList from '@component/filter/FilteredProductList';
 import React from 'react';
 import type {ProductListPageParam} from '@type/services/filter';
 import {ProductListPageParamProvider} from '@util/services/product-filter/filter-common';
+import styled from 'styled-components';
 
 interface ProductListPageProp {
   productListPageParam: ProductListPageParam;
@@ -12,9 +13,15 @@ interface ProductListPageProp {
 export default function ProductListPage({productListPageParam}: ProductListPageProp) {
   return (
     <ProductListPageParamProvider value={productListPageParam}>
-      <FilterController/>
-      <AppliedFilterResultList/>
-      <FilteredProductList/>
+      <Wrap>
+        <FilterController/>
+        <AppliedFilterResultList/>
+        <FilteredProductList/>
+      </Wrap>
     </ProductListPageParamProvider>
   );
 }
+
+const Wrap = styled.div`
+  padding: 20px;
+`;

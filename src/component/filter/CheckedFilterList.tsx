@@ -6,17 +6,22 @@ export default function CheckedFilterList() {
   const currentCheckedFilterList = useCurrentCheckedFilterResultList();
 
   return (
-    <div>
+    <Wrap>
       체크된 필터 목록:
       {currentCheckedFilterList.map(({pk, type, name}) => (
         <CheckedFilter key={`${type}-${pk}`}>{name}</CheckedFilter>
       ))}
-    </div>
+    </Wrap>
   );
 }
 
+const Wrap = styled.div`
+  margin-bottom: 20px;
+`;
+
 const CheckedFilter = styled.span`
-  color: orange;
+  color: blueviolet;
+  font-weight: bold;
   font-size: 14px;
   margin-left: 5px;
 `;

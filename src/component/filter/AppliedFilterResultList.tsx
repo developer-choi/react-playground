@@ -10,7 +10,7 @@ export default function AppliedFilterResultList() {
   const {removeFilterInQueryString} = useFilterQueryString();
 
   return (
-    <>
+    <Wrap>
       {itemList.length === 0 ? null : (
         <FilterResultWrap>
           <span>적용된 필터 목록 : </span>
@@ -19,9 +19,13 @@ export default function AppliedFilterResultList() {
           ))}
         </FilterResultWrap>
       )}
-    </>
+    </Wrap>
   );
 }
+
+const Wrap = styled.div`
+  margin-top: 20px;
+`;
 
 const FilterResultWrap = styled.div`
   display: flex;

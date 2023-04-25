@@ -22,6 +22,5 @@ export default function FilterForm() {
 }
 
 const Form = styled.form`
-  padding: 10px;
   display: inline-block;
 `;
