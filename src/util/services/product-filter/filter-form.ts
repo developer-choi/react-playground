@@ -2,6 +2,7 @@ import {SubmitHandler, useFormContext} from 'react-hook-form';
 import {
   useFilterListQuery,
   useFilterPkListToResult,
+  useFilterPkOriginalRecordQuery,
   useProductListPageParam
 } from '@util/services/product-filter/filter-common';
 import type {NumericString} from '@type/string';
@@ -16,6 +17,7 @@ import {
 import type {CategoryCheckboxProp, GeneralFilterCheckboxProp} from '@component/filter/FilterCheckbox';
 import type {CategoryFilter} from '@type/response-sub/filter-sub';
 import type {FilterFormData, PriceFilterValue, RegularFilterType} from '@type/services/filter';
+import {restorePriceFilter} from '@util/services/product-filter/price-filter';
 
 /** Notice
  * 여기에서 export하는 함수 모두
@@ -42,7 +44,7 @@ export function useHandleFilterForm() {
     if (!data) {
       return;
     }
-    
+
     applyFilterInQueryString(convertFormDataWhenSubmit(formData, data.categoryList));
   }, [applyFilterInQueryString, data]);
 
@@ -93,7 +95,7 @@ export function useHandleCategoryCheckbox({category, onChangeRecursiveOfParent}:
       const previousCategoryPkList = getValues('category');
       const allChildrenAreChecked = allChildrenPkList.every((pk) => previousCategoryPkList.includes(pk));
       const stringPk = String(category.pk) as NumericString;
-      
+
       if (allChildrenAreChecked) {
         setValue('category', removeDuplicatedItems(previousCategoryPkList.concat(stringPk)));
 
@@ -180,6 +182,7 @@ function useRefreshFilterFormData() {
   const {setValue} = useFormContext<FilterFormData>();
   const {data} = useFilterListQuery();
   const categoryList = data?.categoryList ?? EMPTY_ARRAY;
+  const pkOriginalRecord = useFilterPkOriginalRecordQuery();
 
   //쿼리스트링에 있던 값으로 폼데이터 > 카테고리 필터값 복원하는 로직
   const refreshCategoryFilter = useCallback((parentCategoryPkList: number[]) => {
@@ -188,9 +191,10 @@ function useRefreshFilterFormData() {
   }, [categoryList, setValue]);
 
   const refreshPriceFilter = useCallback((price: PriceFilterValue) => {
-    setValue('min-price', price['min-price']);
-    setValue('max-price', price['max-price']);
-  }, [setValue]);
+    const result = restorePriceFilter(price, pkOriginalRecord);
+    setValue('min-price', result['min-price']);
+    setValue('max-price', result['max-price']);
+  }, [pkOriginalRecord, setValue]);
 
   //쿼리스트링에 있던 값으로 폼데이터 > 일반 필터값 복원하는 로직
   const refreshRestFilter = useCallback((record: Record<Exclude<RegularFilterType, 'category'>, number[]>) => {
@@ -206,6 +210,5 @@ function useRefreshFilterFormData() {
     refreshPriceFilter(price);
     refreshRestFilter({brand, size, color});
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentFilterPkList]);
+  }, [currentFilterPkList, refreshCategoryFilter, refreshPriceFilter, refreshRestFilter]);
 }

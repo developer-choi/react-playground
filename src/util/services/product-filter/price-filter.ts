@@ -58,13 +58,45 @@ export function priceToFilterResult(priceFilter: PriceFilterValue, pkOriginalRec
   const maxPrice = priceFilter['max-price'];
 
   return [
-    (minPrice === undefined || minPrice === pkOriginalRecord.minPrice) ? undefined : {
+    !validateMinPrice(minPrice, pkOriginalRecord.minPrice) ? undefined : {
       type: 'min-price',
-      name: `최소 ${numberWithComma(minPrice)}원`
+      name: `최소 ${numberWithComma(minPrice as number)}원`
     },
-    (maxPrice === undefined || maxPrice === pkOriginalRecord.maxPrice) ? undefined : {
+    !validateMaxPrice(maxPrice, pkOriginalRecord.maxPrice) ? undefined : {
       type: 'max-price',
-      name: `최대 ${numberWithComma(maxPrice)}원`
+      name: `최대 ${numberWithComma(maxPrice as number)}원`
     }
   ].filter(value => value !== undefined) as FilterResult[];
+}
+
+/**
+ * 쿼리스트링에 있던 가격필터값으로 폼데이터 가격필터값을 복원
+ *
+ * 만약, 가격필터값이
+ * 1. 없거나
+ * 2. 원본 가격 필터값과 똑같거나 (= 복원 할 이유가 없음)
+ * 3. 원본 가격필터값의 범위를 벗어나는 경우 (= 복원 할 이유가 없음)
+ *
+ * 해당 가격필터값을 복원하지않습니다. (= 해당 키값으로 undefined를 넣어서 반환합니다.)
+ */
+export function restorePriceFilter(value: PriceFilterValue, pkOriginalRecord: FilterPkOriginalRecord): PriceFilterValue {
+  const minPrice = value['min-price'];
+  const maxPrice = value['max-price'];
+
+  return {
+    'min-price': !validateMinPrice(minPrice, pkOriginalRecord.minPrice) ? undefined : minPrice,
+    'max-price': !validateMaxPrice(maxPrice, pkOriginalRecord.maxPrice) ? undefined : maxPrice,
+  };
+}
+
+/*************************************************************************************************************
+ * Non Export
+ *************************************************************************************************************/
+
+function validateMinPrice(minPrice: number | undefined, originalPrice: number): boolean {
+  return minPrice !== undefined && minPrice > originalPrice;
+}
+
+function validateMaxPrice(maxPrice: number | undefined, originalPrice: number): boolean {
+  return maxPrice !== undefined && maxPrice < originalPrice;
 }
