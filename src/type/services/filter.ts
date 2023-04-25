@@ -25,17 +25,17 @@ export type FilterFormData = RegularFilterPkList<NumericString> & PriceFilterVal
 export type RegularFilterPkList<P extends number | NumericString> = Record<RegularFilterType, P[]>;
 export type PriceFilterValue = Record<PriceFilterType, number | undefined>;
 
+export interface FilterResult {
+  pk?: number; //가격필터는 없음.
+  type: FilterType;
+  name: string;
+}
+
 //적용된 필터목록을 보여주기위한 원본 API 데이터
 export interface FilterPkOriginalRecord extends Record<Exclude<RegularFilterType, 'category'>, Record<number, GeneralFilter>> {
   category: Record<number, CategoryFilter>;
   maxPrice: number;
   minPrice: number;
-}
-
-export interface FilterResult {
-  pk?: number; //가격필터는 없음.
-  type: FilterType;
-  name: string;
 }
 
 export type FilterType = RegularFilterType | PriceFilterType;
@@ -50,7 +50,3 @@ export type ProductListPageType = 'category' | 'brand' | 'search' | 'g-market-be
 
 //https://corners.gmarket.co.kr/BestSellers
 export type GmarketBestCategoryType = 'all' | 'fashion-clothes' | 'shoes';
-
-/*************************************************************************************************************
- * Non Export
- *************************************************************************************************************/
