@@ -1,6 +1,5 @@
 export default class ConnectError extends Error {
-  constructor(address: string, port: string) {
-    const portMessage = port ? `:${port}` : '';
-    super(`Can not connect the server (${address}${portMessage})`);
+  constructor() {
+    super('express-playground 프로젝트를 실행해주세요.');
   }
 }

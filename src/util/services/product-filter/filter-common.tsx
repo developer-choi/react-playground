@@ -56,6 +56,10 @@ export function useFilterPkListToResult(data: FilterPkListInQueryString | Filter
   const pkOriginalRecord = useFilterPkOriginalRecordQuery();
 
   return useMemo(() => {
+    if (pkOriginalRecord === INITIAL_FILTER_PK_ORIGINAL_RECORD) {
+      return [];
+    }
+
     const regularFilterResultList =  regularToFilterResult(data, pkOriginalRecord); //name을 제외하고 가공해서 하나의 배열로 펼침
     const priceFilterResultList = priceToFilterResult(data, pkOriginalRecord);
     return regularFilterResultList.concat(priceFilterResultList);

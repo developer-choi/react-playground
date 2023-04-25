@@ -22,8 +22,12 @@ export function makeAxiosInstance(param?: AxiosRequestConfig | string): AxiosIns
     return Promise.reject({response});
 
   }, error => {
+    if(error.message === 'Network Error') {
+      throw new ConnectError();
+    }
+
     if(error.code === "ECONNREFUSED" && error.syscall === 'connect' && typeof error.address === 'string' && typeof error.port === 'number') {
-      throw new ConnectError(error.address, error.port);
+      throw new ConnectError();
     }
 
     throw error;
