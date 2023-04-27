@@ -191,6 +191,10 @@ function useRefreshFilterFormData() {
   }, [categoryList, setValue]);
 
   const refreshPriceFilter = useCallback((price: PriceFilterValue) => {
+    if (pkOriginalRecord === undefined) {
+      return;
+    }
+
     const result = restorePriceFilter(price, pkOriginalRecord);
     setValue('min-price', result['min-price']);
     setValue('max-price', result['max-price']);

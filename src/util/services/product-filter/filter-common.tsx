@@ -10,6 +10,7 @@ import type {
   FilterPkListInQueryString,
   FilterPkOriginalRecord,
   FilterResult,
+  PriceFilterValue,
   ProductListPageParam,
   RegularFilterType
 } from '@type/services/filter';
@@ -56,7 +57,7 @@ export function useFilterPkListToResult(data: FilterPkListInQueryString | Filter
   const pkOriginalRecord = useFilterPkOriginalRecordQuery();
 
   return useMemo(() => {
-    if (pkOriginalRecord === INITIAL_FILTER_PK_ORIGINAL_RECORD) {
+    if (pkOriginalRecord === undefined) {
       return [];
     }
 
@@ -66,7 +67,7 @@ export function useFilterPkListToResult(data: FilterPkListInQueryString | Filter
   }, [data, pkOriginalRecord]);
 }
 
-export function useFilterPkOriginalRecordQuery(): FilterPkOriginalRecord {
+export function useFilterPkOriginalRecordQuery(): FilterPkOriginalRecord | undefined {
   const {type, uniqueKey} = useProductListPageParam();
   const queryClient = useQueryClient();
   const {data} = useFilterListQuery();
@@ -89,20 +90,12 @@ export function useFilterPkOriginalRecordQuery(): FilterPkOriginalRecord {
 
   }, [data, queryClient, queryKey]);
 
-  return result.data ?? INITIAL_FILTER_PK_ORIGINAL_RECORD;
+  return result.data;
 }
 
 /*************************************************************************************************************
  * Exported variables
  *************************************************************************************************************/
-export const INITIAL_FILTER_PK_ORIGINAL_RECORD: FilterPkOriginalRecord = {
-  category: {},
-  size: {},
-  brand: {},
-  color: {},
-  maxPrice: 0,
-  minPrice: 0
-};
 
 export const REGULAR_FILTER_TYPE_LIST: RegularFilterType[] = ['size', 'category', 'brand', 'color'];
 
@@ -164,7 +157,12 @@ function filterListResponseToPkOriginalRecord(response: FilterListResponse): Fil
     });
 
     return a;
-  }, {...INITIAL_FILTER_PK_ORIGINAL_RECORD});
+  }, {
+    category: {},
+    size: {},
+    brand: {},
+    color: {},
+  } as Omit<FilterPkOriginalRecord, keyof PriceFilterValue>);
 
   return {
     size,

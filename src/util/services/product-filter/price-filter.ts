@@ -1,53 +1,65 @@
 import {useFormContext} from 'react-hook-form';
-import type {FilterFormData, FilterPkOriginalRecord, PriceFilterValue} from '@type/services/filter';
-import {
-  INITIAL_FILTER_PK_ORIGINAL_RECORD,
-  useFilterPkOriginalRecordQuery
-} from '@util/services/product-filter/filter-common';
+import type {FilterFormData, FilterPkOriginalRecord, FilterResult, PriceFilterValue} from '@type/services/filter';
+import {useFilterPkOriginalRecordQuery} from '@util/services/product-filter/filter-common';
 import type {CustomSliderProp, MinMaxRange} from '@component/atom/forms/CustomSlider';
 import {useCallback, useEffect, useMemo, useState} from 'react';
-import type {FilterResult} from '@type/services/filter';
 import {numberWithComma} from '@util/extend/data-type/number';
 
 /*************************************************************************************************************
  * Exported functions
  *************************************************************************************************************/
 
-export function usePriceFilterControl(): CustomSliderProp & {enabled: boolean} {
+export function usePriceFilterControl(): CustomSliderProp | undefined {
   const originalData = useFilterPkOriginalRecordQuery();
-  const settingRange: MinMaxRange = useMemo<MinMaxRange>(() => {
+
+  const settingRange = useMemo<MinMaxRange | undefined>(() => {
+    if (originalData === undefined) {
+      return undefined;
+    }
+
     return {
       min: originalData.minPrice,
       max: originalData.maxPrice
     };
-  }, [originalData.maxPrice, originalData.minPrice]);
+  }, [originalData]);
 
   const {setValue, watch} = useFormContext<FilterFormData>();
   const minPriceInForm = watch()['min-price'];
   const maxPriceInForm = watch()['max-price'];
 
-  const rangeInForm = useMemo<MinMaxRange>(() => {
+  const rangeInForm = useMemo<MinMaxRange | undefined>(() => {
+    if (settingRange === undefined) {
+      return undefined;
+    }
+
     return {
       min: minPriceInForm ?? settingRange.min,
       max: maxPriceInForm ?? settingRange.max
     };
   }, [minPriceInForm, maxPriceInForm, settingRange]);
 
-  const [range, setRange] = useState<MinMaxRange>(rangeInForm);
+  const [range, setRange] = useState<MinMaxRange | undefined>(rangeInForm);
 
   useEffect(() => {
     setRange(rangeInForm);
   }, [rangeInForm]);
 
   const applyForm = useCallback(({min, max}: MinMaxRange) => {
+    if (!settingRange) {
+      return;
+    }
+
     setValue('min-price', min === settingRange.min ? undefined : min);
     setValue('max-price', max === settingRange.max ? undefined : max);
-  }, [setValue, settingRange.max, settingRange.min]);
+  }, [setValue, settingRange]);
+
+  if (originalData === undefined || range === undefined) {
+    return undefined;
+  }
 
   return {
-    enabled: (settingRange.max !== INITIAL_FILTER_PK_ORIGINAL_RECORD.maxPrice) || (settingRange.min !== INITIAL_FILTER_PK_ORIGINAL_RECORD.minPrice),
-    settingRange,
-    value: range,
+    settingRange: settingRange as MinMaxRange,
+    value: range as MinMaxRange,
     onChange: setRange,
     onAfterChange: applyForm
   };

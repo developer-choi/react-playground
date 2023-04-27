@@ -5,11 +5,13 @@ import {usePriceFilterControl} from '@util/services/product-filter/price-filter'
 import styled from 'styled-components';
 
 export default function PriceFilterUI() {
-  const {enabled, settingRange, value, onChange, onAfterChange} = usePriceFilterControl();
+  const control = usePriceFilterControl();
 
-  if (!enabled) {
+  if (control === undefined) {
     return null;
   }
+
+  const {settingRange, value, onChange, onAfterChange} = control;
 
   return (
     <Wrap>
