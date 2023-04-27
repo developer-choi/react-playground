@@ -85,18 +85,22 @@ export function useCurrentCheckedFilterResultList() {
 export function useHandleCategoryCheckbox({category, onChangeRecursiveOfParent}: CategoryCheckboxProp) {
   const {register, setValue, getValues} = useFormContext<FilterFormData>();
 
+  const directChildrenPkList = useMemo(() => {
+    return category.children.map(({pk}) => String(pk) as NumericString);
+  }, [category.children]);
+
   //this category의 모든 후손들 (자식, 자식의자식 포함)
   const allChildrenPkList = useMemo(() => {
     return flatDeepCategoryList(category.children).map(({pk}) => String(pk) as NumericString);
   }, [category.children]);
 
   const onChangeRecursive = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    if (allChildrenPkList.length > 0) {
+    if (directChildrenPkList.length > 0) {
       const previousCategoryPkList = getValues('category');
-      const allChildrenAreChecked = allChildrenPkList.every((pk) => previousCategoryPkList.includes(pk));
+      const allDirectChildrenAreChecked = directChildrenPkList.every((pk) => previousCategoryPkList.includes(pk));
       const stringPk = String(category.pk) as NumericString;
 
-      if (allChildrenAreChecked) {
+      if (allDirectChildrenAreChecked) {
         setValue('category', removeDuplicatedItems(previousCategoryPkList.concat(stringPk)));
 
       } else {
@@ -105,7 +109,7 @@ export function useHandleCategoryCheckbox({category, onChangeRecursiveOfParent}:
     }
 
     onChangeRecursiveOfParent?.(event);
-  }, [allChildrenPkList, category.pk, getValues, onChangeRecursiveOfParent, setValue]);
+  }, [category.pk, directChildrenPkList, getValues, onChangeRecursiveOfParent, setValue]);
 
   const {onChange: onChangeNative} = register('category');
 
