@@ -9,6 +9,7 @@ interface PageProp {
   commonEnv: string;
 }
 
+// URL: http://localhost:3000/study/next/env
 export default function Page({publicEnv, privateEnv, commonEnv}: PageProp) {
   return (
     <div>
@@ -16,7 +17,7 @@ export default function Page({publicEnv, privateEnv, commonEnv}: PageProp) {
       <div>publicEnv=<b>{publicEnv}</b></div>
       <div>privateEnv=<b>{privateEnv}</b></div>
       <div>commonEnv=<b>{commonEnv}</b></div>
-      
+
       <Heading style={{marginTop: 20}}>In the client</Heading>
       <div>publicEnv=<b>{String(env.public.pub)}</b></div>
       <div>privateEnv=<b>{String(env.private.prv)}</b></div>
