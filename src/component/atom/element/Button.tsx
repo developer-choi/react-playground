@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import {COLORS} from '@util/services/style/theme';
 import styled, {css} from 'styled-components';
-import {myClassName} from '@util/libraries/classnames';
+import classNames from 'classnames';
 
 interface ButtonProp extends ComponentPropsWithoutRef<'button'> {
   onClickWithLoading?: (event: MouseEvent<HTMLButtonElement>) => Promise<void> | void;
@@ -65,7 +65,7 @@ export default forwardRef(function Button(props: ButtonProp, ref: Ref<HTMLButton
       type={type}
       onClick={clickHandler}
       onClickCapture={clickCaptureHandler}
-      className={myClassName({loading: isLoadingResult}, className)}
+      className={classNames({loading: isLoadingResult}, className)}
       {...rest}
     />
   );

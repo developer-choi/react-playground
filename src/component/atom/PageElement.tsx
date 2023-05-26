@@ -1,10 +1,10 @@
 import React from 'react';
 import type {Href, PageElementData, PaginationMethod} from '@util/services/pagination/pagination-core';
 import Link, {LinkProps} from 'next/link';
-import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
 import {ignoreEvent} from '@util/extend/event/event';
 import {useKeepQuery} from '@util/extend/router';
+import classNames from 'classnames';
 
 /**
  * methods를 아에 전달하지않을경우, 기본값으로 pageToHref가 작동되며
@@ -19,7 +19,7 @@ export interface PageElementProp extends Pick<LinkProps, 'replace' | 'scroll'> {
 
 export default function PageElement({methods, children, data, className, ...linkProps}: PageElementProp) {
   const {page, disable, active, prevent} = data;
-  const _className = myClassName(className, {disable, active});
+  const _className = classNames(className, {disable, active});
 
   const result = useMethodsWithDefault(data.page, methods);
 

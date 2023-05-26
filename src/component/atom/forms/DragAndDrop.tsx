@@ -1,8 +1,8 @@
 import React, {ComponentPropsWithoutRef, DragEvent, useCallback, useState} from 'react';
-import {myClassName} from '@util/libraries/classnames';
 import InputFile, {InputFileProp} from '@component/extend/InputFile';
 import styled from 'styled-components';
 import {preventDefault} from '@util/extend/event/event';
+import classNames from 'classnames';
 
 export interface DragAndDropProps extends ComponentPropsWithoutRef<'label'>, Pick<InputFileProp, 'onChangeFiles' | 'onChangeFile' | 'accept'> {
   enableFileExplorer?: boolean;
@@ -33,7 +33,7 @@ export default function DragAndDrop({className, enableFileExplorer, children, on
 
   return (
     <Wrap
-      className={myClassName({dragging, clickable: enableFileExplorer}, className)}
+      className={classNames({dragging, clickable: enableFileExplorer}, className)}
       onDrop={_onDrop}
       onDragLeave={_onDragLeave}
       onDragEnter={_onDragEnter}

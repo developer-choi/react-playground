@@ -1,8 +1,8 @@
 import React, {PropsWithChildren, useCallback, useState} from 'react';
 import styled from 'styled-components';
 import Button from '@component/atom/element/Button';
-import {myClassName} from '@util/libraries/classnames';
 import {putCourseCancelLikeApi, putCourseLikeApi} from '@api/course-api';
+import classNames from 'classnames';
 
 export interface CourseLikeButtonProp {
   initial: boolean;
@@ -48,7 +48,7 @@ function LikeButton({children, initial, toggleApi}: PropsWithChildren<LikeButton
   }, [like, toggleApi, toggleImmediately]);
 
   return (
-    <StyledButton className={myClassName({active: like})} onClick={onClick}>
+    <StyledButton className={classNames({active: like})} onClick={onClick}>
       {children}
     </StyledButton>
   );

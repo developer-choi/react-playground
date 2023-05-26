@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import type {Topic} from '@type/response-sub/course-sub';
 import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import {useCourseQueryString} from '@util/services/course';
-import {myClassName} from '@util/libraries/classnames';
 import {getCourseTopicsApi} from '@api/course-api';
+import classNames from 'classnames';
 
 export interface CourseTopicMenuProp {
 
@@ -28,7 +28,7 @@ export default function CourseTopicMenu({}: CourseTopicMenuProp) {
   return (
     <Wrap>
       {topics.map(({pk, name}) => (
-        <Tab key={pk} onClick={() => applyFilterTopic(pk)} className={myClassName({active: currentTopic === pk})}>{name}</Tab>
+        <Tab key={pk} onClick={() => applyFilterTopic(pk)} className={classNames({active: currentTopic === pk})}>{name}</Tab>
       ))}
     </Wrap>
   );

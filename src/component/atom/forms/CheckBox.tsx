@@ -1,7 +1,7 @@
 import React, {ChangeEvent, ComponentPropsWithoutRef, ComponentType, MouseEvent, useCallback} from 'react';
 import styled from 'styled-components';
-import {myClassName} from '@util/libraries/classnames';
 import {isMatchSpecialKey} from '@util/extend/event/keyboard-event';
+import classNames from 'classnames';
 
 export interface CheckBoxLabelLeftProps {
   checked: boolean;
@@ -29,7 +29,7 @@ export default function CheckBox({onChangeChecked, label = '', checked, classNam
   }, [onShiftChecked]);
   
   return (
-      <Label className={myClassName({checked: disabled ? false : checked, disabled}, className)} {...rest}>
+      <Label className={classNames({checked: disabled ? false : checked, disabled}, className)} {...rest}>
         {LabelLeft && <LabelLeft checked={checked} disabled={disabled}/>}
         <input type="checkbox" onChange={onChange} checked={checked} disabled={disabled} onClick={onClick}/>
         {label}

@@ -2,8 +2,8 @@ import React, {PropsWithChildren, useCallback, MouseEvent, useState, useEffect} 
 import type {LinkProps} from 'next/link';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import {myClassName} from '@util/libraries/classnames';
 import styled from 'styled-components';
+import classNames from 'classnames';
 
 export interface AdvancedLinkProp extends Omit<PropsWithChildren<LinkProps>, 'href'> {
   prefetchTimeout?: number;
@@ -45,7 +45,7 @@ export default function AdvancedLink({prefetchTimeout, prefetchingClassName, chi
   
   return (
     <Link href={href} prefetch={_prefetch} {...rest}>
-      <StyledAnchor className={myClassName(className, {prefetching})} onClick={_onClick}>
+      <StyledAnchor className={classNames(className, {prefetching})} onClick={_onClick}>
         {children}
       </StyledAnchor>
     </Link>

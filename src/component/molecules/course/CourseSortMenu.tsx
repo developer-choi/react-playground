@@ -1,7 +1,7 @@
 import React from 'react';
 import {COURSE_SORT, useCourseQueryString} from '@util/services/course';
 import styled from 'styled-components';
-import {myClassName} from '@util/libraries/classnames';
+import classNames from 'classnames';
 
 export interface CourseSortMenuProp {
 
@@ -13,7 +13,7 @@ export default function CourseSortMenu({}: CourseSortMenuProp) {
   return (
     <>
       {COURSE_SORT.itemList.map(({value, name}) => (
-        <SortButton key={value} type="button" className={myClassName({active: value === currentSort})} onClick={() => onSort(value)}>
+        <SortButton key={value} type="button" className={classNames({active: value === currentSort})} onClick={() => onSort(value)}>
           {name}
         </SortButton>
       ))}
