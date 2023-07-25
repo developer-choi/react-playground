@@ -1,6 +1,6 @@
 import {PkType, removeDuplicatedObject} from '@util/extend/data-type/array';
 import {LocalStorageObjectManager, useLocalStorageObjectManager} from '@util/extend/browser/local-storage-object';
-import {Dispatch, SetStateAction, useCallback, useMemo} from 'react';
+import {useCallback, useMemo} from 'react';
 
 export interface ArrayManagerConstructorParameter<I extends Object, P extends PkType> {
   key: string;
@@ -21,7 +21,7 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
   private readonly enableDuplicated: ArrayManagerConstructorParameter<I, P>['enableDuplicated'];
 
   constructor({key, enableDuplicated, pkExtractor}: ArrayManagerConstructorParameter<I, P>) {
-    super(key);
+    super({key});
     this.pkExtractor = pkExtractor;
     this.enableDuplicated = enableDuplicated;
   }
@@ -38,7 +38,7 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
       }
     } catch (error) {
       if(!(error instanceof ReferenceError)) {
-        console.error('An empty array was returned because an error occurred while JSON.parse().', error);
+        console.error(error);
       }
       return [];
     }
@@ -79,22 +79,22 @@ export function useLocalStorageArrayManager<I extends Object, P extends PkType>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [key, enableDuplicated]);
 
-  const [state, setState] = useLocalStorageObjectManager(manager, {enabled, defaultValue: []}) as [I[], Dispatch<SetStateAction<I[]>>];
+  const {state, changeState} = useLocalStorageObjectManager(manager, {enabled, defaultValue: []});
 
   const appendFirst = useCallback((item: I) => {
-    setState(manager.appendFirst(item));
-  }, [manager, setState]);
+    changeState(manager.appendFirst(item));
+  }, [manager, changeState]);
 
   const appendLast = useCallback((item: I) => {
-    setState(manager.appendLast(item));
-  }, [manager, setState]);
+    changeState(manager.appendLast(item));
+  }, [manager, changeState]);
 
   const removeByPk = useCallback((pk: P) => {
-    setState(manager.removeByPk(pk));
-  }, [manager, setState]);
+    changeState(manager.removeByPk(pk));
+  }, [manager, changeState]);
 
   return {
-    list: state,
+    list: state as I[],
     appendFirst,
     appendLast,
     removeByPk
