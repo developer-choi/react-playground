@@ -1,4 +1,4 @@
-import {SubmitHandler, useFormContext} from 'react-hook-form';
+import {SubmitHandler, useForm, useFormContext} from "react-hook-form";
 import {
   useFilterListQuery,
   useFilterPkListToResult,
@@ -19,16 +19,26 @@ import type {CategoryFilter} from '@type/response-sub/filter-sub';
 import type {FilterFormData, PriceFilterValue, RegularFilterType} from '@type/services/filter';
 import {restorePriceFilter} from '@util/services/product-filter/price-filter';
 
-/** Notice
- * 여기에서 export하는 함수 모두
- * <FormProvider 하위 컴포넌트에서 사용헤야함.
- */
-
 /*************************************************************************************************************
  * Exported functions
  *************************************************************************************************************/
 
-/**
+export function useFilterFormProvider() {
+  const methods = useForm<FilterFormData>({
+    defaultValues: DEFAULT_FILTER_FORM_DATA
+  });
+
+  const reset = useCallback(() => {
+    methods.reset(DEFAULT_FILTER_FORM_DATA);
+  }, [methods]);
+
+  return {
+    ...methods,
+    reset
+  }
+}
+
+/** <FormProvider 하위 컴포넌트에서 사용헤야함.
  * 1. 폼 데이터를 컨트롤할 수 있는 onSubmit, reset 함수 제공
  * 2. 폼 데이터에 영향을 주는 요소들에 대한 처리 반영
  * (1) 다룬 종류의 상품리스트로 이동할 경우 폼데이터 초기화
@@ -48,14 +58,10 @@ export function useHandleFilterForm() {
     applyFilterInQueryString(convertFormDataWhenSubmit(formData, data.categoryList));
   }, [applyFilterInQueryString, data]);
 
-  const reset = useCallback(() => {
-    methods.reset(DEFAULT_FILTER_FORM_DATA);
-  }, [methods]);
-
   //다른 종류의 상품리스트 페이지로 이동하는경우 폼데이터 초기화
   useEffect(() => {
     return () => {
-      reset();
+      methods.reset();
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,10 +72,11 @@ export function useHandleFilterForm() {
   return {
     setValue: methods.setValue,
     onSubmit: methods.handleSubmit(onSubmit),
-    reset
+    reset: methods.reset as () => void
   };
 }
 
+/// <FormProvider 하위 컴포넌트에서 사용헤야함.
 export function useCurrentCheckedFilterResultList() {
   const {watch} = useFormContext<FilterFormData>();
   const {data} = useFilterListQuery();
@@ -82,6 +89,7 @@ export function useCurrentCheckedFilterResultList() {
   return useFilterPkListToResult(willSubmittedFormData);
 }
 
+/// <FormProvider 하위 컴포넌트에서 사용헤야함.
 export function useHandleCategoryCheckbox({category, onChangeRecursiveOfParent}: CategoryCheckboxProp) {
   const {register, setValue, getValues} = useFormContext<FilterFormData>();
 
@@ -136,6 +144,7 @@ export function useHandleCategoryCheckbox({category, onChangeRecursiveOfParent}:
   };
 }
 
+/// <FormProvider 하위 컴포넌트에서 사용헤야함.
 export function useHandleGeneralCheckbox({filterType, filter}: GeneralFilterCheckboxProp): ComponentPropsWithoutRef<'input'> {
   const {register} = useFormContext<FilterFormData>();
   const {onChange: onChangeNative, ...rest} = register(filterType);
@@ -151,19 +160,6 @@ export function useHandleGeneralCheckbox({filterType, filter}: GeneralFilterChec
     onChange
   };
 }
-
-/*************************************************************************************************************
- * Exported variables
- *************************************************************************************************************/
-
-export const DEFAULT_FILTER_FORM_DATA: FilterFormData = {
-  category: [],
-  brand: [],
-  color: [],
-  size: [],
-  'max-price': undefined,
-  'min-price': undefined
-};
 
 /*************************************************************************************************************
  * Non Export
@@ -220,3 +216,12 @@ function useRefreshFilterFormData() {
 
   }, [currentFilterPkList, refreshCategoryFilter, refreshPriceFilter, refreshRestFilter]);
 }
+
+const DEFAULT_FILTER_FORM_DATA: FilterFormData = {
+  category: [],
+  brand: [],
+  color: [],
+  size: [],
+  'max-price': undefined,
+  'min-price': undefined
+};
