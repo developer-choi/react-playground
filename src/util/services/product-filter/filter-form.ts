@@ -18,31 +18,31 @@ import type {CategoryCheckboxProp, GeneralFilterCheckboxProp} from '@component/f
 import type {CategoryFilter} from '@type/response-sub/filter-sub';
 import type {FilterFormData, PriceFilterValue, RegularFilterType} from '@type/services/filter';
 import {restorePriceFilter} from '@util/services/product-filter/price-filter';
+import type {UseFormSetValue} from "react-hook-form/dist/types/form";
 
 /*************************************************************************************************************
  * Exported functions
  *************************************************************************************************************/
 
+/**
+ * 필터 폼을 사용하려고 하는경우 제일 최상위 컴포넌트의 FormProvider에 전달해야하고,
+ * 항상 적용되야하는 로직을 이 hooks로 실행시킴.
+ * 1. 쿼리스트링이 변하면 (최초 로딩포함) 폼데이터에 반영하는 로직
+ */
 export function useFilterFormProvider() {
   const methods = useForm<FilterFormData>({
     defaultValues: DEFAULT_FILTER_FORM_DATA
   });
 
-  const reset = useCallback(() => {
-    methods.reset(DEFAULT_FILTER_FORM_DATA);
-  }, [methods]);
+  useRefreshFilterFormData(methods.setValue);
 
-  return {
-    ...methods,
-    reset
-  }
+  return methods
 }
 
 /** <FormProvider 하위 컴포넌트에서 사용헤야함.
  * 1. 폼 데이터를 컨트롤할 수 있는 onSubmit, reset 함수 제공
  * 2. 폼 데이터에 영향을 주는 요소들에 대한 처리 반영
  * (1) 다룬 종류의 상품리스트로 이동할 경우 폼데이터 초기화
- * (2) 쿼리스트링이 변하면 (최초 로딩포함) 폼데이터에 반영
  */
 export function useHandleFilterForm() {
   const {type, uniqueKey} = useProductListPageParam();
@@ -58,21 +58,24 @@ export function useHandleFilterForm() {
     applyFilterInQueryString(convertFormDataWhenSubmit(formData, data.categoryList));
   }, [applyFilterInQueryString, data]);
 
+  const reset = useCallback(() => {
+    methods.reset(DEFAULT_FILTER_FORM_DATA);
+  }, [methods]);
+
   //다른 종류의 상품리스트 페이지로 이동하는경우 폼데이터 초기화
   useEffect(() => {
     return () => {
-      methods.reset();
+      reset();
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type, uniqueKey]);
 
-  useRefreshFilterFormData();
 
   return {
     setValue: methods.setValue,
     onSubmit: methods.handleSubmit(onSubmit),
-    reset: methods.reset as () => void
+    reset
   };
 }
 
@@ -177,9 +180,8 @@ function convertFormDataWhenSubmit(formData: FilterFormData, originalCategoryFil
 }
 
 // [현재 적용된 필터 = query string]이 변경되면 [현재 체크된 필터 = form data]에도 반영하기위함.
-function useRefreshFilterFormData() {
+function useRefreshFilterFormData(setValue: UseFormSetValue<FilterFormData>) {
   const {currentFilterPkList} = useFilterQueryString();
-  const {setValue} = useFormContext<FilterFormData>();
   const {data} = useFilterListQuery();
   const categoryList = data?.categoryList ?? EMPTY_ARRAY;
   const pkOriginalRecord = useFilterPkOriginalRecordQuery();
