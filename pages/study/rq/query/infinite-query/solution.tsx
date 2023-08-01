@@ -1,11 +1,12 @@
 import React from 'react';
-import {QueryKey, useInfiniteQuery} from '@tanstack/react-query';
+import {QueryKey, useInfiniteQuery} from "@tanstack/react-query";
 import type {QueryFunctionContext} from '@tanstack/query-core/build/lib/types';
 import type {Course} from '@type/response-sub/course-sub';
 import styled from 'styled-components';
 import {flexCenter} from '@util/services/style/css';
 import {useInfiniteScroll} from '@util/extend/event/scroll';
 import {getCourseListApi} from '@api/course-api';
+import {getNextPageParam, InfiniteQueryPageData} from "@util/extend/react-query";
 
 // URL: http://localhost:3000/study/rq/query/infinite-query/solution
 export default function Page() {
@@ -43,10 +44,9 @@ export default function Page() {
   );
 }
 
-interface PageData {
+interface PageData extends InfiniteQueryPageData {
   courseList: Course[];
   // page: number;
-  nextPage: number | undefined;
 }
 
 /**
@@ -66,10 +66,6 @@ async function queryFn(params: QueryFunctionContext<QueryKey, number>): Promise<
     // page: pageParam,
     nextPage: pageParam >= totalPage ? undefined : pageParam + 1,
   };
-}
-
-function getNextPageParam(pageData: PageData): number | undefined {
-  return pageData.nextPage;
 }
 
 const Row = styled.div`

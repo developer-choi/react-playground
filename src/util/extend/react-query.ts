@@ -1,3 +1,5 @@
+import type {GetNextPageParamFunction} from "@tanstack/react-query";
+
 export function safeUpdateCallback<T>(callback: (prevValue: T) => T) {
   return function(prevValue: T | undefined): T | undefined  {
     if(prevValue === undefined) {
@@ -11,4 +13,12 @@ export function safeUpdateCallback<T>(callback: (prevValue: T) => T) {
       return prevValue;
     }
   };
+}
+
+export type InfiniteQueryPageData = {
+  nextPage: number | undefined
+}
+
+export const getNextPageParam: GetNextPageParamFunction<InfiniteQueryPageData> = ({nextPage}) => {
+  return nextPage
 }
