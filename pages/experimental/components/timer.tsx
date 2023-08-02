@@ -16,6 +16,8 @@ import {useTimer} from "@util/extend/date/useTimer";
  *
  * 3. 중간에 종료날짜 바뀌면 리셋되야함
  * 4. 종료콜백이 바뀌는경우에도 반영되야함. (타이머 변경없이 콜백만 변경되야함)
+ *
+ * 5. 시작날짜가 미래인 경우, 시작을 안해야함.
  */
 
 const TEST_CASE1 = {
@@ -33,7 +35,11 @@ const TEST_CASE3 = {
   change: () => getDiffDate(new Date(), [0, 0, 0, 0, 0, 5]).getTime()
 }
 
-const TEST_CASE = TEST_CASE3
+const START_TIMESTAMP = undefined
+// const START_TIMESTAMP = getDiffDate(new Date(), [0, 0, 0, 0, 0, -5]).getTime()
+// const START_TIMESTAMP = getDiffDate(new Date(), [0, 0, 0, 0, 0, 2]).getTime()
+
+const TEST_CASE = TEST_CASE1
 
 export default function Page() {
   const terminatedCallback1 = useCallback(() => {
@@ -50,6 +56,7 @@ export default function Page() {
 
   const {diff: {date, hour, minute, second}, status} = useTimer({
     expiredTimestamp,
+    startTimestamp: START_TIMESTAMP,
     terminatedCallback: value ? terminatedCallback1 : terminatedCallback2
   });
 
