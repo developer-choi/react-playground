@@ -29,3 +29,9 @@ export function range(from: number, to: number): number[] {
 export function sortNumbersInAscending(numbers: number[]) {
   return numbers.sort((a, b) => a - b);
 }
+
+export function calculateTotal<T>(list: T[], callback: (item: T) => number) {
+  return list.reduce((a, b) => {
+    return a + callback(b);
+  }, 0);
+}
