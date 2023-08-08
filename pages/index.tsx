@@ -1,41 +1,50 @@
-import React from 'react';
-import {getAccountPresetListApi} from '@api/account-api';
+import React, {useState} from 'react';
+import styled from 'styled-components';
+import TextArea from '@component/extend/TextArea';
+import {postAccountParseApi} from '@api/account-api';
 import {useQuery} from '@tanstack/react-query';
 import {numberWithComma} from '@util/extend/data-type/number';
-import styled from 'styled-components';
 
 export default function Page() {
+  const [value, setValue] = useState('');
   const {data} = useQuery({
-    queryKey: ['account-book-preset'],
-    queryFn: getAccountPresetListApi,
+    queryKey: ['parsed-account-book', value],
+    queryFn: () => postAccountParseApi(value),
+    cacheTime: Infinity,
     staleTime: Infinity,
-    cacheTime: Infinity
+    enabled: !!value
   });
-
-  if (!data) {
-    return null;
-  }
 
   return (
     <div>
-      {data.data.list.map(({total, list, largeCategoryName}, index) => (
-        <Item key={index}>
-          <LargeCategoryName>{largeCategoryName} <Price>{numberWithComma(total)}</Price></LargeCategoryName>
-          <ul>
-            {list.map(({memo, commaPrice}, index) => (
-              <li key={index}>
-                <Memo>{memo}</Memo>
-                <Price>{commaPrice}</Price>
-              </li>
-            ))}
-          </ul>
-        </Item>
-      ))}
+      <StyledTextArea value={value} onChangeText={setValue}/>
+      {!data ? null : (
+        <div>
+          {data.data.list.map(({total, list, largeCategoryName}, index) => (
+            <Item key={index}>
+              <LargeCategoryName>{largeCategoryName} <Price>{numberWithComma(total)}</Price></LargeCategoryName>
+              <ul>
+                {list.map(({memo, commaPrice}, index) => (
+                  <li key={index}>
+                    <Memo>{memo}</Memo>
+                    <Price>{commaPrice}</Price>
+                  </li>
+                ))}
+              </ul>
+            </Item>
+          ))}
 
-      <Total>전체총합 = <Price>{numberWithComma(data.data.total)}</Price></Total>
+          <Total>전체총합 = <Price>{numberWithComma(data.data.total)}</Price></Total>
+        </div>
+      )}
     </div>
   )
 }
+
+const StyledTextArea = styled(TextArea)`
+  width: 500px;
+  height: 500px;
+`;
 
 const LargeCategoryName = styled.div`
   margin-bottom: 10px;
@@ -43,7 +52,7 @@ const LargeCategoryName = styled.div`
 `;
 const Memo = styled.span`
   display: inline-block;
-  width: 140px;
+  width: 200px;
 `;
 const Price = styled.span`
   color: ${props => props.theme.main};
