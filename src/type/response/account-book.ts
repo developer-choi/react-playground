@@ -11,18 +11,15 @@ export type LivingCategoryType = 'parent' | 'me';
 export type MiddleCategoryType = FixedCategoryType | SavingCategoryType | LivingCategoryType
 
 export interface AccountBook {
-  price: number;
-  memo?: string;
+  memo: string;
   largeCategory: LargeCategoryType;
   middleCategory: MiddleCategoryType;
-}
-
-interface FullAccountBook extends AccountBook{
+  price: number;
   commaPrice: string;
+  date?: string;
 }
-
 export interface AccountBookWithLargeCategory {
-  list: FullAccountBook[];
+  list: AccountBook[];
   largeCategoryName: string;
   total: number;
 }

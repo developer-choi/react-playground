@@ -4,6 +4,7 @@ import TextArea from '@component/extend/TextArea';
 import {postAccountParseApi} from '@api/account-api';
 import {useQuery} from '@tanstack/react-query';
 import {numberWithComma} from '@util/extend/data-type/number';
+import {theme} from '@util/services/style/theme';
 
 export default function Page() {
   const [value, setValue] = useState('');
@@ -16,53 +17,65 @@ export default function Page() {
   });
 
   return (
-    <div>
+    <Wrap>
       <StyledTextArea value={value} onChangeText={setValue}/>
       {!data ? null : (
         <div>
           {data.data.list.map(({total, list, largeCategoryName}, index) => (
             <Item key={index}>
-              <LargeCategoryName>{largeCategoryName} <Price>{numberWithComma(total)}</Price></LargeCategoryName>
+              <LargeCategory>
+                <Memo>{largeCategoryName}</Memo>
+                <Price style={{color: theme.main}}>{numberWithComma(total)}</Price>
+              </LargeCategory>
               <ul>
                 {list.map(({memo, commaPrice}, index) => (
-                  <li key={index}>
+                  <Row key={index}>
                     <Memo>{memo}</Memo>
                     <Price>{commaPrice}</Price>
-                  </li>
+                  </Row>
                 ))}
               </ul>
             </Item>
           ))}
 
-          <Total>전체총합 = <Price>{numberWithComma(data.data.total)}</Price></Total>
+          <Total>총합 <Price style={{color: theme.main}}>{numberWithComma(data.data.total)}</Price></Total>
         </div>
       )}
-    </div>
+    </Wrap>
   )
 }
 
-const StyledTextArea = styled(TextArea)`
-  width: 500px;
-  height: 500px;
+const Wrap = styled.div`
+  padding: 20px;
 `;
 
-const LargeCategoryName = styled.div`
+const StyledTextArea = styled(TextArea)`
+  width: 500px;
+  height: 200px;
+  margin-bottom: 30px;
+`;
+
+const LargeCategory = styled.div`
   margin-bottom: 10px;
   font-size: 18px;
+  display: flex;
 `;
+
+const Row = styled.li`
+  margin-bottom: 5px;
+`;
+
 const Memo = styled.span`
   display: inline-block;
-  width: 200px;
+  width: 160px;
 `;
+
 const Price = styled.span`
-  color: ${props => props.theme.main};
   font-weight: bold;
 `;
 
 const Item = styled.div`
-  &:not(:last-child) {
-    margin-bottom: 20px;
-  }
+  margin-bottom: 20px;
 `;
 
 const Total = styled.span`
