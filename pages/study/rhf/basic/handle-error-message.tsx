@@ -3,9 +3,10 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import type {RegisterOptions} from 'react-hook-form/dist/types/validator';
 import styled from 'styled-components';
 
+// URL: http://localhost:3000/study/rhf/basic/handle-error-message
 interface Data {
   title: string;
-  nickname: string;
+  agree: boolean
 }
 
 export default function Page() {
@@ -19,14 +20,14 @@ export default function Page() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <input {...register('title', VALUE_OPTIONS)}/>
       {errors.title?.message && <ErrorMessage>{errors.title.message}</ErrorMessage>}
-      <input {...register('nickname', NICKNAME_OPTIONS)}/>
-      {errors.nickname?.message && <ErrorMessage>{errors.nickname.message}</ErrorMessage>}
+      <input type="checkbox" {...register('agree', AGREE_OPTIONS)}/>
+      {errors.agree?.message && <ErrorMessage>{errors.agree.message}</ErrorMessage>}
       <button>제출</button>
     </form>
   );
 }
 
-const VALUE_OPTIONS: RegisterOptions<Data> = {
+const VALUE_OPTIONS: RegisterOptions = {
   required: {
     value: true,
     message: '필수값임'
@@ -37,16 +38,16 @@ const VALUE_OPTIONS: RegisterOptions<Data> = {
   }
 };
 
-const NICKNAME_OPTIONS: RegisterOptions<Data> = {
+/**
+ * 체크박스의 value를 boolean으로 쓰는 상황에서 (예시: 약관동의)
+ * 똑같이 required 옵션으로 에러메시지 다 만들 수 있다.
+ */
+const AGREE_OPTIONS: RegisterOptions = {
   required: {
     value: true,
-    message: '필수값임'
-  },
-  maxLength: {
-    value: 4,
-    message: '4자리까지만 가능함'
+    message: '약관동의 꼭 해야함.'
   }
-};
+}
 
 const ErrorMessage = styled.span`
   color: red;

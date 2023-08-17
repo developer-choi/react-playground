@@ -43,7 +43,7 @@ interface Product {
   price: string;
 }
 
-const PRICE_OPTIONS: RegisterOptions<Product> = {
+const PRICE_OPTIONS: RegisterOptions = {
   required: {
     value: true,
     message: '입력해야함'

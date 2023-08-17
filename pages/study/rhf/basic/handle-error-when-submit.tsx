@@ -37,7 +37,7 @@ interface Data {
   qnaType: 'a' | 'b' | 'c';
 }
 
-const TITLE_OPTIONS: RegisterOptions<Data> = {
+const TITLE_OPTIONS: RegisterOptions = {
   required: {
     value: true,
     message: '제목입력해야함'
@@ -48,7 +48,7 @@ const TITLE_OPTIONS: RegisterOptions<Data> = {
   },
 };
 
-const CONTENT_OPTIONS: RegisterOptions<Data> = {
+const CONTENT_OPTIONS: RegisterOptions = {
   required: {
     value: true,
     message: '내용입력해야함'

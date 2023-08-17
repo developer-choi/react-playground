@@ -53,6 +53,7 @@ export default function Page() {
         bool
       </label>
       <label>
+        {/* 체크박스지만 value값을 string으로 쓸 수도 있음. boolean으로만 활용할수있는게 rhf의 한계가 절대아님. 간혹가다 쓰일일이 생길듯. */}
         <input type="checkbox" {...register('str')} value="some-string-value"/>
         some-string-value
       </label>
