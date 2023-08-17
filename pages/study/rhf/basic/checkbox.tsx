@@ -3,8 +3,9 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import Button from '@component/atom/element/Button';
 import {useLogWhenRendering} from '@util/extend/test';
 
+// URL: http://localhost:3000/study/rhf/basic/checkbox
 export default function Page() {
-  const {handleSubmit, register, watch, setValue} = useForm<Data>({
+  const {handleSubmit, register, watch, setValue, reset} = useForm<Data>({
     defaultValues: {
       array: [],
       bool: false,
@@ -27,6 +28,15 @@ export default function Page() {
   const setSomeStringValue = useCallback(() => {
     setValue('str', 'some-string-value');
   }, [setValue]);
+
+  //reset하면 체크박스도 다시 다 풀림.
+  const resetCheckboxes = useCallback(() => {
+    reset({
+      array: [],
+      bool: false,
+      str: ''
+    })
+  }, [reset]);
 
   /**
    * 최초렌더링 : {} 여서 array 키로 접근하면 undefined뜸.
@@ -57,6 +67,7 @@ export default function Page() {
       <Button>제출</Button>
       <Button onClick={setSpecial}>setSpecial</Button>
       <Button type="button" onClick={setSomeStringValue}>setSomeStringValue</Button>
+      <Button type="button" onClick={resetCheckboxes}>Reset all</Button>
     </form>
   );
 }
