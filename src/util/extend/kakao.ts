@@ -65,19 +65,10 @@ export default function useKakaoShare({shareButtonId, product}: KakaoShareParam)
           webUrl: env.public.origin
         }
       },
-      commerce: {regularPrice},
+      commerce: commerce({regularPrice, discountPrice, discountRate}),
       buttons: [
         {
-          title: '상품보러가기',
-          link: {
-            webUrl: resultUrl,
-            mobileWebUrl: resultUrl,
-            androidExecutionParams: resultUrl,
-            iosExecutionParams: resultUrl
-          }
-        },
-        {
-          title: '쇼핑몰가기',
+          title: '구매하기',
           link: {
             webUrl: resultUrl,
             mobileWebUrl: resultUrl,
