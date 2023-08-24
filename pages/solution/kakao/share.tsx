@@ -2,14 +2,14 @@ import React, {useCallback} from "react";
 import Button from '@component/atom/element/Button';
 import Script from 'next/script';
 import useCounter from '@util/services/counter';
-import {useKakaoTalkShare} from '@util/extend/kakao';
+import {useKakaoShare} from '@util/extend/kakao';
 
 export default function Page() {
   const {increase, count} = useCounter({initial: 1});
-  const {scriptProps, shareProduct} = useKakaoTalkShare();
+  const {scriptProps, shareProductToKakaoTalk} = useKakaoShare();
 
   const onClick = useCallback(() => {
-    shareProduct({
+    shareProductToKakaoTalk({
       title: `상품이름-${count}`,
       thumbnail: 'http://k.kakaocdn.net/dn/dScJiJ/btqB3cwK1Hi/pv5qHVwetz5RZfPZR3C5K1/kakaolink40_original.png',
       regularPrice: 2855105,
@@ -17,7 +17,7 @@ export default function Page() {
       discountPrice: 2360600,
       pk: count
     })
-  }, [count, shareProduct]);
+  }, [count, shareProductToKakaoTalk]);
 
   return (
     <div>

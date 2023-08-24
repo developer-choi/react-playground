@@ -1,14 +1,14 @@
 import React from "react";
-import {useKakaoStoryShare} from "@util/extend/kakao";
 import Script from "next/script";
 import Button from "@component/atom/element/Button";
+import {useKakaoShare} from "@util/extend/kakao";
 
 const Page = () => {
-  const {shareStory, scriptProps} = useKakaoStoryShare()
+  const {shareStoryToKakaoStory, scriptProps} = useKakaoShare()
 
   return (
     <>
-      <Button onClick={() => shareStory('https://www.youtube.com/watch?v=x6i3_LfeTjY')}>
+      <Button onClick={() => shareStoryToKakaoStory('https://www.youtube.com/watch?v=x6i3_LfeTjY')}>
         공유하기
       </Button>
       <Script {...scriptProps}/>

@@ -33,10 +33,10 @@ export function useKakaoInit() {
   }
 }
 
-export function useKakaoTalkShare() {
+export function useKakaoShare() {
   const {kakaoMethods, scriptProps} = useKakaoInit()
   
-  const shareProduct = useCallback((product: ProductToShareKakao) => {
+  const shareProductToKakaoTalk = useCallback((product: ProductToShareKakao) => {
     if (!kakaoMethods) {
       return
     }
@@ -70,9 +70,21 @@ export function useKakaoTalkShare() {
     });
   }, [kakaoMethods]);
 
+  const shareStoryToKakaoStory = useCallback((url: string) => {
+    if (!kakaoMethods) {
+      return
+    }
+
+    kakaoMethods.Story.share({
+      url,
+      text: ""
+    });
+  }, [kakaoMethods]);
+
   return {
     scriptProps,
-    shareProduct,
+    shareProductToKakaoTalk,
+    shareStoryToKakaoStory
   };
 }
 
@@ -97,26 +109,5 @@ function commerce({regularPrice, discountPrice, discountRate}: Pick<ProductToSha
     return {
       regularPrice
     };
-  }
-}
-
-export function useKakaoStoryShare() {
-  const {kakaoMethods, scriptProps} = useKakaoInit()
-
-  // https://developers.kakao.com/tool/demo/story/share
-  const shareStory = useCallback((url: string) => {
-    if (!kakaoMethods) {
-      return
-    }
-
-    kakaoMethods.Story.share({
-      url,
-      text: ""
-    });
-  }, [kakaoMethods]);
-
-  return {
-    shareStory,
-    scriptProps
   }
 }
