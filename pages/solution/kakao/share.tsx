@@ -2,11 +2,11 @@ import React, {useCallback} from "react";
 import Button from '@component/atom/element/Button';
 import Script from 'next/script';
 import useCounter from '@util/services/counter';
-import {useKakaoShare} from '@util/extend/kakao';
+import {useKakaoTalkShare} from '@util/extend/kakao';
 
 export default function Page() {
   const {increase, count} = useCounter({initial: 1});
-  const {scriptProps, shareProduct} = useKakaoShare();
+  const {scriptProps, shareProduct} = useKakaoTalkShare();
 
   const onClick = useCallback(() => {
     shareProduct({

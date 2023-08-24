@@ -1,7 +1,7 @@
 import type {ScriptProps} from 'next/dist/client/script';
 import {useCallback, useMemo, useState} from 'react';
 import env from '@util/env';
-import type {KakaoCommerce} from '@type/declarations/kakao';
+import type {KakaoTalkCommerce} from '@type/declarations/kakao';
 
 export function useKakaoInit() {
   const [initialized, setInitialized] = useState(false);
@@ -33,7 +33,7 @@ export function useKakaoInit() {
   }
 }
 
-export function useKakaoShare() {
+export function useKakaoTalkShare() {
   const {kakaoMethods, scriptProps} = useKakaoInit()
   
   const shareProduct = useCallback((product: ProductToShareKakao) => {
@@ -85,7 +85,7 @@ export interface ProductToShareKakao {
   pk: number;
 }
 
-function commerce({regularPrice, discountPrice, discountRate}: Pick<ProductToShareKakao, 'regularPrice' | 'discountRate' | 'discountPrice'>): KakaoCommerce {
+function commerce({regularPrice, discountPrice, discountRate}: Pick<ProductToShareKakao, 'regularPrice' | 'discountRate' | 'discountPrice'>): KakaoTalkCommerce {
   if (discountPrice && discountRate) {
     return {
       regularPrice,

@@ -25,23 +25,23 @@ interface KakaoSendDefaultParam {
       webUrl: string;
     };
   };
-  commerce: KakaoCommerce;
-  buttons: KakaoButton[];
+  commerce: KakaoTalkCommerce;
+  buttons: KakaoTalkButton[];
 }
 
-interface KakaoButton {
+interface KakaoTalkButton {
   title: string;
-  link: KakaoButtonLink;
+  link: KakaoTalkButtonLink;
 }
 
-interface KakaoButtonLink {
+interface KakaoTalkButtonLink {
   webUrl: string;
   mobileWebUrl: string;
   androidExecutionParams: string;
   iosExecutionParams: string;
 }
 
-export type KakaoCommerce = {
+export type KakaoTalkCommerce = {
   regularPrice: number;
 } | {
   regularPrice: number;
