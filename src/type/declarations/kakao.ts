@@ -9,12 +9,11 @@ interface KakaoMethod {
 
 export interface KakaoShare {
   Share: {
-    createDefaultButton: (param: KakaoCreateDefaultButtonParam) => void;
+    sendDefault: (param: KakaoCreateDefaultButtonParam) => void;
   };
 }
 
 interface KakaoCreateDefaultButtonParam {
-  container: string;
   objectType: 'commerce';
   content: {
     title: string;

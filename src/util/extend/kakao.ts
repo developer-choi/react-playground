@@ -1,27 +1,15 @@
 import type {ScriptProps} from 'next/dist/client/script';
-import {useCallback, useEffect, useMemo, useState} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import env from '@util/env';
 import type {KakaoCommerce} from '@type/declarations/kakao';
 
-export interface KakaoShareParam {
-  shareButtonId: string; // #제외
-  product: {
-    title: string;
-    thumbnail: string;
-    regularPrice: number;
-    discountRate?: number;
-    discountPrice?: number;
-    pk: number;
-  };
-}
-
 export interface KakaoShareResult {
   scriptProps: ScriptProps;
-  shareButtonId: string;
   initialized: boolean;
+  shareProduct: (product: ProductToShareKakao) => void
 }
 
-export default function useKakaoShare({shareButtonId, product}: KakaoShareParam): KakaoShareResult {
+export default function useKakaoShare(): KakaoShareResult {
   const [initialized, setInitialized] = useState(false);
 
   const onLoad = useCallback(() => {
@@ -45,17 +33,16 @@ export default function useKakaoShare({shareButtonId, product}: KakaoShareParam)
     onLoad
   }), [onLoad]);
 
-  const {regularPrice, discountPrice, discountRate, thumbnail, pk, title} = product;
-
-  useEffect(() => {
+  const onShare = useCallback((product: ProductToShareKakao) => {
     if (!initialized || !window.Kakao) {
-      return;
+      return
     }
 
+    const {regularPrice, discountPrice, discountRate, thumbnail, pk, title} = product;
+    
     const resultUrl = env.public.origin + `/study/kakao/share-target?pk=${pk}`;
 
-    window.Kakao.Share.createDefaultButton({
-      container: `#${shareButtonId}`,
+    window.Kakao.Share.sendDefault({
       objectType: 'commerce',
       content: {
         title: title,
@@ -78,16 +65,25 @@ export default function useKakaoShare({shareButtonId, product}: KakaoShareParam)
         }
       ]
     });
-  }, [initialized, shareButtonId, regularPrice, discountPrice, discountRate, thumbnail, title, pk]);
+  }, [initialized]);
 
   return {
     scriptProps,
-    shareButtonId: shareButtonId,
+    shareProduct: onShare,
     initialized
   };
 }
 
-function commerce({regularPrice, discountPrice, discountRate}: Pick<KakaoShareParam['product'], 'regularPrice' | 'discountRate' | 'discountPrice'>): KakaoCommerce {
+export interface ProductToShareKakao {
+  title: string;
+  thumbnail: string;
+  regularPrice: number;
+  discountRate?: number;
+  discountPrice?: number;
+  pk: number;
+}
+
+function commerce({regularPrice, discountPrice, discountRate}: Pick<ProductToShareKakao, 'regularPrice' | 'discountRate' | 'discountPrice'>): KakaoCommerce {
   if (discountPrice && discountRate) {
     return {
       regularPrice,
