@@ -3,13 +3,7 @@ import {useCallback, useMemo, useState} from 'react';
 import env from '@util/env';
 import type {KakaoCommerce} from '@type/declarations/kakao';
 
-export interface KakaoShareResult {
-  scriptProps: ScriptProps;
-  initialized: boolean;
-  shareProduct: (product: ProductToShareKakao) => void
-}
-
-export default function useKakaoShare(): KakaoShareResult {
+export function useKakaoInit() {
   const [initialized, setInitialized] = useState(false);
 
   const onLoad = useCallback(() => {
@@ -32,9 +26,23 @@ export default function useKakaoShare(): KakaoShareResult {
     crossOrigin: 'anonymous',
     onLoad
   }), [onLoad]);
+  
+  return {
+    kakaoMethods: !initialized || !window.Kakao ? null : window.Kakao,
+    scriptProps
+  }
+}
 
+export interface KakaoShareResult {
+  scriptProps: ScriptProps;
+  shareProduct: (product: ProductToShareKakao) => void
+}
+
+export default function useKakaoShare(): KakaoShareResult {
+  const {kakaoMethods, scriptProps} = useKakaoInit()
+  
   const onShare = useCallback((product: ProductToShareKakao) => {
-    if (!initialized || !window.Kakao) {
+    if (!kakaoMethods) {
       return
     }
 
@@ -42,7 +50,7 @@ export default function useKakaoShare(): KakaoShareResult {
     
     const resultUrl = env.public.origin + `/study/kakao/share-target?pk=${pk}`;
 
-    window.Kakao.Share.sendDefault({
+    kakaoMethods.Share.sendDefault({
       objectType: 'commerce',
       content: {
         title: title,
@@ -65,12 +73,11 @@ export default function useKakaoShare(): KakaoShareResult {
         }
       ]
     });
-  }, [initialized]);
+  }, [kakaoMethods]);
 
   return {
     scriptProps,
     shareProduct: onShare,
-    initialized
   };
 }
 

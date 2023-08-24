@@ -6,7 +6,7 @@ import useKakaoShare from '@util/extend/kakao';
 
 export default function Page() {
   const {increase, count} = useCounter({initial: 1});
-  const {scriptProps, shareProduct, initialized} = useKakaoShare();
+  const {scriptProps, shareProduct} = useKakaoShare();
 
   const onClick = useCallback(() => {
     shareProduct({
@@ -21,7 +21,7 @@ export default function Page() {
 
   return (
     <div>
-      <Button onClick={onClick} disabled={!initialized}>Kakao Talk Share</Button>
+      <Button onClick={onClick}>Kakao Talk Share</Button>
       <Button onClick={increase}>Increase (current: {count})</Button>
       <Script {...scriptProps} />
     </div>
