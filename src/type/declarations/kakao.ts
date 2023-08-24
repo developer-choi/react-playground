@@ -9,11 +9,14 @@ interface KakaoMethod {
 
 export interface KakaoShare {
   Share: {
-    sendDefault: (param: KakaoCreateDefaultButtonParam) => void;
+    sendDefault: (param: KakaoSendDefaultParam) => void;
   };
+  Story: {
+    share: (param: KakaoStoryShareParma) => void
+  }
 }
 
-interface KakaoCreateDefaultButtonParam {
+interface KakaoSendDefaultParam {
   objectType: 'commerce';
   content: {
     title: string;
@@ -44,4 +47,9 @@ export type KakaoCommerce = {
   regularPrice: number;
   discountRate: number;
   discountPrice: number;
+}
+
+interface KakaoStoryShareParma {
+  url: string;
+  text: string;
 }

@@ -2,7 +2,7 @@ import React, {useCallback} from "react";
 import Button from '@component/atom/element/Button';
 import Script from 'next/script';
 import useCounter from '@util/services/counter';
-import useKakaoShare from '@util/extend/kakao';
+import {useKakaoShare} from '@util/extend/kakao';
 
 export default function Page() {
   const {increase, count} = useCounter({initial: 1});

@@ -33,15 +33,10 @@ export function useKakaoInit() {
   }
 }
 
-export interface KakaoShareResult {
-  scriptProps: ScriptProps;
-  shareProduct: (product: ProductToShareKakao) => void
-}
-
-export default function useKakaoShare(): KakaoShareResult {
+export function useKakaoShare() {
   const {kakaoMethods, scriptProps} = useKakaoInit()
   
-  const onShare = useCallback((product: ProductToShareKakao) => {
+  const shareProduct = useCallback((product: ProductToShareKakao) => {
     if (!kakaoMethods) {
       return
     }
@@ -77,7 +72,7 @@ export default function useKakaoShare(): KakaoShareResult {
 
   return {
     scriptProps,
-    shareProduct: onShare,
+    shareProduct,
   };
 }
 
@@ -102,5 +97,26 @@ function commerce({regularPrice, discountPrice, discountRate}: Pick<ProductToSha
     return {
       regularPrice
     };
+  }
+}
+
+export function useKakaoStoryShare() {
+  const {kakaoMethods, scriptProps} = useKakaoInit()
+
+  // https://developers.kakao.com/tool/demo/story/share
+  const shareStory = useCallback((url: string) => {
+    if (!kakaoMethods) {
+      return
+    }
+
+    kakaoMethods.Story.share({
+      url,
+      text: ""
+    });
+  }, [kakaoMethods]);
+
+  return {
+    shareStory,
+    scriptProps
   }
 }
