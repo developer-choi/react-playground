@@ -59,6 +59,12 @@ export function useTimer({expiredTimestamp, terminatedCallback, startTimestamp}:
   }, [expiredTimestamp, terminatedCallback]);
 
   const status = getTimerStatus({currentTimestamp: recentTimestamp, startTimestamp, expiredTimestamp})
+
+  /** Limitation
+   * 최대단위가 바뀌면 이 로직도 같이 바뀌어야하는게 맘에안듬.
+   * 소스코드상 기준은 최대 단위가 "일"인데, 이게 hour로 바뀌면 여기로직을 직접 수정해야함.
+   * 동적으로 "maxUnit"같은거 function의 parameter로 받아서 동적으로 처리하려다가 로직 못짜겠어서 포기했었음.
+   */
   const diff = status !== "running" ? 0 : expiredTimestamp - recentTimestamp;
   const date = status !== "running" ? 0 : Math.floor(diff / DATE);
   const hour = status !== "running" ? 0 : Math.floor((diff - date * DATE) / HOUR);
