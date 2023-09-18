@@ -1,19 +1,14 @@
 import type {CategoryFilter} from '@type/response-sub/filter-sub';
 import type {NumericString} from '@type/string';
 import type {FilterFormData} from '@type/services/filter';
+import {flatRecursive} from "@util/extend/data-type/array";
 
 /*************************************************************************************************************
  * Exported functions
  *************************************************************************************************************/
 
 export function flatDeepCategoryList(categoryList: CategoryFilter[]): CategoryFilter[] {
-  return categoryList.reduce((a, b) => {
-    if (b.children) {
-      return a.concat(b).concat(flatDeepCategoryList(b.children));
-    }
-
-    return a.concat(b);
-  }, [] as CategoryFilter[]);
+  return flatRecursive(categoryList, 'children')
 }
 
 /**

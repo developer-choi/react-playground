@@ -100,6 +100,22 @@ export function sortByString<T>(direction: Direction, list: T[], valueExtractor:
   });
 }
 
+export function flatRecursive<T, K extends keyof T>(list: T[], childrenKey: K): T[] {
+  return list.reduce((a, b) => {
+    const children = b[childrenKey]
+
+    if (children) {
+      if(!Array.isArray(children)) {
+        throw new Error('childrenKey is invalid. value of childrenKey is must Array')
+      }
+
+      return a.concat(b, flatRecursive(children as T[], childrenKey));
+    }
+
+    return a.concat(b);
+  }, [] as T[])
+}
+
 /**
  * @example ([1, 2, 3], 1) => 2
  * @example ([1, 2, 3], 2) => 3
