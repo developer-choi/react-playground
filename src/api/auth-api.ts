@@ -6,7 +6,9 @@ import {validateEmail} from '@util/services/validator/email';
 import {validateOriginPassword, validatePassword} from '@util/services/validator/password';
 import ValidateError from '@util/services/handle-error/ValidateError';
 
-const axiosInstance = makeAxiosInstance('/auth');
+const axiosInstance = makeAxiosInstance({
+  baseURL: '/auth'
+});
 
 /**
  * @exception RequestError Occurs when email, password format is incorrect (cause 'email' or 'password')

@@ -2,7 +2,9 @@ import {makeAxiosInstance} from './config';
 import type {FilterListResponse} from '@type/response/filter';
 import type {ProductListPageParam} from '@type/services/filter';
 
-const axiosInstance = makeAxiosInstance('/filter');
+const axiosInstance = makeAxiosInstance({
+  baseURL: '/filter'
+});
 
 export type FilterListApiParam = Omit<ProductListPageParam, 'page'>;
 

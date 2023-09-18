@@ -1,6 +1,8 @@
 import {makeAxiosInstance} from './config';
 
-const axiosInstance = makeAxiosInstance('/file');
+const axiosInstance = makeAxiosInstance({
+  baseURL: '/file'
+});
 
 export async function postFileUploadApi(file: File, onUploadProgress: (event: ProgressEvent) => void) {
   const formData = new FormData();

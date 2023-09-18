@@ -5,7 +5,9 @@ import type {GetServerSidePropsContext} from 'next';
 import type {AxiosResponse} from 'axios';
 import type {BoardListResponse, BoardOneResponse} from '@type/response/board';
 
-const axiosInstance = makeAxiosInstance('/board');
+const axiosInstance = makeAxiosInstance({
+  baseURL: '/board'
+});
 
 export async function postBoardApi(param: BoardCreateParam) {
   const loginToken = getLoginTokenClientSide(); //Errors must be handled in components.

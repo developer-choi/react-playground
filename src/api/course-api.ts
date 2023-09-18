@@ -4,7 +4,9 @@ import type {CourseListResponse, CourseRoomsResponse, CourseTopicsResponse} from
 import type {Sort} from '@type/response-sub/common-sub';
 import type {CourseSortType} from '@type/response-sub/course-sub';
 
-const axiosInstance = makeAxiosInstance('/course');
+const axiosInstance = makeAxiosInstance({
+  baseURL: '/course'
+});
 
 export async function getCourseListApi(params: CourseListApiParam): Promise<CourseListResponse> {
   const {data} = await axiosInstance.get('/list', {params});

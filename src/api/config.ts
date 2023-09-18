@@ -1,16 +1,26 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import ConnectError from '@util/services/handle-error/ConnectError';
 import env from '@util/env';
+import type {GetServerSidePropsContext} from "next";
 
-export function makeAxiosInstance(param?: AxiosRequestConfig | string): AxiosInstance {
-  const config: AxiosRequestConfig = typeof param === 'string' ? {
-    baseURL: getDefaultBaseURL(env.public.api, param)
+export interface MakeAxiosInstanceParam {
+  baseURL?: string
+  config?: AxiosRequestConfig
+  context?: GetServerSidePropsContext
+}
+
+export function makeAxiosInstance(param?: MakeAxiosInstanceParam): AxiosInstance {
+  const {config, baseURL} = param ?? {}
+  const _baseURL = config?.baseURL ?? baseURL
+
+  const _config: AxiosRequestConfig = _baseURL ? {
+    baseURL: getDefaultBaseURL(env.public.api, _baseURL)
   } : {
     ...param,
-    baseURL: param?.baseURL ? param.baseURL : env.public.api
+    baseURL: _baseURL ?? env.public.api
   };
 
-  const instance = axios.create(config);
+  const instance = axios.create(_config);
 
   instance.interceptors.response.use(response => {
     const {customStatus} = response.data;
