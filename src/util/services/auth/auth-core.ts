@@ -4,8 +4,7 @@ import {AuthError} from '@util/services/auth/AuthError';
 import {useRouter} from 'next/router';
 import {useCallback} from 'react';
 import {putAuthLogoutApi} from '@api/auth-api';
-import {useQueryClient} from "@tanstack/react-query";
-import {USER_INFO_QUERY_KEY} from "@util/services/auth/auth-user";
+import {useClearLoginUserInfo} from '@util/services/auth/auth-user';
 
 export interface LoginToken {
   userPk: number;
@@ -85,11 +84,11 @@ export function getAfterLoginSuccessUrl() {
 }
 
 export function useLogout() {
-  const queryClient = useQueryClient()
+  const clearLoginUserInfo = useClearLoginUserInfo();
 
   return useCallback( async (destination = '/') => {
     try {
-      queryClient.setQueryData(USER_INFO_QUERY_KEY, null)
+      clearLoginUserInfo();
       await putAuthLogoutApi();
 
       /**
@@ -109,7 +108,7 @@ export function useLogout() {
         console.error(error)
       }
     }
-  }, [queryClient])
+  }, [clearLoginUserInfo])
 }
 
 export default function useAlertForNotLoggedIn() {

@@ -1,6 +1,6 @@
 import {useQuery, useQueryClient} from "@tanstack/react-query";
 import type {UserInfo} from "@type/response-sub/user-sub";
-import {useEffect} from "react";
+import {useCallback, useEffect} from 'react';
 import {getUserInfoOneApi} from "@api/user-api";
 import {getLoginTokenInCookie} from '@util/services/auth/auth-core';
 
@@ -12,7 +12,8 @@ export interface UseGetUserResult {
 }
 
 export function useAuth(): UseGetUserResult {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
+  const clearLoginUserInfo = useClearLoginUserInfo();
 
   const {data} = useQuery<UserInfo | 'checking'>({
     queryKey: USER_INFO_QUERY_KEY,
@@ -27,7 +28,7 @@ export function useAuth(): UseGetUserResult {
     const token = getLoginTokenInCookie()
 
     if (!token) {
-      queryClient.setQueryData(USER_INFO_QUERY_KEY, null)
+      clearLoginUserInfo()
       return;
     }
 
@@ -43,4 +44,12 @@ export function useAuth(): UseGetUserResult {
     loginStatus: data === 'checking' ? 'checking' : !!data,
     userInfo: data === 'checking' ? null : data
   }
+}
+
+export function useClearLoginUserInfo() {
+  const queryClient = useQueryClient();
+  
+  return useCallback(() => {
+    queryClient.setQueryData(USER_INFO_QUERY_KEY, null);
+  }, [queryClient])
 }
