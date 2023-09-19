@@ -60,14 +60,7 @@ export function getLoginTokenInCookie<T extends boolean = false>(param?: LoginTo
  * If you want to check in rendering, you should use useLoginStatus()
  */
 export function isLoggedInCookie(context?: GetServerSidePropsContext) {
-  try {
-    return !!getLoginTokenInCookie({
-      context,
-      throwable: true
-    });
-  } catch (error) {
-    return false;
-  }
+  return !!getLoginTokenInCookie({context});
 }
 
 const LOGIN_REDIRECT_KEY_NAME = 'redirectUrl';
@@ -111,7 +104,7 @@ export function useLogout() {
   }, [clearLoginUserInfo])
 }
 
-export default function useAlertForNotLoggedIn() {
+export function useAlertForNotLoggedIn() {
   const {push} = useRouter();
 
   return useCallback(() => {
