@@ -47,7 +47,7 @@ const SolutionWrap = styled.div`
 
 function Original({src, width}: Prop) {
   return (
-    <img src={src} width={width} height="auto"/>
+    <img src={src} width={width} height="auto" alt=""/>
   );
 }
 

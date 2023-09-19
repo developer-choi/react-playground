@@ -4,7 +4,6 @@ import {haveAxiosResponse} from '@api/config';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import OgMeta from '@component/atom/OgMeta';
 import Head from 'next/head';
-import useAlertForNotLoggedIn, {useGetLoginUserPk, useLoginStatus} from '@util/services/auth/auth';
 import TextArea from '@component/extend/TextArea';
 import Form from '@component/extend/Form';
 import {useCallback} from 'react';
@@ -12,6 +11,8 @@ import styled from 'styled-components';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {validateNumber} from '@util/extend/browser/query-string';
 import {getBoardOneApi} from '@api/board-api';
+import {useAuth} from "@util/services/auth/auth-user";
+import useAlertForNotLoggedIn from "@util/services/auth/auth-core";
 
 // URL: http://localhost:3000/experimental/handle-error/board/1
 interface PageProp {
@@ -51,7 +52,7 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async context =>
 
 function BoardOne({board}: PageProp) {
   const {title, content, authorUserPk} = board;
-  const isMine = useGetLoginUserPk() === authorUserPk;
+  const isMine = useAuth().userInfo?.userPk === authorUserPk;
 
   return (
     <>
@@ -70,7 +71,7 @@ function BoardOne({board}: PageProp) {
 }
 
 function ReplyForm() {
-  const loginStatus = useLoginStatus();
+  const {loginStatus} = useAuth()
   const mustLogin = useAlertForNotLoggedIn();
 
   const addReply = useCallback(() => {
@@ -79,8 +80,8 @@ function ReplyForm() {
 
   return (
     <StyledForm>
-      <TextArea onClick={loginStatus === 'initial' ? undefined : loginStatus ? addReply : mustLogin}/>
-      <button onClick={loginStatus === 'initial' ? undefined : loginStatus ? addReply : mustLogin}>댓글등록</button>
+      <TextArea onClick={loginStatus === 'checking' ? undefined : loginStatus ? addReply : mustLogin}/>
+      <button onClick={loginStatus === 'checking' ? undefined : loginStatus ? addReply : mustLogin}>댓글등록</button>
     </StyledForm>
   );
 }

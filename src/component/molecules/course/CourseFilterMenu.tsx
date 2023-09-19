@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import FilterButton from '@component/atom/forms/FilterButton';
 import type {Room} from '@type/response-sub/course-sub';
 import {useCourseQueryString} from '@util/services/course';
 import {getCourseRoomsApi} from '@api/course-api';
+import {useHandleClientSideError} from "@util/services/handle-error/client-side-error";
 
 export interface CourseFilterMenuProp {
   onReadyToFilter: (ready: boolean) => void;
@@ -13,6 +13,7 @@ export interface CourseFilterMenuProp {
 export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp) {
   const [rooms, setRooms] = useState<Room[]>([]);
   const {currentRoom, applyFilterRoom} = useCourseQueryString();
+  const handleClientSideError = useHandleClientSideError();
 
   useEffect(() => {
     (async () => {
@@ -25,7 +26,7 @@ export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp
         handleClientSideError(error);
       }
     })().then();
-  }, [onReadyToFilter]);
+  }, [handleClientSideError, onReadyToFilter]);
 
   if (!rooms) {
     return null;

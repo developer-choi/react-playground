@@ -1,5 +1,4 @@
 import {configureStore} from '@reduxjs/toolkit';
-import user from '@store/reducers/user';
 import layout from '@store/reducers/layout';
 import counter from '@store/reducers/counter';
 import twiceCounter from '@store/reducers/twice-counter';
@@ -8,7 +7,6 @@ import loadingLayer from "@store/reducers/loading-layer";
 
 export const store = configureStore({
   reducer: {
-    user,
     layout,
     counter,
     twiceCounter,

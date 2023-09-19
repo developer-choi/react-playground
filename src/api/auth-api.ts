@@ -1,6 +1,6 @@
 import {makeAxiosInstance} from './config';
 import type {UserInfoResponse} from '@type/response/user';
-import {getLoginTokenClientSide} from '@util/services/auth/auth';
+import {getLoginTokenInCookie} from '@util/services/auth/auth-core';
 import SHA512 from 'sha512-es';
 import {validateEmail} from '@util/services/validator/email';
 import {validateOriginPassword, validatePassword} from '@util/services/validator/password';
@@ -32,8 +32,9 @@ export async function postAuthLoginApi(email: string, password: string): Promise
  * @exception AuthError The user is not logged in
  */
 export async function putAuthLogoutApi() {
-  const loginToken = getLoginTokenClientSide();
-  return axiosInstance.put('/logout', loginToken, {
+  getLoginTokenInCookie({throwable: true});
+
+  return axiosInstance.put('/logout', {
     // https://stackoverflow.com/questions/46288437/set-cookies-for-cross-origin-requests
     withCredentials: true
   });

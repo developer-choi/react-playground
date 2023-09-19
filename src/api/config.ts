@@ -1,7 +1,8 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import ConnectError from '@util/services/handle-error/ConnectError';
 import env from '@util/env';
-import type {GetServerSidePropsContext} from "next";
+import type {GetServerSidePropsContext} from 'next';
+import {getLoginTokenInCookie} from '@util/services/auth/auth-core';
 
 export interface MakeAxiosInstanceParam {
   baseURL?: string
@@ -21,6 +22,20 @@ export function makeAxiosInstance(param?: MakeAxiosInstanceParam): AxiosInstance
   };
 
   const instance = axios.create(_config);
+
+  instance.interceptors.request.use(config => {
+    const loginToken = getLoginTokenInCookie({
+      context: param?.context,
+      throwable: true
+    })
+
+    if (loginToken) {
+      // eslint-disable-next-line no-param-reassign
+      config.headers['Authorization'] = `Bearer ${loginToken.accessToken}`
+    }
+
+    return config
+  })
 
   instance.interceptors.response.use(response => {
     const {customStatus} = response.data;

@@ -6,7 +6,6 @@ import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hoo
 import {useForm} from 'react-hook-form';
 import {range} from '@util/extend/data-type/number';
 import Button from '@component/atom/element/Button';
-import {useGetLoginUserPk} from '@util/services/auth/auth';
 import {useLocalStorageArrayManager} from '@util/extend/browser/local-storage-array';
 import styled from 'styled-components';
 import {validateString} from '@util/extend/browser/query-string';
@@ -185,11 +184,9 @@ interface RecentSearch {
 }
 
 function useRecentSearch() {
-  const userPk = useGetLoginUserPk();
-  const key = `recent-search-${userPk ? userPk : 'not-logged-in'}`;
   const pkExtractor = useCallback(({searchText}: RecentSearch) => {
     return searchText;
   }, []);
 
-  return useLocalStorageArrayManager({key, enableDuplicated: false, pkExtractor}, userPk !== 'initial');
+  return useLocalStorageArrayManager({key: 'recent-search', enableDuplicated: false, pkExtractor});
 }

@@ -2,7 +2,7 @@ import ValidateError from '@util/services/handle-error/ValidateError';
 import {useCallback, useEffect, useState} from 'react';
 import type {FileValidateOption} from '@util/extend/file/file-validation';
 import {validateFiles} from '@util/extend/file/file-validation';
-import {handleClientSideError} from '@util/services/handle-error/client-side-error';
+import {useHandleClientSideError} from "@util/services/handle-error/client-side-error";
 
 interface UseCreateObjectUrlsParam {
   keepPrevData?: boolean;
@@ -23,6 +23,8 @@ export default function useFilesToImages({keepPrevData = false, validateOption, 
     files: [],
     images: []
   });
+
+  const handleClientSideError = useHandleClientSideError();
 
   useEffect(() => {
     return () => {
@@ -55,7 +57,7 @@ export default function useFilesToImages({keepPrevData = false, validateOption, 
 
       handleError(error);
     }
-  }, [handleError, keepPrevData, validateOption, data]);
+  }, [keepPrevData, data.files, validateOption, handleError, handleClientSideError]);
 
   const onChangeFile = useCallback(async (file: File | undefined) => {
     if (!file) {

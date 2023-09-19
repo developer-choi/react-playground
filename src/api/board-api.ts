@@ -1,5 +1,5 @@
 import {makeAxiosInstance} from '@api/config';
-import {getLoginTokenClientSide, getLoginTokenServerSide} from '@util/services/auth/auth';
+import {getLoginTokenInCookie} from '@util/services/auth/auth-core';
 import type {BoardCreateParam} from '@type/response-sub/board-sub';
 import type {GetServerSidePropsContext} from 'next';
 import type {AxiosResponse} from 'axios';
@@ -9,9 +9,13 @@ const axiosInstance = makeAxiosInstance({
   baseURL: '/board'
 });
 
+/**
+ * @exception AuthError The user is not logged in
+ */
 export async function postBoardApi(param: BoardCreateParam) {
-  const loginToken = getLoginTokenClientSide(); //Errors must be handled in components.
-  return axiosInstance.post('/create', param, {headers: loginToken});
+  getLoginTokenInCookie({throwable: true}); //Errors must be handled in components.
+
+  return axiosInstance.post('/create', param);
 }
 
 /**
@@ -22,8 +26,11 @@ export async function getBoardOneApi(context: GetServerSidePropsContext, pk: num
   let response: Promise<AxiosResponse<BoardOneResponse>>;
 
   try {
-    const loginToken = getLoginTokenServerSide(context);
-    response = axiosInstance.get<BoardOneResponse>(`/${pk}`, {headers: loginToken});
+    getLoginTokenInCookie({
+      context,
+      throwable: true
+    });
+    response = axiosInstance.get<BoardOneResponse>(`/${pk}`);
   } catch (error) {
     response = axiosInstance.get<BoardOneResponse>(`/${pk}`);
   }
@@ -35,8 +42,11 @@ export async function getBoardListApi(context: GetServerSidePropsContext, page: 
   let response: Promise<AxiosResponse<BoardListResponse>>;
 
   try {
-    const loginToken = getLoginTokenServerSide(context);
-    response = axiosInstance.get<BoardListResponse>('/list', {params: {page}, headers: loginToken});
+    getLoginTokenInCookie({
+      context,
+      throwable: true
+    });
+    response = axiosInstance.get<BoardListResponse>('/list', {params: {page}});
 
   } catch (error) {
     response = axiosInstance.get<BoardListResponse>('/list', {params: {page}});

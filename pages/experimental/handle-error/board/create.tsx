@@ -1,13 +1,13 @@
 import React, {useCallback, useRef, useState} from 'react';
-import {getSSPForLoggedIn} from '@util/services/auth/auth';
 import styled from 'styled-components';
 import Form from '@component/extend/Form';
 import InputText from '@component/extend/InputText';
 import TextArea from '@component/extend/TextArea';
-import {handleClientSideError} from '@util/services/handle-error/client-side-error';
 import Button from '@component/atom/element/Button';
 import {useRouter} from 'next/router';
 import {postBoardApi} from '@api/board-api';
+import {getSSPForLoggedIn} from "@util/services/auth/auth-server-side";
+import {useHandleClientSideError} from "@util/services/handle-error/client-side-error";
 
 // URL: http://localhost:3000/experimental/handle-error/board/create
 export default function Page() {
@@ -20,6 +20,8 @@ export const getServerSideProps = getSSPForLoggedIn;
 
 function BoardForm() {
   const {push} = useRouter();
+  const handleClientSideError = useHandleClientSideError();
+  
   const [title, setTitle] = useState('');
   const titleRef = useRef<HTMLInputElement>(null);
 
@@ -49,7 +51,7 @@ function BoardForm() {
       handleClientSideError(error);
     }
 
-  }, [content, push, title]);
+  }, [content, handleClientSideError, push, title]);
 
   const onReset = useCallback(() => {
     setTitle('');

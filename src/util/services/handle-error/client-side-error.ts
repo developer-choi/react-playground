@@ -1,22 +1,27 @@
 import Router from 'next/router';
 import {AuthError} from '@util/services/auth/AuthError';
 import type {AxiosErrorWithResponse} from '@api/config';
-import {logoutInClientSide} from '@util/services/auth/auth';
 import {haveAxiosResponse} from '@api/config';
 import {toast} from 'react-toastify';
 import ValidateError from '@util/services/handle-error/ValidateError';
+import {useCallback} from "react";
+import {useLogout} from "@util/services/auth/auth-core";
 
-export function handleClientSideError(error: any) {
-  if (!error.isAxiosError) {
-    handleErrorBeforeCallApi(error);
-    return;
+export function useHandleClientSideError() {
+  const handleErrorAfterRespondApi = useHandleErrorAfterRespondApi()
+  
+  return useCallback((error: any) => {
+    if (!error.isAxiosError) {
+      handleErrorBeforeCallApi(error);
+      return;
 
-  } else if (!haveAxiosResponse(error)) {
-    handleUnexpectedError(error);
+    } else if (!haveAxiosResponse(error)) {
+      handleUnexpectedError(error);
 
-  } else {
-    handleErrorAfterRespondApi(error);
-  }
+    } else {
+      handleErrorAfterRespondApi(error);
+    }
+  }, [handleErrorAfterRespondApi])
 }
 
 function handleErrorBeforeCallApi(error: any) {
@@ -50,23 +55,27 @@ function handleValidateError(error: ValidateError) {
   toast.error(error.message);
 }
 
-function handleErrorAfterRespondApi(error: AxiosErrorWithResponse) {
-  const {status} = error.response;
+function useHandleErrorAfterRespondApi() {
+  const logout = useLogout()
 
-  switch (status) {
-    case BLOCK_USER_STATUS_CODE:
-      toast.error('관리자에 의해 계정이 정지되었습니다.');
-      logoutInClientSide();
+  return useCallback((error: AxiosErrorWithResponse) => {
+    const {status} = error.response;
+
+    switch (status) {
+      case BLOCK_USER_STATUS_CODE:
+        toast.error('관리자에 의해 계정이 정지되었습니다.');
+        logout();
+        return;
+    }
+
+    if ('message' in error.response.data) {
+      const {message} = error.response.data;
+      toast.error(message);
       return;
-  }
+    }
 
-  if ('message' in error.response.data) {
-    const {message} = error.response.data;
-    toast.error(message);
-    return;
-  }
-
-  handleUnexpectedError(error);
+    handleUnexpectedError(error);
+  }, [logout])
 }
 
 const BLOCK_USER_STATUS_CODE = 701;

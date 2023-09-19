@@ -1,10 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Button from '@component/atom/element/Button';
 import {useRouter} from 'next/router';
-import {getAfterLoginSuccessUrl, getSSPForNotLoggedIn} from '@util/services/auth/auth';
-import {handleClientSideError} from '@util/services/handle-error/client-side-error';
-import {useAppDispatch} from '@store/hooks';
-import {setUserActionCreator} from '@store/reducers/user';
+import {getAfterLoginSuccessUrl} from '@util/services/auth/auth-core';
 import Form from '@component/extend/Form';
 import InputText from '@component/extend/InputText';
 import {haveAxiosResponse} from '@api/config';
@@ -12,11 +9,16 @@ import {toast} from 'react-toastify';
 import styled from 'styled-components';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {postAuthLoginApi} from '@api/auth-api';
+import {getSSPForNotLoggedIn} from "@util/services/auth/auth-server-side";
+import {useQueryClient} from "@tanstack/react-query";
+import {USER_INFO_QUERY_KEY} from "@util/services/auth/auth-user";
+import {useHandleClientSideError} from "@util/services/handle-error/client-side-error";
 
 // URL: http://localhost:3000/experimental/handle-error/login
 export default function LoginPage() {
   const {prefetch, replace, push} = useRouter();
-  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
+  const handleClientSideError = useHandleClientSideError();
 
   const [email, setEmail] = useState('test-email@test.com');
   const emailRef = useRef<HTMLInputElement>(null);
@@ -27,7 +29,15 @@ export default function LoginPage() {
   const onClick = useCallback(async () => {
     try {
       const {info} = await postAuthLoginApi(email, password);
-      dispatch(setUserActionCreator(info));
+
+      /**
+       * 서버에서 login API response header에 Set-Cookie로 쿠키 만들어줄 경우
+       * 프론트에서 이 코드라인에서 직접 쿠키만들어서 accessToken값을 저장하는 로직 작성 안해도 되지만,
+       *
+       * 서버에서 안해주는경우, 이 코드라인에서 직접 쿠키만들어서 accessToken 저장하는 코드 작성해야함.
+       */
+      queryClient.setQueryData(USER_INFO_QUERY_KEY, info);
+
       const redirectUrl = getAfterLoginSuccessUrl();
       replace(redirectUrl).then();
 
@@ -60,7 +70,7 @@ export default function LoginPage() {
       toast.error('Login is restricted because the password is incorrect more than 10 times.');
       await push('/');
     }
-  }, [dispatch, email, password, push, replace]);
+  }, [email, handleClientSideError, password, push, queryClient, replace]);
 
   useEffect(() => {
     const redirectUrl = getAfterLoginSuccessUrl();

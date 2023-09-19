@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import type {AppProps} from 'next/app';
 import {ThemeProvider} from 'styled-components';
 import {theme} from '@util/services/style/theme';
@@ -9,7 +9,6 @@ import {Provider} from 'react-redux';
 import {store} from '@store/store';
 import NotifyRedirect, {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
-import {thunkRefreshSetUser} from '@store/reducers/user';
 import {QueryClient, QueryClientProvider, Hydrate, DehydratedPageProps} from '@tanstack/react-query';
 import {closeModal} from '@store/reducers/modal';
 import PageLoadingLayer from "@component/molecules/layer/PageLoadingLayer";
@@ -27,12 +26,7 @@ export default function MyApp(props: AppProps<PageProp>) {
 export const QUERY_CLIENT_INSTANCE = new QueryClient();
 
 function ReduxApp(props: AppProps<PageProp>) {
-  const dispatch = useAppDispatch();
   const visibleLoadingLayer = useAppSelector(state => state.loadingLayer.visible);
-
-  useEffect(() => {
-    dispatch(thunkRefreshSetUser());
-  }, [dispatch]);
 
   //https://github.com/styled-components/styled-components/issues/3738
   const ThemeProviderProxy: any = ThemeProvider;

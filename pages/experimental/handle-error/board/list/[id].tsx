@@ -4,11 +4,11 @@ import type {PagingResponse} from '@type/response/common';
 import type {Board} from '@type/response-sub/board-sub';
 import Link from 'next/link';
 import styled from 'styled-components';
-import {logoutInClientSide, useLoginStatus} from '@util/services/auth/auth';
-import {useCallback} from 'react';
+import {useLogout} from '@util/services/auth/auth-core';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {validateNumber} from '@util/extend/browser/query-string';
 import {getBoardListApi} from '@api/board-api';
+import {useAuth} from "@util/services/auth/auth-user";
 
 // URL: http://localhost:3000/experimental/handle-error/board/list/1
 interface PageProp extends PagingResponse{
@@ -44,14 +44,12 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async context =>
 };
 
 function BoardList({list}: PageProp) {
-  const loginStatus = useLoginStatus();
-  const logout = useCallback(() => {
-    logoutInClientSide().then();
-  }, []);
+  const {loginStatus} = useAuth()
+  const logout = useLogout()
 
   return (
     <Wrap>
-      {loginStatus === true && <button onClick={logout} style={{alignSelf: 'self-start'}}>로그아웃</button>}
+      {loginStatus === true && <button onClick={() => logout()} style={{alignSelf: 'self-start'}}>로그아웃</button>}
       {list.map(({pk, title}) => (
         <Link key={pk} href={`/solution/handle-error/board/${pk}`} passHref>
           <StyledAnchor>{title}</StyledAnchor>
