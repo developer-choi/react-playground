@@ -25,7 +25,7 @@ export type FilterFormData = RegularFilterPkList<NumericString> & PriceFilterVal
 export type RegularFilterPkList<P extends number | NumericString> = Record<RegularFilterType, P[]>;
 export type PriceFilterValue = Record<PriceFilterType, number | undefined>;
 
-export interface FilterResult {
+export interface AppliedFilter {
   pk?: number; //가격필터는 없음.
   type: FilterType;
   name: string;

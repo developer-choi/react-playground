@@ -1,5 +1,5 @@
 import {useFormContext} from 'react-hook-form';
-import type {FilterFormData, FilterPkOriginalRecord, FilterResult, PriceFilterValue} from '@type/services/filter';
+import type {FilterFormData, FilterPkOriginalRecord, AppliedFilter, PriceFilterValue} from '@type/services/filter';
 import {useFilterPkOriginalRecordQuery} from '@util/services/product-filter/filter-common';
 import type {CustomSliderProp, MinMaxRange} from '@component/atom/forms/CustomSlider';
 import {useCallback, useEffect, useMemo, useState} from 'react';
@@ -65,7 +65,7 @@ export function usePriceFilterControl(): CustomSliderProp | undefined {
   };
 }
 
-export function priceToFilterResult(priceFilter: PriceFilterValue, pkOriginalRecord: FilterPkOriginalRecord): FilterResult[] {
+export function priceToFilterResult(priceFilter: PriceFilterValue, pkOriginalRecord: FilterPkOriginalRecord): AppliedFilter[] {
   const minPrice = priceFilter['min-price'];
   const maxPrice = priceFilter['max-price'];
 
@@ -78,7 +78,7 @@ export function priceToFilterResult(priceFilter: PriceFilterValue, pkOriginalRec
       type: 'max-price',
       name: `최대 ${numberWithComma(maxPrice as number)}원`
     }
-  ].filter(value => value !== undefined) as FilterResult[];
+  ].filter(value => value !== undefined) as AppliedFilter[];
 }
 
 /**

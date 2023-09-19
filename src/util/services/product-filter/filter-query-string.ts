@@ -8,7 +8,7 @@ import produce from 'immer';
 import type {
   FilterFormData,
   FilterPkListInQueryString,
-  FilterResult,
+  AppliedFilter,
   FilterType,
   PriceFilterType,
   PriceFilterValue,
@@ -46,7 +46,7 @@ export function useFilterQueryString() {
     replaceKeepQuery(stringifiedRecord);
   }, [replaceKeepQuery]);
 
-  const removeFilterInQueryString = useCallback((filterResult: FilterResult) => {
+  const removeFilterInQueryString = useCallback((filterResult: AppliedFilter) => {
     const nextFilterRecord = removeSpecificFilter(currentFilterPkList, filterResult);
     applyFilterInQueryString(nextFilterRecord);
   }, [applyFilterInQueryString, currentFilterPkList]);
@@ -118,7 +118,7 @@ export const getFilterQuery = getTypedQueryCallback<ProductListQueryKey, Product
  * Non Export
  *************************************************************************************************************/
 
-function removeSpecificFilter(currentFilterPkList: FilterPkListInQueryString, removeTarget: FilterResult): FilterPkListInQueryString {
+function removeSpecificFilter(currentFilterPkList: FilterPkListInQueryString, removeTarget: AppliedFilter): FilterPkListInQueryString {
   const {pk, type} = removeTarget;
 
   return produce(currentFilterPkList, draft => {

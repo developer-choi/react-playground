@@ -9,7 +9,7 @@ import type {
   FilterFormData,
   FilterPkListInQueryString,
   FilterPkOriginalRecord,
-  FilterResult,
+  AppliedFilter,
   PriceFilterValue,
   ProductListPageParam,
   RegularFilterType
@@ -53,7 +53,7 @@ export function useFilterListQuery() {
  * 2. 쿼리스트링 ==> [현재 적용된 목록]
  * 으로 변환하기위한 함수
  */
-export function useFilterPkListToResult(data: FilterPkListInQueryString | FilterFormData): FilterResult[] {
+export function useFilterPkListToResult(data: FilterPkListInQueryString | FilterFormData): AppliedFilter[] {
   const pkOriginalRecord = useFilterPkOriginalRecordQuery();
 
   return useMemo(() => {
@@ -103,7 +103,7 @@ export const REGULAR_FILTER_TYPE_LIST: RegularFilterType[] = ['size', 'category'
  * Non Export
  *************************************************************************************************************/
 
-function regularToFilterResult(data: FilterPkListInQueryString | FilterFormData, pkOriginalRecord: FilterPkOriginalRecord): FilterResult[] {
+function regularToFilterResult(data: FilterPkListInQueryString | FilterFormData, pkOriginalRecord: FilterPkOriginalRecord): AppliedFilter[] {
   const {category, color, brand, size} = data;
   const regularFilter: Record<RegularFilterType, (NumericString | number)[]> = {category, brand, size, color}
 
@@ -137,7 +137,7 @@ function regularToFilterResult(data: FilterPkListInQueryString | FilterFormData,
     });
 
     return a;
-  }, [] as FilterResult[]);
+  }, [] as AppliedFilter[]);
 }
 
 function filterListResponseToPkOriginalRecord(response: FilterListResponse): FilterPkOriginalRecord {
@@ -174,7 +174,7 @@ function filterListResponseToPkOriginalRecord(response: FilterListResponse): Fil
   };
 }
 
-type TempRegularFilterResult = Omit<FilterResult, 'name'> & {
+type TempRegularFilterResult = Omit<AppliedFilter, 'name'> & {
   name: undefined | string;
 };
 
