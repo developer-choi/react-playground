@@ -2,7 +2,8 @@ import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} fro
 import ConnectError from '@util/services/handle-error/ConnectError';
 import env from '@util/env';
 import type {GetServerSidePropsContext} from 'next';
-import {getLoginTokenInCookie} from '@util/services/auth/auth-core';
+import {getLoginTokenInCookie, LOGIN_TOKEN} from "@util/services/auth/auth-core";
+import {removeCookie} from "@util/extend/browser/cookie";
 
 export interface MakeAxiosInstanceParam {
   baseURL?: string
@@ -55,11 +56,36 @@ export function makeAxiosInstance(param?: MakeAxiosInstanceParam): AxiosInstance
       throw new ConnectError();
     }
 
+    if(error.status === 401) {
+      if (skip401Process) {
+        return;
+      }
+
+      skip401Process = true
+
+      //모든 microtask (api response promise)가 끝나고 나서 한번만 macrotask로 skip401Process를 초기화
+      setTimeout(() => {
+        skip401Process = false;
+      });
+
+      removeCookie(LOGIN_TOKEN, param?.context);
+
+      /**
+       * 1. 브라우저에서 실행된 경우에만 리다이랙트를 해야하고,
+       * 2. 현재 페이지 위치가 메인페이지가 아닐 때에만 메인페이지로 리다이랙트를 보내야 무한루프가 돌지않습니다. (계속 메인페이지로 보내는 버그방지)
+       */
+      if (!param?.context && location.pathname !== '/') {
+        location.replace('/');
+      }
+    }
+
     throw error;
   });
 
   return instance;
 }
+
+let skip401Process = false
 
 function getDefaultBaseURL(origin: string, basePath = "") {
   const path = basePath.replace(/\/\//g, '/');
