@@ -8,7 +8,7 @@ import {useEffectFromTheSecondTime} from "@util/extend/react";
  * 3. 종료될 때 실행될 콜백을 지정한다. (처음부터 종료된경우에도 대응)
  */
 export interface UseTimerParameter {
-  expiredTimestamp: number
+  expiredTimestamp: number | undefined
   startTimestamp?: number
   terminatedCallback?: () => void
 }
@@ -25,7 +25,11 @@ export function useTimer({expiredTimestamp, terminatedCallback, startTimestamp}:
 
   //reset
   useEffect(() => {
-    const status = getTimerStatus({currentTimestamp: recentTimestamp, startTimestamp, expiredTimestamp})
+    if (expiredTimestamp === undefined) {
+      return;
+    }
+
+    const status = getTimerStatus({currentTimestamp: recentTimestamp, startTimestamp, expiredTimestamp});
 
     //이 로직이 실행될 시점의 recentTimestamp값이 필요하고, recentTimestamp값이 바뀔 때 이 이펙트가 실행될 필요가 없음.
     if (status === 'terminated') {
@@ -58,7 +62,13 @@ export function useTimer({expiredTimestamp, terminatedCallback, startTimestamp}:
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expiredTimestamp, terminatedCallback]);
 
-  const status = getTimerStatus({currentTimestamp: recentTimestamp, startTimestamp, expiredTimestamp})
+  const status = getTimerStatus({currentTimestamp: recentTimestamp, startTimestamp, expiredTimestamp});
+
+  if (expiredTimestamp === undefined) {
+    return {
+      status
+    }
+  }
 
   /** Limitation
    * 최대단위가 바뀌면 이 로직도 같이 바뀌어야하는게 맘에안듬.
@@ -85,14 +95,18 @@ export function useTimer({expiredTimestamp, terminatedCallback, startTimestamp}:
 
 interface TimerStatusParam {
   startTimestamp?: number;
-  expiredTimestamp: number
+  expiredTimestamp: number | undefined
   currentTimestamp: number
 }
 
 //future = 시작일이 미래여서 시작안함.
-type TimerStatus = 'terminated' | 'running' | 'future'
+type TimerStatus = 'error' | 'terminated' | 'running' | 'future'
 
 function getTimerStatus({expiredTimestamp, startTimestamp, currentTimestamp}: TimerStatusParam): TimerStatus {
+  if(expiredTimestamp === undefined) {
+    return 'error'
+  }
+
   if (startTimestamp && currentTimestamp < startTimestamp) {
     return 'future'
   }

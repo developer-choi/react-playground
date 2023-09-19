@@ -35,6 +35,11 @@ const TEST_CASE3 = {
   change: () => getDiffDate(new Date(), [0, 0, 0, 0, 0, 5]).getTime()
 }
 
+const TEST_CASE4 = {
+  initial: undefined,
+  change: () => undefined
+}
+
 const START_TIMESTAMP = undefined
 // const START_TIMESTAMP = getDiffDate(new Date(), [0, 0, 0, 0, 0, -5]).getTime()
 // const START_TIMESTAMP = getDiffDate(new Date(), [0, 0, 0, 0, 0, 2]).getTime()
@@ -54,7 +59,7 @@ export default function Page() {
 
   const [expiredTimestamp, setExpiredTimestamp] = useState(TEST_CASE.initial);
 
-  const {diff: {date, hour, minute, second}, status} = useTimer({
+  const {status, diff} = useTimer({
     expiredTimestamp,
     startTimestamp: START_TIMESTAMP,
     terminatedCallback: value ? terminatedCallback1 : terminatedCallback2
@@ -64,9 +69,11 @@ export default function Page() {
     setExpiredTimestamp(TEST_CASE.change())
   }, []);
 
+  const text = !diff ? null : `${diff.date}일 ${diff.hour}시 ${diff.minute}분 ${diff.second}초`
+
   return (
     <div suppressHydrationWarning>
-      {status} {date}일 {hour}시 {minute}분 {second}초
+      {status} {text}
       <Button onClick={changeExpiredTimestamp}>종료날짜 바꾸기</Button>
       <Button onClick={toggle}>종료콜백함수 바꾸기</Button>
     </div>
