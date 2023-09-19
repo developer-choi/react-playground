@@ -89,8 +89,18 @@ export function useLogout() {
 
   return useCallback( async (destination = '/') => {
     try {
-      await queryClient.invalidateQueries(USER_INFO_QUERY_KEY)
+      queryClient.setQueryData(USER_INFO_QUERY_KEY, null)
       await putAuthLogoutApi();
+
+      /**
+       * removeCookie(LOGIN_TOKEN)
+       *
+       * 만약 로그아웃 API에서 login token 쿠키 지워줄 경우, 저 코드를 작성할 필요는 없음.
+       *
+       * 하지만 API에서 쿠키삭제 안해주는경우, 정확히 저 코드라인에 코드 작성해야함.
+       * 저걸 API 호출전에 실행하면 로그아웃 API 호출할 때 request header Authorization에 액세스토큰값 못가져와서 401 응답됨.
+       */
+
       location.replace(destination);
     } catch (error) {
       if (error instanceof AuthError) {
