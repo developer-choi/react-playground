@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Button from '@component/atom/element/Button';
 import {useRouter} from 'next/router';
-import {getAfterLoginSuccessUrl} from '@util/services/auth/auth-core';
+import {getAfterLoginSuccessUrl, setLoginToken} from '@util/services/auth/auth-core';
 import Form from '@component/extend/Form';
 import InputText from '@component/extend/InputText';
 import {haveAxiosResponse} from '@api/config';
@@ -28,7 +28,7 @@ export default function LoginPage() {
 
   const onClick = useCallback(async () => {
     try {
-      const {info} = await postAuthLoginApi(email, password);
+      const {info, accessToken} = await postAuthLoginApi(email, password);
 
       /**
        * 서버에서 login API response header에 Set-Cookie로 쿠키 만들어줄 경우
@@ -36,6 +36,11 @@ export default function LoginPage() {
        *
        * 서버에서 안해주는경우, 이 코드라인에서 직접 쿠키만들어서 accessToken 저장하는 코드 작성해야함.
        */
+      setLoginToken({
+        accessToken,
+        userPk: info.userPk
+      });
+
       queryClient.setQueryData(USER_INFO_QUERY_KEY, info);
 
       const redirectUrl = getAfterLoginSuccessUrl();

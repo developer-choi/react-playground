@@ -26,8 +26,7 @@ export function makeAxiosInstance(param?: MakeAxiosInstanceParam): AxiosInstance
 
   instance.interceptors.request.use(config => {
     const loginToken = getLoginTokenInCookie({
-      context: param?.context,
-      throwable: true
+      context: param?.context
     })
 
     if (loginToken) {

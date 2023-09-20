@@ -1,14 +1,26 @@
 import type {GetServerSidePropsContext} from 'next';
-import {getCookie} from '@util/extend/browser/cookie';
+import {getCookie, removeCookie, setCookie} from '@util/extend/browser/cookie';
 import {AuthError} from '@util/services/auth/AuthError';
 import {useRouter} from 'next/router';
 import {useCallback} from 'react';
 import {putAuthLogoutApi} from '@api/auth-api';
 import {useClearLoginUserInfo} from '@util/services/auth/auth-user';
+import {useRefreshGetServerSideProps} from '@util/extend/next';
+import {getDiffDate} from '@util/extend/date/date-util';
 
 export interface LoginToken {
   userPk: number;
   accessToken: string;
+}
+
+export function setLoginToken(loginToken: LoginToken) {
+  setCookie({
+    name: LOGIN_TOKEN,
+    value: loginToken,
+    options: {
+      expires: getDiffDate(new Date(), [2])
+    }
+  })
 }
 
 export const LOGIN_TOKEN = 'loginToken';
@@ -41,7 +53,14 @@ export function getLoginTokenInCookie<T extends boolean = false>(param?: LoginTo
   }
 
   if (!loginToken) {
-    const redirectPath = context ? context.resolvedUrl : `${location.pathname}${location.search}${location.hash}`
+    let redirectPath: string
+
+    try {
+      redirectPath = context ? context.resolvedUrl : `${location.pathname}${location.search}${location.hash}`
+    } catch (error) {
+      console.error('Server Side에서 접근한 경우, api 함수에 context를 전달해주세요. 그래야 AuthError가 발생했을 때 redirectPath를 정확하게 지정할 수 있습니다.');
+      redirectPath = '/'
+    }
 
     if (throwable) {
       throw new AuthError('Login is required.', {
@@ -78,30 +97,32 @@ export function getAfterLoginSuccessUrl() {
 
 export function useLogout() {
   const clearLoginUserInfo = useClearLoginUserInfo();
+  const reload = useRefreshGetServerSideProps()
 
-  return useCallback( async (destination = '/') => {
+  return useCallback( async () => {
     try {
       clearLoginUserInfo();
       await putAuthLogoutApi();
 
+      removeCookie(LOGIN_TOKEN);
+
       /**
-       * removeCookie(LOGIN_TOKEN)
-       *
        * 만약 로그아웃 API에서 login token 쿠키 지워줄 경우, 저 코드를 작성할 필요는 없음.
        *
        * 하지만 API에서 쿠키삭제 안해주는경우, 정확히 저 코드라인에 코드 작성해야함.
        * 저걸 API 호출전에 실행하면 로그아웃 API 호출할 때 request header Authorization에 액세스토큰값 못가져와서 401 응답됨.
        */
 
-      location.replace(destination);
+      reload();
     } catch (error) {
       if (error instanceof AuthError) {
-        location.replace(destination);
+        //로그아웃하려고하는데 쿠키가 없다 하더라도 처리가 달라지지는 않음. 동일하게 새로고침
+        reload();
       } else {
         console.error(error)
       }
     }
-  }, [clearLoginUserInfo])
+  }, [clearLoginUserInfo, reload])
 }
 
 export function useAlertForNotLoggedIn() {

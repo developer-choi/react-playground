@@ -3,10 +3,16 @@ import {USER_INFO_QUERY_KEY} from "@util/services/auth/auth-user";
 import {dehydrate, QueryClient} from "@tanstack/react-query";
 import {getUserInfoOneApi} from "@api/user-api";
 import {handleServerSideError} from "@util/services/handle-error/server-side-error";
-import {getLoginTokenInCookie} from "@util/services/auth/auth-core";
+import {getLoginTokenInCookie, useLogout} from '@util/services/auth/auth-core';
 
 export default function Page() {
+  const logout = useLogout()
 
+  return (
+    <div>
+      <button onClick={logout}>로그아웃</button>
+    </div>
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -25,9 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
      */
     await queryClient.prefetchQuery({
       queryKey: [USER_INFO_QUERY_KEY],
-      queryFn: () => {
-        getUserInfoOneApi(loginToken.userPk)
-      }
+      queryFn: () => getUserInfoOneApi(loginToken.userPk, context)
     });
 
     return {
