@@ -6,23 +6,13 @@ export interface PostMessage<D = any> {
 }
 
 // 나중에 Receiver 구현할 때 함수명('type' 으로 파일검색해서 어디서 post하는지 찾을 수 있도록 설계
-export function windowPostMessage<D>(type: string, data: D, windowObject?: Window | undefined) {
-  let _windowObject: Window;
-
-  try {
-    _windowObject = windowObject ?? window.opener;
-  } catch (error) {
-    // Reference Error
-    return;
-  }
-
-
+export function windowPostMessage<D>(type: string, data: D, windowObject: Window = window.opener) {
   const message: PostMessage = {
     type,
     data
   };
 
-  _windowObject.postMessage(message);
+  windowObject.postMessage(message);
 }
 
 export interface UseWindowMessageParam<D = any> {
