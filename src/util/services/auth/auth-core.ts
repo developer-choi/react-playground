@@ -96,10 +96,11 @@ export function getAfterLoginSuccessUrl() {
 }
 
 export function useLogout() {
+  const {replace} = useRouter()
   const clearLoginUserInfo = useClearLoginUserInfo();
   const reload = useRefreshGetServerSideProps()
 
-  return useCallback( async () => {
+  return useCallback( async (redirectPath?: string) => {
     try {
       clearLoginUserInfo();
       await putAuthLogoutApi();
@@ -113,7 +114,12 @@ export function useLogout() {
        * 저걸 API 호출전에 실행하면 로그아웃 API 호출할 때 request header Authorization에 액세스토큰값 못가져와서 401 응답됨.
        */
 
-      reload();
+      if (redirectPath) {
+        replace(redirectPath)
+
+      } else {
+        reload();
+      }
     } catch (error) {
       if (error instanceof AuthError) {
         //로그아웃하려고하는데 쿠키가 없다 하더라도 처리가 달라지지는 않음. 동일하게 새로고침
@@ -122,7 +128,7 @@ export function useLogout() {
         console.error(error)
       }
     }
-  }, [clearLoginUserInfo, reload])
+  }, [clearLoginUserInfo, reload, replace])
 }
 
 export function useAlertForNotLoggedIn() {

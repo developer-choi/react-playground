@@ -10,7 +10,7 @@ export default function Page() {
 
   return (
     <div>
-      <button onClick={logout}>로그아웃</button>
+      <button onClick={() => logout()}>로그아웃</button>
     </div>
   )
 }

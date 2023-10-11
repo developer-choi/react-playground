@@ -1,6 +1,7 @@
 import type {GetServerSidePropsContext} from 'next';
 import * as nookies from 'nookies';
 import Cookies, {CookieAttributes} from 'js-cookie';
+import type {CookieSerializeOptions} from "cookie";
 
 export function getCookie(name: string, context?: GetServerSidePropsContext) {
   if (context) {
@@ -23,7 +24,11 @@ export function setCookie({context, name, value, options}: {name: string, value:
   const _value = typeof value === 'string' ? value : JSON.stringify(value);
 
   if (context) {
-    nookies.setCookie(context, name, _value, options)
+    nookies.setCookie(context, name, _value, {
+      ...options,
+      expires: options?.expires === undefined ? undefined : new Date(options.expires),
+      sameSite: options?.sameSite?.toLowerCase() as CookieSerializeOptions['sameSite']
+    })
 
   } else {
     Cookies.set(name, _value, options)
