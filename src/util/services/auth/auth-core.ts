@@ -18,7 +18,8 @@ export function setLoginToken(loginToken: LoginToken) {
     name: LOGIN_TOKEN,
     value: loginToken,
     options: {
-      expires: getDiffDate(new Date(), [2])
+      expires: getDiffDate(new Date(), [2]),
+      path: '/' //이거 반드시 해야함.
     }
   })
 }
