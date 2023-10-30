@@ -1,4 +1,4 @@
-import {SubmitHandler, useForm, useFormContext, UseFormReturn} from 'react-hook-form';
+import {SubmitHandler, useForm, UseFormReturn} from 'react-hook-form';
 import type {ComponentPropsWithoutRef} from 'react';
 import {useCallback} from 'react';
 import type {SubmitErrorHandler} from 'react-hook-form/dist/types/form';
@@ -120,7 +120,7 @@ interface SignAddressFormData extends AddressFormData {
 }
 
 function useSignupAddressForm() {
-  const methods = useFormContext<SignAddressFormData>()
+  const methods = useForm<SignAddressFormData>()
 
   const inputProps = useAddressForm<SignAddressFormData>(methods)
   const nameProps: ComponentPropsWithoutRef<'input'> = {
