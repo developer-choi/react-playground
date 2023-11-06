@@ -56,4 +56,9 @@ export const GlobalStyle = createGlobalStyle`
   ${font};
   ${layout};
   ${toast};
+  
+  // useLoadingBetweenPageMoves() 참고
+  body.cursor-loading * {
+    cursor: progress !important;
+  }
 `;
