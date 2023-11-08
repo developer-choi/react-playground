@@ -11,7 +11,8 @@ export default function Page() {
   const {data} = useQuery({
     queryKey: ['parsed-account-book', value],
     queryFn: () => postAccountParseApi(value),
-    enabled: !!value
+    enabled: !!value,
+    refetchOnWindowFocus: false
   });
 
   return (
