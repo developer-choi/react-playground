@@ -11,8 +11,6 @@ export default function Page() {
   const {data} = useQuery({
     queryKey: ['parsed-account-book', value],
     queryFn: () => postAccountParseApi(value),
-    cacheTime: Infinity,
-    staleTime: Infinity,
     enabled: !!value
   });
 
@@ -50,7 +48,7 @@ const Wrap = styled.div`
 `;
 
 const StyledTextArea = styled(TextArea)`
-  width: 500px;
+  width: 1000px;
   height: 200px;
   margin-bottom: 30px;
 `;
