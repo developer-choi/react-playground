@@ -5,15 +5,9 @@ export interface AccountBookListResponse {
 
 export type LargeCategoryType = 'fixed' | 'saving' | 'living' | 'etc';
 
-export type FixedCategoryType = 'insurance' | 'phone' | 'house' | 'transportation' | 'food' | 'hair' | 'allowance';
-export type SavingCategoryType = 'deposit';
-export type LivingCategoryType = 'our';
-export type MiddleCategoryType = FixedCategoryType | SavingCategoryType | LivingCategoryType
-
 export interface ParsedFullAccountBook {
   memo: string;
   largeCategory: LargeCategoryType;
-  middleCategory: MiddleCategoryType;
   withdrawalPrice: number;
   depositPrice: number;
   date: string;
@@ -21,7 +15,6 @@ export interface ParsedFullAccountBook {
 
 export interface AccountBook extends Omit<ParsedFullAccountBook, 'depositPrice' | 'withdrawalPrice'> {
   price: number;
-  commaPrice: string;
 }
 
 export interface AccountBookWithLargeCategory {

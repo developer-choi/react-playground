@@ -27,10 +27,10 @@ export default function Page() {
                 <Price style={{color: theme.main}}>{numberWithComma(total)}</Price>
               </LargeCategory>
               <ul>
-                {list.map(({memo, commaPrice}, index) => (
+                {list.map(({memo, price}, index) => (
                   <Row key={index}>
                     <Memo>{memo}</Memo>
-                    <Price>{commaPrice}</Price>
+                    <Price>{numberWithComma(price)}</Price>
                   </Row>
                 ))}
               </ul>
