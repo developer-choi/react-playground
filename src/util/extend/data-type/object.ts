@@ -42,3 +42,29 @@ export function itemListToDataOfType<T extends string>(itemList: NameValueItem<T
     typeList
   };
 }
+
+/**
+ * 자식의 자식의 자식까지 전부 뒤져서 string이면 trim()함
+ */
+export function trimObject<T>(value: T): T {
+  if (Array.isArray(value)) {
+    return value.map(item => trimObject(item)) as T;
+
+  } else if (typeof value === 'string') {
+    return value.trim() as T;
+
+  } else if (typeof value !== 'object') {
+    return value;
+
+  } else {
+    return Object.fromEntries(Object.entries(value as Object).map(([key, value]) => {
+      if (typeof value === 'object') {
+        return [key, trimObject(value)];
+      } else if (typeof value === 'string') {
+        return [key, value.trim()];
+      } else {
+        return [key, value];
+      }
+    })) as T;
+  }
+}

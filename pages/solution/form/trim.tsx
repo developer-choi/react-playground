@@ -1,0 +1,49 @@
+import React, {useCallback} from 'react';
+import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
+import {trimObject} from '@util/extend/data-type/object';
+
+/**
+ * URL: http://localhost:3000/solution/form/trim
+ *
+ * 문자열 양옆에 공백을 제거하려면 2가지 기술이 필요
+ * 1. 입력할 떄 유효성 검증해서 제출못하게 막아야 ("   " 이렇게 해놓고 제출하면 막아야)
+ * 2. 제출할 때 앞뒤 공백 잘라서 제출시켜야 (" a ") ==> "a"
+ */
+export default function Page() {
+  const {register, handleSubmit} = useForm<TestFormData>();
+
+  const onError: SubmitErrorHandler<TestFormData> = useCallback(errors => {
+    console.error(errors);
+  }, []);
+
+  const onSubmit: SubmitHandler<TestFormData> = useCallback(data => {
+    console.log('submit', trimObject(data));
+  }, []);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit, onError)}>
+      <input {...register('name', options)}/>
+    </form>
+  );
+}
+
+export async function getServerSideProps() {
+  return {
+    props: {}
+  };
+}
+
+interface TestFormData {
+  name: string;
+}
+
+const options: RegisterOptions = {
+  required: {
+    value: true,
+    message: '필수임'
+  },
+  validate: {
+    notSpace: value => value.trim() ? true : '공백쓰지마셈, 이거 필수임'
+  }
+};
