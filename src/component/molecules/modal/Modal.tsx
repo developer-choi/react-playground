@@ -38,7 +38,7 @@ export default function Modal({disableEasilyClose = false, closeModal, children,
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    document.body.focus();
+    document.body.focus(); //이거 안하면 모달 뜨기전에 입력박스에 포커스 가있는 경우, 모달 뜨고나서도 입력박스에 포커스 가있어서 보기 조금 이상함
 
     return () => {
       document.body.style.overflow = 'auto';
