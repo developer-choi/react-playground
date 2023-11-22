@@ -26,24 +26,24 @@ export function useKakaoInit() {
     crossOrigin: 'anonymous',
     onLoad
   }), [onLoad]);
-  
+
   return {
     kakaoMethods: !initialized || !window.Kakao ? null : window.Kakao,
     scriptProps
-  }
+  };
 }
 
 export function useKakaoShare() {
-  const {kakaoMethods, scriptProps} = useKakaoInit()
-  
+  const {kakaoMethods, scriptProps} = useKakaoInit();
+
   const shareProductToKakaoTalk = useCallback((product: ProductToShareKakao) => {
     if (!kakaoMethods) {
-      return
+      return;
     }
 
     const {regularPrice, discountPrice, discountRate, thumbnail, pk, title} = product;
-    
-    const resultUrl = env.public.origin + `/study/kakao/share-target?pk=${pk}`;
+
+    const resultUrl = env.public.origin + `/solution/kakao/share-target?pk=${pk}`;
 
     kakaoMethods.Share.sendDefault({
       objectType: 'commerce',
@@ -52,7 +52,10 @@ export function useKakaoShare() {
         imageUrl: thumbnail,
         //카카오개발자센터에 등록한 도메인중에 하나여야함
         link: {
-          webUrl: env.public.origin
+          webUrl: resultUrl,
+          mobileWebUrl: resultUrl,
+          androidExecutionParams: resultUrl,
+          iosExecutionParams: resultUrl
         }
       },
       commerce: commerce({regularPrice, discountPrice, discountRate}),
@@ -72,12 +75,12 @@ export function useKakaoShare() {
 
   const shareStoryToKakaoStory = useCallback((url: string) => {
     if (!kakaoMethods) {
-      return
+      return;
     }
 
     kakaoMethods.Story.share({
       url,
-      text: ""
+      text: ''
     });
   }, [kakaoMethods]);
 
@@ -101,10 +104,10 @@ function commerce({regularPrice, discountPrice, discountRate}: Pick<ProductToSha
   if (discountPrice && discountRate) {
     return {
       regularPrice,
-      discountPrice, 
+      discountPrice,
       discountRate
     };
-    
+
   } else {
     return {
       regularPrice

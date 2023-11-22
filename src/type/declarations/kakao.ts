@@ -21,9 +21,7 @@ interface KakaoSendDefaultParam {
   content: {
     title: string;
     imageUrl: string;
-    link: {
-      webUrl: string;
-    };
+    link: KakaoTalkButtonLink;
   };
   commerce: KakaoTalkCommerce;
   buttons: KakaoTalkButton[];
