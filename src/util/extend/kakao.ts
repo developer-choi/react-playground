@@ -50,7 +50,12 @@ export function useKakaoShare() {
       content: {
         title: title,
         imageUrl: thumbnail,
-        //카카오개발자센터에 등록한 도메인중에 하나여야함
+
+        /**
+         * 카카오개발자센터에 등록한 도메인중에 하나여야함
+         * 4개 다 링크 지정해야 썸네일클릭, 제목클릭했을 때
+         * 링크가 아래 구매하기버튼으로 감.
+         */
         link: {
           webUrl: resultUrl,
           mobileWebUrl: resultUrl,
