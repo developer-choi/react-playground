@@ -1,11 +1,8 @@
 import type {GetServerSidePropsContext} from 'next';
-import {getCookie, removeCookie, setCookie} from '@util/extend/browser/cookie';
+import {getCookie, setCookie} from '@util/extend/browser/cookie';
 import {AuthError} from '@util/services/auth/AuthError';
 import {useRouter} from 'next/router';
 import {useCallback} from 'react';
-import {putAuthLogoutApi} from '@api/auth-api';
-import {useClearLoginUserInfo} from '@util/services/auth/auth-user';
-import {useRefreshGetServerSideProps} from '@util/extend/next';
 import {getDiffDate} from '@util/extend/date/date-util';
 
 export interface LoginToken {
@@ -19,7 +16,6 @@ export function setLoginToken(loginToken: LoginToken) {
     value: loginToken,
     options: {
       expires: getDiffDate(new Date(), [2]),
-      path: '/' //이거 반드시 해야함.
     }
   })
 }
@@ -65,7 +61,7 @@ export function getLoginTokenInCookie<T extends boolean = false>(param?: LoginTo
 
     if (throwable) {
       throw new AuthError('Login is required.', {
-        redirectUrl: `/experimental/handle-error/login?${LOGIN_REDIRECT_KEY_NAME}=${redirectPath}`
+        redirectUrl: `/experimental/handle-error/login?${LOGIN_REDIRECT_QUERY_KEY}=${redirectPath}`
       });
     } else {
       return undefined as ConditionalResultType<T>
@@ -83,10 +79,10 @@ export function isLoggedInCookie(context?: GetServerSidePropsContext) {
   return !!getLoginTokenInCookie({context});
 }
 
-const LOGIN_REDIRECT_KEY_NAME = 'redirectUrl';
+export const LOGIN_REDIRECT_QUERY_KEY = 'redirectUrl';
 
 export function getAfterLoginSuccessUrl() {
-  const redirectUrl = new URLSearchParams(location.search).get(LOGIN_REDIRECT_KEY_NAME);
+  const redirectUrl = new URLSearchParams(location.search).get(LOGIN_REDIRECT_QUERY_KEY);
   const hash = location.hash;
 
   if (redirectUrl === null) {
@@ -94,42 +90,6 @@ export function getAfterLoginSuccessUrl() {
   }
 
   return redirectUrl + hash;
-}
-
-export function useLogout() {
-  const {replace} = useRouter()
-  const clearLoginUserInfo = useClearLoginUserInfo();
-  const reload = useRefreshGetServerSideProps()
-
-  return useCallback( async (redirectPath?: string) => {
-    try {
-      clearLoginUserInfo();
-      await putAuthLogoutApi();
-
-      removeCookie(LOGIN_TOKEN);
-
-      /**
-       * 만약 로그아웃 API에서 login token 쿠키 지워줄 경우, 저 코드를 작성할 필요는 없음.
-       *
-       * 하지만 API에서 쿠키삭제 안해주는경우, 정확히 저 코드라인에 코드 작성해야함.
-       * 저걸 API 호출전에 실행하면 로그아웃 API 호출할 때 request header Authorization에 액세스토큰값 못가져와서 401 응답됨.
-       */
-
-      if (redirectPath) {
-        replace(redirectPath)
-
-      } else {
-        reload();
-      }
-    } catch (error) {
-      if (error instanceof AuthError) {
-        //로그아웃하려고하는데 쿠키가 없다 하더라도 처리가 달라지지는 않음. 동일하게 새로고침
-        reload();
-      } else {
-        console.error(error)
-      }
-    }
-  }, [clearLoginUserInfo, reload, replace])
 }
 
 export function useAlertForNotLoggedIn() {

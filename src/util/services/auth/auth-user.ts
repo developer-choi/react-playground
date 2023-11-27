@@ -1,55 +1,147 @@
-import {useQuery, useQueryClient} from "@tanstack/react-query";
-import type {UserInfo} from "@type/response-sub/user-sub";
+import {QueryClient, useQuery, useQueryClient} from '@tanstack/react-query';
+import type {UserInfo} from '@type/response-sub/user-sub';
 import {useCallback, useEffect} from 'react';
-import {getUserInfoOneApi} from "@api/user-api";
-import {getLoginTokenInCookie} from '@util/services/auth/auth-core';
+import {getUserInfoOneApi} from '@api/user-api';
+import {getLoginTokenInCookie, LOGIN_REDIRECT_QUERY_KEY, LOGIN_TOKEN} from '@util/services/auth/auth-core';
+import type {GetServerSidePropsContext} from 'next';
+import {useRouter} from 'next/router';
+import {putAuthLogoutApi} from '@api/auth-api';
+import {removeCookie} from '@util/extend/browser/cookie';
+import {AuthError} from '@util/services/auth/AuthError';
 
-export const USER_INFO_QUERY_KEY = ['user-info']
+/*************************************************************************************************************
+ * Exported functions
+ *************************************************************************************************************/
 
-export interface UseGetUserResult {
-  loginStatus: boolean | 'checking'
-  userInfo: UserInfo | null
-}
-
-export function useAuth(): UseGetUserResult {
+/** 의도
+ * Auth에 접근하는 public method는 총 4개
+ * useAuth()
+ * useRefreshAuth()
+ * useLogout()
+ * fetchAuthInServerSide()
+ *
+ * 이것 외에 queryClient.fetchQuery 등의 메소드로 직접 USER_INFO_QUERY_KEY에 캐시 데이터 쓰지않도록
+ * USER_INFO_QUERY_KEY값은 export하지않았음.
+ */
+export function useAuth() {
   const queryClient = useQueryClient();
-  const clearLoginUserInfo = useClearLoginUserInfo();
 
-  const {data} = useQuery<UserInfo | 'checking'>({
+  const {data} = useQuery<'checking' | null | UserInfo>({
     queryKey: USER_INFO_QUERY_KEY,
-    initialData: 'checking',
     enabled: false,
-    refetchOnWindowFocus: false,
-    //마이페이지 접근할 때 어차피 사용자정보 API를 Server Side에서 호출해서 최신화할거라서 여기서는 캐시 재사용
-    staleTime: 5 * 60 * 1000,
-  })
+    initialData: 'checking',
+    // queryFn 없기때문에 refetchOnWindowFocus 안써도 됨
+  });
 
+  // initialize auto login
   useEffect(() => {
-    const token = getLoginTokenInCookie()
-
-    if (!token) {
-      clearLoginUserInfo()
+    /**
+     * 1. Server Side에서 이미 데이터를 가져온 경우
+     * 2. 이전 페이지에서 useAuth()로 데이터를 가져온 다음 페이지 이동했더니 그 페이지에서도 useAuth()를 호출하고있는 경우
+     *
+     * 이미 데이터가 존재하므로 refetching 하지않음.
+     *
+     * 이렇게 했기 때문에, queryClient.invalidate() 하더라도 Auth 데이터는 리패칭되지않지만,
+     * 리패칭하고싶다면 (회원정보 수정같은거 성공해서 최신화하고 싶은경우)
+     * 아래 refreshAuth()를 호출할것.
+     */
+    if (data !== 'checking' || data !== null) {
       return;
     }
 
-    queryClient.prefetchQuery({
+    const loginCookie = getLoginTokenInCookie();
+
+    if (!loginCookie) {
+      queryClient.setQueryData(USER_INFO_QUERY_KEY, null);
+      return;
+    }
+
+    queryClient.fetchQuery({
       queryKey: USER_INFO_QUERY_KEY,
-      queryFn: () => getUserInfoOneApi(token.userPk)
+      queryFn: () => getUserInfoOneApi(loginCookie.userPk),
+    }).catch((error) => {
+      handleLoginError(error, queryClient);
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
-    loginStatus: data === 'checking' ? 'checking' : !!data,
+    loginStatus: data === 'checking' ? 'checking' : data !== null,
     userInfo: data === 'checking' ? null : data
+  };
+}
+
+export function useRefreshAuth() {
+  const queryClient = useQueryClient();
+
+  return useCallback(async () => {
+    const loginCookie = getLoginTokenInCookie();
+
+    if (loginCookie) {
+      try {
+        await queryClient.fetchQuery({
+          queryKey: USER_INFO_QUERY_KEY,
+          queryFn: () => getUserInfoOneApi(loginCookie.userPk)
+        });
+      } catch (error) {
+        handleLoginError(error, queryClient);
+      }
+    }
+  }, [queryClient]);
+}
+
+export function useLogout() {
+  const {replace} = useRouter();
+  const queryClient = useQueryClient();
+
+  return useCallback(async (redirectPath = '/') => {
+    queryClient.setQueryData(USER_INFO_QUERY_KEY, null);
+
+    try {
+      await putAuthLogoutApi();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      removeCookie(LOGIN_TOKEN);
+    }
+
+    replace(redirectPath);
+  }, [queryClient, replace]);
+}
+
+// 주로 마이페이지 하위 페이지에서 쓰기 위함
+export async function fetchAuthInServerSide(queryClient: QueryClient, context: GetServerSidePropsContext) {
+  try {
+    const {userPk} = getLoginTokenInCookie({
+      throwable: true,
+      context
+    });
+
+    await queryClient.fetchQuery({
+      queryKey: USER_INFO_QUERY_KEY,
+      queryFn: () => getUserInfoOneApi(userPk, context)
+    });
+
+  } catch (error: any) {
+    if (error instanceof AuthError) {
+      handleLoginError(error, queryClient, context);
+      throw error; //호출한 페이지의 getServerSideProps에서는 이 AuthError를 잡아서 로그인페이지같은데로 보내는 등의 처리를 해야함.
+    } else {
+      throw new AuthError(error.message, {
+        redirectUrl: `/experimental/handle-error/login?${LOGIN_REDIRECT_QUERY_KEY}=${context.resolvedUrl}`
+      });
+    }
   }
 }
 
-export function useClearLoginUserInfo() {
-  const queryClient = useQueryClient();
-  
-  return useCallback(() => {
-    queryClient.setQueryData(USER_INFO_QUERY_KEY, null);
-  }, [queryClient])
+/*************************************************************************************************************
+ * Non Export
+ *************************************************************************************************************/
+const USER_INFO_QUERY_KEY = ['user-info'];
+
+function handleLoginError(error: any, queryClient: QueryClient, context?: GetServerSidePropsContext) {
+  console.error(error);
+  removeCookie(LOGIN_TOKEN, context);
+  queryClient.setQueryData(USER_INFO_QUERY_KEY, null);
 }

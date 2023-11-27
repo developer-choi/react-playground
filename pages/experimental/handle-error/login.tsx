@@ -10,14 +10,12 @@ import styled from 'styled-components';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {postAuthLoginApi} from '@api/auth-api';
 import {getSSPForNotLoggedIn} from "@util/services/auth/auth-server-side";
-import {useQueryClient} from "@tanstack/react-query";
-import {USER_INFO_QUERY_KEY} from "@util/services/auth/auth-user";
 import {useHandleClientSideError} from "@util/services/handle-error/client-side-error";
+import {useRefreshAuth} from '@util/services/auth/auth-user';
 
 // URL: http://localhost:3000/experimental/handle-error/login
 export default function LoginPage() {
   const {prefetch, replace, push} = useRouter();
-  const queryClient = useQueryClient();
   const handleClientSideError = useHandleClientSideError();
 
   const [email, setEmail] = useState('test-email@test.com');
@@ -25,6 +23,8 @@ export default function LoginPage() {
 
   const [password, setPassword] = useState('test-password');
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const refreshAuth = useRefreshAuth()
 
   const onClick = useCallback(async () => {
     try {
@@ -41,10 +41,9 @@ export default function LoginPage() {
         userPk: info.userPk
       });
 
-      queryClient.setQueryData(USER_INFO_QUERY_KEY, info);
+      refreshAuth().then();
 
-      const redirectUrl = getAfterLoginSuccessUrl();
-      replace(redirectUrl).then();
+      replace(getAfterLoginSuccessUrl()).then();
 
     } catch (error) {
       if(error instanceof ValidateError) {
@@ -75,7 +74,7 @@ export default function LoginPage() {
       toast.error('Login is restricted because the password is incorrect more than 10 times.');
       await push('/');
     }
-  }, [email, handleClientSideError, password, push, queryClient, replace]);
+  }, [email, handleClientSideError, password, push, refreshAuth, replace]);
 
   useEffect(() => {
     const redirectUrl = getAfterLoginSuccessUrl();

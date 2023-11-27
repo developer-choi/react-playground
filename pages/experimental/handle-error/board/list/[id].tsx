@@ -4,11 +4,10 @@ import type {PagingResponse} from '@type/response/common';
 import type {Board} from '@type/response-sub/board-sub';
 import Link from 'next/link';
 import styled from 'styled-components';
-import {useLogout} from '@util/services/auth/auth-core';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {validateNumber} from '@util/extend/browser/query-string';
 import {getBoardListApi} from '@api/board-api';
-import {useAuth} from "@util/services/auth/auth-user";
+import {useAuth, useLogout} from '@util/services/auth/auth-user';
 
 // URL: http://localhost:3000/experimental/handle-error/board/list/1
 interface PageProp extends PagingResponse{

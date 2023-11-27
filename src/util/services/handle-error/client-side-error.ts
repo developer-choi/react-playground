@@ -4,14 +4,13 @@ import type {AxiosErrorWithResponse} from '@api/config';
 import {haveAxiosResponse} from '@api/config';
 import {toast} from 'react-toastify';
 import ValidateError from '@util/services/handle-error/ValidateError';
-import {useCallback} from "react";
-import {useLogout} from "@util/services/auth/auth-core";
-import {useClearLoginUserInfo} from '@util/services/auth/auth-user';
+import {useCallback} from 'react';
+import {useLogout} from '@util/services/auth/auth-user';
 
 export function useHandleClientSideError() {
-  const handleErrorAfterRespondApi = useHandleErrorAfterRespondApi()
-  const handleErrorBeforeCallApi = useHandleErrorBeforeCallApi()
-  
+  const handleErrorAfterRespondApi = useHandleErrorAfterRespondApi();
+  const handleErrorBeforeCallApi = useHandleErrorBeforeCallApi();
+
   return useCallback((error: any) => {
     if (!error.isAxiosError) {
       handleErrorBeforeCallApi(error);
@@ -23,14 +22,14 @@ export function useHandleClientSideError() {
     } else {
       handleErrorAfterRespondApi(error);
     }
-  }, [handleErrorAfterRespondApi, handleErrorBeforeCallApi])
+  }, [handleErrorAfterRespondApi, handleErrorBeforeCallApi]);
 }
 
 function useHandleErrorBeforeCallApi() {
-  const handleAuthError = useHandleAuthError()
+  const handleAuthError = useHandleAuthError();
 
   return useCallback((error: any) => {
-    if(error instanceof AuthError) {
+    if (error instanceof AuthError) {
       handleAuthError(error);
       return;
     }
@@ -48,7 +47,7 @@ function useHandleErrorBeforeCallApi() {
     /** another handling error codes here
      *
      */
-  }, [handleAuthError])
+  }, [handleAuthError]);
 }
 
 /**
@@ -60,15 +59,12 @@ function useHandleErrorBeforeCallApi() {
  */
 function useHandleAuthError() {
   const {push} = useRouter();
-  const clearLoginUserInfo = useClearLoginUserInfo();
-  
+
   return useCallback((error: AuthError) => {
-    clearLoginUserInfo();
-    
-    if (confirm('로그인 후 이용이 가능합니다.')) {
+    if (confirm(error.message)) {
       push(error.option.redirectUrl);
     }
-  }, [clearLoginUserInfo, push])
+  }, [push]);
 }
 
 function handleValidateError(error: ValidateError) {
@@ -76,7 +72,7 @@ function handleValidateError(error: ValidateError) {
 }
 
 function useHandleErrorAfterRespondApi() {
-  const logout = useLogout()
+  const logout = useLogout();
 
   return useCallback((error: AxiosErrorWithResponse) => {
     const {status} = error.response;
@@ -95,7 +91,7 @@ function useHandleErrorAfterRespondApi() {
     }
 
     handleUnexpectedError(error);
-  }, [logout])
+  }, [logout]);
 }
 
 const BLOCK_USER_STATUS_CODE = 701;

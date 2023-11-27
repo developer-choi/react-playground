@@ -13,10 +13,14 @@ export function getCookie(name: string, context?: GetServerSidePropsContext) {
 
 export function removeCookie(name: string, context?: GetServerSidePropsContext) {
   if (context) {
-    nookies.destroyCookie(context, name);
+    nookies.destroyCookie(context, name, {
+      path: '/'
+    });
 
   } else {
-    Cookies.remove(name);
+    Cookies.remove(name, {
+      path: '/'
+    });
   }
 }
 
@@ -25,12 +29,16 @@ export function setCookie({context, name, value, options}: {name: string, value:
 
   if (context) {
     nookies.setCookie(context, name, _value, {
+      path: '/',
       ...options,
       expires: options?.expires === undefined ? undefined : new Date(options.expires),
-      sameSite: options?.sameSite?.toLowerCase() as CookieSerializeOptions['sameSite']
+      sameSite: options?.sameSite?.toLowerCase() as CookieSerializeOptions['sameSite'],
     })
 
   } else {
-    Cookies.set(name, _value, options)
+    Cookies.set(name, _value, {
+      path: '/',
+      ...options,
+    })
   }
 }
