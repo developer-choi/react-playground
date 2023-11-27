@@ -13,7 +13,7 @@ export default function Page() {
   const methods = useForm<TestFormData>();
 
   const onError: SubmitErrorHandler<TestFormData> = useCallback(({name}) => {
-    baseHandleErrors([name], true);
+    baseHandleErrors([name]);
   }, []);
 
   const onSubmit: SubmitHandler<TestFormData> = useCallback(data => {
