@@ -1,4 +1,5 @@
 import type {FieldError} from 'react-hook-form/dist/types/errors';
+import type {RegisterOptions, ValidationValueMessage} from 'react-hook-form/dist/types/validator';
 
 export function baseHandleErrors(errorList: (FieldError | undefined)[]) {
   for (const error of errorList) {
@@ -17,4 +18,37 @@ export function baseHandleErrors(errorList: (FieldError | undefined)[]) {
     error.ref?.focus?.();
     break;
   }
+}
+
+/**
+ * @return undefuned = 애초에 지정안했으니 기본값 쓰면된다는 뜻
+ */
+export function getRequiredOptions(required: RegisterOptions['required']): ValidationValueMessage<boolean> | undefined {
+  if (required === undefined) {
+    return undefined
+  }
+
+  if(typeof required === 'object') {
+    return required
+  }
+
+  if (required === true) {
+    return {
+      value: true,
+      message: '필수입니다.'
+    }
+  }
+
+  if (required === false) {
+    return {
+      value: false,
+      message: ''
+    }
+  }
+
+  // typeof required === 'string'
+  return {
+    value: true,
+    message: required
+  };
 }
