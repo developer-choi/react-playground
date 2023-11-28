@@ -2,7 +2,7 @@ import {QueryClient, useQuery, useQueryClient} from '@tanstack/react-query';
 import type {UserInfo} from '@type/response-sub/user-sub';
 import {useCallback, useEffect} from 'react';
 import {getUserInfoOneApi} from '@api/user-api';
-import {getLoginTokenInCookie, LOGIN_REDIRECT_QUERY_KEY, LOGIN_TOKEN} from '@util/services/auth/auth-core';
+import {getLoginTokenInCookie, LOGIN_TOKEN} from '@util/services/auth/auth-token';
 import type {GetServerSidePropsContext} from 'next';
 import {useRouter} from 'next/router';
 import {putAuthLogoutApi} from '@api/auth-api';
@@ -129,7 +129,7 @@ export async function fetchAuthInServerSide(queryClient: QueryClient, context: G
       throw error; //호출한 페이지의 getServerSideProps에서는 이 AuthError를 잡아서 로그인페이지같은데로 보내는 등의 처리를 해야함.
     } else {
       throw new AuthError(error.message, {
-        redirectUrl: `/experimental/handle-error/login?${LOGIN_REDIRECT_QUERY_KEY}=${context.resolvedUrl}`
+        redirectPath: context.resolvedUrl
       });
     }
   }

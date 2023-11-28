@@ -7,9 +7,9 @@ import {toast} from 'react-toastify';
 import Button from '@component/atom/element/Button';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {putAuthResetPasswordApi} from '@api/auth-api';
-import {getSSPForLoggedIn} from "@util/services/auth/auth-server-side";
+import {getSSPForLoggedIn} from "@util/services/auth/auth-util";
 import {useHandleClientSideError} from "@util/services/handle-error/client-side-error";
-import {useLogout} from '@util/services/auth/auth-user';
+import {useLogout} from '@util/services/auth/auth-user-cache';
 
 // URL: http://localhost:3000/experimental/handle-error/change-password
 export default function Page() {

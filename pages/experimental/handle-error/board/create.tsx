@@ -6,7 +6,7 @@ import TextArea from '@component/extend/TextArea';
 import Button from '@component/atom/element/Button';
 import {useRouter} from 'next/router';
 import {postBoardApi} from '@api/board-api';
-import {getSSPForLoggedIn} from "@util/services/auth/auth-server-side";
+import {getSSPForLoggedIn} from "@util/services/auth/auth-util";
 import {useHandleClientSideError} from "@util/services/handle-error/client-side-error";
 
 // URL: http://localhost:3000/experimental/handle-error/board/create

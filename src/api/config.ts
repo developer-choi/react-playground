@@ -2,7 +2,7 @@ import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} fro
 import ConnectError from '@util/services/handle-error/ConnectError';
 import env from '@util/env';
 import type {GetServerSidePropsContext} from 'next';
-import {getLoginTokenInCookie, LOGIN_TOKEN} from "@util/services/auth/auth-core";
+import {getLoginTokenInCookie, LOGIN_TOKEN} from "@util/services/auth/auth-token";
 import {removeCookie} from "@util/extend/browser/cookie";
 
 export interface MakeAxiosInstanceParam {

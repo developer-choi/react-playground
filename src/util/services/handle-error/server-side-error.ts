@@ -1,7 +1,7 @@
 import type {GetServerSidePropsResult} from 'next';
 import {haveAxiosResponse} from '@api/config';
 import type {NotifyRedirectProps} from '@component/atom/NotifyRedirect';
-import {AuthError} from '@util/services/auth/AuthError';
+import {AuthError, handleAuthErrorInServer} from '@util/services/auth/AuthError';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import type {AxiosError} from 'axios';
 
@@ -14,7 +14,7 @@ export function handleServerSideError<T = any>(error: any, option?: HandleServer
     return handleValidateError(error, option);
 
   } else if (error instanceof AuthError) {
-    return handleAuthError(error);
+    return handleAuthErrorInServer(error);
 
   } else {
     const axiosError = haveAxiosResponse(error);
@@ -37,15 +37,6 @@ function handleValidateError(error: ValidateError, option?: HandleServerSideErro
   return {
     props: {
       notifyRedirect: option.notifyRedirect
-    }
-  };
-}
-
-function handleAuthError(error: AuthError): GetServerSidePropsResult<any> {
-  return {
-    redirect: {
-      permanent: false,
-      destination: error.option.redirectUrl
     }
   };
 }

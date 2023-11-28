@@ -1,7 +1,7 @@
 import type {GetServerSideProps} from 'next';
 import {dehydrate, QueryClient} from '@tanstack/react-query';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
-import {fetchAuthInServerSide, useLogout} from '@util/services/auth/auth-user';
+import {fetchAuthInServerSide, useLogout} from '@util/services/auth/auth-user-cache';
 
 export default function Page() {
   const logout = useLogout();

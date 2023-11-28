@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Button from '@component/atom/element/Button';
 import {useRouter} from 'next/router';
-import {getAfterLoginSuccessUrl, setLoginToken} from '@util/services/auth/auth-core';
+import {setLoginToken} from '@util/services/auth/auth-token';
 import Form from '@component/extend/Form';
 import InputText from '@component/extend/InputText';
 import {haveAxiosResponse} from '@api/config';
@@ -9,9 +9,9 @@ import {toast} from 'react-toastify';
 import styled from 'styled-components';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {postAuthLoginApi} from '@api/auth-api';
-import {getSSPForNotLoggedIn} from "@util/services/auth/auth-server-side";
+import {getAfterLoginSuccessUrl, getSSPForNotLoggedIn} from '@util/services/auth/auth-util';
 import {useHandleClientSideError} from "@util/services/handle-error/client-side-error";
-import {useRefreshAuth} from '@util/services/auth/auth-user';
+import {useRefreshAuth} from '@util/services/auth/auth-user-cache';
 
 // URL: http://localhost:3000/experimental/handle-error/login
 export default function LoginPage() {

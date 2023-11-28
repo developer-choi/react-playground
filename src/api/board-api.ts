@@ -1,5 +1,5 @@
 import {makeAxiosInstance} from '@api/config';
-import {getLoginTokenInCookie} from '@util/services/auth/auth-core';
+import {getLoginTokenInCookie} from '@util/services/auth/auth-token';
 import type {BoardCreateParam} from '@type/response-sub/board-sub';
 import type {GetServerSidePropsContext} from 'next';
 import type {AxiosResponse} from 'axios';

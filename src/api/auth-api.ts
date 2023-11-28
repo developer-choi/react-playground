@@ -1,6 +1,6 @@
 import {makeAxiosInstance} from './config';
 import type {UserInfoResponse} from '@type/response/user';
-import {getLoginTokenInCookie} from '@util/services/auth/auth-core';
+import {getLoginTokenInCookie} from '@util/services/auth/auth-token';
 import SHA512 from 'sha512-es';
 import {validateEmail} from '@util/services/validator/email';
 import {validateOriginPassword, validatePassword} from '@util/services/validator/password';

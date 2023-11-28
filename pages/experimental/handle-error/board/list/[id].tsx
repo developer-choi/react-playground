@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {validateNumber} from '@util/extend/browser/query-string';
 import {getBoardListApi} from '@api/board-api';
-import {useAuth, useLogout} from '@util/services/auth/auth-user';
+import {useAuth, useLogout} from '@util/services/auth/auth-user-cache';
 
 // URL: http://localhost:3000/experimental/handle-error/board/list/1
 interface PageProp extends PagingResponse{

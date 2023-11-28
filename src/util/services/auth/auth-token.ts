@@ -1,8 +1,6 @@
 import type {GetServerSidePropsContext} from 'next';
 import {getCookie, setCookie} from '@util/extend/browser/cookie';
 import {AuthError} from '@util/services/auth/AuthError';
-import {useRouter} from 'next/router';
-import {useCallback} from 'react';
 import {getDiffDate} from '@util/extend/date/date-util';
 
 export interface LoginToken {
@@ -61,7 +59,7 @@ export function getLoginTokenInCookie<T extends boolean = false>(param?: LoginTo
 
     if (throwable) {
       throw new AuthError('Login is required.', {
-        redirectUrl: `/experimental/handle-error/login?${LOGIN_REDIRECT_QUERY_KEY}=${redirectPath}`
+        redirectPath
       });
     } else {
       return undefined as ConditionalResultType<T>
@@ -77,35 +75,4 @@ export function getLoginTokenInCookie<T extends boolean = false>(param?: LoginTo
  */
 export function isLoggedInCookie(context?: GetServerSidePropsContext) {
   return !!getLoginTokenInCookie({context});
-}
-
-export const LOGIN_REDIRECT_QUERY_KEY = 'redirectUrl';
-
-export function getAfterLoginSuccessUrl() {
-  const redirectUrl = new URLSearchParams(location.search).get(LOGIN_REDIRECT_QUERY_KEY);
-  const hash = location.hash;
-
-  if (redirectUrl === null) {
-    return "/" + hash;
-  }
-
-  return redirectUrl + hash;
-}
-
-export function useAlertForNotLoggedIn() {
-  const {push} = useRouter();
-
-  return useCallback(() => {
-    try {
-      getLoginTokenInCookie({
-        throwable: true
-      });
-    } catch (error) {
-      const {message, option: {redirectUrl}} = error as AuthError;
-
-      if (confirm(message)) {
-        push(redirectUrl).then();
-      }
-    }
-  }, [push]);
 }
