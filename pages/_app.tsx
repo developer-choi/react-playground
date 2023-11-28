@@ -15,22 +15,22 @@ import PageLoadingLayer from "@component/molecules/layer/PageLoadingLayer";
 
 export type PageProp = DehydratedPageProps & NotifyRedirectProps;
 
-export default function MyApp(props: AppProps<PageProp>) {
+export default function App(props: AppProps<PageProp>) {
+  if (EMPTY_PATHNAMES.some(pathname => props.router.pathname.includes(pathname))) {
+    return (
+      <props.Component {...props.pageProps}/>
+    )
+  }
+
   return (
     <Provider store={store}>
-      <ReduxApp {...props}/>
+      <RealApp {...props}/>
     </Provider>
   );
 }
 
-export const QUERY_CLIENT_INSTANCE = new QueryClient();
-
-function ReduxApp(props: AppProps<PageProp>) {
+function RealApp(props: AppProps<PageProp>) {
   const visibleLoadingLayer = useAppSelector(state => state.loadingLayer.visible);
-
-  //https://github.com/styled-components/styled-components/issues/3738
-  const ThemeProviderProxy: any = ThemeProvider;
-  const GlobalStyleProxy: any = GlobalStyle;
 
   return (
     <QueryClientProvider client={QUERY_CLIENT_INSTANCE}>
@@ -48,6 +48,14 @@ function ReduxApp(props: AppProps<PageProp>) {
     </QueryClientProvider>
   );
 }
+
+const EMPTY_PATHNAMES: string[] = ['sns-callback', 'nice-callback', 'etc-callback'];
+
+export const QUERY_CLIENT_INSTANCE = new QueryClient();
+
+//https://github.com/styled-components/styled-components/issues/3738
+const ThemeProviderProxy: any = ThemeProvider;
+const GlobalStyleProxy: any = GlobalStyle;
 
 //어떤 컴포넌트를 렌더링하더라도, GlobalStyle을 적용받아야하므로 별도로 분리.
 function PageComponent({Component, pageProps}: AppProps<PageProp>) {
