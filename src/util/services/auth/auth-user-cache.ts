@@ -118,11 +118,11 @@ export async function fetchAuthInServerSide(queryClient: QueryClient, context: G
       context
     });
 
-    await queryClient.fetchQuery({
+    // 호출하는곳에서 다른 API들과 함께 Promise.all()같은걸 사용할 수 있기 때문에, fetchQuery에서 반환되는 Promise를 그대로 리턴함.
+    return queryClient.fetchQuery({
       queryKey: USER_INFO_QUERY_KEY,
       queryFn: () => getUserInfoOneApi(userPk, context)
     });
-
   } catch (error: any) {
     if (error instanceof AuthError) {
       handleLoginError(error, queryClient, context);
