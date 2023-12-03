@@ -34,7 +34,6 @@ export default function Page() {
   }));
 
   const passwordConfirmOptions = methods.register('passwordConfirm', getPasswordConfirmOptions({
-    methods,
     passwordRegisterName: 'password',
     customOptions: {required: false}
   }));
@@ -58,7 +57,7 @@ interface EditMemberInfoFormData {
 // 비밀번호 확인이랑 같이 쓰는 경우의 옵션
 interface PasswordCustomOptionParam<T extends FieldValues> {
   confirmPasswordRegisterName: FieldPath<T>;
-  methods: Pick<UseFormReturn<T>, 'getValues' | 'setError' | 'clearErrors'>;
+  methods: Pick<UseFormReturn<T>, 'setError' | 'clearErrors'>;
   customOptions?: RegisterOptions;
 }
 
@@ -76,12 +75,12 @@ function getPasswordOptions<T extends FieldValues>({methods, confirmPasswordRegi
       message: '10자리 이상 입력해주세요.',
     },
     validate: {
-      notEqual: (value) => {
+      notEqual: (value, formValues) => {
         if (resultRequired.value && !value) {
           return true;
         }
 
-        const confirmValue = methods.getValues(confirmPasswordRegisterName);
+        const confirmValue = formValues[confirmPasswordRegisterName];
 
         //[비밀번호] 입력하고, [비밀번호 확인] 입력한 후 [비밀번호]를 다시 수정했을 때 예외처리 추가
         if (confirmValue && value !== confirmValue) {
@@ -103,11 +102,10 @@ function getPasswordOptions<T extends FieldValues>({methods, confirmPasswordRegi
 
 interface PasswordConfirmOptionParam<T extends FieldValues> {
   passwordRegisterName: FieldPath<T>; // 비밀번호 확인이 아닌 비밀번호의 registerName
-  methods: Pick<UseFormReturn<T>, 'getValues' | 'setError' | 'clearErrors'>;
   customOptions?: RegisterOptions;
 }
 
-function getPasswordConfirmOptions<T extends FieldValues>({passwordRegisterName, customOptions, methods}: PasswordConfirmOptionParam<T>): RegisterOptions {
+function getPasswordConfirmOptions<T extends FieldValues>({passwordRegisterName, customOptions}: PasswordConfirmOptionParam<T>): RegisterOptions {
   const {required, validate, ...rest} = customOptions ?? {};
   const resultRequired = getRequiredOptions(required) ?? {
     value: true,
@@ -117,12 +115,14 @@ function getPasswordConfirmOptions<T extends FieldValues>({passwordRegisterName,
   return {
     required: resultRequired,
     validate: {
-      notEqual: (value) => {
+      notEqual: (value, formValues) => {
         if (resultRequired.value && !value) {
           return true;
         }
 
-        if (methods.getValues(passwordRegisterName) === value) {
+        const password = formValues[passwordRegisterName];
+
+        if (password === value) {
           return true;
         } else {
           return '비밀번호가 일치하지 않습니다. 다시 확인해주세요.';
