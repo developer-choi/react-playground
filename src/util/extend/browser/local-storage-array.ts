@@ -2,7 +2,7 @@ import {PkType, removeDuplicatedObject} from '@util/extend/data-type/array';
 import {LocalStorageObjectManager, useLocalStorageObjectManager} from '@util/extend/browser/local-storage-object';
 import {useCallback, useMemo} from 'react';
 
-export interface ArrayManagerConstructorParameter<I extends Object, P extends PkType> {
+export interface LocalStorageArrayParameter<I extends Object, P extends PkType> {
   key: string;
   pkExtractor: (item: I) => P;
   enableDuplicated: boolean;
@@ -17,18 +17,18 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
    * And I don't have any plan that makes derived classes extend this class. (= This is the reason that I don't set visibility to protected)
    * For the above two reasons, I set visibility to private.
    */
-  private readonly pkExtractor: ArrayManagerConstructorParameter<I, P>['pkExtractor'];
-  private readonly enableDuplicated: ArrayManagerConstructorParameter<I, P>['enableDuplicated'];
+  private readonly pkExtractor: LocalStorageArrayParameter<I, P>['pkExtractor'];
+  private readonly enableDuplicated: LocalStorageArrayParameter<I, P>['enableDuplicated'];
 
-  constructor({key, enableDuplicated, pkExtractor}: ArrayManagerConstructorParameter<I, P>) {
+  constructor({key, enableDuplicated, pkExtractor}: LocalStorageArrayParameter<I, P>) {
     super({key});
     this.pkExtractor = pkExtractor;
     this.enableDuplicated = enableDuplicated;
   }
 
-  parseItem(): I[] {
+  getParsedData(): I[] {
     try {
-      const array = super.parseItem();
+      const array = super.getParsedData();
 
       if (array === null || !Array.isArray(array)) {
         return [];
@@ -45,20 +45,20 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
   }
 
   removeByPk(pk: P): I[] {
-    const list = this.parseItem().filter(prev => this.pkExtractor(prev) !== pk);
+    const list = this.getParsedData().filter(prev => this.pkExtractor(prev) !== pk);
     this.setStringifyItem(list);
     return list;
   }
 
   appendLast(item: I): I[] {
-    const items = [...this.parseItem(), item];
+    const items = [...this.getParsedData(), item];
     const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.pkExtractor, 'last');
     this.setStringifyItem(list);
     return list;
   }
 
   appendFirst(item: I): I[] {
-    const items = [item, ...this.parseItem()];
+    const items = [item, ...this.getParsedData()];
     const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.pkExtractor, 'first');
     this.setStringifyItem(list);
     return list;
@@ -70,14 +70,14 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
  * LocalStorageArrayManager: 단순히 로컬스토리지에 읽고 쓰는것만 도와줍니다.
  * useLocalStorageArrayManager: 로컬스트토리지에 저장된 값이 변할때 화면도 따라 변하는것을 쉽게 구현하도록 도와줍니다.
  */
-export function useLocalStorageArrayManager<I extends Object, P extends PkType>({key, enableDuplicated, pkExtractor}: ArrayManagerConstructorParameter<I, P>, enabled = true) {
+export function useLocalStorageArrayManager<I extends Object, P extends PkType>({key, enableDuplicated, pkExtractor}: LocalStorageArrayParameter<I, P>, enabled = true) {
   const manager = useMemo(() => new LocalStorageArrayManager({
     key,
     enableDuplicated,
     pkExtractor
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [key, enableDuplicated]);
+  }), [key]);
 
   const {state, changeState} = useLocalStorageObjectManager(manager, {enabled, defaultValue: []});
 

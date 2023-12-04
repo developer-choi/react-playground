@@ -42,6 +42,7 @@ export class LocalStorageObjectManager<V extends Object> {
     try {
       localStorage.setItem(this.key, value);
     } catch (error) {
+      console.error(error);
     }
   }
 
@@ -53,6 +54,7 @@ export class LocalStorageObjectManager<V extends Object> {
     try {
       return localStorage.getItem(this.key);
     } catch (error) {
+      console.error(error);
       return null;
     }
   }
@@ -71,7 +73,7 @@ export class LocalStorageObjectManager<V extends Object> {
     }
   }
 
-  parseItem() {
+  getParsedData() {
     try {
       const item = this.getItem();
 
@@ -126,7 +128,7 @@ export function useLocalStorageObjectManager<V extends Object>(manager: LocalSto
 
   useEffect(() => {
     if (enabled) {
-      setState(manager.parseItem());
+      setState(manager.getParsedData());
     }
   }, [enabled, manager]);
 

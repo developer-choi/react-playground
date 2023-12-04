@@ -29,11 +29,11 @@ export class ClosedHistoryManager {
   getActiveInClosedHistory<T extends string | number>({pkList, closePeriod, clearPeriod}: ClosedHistoryParam<T>): ConditionalPkResult<T> {
     const pkListToClosedHistoryKey = pkList.map(pk => this.makeClosedHistoryKey(pk));
 
-    const historyList = manager.parseItem();
+    const historyList = manager.getParsedData();
 
     if (clearPeriod) {
       const resultList = historyList.filter((history) => {
-        if (!pkListToClosedHistoryKey.find((param) => history.pkInLocalStorage === param.pkInLocalStorage)) {
+        if (!pkListToClosedHistoryKey.find((param) => history.uniqueKeyInStorage === param.uniqueKeyInStorage)) {
           return true;
         }
 
@@ -44,8 +44,8 @@ export class ClosedHistoryManager {
       manager.setStringifyItem(resultList);
     }
 
-    return findItem(pkListToClosedHistoryKey, ({pkInLocalStorage, originalPk}) => {
-      const findHistory = historyList.find(history => history.pkInLocalStorage === pkInLocalStorage);
+    return findItem(pkListToClosedHistoryKey, ({uniqueKeyInStorage, originalPk}) => {
+      const findHistory = historyList.find(history => history.uniqueKeyInStorage === uniqueKeyInStorage);
 
       if (!findHistory) {
         return originalPk;
@@ -67,10 +67,10 @@ export class ClosedHistoryManager {
   }
 
   addManuallyClosedHistory(pk: string | number, timestamp: number) {
-    const {originalPk, pkInLocalStorage} = this.makeClosedHistoryKey(pk);
+    const {originalPk, uniqueKeyInStorage} = this.makeClosedHistoryKey(pk);
 
     manager.appendFirst({
-      pkInLocalStorage,
+      uniqueKeyInStorage: uniqueKeyInStorage,
       originalPk,
       closedTimestamp: timestamp,
       closedDateFormat: moment(timestamp).format('YYYY.MM.DD HH:mm:ss')
@@ -80,7 +80,7 @@ export class ClosedHistoryManager {
   private makeClosedHistoryKey(pk: string | number): ClosedHistoryKey {
     return {
       //originalPk자체가 다른 n일동안 안보기 팝업의 PK와 구분될 수 있는 string값이라면, pkInlocalStorage값도 동일하게 설정
-      pkInLocalStorage: !this.uniquePrefix ? pk.toString() : `${this.uniquePrefix}-${pk}`,
+      uniqueKeyInStorage: !this.uniquePrefix ? pk.toString() : `${this.uniquePrefix}-${pk}`,
       originalPk: pk
     };
   }
@@ -97,7 +97,7 @@ interface ClosedHistoryKey {
    * event-induction //정적인 경우
    * 로컬스토리지 안에서, 다른 유형의 n일간 보지않기 팝업을 구분할 수 있는값
    */
-  pkInLocalStorage: string;
+  uniqueKeyInStorage: string;
   originalPk: number | string; //n일간 보지않기 팝업 원본데이터의 PK
 }
 
@@ -125,5 +125,5 @@ function getDiffPeriod(targetDate: Date, closedTimestamp: number, diffType: Matc
 const manager = new LocalStorageArrayManager({
   key: 'closed-history-in-specific-period',
   enableDuplicated: false, //같은 PK면 닫은기록에는 하나만 생성되야함.
-  pkExtractor: (value: ClosedHistory) => value.pkInLocalStorage
+  pkExtractor: (value: ClosedHistory) => value.uniqueKeyInStorage
 });
