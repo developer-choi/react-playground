@@ -3,6 +3,8 @@
   "rules": {
     "@next/next/no-img-element": "off",
     "import/no-anonymous-default-export": "off",
-    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }]
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }],
+    "no-unused-vars": "error",
+    "no-unused-expressions": "error"
   }
 }
