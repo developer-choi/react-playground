@@ -3,6 +3,7 @@ import type {GetServerSideProps} from 'next';
 import {validateFilterQueryString} from '@util/services/product-filter/filter-query-string';
 import ProductListPage from '@component/filter/ProductListPage';
 import type {ProductListPageParam} from '@type/services/filter';
+import {ProductListPageParamProvider} from '@util/services/product-filter/filter-common';
 
 interface PageProp {
   pageInQuery: number;
@@ -19,7 +20,9 @@ export default function Page({pageInQuery}: PageProp) {
   }, [pageInQuery]);
 
   return (
-    <ProductListPage productListPageParam={productListPageParam}/>
+    <ProductListPageParamProvider value={productListPageParam}>
+      <ProductListPage/>
+    </ProductListPageParamProvider>
   );
 }
 
