@@ -27,8 +27,13 @@ export interface UseWindowMessageParam<D = any> {
 export function useWindowMessageReceiver<D = any>(param: UseWindowMessageParam<D>) {
   const {type, receiveCallback} = param;
 
-  const openNewWindow = useCallback((url: string, feature: WindowPopupFeatures = DEFAULT_WINDOW_FEATURES) => {
-    const featureString = Object.entries(feature).map(([key, value]) => `${key}=${value}`).join(',');
+  const openNewWindow = useCallback((url: string, feature?: WindowPopupFeatures) => {
+    const height = feature?.height ?? DEFAULT_WINDOW_FEATURES.height;
+    const width = feature?.width ?? DEFAULT_WINDOW_FEATURES.width;
+    const top = feature?.top ?? (window.innerHeight - height) / 2;
+    const left = feature?.left ?? (window.innerWidth - width) / 2;
+
+    const featureString = Object.entries({height, width, top, left}).map(([key, value]) => `${key}=${value}`).join(',');
     window.open(url, 'popup', featureString);
   }, []);
 
@@ -62,7 +67,7 @@ export interface WindowPopupFeatures {
   top?: number;
 }
 
-const DEFAULT_WINDOW_FEATURES: WindowPopupFeatures = {
+const DEFAULT_WINDOW_FEATURES: Required<Pick<WindowPopupFeatures, 'width' | 'height'>> = {
   width: 450,
   height: 750
 };
