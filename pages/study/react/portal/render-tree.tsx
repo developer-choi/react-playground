@@ -26,10 +26,7 @@ function Parent() {
   }, []);
 
   return (
-    <div>
-      Hello World
-      <PortalChildren/>
-    </div>
+    <PortalChildren/>
   );
 }
 
