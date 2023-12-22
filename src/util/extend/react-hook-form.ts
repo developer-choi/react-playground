@@ -21,7 +21,15 @@ export function baseHandleErrors(errorList: (FieldError | undefined)[]) {
 }
 
 /**
- * @return undefuned = 애초에 지정안했으니 기본값 쓰면된다는 뜻
+ * 이게 필요한 용도는, options > validate() 안에서밖에 없습니다.
+ * 단순히 required 옵션만 커스텀하고싶은경우, 복잡하게 이 함수를 호출하지않고 기본값을 지정하는것이 더 간단합니다.
+ * 예시)
+ * return {
+ *   required: required (param) ?? {
+ *     value: true,
+ *     message: '대충이래서 필수라는 메시지'
+ *   }
+ * }
  */
 export function getRequiredOptions(required: RegisterOptions['required']): ValidationValueMessage<boolean> | undefined {
   if (required === undefined) {
