@@ -2,6 +2,7 @@ import React, {useCallback} from 'react';
 import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
 import {useForm} from 'react-hook-form';
 import {trimObject} from '@util/extend/data-type/object';
+import {baseHandleErrors, validateTrim} from '@util/extend/react-hook-form';
 
 /**
  * URL: http://localhost:3000/solution/form/trim
@@ -13,8 +14,8 @@ import {trimObject} from '@util/extend/data-type/object';
 export default function Page() {
   const {register, handleSubmit} = useForm<TestFormData>();
 
-  const onError: SubmitErrorHandler<TestFormData> = useCallback(errors => {
-    console.error(errors);
+  const onError: SubmitErrorHandler<TestFormData> = useCallback(({name}) => {
+    baseHandleErrors([name]);
   }, []);
 
   const onSubmit: SubmitHandler<TestFormData> = useCallback(data => {
@@ -41,9 +42,9 @@ interface TestFormData {
 const options: RegisterOptions = {
   required: {
     value: true,
-    message: '필수임'
+    message: '이름은 필수입니다.'
   },
   validate: {
-    notSpace: value => value.trim() ? true : '공백쓰지마셈, 이거 필수임'
+    notSpace: validateTrim('이름은 필수입니다. (공백입력했음)')
   }
 };

@@ -60,3 +60,15 @@ export function getRequiredOptions(required: RegisterOptions['required']): Valid
     message: required
   };
 }
+
+export function validateTrim(errorMessage: string, required = true) {
+  return (value: string) => {
+    if (value === '' && !required) {
+      return true;
+    } else if (value.trim()) {
+      return true;
+    } else {
+      return errorMessage;
+    }
+  };
+}
