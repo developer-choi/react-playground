@@ -5,6 +5,9 @@ import Button from '@component/atom/element/Button';
 
 // URL: http://localhost:3000/solution/localstorage-manager/validated
 
+type Fruit = 'apple' | 'banana' | 'kiwi'
+const FRUIT_TYPE_LIST: Fruit[] = ['apple', 'banana', 'kiwi'];
+
 const manager = new LocalStorageObjectManager<{fruit: Fruit;}>({
   key: 'solution/validated',
   validateCallback: parsedValue => {
@@ -38,6 +41,3 @@ export default function Page() {
     </>
   );
 }
-
-type Fruit = 'apple' | 'banana' | 'kiwi'
-const FRUIT_TYPE_LIST: Fruit[] = ['apple', 'banana', 'kiwi'];
