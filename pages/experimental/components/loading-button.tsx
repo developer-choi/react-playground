@@ -1,10 +1,13 @@
 import {type ComponentPropsWithoutRef, type PropsWithChildren, useCallback} from 'react';
-import {useIsFetching, useIsMutating, useMutation, useQueryClient} from '@tanstack/react-query';
+import {type MutationKey, useIsFetching, useIsMutating, useMutation, useQueryClient} from '@tanstack/react-query';
 import classNames from 'classnames';
+import styled from 'styled-components';
 
 export default function Home() {
   const queryClient = useQueryClient();
-  const {mutateAsync} = useMutation(postApi)
+  const {mutateAsync} = useMutation(postApi, {
+    mutationKey: ['123']
+  })
 
   const get = useCallback(async () => {
     await queryClient.fetchQuery({
@@ -22,14 +25,18 @@ export default function Home() {
   return (
     <div>
       <Button onClick={get}>GET</Button>
-      <Button onClick={post}>POST</Button>
+      <ExperimentalButton1 onClick={post} enableMutating>POST1</ExperimentalButton1>
+      <ExperimentalButton1 onClick={post} enableMutating={['123']}>POST2</ExperimentalButton1>
+      <ExperimentalButton1 onClick={post} enableMutating={['none']}>POST3</ExperimentalButton1>
     </div>
   )
 }
 
 function Button({onClick, children}: PropsWithChildren<any>) {
   // https://tanstack.com/query/v4/docs/react/reference/QueryClient#queryclientisfetching
-  const mutatingCount = useIsMutating()
+  const mutatingCount = useIsMutating({
+    mutationKey: ['13']
+  })
   const fetchingCount = useIsFetching()
   console.log(mutatingCount, fetchingCount);
 
@@ -38,17 +45,25 @@ function Button({onClick, children}: PropsWithChildren<any>) {
   )
 }
 
+interface MutatingButtonOption {
+  enableMutating?: true | MutationKey;
+}
+
 // 방법1. 버튼 내부에서 그냥 자동으로 쓴다.
-function ExperimentalButton1({className, disabled, children, ...rest}: ComponentPropsWithoutRef<'button'>) {
-  const isMutating = useIsMutating() > 0
+function ExperimentalButton1({className, disabled, children, enableMutating, ...rest}: ComponentPropsWithoutRef<'button'> & MutatingButtonOption) {
+  const mutatingCount = useIsMutating(typeof enableMutating === 'boolean' ? undefined : {
+    mutationKey: enableMutating
+  });
+  const isMutating = !enableMutating ? false : mutatingCount > 0;
+
   return (
-    <button
+    <MutatingButton
       className={classNames({loading: isMutating}, className)}
       disabled={isMutating ?? disabled}
       {...rest}
     >
       {children}
-    </button>
+    </MutatingButton>
   )
 }
 
@@ -73,7 +88,7 @@ export async function getServerSideProps() {
 
 function timeoutPromise() {
   return new Promise(resolve => {
-    setTimeout(resolve, 3000);
+    setTimeout(resolve, 1000);
   });
 }
 
@@ -86,3 +101,9 @@ async function postApi() {
   await timeoutPromise();
   return true;
 }
+
+const MutatingButton = styled.button`
+  &.loading {
+    cursor: progress;
+  }
+`;
