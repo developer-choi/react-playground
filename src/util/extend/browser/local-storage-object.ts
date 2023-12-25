@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useState} from 'react';
 
 interface LocalStorageObjectParameter<V extends Object> {
   key: string;
@@ -8,7 +8,7 @@ interface LocalStorageObjectParameter<V extends Object> {
    * LocalStorage에 값을 읽거나 쓸때 유효하지않은값이 읽히거나 써지지않도록 함.
    */
   validateCallback?: (parsedValue: any) => boolean;
-  defaultValue?: V;
+  defaultValue: V;
 }
 
 /**
@@ -24,12 +24,14 @@ export class LocalStorageObjectManager<V extends Object> {
    */
   private readonly key: string;
   private readonly validateCallback: LocalStorageObjectParameter<V>['validateCallback'];
+  private readonly defaultValue: V;
 
   constructor({key, validateCallback, defaultValue}: LocalStorageObjectParameter<V>) {
     this.key = key;
     this.validateCallback = validateCallback;
+    this.defaultValue = defaultValue;
 
-    if (defaultValue && !this.getItem()) {
+    if (!this.getItem()) {
       this.setStringifyItem(defaultValue);
     }
   }
@@ -42,7 +44,7 @@ export class LocalStorageObjectManager<V extends Object> {
     try {
       localStorage.setItem(this.key, value);
     } catch (error) {
-      console.error(error);
+      return;
     }
   }
 
@@ -54,7 +56,6 @@ export class LocalStorageObjectManager<V extends Object> {
     try {
       return localStorage.getItem(this.key);
     } catch (error) {
-      console.error(error);
       return null;
     }
   }
@@ -67,18 +68,16 @@ export class LocalStorageObjectManager<V extends Object> {
     try {
       this.setItem(JSON.stringify(value));
     } catch (error) {
-      if (!(error instanceof ReferenceError)) {
-        throw error;
-      }
+      throw error;
     }
   }
 
-  getParsedData() {
+  getParsedData(): V {
     try {
       const item = this.getItem();
 
       if (item === null) {
-        return null;
+        return this.defaultValue;
       }
 
       const parsedItem = JSON.parse(item);
@@ -100,21 +99,17 @@ export class LocalStorageObjectManager<V extends Object> {
       if (!this.validateCallback(parsedItem)) {
         localStorage.removeItem(this.key);
         console.error(`The data of ${this.key} is not validated. this data is cleared.`);
-        return null;
+        return this.defaultValue;
       }
 
       return parsedItem;
     } catch (error) {
+      // SyntaxError (JSON.parse()) 또는 validateCallback()에서 에러가 발생할 수 있음.
       console.error(error);
       localStorage.removeItem(this.key);
-      return null;
+      return this.defaultValue;
     }
   }
-}
-
-export interface UseLocalStorageObjectManagerOption<V extends Object> {
-  enabled?: boolean;
-  defaultValue?: V | null;
 }
 
 /**
@@ -122,28 +117,17 @@ export interface UseLocalStorageObjectManagerOption<V extends Object> {
  * LocalStorageObjectManager: 단순히 로컬스토리지에 읽고 쓰는것만 도와줍니다.
  * useLocalStorageObjectManager: 로컬스트토리지에 저장된 값이 변할때 화면도 따라 변하는것을 쉽게 구현하도록 도와줍니다.
  */
-export function useLocalStorageObjectManager<V extends Object>(manager: LocalStorageObjectManager<V>, option?: UseLocalStorageObjectManagerOption<V>) {
-  const {enabled = true, defaultValue = null} = option ?? {};
-  const [state, setState] = useState<V | null>(defaultValue);
-
-  useEffect(() => {
-    if (enabled) {
-      setState(manager.getParsedData());
-    }
-  }, [enabled, manager]);
+export function useLocalStorageObjectManager<V extends Object>(manager: LocalStorageObjectManager<V>) {
+  const [state, setState] = useState(manager.getParsedData());
 
   const changeState = useCallback((value: V) => {
-    if (!enabled) {
-      return;
-    }
-
     try {
       manager.setStringifyItem(value);
       setState(value);
     } catch (error) {
       console.error(error);
     }
-  }, [enabled, manager]);
+  }, [manager]);
 
   return {
     state,

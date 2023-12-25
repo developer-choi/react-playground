@@ -12,6 +12,9 @@ const manager = new LocalStorageObjectManager<{fruit: Fruit;}>({
       throwable: false,
       required: true
     });
+  },
+  defaultValue: {
+    fruit: 'apple'
   }
 });
 

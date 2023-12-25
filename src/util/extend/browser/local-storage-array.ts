@@ -1,8 +1,8 @@
 import {PkType, removeDuplicatedObject} from '@util/extend/data-type/array';
 import {LocalStorageObjectManager, useLocalStorageObjectManager} from '@util/extend/browser/local-storage-object';
-import {useCallback, useMemo} from 'react';
+import {useCallback} from 'react';
 
-export interface LocalStorageArrayParameter<I extends Object, P extends PkType> {
+interface LocalStorageArrayParameter<I extends Object, P extends PkType> {
   key: string;
   pkExtractor: (item: I) => P;
   enableDuplicated: boolean;
@@ -21,7 +21,7 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
   private readonly enableDuplicated: LocalStorageArrayParameter<I, P>['enableDuplicated'];
 
   constructor({key, enableDuplicated, pkExtractor}: LocalStorageArrayParameter<I, P>) {
-    super({key});
+    super({key, defaultValue: []});
     this.pkExtractor = pkExtractor;
     this.enableDuplicated = enableDuplicated;
   }
@@ -37,9 +37,6 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
         return array;
       }
     } catch (error) {
-      if(!(error instanceof ReferenceError)) {
-        console.error(error);
-      }
       return [];
     }
   }
@@ -70,16 +67,8 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
  * LocalStorageArrayManager: 단순히 로컬스토리지에 읽고 쓰는것만 도와줍니다.
  * useLocalStorageArrayManager: 로컬스트토리지에 저장된 값이 변할때 화면도 따라 변하는것을 쉽게 구현하도록 도와줍니다.
  */
-export function useLocalStorageArrayManager<I extends Object, P extends PkType>({key, enableDuplicated, pkExtractor}: LocalStorageArrayParameter<I, P>, enabled = true) {
-  const manager = useMemo(() => new LocalStorageArrayManager({
-    key,
-    enableDuplicated,
-    pkExtractor
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [key]);
-
-  const {state, changeState} = useLocalStorageObjectManager(manager, {enabled, defaultValue: []});
+export function useLocalStorageArrayManager<I extends Object, P extends PkType>(manager: LocalStorageArrayManager<I, P>) {
+  const {state, changeState} = useLocalStorageObjectManager(manager);
 
   const appendFirst = useCallback((item: I) => {
     changeState(manager.appendFirst(item));
@@ -94,7 +83,7 @@ export function useLocalStorageArrayManager<I extends Object, P extends PkType>(
   }, [manager, changeState]);
 
   return {
-    list: state as I[],
+    list: state,
     appendFirst,
     appendLast,
     removeByPk

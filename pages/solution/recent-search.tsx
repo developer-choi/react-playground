@@ -6,7 +6,7 @@ import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hoo
 import {useForm} from 'react-hook-form';
 import {range} from '@util/extend/data-type/number';
 import Button from '@component/atom/element/Button';
-import {useLocalStorageArrayManager} from '@util/extend/browser/local-storage-array';
+import {LocalStorageArrayManager, useLocalStorageArrayManager} from '@util/extend/browser/local-storage-array';
 import styled from 'styled-components';
 import {validateString} from '@util/extend/browser/query-string';
 
@@ -183,10 +183,14 @@ interface RecentSearch {
   searchText: string;
 }
 
-function useRecentSearch() {
-  const pkExtractor = useCallback(({searchText}: RecentSearch) => {
+const manager = new LocalStorageArrayManager({
+  key: 'recent-search',
+  enableDuplicated: false,
+  pkExtractor: ({searchText}: RecentSearch) => {
     return searchText;
-  }, []);
+  }
+});
 
-  return useLocalStorageArrayManager({key: 'recent-search', enableDuplicated: false, pkExtractor});
+export function useRecentSearch() {
+  return useLocalStorageArrayManager(manager);
 }
