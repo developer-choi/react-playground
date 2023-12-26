@@ -1,5 +1,5 @@
-import React, {type ComponentProps, type Ref, useCallback} from 'react';
-import {type SubmitErrorHandler, type SubmitHandler, useForm, useFormState, useWatch} from 'react-hook-form';
+import React, {type ComponentProps, useCallback} from 'react';
+import {type SubmitHandler, useForm, useFormState, useWatch} from 'react-hook-form';
 import type {Control} from 'react-hook-form/dist/types/form';
 import {useToggle} from '@util/extend/react';
 
@@ -54,7 +54,7 @@ interface PasswordInputProp<N extends string, T extends Record<N, string | undef
   inputProps: Omit<ComponentProps<'input'>, 'type'>;
 }
 
-function PasswordInput<N extends string, T extends Record<N, string>>({control, name, inputProps}: PasswordInputProp<N, T>, ref: Ref<HTMLInputElement>) {
+function PasswordInput<N extends string, T extends Record<N, string>>({control, name, inputProps}: PasswordInputProp<N, T>) {
   const watch = useWatch<T>({control});
   const {errors} = useFormState({control});
 
@@ -66,7 +66,7 @@ function PasswordInput<N extends string, T extends Record<N, string>>({control, 
   return (
     <>
       <div>
-        <input ref={ref} type={visiblePassword ? 'text' : 'password'} {...inputProps}/>
+        <input type={visiblePassword ? 'text' : 'password'} {...inputProps}/>
         <button type="button" onClick={togglePassword}>비밀번호 {visiblePassword ? '숨기기' : '보이기'}</button>
         {!isSuccess ? null : '(성공)'}
       </div>
