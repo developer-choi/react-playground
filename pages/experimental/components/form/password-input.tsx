@@ -1,6 +1,6 @@
-import React, {type ComponentProps, useCallback} from 'react';
-import {type SubmitHandler, useForm, useFormState, useWatch} from 'react-hook-form';
-import type {Control} from 'react-hook-form/dist/types/form';
+import React, {type ComponentProps, type ComponentPropsWithoutRef, useCallback} from 'react';
+import {type FieldPath, type FieldValues, type SubmitHandler, useForm, useFormState, useWatch} from 'react-hook-form';
+import type {Control, UseFormRegisterReturn} from 'react-hook-form/dist/types/form';
 import {useToggle} from '@util/extend/react';
 
 // URL: http://localhost:3000/experimental/components/form/password-input
@@ -13,7 +13,7 @@ export default function Page() {
     console.log('data', data);
   }, []);
 
-  const inputProps: ComponentProps<'input'> = {
+  const inputProps: PasswordInputProp<TestFormData>['inputProps'] = {
     ...register('password', {
       required: '필수임',
       minLength: {
@@ -21,12 +21,12 @@ export default function Page() {
         message: '4자 이상 입력해야함.'
       }
     }),
-    placeholder: '비밀번호 입력'
+    placeholder: '비밀번호 입력',
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <PasswordInput control={control} name="password" inputProps={inputProps}/>
+      <PasswordInput control={control} inputProps={inputProps}/>
     </form>
   );
 }
@@ -48,15 +48,15 @@ export interface LegacyPasswordInputProp {
   errorMessage: string | undefined;
 }
 
-interface PasswordInputProp<N extends string, T extends Record<N, string | undefined>> {
-  name: N;
+interface PasswordInputProp<T extends FieldValues> {
   control: Control<T>;
-  inputProps: Omit<ComponentProps<'input'>, 'type'>;
+  inputProps: Omit<ComponentPropsWithoutRef<'input'>, 'type'> & UseFormRegisterReturn<FieldPath<T>>;
 }
 
-function PasswordInput<N extends string, T extends Record<N, string>>({control, name, inputProps}: PasswordInputProp<N, T>) {
+function PasswordInput<T extends FieldValues>({control, inputProps}: PasswordInputProp<T>) {
   const watch = useWatch<T>({control});
   const {errors} = useFormState({control});
+  const name = inputProps.name;
 
   const {value: visiblePassword, toggle: togglePassword} = useToggle()
   const value = watch[name] as string | undefined;
