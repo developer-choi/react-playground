@@ -117,6 +117,7 @@ const StyledButton = styled.button`
   
   :disabled {
     cursor: not-allowed;
+    background: lightgray;
   }
   
   &.hover-effect {
