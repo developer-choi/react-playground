@@ -1,16 +1,12 @@
-import {makeAxiosInstance} from '@api/config';
+import {axiosInstance} from '@api/config';
 import type {VideoListResponse, VideoResponse} from '@type/response/video';
 
-const axiosInstance = makeAxiosInstance({
-  baseURL: '/video'
-});
-
-export async function getVideoOneApi(pk: number | string): Promise<VideoResponse> {
-  const {data} = await axiosInstance.get<VideoResponse>(`/${pk}`, {params: {pk}});
+export async function getVideoOneApi(pk: number | string) {
+  const {data} = await axiosInstance.get<VideoResponse>(`/video/${pk}`, {params: {pk}});
   return data;
 }
 
-export async function getVideoListApi(): Promise<VideoListResponse> {
-  const {data} = await axiosInstance.get<VideoListResponse>('/list');
+export async function getVideoListApi() {
+  const {data} = await axiosInstance.get<VideoListResponse>('/video/list');
   return data;
 }

@@ -1,14 +1,8 @@
-import {makeAxiosInstance} from './config';
 import type {UserInfoResponse} from '@type/response/user';
 import type {GetServerSidePropsContext} from 'next';
+import {getAxiosInstance} from '@api/config';
 
-export async function getUserInfoOneApi(userPk: number, context?: GetServerSidePropsContext): Promise<UserInfoResponse> {
-  const axiosInstance = makeAxiosInstance({
-    baseURL: '/user',
-    context
-  });
-
-  const {data} = await axiosInstance.get<UserInfoResponse>(`/info/${userPk}`);
-
+export async function getUserInfoOneApi(userPk: number, context?: GetServerSidePropsContext) {
+  const {data} = await getAxiosInstance(context).get<UserInfoResponse>(`/user/info/${userPk}`);
   return data;
 }

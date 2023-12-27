@@ -1,23 +1,19 @@
-import {makeAxiosInstance} from './config';
 import type {UserInfoResponse} from '@type/response/user';
 import {getLoginTokenInCookie} from '@util/services/auth/auth-token';
 import SHA512 from 'sha512-es';
 import {validateEmail} from '@util/services/validator/email';
 import {validateOriginPassword, validatePassword} from '@util/services/validator/password';
 import ValidateError from '@util/services/handle-error/ValidateError';
-
-const axiosInstance = makeAxiosInstance({
-  baseURL: '/auth'
-});
+import {axiosInstance} from '@api/config';
 
 /**
  * @exception RequestError Occurs when email, password format is incorrect (cause 'email' or 'password')
  * @exception AxiosError Login is restricted because the password is incorrect more than 10 times. (status 1234)
  */
-export async function postAuthLoginApi(email: string, password: string): Promise<UserInfoResponse> {
+export async function postAuthLoginApi(email: string, password: string) {
   const {email: _email, password: _password} = validateLogin(email, password);
 
-  const {data} = await axiosInstance.post<UserInfoResponse>('/login', {
+  const {data} = await axiosInstance.post<UserInfoResponse>('/auth/login', {
     email: _email,
     password: SHA512.hash(_password)
   }, {

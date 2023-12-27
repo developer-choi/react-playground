@@ -1,10 +1,7 @@
-import {makeAxiosInstance} from '@api/config';
 import type {AccountBookListResponse} from '@type/response/account-book';
-
-const axiosInstance = makeAxiosInstance({
-  baseURL: '/account'
-});
+import {axiosInstance} from '@api/config';
 
 export async function postAccountParseApi(text: string) {
-  return axiosInstance.post<AccountBookListResponse>('/parse', {text});
+  const {data} = await axiosInstance.post<AccountBookListResponse>('/account/parse', {text});
+  return data;
 }

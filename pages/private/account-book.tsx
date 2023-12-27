@@ -20,7 +20,7 @@ export default function Page() {
       <StyledTextArea value={value} onChangeText={setValue}/>
       {!data ? null : (
         <div>
-          {data.data.list.map(({total, list, largeCategoryName}, index) => (
+          {data.list.map(({total, list, largeCategoryName}, index) => (
             <Item key={index}>
               <LargeCategory>
                 <Memo>{largeCategoryName}</Memo>
@@ -37,7 +37,7 @@ export default function Page() {
             </Item>
           ))}
 
-          <Total>총합 <Price style={{color: theme.main}}>{numberWithComma(data.data.total)}</Price></Total>
+          <Total>총합 <Price style={{color: theme.main}}>{numberWithComma(data.total)}</Price></Total>
         </div>
       )}
     </Wrap>

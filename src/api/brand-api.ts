@@ -1,11 +1,7 @@
-import {makeAxiosInstance} from './config';
 import type {BrandListResponse} from '@type/response/brand';
+import {axiosInstance} from '@api/config';
 
-const axiosInstance = makeAxiosInstance({
-  baseURL: '/brand'
-});
-
-export async function getBrandListApi(): Promise<BrandListResponse> {
-  const {data} = await axiosInstance.get<BrandListResponse>('/list');
+export async function getBrandListApi() {
+  const {data} = await axiosInstance.get<BrandListResponse>('/brand/list');
   return data;
 }

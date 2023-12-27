@@ -1,32 +1,20 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import ConnectError from '@util/services/handle-error/ConnectError';
 import env from '@util/env';
+import {getLoginTokenInCookie, LOGIN_TOKEN} from '@util/services/auth/auth-token';
+import {removeCookie} from '@util/extend/browser/cookie';
 import type {GetServerSidePropsContext} from 'next';
-import {getLoginTokenInCookie, LOGIN_TOKEN} from "@util/services/auth/auth-token";
-import {removeCookie} from "@util/extend/browser/cookie";
 
-export interface MakeAxiosInstanceParam {
-  baseURL?: string
-  config?: AxiosRequestConfig
-  context?: GetServerSidePropsContext
-}
-
-export function makeAxiosInstance(param?: MakeAxiosInstanceParam): AxiosInstance {
-  const {config, baseURL} = param ?? {}
-  const _baseURL = config?.baseURL ?? baseURL
-
-  const _config: AxiosRequestConfig = _baseURL ? {
-    baseURL: getDefaultBaseURL(env.public.api, _baseURL)
-  } : {
-    ...param,
-    baseURL: _baseURL ?? env.public.api
+function makeAxiosInstance(context?: GetServerSidePropsContext): AxiosInstance {
+  const _config: AxiosRequestConfig = {
+    baseURL: env.public.api
   };
 
   const instance = axios.create(_config);
 
   instance.interceptors.request.use(config => {
     const loginToken = getLoginTokenInCookie({
-      context: param?.context
+      context
     })
 
     if (loginToken) {
@@ -67,13 +55,13 @@ export function makeAxiosInstance(param?: MakeAxiosInstanceParam): AxiosInstance
         skip401Process = false;
       });
 
-      removeCookie(LOGIN_TOKEN, param?.context);
+      removeCookie(LOGIN_TOKEN, context);
 
       /**
        * 1. 브라우저에서 실행된 경우에만 리다이랙트를 해야하고,
        * 2. 현재 페이지 위치가 메인페이지가 아닐 때에만 메인페이지로 리다이랙트를 보내야 무한루프가 돌지않습니다. (계속 메인페이지로 보내는 버그방지)
        */
-      if (!param?.context && location.pathname !== '/') {
+      if (!context && location.pathname !== '/') {
         location.replace('/');
       }
     }
@@ -86,9 +74,14 @@ export function makeAxiosInstance(param?: MakeAxiosInstanceParam): AxiosInstance
 
 let skip401Process = false
 
-function getDefaultBaseURL(origin: string, basePath = "") {
-  const path = basePath.replace(/\/\//g, '/');
-  return `${origin}${path}`;
+export const axiosInstance = makeAxiosInstance();
+
+export function getAxiosInstance(context?: GetServerSidePropsContext) {
+  if (context) {
+    return makeAxiosInstance(context);
+  } else {
+    return axiosInstance;
+  }
 }
 
 export type AxiosErrorWithResponse = AxiosError & {response: AxiosResponse};
