@@ -70,4 +70,4 @@ function PasswordInputWithForwardRef<N extends string, T extends Record<N, strin
 }
 
 const ForwardRefPasswordInput = forwardRef(PasswordInputWithForwardRef);
-const TypeSafeForwardRefPasswordInput = forwardRef(PasswordInput) as typeof PasswordInputWithForwardRef;
+const TypeSafeForwardRefPasswordInput = forwardRef(PasswordInput) as typeof PasswordInput;
