@@ -43,7 +43,7 @@ function PasswordInput<N extends string, T extends Record<N, string>>({control, 
   const value = watch[name] as string | undefined;
   const errorMessage = errors[name]?.message as string | undefined;
   const isSuccess = !!value && !errorMessage;
-
+  
   return (
     <div>
       <input type={visiblePassword ? 'text' : 'password'}/>
@@ -70,4 +70,4 @@ function PasswordInputWithForwardRef<N extends string, T extends Record<N, strin
 }
 
 const ForwardRefPasswordInput = forwardRef(PasswordInputWithForwardRef);
-const TypeSafeForwardRefPasswordInput = forwardRef(PasswordInputWithForwardRef) as typeof PasswordInputWithForwardRef;
+const TypeSafeForwardRefPasswordInput = forwardRef(PasswordInput) as typeof PasswordInputWithForwardRef;
