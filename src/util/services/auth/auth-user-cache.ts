@@ -59,6 +59,7 @@ export function useAuth() {
     queryClient.fetchQuery({
       queryKey: USER_INFO_QUERY_KEY,
       queryFn: () => getUserInfoOneApi(loginCookie.userPk),
+      staleTime: 5 * 60 * 1000,
     }).catch((error) => {
       handleLoginError(error, queryClient);
     });
