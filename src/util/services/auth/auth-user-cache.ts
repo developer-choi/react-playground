@@ -33,19 +33,22 @@ export function useAuth() {
     // queryFn 없기때문에 refetchOnWindowFocus 안써도 됨
   });
 
-  // initialize auto login
+  /** initialize auto login
+   * 1. useAuth()가 호출된 웹 페이지를 접근했을 때 (useEffect deps 빈배열)
+   * 2. 캐시에 유저정보가 아직 없는 경우 ('checking')
+   * 3. 쿠키로 로그인 여부 따져서
+   * 4. 이 사용자는 로그인을 안했다 or 했다 + 유저정보값를 캐시에 저장함.
+   *
+   * 이 외에 어떠한 동작도 하지않음
+   * 1. 마이페이지 처럼 private 페이지를 접근하는 경우, Server Side에서 이미 캐시에 유저정보를 저장하고 시작하기때문에, 로직실행이 되지않음.
+   * 2. 이미 다른 (useAuth()가 호출된) public 페이지를 거쳐서 온 경우, 캐시에 null을 저장해서 [이 사람은 로그인 안했음] 이라는 의미가 됨.
+   * 3. 캐시에 유저정보가 refresh되는 시점은, private 페이지에서 캐시에 유저정보를 저장하고 시작하는 경우 외에 없음.
+   * 3(1). private 페이지가 아닌경우, 최신화된 유저정보가 필요없을거라고 가정했기 때문에, 별도의 staleTime을 지정하지않았음.
+   * 3(2). 원하는 시점에 유저정보를 최신화를 하고싶은경우, 이 모듈에서 export하는 useRefreshAuth() 사용할것. (예시: 회원정보 수정페이지에서 수정완료한경우 리패칭하고싶을 때)
+   * 3(3). 그래서, invalidate할 수 있는 수단을 export하지않았음. (쿼리키도 export하지않았음.)
+   */
   useEffect(() => {
-    /**
-     * 1. Server Side에서 이미 데이터를 가져온 경우
-     * 2. 이전 페이지에서 useAuth()로 데이터를 가져온 다음 페이지 이동했더니 그 페이지에서도 useAuth()를 호출하고있는 경우
-     *
-     * 이미 데이터가 존재하므로 refetching 하지않음.
-     *
-     * 이렇게 했기 때문에, queryClient.invalidate() 하더라도 Auth 데이터는 리패칭되지않지만,
-     * 리패칭하고싶다면 (회원정보 수정같은거 성공해서 최신화하고 싶은경우)
-     * 아래 refreshAuth()를 호출할것.
-     */
-    if (data !== 'checking' || data !== null) {
+    if (data !== 'checking') {
       return;
     }
 
@@ -59,7 +62,6 @@ export function useAuth() {
     queryClient.fetchQuery({
       queryKey: USER_INFO_QUERY_KEY,
       queryFn: () => getUserInfoOneApi(loginCookie.userPk),
-      staleTime: 5 * 60 * 1000,
     }).catch((error) => {
       handleLoginError(error, queryClient);
     });
