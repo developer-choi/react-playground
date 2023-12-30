@@ -132,9 +132,12 @@ export async function fetchAuthInServerSide(queryClient: QueryClient, context: G
       handleLoginError(error, queryClient, context);
       throw error; //호출한 페이지의 getServerSideProps에서는 이 AuthError를 잡아서 로그인페이지같은데로 보내는 등의 처리를 해야함.
     } else {
-      throw new AuthError(error.message, {
-        redirectPath: context.resolvedUrl
-      });
+
+      /**
+       * 로그인이 이미 되어있는데도 불구하고 API 호출하다가 에러가 났으면, 다시 로그인을 유도하는것은 의미가 없기 때문에,
+       * 이 함수에서 처리해야하는 범위는 이미 벗어났으므로 에러를 처리하지않고 호출한곳으로 다시 던짐
+       */
+      throw error;
     }
   }
 }
