@@ -26,7 +26,7 @@ import {AuthError} from '@util/services/auth/AuthError';
 export function useAuth() {
   const queryClient = useQueryClient();
 
-  const {data} = useQuery<'checking' | null | UserInfo>({
+  const {data} = useQuery<'checking' | null | undefined | UserInfo>({
     queryKey: USER_INFO_QUERY_KEY,
     enabled: false,
     initialData: 'checking',
@@ -67,9 +67,12 @@ export function useAuth() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const loginStatus: 'checking' | boolean = data === 'checking' ? 'checking' : data !== null;
+  const userInfo: null | undefined | UserInfo = data === 'checking' ? null : data;
+
   return {
-    loginStatus: data === 'checking' ? 'checking' : data !== null,
-    userInfo: data === 'checking' ? null : data
+    loginStatus,
+    userInfo
   };
 }
 
