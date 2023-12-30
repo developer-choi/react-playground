@@ -1,7 +1,6 @@
 import type {GetServerSidePropsContext} from 'next';
 import {getCookie, setCookie} from '@util/extend/browser/cookie';
 import {AuthError} from '@util/services/auth/AuthError';
-import {getDiffDate} from '@util/extend/date/date-util';
 
 export interface LoginToken {
   userPk: number;
@@ -11,11 +10,8 @@ export interface LoginToken {
 export function setLoginToken(loginToken: LoginToken) {
   setCookie({
     name: LOGIN_TOKEN,
-    value: loginToken,
-    options: {
-      expires: getDiffDate(new Date(), [2]),
-    }
-  })
+    value: loginToken
+  });
 }
 
 export const LOGIN_TOKEN = 'loginToken';
