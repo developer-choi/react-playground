@@ -6,6 +6,7 @@ import {dehydrate, DehydratedPageProps, QueryClient, useQuery} from '@tanstack/r
  * server side에서 받아온 데이터를
  * client side에서 재사용하기위해 useQuery로 가져오려는데,
  * client side에서 getApi()를 또 호출하는 잘못된 예제를 남김.
+ * 또 호출하는 이유는, useQuery에서 staleTime을 지정하지 않았기 때문.
  */
 
 // URL: http://localhost:3000/study/rq/with-server/both-side

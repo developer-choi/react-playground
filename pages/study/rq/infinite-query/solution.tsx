@@ -8,7 +8,7 @@ import {useInfiniteScroll} from '@util/extend/event/scroll';
 import {getCourseListApi} from '@api/course-api';
 import {getNextPageParam, InfiniteQueryPageData} from "@util/extend/react-query";
 
-// URL: http://localhost:3000/study/rq/query/infinite-query/solution
+// URL: http://localhost:3000/study/rq/infinite-query/solution
 export default function Page() {
   const {
     data,

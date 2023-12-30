@@ -1,10 +1,11 @@
 import React from 'react';
-import type {GetServerSideProps} from 'next';
 import {timeoutPromise, useLogWhenRendering} from '@util/extend/test';
 import moment from 'moment';
 import {useQuery, UseQueryOptions} from '@tanstack/react-query';
 import useCounter from '@util/services/counter';
 import Button from '@component/atom/element/Button';
+
+// URL: http://localhost:3000/study/rq/stale-time/re-render/cache-time
 
 type ExampleType = Pick<UseQueryOptions<any>, 'staleTime' | 'cacheTime'> & {
   refetchOnWindowFocus?: boolean;
@@ -72,7 +73,6 @@ const example3: ExampleType = {
 
 const currentExample = example1;
 
-// URL: http://localhost:3000/study/rq/query/re-render/call-api/changed-query-key
 export default function Page() {
   const {count, increase, decrease} = useCounter({initial: 1});
 

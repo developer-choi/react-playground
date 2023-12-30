@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {useQuery, useQueryClient} from '@tanstack/react-query';
 
 /**
- * URL: http://localhost:3000/study/rq/fetch-query/bad-usage
+ * URL: http://localhost:3000/study/rq/use-query/bad-usage
  * refresh 버튼 눌러도 api 호출로그 안찍히는 버그가 있음.
  * 원인은 enabled false안해서그럼.
  */

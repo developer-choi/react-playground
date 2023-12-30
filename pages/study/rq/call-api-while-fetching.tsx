@@ -8,7 +8,7 @@ import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
  * 2. fetchQuery / prefetchQuery 버튼 광클 ==> isFetching중에는 API 호출안됨 (Gooooooood)
  */
 
-// URL: http://localhost:3000/study/rq/query/re-render/call-api/manually
+// URL: http://localhost:3000/study/rq/call-api-while-fetching
 export default function Page() {
   const mutation = useMutation(someApi);
 

@@ -1,5 +1,5 @@
 import type {GetServerSideProps} from 'next';
-import {dehydrate, QueryClient} from '@tanstack/react-query';
+import {dehydrate, DehydratedPageProps, QueryClient} from '@tanstack/react-query';
 import {handleServerSideError} from '@util/services/handle-error/server-side-error';
 import {fetchAuthInServerSide, useLogout} from '@util/services/auth/auth-user-cache';
 
@@ -13,7 +13,7 @@ export default function Page() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<DehydratedPageProps> = async (context) => {
   const queryClient = new QueryClient();
 
   try {

@@ -5,7 +5,7 @@ import {useInfiniteQuery} from '@tanstack/react-query';
 import Button from '@component/atom/element/Button';
 import {timeoutPromise} from '@util/extend/test';
 
-// URL: http://localhost:3000/study/rq/query/infinite-query/frequent
+// URL: http://localhost:3000/study/rq/infinite-query/frequent
 export default function Page() {
   const {
     data,

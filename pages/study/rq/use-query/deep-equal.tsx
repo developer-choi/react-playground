@@ -14,7 +14,7 @@ import {useLogWhenRendering} from '@util/extend/test';
  * 3. 리렌더링이 그만큼 발생함.
  */
 
-// URL: http://localhost:3000/study/rq/query/re-render/deep-equal
+// URL: http://localhost:3000/study/rq/use-query/deep-equal
 export default function Page() {
   const {data} = useQuery({
     queryKey: ['deep-equal'],

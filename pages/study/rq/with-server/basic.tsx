@@ -38,6 +38,7 @@ type ParamType = {
 export const getServerSideProps: GetServerSideProps<DehydratedPageProps, ParamType> = async () => {
   const queryClient = new QueryClient();
 
+  // await을 반드시 해야함. 안하면 안됨.
   await queryClient.prefetchQuery({
     queryKey: [QUERY_KEY],
     queryFn: getApi
