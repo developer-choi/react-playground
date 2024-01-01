@@ -30,7 +30,7 @@ export function useWindowMessageReceiver<D = any>(param: UseWindowMessageParam<D
     const left = feature?.left ?? (window.innerWidth - width) / 2;
 
     const featureString = Object.entries({height, width, top, left}).map(([key, value]) => `${key}=${value}`).join(',');
-    window.open(url, 'popup', featureString);
+    window.open(url, '_blank', featureString);
   }, []);
 
   useEffect(() => {
