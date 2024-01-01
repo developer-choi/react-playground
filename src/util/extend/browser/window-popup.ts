@@ -7,10 +7,6 @@ export interface PostMessage<D = any> {
 
 // 나중에 Receiver 구현할 때 함수명('type' 으로 파일검색해서 어디서 post하는지 찾을 수 있도록 설계
 export function windowPostMessage<D>(type: string, data: D, windowObject: Window = window.opener) {
-  if (!windowObject) {
-    return;
-  }
-
   const message: PostMessage = {
     type,
     data
