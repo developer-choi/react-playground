@@ -10,8 +10,6 @@ export function getSnsLoginPopupUrl(snsType: SnsType): string {
 
 export type SnsType = 'naver' | 'kakao' | 'apple' | 'payco'
 
-export const SNS_TYPE_LIST: SnsType[] = ['kakao', 'naver', 'apple', 'payco'];
-
 export interface NaverLoginResult {
   code: string;
   state: string;
