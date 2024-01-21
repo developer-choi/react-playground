@@ -31,5 +31,5 @@ export function destructDate(target = new Date()): DestructedDate {
  */
 export function getDatePropertyArray(target = new Date()): [number, number, number, number, number, number, number] {
   const {year, month, date, hour, minute, second, milliSecond} = destructDate(target);
-  return [year, month, date, hour, minute, second, milliSecond];
+  return [year, month + 1, date, hour, minute, second, milliSecond];
 }
