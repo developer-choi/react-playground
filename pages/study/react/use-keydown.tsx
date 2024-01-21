@@ -1,11 +1,11 @@
 import React, {useCallback, useRef, useState} from 'react';
 import styled from 'styled-components';
 import InputText from '@component/extend/InputText';
-import {useKeyDown} from '@util/extend/event/keyboard-event';
 import type {MatchKeyboardEvent} from '@util/extend/event/keyboard-event';
+import {useKeyDown} from '@util/extend/event/keyboard-event';
 import {EMPTY_ARRAY} from '@util/extend/data-type/array';
 import {isVideoInFullscreen} from '@util/extend/browser/document';
-import type {GetStaticProps} from 'next';
+import type {GetServerSideProps} from 'next';
 import {getVideoOneApi} from '@api/video-api';
 
 interface PageProp {
@@ -68,8 +68,8 @@ export default function WindowKeyDownPage({videoUrl}: PageProp) {
   );
 }
 
-export const getServerSideProps: GetStaticProps<PageProp> = async () => {
-  const {video: {url}} = await getVideoOneApi(1);
+export const getServerSideProps: GetServerSideProps<PageProp> = async (context) => {
+  const {video: {url}} = await getVideoOneApi(1, context);
 
   return {
     props: {

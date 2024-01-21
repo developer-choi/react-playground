@@ -35,11 +35,7 @@ function makeAxiosInstance(context?: GetServerSidePropsContext): AxiosInstance {
     return Promise.reject({response});
 
   }, error => {
-    if(error.message === 'Network Error') {
-      throw new ConnectError();
-    }
-
-    if(error.code === "ECONNREFUSED" && error.syscall === 'connect' && typeof error.address === 'string' && typeof error.port === 'number') {
+    if(error.message === 'Network Error' || error.code === "ECONNREFUSED") {
       throw new ConnectError();
     }
 

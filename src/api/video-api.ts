@@ -1,8 +1,9 @@
-import {axiosInstance} from '@api/config';
+import {axiosInstance, getAxiosInstance} from '@api/config';
 import type {VideoListResponse, VideoResponse} from '@type/response/video';
+import type {GetServerSidePropsContext} from 'next';
 
-export async function getVideoOneApi(pk: number | string) {
-  const {data} = await axiosInstance.get<VideoResponse>(`/video/${pk}`, {params: {pk}});
+export async function getVideoOneApi(pk: number | string, context?: GetServerSidePropsContext) {
+  const {data} = await getAxiosInstance(context).get<VideoResponse>(`/video/${pk}`, {params: {pk}});
   return data;
 }
 
