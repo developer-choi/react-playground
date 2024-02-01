@@ -1,6 +1,6 @@
-import React from 'react';
-import type {FieldPath, FieldValues, RegisterOptions, UseFormRegister} from 'react-hook-form';
-import type {DeepRequired, FieldErrorsImpl} from 'react-hook-form/dist/types/errors';
+import React from "react";
+import type {FieldPath, FieldValues, RegisterOptions, UseFormRegister} from "react-hook-form";
+import type {DeepRequired, FieldErrorsImpl} from "react-hook-form/dist/types/errors";
 
 export interface PhoneData {
   part1: string;
@@ -19,14 +19,14 @@ export default function PhoneInput<T extends FieldValues, N extends FieldPath<T>
 
   return (
     <div>
-      <input placeholder="phone" {...register(name1, !required ? FIRST_PHONE_INPUT_OPTIONS : {...FIRST_PHONE_INPUT_OPTIONS, ...REQUIRED_OPTIONS})}/>
-      <input placeholder="phone" {...register(name2, !required ? REST_PHONE_INPUT_OPTIONS : {...REST_PHONE_INPUT_OPTIONS, ...REQUIRED_OPTIONS})}/>
-      <input placeholder="phone" {...register(name3, !required ? REST_PHONE_INPUT_OPTIONS : {...REST_PHONE_INPUT_OPTIONS, ...REQUIRED_OPTIONS})}/>
+      <input placeholder="phone" {...register(name1, !required ? FIRST_PHONE_INPUT_OPTIONS : {...FIRST_PHONE_INPUT_OPTIONS, ...REQUIRED_OPTIONS})} />
+      <input placeholder="phone" {...register(name2, !required ? REST_PHONE_INPUT_OPTIONS : {...REST_PHONE_INPUT_OPTIONS, ...REQUIRED_OPTIONS})} />
+      <input placeholder="phone" {...register(name3, !required ? REST_PHONE_INPUT_OPTIONS : {...REST_PHONE_INPUT_OPTIONS, ...REQUIRED_OPTIONS})} />
     </div>
   );
 }
 
-export function phonePartsToString({part1, part2, part3}: PhoneData, separator = '') {
+export function phonePartsToString({part1, part2, part3}: PhoneData, separator = "") {
   return [part1, part2, part3].join(separator);
 }
 
@@ -45,34 +45,34 @@ export function phoneErrors(errors?: FieldErrorsImpl<DeepRequired<PhoneData>>) {
  * [010] - [] - [] 이런식으로 registerOptions에 안잡히는 케이스만 고려하였음.
  */
 export function validateDetailPhone({part1, part2, part3}: PhoneData) {
-  return [part1, part2, part3].every(value => value.length !== 0);
+  return [part1, part2, part3].every((value) => value.length !== 0);
 }
 
-const REQUIRED_OPTIONS: Pick<RegisterOptions, 'required'> = {
+const REQUIRED_OPTIONS: Pick<RegisterOptions, "required"> = {
   required: {
     value: true,
-    message: '해당 항목은 필수입니다.'
+    message: "해당 항목은 필수입니다."
   }
 };
 
-const FIRST_PHONE_INPUT_OPTIONS: Pick<RegisterOptions, 'minLength' | 'maxLength'> = {
+const FIRST_PHONE_INPUT_OPTIONS: Pick<RegisterOptions, "minLength" | "maxLength"> = {
   maxLength: {
     value: 3,
-    message: '3자리만가능'
+    message: "3자리만가능"
   },
   minLength: {
     value: 3,
-    message: '3자리만가능'
+    message: "3자리만가능"
   }
 };
 
-const REST_PHONE_INPUT_OPTIONS: Pick<RegisterOptions, 'minLength' | 'maxLength'> = {
+const REST_PHONE_INPUT_OPTIONS: Pick<RegisterOptions, "minLength" | "maxLength"> = {
   maxLength: {
     value: 4,
-    message: '4자리만가능'
+    message: "4자리만가능"
   },
   minLength: {
     value: 4,
-    message: '4자리만가능'
+    message: "4자리만가능"
   }
 };

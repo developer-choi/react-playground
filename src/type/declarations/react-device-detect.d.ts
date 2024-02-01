@@ -1,4 +1,4 @@
-declare module 'react-device-detect' {
+declare module "react-device-detect" {
   export interface SelectorsByUserAgent {
     browserName: string;
     browserVersion: string;

@@ -1,4 +1,4 @@
-import React, {createContext, ReactElement} from 'react';
+import React, {createContext, ReactElement} from "react";
 
 export interface RadioGroupProps<T extends string = string> {
   name: string;
@@ -8,13 +8,8 @@ export interface RadioGroupProps<T extends string = string> {
 }
 
 export default function RadioGroup<T extends string = string>({name, value, onChange, children}: RadioGroupProps<T>) {
-  
-  return (
-      <RadioGroupContext.Provider value={{name, onChange, value}}>
-        {children}
-      </RadioGroupContext.Provider>
-  );
-};
+  return <RadioGroupContext.Provider value={{name, onChange, value}}>{children}</RadioGroupContext.Provider>;
+}
 
 export const RadioGroupContext = createContext<RadioGroupContextValue>(undefined as any);
-export type RadioGroupContextValue = Omit<RadioGroupProps<any>, 'children'>;
+export type RadioGroupContextValue = Omit<RadioGroupProps<any>, "children">;

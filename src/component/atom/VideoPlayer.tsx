@@ -1,9 +1,9 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import styled from 'styled-components';
-import videojs, {VideoJsPlayer, VideoJsPlayerOptions} from 'video.js';
-import Button from '@component/atom/element/Button';
-import 'video.js/dist/video-js.css';
-import {isMatchKeyboardEvent, KeyboardEventSpecialKey} from '@util/extend/event/keyboard-event';
+import React, {useCallback, useEffect, useRef, useState} from "react";
+import styled from "styled-components";
+import videojs, {VideoJsPlayer, VideoJsPlayerOptions} from "video.js";
+import Button from "@component/atom/element/Button";
+import "video.js/dist/video-js.css";
+import {isMatchKeyboardEvent, KeyboardEventSpecialKey} from "@util/extend/event/keyboard-event";
 
 export interface VideoPlayerProps extends VideoJsPlayerOptions {
   src: string;
@@ -55,7 +55,6 @@ export function VideoPlayer({src, options}: VideoPlayerProps) {
       instance.src(src);
 
       (async () => {
-
         /**
          * 크롬 자동재생 정책에 따라,
          * 자동재생이 실패할경우 mute를 true로 하여 항상 자동재생 자체는 성공할 수 있도록 구현.
@@ -68,7 +67,7 @@ export function VideoPlayer({src, options}: VideoPlayerProps) {
             await instance.play();
             setPlayer(instance);
           } catch (error) {
-            if (error instanceof DOMException && error.name === 'NotAllowedError') {
+            if (error instanceof DOMException && error.name === "NotAllowedError") {
               instance.muted(true);
               setVisibleUnMuteButton(true);
               setPlayer(instance);
@@ -95,16 +94,16 @@ export function VideoPlayer({src, options}: VideoPlayerProps) {
   useMappingShortcut(player);
 
   return (
-      <VideojsResetWrap>
-        <div data-vjs-player>
-          <video ref={videoRef} className="video-js vjs-16-9" playsInline/>
-        </div>
-        {visibleUnMuteButton &&
+    <VideojsResetWrap>
+      <div data-vjs-player>
+        <video ref={videoRef} className="video-js vjs-16-9" playsInline />
+      </div>
+      {visibleUnMuteButton && (
         <UnMuteWrap onClick={unmute}>
           <UnMuteButton>탭하여 음소거 해제</UnMuteButton>
         </UnMuteWrap>
-        }
-      </VideojsResetWrap>
+      )}
+    </VideojsResetWrap>
   );
 }
 
@@ -117,21 +116,21 @@ export interface PlayerKeyboardMethod {
   volumeDown: () => void;
 }
 
-export type ControlKey = ' ' | 'ArrowRight' | 'ArrowLeft' | 'ArrowUp' | 'ArrowDown';
+export type ControlKey = " " | "ArrowRight" | "ArrowLeft" | "ArrowUp" | "ArrowDown";
 
 export interface Shortcut {
   method: keyof PlayerKeyboardMethod;
   mapping: {
-    key: ControlKey,
-    matchSpecialKeys?: KeyboardEventSpecialKey[]
+    key: ControlKey;
+    matchSpecialKeys?: KeyboardEventSpecialKey[];
   };
 }
 
 const DEFAULT_SHORTCUTS: Shortcut[] = [
-  {method: 'playForward', mapping: {key: 'ArrowRight'}},
-  {method: 'playBackward', mapping: {key: 'ArrowLeft'}},
-  {method: 'volumeUp', mapping: {key: 'ArrowUp'}},
-  {method: 'volumeDown', mapping: {key: 'ArrowDown'}}
+  {method: "playForward", mapping: {key: "ArrowRight"}},
+  {method: "playBackward", mapping: {key: "ArrowLeft"}},
+  {method: "volumeUp", mapping: {key: "ArrowUp"}},
+  {method: "volumeDown", mapping: {key: "ArrowDown"}}
 ];
 
 function useMappingShortcut(player?: VideoJsPlayer, shortcuts = DEFAULT_SHORTCUTS) {
@@ -141,8 +140,7 @@ function useMappingShortcut(player?: VideoJsPlayer, shortcuts = DEFAULT_SHORTCUT
     }
 
     const handler = (event: KeyboardEvent) => {
-
-      if (isMatchKeyboardEvent(event, {key: ' '})) {
+      if (isMatchKeyboardEvent(event, {key: " "})) {
         if (player.paused()) {
           player.play();
         } else {
@@ -158,10 +156,10 @@ function useMappingShortcut(player?: VideoJsPlayer, shortcuts = DEFAULT_SHORTCUT
       });
     };
 
-    window.addEventListener('keydown', handler)
+    window.addEventListener("keydown", handler);
 
     return () => {
-      window.removeEventListener('keydown', handler);
+      window.removeEventListener("keydown", handler);
     };
   }, [shortcuts, player]);
 }
@@ -171,25 +169,25 @@ const SEEKING_UNIT = 5;
 
 function controlPlayer(player: VideoJsPlayer, method: keyof PlayerKeyboardMethod) {
   switch (method) {
-    case 'playForward': {
+    case "playForward": {
       const duration = player.duration();
       const currentTime = player.currentTime();
       player.currentTime(duration <= currentTime ? duration : currentTime + SEEKING_UNIT);
       break;
     }
-    case 'playBackward': {
+    case "playBackward": {
       const currentTime = player.currentTime();
       player.currentTime(currentTime <= 0 ? 0 : currentTime - SEEKING_UNIT);
       break;
     }
 
-    case 'volumeUp': {
+    case "volumeUp": {
       const volume = player.volume();
       player.volume(volume > 1 ? 1 : volume + VOLUME_UNIT);
       break;
     }
 
-    case 'volumeDown':
+    case "volumeDown":
       const volume = player.volume();
       player.volume(volume <= 0 ? 0 : volume - VOLUME_UNIT);
       break;
@@ -198,11 +196,11 @@ function controlPlayer(player: VideoJsPlayer, method: keyof PlayerKeyboardMethod
 
 const VideojsResetWrap = styled.div`
   position: relative;
-  
+
   .video-js.vjs-controls-enabled {
     cursor: pointer;
   }
-  
+
   .vjs-big-play-button {
     left: 50%;
     top: 50%;
@@ -212,7 +210,7 @@ const VideojsResetWrap = styled.div`
 
 const UnMuteWrap = styled.div`
   cursor: pointer;
-  
+
   position: absolute;
   left: 0;
   top: 0;

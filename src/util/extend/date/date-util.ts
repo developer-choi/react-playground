@@ -1,4 +1,4 @@
-import {getDatePropertyArray} from '@util/extend/date/date-convert';
+import {getDatePropertyArray} from "@util/extend/date/date-convert";
 
 export type DateConstructorNumbers = Parameters<DateConstructor>;
 export type DateConstructorNumbersLength = 2 | 3 | 4 | 5 | 6 | 7;
@@ -27,7 +27,7 @@ export function getDiffDate(target: Date, diffs: number[], datePropertyLength?: 
     return a;
   }, targetDateProperties);
 
-  return new Date(...dateProperties.slice(0, datePropertyLength ?? _diffs.length) as DateConstructorNumbers);
+  return new Date(...(dateProperties.slice(0, datePropertyLength ?? _diffs.length) as DateConstructorNumbers));
 }
 
 //두 날짜간에 몇'일'차이나는지 계산, 시간은 무시
@@ -51,7 +51,7 @@ export function getDiffBetweenDate(a: Date, b: Date) {
  */
 export function createDateWithSlice(sliceIndex: DateConstructorNumbersLength, target = new Date()) {
   const dateProperties = getDatePropertyArray(target);
-  return new Date(...dateProperties.slice(sliceIndex) as DateConstructorNumbers);
+  return new Date(...(dateProperties.slice(sliceIndex) as DateConstructorNumbers));
 }
 
 /**

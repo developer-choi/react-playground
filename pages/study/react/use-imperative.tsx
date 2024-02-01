@@ -1,5 +1,5 @@
-import React, {forwardRef, Ref, useCallback, useImperativeHandle, useRef} from 'react';
-import styled from 'styled-components';
+import React, {forwardRef, Ref, useCallback, useImperativeHandle, useRef} from "react";
+import styled from "styled-components";
 
 export default function UseImperativeExample() {
   const childRef = useRef<ChildMethod>(null);
@@ -11,7 +11,7 @@ export default function UseImperativeExample() {
   return (
     <Wrap>
       <button onClick={onClick}>CLICK ME</button>
-      <Child ref={childRef}/>
+      <Child ref={childRef} />
     </Wrap>
   );
 }
@@ -23,13 +23,12 @@ const Wrap = styled.div`
     background-color: lightcoral;
     color: whitesmoke;
   }
-  
+
   input {
     border: 1px solid black;
     padding: 5px;
   }
 `;
-
 
 interface ChildMethod {
   customFocus: () => void;
@@ -44,7 +43,5 @@ const Child = forwardRef(function Child(props: {}, ref: Ref<ChildMethod>) {
     }
   }));
 
-  return (
-    <input ref={inputRef}/>
-  );
+  return <input ref={inputRef} />;
 });

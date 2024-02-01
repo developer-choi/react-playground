@@ -4,7 +4,7 @@
 
 // https://stackoverflow.com/a/28890083/14477509
 function download1(href: string) {
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = href;
   a.download = "output.png";
   document.body.appendChild(a);
@@ -18,7 +18,7 @@ async function download2(url: string, filename: string) {
   const blob = await response.blob();
   const objectUrl = URL.createObjectURL(blob);
 
-  const anchor = document.createElement('a');
+  const anchor = document.createElement("a");
   anchor.download = filename;
   anchor.href = objectUrl;
   document.body.appendChild(anchor);
@@ -27,29 +27,29 @@ async function download2(url: string, filename: string) {
 }
 
 // https://stackoverflow.com/a/49886131/14477509
-function download3(url: string, fileName: string){
+function download3(url: string, fileName: string) {
   var xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
   xhr.responseType = "blob";
-  xhr.onload = function(){
+  xhr.onload = function () {
     var urlCreator = window.URL || window.webkitURL;
     var imageUrl = urlCreator.createObjectURL(this.response);
-    var tag = document.createElement('a');
+    var tag = document.createElement("a");
     tag.href = imageUrl;
     tag.download = fileName;
     document.body.appendChild(tag);
     tag.click();
     document.body.removeChild(tag);
-  }
+  };
   xhr.send();
 }
 
 // https://stackoverflow.com/a/32471653/14477509
 function download4(url: string, filename: string) {
-  var pom = document.createElement('a');
-  pom.setAttribute('href', 'data:application/octet-stream,' + encodeURIComponent(url));
-  pom.setAttribute('download', filename);
-  pom.style.display = 'none';
+  var pom = document.createElement("a");
+  pom.setAttribute("href", "data:application/octet-stream," + encodeURIComponent(url));
+  pom.setAttribute("download", filename);
+  pom.style.display = "none";
   document.body.appendChild(pom);
   pom.click();
   document.body.removeChild(pom);
@@ -57,8 +57,8 @@ function download4(url: string, filename: string) {
 
 // https://stackoverflow.com/a/49093626/14477509
 async function private_toDataUrlFileReader(url: string) {
-  let blob = await fetch(url).then(r => r.blob());
-  return new Promise<string>(resolve => {
+  let blob = await fetch(url).then((r) => r.blob());
+  return new Promise<string>((resolve) => {
     let reader = new FileReader();
     reader.onload = () => resolve(reader.result as string);
     reader.readAsDataURL(blob);
@@ -67,7 +67,7 @@ async function private_toDataUrlFileReader(url: string) {
 
 async function download5(url: string, filename: string) {
   const dataUrl = await private_toDataUrlFileReader(url);
-  const anchor = document.createElement('a');
+  const anchor = document.createElement("a");
   anchor.download = filename;
   anchor.href = dataUrl;
   document.body.appendChild(anchor);

@@ -1,8 +1,8 @@
-import React, {useCallback, useState} from 'react';
-import InputFile from '@component/extend/InputFile';
-import Button from '@component/atom/element/Button';
-import styled from 'styled-components';
-import {postFileUploadApi} from '@api/file-api';
+import React, {useCallback, useState} from "react";
+import InputFile from "@component/extend/InputFile";
+import Button from "@component/atom/element/Button";
+import styled from "styled-components";
+import {postFileUploadApi} from "@api/file-api";
 
 // URL: http://localhost:3000/experimental/components/form/video
 export default function ApiProgressPage() {
@@ -17,10 +17,9 @@ export default function ApiProgressPage() {
     try {
       await postFileUploadApi(file, ({total, loaded}: ProgressEvent) => {
         const value = loaded / total;
-        console.log('percent', value * 100);
+        console.log("percent", value * 100);
         setPercent(value);
       });
-
     } catch (error) {
       console.error(error);
     }
@@ -29,9 +28,9 @@ export default function ApiProgressPage() {
   return (
     <div>
       {file?.name}
-      <InputFile onChangeFile={setFile}/>
+      <InputFile onChangeFile={setFile} />
       <Button onClick={save}>Save</Button>
-      <Stick style={{width: `${percent * 100}%`}}/>
+      <Stick style={{width: `${percent * 100}%`}} />
     </div>
   );
 }
@@ -39,5 +38,5 @@ export default function ApiProgressPage() {
 const Stick = styled.div`
   transition: width 0.5s;
   height: 20px;
-  background: ${props => props.theme.main};
+  background: ${(props) => props.theme.main};
 `;

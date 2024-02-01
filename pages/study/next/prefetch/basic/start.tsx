@@ -1,6 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
-import styled from 'styled-components';
+import React from "react";
+import Link from "next/link";
+import styled from "styled-components";
 
 /**
  * 미리 개발자 도구 열고 네트워크 패널에 fetch/xhr탭 고른다음 테스트하면됨.

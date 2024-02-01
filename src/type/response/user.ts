@@ -1,4 +1,4 @@
-import type {UserInfo} from '@type/response-sub/user-sub';
+import type {UserInfo} from "@type/response-sub/user-sub";
 
 // GET /user/info/[pk]
 export interface UserInfoResponse {

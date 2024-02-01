@@ -1,4 +1,4 @@
-import type {Course, Room, Topic} from '@type/response-sub/course-sub';
+import type {Course, Room, Topic} from "@type/response-sub/course-sub";
 
 // GET /course/list
 export interface CourseListResponse {

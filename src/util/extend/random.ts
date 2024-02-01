@@ -1,4 +1,4 @@
-import {popSpecificIndex} from '@util/extend/data-type/array';
+import {popSpecificIndex} from "@util/extend/data-type/array";
 
 /**
  * @example (0, 3) --> -2이상 3이하의 랜덤한 숫자 반환
@@ -22,16 +22,14 @@ export function randomBoolean(percent: number = 50): boolean {
  * @example (['a', 'b', 'c'], 5) ==> return 'aabac'
  */
 export function makeRandomString(anagramArray: Array<string | number>, length: number): string {
-
   let result = new Array<string>(length);
 
   for (let i = 0; i < length; i++) {
-
     let randomIndex = randomNumber(0, anagramArray.length - 1);
     result.push(String(anagramArray[randomIndex]));
   }
 
-  return result.join('');
+  return result.join("");
 }
 
 export function randomIndex(array: any[]): number {
@@ -57,5 +55,11 @@ export function shuffleArray<T>(array: T[]): T[] {
 }
 
 export function randomHexColor() {
-  return '#' + new Array(6).fill('').map(() => randomNumber(1, 2 ** 4 - 1).toString(16)).join('');
+  return (
+    "#" +
+    new Array(6)
+      .fill("")
+      .map(() => randomNumber(1, 2 ** 4 - 1).toString(16))
+      .join("")
+  );
 }

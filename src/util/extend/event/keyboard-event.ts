@@ -1,13 +1,13 @@
-import {useEffect} from 'react';
+import {useEffect} from "react";
 
-export type KeyboardEventSpecialKey = 'ctrlKey' | 'altKey' | 'metaKey' | 'shiftKey';
-const SPECIAL_KEYS: KeyboardEventSpecialKey[] = ['shiftKey', 'metaKey', 'ctrlKey', 'altKey'];
+export type KeyboardEventSpecialKey = "ctrlKey" | "altKey" | "metaKey" | "shiftKey";
+const SPECIAL_KEYS: KeyboardEventSpecialKey[] = ["shiftKey", "metaKey", "ctrlKey", "altKey"];
 
 /**
  * React.KeyboardEvent와 window.addEventListener에서 전달되는 KeyboardEvent에서 모두 사용해도 타입에러가 안나도록
  * React.KeyboardEvent와 typescript lib에 있는 KeyboardEvent중에 필요한 property만 모았습니다.
  */
-export type MinimumKeyboardEvent = Pick<KeyboardEvent, 'key' | KeyboardEventSpecialKey>;
+export type MinimumKeyboardEvent = Pick<KeyboardEvent, "key" | KeyboardEventSpecialKey>;
 export type MinimumSpecialKeyEvent = Record<KeyboardEventSpecialKey, boolean>;
 
 export interface MatchKeyboardEvent {
@@ -25,13 +25,13 @@ export function isMatchKeyboardEvent(event: MinimumKeyboardEvent, matchTarget: M
   if (event.key.toLowerCase() !== matchTarget.key.toLowerCase()) {
     return false;
   }
-  
+
   return isMatchSpecialKey(event, matchTarget.specialKeys ?? []);
 }
 
 export function isMatchSpecialKey(event: MinimumSpecialKeyEvent, matchKeys: KeyboardEventSpecialKey[]) {
-  const restKeys = SPECIAL_KEYS.filter(key => !matchKeys.includes(key));
-  return matchKeys.every(key => event[key]) && restKeys.every(key => !event[key]);
+  const restKeys = SPECIAL_KEYS.filter((key) => !matchKeys.includes(key));
+  return matchKeys.every((key) => event[key]) && restKeys.every((key) => !event[key]);
 }
 
 /**
@@ -40,17 +40,17 @@ export function isMatchSpecialKey(event: MinimumSpecialKeyEvent, matchKeys: Keyb
  */
 export function isSomeKeyEnteredInWindow(windowKeyDownEvent: KeyboardEvent) {
   const {activeElement, body} = document;
-  
+
   if (activeElement !== body) {
     return false;
   }
-  
+
   const {key, ctrlKey, altKey, metaKey, shiftKey} = windowKeyDownEvent;
-  
+
   if (ctrlKey || altKey || metaKey || shiftKey) {
     return false;
   }
-  
+
   /**
    * 'Enter', 'ArrowUp' 같은 특수키는 꼭 길이가 1보다 컸고, 'ㅁ'같은 한글은 포커스가 document.body에 있을 때 입력할 경우 'a'로 입력이 됬었음.
    * 그러므로 길이가 1인걸로 체크하는것으로 결정했습니다.
@@ -72,10 +72,10 @@ export function useKeyDown(matchKeyboardEvent: MatchKeyboardEvent, callback: (ev
       callback(event);
     };
 
-    window.addEventListener('keydown', keydownCallback);
+    window.addEventListener("keydown", keydownCallback);
 
     return () => {
-      window.removeEventListener('keydown', keydownCallback);
+      window.removeEventListener("keydown", keydownCallback);
     };
   }, [callback, matchKeyboardEvent]);
 }

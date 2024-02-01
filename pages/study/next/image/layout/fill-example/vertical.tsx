@@ -1,7 +1,7 @@
-import React from 'react';
-import Image from 'next/image';
-import styled from 'styled-components';
-import {IMAGE} from '@util/dummy-image';
+import React from "react";
+import Image from "next/image";
+import styled from "styled-components";
+import {IMAGE} from "@util/dummy-image";
 
 /**
  * 브랜드랭킹 Vertical 솔루션임.
@@ -14,10 +14,10 @@ import {IMAGE} from '@util/dummy-image';
 export default function Page() {
   return (
     <Wrapper>
-      <Solution src={image1} width={250}/>
-      <Original src={image1} width={250}/>
-      <Solution src={image2} width={250}/>
-      <Original src={image2} width={250}/>
+      <Solution src={image1} width={250} />
+      <Original src={image1} width={250} />
+      <Solution src={image2} width={250} />
+      <Original src={image2} width={250} />
     </Wrapper>
   );
 }
@@ -30,12 +30,7 @@ interface Prop {
 function Solution({src, width}: Prop) {
   return (
     <SolutionWrap style={{width}}>
-      <Image
-        src={src}
-        alt="배너이미지"
-        layout="fill"
-        objectFit="contain"
-      />
+      <Image src={src} alt="배너이미지" layout="fill" objectFit="contain" />
     </SolutionWrap>
   );
 }
@@ -46,9 +41,7 @@ const SolutionWrap = styled.div`
 `;
 
 function Original({src, width}: Prop) {
-  return (
-    <img src={src} width={width} height="auto" alt=""/>
-  );
+  return <img src={src} width={width} height="auto" alt="" />;
 }
 
 const image1 = IMAGE.list.bigRectangular[0];

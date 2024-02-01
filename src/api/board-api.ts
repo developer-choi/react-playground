@@ -1,8 +1,8 @@
-import {getLoginTokenInCookie} from '@util/services/auth/auth-token';
-import type {BoardCreateParam} from '@type/response-sub/board-sub';
-import type {GetServerSidePropsContext} from 'next';
-import type {BoardListResponse, BoardOneResponse} from '@type/response/board';
-import {axiosInstance, getAxiosInstance} from '@api/config';
+import {getLoginTokenInCookie} from "@util/services/auth/auth-token";
+import type {BoardCreateParam} from "@type/response-sub/board-sub";
+import type {GetServerSidePropsContext} from "next";
+import type {BoardListResponse, BoardOneResponse} from "@type/response/board";
+import {axiosInstance, getAxiosInstance} from "@api/config";
 
 /**
  * @exception AuthError The user is not logged in
@@ -10,7 +10,7 @@ import {axiosInstance, getAxiosInstance} from '@api/config';
 export async function postBoardApi(param: BoardCreateParam) {
   getLoginTokenInCookie({throwable: true}); //Errors must be handled in components.
 
-  return axiosInstance.post('/board/create', param);
+  return axiosInstance.post("/board/create", param);
 }
 
 /**
@@ -33,6 +33,6 @@ export async function getBoardListApi(context: GetServerSidePropsContext, page: 
     throwable: true
   });
 
-  const {data} = await getAxiosInstance(context).get<BoardListResponse>('/board/list', {params: {page}});
+  const {data} = await getAxiosInstance(context).get<BoardListResponse>("/board/list", {params: {page}});
   return data;
 }

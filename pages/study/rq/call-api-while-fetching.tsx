@@ -1,7 +1,7 @@
-import React, {useCallback} from 'react';
-import Button from '@component/atom/element/Button';
-import {timeoutPromise, useLogWhenAllRendering} from '@util/extend/test';
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import React, {useCallback} from "react";
+import Button from "@component/atom/element/Button";
+import {timeoutPromise, useLogWhenAllRendering} from "@util/extend/test";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 
 /** Flow
  * 1. mutation 버튼 광클 ==> 클릭한만큼 API 호출됨 & 클릭한만큼 컴포넌트도 렌더링됨 (ㄷㄷ)
@@ -13,9 +13,9 @@ export default function Page() {
   const mutation = useMutation(someApi);
 
   useQuery({
-    queryKey: ['call-api/manually'],
+    queryKey: ["call-api/manually"],
     queryFn: someApi,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false
   });
 
   const queryClient = useQueryClient();
@@ -30,19 +30,19 @@ export default function Page() {
 
   const fetchQuery = useCallback(() => {
     queryClient.fetchQuery({
-      queryKey: ['call-api/manually'],
-      queryFn: someApi,
+      queryKey: ["call-api/manually"],
+      queryFn: someApi
     });
   }, [queryClient]);
 
   const prefetchQuery = useCallback(() => {
     queryClient.prefetchQuery({
-      queryKey: ['call-api/manually'],
-      queryFn: someApi,
+      queryKey: ["call-api/manually"],
+      queryFn: someApi
     });
   }, [queryClient]);
 
-  useLogWhenAllRendering('re-rendering');
+  useLogWhenAllRendering("re-rendering");
 
   return (
     <>
@@ -55,8 +55,8 @@ export default function Page() {
 }
 
 async function someApi() {
-  console.log('The someApi() called.');
+  console.log("The someApi() called.");
   await timeoutPromise(3000);
-  console.log('The someApi() returned.');
+  console.log("The someApi() returned.");
   return new Date().getTime();
 }

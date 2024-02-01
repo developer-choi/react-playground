@@ -1,5 +1,5 @@
-import {useEffect} from 'react';
-import {getDiffDate} from '@util/extend/date/date-util';
+import {useEffect} from "react";
+import {getDiffDate} from "@util/extend/date/date-util";
 
 /**
  * @param futureTimestamp 미래의 timestamp
@@ -9,16 +9,16 @@ import {getDiffDate} from '@util/extend/date/date-util';
 export function useRunCallbackInFuture(futureTimestamp: number, callback: () => void) {
   useEffect(() => {
     const timeout = futureTimestamp - new Date().getTime();
-  
+
     if (timeout < 0) {
-      console.warn('futureTimestamp is not more future than present. The callback is not executed.');
+      console.warn("futureTimestamp is not more future than present. The callback is not executed.");
       return;
     }
-  
+
     const timeoutId = setTimeout(() => {
       callback();
     }, timeout);
-    
+
     return () => {
       clearTimeout(timeoutId);
     };

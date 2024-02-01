@@ -1,7 +1,7 @@
-import {FormProvider, SubmitErrorHandler, SubmitHandler, useForm, useFormContext} from 'react-hook-form';
-import Button from '@component/atom/element/Button';
-import {useCallback} from 'react';
-import {baseHandleErrors} from '@util/extend/react-hook-form';
+import {FormProvider, SubmitErrorHandler, SubmitHandler, useForm, useFormContext} from "react-hook-form";
+import Button from "@component/atom/element/Button";
+import {useCallback} from "react";
+import {baseHandleErrors} from "@util/extend/react-hook-form";
 
 /**
  * register()에 required true를 작성하더라도,
@@ -16,16 +16,14 @@ export default function Page() {
     baseHandleErrors([name]);
   }, []);
 
-  const onSubmit: SubmitHandler<TestFormData> = useCallback(data => {
-    console.log('submit', data);
+  const onSubmit: SubmitHandler<TestFormData> = useCallback((data) => {
+    console.log("submit", data);
   }, []);
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
-        {!visibleName ? null : (
-          <NameInput/>
-        )}
+        {!visibleName ? null : <NameInput />}
         <Button type="submit">제출</Button>
       </form>
     </FormProvider>
@@ -35,16 +33,14 @@ export default function Page() {
 function NameInput() {
   const {register} = useFormContext<TestFormData>();
 
-  const inputProps = register('name', {
+  const inputProps = register("name", {
     required: {
       value: true,
-      message: '필수임'
+      message: "필수임"
     }
   });
 
-  return (
-    <input {...inputProps}/>
-  );
+  return <input {...inputProps} />;
 }
 
 interface TestFormData {

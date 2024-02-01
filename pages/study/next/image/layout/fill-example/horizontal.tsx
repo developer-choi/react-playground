@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import Image from "next/image";
 import styled from "styled-components";
-import {IMAGE} from '@util/dummy-image';
+import {IMAGE} from "@util/dummy-image";
 
 /**
  * 브랜드랭킹 Horizontal 솔루션임.
@@ -15,10 +15,10 @@ import {IMAGE} from '@util/dummy-image';
 export default function Page() {
   return (
     <Wrapper>
-      <Solution src={image1} height={104}/>
-      <Solution src={image2} height={104}/>
-      <Original src={image1} height={104}/>
-      <Original src={image2} height={104}/>
+      <Solution src={image1} height={104} />
+      <Solution src={image2} height={104} />
+      <Original src={image1} height={104} />
+      <Original src={image2} height={104} />
     </Wrapper>
   );
 }
@@ -31,12 +31,7 @@ interface Prop {
 function Solution({src, height}: Prop) {
   return (
     <SolutionWrap style={{height}}>
-      <Image
-        src={src}
-        alt="배너이미지"
-        layout="fill"
-        objectFit="contain"
-      />
+      <Image src={src} alt="배너이미지" layout="fill" objectFit="contain" />
     </SolutionWrap>
   );
 }
@@ -46,9 +41,7 @@ const SolutionWrap = styled.div`
 `;
 
 function Original({src, height}: Prop) {
-  return (
-    <img src={src} height={height} width="auto" alt=""/>
-  );
+  return <img src={src} height={height} width="auto" alt="" />;
 }
 
 const image1 = IMAGE.list.bigRectangular[0];
@@ -58,7 +51,7 @@ const Wrapper = styled.div`
   > * {
     border: 5px solid red;
   }
-  
+
   // <img 잘보이게하려고했음.
   > img {
     display: block;

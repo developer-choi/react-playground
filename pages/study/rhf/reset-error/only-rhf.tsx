@@ -1,5 +1,5 @@
-import React from 'react';
-import {useMutation} from '@tanstack/react-query';
+import React from "react";
+import {useMutation} from "@tanstack/react-query";
 
 /**
  * URL: http://localhost:3000/study/rhf/reset-error/only-rhf
@@ -14,7 +14,9 @@ export default function Page() {
   return (
     <div>
       <button onClick={() => mutation.mutateAsync()}>제출</button>
-      <button type="button" onClick={() => mutation.reset()}>리셋</button>
+      <button type="button" onClick={() => mutation.reset()}>
+        리셋
+      </button>
       {!mutation.error ? null : (
         //@ts-ignore
         <div>{mutation.error.message}</div>
@@ -25,6 +27,6 @@ export default function Page() {
 
 function postApi() {
   return Promise.reject({
-    message: '잘못됨'
+    message: "잘못됨"
   });
 }

@@ -1,6 +1,6 @@
-import React, {type ComponentProps, forwardRef, type Ref, useCallback} from 'react';
-import {useForm} from 'react-hook-form';
-import Button from '@component/atom/element/Button';
+import React, {type ComponentProps, forwardRef, type Ref, useCallback} from "react";
+import {useForm} from "react-hook-form";
+import Button from "@component/atom/element/Button";
 
 /**
  * URL: http://localhost:3000/study/react/forward-ref/basic
@@ -19,17 +19,17 @@ import Button from '@component/atom/element/Button';
 export default function Page() {
   const {register, setFocus} = useForm<TestFormData>();
 
-  const passwordProps = register('password');
-  
+  const passwordProps = register("password");
+
   const onClick = useCallback(() => {
-    setFocus('password')
+    setFocus("password");
   }, [setFocus]);
 
   return (
     <>
-      <Input inputProps={passwordProps}/>
+      <Input inputProps={passwordProps} />
       {/*<Input2 {...passwordProps}/> 이거 주석풀면 런타임에서 브라우저 콘솔에서 에러뜸 */}
-      <ForwardRefInput {...passwordProps}/>
+      <ForwardRefInput {...passwordProps} />
       <Button onClick={onClick}>Focus</Button>
     </>
   );
@@ -40,19 +40,15 @@ interface TestFormData {
 }
 
 interface InputProps {
-  inputProps: ComponentProps<'input'>;
+  inputProps: ComponentProps<"input">;
 }
 
 function Input({inputProps}: InputProps) {
-  return (
-    <input {...inputProps}/>
-  );
+  return <input {...inputProps} />;
 }
 
-function Input2(inputProps: ComponentProps<'input'>, ref: Ref<HTMLInputElement>) {
-  return (
-    <input ref={ref} {...inputProps}/>
-  )
+function Input2(inputProps: ComponentProps<"input">, ref: Ref<HTMLInputElement>) {
+  return <input ref={ref} {...inputProps} />;
 }
 
 const ForwardRefInput = forwardRef(Input2) as typeof Input2;

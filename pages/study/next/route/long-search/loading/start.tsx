@@ -17,19 +17,15 @@ export default function Page() {
   usePageLoading();
 
   const {push} = useRouter();
-  
+
   const onClick = useCallback(() => {
     push(DESTINATION_PATH);
   }, [push]);
 
   return (
     <>
-      <Link href={DESTINATION_PATH}>
-        도착페이지로가는 링크
-      </Link>
-      <Button onClick={onClick}>
-        도착페이지로가는 버튼
-      </Button>
+      <Link href={DESTINATION_PATH}>도착페이지로가는 링크</Link>
+      <Button onClick={onClick}>도착페이지로가는 버튼</Button>
     </>
   );
 }

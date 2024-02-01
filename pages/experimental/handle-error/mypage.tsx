@@ -1,7 +1,7 @@
-import type {GetServerSideProps} from 'next';
-import {dehydrate, DehydratedPageProps, QueryClient} from '@tanstack/react-query';
-import {handleServerSideError} from '@util/services/handle-error/server-side-error';
-import {fetchAuthInServerSide, useLogout} from '@util/services/auth/auth-user-cache';
+import type {GetServerSideProps} from "next";
+import {dehydrate, DehydratedPageProps, QueryClient} from "@tanstack/react-query";
+import {handleServerSideError} from "@util/services/handle-error/server-side-error";
+import {fetchAuthInServerSide, useLogout} from "@util/services/auth/auth-user-cache";
 
 export default function Page() {
   const logout = useLogout();
@@ -29,7 +29,6 @@ export const getServerSideProps: GetServerSideProps<DehydratedPageProps> = async
         dehydratedState: dehydrate(queryClient)
       }
     };
-
   } catch (error) {
     return handleServerSideError(error);
   }

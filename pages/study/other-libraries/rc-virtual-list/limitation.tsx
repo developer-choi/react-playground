@@ -1,22 +1,17 @@
-import React, {UIEvent, useCallback} from 'react';
-import {QueryKey, useInfiniteQuery} from '@tanstack/react-query';
-import List from 'rc-virtual-list';
-import type {Course} from '@type/response-sub/course-sub';
-import type {QueryFunctionContext} from '@tanstack/query-core/build/lib/types';
-import styled from 'styled-components';
-import {flexCenter} from '@util/services/style/css';
-import {useInfiniteScroll} from '@util/extend/event/scroll';
-import {getCourseListApi} from '@api/course-api';
+import React, {UIEvent, useCallback} from "react";
+import {QueryKey, useInfiniteQuery} from "@tanstack/react-query";
+import List from "rc-virtual-list";
+import type {Course} from "@type/response-sub/course-sub";
+import type {QueryFunctionContext} from "@tanstack/query-core/build/lib/types";
+import styled from "styled-components";
+import {flexCenter} from "@util/services/style/css";
+import {useInfiniteScroll} from "@util/extend/event/scroll";
+import {getCourseListApi} from "@api/course-api";
 
 // URL: http://localhost:3000/study/other-libraries/rc-virtual-list/limitation
 export default function Page() {
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-  } = useInfiniteQuery({
-    queryKey: ['rc-virtual-list-limitation'],
+  const {data, fetchNextPage, hasNextPage, isFetching} = useInfiniteQuery({
+    queryKey: ["rc-virtual-list-limitation"],
     queryFn,
     getNextPageParam,
     refetchOnWindowFocus: false
@@ -30,7 +25,7 @@ export default function Page() {
   const enabled = !!hasNextPage && !isFetching;
 
   return (
-    <Problem list={list} enabled={enabled} fetchNextPage={fetchNextPage}/>
+    <Problem list={list} enabled={enabled} fetchNextPage={fetchNextPage} />
     // <Solution list={list} enabled={enabled} fetchNextPage={fetchNextPage}/>
   );
 }
@@ -45,7 +40,7 @@ export default function Page() {
  *
  * 개발자도구 Element탭 보면, 스크롤내리는족족 element 쭉쭉쌓임. virtual하게 작동하지않음.
  */
-function Problem({list, enabled, fetchNextPage}: {list: Course[], enabled: boolean, fetchNextPage: any}) {
+function Problem({list, enabled, fetchNextPage}: {list: Course[]; enabled: boolean; fetchNextPage: any}) {
   useInfiniteScroll({
     callback: fetchNextPage,
     enabled
@@ -53,9 +48,7 @@ function Problem({list, enabled, fetchNextPage}: {list: Course[], enabled: boole
 
   return (
     <List data={list} itemHeight={200} itemKey="pk">
-      {({title}) => (
-        <Row>{title}</Row>
-      )}
+      {({title}) => <Row>{title}</Row>}
     </List>
   );
 }
@@ -68,27 +61,28 @@ function Problem({list, enabled, fetchNextPage}: {list: Course[], enabled: boole
  * 1. body의 스크롤바가 보기 흉해서 숨기긴해야됨. body의 스크롤바가 안움직임.
  * 2. 여전히 스크롤복원 안됨.
  */
-function Solution({list, enabled, fetchNextPage}: {list: Course[], enabled: boolean, fetchNextPage: any}) {
+function Solution({list, enabled, fetchNextPage}: {list: Course[]; enabled: boolean; fetchNextPage: any}) {
   //200 곱하기 1페이지(20개) + margin-bottom 20px x 19개 = 4360
   const height = 4360;
 
-  const onScroll = useCallback((event: UIEvent<HTMLElement>) => {
-    if (!enabled) {
-      return;
-    }
+  const onScroll = useCallback(
+    (event: UIEvent<HTMLElement>) => {
+      if (!enabled) {
+        return;
+      }
 
-    const {scrollHeight, clientHeight, scrollTop} = event.target as HTMLElement;
+      const {scrollHeight, clientHeight, scrollTop} = event.target as HTMLElement;
 
-    if ((scrollHeight - clientHeight - scrollTop) <= 500) {
-      fetchNextPage();
-    }
-  }, [enabled, fetchNextPage]);
+      if (scrollHeight - clientHeight - scrollTop <= 500) {
+        fetchNextPage();
+      }
+    },
+    [enabled, fetchNextPage]
+  );
 
   return (
     <List data={list} itemHeight={200} height={height} itemKey="pk" onScroll={onScroll}>
-      {({title}) => (
-        <Row>{title}</Row>
-      )}
+      {({title}) => <Row>{title}</Row>}
     </List>
   );
 }
@@ -106,7 +100,7 @@ async function queryFn(params: QueryFunctionContext<QueryKey, number>): Promise<
   return {
     courseList: list,
     page: pageParam,
-    nextPage: pageParam >= totalPage ? undefined : pageParam + 1,
+    nextPage: pageParam >= totalPage ? undefined : pageParam + 1
   };
 }
 

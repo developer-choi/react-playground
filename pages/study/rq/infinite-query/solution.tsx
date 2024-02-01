@@ -1,22 +1,17 @@
-import React from 'react';
+import React from "react";
 import {QueryKey, useInfiniteQuery} from "@tanstack/react-query";
-import type {QueryFunctionContext} from '@tanstack/query-core/build/lib/types';
-import type {Course} from '@type/response-sub/course-sub';
-import styled from 'styled-components';
-import {flexCenter} from '@util/services/style/css';
-import {useInfiniteScroll} from '@util/extend/event/scroll';
-import {getCourseListApi} from '@api/course-api';
+import type {QueryFunctionContext} from "@tanstack/query-core/build/lib/types";
+import type {Course} from "@type/response-sub/course-sub";
+import styled from "styled-components";
+import {flexCenter} from "@util/services/style/css";
+import {useInfiniteScroll} from "@util/extend/event/scroll";
+import {getCourseListApi} from "@api/course-api";
 import {getNextPageParam, InfiniteQueryPageData} from "@util/extend/react-query";
 
 // URL: http://localhost:3000/study/rq/infinite-query/solution
 export default function Page() {
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-  } = useInfiniteQuery({
-    queryKey: ['infinite-scroll-solution'],
+  const {data, fetchNextPage, hasNextPage, isFetching} = useInfiniteQuery({
+    queryKey: ["infinite-scroll-solution"],
     queryFn,
     getNextPageParam,
     refetchOnWindowFocus: false
@@ -64,7 +59,7 @@ async function queryFn(params: QueryFunctionContext<QueryKey, number>): Promise<
   return {
     courseList: list,
     // page: pageParam,
-    nextPage: pageParam >= totalPage ? undefined : pageParam + 1,
+    nextPage: pageParam >= totalPage ? undefined : pageParam + 1
   };
 }
 

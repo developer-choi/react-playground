@@ -1,8 +1,8 @@
-import React from 'react';
-import type {GetServerSideProps} from 'next';
-import {shuffleArray} from '@util/extend/random';
-import type {DehydratedPageProps} from '@tanstack/react-query';
-import {dehydrate, QueryClient, useQuery} from '@tanstack/react-query';
+import React from "react";
+import type {GetServerSideProps} from "next";
+import {shuffleArray} from "@util/extend/random";
+import type {DehydratedPageProps} from "@tanstack/react-query";
+import {dehydrate, QueryClient, useQuery} from "@tanstack/react-query";
 
 // URL: http://localhost:3000/study/next/hydration-error/resolve
 export default function Page() {
@@ -13,17 +13,13 @@ export default function Page() {
   });
 
   if (!data) {
-    return (
-      <div>Loading...</div>
-    );
+    return <div>Loading...</div>;
   }
 
   return (
     <>
-      {data.list.map(name => (
-        <div key={name}>
-          {name}
-        </div>
+      {data.list.map((name) => (
+        <div key={name}>{name}</div>
       ))}
     </>
   );
@@ -44,7 +40,7 @@ export const getServerSideProps: GetServerSideProps<DehydratedPageProps> = async
   };
 };
 
-const QUERY_KEY = ['hydration-error/random'];
+const QUERY_KEY = ["hydration-error/random"];
 
 async function getNameListApi() {
   //여기서 해야함.
@@ -53,9 +49,4 @@ async function getNameListApi() {
   };
 }
 
-const NAME_LIST = [
-  'John',
-  'Jessica',
-  'Adam',
-  'Aria'
-];
+const NAME_LIST = ["John", "Jessica", "Adam", "Aria"];

@@ -1,13 +1,13 @@
-import React, {useCallback} from 'react';
-import Button from '@component/atom/element/Button';
-import {toast} from 'react-toastify';
+import React, {useCallback} from "react";
+import Button from "@component/atom/element/Button";
+import {toast} from "react-toastify";
 
 export default function ReactToastifyPage() {
   const openDefaultToast = useCallback(() => {
-    toast.info('Default Toast');
+    toast.info("Default Toast");
   }, []);
   const openErrorToast = useCallback(() => {
-    toast.error('Error Toast');
+    toast.error("Error Toast");
   }, []);
   return (
     <>

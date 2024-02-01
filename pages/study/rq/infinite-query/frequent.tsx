@@ -1,30 +1,24 @@
-import React from 'react';
-import type {QueryFunctionContext} from '@tanstack/query-core/build/lib/types';
-import type {QueryKey} from '@tanstack/react-query';
-import {useInfiniteQuery} from '@tanstack/react-query';
-import Button from '@component/atom/element/Button';
-import {timeoutPromise} from '@util/extend/test';
+import React from "react";
+import type {QueryFunctionContext} from "@tanstack/query-core/build/lib/types";
+import type {QueryKey} from "@tanstack/react-query";
+import {useInfiniteQuery} from "@tanstack/react-query";
+import Button from "@component/atom/element/Button";
+import {timeoutPromise} from "@util/extend/test";
 
 // URL: http://localhost:3000/study/rq/infinite-query/frequent
 export default function Page() {
-  const {
-    data,
-    fetchNextPage,
-    status,
-  } = useInfiniteQuery({
-    queryKey: ['general-example'],
+  const {data, fetchNextPage, status} = useInfiniteQuery({
+    queryKey: ["general-example"],
     queryFn,
     getNextPageParam,
     refetchOnWindowFocus: false,
     staleTime: 50000
   });
 
-  const list = data?.pages.map(page => page.projects).flat() ?? [];
+  const list = data?.pages.map((page) => page.projects).flat() ?? [];
 
-  if (status === 'loading') {
-    return (
-      <p>Loading...</p>
-    );
+  if (status === "loading") {
+    return <p>Loading...</p>;
   }
 
   /**
@@ -35,9 +29,7 @@ export default function Page() {
    */
   return (
     <>
-      <Button onClick={() => fetchNextPage()}>
-        광클해보기
-      </Button>
+      <Button onClick={() => fetchNextPage()}>광클해보기</Button>
       {list.map((data) => (
         <p key={data.id}>{data.name}</p>
       ))}
@@ -60,16 +52,16 @@ interface Project {
 async function queryFn(params: QueryFunctionContext<QueryKey, number>): Promise<PageData> {
   const {pageParam = 1} = params;
 
-  console.log('Call API', params);
+  console.log("Call API", params);
 
   await timeoutPromise(1000);
 
   return {
     projects: [
       {id: new Date().getTime(), name: `${pageParam}-project-first`},
-      {id: new Date().getTime() + 1, name: `${pageParam}-project-twice`},
+      {id: new Date().getTime() + 1, name: `${pageParam}-project-twice`}
     ] as Project[],
-    nextPage: pageParam >= LAST_PAGE ? undefined : pageParam + 1,
+    nextPage: pageParam >= LAST_PAGE ? undefined : pageParam + 1
   };
 }
 

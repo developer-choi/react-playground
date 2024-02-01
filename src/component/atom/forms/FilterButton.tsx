@@ -1,7 +1,7 @@
-import React, {ComponentPropsWithoutRef, useCallback} from 'react';
-import styled from 'styled-components';
+import React, {ComponentPropsWithoutRef, useCallback} from "react";
+import styled from "styled-components";
 
-export interface FilterButtonProp<T> extends Omit<ComponentPropsWithoutRef<'button'>, 'value' | 'onClick'> {
+export interface FilterButtonProp<T> extends Omit<ComponentPropsWithoutRef<"button">, "value" | "onClick"> {
   currentFilter: T | undefined;
   value: T;
   onFilter: (value: T | undefined) => void;
@@ -14,12 +14,10 @@ export default function FilterButton<T>({value, onFilter, currentFilter, ...rest
     onFilter(!isActive ? value : undefined);
   }, [isActive, onFilter, value]);
 
-  return (
-    <Button isActive={isActive} onClick={onClick} {...rest}/>
-  );
+  return <Button isActive={isActive} onClick={onClick} {...rest} />;
 }
 
 const Button = styled.button<{isActive: boolean}>`
-  background: ${props => props.isActive ? props.theme.main : 'lightgray'};
+  background: ${(props) => (props.isActive ? props.theme.main : "lightgray")};
   margin: 1px;
 `;

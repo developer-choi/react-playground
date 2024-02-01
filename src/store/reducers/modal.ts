@@ -1,16 +1,16 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {useAppDispatch} from '@store/hooks';
-import {useCallback} from 'react';
-import type {AlertModalProp} from '@component/molecules/modal/AlertModal';
-import AlertModal from '@component/molecules/modal/AlertModal';
-import type {ConfirmModalProp} from '@component/molecules/modal/ConfirmModal';
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {useAppDispatch} from "@store/hooks";
+import {useCallback} from "react";
+import type {AlertModalProp} from "@component/molecules/modal/AlertModal";
+import AlertModal from "@component/molecules/modal/AlertModal";
+import type {ConfirmModalProp} from "@component/molecules/modal/ConfirmModal";
 
 //모달을 띄우려면 최소한 있어야하는 타입 (store를 통해서 띄우지않고 local state를 통해서 모달을 띄우는 한이 있더라도 이 타입은 반드시 필요함)
 export interface EssentialModalProp {
   closeModal: () => void;
 }
 
-export type CloseModalCallback = EssentialModalProp['closeModal'];
+export type CloseModalCallback = EssentialModalProp["closeModal"];
 
 type WithoutEssentialModalProp<T> = Omit<T, keyof EssentialModalProp>;
 
@@ -36,11 +36,11 @@ const initialState: ModalState = {
 };
 
 const modalSlice = createSlice({
-  name: 'modal',
+  name: "modal",
   initialState,
   reducers: {
     closeModal: (state, {payload}: PayloadAction<number>) => {
-      state.modals = state.modals.filter(modal => payload !== modal.pk);
+      state.modals = state.modals.filter((modal) => payload !== modal.pk);
     },
     openModal: (state, {payload}: PayloadAction<ModalPayload<any>>) => {
       state.modals.push({
@@ -58,37 +58,45 @@ export default modalSlice.reducer;
 export function useDispatchOpenModal() {
   const dispatch = useAppDispatch();
 
-  const openModal = useCallback(<P extends EssentialModalProp>(payload: ModalPayload<P>) => {
-    dispatch(modalSlice.actions.openModal(payload));
-  }, [dispatch]);
+  const openModal = useCallback(
+    <P extends EssentialModalProp>(payload: ModalPayload<P>) => {
+      dispatch(modalSlice.actions.openModal(payload));
+    },
+    [dispatch]
+  );
 
   /****************************************************************************
    * Frequently used callbacks
    ****************************************************************************/
 
-  const openAlertModal = useCallback((props: string | WithoutEssentialModalProp<AlertModalProp>) => {
-    if (typeof props === 'string') {
-      openModal({
-        Component: AlertModal,
-        props: {
-          content: props
-        }
-      });
+  const openAlertModal = useCallback(
+    (props: string | WithoutEssentialModalProp<AlertModalProp>) => {
+      if (typeof props === "string") {
+        openModal({
+          Component: AlertModal,
+          props: {
+            content: props
+          }
+        });
+      } else {
+        openModal({
+          Component: AlertModal,
+          props
+        });
+      }
+    },
+    [openModal]
+  );
 
-    } else {
+  const openConfirmModal = useCallback(
+    (props: WithoutEssentialModalProp<ConfirmModalProp>) => {
       openModal({
         Component: AlertModal,
         props
       });
-    }
-  }, [openModal]);
-
-  const openConfirmModal = useCallback((props: WithoutEssentialModalProp<ConfirmModalProp>) => {
-    openModal({
-      Component: AlertModal,
-      props
-    });
-  }, [openModal]);
+    },
+    [openModal]
+  );
 
   return {
     openModal,

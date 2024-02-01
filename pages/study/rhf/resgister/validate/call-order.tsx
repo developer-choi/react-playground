@@ -1,7 +1,7 @@
-import React, {useCallback} from 'react';
-import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
-import {useForm} from 'react-hook-form';
-import Button from '@component/atom/element/Button';
+import React, {useCallback} from "react";
+import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from "react-hook-form";
+import {useForm} from "react-hook-form";
+import Button from "@component/atom/element/Button";
 
 /**
  * URL: http://localhost:3000/study/rhf/resgister/validate/call-order
@@ -16,19 +16,18 @@ import Button from '@component/atom/element/Button';
  */
 export default function Page() {
   const {register, handleSubmit} = useForm<any>({
-    mode: 'all'
+    mode: "all"
   });
 
-  const onError: SubmitErrorHandler<any> = useCallback(errors => {
+  const onError: SubmitErrorHandler<any> = useCallback((errors) => {
     console.error(errors);
   }, []);
 
-  const onSubmit: SubmitHandler<any> = useCallback(() => {
-  }, []);
+  const onSubmit: SubmitHandler<any> = useCallback(() => {}, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit, onError)}>
-      <input placeholder="닉네임 입력" {...register('name', OPTIONS)}/>
+      <input placeholder="닉네임 입력" {...register("name", OPTIONS)} />
       <Button type="submit">제출</Button>
     </form>
   );
@@ -43,7 +42,7 @@ export async function getServerSideProps() {
 const OPTIONS: RegisterOptions = {
   minLength: {
     value: 3,
-    message: '닉네임은 2자 이상이어야함'
+    message: "닉네임은 2자 이상이어야함"
   },
 
   /** validate() 호출시점
@@ -59,10 +58,10 @@ const OPTIONS: RegisterOptions = {
    * (2) "이미 사용중인 닉네임이에요" 처럼 유효성검증을 서버를 통하는 경우는 강제로 all 써야함. 이걸 제출할 때 호출하는거는 말이안됨.
    */
   validate: {
-    required: value => {
-      console.log('validated > required call', value);
+    required: (value) => {
+      console.log("validated > required call", value);
 
-      return value ? true : 'validate > 필수임';
+      return value ? true : "validate > 필수임";
     }
   }
 };

@@ -1,11 +1,11 @@
-import React, {PropsWithChildren, useCallback, MouseEvent, useState, useEffect} from 'react';
-import type {LinkProps} from 'next/link';
-import Link from 'next/link';
-import {useRouter} from 'next/router';
-import styled from 'styled-components';
-import classNames from 'classnames';
+import React, {PropsWithChildren, useCallback, MouseEvent, useState, useEffect} from "react";
+import type {LinkProps} from "next/link";
+import Link from "next/link";
+import {useRouter} from "next/router";
+import styled from "styled-components";
+import classNames from "classnames";
 
-export interface AdvancedLinkProp extends Omit<PropsWithChildren<LinkProps>, 'href'> {
+export interface AdvancedLinkProp extends Omit<PropsWithChildren<LinkProps>, "href"> {
   prefetchTimeout?: number;
   prefetchingClassName?: string;
   className?: string;
@@ -21,11 +21,14 @@ export default function AdvancedLink({prefetchTimeout, prefetchingClassName, chi
     await router.prefetch(href);
     setPrefetching(false);
   }, [href, router]);
-  
-  const _onClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
-    onClick?.(event);
-    customPrefetch();
-  }, [customPrefetch, onClick]);
+
+  const _onClick = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>) => {
+      onClick?.(event);
+      customPrefetch();
+    },
+    [customPrefetch, onClick]
+  );
 
   const _prefetch = prefetchTimeout === undefined ? prefetch : false;
 
@@ -33,7 +36,7 @@ export default function AdvancedLink({prefetchTimeout, prefetchingClassName, chi
     if (prefetchTimeout === undefined) {
       return;
     }
-    
+
     const timeoutId = setTimeout(() => {
       customPrefetch();
     }, prefetchTimeout);
@@ -42,7 +45,7 @@ export default function AdvancedLink({prefetchTimeout, prefetchingClassName, chi
       clearTimeout(timeoutId);
     };
   }, [customPrefetch, prefetchTimeout]);
-  
+
   return (
     <Link href={href} prefetch={_prefetch} {...rest}>
       <StyledAnchor className={classNames(className, {prefetching})} onClick={_onClick}>

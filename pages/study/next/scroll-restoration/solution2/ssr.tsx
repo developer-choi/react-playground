@@ -1,11 +1,6 @@
-import type {GetServerSideProps} from 'next';
-import {useScrollRestorationSolution2} from '@util/extend/legacy/legacy-scroll-restoration2';
-import {
-  getScrollRestorationDummyApi,
-  SCROLL_RESTORATION_HREFS,
-  ScrollRestorationExamplePageProp,
-  ScrollRestorationLinkList
-} from '@component/others/scroll-restoration';
+import type {GetServerSideProps} from "next";
+import {useScrollRestorationSolution2} from "@util/extend/legacy/legacy-scroll-restoration2";
+import {getScrollRestorationDummyApi, SCROLL_RESTORATION_HREFS, ScrollRestorationExamplePageProp, ScrollRestorationLinkList} from "@component/others/scroll-restoration";
 
 /** Flow (Only Production)
  * 1. 새로고침했을 때 Layout Shift때문에 너무 보기흉함.
@@ -16,9 +11,7 @@ import {
 export default function Page({list}: ScrollRestorationExamplePageProp) {
   useScrollRestorationSolution2();
 
-  return (
-    <ScrollRestorationLinkList list={list}/>
-  );
+  return <ScrollRestorationLinkList list={list} />;
 }
 
 export const getServerSideProps: GetServerSideProps<ScrollRestorationExamplePageProp> = async () => {

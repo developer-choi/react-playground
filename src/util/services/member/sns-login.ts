@@ -8,7 +8,7 @@ export function getSnsLoginPopupUrl(snsType: SnsType): string {
   return `${origin}?${new URLSearchParams(param).toString()}`;
 }
 
-export type SnsType = 'naver' | 'kakao' | 'apple' | 'payco'
+export type SnsType = "naver" | "kakao" | "apple" | "payco";
 
 export interface NaverLoginResult {
   code: string;
@@ -18,41 +18,41 @@ export interface NaverLoginResult {
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
-const CSRF_TOKEN = 'scvasdcqacx';
+const CSRF_TOKEN = "scvasdcqacx";
 
-const SNS_CALLBACK_PATHNAME = '/experimental/member/sns-callback'
+const SNS_CALLBACK_PATHNAME = "/experimental/member/sns-callback";
 
 const SNS_LOGIN_ORIGIN_RECORD: Record<SnsType, string> = {
-  naver: 'https://nid.naver.com/oauth2.0/authorize',
-  apple: 'https://appleid.apple.com/auth/authorize',
-  kakao: 'https://kauth.kakao.com/oauth/authorize',
-  payco: 'https://id.payco.com/oauth2.0/authorize'
+  naver: "https://nid.naver.com/oauth2.0/authorize",
+  apple: "https://appleid.apple.com/auth/authorize",
+  kakao: "https://kauth.kakao.com/oauth/authorize",
+  payco: "https://id.payco.com/oauth2.0/authorize"
 };
 
 const SNS_LOGIN_PARAM_RECORD: Record<SnsType, (redirectUrl: string) => Record<string, string>> = {
-  naver: redirectUrl => ({
-    response_type: 'code',
-    client_id: 'dsazcxasdqweqwr',
+  naver: (redirectUrl) => ({
+    response_type: "code",
+    client_id: "dsazcxasdqweqwr",
     redirect_uri: redirectUrl,
-    state: CSRF_TOKEN,
+    state: CSRF_TOKEN
   }),
-  payco: redirectUrl => ({
-    response_type: 'code',
-    client_id: 'asdzxcqawqwfasd',
+  payco: (redirectUrl) => ({
+    response_type: "code",
+    client_id: "asdzxcqawqwfasd",
     redirect_uri: redirectUrl,
-    serviceProviderCode: 'FRIENDS',
-    userLocale: 'ko_KR',
+    serviceProviderCode: "FRIENDS",
+    userLocale: "ko_KR"
   }),
-  kakao: redirectUrl => ({
-    response_type: 'code',
-    client_id: 'zxcasqdqwcqefqweg',
-    redirect_uri: redirectUrl,
+  kakao: (redirectUrl) => ({
+    response_type: "code",
+    client_id: "zxcasqdqwcqefqweg",
+    redirect_uri: redirectUrl
   }),
-  apple: redirectUrl => ({
-    client_id: 'a.b.c.e.d.f.g',
+  apple: (redirectUrl) => ({
+    client_id: "a.b.c.e.d.f.g",
     redirect_uri: redirectUrl,
-    response_type: 'code id_token',
-    scope: 'name email',
-    response_mode: 'form_post',
+    response_type: "code id_token",
+    scope: "name email",
+    response_mode: "form_post"
   })
 };

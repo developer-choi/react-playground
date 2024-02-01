@@ -1,7 +1,7 @@
-import React from 'react';
-import type {GetServerSideProps} from 'next';
-import Image from 'next/image';
-import {IMAGE} from '@util/dummy-image';
+import React from "react";
+import type {GetServerSideProps} from "next";
+import Image from "next/image";
+import {IMAGE} from "@util/dummy-image";
 
 /** Flow
  * priority 여부에 따라, 최초로딩 시점의 HTML이 약간 차이가있다.
@@ -13,8 +13,8 @@ import {IMAGE} from '@util/dummy-image';
 export default function Page() {
   return (
     <>
-      <Original/>
-      <Html/>
+      <Original />
+      <Html />
     </>
   );
 }
@@ -22,16 +22,14 @@ export default function Page() {
 function Original() {
   return (
     <div>
-      <Image src={src} alt="배너이미지" layout="intrinsic" width={900} height={300}/>
-      <Image priority src={src} alt="배너이미지" layout="intrinsic" width={900} height={300}/>
+      <Image src={src} alt="배너이미지" layout="intrinsic" width={900} height={300} />
+      <Image priority src={src} alt="배너이미지" layout="intrinsic" width={900} height={300} />
     </div>
   );
 }
 
 function Html() {
-  return (
-    <div dangerouslySetInnerHTML={{__html: html}}/>
-  );
+  return <div dangerouslySetInnerHTML={{__html: html}} />;
 }
 
 const html = `
@@ -220,7 +218,6 @@ const src = IMAGE.list.bigRectangular[0];
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return {
-    props: {
-    }
+    props: {}
   };
 };

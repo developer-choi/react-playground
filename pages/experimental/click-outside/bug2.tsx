@@ -1,22 +1,22 @@
-import React, {FormEvent, useCallback} from 'react';
-import {useToggle} from '@util/extend/react';
-import {useClickOutside} from '@util/extend/event/event';
-import styled from 'styled-components';
-import Button from '@component/atom/element/Button';
+import React, {FormEvent, useCallback} from "react";
+import {useToggle} from "@util/extend/react";
+import {useClickOutside} from "@util/extend/event/event";
+import styled from "styled-components";
+import Button from "@component/atom/element/Button";
 
 // URL: http://localhost:3000/experimental/click-outside/bug2
 export default function Page() {
   const {value: visible, setTrue: openBox, setFalse: closeBox} = useToggle();
 
   const {wrapperRef, ignoreClassName} = useClickOutside<HTMLDivElement>({
-    ignoreClassName: 'ignore-target',
+    ignoreClassName: "ignore-target",
     callback: closeBox,
-    debug: 'recent-history'
+    debug: "recent-history"
   });
 
   const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('submitted.');
+    console.log("submitted.");
   }, []);
 
   /** 버그1
@@ -35,12 +35,12 @@ export default function Page() {
   return (
     <>
       <form onSubmit={onSubmit}>
-        <Input className={ignoreClassName} onFocus={openBox}/>
+        <Input className={ignoreClassName} onFocus={openBox} />
         <Button type="submit">제출</Button>
       </form>
       {!visible ? null : (
         <Box ref={wrapperRef}>
-          <SelfHiddenButton/>
+          <SelfHiddenButton />
         </Box>
       )}
     </>
@@ -61,7 +61,9 @@ function SelfHiddenButton() {
   }
 
   return (
-    <button type="button" onClick={closeButton}>Click Me</button>
+    <button type="button" onClick={closeButton}>
+      Click Me
+    </button>
   );
 }
 

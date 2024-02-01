@@ -1,8 +1,8 @@
-import type {BoardSearchTab, BoardType} from '@type/response-sub/board-sub';
-import type {DynamicRouteParamType} from '@util/services/path-preset/root-path';
-import {urlStringify} from '@util/extend/browser/query-string';
+import type {BoardSearchTab, BoardType} from "@type/response-sub/board-sub";
+import type {DynamicRouteParamType} from "@util/services/path-preset/root-path";
+import {urlStringify} from "@util/extend/browser/query-string";
 
-const upperPath = '/board';
+const upperPath = "/board";
 
 const BOARD_PATH = {
   boardType: {
@@ -11,9 +11,9 @@ const BOARD_PATH = {
       index: function ({boardType, ...query}: BoardListUrlParam) {
         return upperPath + `/${boardType}/list${urlStringify(query)}`;
       },
-      default: upperPath + '/all/list/1'
+      default: upperPath + "/all/list/1"
     },
-    boardNo: ({boardNo, boardType}: BoardNoUrlParam) => upperPath + `/${boardType}/${boardNo}`,
+    boardNo: ({boardNo, boardType}: BoardNoUrlParam) => upperPath + `/${boardType}/${boardNo}`
   }
 };
 

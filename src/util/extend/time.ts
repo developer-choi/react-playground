@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState} from "react";
 
 export function useDelay(timeout: number) {
   const [bool, setBool] = useState(false);

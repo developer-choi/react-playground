@@ -1,7 +1,7 @@
-import React, {ChangeEvent, ComponentPropsWithoutRef, forwardRef, Ref, useCallback} from 'react';
-import {destructDate} from '@util/extend/date/date-convert';
+import React, {ChangeEvent, ComponentPropsWithoutRef, forwardRef, Ref, useCallback} from "react";
+import {destructDate} from "@util/extend/date/date-convert";
 
-export interface InputDateProp extends Omit<ComponentPropsWithoutRef<'input'>, 'type' | 'value'> {
+export interface InputDateProp extends Omit<ComponentPropsWithoutRef<"input">, "type" | "value"> {
   value: Date;
   onChangeDate: (value: Date) => void;
   minDate?: Date;
@@ -9,17 +9,17 @@ export interface InputDateProp extends Omit<ComponentPropsWithoutRef<'input'>, '
 }
 
 export default forwardRef(function InputDate({onChangeDate, value, maxDate, minDate, ...rest}: InputDateProp, ref: Ref<HTMLInputElement>) {
-  
-  const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    onChangeDate(new Date(event.target.value));
-  }, [onChangeDate]);
-  
+  const onChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      onChangeDate(new Date(event.target.value));
+    },
+    [onChangeDate]
+  );
+
   const max = maxDate ? format(maxDate) : undefined;
   const min = minDate ? format(minDate) : undefined;
-  
-  return (
-      <input ref={ref} type="date" value={format(value)} onChange={onChange} max={max} min={min} {...rest}/>
-  );
+
+  return <input ref={ref} type="date" value={format(value)} onChange={onChange} max={max} min={min} {...rest} />;
 });
 
 function format(value: Date) {
@@ -28,5 +28,5 @@ function format(value: Date) {
 }
 
 function datePadZero(value: number) {
-  return value.toString().padStart(2, '0');
+  return value.toString().padStart(2, "0");
 }

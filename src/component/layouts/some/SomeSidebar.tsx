@@ -1,10 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import Link from 'next/link';
+import React from "react";
+import styled from "styled-components";
+import Link from "next/link";
 
-export interface SomeSidebarProp {
-
-}
+export interface SomeSidebarProp {}
 
 export default function SomeSidebar({}: SomeSidebarProp) {
   return (
@@ -26,7 +24,7 @@ const Wrap = styled.aside`
   display: flex;
   flex-direction: column;
   width: ${SIDEBAR_WIDTH}px;
-  background: ${props => props.theme.main};
+  background: ${(props) => props.theme.main};
   position: fixed;
   z-index: 10;
   height: 100%;
@@ -41,9 +39,9 @@ const Anchor = styled.a`
   padding: 10px;
 `;
 
-const upperPath = '/solution/layout/';
+const upperPath = "/solution/layout/";
 
-const LINKS: {name: string, href: string}[] = [
-  {name: 'layout1', href: upperPath + 1},
-  {name: 'layout2', href: upperPath + 2}
+const LINKS: {name: string; href: string}[] = [
+  {name: "layout1", href: upperPath + 1},
+  {name: "layout2", href: upperPath + 2}
 ];

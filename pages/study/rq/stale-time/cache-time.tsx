@@ -1,13 +1,13 @@
-import React from 'react';
-import {timeoutPromise, useLogWhenRendering} from '@util/extend/test';
-import moment from 'moment';
-import {useQuery, UseQueryOptions} from '@tanstack/react-query';
-import useCounter from '@util/services/counter';
-import Button from '@component/atom/element/Button';
+import React from "react";
+import {timeoutPromise, useLogWhenRendering} from "@util/extend/test";
+import moment from "moment";
+import {useQuery, UseQueryOptions} from "@tanstack/react-query";
+import useCounter from "@util/services/counter";
+import Button from "@component/atom/element/Button";
 
 // URL: http://localhost:3000/study/rq/stale-time/re-render/cache-time
 
-type ExampleType = Pick<UseQueryOptions<any>, 'staleTime' | 'cacheTime'> & {
+type ExampleType = Pick<UseQueryOptions<any>, "staleTime" | "cacheTime"> & {
   refetchOnWindowFocus?: boolean;
 };
 
@@ -77,7 +77,7 @@ export default function Page() {
   const {count, increase, decrease} = useCounter({initial: 1});
 
   const {data} = useQuery({
-    queryKey: ['changed-query-key', count],
+    queryKey: ["changed-query-key", count],
     queryFn: () => getApi(count),
     ...currentExample
   });
@@ -94,7 +94,7 @@ export default function Page() {
 }
 
 async function getApi(count: number) {
-  console.log('call API');
+  console.log("call API");
   await timeoutPromise(500);
-  return count + '-' + moment().format('HH:mm:ss');
+  return count + "-" + moment().format("HH:mm:ss");
 }

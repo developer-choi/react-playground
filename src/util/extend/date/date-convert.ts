@@ -21,7 +21,7 @@ export function destructDate(target = new Date()): DestructedDate {
   const minute = target.getMinutes();
   const second = target.getSeconds();
   const milliSecond = target.getMilliseconds();
-  return { year, month, date, hour, minute, second, milliSecond };
+  return {year, month, date, hour, minute, second, milliSecond};
 }
 
 /**

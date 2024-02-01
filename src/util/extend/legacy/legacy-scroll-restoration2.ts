@@ -1,8 +1,8 @@
-import {useRouter} from 'next/router';
-import {useEffect} from 'react';
+import {useRouter} from "next/router";
+import {useEffect} from "react";
 
 function saveScrollPos(url: string) {
-  const scrollPos = { x: window.scrollX, y: window.scrollY };
+  const scrollPos = {x: window.scrollX, y: window.scrollY};
   sessionStorage.setItem(url, JSON.stringify(scrollPos));
 }
 
@@ -16,7 +16,7 @@ function restoreScrollPos(url: string) {
   const scrollPos = JSON.parse(item);
 
   if (scrollPos) {
-    setTimeout(() => window.scrollTo({top: scrollPos.y, left: scrollPos.x, behavior: 'smooth'}), 0);
+    setTimeout(() => window.scrollTo({top: scrollPos.y, left: scrollPos.x, behavior: "smooth"}), 0);
   }
 }
 
@@ -25,15 +25,15 @@ export function useScrollRestorationSolution2() {
   const router = useRouter();
 
   useEffect(() => {
-    if ('scrollRestoration' in window.history) {
+    if ("scrollRestoration" in window.history) {
       let shouldScrollRestore = false;
-      window.history.scrollRestoration = 'manual';
+      window.history.scrollRestoration = "manual";
       restoreScrollPos(router.asPath);
 
       const onBeforeUnload = (event: any) => {
         saveScrollPos(router.asPath);
         // eslint-disable-next-line no-param-reassign
-        delete event['returnValue'];
+        delete event["returnValue"];
       };
 
       const onRouteChangeStart = () => {
@@ -47,18 +47,18 @@ export function useScrollRestorationSolution2() {
         }
       };
 
-      window.addEventListener('beforeunload', onBeforeUnload);
-      router.events.on('routeChangeStart', onRouteChangeStart);
-      router.events.on('routeChangeComplete', onRouteChangeComplete);
+      window.addEventListener("beforeunload", onBeforeUnload);
+      router.events.on("routeChangeStart", onRouteChangeStart);
+      router.events.on("routeChangeComplete", onRouteChangeComplete);
       router.beforePopState(() => {
         shouldScrollRestore = true;
         return true;
       });
 
       return () => {
-        window.removeEventListener('beforeunload', onBeforeUnload);
-        router.events.off('routeChangeStart', onRouteChangeStart);
-        router.events.off('routeChangeComplete', onRouteChangeComplete);
+        window.removeEventListener("beforeunload", onBeforeUnload);
+        router.events.off("routeChangeStart", onRouteChangeStart);
+        router.events.off("routeChangeComplete", onRouteChangeComplete);
         router.beforePopState(() => true);
       };
     }

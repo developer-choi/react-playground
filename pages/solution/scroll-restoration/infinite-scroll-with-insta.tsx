@@ -1,13 +1,13 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {useScrollRestoration} from '@util/extend/scroll-restoration';
-import {QueryKey, useInfiniteQuery} from '@tanstack/react-query';
-import {EMPTY_ARRAY} from '@util/extend/data-type/array';
-import Link from 'next/link';
-import {SCROLL_RESTORATION_HREFS} from '@component/others/scroll-restoration';
-import type {Course} from '@type/response-sub/course-sub';
-import type {QueryFunctionContext} from '@tanstack/query-core/build/lib/types';
-import styled from 'styled-components';
-import {getCourseListApi} from '@api/course-api';
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {useScrollRestoration} from "@util/extend/scroll-restoration";
+import {QueryKey, useInfiniteQuery} from "@tanstack/react-query";
+import {EMPTY_ARRAY} from "@util/extend/data-type/array";
+import Link from "next/link";
+import {SCROLL_RESTORATION_HREFS} from "@component/others/scroll-restoration";
+import type {Course} from "@type/response-sub/course-sub";
+import type {QueryFunctionContext} from "@tanstack/query-core/build/lib/types";
+import styled from "styled-components";
+import {getCourseListApi} from "@api/course-api";
 
 /** Flow
  * 1. 스크롤내려도 virtual기능 잘 작동하고,
@@ -24,13 +24,8 @@ export default function Page() {
 
   const [magic, setMagic] = useState<Magic>();
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-  } = useInfiniteQuery({
-    queryKey: ['scroll-restoration/infinite-scroll-with-instagram'],
+  const {data, fetchNextPage, hasNextPage, isFetching} = useInfiniteQuery({
+    queryKey: ["scroll-restoration/infinite-scroll-with-instagram"],
     queryFn,
     getNextPageParam,
     refetchOnWindowFocus: false
@@ -44,7 +39,7 @@ export default function Page() {
     }
 
     const {start} = magic;
-    
+
     const s = Math.floor(start) - ROW_COUNT / 2 < 0 ? 0 : Math.floor(start) - ROW_COUNT / 2;
     const e = s + ROW_COUNT;
     return items.slice(s, e);
@@ -59,10 +54,7 @@ export default function Page() {
     const currentStart = Math.floor(scrollTop / ROW_HEIGHT);
 
     // 현재 스크린에 있는 아이템의 번호가 10번이라면, 1~9번에 차지하는 높이를 그대로 paddingTop 으로 사용.
-    const tempStart =
-      Math.floor(currentStart) - ROW_COUNT / 2 < 0
-        ? 0
-        : Math.floor(currentStart) - ROW_COUNT / 2;
+    const tempStart = Math.floor(currentStart) - ROW_COUNT / 2 < 0 ? 0 : Math.floor(currentStart) - ROW_COUNT / 2;
 
     const paddingTop = tempStart * ROW_HEIGHT;
 
@@ -102,18 +94,15 @@ export default function Page() {
       }
     };
 
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll);
 
     return () => {
-      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener("scroll", onScroll);
     };
   }, [fetchNextPage, hasNextPage, isFetching, updateIndex]);
 
   return (
-    <div
-      className="App"
-      style={{paddingTop: magic?.paddingTop, paddingBottom: magic?.paddingBottom}}
-    >
+    <div className="App" style={{paddingTop: magic?.paddingTop, paddingBottom: magic?.paddingBottom}}>
       {slicedItems.map(({pk, title}) => (
         <Link href={SCROLL_RESTORATION_HREFS.mySolution} key={pk} passHref>
           <Row>
@@ -148,7 +137,7 @@ async function queryFn(params: QueryFunctionContext<QueryKey, number>): Promise<
   return {
     courseList: list,
     page: pageParam,
-    nextPage: pageParam >= totalPage ? undefined : pageParam + 1,
+    nextPage: pageParam >= totalPage ? undefined : pageParam + 1
   };
 }
 

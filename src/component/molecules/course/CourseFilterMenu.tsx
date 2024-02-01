@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
-import FilterButton from '@component/atom/forms/FilterButton';
-import type {Room} from '@type/response-sub/course-sub';
-import {useCourseQueryString} from '@util/services/course';
-import {getCourseRoomsApi} from '@api/course-api';
+import React, {useEffect, useState} from "react";
+import styled from "styled-components";
+import FilterButton from "@component/atom/forms/FilterButton";
+import type {Room} from "@type/response-sub/course-sub";
+import {useCourseQueryString} from "@util/services/course";
+import {getCourseRoomsApi} from "@api/course-api";
 import {useHandleClientSideError} from "@util/services/handle-error/client-side-error";
 
 export interface CourseFilterMenuProp {
@@ -21,7 +21,6 @@ export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp
         const {list} = await getCourseRoomsApi();
         setRooms(list);
         onReadyToFilter(true);
-
       } catch (error) {
         handleClientSideError(error);
       }
@@ -36,13 +35,13 @@ export default function CourseFilterMenu({onReadyToFilter}: CourseFilterMenuProp
     <Wrap>
       <div>
         {rooms.map(({pk, name}) => (
-          <FilterButton currentFilter={currentRoom} key={pk} onFilter={applyFilterRoom} value={pk}>{name}</FilterButton>
+          <FilterButton currentFilter={currentRoom} key={pk} onFilter={applyFilterRoom} value={pk}>
+            {name}
+          </FilterButton>
         ))}
       </div>
     </Wrap>
   );
 }
 
-const Wrap = styled.div`
-
-`;
+const Wrap = styled.div``;

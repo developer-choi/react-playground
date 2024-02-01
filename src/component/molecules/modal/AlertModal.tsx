@@ -1,25 +1,27 @@
-import React, {MouseEvent, useCallback, useEffect, useRef} from 'react';
-import styled from 'styled-components';
-import type {ModalProp} from '@component/molecules/modal/Modal';
-import Modal from '@component/molecules/modal/Modal';
-import Button from '@component/atom/element/Button';
-import type {CloseModalCallback} from '@store/reducers/modal';
+import React, {MouseEvent, useCallback, useEffect, useRef} from "react";
+import styled from "styled-components";
+import type {ModalProp} from "@component/molecules/modal/Modal";
+import Modal from "@component/molecules/modal/Modal";
+import Button from "@component/atom/element/Button";
+import type {CloseModalCallback} from "@store/reducers/modal";
 
-export interface AlertModalProp extends Omit<ModalProp, 'children'> {
+export interface AlertModalProp extends Omit<ModalProp, "children"> {
   onConfirm?: (closeModal: CloseModalCallback, event: MouseEvent<HTMLButtonElement>) => void;
   title?: string;
   content: string;
 }
 
 export default function AlertModal({closeModal, onConfirm = closeModal, title, content, ...rest}: AlertModalProp) {
-  const _onConfirm = useCallback((event: MouseEvent<HTMLButtonElement>) => {
-    if (!onConfirm) {
-      closeModal();
-    } else {
-      onConfirm(closeModal, event);
-    }
-
-  }, [closeModal, onConfirm]);
+  const _onConfirm = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      if (!onConfirm) {
+        closeModal();
+      } else {
+        onConfirm(closeModal, event);
+      }
+    },
+    [closeModal, onConfirm]
+  );
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -31,14 +33,16 @@ export default function AlertModal({closeModal, onConfirm = closeModal, title, c
     <Wrap closeModal={closeModal} {...rest}>
       {!title ? null : <Title>{title}</Title>}
       <Content>{content}</Content>
-      <Button ref={buttonRef} onClick={_onConfirm}>확인</Button>
+      <Button ref={buttonRef} onClick={_onConfirm}>
+        확인
+      </Button>
     </Wrap>
   );
 }
 
 const Wrap = styled(Modal)`
   padding: 30px;
-  
+
   > *:not(:first-child) {
     margin-top: 20px;
   }

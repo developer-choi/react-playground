@@ -1,6 +1,6 @@
-import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
-import React, {useCallback, useState} from 'react';
-import Button from '@component/atom/element/Button';
+import {SubmitErrorHandler, SubmitHandler, useForm} from "react-hook-form";
+import React, {useCallback, useState} from "react";
+import Button from "@component/atom/element/Button";
 
 /**
  * URL: http://localhost:3000/study/rhf/resgister/disabled
@@ -17,43 +17,47 @@ import Button from '@component/atom/element/Button';
 export default function Home() {
   const {register, handleSubmit, setValue} = useForm<TestFormData>({
     defaultValues: {
-      name: 'test'
+      name: "test"
     }
   });
 
-  const [inputProps, setInputProps] = useState(register('name', {
-    required: {
-      value: true,
-      message: '이름은 필수임'
-    },
-  }));
+  const [inputProps, setInputProps] = useState(
+    register("name", {
+      required: {
+        value: true,
+        message: "이름은 필수임"
+      }
+    })
+  );
 
-  const onError: SubmitErrorHandler<TestFormData> = useCallback(errors => {
+  const onError: SubmitErrorHandler<TestFormData> = useCallback((errors) => {
     console.error(errors);
   }, []);
 
-  const onSubmit: SubmitHandler<TestFormData> = useCallback(data => {
-    console.log('data', data);
+  const onSubmit: SubmitHandler<TestFormData> = useCallback((data) => {
+    console.log("data", data);
   }, []);
 
   const setManually = useCallback(() => {
-    setValue('name', 'manual setting');
+    setValue("name", "manual setting");
   }, [setValue]);
 
   const setDisabled = useCallback(() => {
-    setInputProps(register('name', {
-      required: {
-        value: true,
-        message: '이름은 필수임'
-      },
-      disabled: true,
-    }))
+    setInputProps(
+      register("name", {
+        required: {
+          value: true,
+          message: "이름은 필수임"
+        },
+        disabled: true
+      })
+    );
   }, [register]);
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit, onError)}>
-        <input {...inputProps}/>
+        <input {...inputProps} />
         <Button type="submit">제출</Button>
       </form>
       <Button onClick={setManually}>Set manually</Button>

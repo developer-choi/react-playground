@@ -1,10 +1,10 @@
-import React from 'react';
-import 'swiper/css';
-import styled from 'styled-components';
-import type {SwiperProps} from 'swiper/react';
-import {Swiper, SwiperSlide} from 'swiper/react';
-import Image from 'next/image';
-import {IMAGE} from '@util/dummy-image';
+import React from "react";
+import "swiper/css";
+import styled from "styled-components";
+import type {SwiperProps} from "swiper/react";
+import {Swiper, SwiperSlide} from "swiper/react";
+import Image from "next/image";
+import {IMAGE} from "@util/dummy-image";
 
 /**
  * priority true로 설정하면,
@@ -18,10 +18,10 @@ import {IMAGE} from '@util/dummy-image';
 export default function Page() {
   return (
     <>
-      <Solved/>
-      <Original/>
-      <NonPriorityRender/>
-      <BugRender/>
+      <Solved />
+      <Original />
+      <NonPriorityRender />
+      <BugRender />
     </>
   );
 }
@@ -30,16 +30,9 @@ function Solved() {
   return (
     <SolvedWrap>
       <Swiper {...swiperProps}>
-        {IMAGE.list.bigRectangular.map(image => (
+        {IMAGE.list.bigRectangular.map((image) => (
           <SwiperSlide key={image}>
-            <Image
-              src={image}
-              alt="banner"
-              width={1143}
-              height={475}
-              layout="responsive"
-              priority
-            />
+            <Image src={image} alt="banner" width={1143} height={475} layout="responsive" priority />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -51,16 +44,9 @@ function Original() {
   return (
     <Wrap>
       <Swiper {...swiperProps}>
-        {IMAGE.list.bigRectangular.map(image => (
+        {IMAGE.list.bigRectangular.map((image) => (
           <SwiperSlide key={image}>
-            <Image
-              src={image}
-              alt="banner"
-              width={1143}
-              height={475}
-              layout="responsive"
-              priority
-            />
+            <Image src={image} alt="banner" width={1143} height={475} layout="responsive" priority />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -72,19 +58,15 @@ const swiperProps: SwiperProps = {
   slidesPerView: 1,
   centeredSlides: true,
   loop: true,
-  loopedSlides: 2,
+  loopedSlides: 2
 };
 
 function NonPriorityRender() {
-  return (
-    <Wrap dangerouslySetInnerHTML={{__html: nonPriorityHtml}}/>
-  );
+  return <Wrap dangerouslySetInnerHTML={{__html: nonPriorityHtml}} />;
 }
 
 function BugRender() {
-  return (
-    <Wrap dangerouslySetInnerHTML={{__html: initialHtml}}/>
-  );
+  return <Wrap dangerouslySetInnerHTML={{__html: initialHtml}} />;
 }
 
 const Wrap = styled.div`

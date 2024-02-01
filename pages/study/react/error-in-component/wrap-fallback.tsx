@@ -1,6 +1,6 @@
-import React, {createContext, FunctionComponent, useContext} from 'react';
-import type {GetServerSideProps} from 'next';
-import {useAppSelector} from '@store/hooks';
+import React, {createContext, FunctionComponent, useContext} from "react";
+import type {GetServerSideProps} from "next";
+import {useAppSelector} from "@store/hooks";
 
 // URL: http://localhost:3000/study/react/error-in-component/wrap-fallback
 
@@ -14,49 +14,44 @@ import {useAppSelector} from '@store/hooks';
 
 export default function Page() {
   return (
-    <TestContext.Provider value={{data: 'hello world'}}>
-      <Parent1/>
+    <TestContext.Provider value={{data: "hello world"}}>
+      <Parent1 />
     </TestContext.Provider>
-  )
+  );
 }
 
 const TestContext = createContext({
-  data: 'hello world'
-})
+  data: "hello world"
+});
 
 function Parent1() {
-  return (
-    <WrappedComponent/>
-  )
+  return <WrappedComponent />;
 }
 
-const WrappedComponent = wrapFallbackComponent(ErrorComponent)
+const WrappedComponent = wrapFallbackComponent(ErrorComponent);
 
 function ErrorComponent(): null {
-  const state = useAppSelector(state => state)
-  console.log('state', state);
+  const state = useAppSelector((state) => state);
+  console.log("state", state);
 
-  const context = useContext(TestContext)
-  console.log('context', context);
+  const context = useContext(TestContext);
+  console.log("context", context);
 
-  throw new Error('Error occurred');
+  throw new Error("Error occurred");
 }
 
 function wrapFallbackComponent<P>(component: FunctionComponent<P>): FunctionComponent<P> {
   return (props: P) => {
     try {
-      return component(props)
+      return component(props);
     } catch (error) {
-      return (
-        <div>Error occurred</div>
-      )
+      return <div>Error occurred</div>;
     }
-  }
+  };
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return {
-    props: {
-    }
+    props: {}
   };
 };

@@ -5,7 +5,7 @@
  * @example ('123abc', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']) => '123'
  */
 export function parseString(text: string, allowCharacters: string[]) {
-  let _text = '';
+  let _text = "";
 
   for (const char of text) {
     if (!allowCharacters.includes(char)) {
@@ -19,12 +19,12 @@ export function parseString(text: string, allowCharacters: string[]) {
 }
 
 export function count(text: string, target: string) {
-  const regex = new RegExp(target, 'g');
+  const regex = new RegExp(target, "g");
   return (text.match(regex) || []).length;
 }
 
-export function booleanToString(value: boolean, prefix = '') {
-  const stringValue = value ? 'true' : 'false';
+export function booleanToString(value: boolean, prefix = "") {
+  const stringValue = value ? "true" : "false";
   return prefix + ` ${stringValue}`;
 }
 

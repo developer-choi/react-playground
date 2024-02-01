@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import {useCurrentCheckedFilterResultList} from '@util/services/product-filter/filter-form';
+import React from "react";
+import styled from "styled-components";
+import {useCurrentCheckedFilterResultList} from "@util/services/product-filter/filter-form";
 
 export default function CheckedFilterList() {
   const currentCheckedFilterList = useCurrentCheckedFilterResultList();

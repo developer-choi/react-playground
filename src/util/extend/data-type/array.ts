@@ -1,4 +1,4 @@
-import type {Direction} from '@type/response-sub/common-sub';
+import type {Direction} from "@type/response-sub/common-sub";
 
 export const EMPTY_ARRAY = [];
 
@@ -16,7 +16,7 @@ export function replace<T>(array: Array<T>, conditionCallback: LoopCallback<T, b
 
 // 루프돌려서 콜백에서 반환한 값을 그대로 반환
 export function findItem<I, R>(list: I[], resultCallback: LoopCallback<I, R | false>): R | undefined {
-  for (let i = 0 ; i < list.length ; i++) {
+  for (let i = 0; i < list.length; i++) {
     const item = list[i];
     const result = resultCallback(item, i, list);
 
@@ -42,19 +42,19 @@ export type PkType = string | number;
  * @param recent 'first' = 배열 뒤에있는 중복을 삭제하고 앞에있는것을 남김
  * @param recent 'last' = 배열 앞에있는 중복을 삭제하고 뒤에있는것을 남김
  */
-export function removeDuplicatedObject<I extends Object, P extends PkType>(items: I[], pkExtractor: (item: I) => P, recent: 'last' | 'first'): I[] {
-  const _items = recent === 'last' ? items : [...items].reverse();
+export function removeDuplicatedObject<I extends Object, P extends PkType>(items: I[], pkExtractor: (item: I) => P, recent: "last" | "first"): I[] {
+  const _items = recent === "last" ? items : [...items].reverse();
 
   const map = new Map<P, I>();
 
-  _items.forEach(item => {
+  _items.forEach((item) => {
     const pk = pkExtractor(item);
     map.set(pk, item);
   });
 
   const result = Array.from(map).map(([, item]) => item);
 
-  if (recent === 'last') {
+  if (recent === "last") {
     return result;
   }
 
@@ -74,9 +74,8 @@ export function popSpecificIndex<T>(array: T[], index: number) {
 
 export function sortByNumber<T>(direction: Direction, list: T[], valueExtractor: (item: T) => number) {
   return [...list].sort((a, b) => {
-    if (direction === 'asc') {
+    if (direction === "asc") {
       return valueExtractor(a) - valueExtractor(b);
-
     } else {
       return valueExtractor(b) - valueExtractor(a);
     }
@@ -88,12 +87,10 @@ export function sortByString<T>(direction: Direction, list: T[], valueExtractor:
     const valueA = valueExtractor(a);
     const valueB = valueExtractor(b);
 
-    if(valueA > valueB) {
-      return direction === 'desc' ? -1 : 1;
-
+    if (valueA > valueB) {
+      return direction === "desc" ? -1 : 1;
     } else if (valueA < valueB) {
-      return direction === 'desc' ? 1 : -1;
-
+      return direction === "desc" ? 1 : -1;
     } else {
       return 0;
     }
@@ -102,18 +99,18 @@ export function sortByString<T>(direction: Direction, list: T[], valueExtractor:
 
 export function flatRecursive<T, K extends keyof T>(list: T[], childrenKey: K): T[] {
   return list.reduce((a, b) => {
-    const children = b[childrenKey]
+    const children = b[childrenKey];
 
     if (children) {
-      if(!Array.isArray(children)) {
-        throw new Error('childrenKey is invalid. value of childrenKey is must Array')
+      if (!Array.isArray(children)) {
+        throw new Error("childrenKey is invalid. value of childrenKey is must Array");
       }
 
       return a.concat(b, flatRecursive(children as T[], childrenKey));
     }
 
     return a.concat(b);
-  }, [] as T[])
+  }, [] as T[]);
 }
 
 /**
@@ -122,22 +119,21 @@ export function flatRecursive<T, K extends keyof T>(list: T[], childrenKey: K): 
  * @example ([1, 2, 3], 3) => 1
  */
 export function getNextLoopItem<T>(list: T[], item: T): T {
-  const index = list.indexOf(item)
+  const index = list.indexOf(item);
 
   if (index === -1) {
     console.error("item is not in list", item, list);
-    return item
+    return item;
   }
 
   if (list.length === 1) {
-    return item
+    return item;
   }
 
   const isLast = index === list.length - 1;
 
   if (isLast) {
     return list[0];
-
   } else {
     return list[index + 1];
   }

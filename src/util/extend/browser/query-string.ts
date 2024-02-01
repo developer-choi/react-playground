@@ -1,9 +1,9 @@
-import type {ParsedUrlQuery} from 'querystring';
-import {ParsedUrlQueryInput, stringify} from 'querystring';
-import {range} from '@util/extend/data-type/number';
-import ValidateError from '@util/services/handle-error/ValidateError';
+import type {ParsedUrlQuery} from "querystring";
+import {ParsedUrlQueryInput, stringify} from "querystring";
+import {range} from "@util/extend/data-type/number";
+import ValidateError from "@util/services/handle-error/ValidateError";
 
-export type QueryValue = ParsedUrlQuery['any-key'];
+export type QueryValue = ParsedUrlQuery["any-key"];
 
 interface ValidateQueryOption<R extends boolean, T extends boolean> {
   required?: R;
@@ -16,18 +16,18 @@ interface ValidateQueryOption<R extends boolean, T extends boolean> {
  * @example required true, throwable false ==> V | undefined
  * @example required true, throwable true ==> V
  */
-type ConditionalValueType<V, R extends boolean, T extends boolean> = (R | T) extends true ? V : V | undefined;
+type ConditionalValueType<V, R extends boolean, T extends boolean> = R | T extends true ? V : V | undefined;
 
 export function validateString<R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<R, T>): ConditionalValueType<string, R, T> {
   const {throwable = true, required = true} = options ?? {};
-  let errorMessage = '';
+  let errorMessage = "";
 
   if (required && !queryValue) {
-    errorMessage = 'The queryValue is not exist';
+    errorMessage = "The queryValue is not exist";
   }
 
   if (!errorMessage && Array.isArray(queryValue)) {
-    errorMessage = 'The queryValue is Array.';
+    errorMessage = "The queryValue is Array.";
   }
 
   if (!errorMessage) {
@@ -41,9 +41,13 @@ export function validateString<R extends boolean = true, T extends boolean = tru
   throw new ValidateError(errorMessage);
 }
 
-export function validateIncludeString<S extends string, R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, includeList: S[], options?: ValidateQueryOption<R, T>): ConditionalValueType<S, R, T> {
+export function validateIncludeString<S extends string, R extends boolean = true, T extends boolean = true>(
+  queryValue: QueryValue,
+  includeList: S[],
+  options?: ValidateQueryOption<R, T>
+): ConditionalValueType<S, R, T> {
   const {throwable = true, required = true} = options ?? {};
-  let errorMessage = '';
+  let errorMessage = "";
 
   let result = validateString(queryValue, {throwable, required});
 
@@ -53,11 +57,11 @@ export function validateIncludeString<S extends string, R extends boolean = true
   }
 
   if (includeList.length === 0) {
-    errorMessage = 'The includeList is required.';
+    errorMessage = "The includeList is required.";
   }
 
   if (!includeList.includes(queryValue as any)) {
-    errorMessage = 'The queryValue is not in the conditions';
+    errorMessage = "The queryValue is not in the conditions";
   }
 
   if (!errorMessage) {
@@ -74,7 +78,7 @@ export function validateIncludeString<S extends string, R extends boolean = true
 //+123 -123 0123 셋다안되고 123가능.
 export function validateNumber<R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<R, T>): ConditionalValueType<number, R, T> {
   const {throwable = true, required = true} = options ?? {};
-  let errorMessage = '';
+  let errorMessage = "";
 
   let validatedString = validateString(queryValue, {throwable, required});
 
@@ -84,19 +88,19 @@ export function validateNumber<R extends boolean = true, T extends boolean = tru
   }
 
   if (validatedString.length > MAX_INTEGER_LENGTH) {
-    errorMessage = 'The queryValue is exceed maxLength.';
+    errorMessage = "The queryValue is exceed maxLength.";
   }
 
-  const chars = validatedString.split('');
+  const chars = validatedString.split("");
 
   // "+123", "-123", "a123"
-  if (chars.some(char => !NUMBERS.includes(char))) {
-    errorMessage = 'queryValue is not valid number';
+  if (chars.some((char) => !NUMBERS.includes(char))) {
+    errorMessage = "queryValue is not valid number";
   }
 
   // "0123"
-  if (chars[0] === '0') {
-    errorMessage = 'queryValue is not valid number';
+  if (chars[0] === "0") {
+    errorMessage = "queryValue is not valid number";
   }
 
   if (!errorMessage) {
@@ -110,10 +114,10 @@ export function validateNumber<R extends boolean = true, T extends boolean = tru
   throw new ValidateError(errorMessage);
 }
 
-const NUMBERS = range(0, 9).map(value => value.toString());
+const NUMBERS = range(0, 9).map((value) => value.toString());
 const MAX_INTEGER_LENGTH = Number.MAX_SAFE_INTEGER.toString().length;
 
-const REMOVE_VALUE_ARRAY = [undefined, null, '', Number.NaN];
+const REMOVE_VALUE_ARRAY = [undefined, null, "", Number.NaN];
 
 /**
  * 기존에 useRouter()의 push()의 첫번째 매개변수인 UrlObject에서 query객체를 전달할 때
@@ -123,14 +127,17 @@ const REMOVE_VALUE_ARRAY = [undefined, null, '', Number.NaN];
  * @example {page: 1, order: null} ==> {page: 1}
  */
 export function cleanQuery(query: ParsedUrlQueryInput) {
-  return Object.entries(query).reduce((a, [key, value]) => {
-    if(!REMOVE_VALUE_ARRAY.includes(value as any)) {
-      // eslint-disable-next-line no-param-reassign
-      a[key] = value;
-    }
+  return Object.entries(query).reduce(
+    (a, [key, value]) => {
+      if (!REMOVE_VALUE_ARRAY.includes(value as any)) {
+        // eslint-disable-next-line no-param-reassign
+        a[key] = value;
+      }
 
-    return a;
-  }, {} as Record<string, ParsedUrlQueryInput['any']>);
+      return a;
+    },
+    {} as Record<string, ParsedUrlQueryInput["any"]>
+  );
 }
 
 export function getTypedQueryCallback<K extends string, P extends string = string>() {
@@ -146,7 +153,7 @@ export function urlStringify(query?: ParsedUrlQueryInput): string {
   const cleanedQuery = query ? cleanQuery(query) : {};
 
   if (!cleanedQuery || Object.keys(cleanedQuery).length === 0) {
-    return '';
+    return "";
   } else {
     return `?${stringify(cleanedQuery)}`;
   }

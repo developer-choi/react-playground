@@ -1,6 +1,6 @@
-import {createGlobalStyle, css} from 'styled-components';
-import styledReset from 'styled-reset';
-import {myReset} from '@util/services/style/my-reset';
+import {createGlobalStyle, css} from "styled-components";
+import styledReset from "styled-reset";
+import {myReset} from "@util/services/style/my-reset";
 
 const reset = css`
   ${styledReset};
@@ -20,17 +20,20 @@ const font = css`
 `;
 
 const layout = css`
-  html, body, #__next {
+  html,
+  body,
+  #__next {
     height: 100%;
   }
-  
+
   body {
     background-color: white;
     //background-color: #04caf4; 전체 배경색 지정할일이 있거나
     //color: black; 기본 색상을 지정할 일이 있거나,
     //font-size: 14px; 기본 폰트 크기를 좀 줄이고싶을 때.
-    
-    &.loading, &.loading * {
+
+    &.loading,
+    &.loading * {
       cursor: wait;
     }
   }
@@ -42,12 +45,12 @@ const toast = css`
     font-weight: bold;
     text-align: center;
   }
-  
+
   .Toastify__toast.Toastify__toast--info {
-    background-color: ${props => props.theme.main};
+    background-color: ${(props) => props.theme.main};
   }
   .Toastify__toast.Toastify__toast--error {
-    background-color: ${props => props.theme.error};
+    background-color: ${(props) => props.theme.error};
   }
 `;
 

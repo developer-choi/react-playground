@@ -1,6 +1,6 @@
-import React from 'react';
-import type {GetServerSideProps} from 'next';
-import {dehydrate, DehydratedPageProps, QueryClient, useQuery} from '@tanstack/react-query';
+import React from "react";
+import type {GetServerSideProps} from "next";
+import {dehydrate, DehydratedPageProps, QueryClient, useQuery} from "@tanstack/react-query";
 
 /**
  * server side에서 받아온 데이터를
@@ -13,11 +13,7 @@ import {dehydrate, DehydratedPageProps, QueryClient, useQuery} from '@tanstack/r
 export default function Page() {
   const {data} = useQuery(queryOption);
 
-  return (
-    <div>
-      {data}
-    </div>
-  );
+  return <div>{data}</div>;
 }
 
 export const getServerSideProps: GetServerSideProps<DehydratedPageProps> = async () => {
@@ -32,13 +28,13 @@ export const getServerSideProps: GetServerSideProps<DehydratedPageProps> = async
 };
 
 const queryOption = {
-  queryKey: ['both-side'],
-  queryFn: getApi,
+  queryKey: ["both-side"],
+  queryFn: getApi
   // staleTime: 1000
   // staleTime: 100
 };
 
 async function getApi() {
-  console.log('Api called.');
+  console.log("Api called.");
   return new Date().getTime();
 }

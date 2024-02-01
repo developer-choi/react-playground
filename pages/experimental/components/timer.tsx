@@ -23,28 +23,28 @@ import {useTimer} from "@util/extend/date/useTimer";
 const TEST_CASE1 = {
   initial: getDiffDate(new Date(), [0, 0, 0, 0, 0, 5]).getTime(),
   change: () => getDiffDate(new Date(), [0, 0, 0, 0, 0, 5]).getTime()
-}
+};
 
 const TEST_CASE2 = {
   initial: getDiffDate(new Date(), [0, 0, 0, 0, 0, 5]).getTime(),
   change: () => getDiffDate(new Date(), [0, 0, 0, 0, 0, -5]).getTime()
-}
+};
 
 const TEST_CASE3 = {
   initial: getDiffDate(new Date(), [0, 0, 0, 0, 0, -5]).getTime(),
   change: () => getDiffDate(new Date(), [0, 0, 0, 0, 0, 5]).getTime()
-}
+};
 
 const TEST_CASE4 = {
   initial: undefined,
   change: () => undefined
-}
+};
 
-const START_TIMESTAMP = undefined
+const START_TIMESTAMP = undefined;
 // const START_TIMESTAMP = getDiffDate(new Date(), [0, 0, 0, 0, 0, -5]).getTime()
 // const START_TIMESTAMP = getDiffDate(new Date(), [0, 0, 0, 0, 0, 2]).getTime()
 
-const TEST_CASE = TEST_CASE1
+const TEST_CASE = TEST_CASE1;
 
 export default function Page() {
   const terminatedCallback1 = useCallback(() => {
@@ -55,7 +55,7 @@ export default function Page() {
     console.log("terminated2");
   }, []);
 
-  const {value, toggle} = useToggle()
+  const {value, toggle} = useToggle();
 
   const [expiredTimestamp, setExpiredTimestamp] = useState(TEST_CASE.initial);
 
@@ -66,10 +66,10 @@ export default function Page() {
   });
 
   const changeExpiredTimestamp = useCallback(() => {
-    setExpiredTimestamp(TEST_CASE.change())
+    setExpiredTimestamp(TEST_CASE.change());
   }, []);
 
-  const text = !diff ? null : `${diff.date}일 ${diff.hour}시 ${diff.minute}분 ${diff.second}초`
+  const text = !diff ? null : `${diff.date}일 ${diff.hour}시 ${diff.minute}분 ${diff.second}초`;
 
   return (
     <div suppressHydrationWarning>

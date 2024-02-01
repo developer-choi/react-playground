@@ -2,10 +2,10 @@
  * @example (1234.1234) => "1,234.1234"
  */
 export function numberWithComma(value: number | string): string {
-  const _value = typeof value === 'string' ? value : value.toString();
-  const parts = _value.split('.');
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  return parts.join('.');
+  const _value = typeof value === "string" ? value : value.toString();
+  const parts = _value.split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
 }
 
 /**
@@ -14,16 +14,12 @@ export function numberWithComma(value: number | string): string {
  * @example (4, -1) => [4, 3, 2, 1, 0, -1]
  */
 export function range(from: number, to: number): number[] {
-  
   const max = Math.max(from, to);
   const min = Math.min(from, to);
   const length = max - min + 1;
-  
-  if (from > to)
-    return [...new Array(length).keys()].map(num => num + min).reverse();
-  
-  else
-    return [...new Array(length).keys()].map(num => num + min);
+
+  if (from > to) return [...new Array(length).keys()].map((num) => num + min).reverse();
+  else return [...new Array(length).keys()].map((num) => num + min);
 }
 
 export function sortNumbersInAscending(numbers: number[]) {

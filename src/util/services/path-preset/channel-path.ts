@@ -1,6 +1,6 @@
-import {urlStringify} from '@util/extend/browser/query-string';
+import {urlStringify} from "@util/extend/browser/query-string";
 
-const upperPath = '/channel';
+const upperPath = "/channel";
 
 const CHANNEL_PATH = {
   channelId: {
@@ -23,11 +23,11 @@ const CHANNEL_PATH = {
      * /channel/UCPddv7POJAl7oaZOLdLUlnA/videos?view=0&sort=da&flow=grid
      */
     videos: (channelId: string, query?: VideosQuery) => upperPath + `/${channelId}/videos${urlStringify(query)}`
-  },
+  }
 };
 
 type VideosQuery = {
-  sort?: 'da' | 'dd'; //da = asc, dd = desc (Youtube)
-}
+  sort?: "da" | "dd"; //da = asc, dd = desc (Youtube)
+};
 
 export default CHANNEL_PATH;

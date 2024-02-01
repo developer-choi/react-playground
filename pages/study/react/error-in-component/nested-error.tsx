@@ -1,6 +1,6 @@
-import React, {createContext, useContext} from 'react';
-import type {GetServerSideProps} from 'next';
-import {useAppSelector} from '@store/hooks';
+import React, {createContext, useContext} from "react";
+import type {GetServerSideProps} from "next";
+import {useAppSelector} from "@store/hooks";
 
 /**
  * 에러가 발생한 자식 컴포넌트만 숨길 수 있고,
@@ -11,40 +11,38 @@ import {useAppSelector} from '@store/hooks';
 // URL: http://localhost:3000/study/react/error-in-component/nested-error
 export default function Page() {
   try {
-    return Parent1()
+    return Parent1();
     // return (
     //   <Parent1/>
     // )
   } catch (error) {
-    return (
-      <div>Error occurred</div>
-    )
+    return <div>Error occurred</div>;
   }
 }
 
 function Parent1() {
-  return Parent2()
+  return Parent2();
   // return (
   //   <Parent2/>
   // )
 }
 
 function Parent2() {
-  return ErrorComponent()
+  return ErrorComponent();
 }
 
 const TestContext = createContext({
-  data: 'hello world'
-})
+  data: "hello world"
+});
 
 function ErrorComponent(): null {
-  const state = useAppSelector(state => state)
-  console.log('state', state);
+  const state = useAppSelector((state) => state);
+  console.log("state", state);
 
-  const context = useContext(TestContext)
-  console.log('context', context);
+  const context = useContext(TestContext);
+  console.log("context", context);
 
-  throw new Error('Error occurred');
+  throw new Error("Error occurred");
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {

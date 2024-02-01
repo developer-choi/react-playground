@@ -1,10 +1,6 @@
-import type {BasicPagination} from '@util/services/pagination/pagination-basic';
-import type {MultiplePagesPaginationParam} from '@util/services/pagination/pagination-core';
-import {
-  getTotalPage,
-  makeMultiplePagesCommonPagination,
-  makeMovePageElementData
-} from '@util/services/pagination/pagination-core';
+import type {BasicPagination} from "@util/services/pagination/pagination-basic";
+import type {MultiplePagesPaginationParam} from "@util/services/pagination/pagination-core";
+import {getTotalPage, makeMultiplePagesCommonPagination, makeMovePageElementData} from "@util/services/pagination/pagination-core";
 
 interface NearPageParam {
   currentPage: number;
@@ -16,11 +12,11 @@ interface NearPageParam {
 function getOddNearStartPage({currentPage, pagePerView, totalPage}: NearPageParam) {
   const naturalHalf = Math.floor(pagePerView / 2);
 
-  if (currentPage >= (totalPage - naturalHalf)) {
+  if (currentPage >= totalPage - naturalHalf) {
     return totalPage - pagePerView + 1;
   }
 
-  if (currentPage <= (naturalHalf + 1)) {
+  if (currentPage <= naturalHalf + 1) {
     return 1;
   }
 
@@ -31,11 +27,11 @@ function getOddNearStartPage({currentPage, pagePerView, totalPage}: NearPagePara
 function getEvenNearStartPage({currentPage, pagePerView, totalPage}: NearPageParam) {
   const naturalHalf = pagePerView / 2;
 
-  if(currentPage >= (totalPage - naturalHalf)) {
+  if (currentPage >= totalPage - naturalHalf) {
     return totalPage - pagePerView + 1;
   }
 
-  if(currentPage <= naturalHalf) {
+  if (currentPage <= naturalHalf) {
     return 1;
   }
 
@@ -43,7 +39,11 @@ function getEvenNearStartPage({currentPage, pagePerView, totalPage}: NearPagePar
 }
 
 export function getNearPagination(param: MultiplePagesPaginationParam): BasicPagination | null {
-  const {currentPage, total, config: {articlePerPage, pagePerView}} = param;
+  const {
+    currentPage,
+    total,
+    config: {articlePerPage, pagePerView}
+  } = param;
 
   if (total <= 0) {
     return null;
@@ -51,18 +51,18 @@ export function getNearPagination(param: MultiplePagesPaginationParam): BasicPag
 
   const totalPage = getTotalPage({total, articlePerPage});
 
-  const startPage = pagePerView % 2 === 0 ?
-    getEvenNearStartPage({
-      currentPage,
-      pagePerView,
-      totalPage
-    })
-    :
-    getOddNearStartPage({
-      currentPage,
-      pagePerView,
-      totalPage
-    });
+  const startPage =
+    pagePerView % 2 === 0
+      ? getEvenNearStartPage({
+          currentPage,
+          pagePerView,
+          totalPage
+        })
+      : getOddNearStartPage({
+          currentPage,
+          pagePerView,
+          totalPage
+        });
 
   const {endPage, betweenPageElementDataList} = makeMultiplePagesCommonPagination({startPage, totalPage, param});
 

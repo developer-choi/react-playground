@@ -1,8 +1,8 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import SomeLayout from '@component/layouts/SomeLayout';
-import {setHeaderActionCreator} from '@store/reducers/layout';
-import {useAppDispatch} from '@store/hooks';
-import Button from '@component/atom/element/Button';
+import React, {useCallback, useEffect, useState} from "react";
+import SomeLayout from "@component/layouts/SomeLayout";
+import {setHeaderActionCreator} from "@store/reducers/layout";
+import {useAppDispatch} from "@store/hooks";
+import Button from "@component/atom/element/Button";
 
 // URL: http://localhost:3000/experimental/layout/2
 export default function Page() {
@@ -10,21 +10,25 @@ export default function Page() {
   const dispatch = useAppDispatch();
 
   const increase = useCallback(() => {
-    setNumber(prevState => prevState + 1);
-    dispatch(setHeaderActionCreator({
-      title: `dynamic-title-${number}`
-    }));
+    setNumber((prevState) => prevState + 1);
+    dispatch(
+      setHeaderActionCreator({
+        title: `dynamic-title-${number}`
+      })
+    );
   }, [dispatch, number]);
 
   useEffect(() => {
-    dispatch(setHeaderActionCreator({
-      title: 'initial page header',
-      height: 80,
-      backgroundColor: "red",
-      onClickHeader: () => {
-        alert('The header clicked');
-      },
-    }));
+    dispatch(
+      setHeaderActionCreator({
+        title: "initial page header",
+        height: 80,
+        backgroundColor: "red",
+        onClickHeader: () => {
+          alert("The header clicked");
+        }
+      })
+    );
   }, [dispatch]);
 
   return (

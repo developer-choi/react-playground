@@ -1,10 +1,10 @@
-import React, {MouseEvent, useCallback, useEffect} from 'react';
-import Button from '@component/atom/element/Button';
-import styled from 'styled-components';
-import {flexCenter} from '@util/services/style/css';
-import useCounter from '@util/services/counter';
-import {useAppDispatch, useAppSelector} from '@store/hooks';
-import {increase} from '@store/reducers/counter';
+import React, {MouseEvent, useCallback, useEffect} from "react";
+import Button from "@component/atom/element/Button";
+import styled from "styled-components";
+import {flexCenter} from "@util/services/style/css";
+import useCounter from "@util/services/counter";
+import {useAppDispatch, useAppSelector} from "@store/hooks";
+import {increase} from "@store/reducers/counter";
 
 // URL: http://localhost:3000/study/js/event-flow/with-logic
 export default function Page() {
@@ -14,9 +14,8 @@ export default function Page() {
     };
   }, []);
 
-
-  const wrap1Bubble = clickHandler('wrap1 bubble');
-  const buttonBubble = clickHandler('button bubble');
+  const wrap1Bubble = clickHandler("wrap1 bubble");
+  const buttonBubble = clickHandler("button bubble");
 
   /**
    * rendering 0 0 undefined (최초로그)
@@ -33,13 +32,13 @@ export default function Page() {
   const {increase: updateState, count} = useCounter();
 
   const dispatch = useAppDispatch();
-  const storeCount = useAppSelector(state => state.counter.count);
+  const storeCount = useAppSelector((state) => state.counter.count);
 
   const updateStore = useCallback(() => {
     dispatch(increase());
   }, [dispatch]);
 
-  console.log('rendering', count, storeCount);
+  console.log("rendering", count, storeCount);
 
   return (
     <>
@@ -50,23 +49,23 @@ export default function Page() {
           </Wrap3>
         </Wrap2>
       </Wrap1>
-      {count === 0 ? null : <SomeComponent/>}
+      {count === 0 ? null : <SomeComponent />}
     </>
   );
 }
 
 function SomeComponent() {
   useEffect(() => {
-    console.log('SomeComponent mounted');
+    console.log("SomeComponent mounted");
 
     function handler(event: globalThis.MouseEvent) {
-      console.log('window click', event.eventPhase);
+      console.log("window click", event.eventPhase);
     }
 
-    window.addEventListener('click', handler);
+    window.addEventListener("click", handler);
 
     return () => {
-      window.removeEventListener('click', handler);
+      window.removeEventListener("click", handler);
     };
   }, []);
 

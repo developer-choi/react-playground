@@ -1,7 +1,7 @@
-import ValidateError from '@util/services/handle-error/ValidateError';
-import {useCallback, useEffect, useState} from 'react';
-import type {FileValidateOption} from '@util/extend/file/file-validation';
-import {validateFiles} from '@util/extend/file/file-validation';
+import ValidateError from "@util/services/handle-error/ValidateError";
+import {useCallback, useEffect, useState} from "react";
+import type {FileValidateOption} from "@util/extend/file/file-validation";
+import {validateFiles} from "@util/extend/file/file-validation";
 import {useHandleClientSideError} from "@util/services/handle-error/client-side-error";
 
 interface UseCreateObjectUrlsParam {
@@ -19,7 +19,7 @@ interface UseCreateObjectUrlsParam {
  * 4. 그래서 결국 이미지가 바뀔 때마다 위의 한계가 발생했다.
  */
 export default function useFilesToImages({keepPrevData = false, validateOption, handleError}: UseCreateObjectUrlsParam) {
-  const [data, setData] = useState<{files: File[], images: HTMLImageElement[]}>({
+  const [data, setData] = useState<{files: File[]; images: HTMLImageElement[]}>({
     files: [],
     images: []
   });
@@ -28,44 +28,49 @@ export default function useFilesToImages({keepPrevData = false, validateOption, 
 
   useEffect(() => {
     return () => {
-      data.images.forEach(image => {
+      data.images.forEach((image) => {
         URL.revokeObjectURL(image.src);
       });
     };
   }, [data.images]);
 
-  const onChangeFiles = useCallback(async (files: File[]) => {
-    try {
-      const allFiles = !keepPrevData ? files : files.concat(data.files);
+  const onChangeFiles = useCallback(
+    async (files: File[]) => {
+      try {
+        const allFiles = !keepPrevData ? files : files.concat(data.files);
 
-      if (validateOption) {
-        validateFiles(allFiles, validateOption);
+        if (validateOption) {
+          validateFiles(allFiles, validateOption);
+        }
+
+        const allImages = await Promise.all(allFiles.map((file) => srcToImageElement(URL.createObjectURL(file))));
+
+        setData({
+          files: allFiles,
+          images: allImages
+        });
+      } catch (error) {
+        if (!handleError || !(error instanceof ValidateError)) {
+          handleClientSideError(error);
+          return;
+        }
+
+        handleError(error);
       }
+    },
+    [keepPrevData, data.files, validateOption, handleError, handleClientSideError]
+  );
 
-      const allImages = await Promise.all(allFiles.map(file => srcToImageElement(URL.createObjectURL(file))));
-
-      setData({
-        files: allFiles,
-        images: allImages
-      });
-
-    } catch (error) {
-      if (!handleError || !(error instanceof ValidateError)) {
-        handleClientSideError(error);
+  const onChangeFile = useCallback(
+    async (file: File | undefined) => {
+      if (!file) {
         return;
       }
 
-      handleError(error);
-    }
-  }, [keepPrevData, data.files, validateOption, handleError, handleClientSideError]);
-
-  const onChangeFile = useCallback(async (file: File | undefined) => {
-    if (!file) {
-      return;
-    }
-
-    return onChangeFiles([file]);
-  }, [onChangeFiles]);
+      return onChangeFiles([file]);
+    },
+    [onChangeFiles]
+  );
 
   return {
     files: data.files,
@@ -88,8 +93,8 @@ async function srcToImageElement(src: string): Promise<HTMLImageElement> {
     };
 
     image.onerror = function (...params) {
-      console.error('This src cannot be converted to an image.', src, params);
-      reject(new ValidateError('Unable to convert to image. Please select another file.'));
+      console.error("This src cannot be converted to an image.", src, params);
+      reject(new ValidateError("Unable to convert to image. Please select another file."));
     };
   });
 }

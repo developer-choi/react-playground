@@ -1,9 +1,9 @@
-import React from 'react';
-import 'swiper/css';
-import styled from 'styled-components';
-import {Swiper, SwiperProps, SwiperSlide} from 'swiper/react';
-import Image from 'next/image';
-import {IMAGE} from '@util/dummy-image';
+import React from "react";
+import "swiper/css";
+import styled from "styled-components";
+import {Swiper, SwiperProps, SwiperSlide} from "swiper/react";
+import Image from "next/image";
+import {IMAGE} from "@util/dummy-image";
 
 /** Flow
  * 1. 최초로딩 시점
@@ -29,19 +29,19 @@ import {IMAGE} from '@util/dummy-image';
 export default function Page() {
   return (
     <Layout>
-      <AnotherContents/>
+      <AnotherContents />
 
       <Swiper {...swiperProps}>
         {IMAGE.list.rectangular.map((image, index) => (
           <SwiperSlide key={index}>
-            <Image src={image} alt="상품이미지" layout="responsive" width={200} height={200}/>
+            <Image src={image} alt="상품이미지" layout="responsive" width={200} height={200} />
             <Name>상품이름</Name>
             <Price>123,000 원</Price>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      <AnotherContents/>
+      <AnotherContents />
     </Layout>
   );
 }
@@ -53,21 +53,19 @@ const Layout = styled.div`
   margin: 0 auto;
   max-width: 1200px;
   min-width: 800px;
-  
+
   .swiper-slide {
     border: 5px solid red;
     width: calc(calc(100% - ${(slidesPerView - 1) * spaceBetween}px) / ${slidesPerView});
     margin-right: ${spaceBetween}px;
   }
-  
+
   .swiper-initialized .swiper-slide {
     border: 5px solid blue;
   }
 `;
 
-const Name = styled.div`
-  
-`;
+const Name = styled.div``;
 
 const Price = styled.div`
   color: orange;

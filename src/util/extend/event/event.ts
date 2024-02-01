@@ -1,6 +1,6 @@
-import type {BaseSyntheticEvent} from 'react';
-import {useEffect, useRef} from 'react';
-import {debugLog} from '@util/extend/test';
+import type {BaseSyntheticEvent} from "react";
+import {useEffect, useRef} from "react";
+import {debugLog} from "@util/extend/test";
 
 export function preventDefault(event: BaseSyntheticEvent) {
   event.preventDefault();
@@ -26,7 +26,7 @@ export interface ClickOutsideParam {
  * 1. 바깥을 클릭하면 callback이 실행됨.
  * 2. 안쪽을 클릭하거나, ignoreClassName과 일치하면 무시됨.
  */
-export function useClickOutside<T extends HTMLElement>({callback, ignoreClassName, debug = ''}: ClickOutsideParam) {
+export function useClickOutside<T extends HTMLElement>({callback, ignoreClassName, debug = ""}: ClickOutsideParam) {
   const wrapperRef = useRef<T>(null);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export function useClickOutside<T extends HTMLElement>({callback, ignoreClassNam
       }
 
       if (!event.target) {
-        throw new Error('Unexpected error occurred. event.target is null');
+        throw new Error("Unexpected error occurred. event.target is null");
       }
 
       const target = event.target as HTMLElement;
@@ -66,7 +66,7 @@ export function useClickOutside<T extends HTMLElement>({callback, ignoreClassNam
       callback(event);
     }
 
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
 
     return () => {
       document.removeEventListener("click", handleClickOutside);

@@ -15,34 +15,38 @@ export default function Page() {
   const count = !query.count ? 0 : Number(query.count);
 
   const increase = useCallback(async () => {
-    await push({
-      query: {
-        count: count + 1
+    await push(
+      {
+        query: {
+          count: count + 1
+        }
+      },
+      undefined,
+      {
+        scroll: false
       }
-    }, undefined, {
-      scroll: false
-    });
+    );
 
     window.scroll({
       top: 2000,
       behavior: "smooth"
     });
   }, [count, push]);
-  
+
   return (
     <>
       <div>
         <Button onClick={increase}>Click Me</Button>
       </div>
       <div>{count}</div>
-      <Box/>
+      <Box />
     </>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  await timeoutPromise(2000); 
-    
+  await timeoutPromise(2000);
+
   return {
     props: {}
   };

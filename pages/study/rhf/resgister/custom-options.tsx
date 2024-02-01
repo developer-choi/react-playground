@@ -1,9 +1,9 @@
-import React, {useCallback} from 'react';
-import type {FieldPath, RegisterOptions, SubmitErrorHandler, SubmitHandler, UseFormReturn} from 'react-hook-form';
-import {useForm} from 'react-hook-form';
-import type {FieldValues} from 'react-hook-form/dist/types/fields';
-import Button from '@component/atom/element/Button';
-import {baseHandleErrors, getRequiredOptions} from '@util/extend/react-hook-form';
+import React, {useCallback} from "react";
+import type {FieldPath, RegisterOptions, SubmitErrorHandler, SubmitHandler, UseFormReturn} from "react-hook-form";
+import {useForm} from "react-hook-form";
+import type {FieldValues} from "react-hook-form/dist/types/fields";
+import Button from "@component/atom/element/Button";
+import {baseHandleErrors, getRequiredOptions} from "@util/extend/react-hook-form";
 
 /**
  * URL: http://localhost:3000/study/rhf/resgister/custom-options
@@ -16,33 +16,43 @@ import {baseHandleErrors, getRequiredOptions} from '@util/extend/react-hook-form
  */
 export default function Page() {
   const methods = useForm<EditMemberInfoFormData>({
-    mode: 'all'
+    mode: "all"
   });
 
   const onError: SubmitErrorHandler<EditMemberInfoFormData> = useCallback(({password, passwordConfirm}) => {
     baseHandleErrors([password, passwordConfirm]);
   }, []);
 
-  const onSubmit: SubmitHandler<EditMemberInfoFormData> = useCallback(data => {
-    console.log('data', data);
+  const onSubmit: SubmitHandler<EditMemberInfoFormData> = useCallback((data) => {
+    console.log("data", data);
   }, []);
 
-  const passwordOptions = methods.register('password', getPasswordOptions({
-    methods,
-    confirmPasswordRegisterName: 'passwordConfirm',
-    customOptions: {required: false}
-  }));
+  const passwordOptions = methods.register(
+    "password",
+    getPasswordOptions({
+      methods,
+      confirmPasswordRegisterName: "passwordConfirm",
+      customOptions: {required: false}
+    })
+  );
 
-  const passwordConfirmOptions = methods.register('passwordConfirm', getPasswordConfirmOptions({
-    passwordRegisterName: 'password',
-    customOptions: {required: false}
-  }));
+  const passwordConfirmOptions = methods.register(
+    "passwordConfirm",
+    getPasswordConfirmOptions({
+      passwordRegisterName: "password",
+      customOptions: {required: false}
+    })
+  );
 
   return (
     <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
-      <div><input {...passwordOptions}/></div>
+      <div>
+        <input {...passwordOptions} />
+      </div>
       <div>{methods.formState.errors.password?.message}</div>
-      <div><input {...passwordConfirmOptions}/></div>
+      <div>
+        <input {...passwordConfirmOptions} />
+      </div>
       <div>{methods.formState.errors.passwordConfirm?.message}</div>
       <Button type="submit">제출</Button>
     </form>
@@ -57,7 +67,7 @@ interface EditMemberInfoFormData {
 // 비밀번호 확인이랑 같이 쓰는 경우의 옵션
 interface PasswordCustomOptionParam<T extends FieldValues> {
   confirmPasswordRegisterName: FieldPath<T>;
-  methods: Pick<UseFormReturn<T>, 'setError' | 'clearErrors'>;
+  methods: Pick<UseFormReturn<T>, "setError" | "clearErrors">;
   customOptions?: RegisterOptions;
 }
 
@@ -65,14 +75,14 @@ function getPasswordOptions<T extends FieldValues>({methods, confirmPasswordRegi
   const {required, validate, ...rest} = customOptions ?? {};
   const resultRequired = getRequiredOptions(required) ?? {
     value: true,
-    message: '비밀번호는 필수 입력 항목입니다.',
+    message: "비밀번호는 필수 입력 항목입니다."
   };
 
   return {
     required: resultRequired,
     minLength: {
       value: 10,
-      message: '10자리 이상 입력해주세요.',
+      message: "10자리 이상 입력해주세요."
     },
     validate: {
       notEqual: (value, formValues) => {
@@ -85,8 +95,8 @@ function getPasswordOptions<T extends FieldValues>({methods, confirmPasswordRegi
         //[비밀번호] 입력하고, [비밀번호 확인] 입력한 후 [비밀번호]를 다시 수정했을 때 예외처리 추가
         if (confirmValue && value !== confirmValue) {
           methods.setError(confirmPasswordRegisterName, {
-            type: 'notEqual',
-            message: '비밀번호가 일치하지 않습니다. 다시 확인해주세요.',
+            type: "notEqual",
+            message: "비밀번호가 일치하지 않습니다. 다시 확인해주세요."
           });
         } else {
           methods.clearErrors(confirmPasswordRegisterName);
@@ -109,7 +119,7 @@ function getPasswordConfirmOptions<T extends FieldValues>({passwordRegisterName,
   const {required, validate, ...rest} = customOptions ?? {};
   const resultRequired = getRequiredOptions(required) ?? {
     value: true,
-    message: '비밀번호 확인은 필수 입력 항목입니다.',
+    message: "비밀번호 확인은 필수 입력 항목입니다."
   };
 
   return {
@@ -125,7 +135,7 @@ function getPasswordConfirmOptions<T extends FieldValues>({passwordRegisterName,
         if (password === value) {
           return true;
         } else {
-          return '비밀번호가 일치하지 않습니다. 다시 확인해주세요.';
+          return "비밀번호가 일치하지 않습니다. 다시 확인해주세요.";
         }
       },
       ...validate

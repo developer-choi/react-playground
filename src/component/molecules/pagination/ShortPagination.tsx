@@ -1,8 +1,8 @@
-import React, {memo} from 'react';
-import type {CorePaginationComponentProps} from '@util/services/pagination/pagination-core';
-import {getShortPagination} from '@util/services/pagination/pagination-short';
-import styled from 'styled-components';
-import PageElement from '@component/atom/PageElement';
+import React, {memo} from "react";
+import type {CorePaginationComponentProps} from "@util/services/pagination/pagination-core";
+import {getShortPagination} from "@util/services/pagination/pagination-short";
+import styled from "styled-components";
+import PageElement from "@component/atom/PageElement";
 
 export default memo(function ShortPagination({methods, linkProps, ...params}: CorePaginationComponentProps) {
   const pagination = getShortPagination(params);
@@ -17,21 +17,23 @@ export default memo(function ShortPagination({methods, linkProps, ...params}: Co
   return (
     <Wrap>
       <StyledPageElement data={first} methods={methods} {...linkProps}>
-        {'<<'}
+        {"<<"}
       </StyledPageElement>
 
       <StyledPageElement data={previous} methods={methods} {...linkProps}>
-        {'<'}
+        {"<"}
       </StyledPageElement>
 
-      <span>{currentPage} / {totalPage}</span>
+      <span>
+        {currentPage} / {totalPage}
+      </span>
 
       <StyledPageElement data={next} methods={methods} {...linkProps}>
-        {'>'}
+        {">"}
       </StyledPageElement>
 
       <StyledPageElement data={last} methods={methods} {...linkProps}>
-        {'>>'}
+        {">>"}
       </StyledPageElement>
     </Wrap>
   );
@@ -45,7 +47,7 @@ const Wrap = styled.div`
 const StyledPageElement = styled(PageElement)`
   padding: 5px;
   margin: 2px 0;
-  
+
   &.disable {
     color: white;
     background-color: lightgray;

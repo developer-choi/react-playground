@@ -1,6 +1,6 @@
-import React from 'react';
-import {useRouter} from 'next/router';
-import {useLogWhenRendering} from '@util/extend/test';
+import React from "react";
+import {useRouter} from "next/router";
+import {useLogWhenRendering} from "@util/extend/test";
 
 export default function BeRenderedTwoTimesPage() {
   const {query} = useRouter();
@@ -17,11 +17,7 @@ export default function BeRenderedTwoTimesPage() {
    *
    * 그리고 dynamic page param도 처음에는 없음.
    */
-  useLogWhenRendering('render', query);
+  useLogWhenRendering("render", query);
 
-  return (
-    <div>
-      be-rendered-two-times Page
-    </div>
-  );
+  return <div>be-rendered-two-times Page</div>;
 }

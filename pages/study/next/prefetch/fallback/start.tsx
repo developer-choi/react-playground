@@ -1,6 +1,6 @@
-import React, {useCallback, useState} from 'react';
-import Link from 'next/link';
-import Button from '@component/atom/element/Button';
+import React, {useCallback, useState} from "react";
+import Link from "next/link";
+import Button from "@component/atom/element/Button";
 
 // URL: http://localhost:3000/study/next/prefetch/fallback/start
 
@@ -23,19 +23,17 @@ export default function Page() {
   const [page, setPage] = useState(1);
 
   const increase = useCallback(() => {
-    setPage(prevState => prevState + 1);
+    setPage((prevState) => prevState + 1);
   }, []);
 
   const decrease = useCallback(() => {
-    setPage(prevState => prevState - 1)
+    setPage((prevState) => prevState - 1);
   }, []);
 
   return (
     <>
       <Link href={`/study/next/prefetch/fallback/${page}`}>
-        <a>
-          fallback/{page} 페이지 가는 링크
-        </a>
+        <a>fallback/{page} 페이지 가는 링크</a>
       </Link>
       <Button onClick={increase}>Increase</Button>
       <Button onClick={decrease}>Decrease</Button>

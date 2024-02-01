@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import {useCallback, useState} from "react";
 
 interface LocalStorageObjectParameter<V extends Object> {
   key: string;
@@ -23,7 +23,7 @@ export class LocalStorageObjectManager<V extends Object> {
    * Instead, derived classes can use super's methods.
    */
   private readonly key: string;
-  private readonly validateCallback: LocalStorageObjectParameter<V>['validateCallback'];
+  private readonly validateCallback: LocalStorageObjectParameter<V>["validateCallback"];
   private readonly defaultValue: V;
 
   constructor({key, validateCallback, defaultValue}: LocalStorageObjectParameter<V>) {
@@ -62,7 +62,7 @@ export class LocalStorageObjectManager<V extends Object> {
 
   setStringifyItem(value: V) {
     if (this.validateCallback && !this.validateCallback(value)) {
-      throw new Error('setStringifyItem() is failed. because you set the validateCallback but the value is invalidated.');
+      throw new Error("setStringifyItem() is failed. because you set the validateCallback but the value is invalidated.");
     }
 
     try {
@@ -120,14 +120,17 @@ export class LocalStorageObjectManager<V extends Object> {
 export function useLocalStorageObjectManager<V extends Object>(manager: LocalStorageObjectManager<V>) {
   const [state, setState] = useState(manager.getParsedData());
 
-  const changeState = useCallback((value: V) => {
-    try {
-      manager.setStringifyItem(value);
-      setState(value);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [manager]);
+  const changeState = useCallback(
+    (value: V) => {
+      try {
+        manager.setStringifyItem(value);
+        setState(value);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [manager]
+  );
 
   return {
     state,

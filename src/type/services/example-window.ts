@@ -1,3 +1,3 @@
 export interface ExampleWindowData {
-  fruit: 'apple' | 'banana';
+  fruit: "apple" | "banana";
 }

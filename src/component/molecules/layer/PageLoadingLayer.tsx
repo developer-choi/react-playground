@@ -2,11 +2,7 @@ import styled from "styled-components";
 import {flexCenter} from "@util/services/style/css";
 
 export default function PageLoadingLayer() {
-  return (
-    <Wrap>
-      Some Loading UI...
-    </Wrap>
-  );
+  return <Wrap>Some Loading UI...</Wrap>;
 }
 
 const Wrap = styled.div`
@@ -17,7 +13,7 @@ const Wrap = styled.div`
   right: 0;
   z-index: 1000;
   ${flexCenter};
-  
+
   font-size: 40px;
   font-weight: bold;
 `;

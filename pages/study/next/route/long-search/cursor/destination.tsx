@@ -6,15 +6,11 @@ import {useBodyLoading} from "@pages/study/next/route/long-search/cursor/start";
 export default function Page() {
   useBodyLoading();
 
-  return (
-    <div>
-      도착 페이지
-    </div>
-  );
+  return <div>도착 페이지</div>;
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  console.log('ssr start');
+  console.log("ssr start");
   await timeoutPromise(5000);
 
   return {

@@ -1,5 +1,5 @@
-import React from 'react';
-import {getDiffDate} from '@util/extend/date/date-util';
+import React from "react";
+import {getDiffDate} from "@util/extend/date/date-util";
 
 /**
  * Hydration Error가 발생하는 예제임.
@@ -10,9 +10,7 @@ import {getDiffDate} from '@util/extend/date/date-util';
 export default function Page() {
   const tomorrow = getDiffDate(new Date(), [0, 0, 1]).getTime();
 
-  return (
-    <SampleTimer expiredTimestamp={tomorrow}/>
-  );
+  return <SampleTimer expiredTimestamp={tomorrow} />;
 }
 
 interface SampleTimerProp {
@@ -21,7 +19,5 @@ interface SampleTimerProp {
 
 function SampleTimer({expiredTimestamp}: SampleTimerProp) {
   //1초씩마다 까려고함.
-  return (
-    <span>{expiredTimestamp}</span>
-  );
+  return <span>{expiredTimestamp}</span>;
 }

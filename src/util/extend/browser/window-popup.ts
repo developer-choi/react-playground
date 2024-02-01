@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect} from "react";
 
 export interface PostMessage<D = any> {
   type: string;
@@ -29,8 +29,10 @@ export function useWindowMessageReceiver<D = any>(param: UseWindowMessageParam<D
     const top = feature?.top ?? (window.innerHeight - height) / 2;
     const left = feature?.left ?? (window.innerWidth - width) / 2;
 
-    const featureString = Object.entries({height, width, top, left}).map(([key, value]) => `${key}=${value}`).join(',');
-    window.open(url, '_blank', featureString);
+    const featureString = Object.entries({height, width, top, left})
+      .map(([key, value]) => `${key}=${value}`)
+      .join(",");
+    window.open(url, "_blank", featureString);
   }, []);
 
   useEffect(() => {
@@ -44,10 +46,10 @@ export function useWindowMessageReceiver<D = any>(param: UseWindowMessageParam<D
       receiveCallback(message.data);
     };
 
-    window.addEventListener('message', handler);
+    window.addEventListener("message", handler);
 
     return () => {
-      window.removeEventListener('message', handler);
+      window.removeEventListener("message", handler);
     };
   }, [receiveCallback, type]);
 
@@ -63,7 +65,7 @@ export interface WindowPopupFeatures {
   top?: number;
 }
 
-const DEFAULT_WINDOW_FEATURES: Required<Pick<WindowPopupFeatures, 'width' | 'height'>> = {
+const DEFAULT_WINDOW_FEATURES: Required<Pick<WindowPopupFeatures, "width" | "height">> = {
   width: 450,
   height: 750
 };

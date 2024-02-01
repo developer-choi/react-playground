@@ -1,7 +1,7 @@
-import {getDiffBetweenDate} from '@util/extend/date/date-util';
-import {LocalStorageArrayManager} from '@util/extend/browser/local-storage-array';
-import moment from 'moment';
-import {findItem} from '@util/extend/data-type/array';
+import {getDiffBetweenDate} from "@util/extend/date/date-util";
+import {LocalStorageArrayManager} from "@util/extend/browser/local-storage-array";
+import moment from "moment";
+import {findItem} from "@util/extend/data-type/array";
 
 export interface ClosedHistoryParam<T extends string | number> {
   pkList: T[]; //여러개의 n일간 안보기 팝업목록중에, 하나를 골라서 띄우고싶기 위해서.
@@ -27,7 +27,7 @@ export class ClosedHistoryManager {
    * @return 그중에 띄워야하는 팝업의 PK
    */
   getActiveInClosedHistory<T extends string | number>({pkList, closePeriod, clearPeriod}: ClosedHistoryParam<T>): ConditionalPkResult<T> {
-    const pkListToClosedHistoryKey = pkList.map(pk => this.makeClosedHistoryKey(pk));
+    const pkListToClosedHistoryKey = pkList.map((pk) => this.makeClosedHistoryKey(pk));
 
     const historyList = manager.getParsedData();
 
@@ -45,7 +45,7 @@ export class ClosedHistoryManager {
     }
 
     return findItem(pkListToClosedHistoryKey, ({uniqueKeyInStorage, originalPk}) => {
-      const findHistory = historyList.find(history => history.uniqueKeyInStorage === uniqueKeyInStorage);
+      const findHistory = historyList.find((history) => history.uniqueKeyInStorage === uniqueKeyInStorage);
 
       if (!findHistory) {
         return originalPk;
@@ -73,7 +73,7 @@ export class ClosedHistoryManager {
       uniqueKeyInStorage: uniqueKeyInStorage,
       originalPk,
       closedTimestamp: timestamp,
-      closedDateFormat: moment(timestamp).format('YYYY.MM.DD HH:mm:ss')
+      closedDateFormat: moment(timestamp).format("YYYY.MM.DD HH:mm:ss")
     });
   }
 
@@ -108,22 +108,21 @@ interface ClosedHistory extends ClosedHistoryKey {
 }
 
 interface MatchPeriod {
-  diffType: 'date' | 'hour';
+  diffType: "date" | "hour";
   value: number;
 }
 
 //띄울 시간이 지났는지 체크 (닫았을 때 기준으로 지정한 값만큼 시간이 지났는지)
-function getDiffPeriod(targetDate: Date, closedTimestamp: number, diffType: MatchPeriod['diffType']) {
-  if (diffType === 'hour') {
+function getDiffPeriod(targetDate: Date, closedTimestamp: number, diffType: MatchPeriod["diffType"]) {
+  if (diffType === "hour") {
     return (targetDate.getTime() - closedTimestamp) / 1000 / 3600;
-
   } else {
     return getDiffBetweenDate(targetDate, new Date(closedTimestamp));
   }
 }
 
 const manager = new LocalStorageArrayManager({
-  key: 'closed-history-in-specific-period',
+  key: "closed-history-in-specific-period",
   enableDuplicated: false, //같은 PK면 닫은기록에는 하나만 생성되야함.
   pkExtractor: (value: ClosedHistory) => value.uniqueKeyInStorage
 });

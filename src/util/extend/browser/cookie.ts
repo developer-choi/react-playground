@@ -1,6 +1,6 @@
-import type {GetServerSidePropsContext} from 'next';
-import * as nookies from 'nookies';
-import Cookies, {CookieAttributes} from 'js-cookie';
+import type {GetServerSidePropsContext} from "next";
+import * as nookies from "nookies";
+import Cookies, {CookieAttributes} from "js-cookie";
 import type {CookieSerializeOptions} from "cookie";
 
 export function getCookie(name: string, context?: GetServerSidePropsContext) {
@@ -14,31 +14,29 @@ export function getCookie(name: string, context?: GetServerSidePropsContext) {
 export function removeCookie(name: string, context?: GetServerSidePropsContext) {
   if (context) {
     nookies.destroyCookie(context, name, {
-      path: '/'
+      path: "/"
     });
-
   } else {
     Cookies.remove(name, {
-      path: '/'
+      path: "/"
     });
   }
 }
 
-export function setCookie({context, name, value, options}: {name: string, value: string | Object, options?: CookieAttributes, context?: GetServerSidePropsContext}) {
-  const _value = typeof value === 'string' ? value : JSON.stringify(value);
+export function setCookie({context, name, value, options}: {name: string; value: string | Object; options?: CookieAttributes; context?: GetServerSidePropsContext}) {
+  const _value = typeof value === "string" ? value : JSON.stringify(value);
 
   if (context) {
     nookies.setCookie(context, name, _value, {
-      path: '/',
+      path: "/",
       ...options,
       expires: options?.expires === undefined ? undefined : new Date(options.expires),
-      sameSite: options?.sameSite?.toLowerCase() as CookieSerializeOptions['sameSite'],
-    })
-
+      sameSite: options?.sameSite?.toLowerCase() as CookieSerializeOptions["sameSite"]
+    });
   } else {
     Cookies.set(name, _value, {
-      path: '/',
-      ...options,
-    })
+      path: "/",
+      ...options
+    });
   }
 }

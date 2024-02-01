@@ -1,22 +1,21 @@
-import type {
-  MoveBothSidePagination,
-  MoveOnePagination,
-  MultiplePagesPagination,
-  MultiplePagesPaginationParam,
-} from './pagination-core';
-import {getTotalPage, makeMultiplePagesCommonPagination, makeMovePageElementData} from './pagination-core';
+import type {MoveBothSidePagination, MoveOnePagination, MultiplePagesPagination, MultiplePagesPaginationParam} from "./pagination-core";
+import {getTotalPage, makeMultiplePagesCommonPagination, makeMovePageElementData} from "./pagination-core";
 
 export type BasicPagination = MultiplePagesPagination & MoveOnePagination & MoveBothSidePagination;
 
 export function getBasicPagination(param: MultiplePagesPaginationParam): BasicPagination | null {
-  const {currentPage, config: {articlePerPage, pagePerView}, total} = param;
+  const {
+    currentPage,
+    config: {articlePerPage, pagePerView},
+    total
+  } = param;
 
   if (total <= 0) {
     return null;
   }
 
   const totalPage = getTotalPage({total, articlePerPage});
-  const startPage = Math.floor(((currentPage - 1) / pagePerView)) * pagePerView + 1;
+  const startPage = Math.floor((currentPage - 1) / pagePerView) * pagePerView + 1;
   const {endPage, betweenPageElementDataList} = makeMultiplePagesCommonPagination({startPage, totalPage, param});
 
   const first = makeMovePageElementData({

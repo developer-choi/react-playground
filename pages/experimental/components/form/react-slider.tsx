@@ -1,9 +1,9 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import styled from 'styled-components';
-import {numberWithComma} from '@util/extend/data-type/number';
-import {CustomSlider, MinMaxRange} from '@component/atom/forms/CustomSlider';
-import Button from '@component/atom/element/Button';
-import {useLogWhenRendering} from '@util/extend/test';
+import React, {useCallback, useEffect, useState} from "react";
+import styled from "styled-components";
+import {numberWithComma} from "@util/extend/data-type/number";
+import {CustomSlider, MinMaxRange} from "@component/atom/forms/CustomSlider";
+import Button from "@component/atom/element/Button";
+import {useLogWhenRendering} from "@util/extend/test";
 
 // URL: http://localhost:3000/experimental/components/form/react-slider
 export default function Page() {
@@ -11,8 +11,8 @@ export default function Page() {
   const [range, setRange] = useState<MinMaxRange>(settingRate);
   const [afterRange, setAfterRange] = useState<MinMaxRange>(settingRate);
 
-  useLogWhenRendering('range', range);
-  useLogWhenRendering('afterRange', afterRange);
+  useLogWhenRendering("range", range);
+  useLogWhenRendering("afterRange", afterRange);
 
   useEffect(() => {
     setRange(settingRate);
@@ -20,21 +20,21 @@ export default function Page() {
   }, [settingRate]);
 
   const increase = useCallback(() => {
-    setRange(prevState => ({
+    setRange((prevState) => ({
       min: prevState.min + 10,
       max: prevState.max
     }));
   }, []);
 
   const decrease = useCallback(() => {
-    setRange(prevState => ({
+    setRange((prevState) => ({
       min: prevState.min,
       max: prevState.max - 10
     }));
   }, []);
 
   const changeSettingRate = useCallback(() => {
-    setSettingRate(prevState => ({
+    setSettingRate((prevState) => ({
       min: prevState.min + 1000,
       max: prevState.max + 1000
     }));
@@ -42,7 +42,7 @@ export default function Page() {
 
   return (
     <Wrap>
-      <CustomSlider settingRange={settingRate} value={range} onChange={setRange} onAfterChange={setAfterRange}/>
+      <CustomSlider settingRange={settingRate} value={range} onChange={setRange} onAfterChange={setAfterRange} />
       <span>{numberWithComma(range.min)}</span> <span> ~ </span> <span>{numberWithComma(range.max)}</span>
       <Button onClick={increase}>Increase</Button>
       <Button onClick={decrease}>Decrease</Button>

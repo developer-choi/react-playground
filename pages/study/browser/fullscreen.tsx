@@ -1,6 +1,6 @@
-import React, {useCallback, useRef} from 'react';
-import Button from '@component/atom/element/Button';
-import styled from 'styled-components';
+import React, {useCallback, useRef} from "react";
+import Button from "@component/atom/element/Button";
+import styled from "styled-components";
 
 export default function FullscreenPage() {
   const boxRef = useRef<HTMLDivElement>(null);
@@ -17,14 +17,12 @@ export default function FullscreenPage() {
   return (
     <Wrap>
       <Button onClick={requestFullscreen}>박스를 풀스크린으로 만들기</Button>
-      <Box ref={boxRef}/>
+      <Box ref={boxRef} />
     </Wrap>
   );
 }
 
-const Wrap = styled.div`
-
-`;
+const Wrap = styled.div``;
 
 const Box = styled.div`
   width: 200px;

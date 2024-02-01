@@ -1,5 +1,5 @@
 import React, {ChangeEvent, ComponentPropsWithoutRef, forwardRef, Ref, useCallback} from "react";
-import {SubmitHandler, useForm} from 'react-hook-form';
+import {SubmitHandler, useForm} from "react-hook-form";
 
 /**
  * 1. onChange를 커스텀하는 방법은, register('name', {onChange: ...})임. (공식문서 소개)
@@ -10,9 +10,7 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 
 // URL: http://localhost:3000/study/rhf/custom-onchange-checkbox
 export default function Page() {
-  return (
-    <InvalidForm/>
-  )
+  return <InvalidForm />;
 }
 
 /**
@@ -22,25 +20,23 @@ export default function Page() {
 function InvalidForm() {
   const {handleSubmit, register, watch} = useForm<Data>();
 
-  const onSubmit: SubmitHandler<Data> = useCallback(data => {
-    console.log('submit', data);
+  const onSubmit: SubmitHandler<Data> = useCallback((data) => {
+    console.log("submit", data);
   }, []);
 
   const onChangeApple = useCallback(() => {
-    console.log('onChangeApple');
+    console.log("onChangeApple");
   }, []);
 
   const onChangeKiwi = useCallback(() => {
-    console.log('onChangeKiwi');
+    console.log("onChangeKiwi");
   }, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <FruitCheckbox fruit="apple" {...register('fruit')} onChange={onChangeApple}/>
-      <FruitCheckbox fruit="kiwi" {...register('fruit')} onChange={onChangeKiwi}/>
-      <div>
-        값 = {watch().fruit?.join(', ')}
-      </div>
+      <FruitCheckbox fruit="apple" {...register("fruit")} onChange={onChangeApple} />
+      <FruitCheckbox fruit="kiwi" {...register("fruit")} onChange={onChangeKiwi} />
+      <div>값 = {watch().fruit?.join(", ")}</div>
     </form>
   );
 }
@@ -69,30 +65,28 @@ function InvalidForm() {
 function BugForm() {
   const {handleSubmit, register, watch} = useForm<Data>();
 
-  const onSubmit: SubmitHandler<Data> = useCallback(data => {
-    console.log('submit', data);
+  const onSubmit: SubmitHandler<Data> = useCallback((data) => {
+    console.log("submit", data);
   }, []);
 
   const onChangeApple = useCallback(() => {
-    console.log('onChangeApple');
+    console.log("onChangeApple");
   }, []);
 
   const onChangeKiwi = useCallback(() => {
-    console.log('onChangeKiwi');
+    console.log("onChangeKiwi");
   }, []);
 
   const onChangeBanana = useCallback(() => {
-    console.log('onChangeBanana');
+    console.log("onChangeBanana");
   }, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <FruitCheckbox fruit="apple" {...register('fruit', {onChange: onChangeApple})}/>
-      <FruitCheckbox fruit="kiwi" {...register('fruit', {onChange: onChangeKiwi})}/>
-      <FruitCheckbox fruit="banana" {...register('fruit', {onChange: onChangeBanana})}/>
-      <div>
-        값 = {watch().fruit?.join(', ')}
-      </div>
+      <FruitCheckbox fruit="apple" {...register("fruit", {onChange: onChangeApple})} />
+      <FruitCheckbox fruit="kiwi" {...register("fruit", {onChange: onChangeKiwi})} />
+      <FruitCheckbox fruit="banana" {...register("fruit", {onChange: onChangeBanana})} />
+      <div>값 = {watch().fruit?.join(", ")}</div>
     </form>
   );
 }
@@ -106,54 +100,61 @@ function BugForm() {
 function NonBugForm() {
   const {handleSubmit, register, watch} = useForm<Data>();
 
-  const onSubmit: SubmitHandler<Data> = useCallback(data => {
-    console.log('submit', data);
+  const onSubmit: SubmitHandler<Data> = useCallback((data) => {
+    console.log("submit", data);
   }, []);
 
-  const {onChange: onChangeNative, ...rest} = register('fruit');
+  const {onChange: onChangeNative, ...rest} = register("fruit");
 
-  const onChangeApple = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    onChangeNative(event);
-    console.log('onChangeApple');
-  }, [onChangeNative]);
+  const onChangeApple = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      onChangeNative(event);
+      console.log("onChangeApple");
+    },
+    [onChangeNative]
+  );
 
-  const onChangeKiwi = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    onChangeNative(event);
-    console.log('onChangeKiwi');
-  }, [onChangeNative]);
+  const onChangeKiwi = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      onChangeNative(event);
+      console.log("onChangeKiwi");
+    },
+    [onChangeNative]
+  );
 
-  const onChangeBanana = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    onChangeNative(event);
-    console.log('onChangeBanana');
-  }, [onChangeNative]);
-  
+  const onChangeBanana = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      onChangeNative(event);
+      console.log("onChangeBanana");
+    },
+    [onChangeNative]
+  );
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <FruitCheckbox fruit="apple" {...rest} onChange={onChangeApple}/>
-      <FruitCheckbox fruit="kiwi" {...rest} onChange={onChangeKiwi}/>
-      <FruitCheckbox fruit="banana" {...rest} onChange={onChangeBanana}/>
-      <div>
-        값 = {watch().fruit?.join(', ')}
-      </div>
+      <FruitCheckbox fruit="apple" {...rest} onChange={onChangeApple} />
+      <FruitCheckbox fruit="kiwi" {...rest} onChange={onChangeKiwi} />
+      <FruitCheckbox fruit="banana" {...rest} onChange={onChangeBanana} />
+      <div>값 = {watch().fruit?.join(", ")}</div>
     </form>
   );
 }
 
-interface CheckboxProps extends ComponentPropsWithoutRef<'input'> {
-  fruit: Fruit
+interface CheckboxProps extends ComponentPropsWithoutRef<"input"> {
+  fruit: Fruit;
 }
 
 const FruitCheckbox = forwardRef(function FruitCheckbox({fruit, ...rest}: CheckboxProps, ref: Ref<HTMLInputElement>) {
   return (
     <label>
-      <input ref={ref} type="checkbox" value={fruit} {...rest}/>
+      <input ref={ref} type="checkbox" value={fruit} {...rest} />
       {fruit}
     </label>
-  )
-})
+  );
+});
 
 interface Data {
   fruit: Fruit[];
 }
 
-export type Fruit = 'apple' | 'banana' | 'kiwi'
+export type Fruit = "apple" | "banana" | "kiwi";

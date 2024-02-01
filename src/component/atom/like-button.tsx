@@ -1,8 +1,8 @@
-import React, {PropsWithChildren, useCallback, useState} from 'react';
-import styled from 'styled-components';
-import Button from '@component/atom/element/Button';
-import {putCourseCancelLikeApi, putCourseLikeApi} from '@api/course-api';
-import classNames from 'classnames';
+import React, {PropsWithChildren, useCallback, useState} from "react";
+import styled from "styled-components";
+import Button from "@component/atom/element/Button";
+import {putCourseCancelLikeApi, putCourseLikeApi} from "@api/course-api";
+import classNames from "classnames";
 
 export interface CourseLikeButtonProp {
   initial: boolean;
@@ -10,17 +10,21 @@ export interface CourseLikeButtonProp {
 }
 
 export function CourseLikeButton({initial, pk}: CourseLikeButtonProp) {
-  const toggleApi = useCallback((nextLike: boolean) => {
+  const toggleApi = useCallback(
+    (nextLike: boolean) => {
+      if (nextLike) {
+        return putCourseLikeApi(pk);
+      } else {
+        return putCourseCancelLikeApi(pk);
+      }
+    },
+    [pk]
+  );
 
-    if (nextLike) {
-      return putCourseLikeApi(pk);
-    } else {
-      return putCourseCancelLikeApi(pk);
-    }
-  }, [pk]);
-  
   return (
-    <LikeButton initial={initial} toggleApi={toggleApi}>좋아요</LikeButton>
+    <LikeButton initial={initial} toggleApi={toggleApi}>
+      좋아요
+    </LikeButton>
   );
 }
 
@@ -34,7 +38,7 @@ function LikeButton({children, initial, toggleApi}: PropsWithChildren<LikeButton
 
   const toggleImmediately = useCallback(() => {
     //일단 상태바꿈
-    setLike(prevState => !prevState);
+    setLike((prevState) => !prevState);
   }, []);
 
   const onClick = useCallback(async () => {
@@ -56,7 +60,7 @@ function LikeButton({children, initial, toggleApi}: PropsWithChildren<LikeButton
 
 const StyledButton = styled(Button)`
   background-color: lightgray;
-  
+
   &.active {
     background-color: red;
     color: white;

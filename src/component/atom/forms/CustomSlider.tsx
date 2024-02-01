@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import ReactSlider from 'react-slider';
-import React from 'react';
+import styled from "styled-components";
+import ReactSlider from "react-slider";
+import React from "react";
 
 export interface MinMaxRange {
   min: number;
@@ -64,7 +64,7 @@ const StyledSlider = styled(ReactSlider)`
   align-items: center;
   height: ${SQUARE}px;
   overflow: hidden;
-  
+
   .button {
     width: ${SQUARE}px;
     height: ${SQUARE}px;
@@ -72,13 +72,13 @@ const StyledSlider = styled(ReactSlider)`
     border-radius: 50%;
     background: white;
   }
-  
+
   .track {
     width: 100%;
     height: 1px;
     background: black;
   }
-  
+
   .track-2 {
     display: none;
   }

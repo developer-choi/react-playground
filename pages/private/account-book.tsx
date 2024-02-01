@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
-import styled from 'styled-components';
-import TextArea from '@component/extend/TextArea';
-import {postAccountParseApi} from '@api/account-api';
-import {useQuery} from '@tanstack/react-query';
-import {numberWithComma} from '@util/extend/data-type/number';
-import {theme} from '@util/services/style/theme';
+import React, {useState} from "react";
+import styled from "styled-components";
+import TextArea from "@component/extend/TextArea";
+import {postAccountParseApi} from "@api/account-api";
+import {useQuery} from "@tanstack/react-query";
+import {numberWithComma} from "@util/extend/data-type/number";
+import {theme} from "@util/services/style/theme";
 
 export default function Page() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const {data} = useQuery({
-    queryKey: ['parsed-account-book', value],
+    queryKey: ["parsed-account-book", value],
     queryFn: () => postAccountParseApi(value),
     enabled: !!value,
     refetchOnWindowFocus: false
@@ -17,7 +17,7 @@ export default function Page() {
 
   return (
     <Wrap>
-      <StyledTextArea value={value} onChangeText={setValue}/>
+      <StyledTextArea value={value} onChangeText={setValue} />
       {!data ? null : (
         <div>
           {data.list.map(({total, list, largeCategoryName}, index) => (
@@ -37,11 +37,13 @@ export default function Page() {
             </Item>
           ))}
 
-          <Total>총합 <Price style={{color: theme.main}}>{numberWithComma(data.total)}</Price></Total>
+          <Total>
+            총합 <Price style={{color: theme.main}}>{numberWithComma(data.total)}</Price>
+          </Total>
         </div>
       )}
     </Wrap>
-  )
+  );
 }
 
 const Wrap = styled.div`

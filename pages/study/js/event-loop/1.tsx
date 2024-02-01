@@ -1,5 +1,5 @@
-import Button from '@component/atom/element/Button';
-import {useEffect, useRef} from 'react';
+import Button from "@component/atom/element/Button";
+import {useEffect, useRef} from "react";
 
 export default function Page() {
   const spanRef = useRef<HTMLSpanElement>(null);
@@ -23,7 +23,7 @@ export default function Page() {
       console.log(i);
 
       if (spanRef.current) {
-        spanRef.current.innerHTML = String(i * 100 / TOTAL_TASK) + '%';
+        spanRef.current.innerHTML = String((i * 100) / TOTAL_TASK) + "%";
       }
     }
 
@@ -33,7 +33,7 @@ export default function Page() {
   return (
     <>
       <span ref={spanRef}></span>
-      <Button onClick={() => console.log('Clicked')}>Click Me</Button>
+      <Button onClick={() => console.log("Clicked")}>Click Me</Button>
     </>
   );
 }

@@ -1,8 +1,8 @@
-import React from 'react';
-import Button from '@component/atom/element/Button';
-import {useLogWhenAllRendering} from '@util/extend/test';
-import {useQuery} from '@tanstack/react-query';
-import {useForceReRender} from '@util/extend/react';
+import React from "react";
+import Button from "@component/atom/element/Button";
+import {useLogWhenAllRendering} from "@util/extend/test";
+import {useQuery} from "@tanstack/react-query";
+import {useForceReRender} from "@util/extend/react";
 
 /** Flow
  * 1. 버튼을 매우 빠르게 한 10초정도 지속적으로 광클 ==> API는 더이상 호출되지않음.
@@ -14,19 +14,17 @@ export default function Page() {
   const forceReRender = useForceReRender();
 
   useQuery({
-    queryKey: ['call-api/indirectly'],
+    queryKey: ["call-api/indirectly"],
     queryFn: specialApi,
     staleTime: 500
   });
 
-  useLogWhenAllRendering('re-rendering');
+  useLogWhenAllRendering("re-rendering");
 
-  return (
-    <Button onClick={forceReRender}>Call specialApi (RQ) indirectly</Button>
-  );
+  return <Button onClick={forceReRender}>Call specialApi (RQ) indirectly</Button>;
 }
 
 async function specialApi() {
-  console.log('The specialApi() called.');
+  console.log("The specialApi() called.");
   return new Date().getTime();
 }

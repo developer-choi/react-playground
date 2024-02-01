@@ -1,5 +1,5 @@
-import {useEffect} from 'react';
-import throttle from 'lodash/throttle';
+import {useEffect} from "react";
+import throttle from "lodash/throttle";
 
 interface InfiniteScrollParam {
   enabled?: boolean;
@@ -12,21 +12,21 @@ export function useInfiniteScroll({enabled = true, offset = 500, callback}: Infi
     const handler = throttle(() => {
       const {clientHeight, scrollHeight, scrollTop} = document.documentElement;
 
-      if ((scrollHeight - clientHeight - scrollTop) <= offset) {
+      if (scrollHeight - clientHeight - scrollTop <= offset) {
         callback();
       }
     }, 200);
 
     if (!enabled) {
       return () => {
-        window.removeEventListener('scroll', handler);
+        window.removeEventListener("scroll", handler);
       };
     }
 
-    window.addEventListener('scroll', handler);
+    window.addEventListener("scroll", handler);
 
     return () => {
-      window.removeEventListener('scroll', handler);
+      window.removeEventListener("scroll", handler);
     };
   }, [callback, enabled, offset]);
 }

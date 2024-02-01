@@ -1,5 +1,5 @@
-import {useRouter} from 'next/router';
-import {useCallback} from 'react';
+import {useRouter} from "next/router";
+import {useCallback} from "react";
 
 export function isServerSide() {
   try {
@@ -12,10 +12,10 @@ export function isServerSide() {
 
 export function getMessageOfBothSide() {
   if (isServerSide()) {
-    return 'on Server Side';
+    return "on Server Side";
   }
 
-  return 'on Client Side';
+  return "on Client Side";
 }
 
 export function useRefreshGetServerSideProps() {

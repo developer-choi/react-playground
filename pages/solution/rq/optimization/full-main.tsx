@@ -1,8 +1,8 @@
-import React from 'react';
-import type {GetServerSideProps} from 'next';
-import {dehydrate, DehydratedPageProps, QueryClient} from '@tanstack/react-query';
-import {ATNY_MAIN_QUUERY_OPTION, useAtnyMainFullQuery} from '@util/services/atny-main';
-import styled from 'styled-components';
+import React from "react";
+import type {GetServerSideProps} from "next";
+import {dehydrate, DehydratedPageProps, QueryClient} from "@tanstack/react-query";
+import {ATNY_MAIN_QUUERY_OPTION, useAtnyMainFullQuery} from "@util/services/atny-main";
+import styled from "styled-components";
 
 /** Flow (Only production) 수치는 모두 노트북기준.
  *

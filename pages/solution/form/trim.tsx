@@ -1,8 +1,8 @@
-import React, {useCallback} from 'react';
-import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
-import {useForm} from 'react-hook-form';
-import {trimObject} from '@util/extend/data-type/object';
-import {baseHandleErrors, validateTrim} from '@util/extend/react-hook-form';
+import React, {useCallback} from "react";
+import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from "react-hook-form";
+import {useForm} from "react-hook-form";
+import {trimObject} from "@util/extend/data-type/object";
+import {baseHandleErrors, validateTrim} from "@util/extend/react-hook-form";
 
 /**
  * URL: http://localhost:3000/solution/form/trim
@@ -18,13 +18,13 @@ export default function Page() {
     baseHandleErrors([name]);
   }, []);
 
-  const onSubmit: SubmitHandler<TestFormData> = useCallback(data => {
-    console.log('submit', trimObject(data));
+  const onSubmit: SubmitHandler<TestFormData> = useCallback((data) => {
+    console.log("submit", trimObject(data));
   }, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit, onError)}>
-      <input {...register('name', options)}/>
+      <input {...register("name", options)} />
     </form>
   );
 }
@@ -42,9 +42,9 @@ interface TestFormData {
 const options: RegisterOptions = {
   required: {
     value: true,
-    message: '이름은 필수입니다.'
+    message: "이름은 필수입니다."
   },
   validate: {
-    notSpace: validateTrim('이름은 필수입니다. (공백입력했음)')
+    notSpace: validateTrim("이름은 필수입니다. (공백입력했음)")
   }
 };

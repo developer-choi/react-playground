@@ -1,10 +1,10 @@
-import {EffectCallback, useCallback, useEffect, useRef, useState} from 'react';
+import {EffectCallback, useCallback, useEffect, useRef, useState} from "react";
 
 export function useForceReRender() {
   const [, setValue] = useState(false);
-  
+
   return useCallback(() => {
-    setValue(prevState => !prevState);
+    setValue((prevState) => !prevState);
   }, []);
 }
 
@@ -44,7 +44,7 @@ export function useToggle(initialValue = false) {
   const [value, setValue] = useState(initialValue);
 
   const toggle = useCallback(() => {
-    setValue(prevState => !prevState);
+    setValue((prevState) => !prevState);
   }, []);
 
   const setTrue = useCallback(() => {

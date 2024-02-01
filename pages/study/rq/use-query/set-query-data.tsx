@@ -11,7 +11,7 @@ import {safeUpdateCallback} from "@util/extend/react-query";
  */
 export default function Page() {
   const {data} = useQuery({
-    queryKey: ['some-query'],
+    queryKey: ["some-query"],
     queryFn: api,
     refetchOnWindowFocus: false
   });
@@ -19,19 +19,18 @@ export default function Page() {
   const queryClient = useQueryClient();
 
   const update = useCallback(() => {
-    queryClient.setQueryData(["some-query"], safeUpdateCallback<Item[]>((prevValue) => {
-      return prevValue.concat(makeItem());
-    }));
+    queryClient.setQueryData(
+      ["some-query"],
+      safeUpdateCallback<Item[]>((prevValue) => {
+        return prevValue.concat(makeItem());
+      })
+    );
   }, [queryClient]);
 
   return (
     <>
       <Button onClick={update}>Update</Button>
-      {data?.map(({pk, name}) => (
-        <div key={pk}>
-          {name}
-        </div>
-      ))}
+      {data?.map(({pk, name}) => <div key={pk}>{name}</div>)}
     </>
   );
 }

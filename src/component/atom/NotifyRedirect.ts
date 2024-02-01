@@ -1,5 +1,5 @@
-import {useEffect} from 'react';
-import {useRouter} from 'next/router';
+import {useEffect} from "react";
+import {useRouter} from "next/router";
 
 export interface NotifyRedirectProps {
   notifyRedirect: {
@@ -10,7 +10,7 @@ export interface NotifyRedirectProps {
 
 export default function NotifyRedirect({notifyRedirect}: NotifyRedirectProps) {
   const {replace} = useRouter();
-  
+
   useEffect(() => {
     const {message, destination} = notifyRedirect;
 
@@ -22,7 +22,7 @@ export default function NotifyRedirect({notifyRedirect}: NotifyRedirectProps) {
   }, [notifyRedirect, replace]);
 
   if (!notifyRedirect) {
-    console.warn('Do not render this component unless notifyRedirect props exists.')
+    console.warn("Do not render this component unless notifyRedirect props exists.");
   }
 
   return null;

@@ -1,7 +1,7 @@
-import React from 'react';
-import {range} from '@util/extend/data-type/number';
-import Link from 'next/link';
-import styled from 'styled-components';
+import React from "react";
+import {range} from "@util/extend/data-type/number";
+import Link from "next/link";
+import styled from "styled-components";
 
 // URL: http://localhost:3000/study/next/prefetch/multiple-with-image/start
 
@@ -14,24 +14,24 @@ export default function Page() {
   return (
     <>
       <Wrap>
-        {hrefs.map(target => (
+        {hrefs.map((target) => (
           <Link key={target} href={target}>
             <a>{target}</a>
           </Link>
         ))}
       </Wrap>
       <div>
-        {images.map(image => (
-          <img key={image} src={image} alt="테스트용 이미지" width={10}/>
+        {images.map((image) => (
+          <img key={image} src={image} alt="테스트용 이미지" width={10} />
         ))}
       </div>
     </>
   );
 }
 
-const ranges = range(1, 100)
-const hrefs = ranges.map(value => `/study/next/prefetch/multiple-with-image/${value}`);
-const images = ranges.map(value => `http://localhost:8000/backgrounds/${value}.jpg`);
+const ranges = range(1, 100);
+const hrefs = ranges.map((value) => `/study/next/prefetch/multiple-with-image/${value}`);
+const images = ranges.map((value) => `http://localhost:8000/backgrounds/${value}.jpg`);
 
 const Wrap = styled.div`
   display: flex;

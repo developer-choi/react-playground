@@ -1,6 +1,6 @@
-import type {CategoryFilter} from '@type/response-sub/filter-sub';
-import type {NumericString} from '@type/string';
-import type {FilterFormData} from '@type/services/filter';
+import type {CategoryFilter} from "@type/response-sub/filter-sub";
+import type {NumericString} from "@type/string";
+import type {FilterFormData} from "@type/services/filter";
 import {flatRecursive} from "@util/extend/data-type/array";
 
 /*************************************************************************************************************
@@ -8,25 +8,25 @@ import {flatRecursive} from "@util/extend/data-type/array";
  *************************************************************************************************************/
 
 export function flatDeepCategoryList(categoryList: CategoryFilter[]): CategoryFilter[] {
-  return flatRecursive(categoryList, 'children')
+  return flatRecursive(categoryList, "children");
 }
 
 /**
  * 1. 기능: 자식 카테고리는 모두 삭제하고 부모 카테고리의 PK만 반환함.
  * 2. 목적: 현재 체크된 목록 보여줄 때, 필터 제출할 때 (= 현재 적용된 필터목록 보여줄 떄) 자식필터는 모두 삭제하기위함
  */
-export function removeCategoryChildren(categoryPkList: FilterFormData['category'], originalCategoryList: CategoryFilter[]): NumericString[] {
+export function removeCategoryChildren(categoryPkList: FilterFormData["category"], originalCategoryList: CategoryFilter[]): NumericString[] {
   const originalHaveChildrenCategoryList = flatDeepCategoryList(originalCategoryList).filter(({children}) => children.length > 0);
 
   const removeTargets = originalHaveChildrenCategoryList.reduce((a, b) => {
-    if (b.children.every(original => categoryPkList.includes(String(original.pk) as NumericString))) {
+    if (b.children.every((original) => categoryPkList.includes(String(original.pk) as NumericString))) {
       return a.concat(b.children);
     }
 
     return a;
   }, [] as CategoryFilter[]);
 
-  return categoryPkList.filter(selectedPk => !removeTargets.find(target => target.pk === Number(selectedPk)));
+  return categoryPkList.filter((selectedPk) => !removeTargets.find((target) => target.pk === Number(selectedPk)));
 }
 
 /**
@@ -35,10 +35,10 @@ export function removeCategoryChildren(categoryPkList: FilterFormData['category'
  *
  * 위의 removeCategoryChildren()와 기능이 정반대임.
  */
-export function restoreCategoryChildren(parentCategoryPkList: number[], originalCategoryList: CategoryFilter[]): FilterFormData['category'] {
+export function restoreCategoryChildren(parentCategoryPkList: number[], originalCategoryList: CategoryFilter[]): FilterFormData["category"] {
   //1. 체크됬던 부모들의 직계자식을 모아놓고,
   const directChildrenOfParent = flatDeepCategoryList(originalCategoryList)
-    .filter(category => parentCategoryPkList.includes(category.pk))
+    .filter((category) => parentCategoryPkList.includes(category.pk))
     .map(({children}) => children ?? [])
     .flat();
 
@@ -46,5 +46,5 @@ export function restoreCategoryChildren(parentCategoryPkList: number[], original
   const allChildrenOfCheckedParent = flatDeepCategoryList(directChildrenOfParent);
   const allCategoryPkList = allChildrenOfCheckedParent.map(({pk}) => pk);
 
-  return parentCategoryPkList.concat(allCategoryPkList).map(value => String(value) as NumericString);
+  return parentCategoryPkList.concat(allCategoryPkList).map((value) => String(value) as NumericString);
 }

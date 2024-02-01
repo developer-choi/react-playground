@@ -1,14 +1,11 @@
-import React, {useCallback, useEffect} from 'react';
-import {useDispatchOpenModal} from '@store/reducers/modal';
-import {
-  ClosedHistoryManager,
-  forceClearClosedHistory,
-} from '@util/extend/date/closed-history';
-import {getDiffDate} from '@util/extend/date/date-util';
-import Button from '@component/atom/element/Button';
-import Modal, {ModalProp} from '@component/molecules/modal/Modal';
-import styled from 'styled-components';
-import {useQuery} from '@tanstack/react-query';
+import React, {useCallback, useEffect} from "react";
+import {useDispatchOpenModal} from "@store/reducers/modal";
+import {ClosedHistoryManager, forceClearClosedHistory} from "@util/extend/date/closed-history";
+import {getDiffDate} from "@util/extend/date/date-util";
+import Button from "@component/atom/element/Button";
+import Modal, {ModalProp} from "@component/molecules/modal/Modal";
+import styled from "styled-components";
+import {useQuery} from "@tanstack/react-query";
 
 // URL: http://localhost:3000/solution/components/closed-history/multiple
 export default function Page() {
@@ -41,7 +38,7 @@ export default function Page() {
   );
 }
 
-interface EventPopupProp extends Omit<ModalProp, 'children'> {
+interface EventPopupProp extends Omit<ModalProp, "children"> {
   closeDuringOneDay: () => void;
   data: SpecialEvent;
 }
@@ -75,11 +72,11 @@ const Title = styled.div`
   font-size: 20px;
 `;
 
-const manager = new ClosedHistoryManager('special-event');
+const manager = new ClosedHistoryManager("special-event");
 
 function useActiveEventPopupInClosedHistory() {
   const {data} = useQuery({
-    queryKey: ['event-popup-in-closed-history'],
+    queryKey: ["event-popup-in-closed-history"],
     queryFn: () => getSpecialEventListApi(),
     refetchOnWindowFocus: false
   });
@@ -89,14 +86,14 @@ function useActiveEventPopupInClosedHistory() {
   }
 
   const activePk = manager.getActiveInClosedHistory({
-    pkList: data.map(event => event.pk),
+    pkList: data.map((event) => event.pk),
     closePeriod: {
       value: 1,
-      diffType: 'date'
+      diffType: "date"
     },
     clearPeriod: {
       value: 5,
-      diffType: 'date'
+      diffType: "date"
     }
   });
 
@@ -114,12 +111,12 @@ async function getSpecialEventListApi() {
   const response: SpecialEvent[] = [
     {
       pk: 1,
-      name: '할인율 10% 이벤트'
+      name: "할인율 10% 이벤트"
     },
     {
       pk: 2,
-      name: '할인율 20% 이벤트'
-    },
+      name: "할인율 20% 이벤트"
+    }
   ];
 
   return response;

@@ -1,15 +1,15 @@
-import React from 'react';
-import BasicPagination from '@component/molecules/pagination/BasicPagination';
-import {range} from '@util/extend/data-type/number';
-import {timeoutPromise} from '@util/extend/test';
-import {dehydrate, DehydratedPageProps, QueryClient, useQuery} from '@tanstack/react-query';
-import type {GetServerSideProps} from 'next';
-import styled from 'styled-components';
-import {flexCenter} from '@util/services/style/css';
-import {useScrollRestoration} from '@util/extend/scroll-restoration';
-import Link from 'next/link';
-import {validateNumber} from '@util/extend/browser/query-string';
-import {handleServerSideError} from '@util/services/handle-error/server-side-error';
+import React from "react";
+import BasicPagination from "@component/molecules/pagination/BasicPagination";
+import {range} from "@util/extend/data-type/number";
+import {timeoutPromise} from "@util/extend/test";
+import {dehydrate, DehydratedPageProps, QueryClient, useQuery} from "@tanstack/react-query";
+import type {GetServerSideProps} from "next";
+import styled from "styled-components";
+import {flexCenter} from "@util/services/style/css";
+import {useScrollRestoration} from "@util/extend/scroll-restoration";
+import Link from "next/link";
+import {validateNumber} from "@util/extend/browser/query-string";
+import {handleServerSideError} from "@util/services/handle-error/server-side-error";
 
 interface PageProp {
   page: number;
@@ -30,7 +30,7 @@ export default function Page({page}: PageProp) {
 
   return (
     <>
-      <BasicPagination linkProps={{replace: true}} currentPage={page} methods="defaultPageToHref" total={data.total} config={{pagePerView: 5, articlePerPage: MAX_ARTICLE_PER_PAGE}}/>
+      <BasicPagination linkProps={{replace: true}} currentPage={page} methods="defaultPageToHref" total={data.total} config={{pagePerView: 5, articlePerPage: MAX_ARTICLE_PER_PAGE}} />
 
       {half.map(({pk, title}) => (
         <Row key={pk}>{title}</Row>
@@ -44,7 +44,7 @@ export default function Page({page}: PageProp) {
         <Row key={pk}>{title}</Row>
       ))}
 
-      <BasicPagination currentPage={page} methods="defaultPageToHref" total={data.total} config={{pagePerView: 5, articlePerPage: MAX_ARTICLE_PER_PAGE}}/>
+      <BasicPagination currentPage={page} methods="defaultPageToHref" total={data.total} config={{pagePerView: 5, articlePerPage: MAX_ARTICLE_PER_PAGE}} />
     </>
   );
 }
@@ -65,8 +65,8 @@ export const getServerSideProps: GetServerSideProps<DehydratedPageProps & PagePr
     const page = validateNumber(query.page);
 
     await queryClient.prefetchQuery({
-      queryKey: ['my-solution/pagination', page],
-      queryFn: () => getApi(page),
+      queryKey: ["my-solution/pagination", page],
+      queryFn: () => getApi(page)
     });
 
     return {
@@ -78,18 +78,17 @@ export const getServerSideProps: GetServerSideProps<DehydratedPageProps & PagePr
   } catch (error) {
     return handleServerSideError(error, {
       notifyRedirect: {
-        destination: '/solution/scroll-restoration/pagination?page=1'
+        destination: "/solution/scroll-restoration/pagination?page=1"
       }
     });
   }
 };
 
-
 const MAX_ARTICLE_PER_PAGE = 10;
 
 function useExampleQuery(page: number) {
   return useQuery({
-    queryKey: ['my-solution/pagination', page],
+    queryKey: ["my-solution/pagination", page],
     queryFn: () => getApi(page),
     keepPreviousData: true,
     staleTime: 1000
@@ -99,7 +98,7 @@ function useExampleQuery(page: number) {
 async function getApi(page: number) {
   await timeoutPromise(500);
 
-  const list = range(MAX_ARTICLE_PER_PAGE * (page - 1) + 1, MAX_ARTICLE_PER_PAGE * page).map(value => ({
+  const list = range(MAX_ARTICLE_PER_PAGE * (page - 1) + 1, MAX_ARTICLE_PER_PAGE * page).map((value) => ({
     pk: value,
     title: `${value}-title`
   }));

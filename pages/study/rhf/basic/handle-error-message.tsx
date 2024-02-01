@@ -1,16 +1,20 @@
-import React, {useCallback} from 'react';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import type {RegisterOptions} from 'react-hook-form/dist/types/validator';
-import styled from 'styled-components';
+import React, {useCallback} from "react";
+import {SubmitHandler, useForm} from "react-hook-form";
+import type {RegisterOptions} from "react-hook-form/dist/types/validator";
+import styled from "styled-components";
 
 // URL: http://localhost:3000/study/rhf/basic/handle-error-message
 interface Data {
   title: string;
-  agree: boolean
+  agree: boolean;
 }
 
 export default function Page() {
-  const {register, handleSubmit, formState: {errors}} = useForm<Data>();
+  const {
+    register,
+    handleSubmit,
+    formState: {errors}
+  } = useForm<Data>();
 
   const onSubmit: SubmitHandler<Data> = useCallback((data) => {
     console.log(data);
@@ -18,9 +22,9 @@ export default function Page() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register('title', VALUE_OPTIONS)}/>
+      <input {...register("title", VALUE_OPTIONS)} />
       {errors.title?.message && <ErrorMessage>{errors.title.message}</ErrorMessage>}
-      <input type="checkbox" {...register('agree', AGREE_OPTIONS)}/>
+      <input type="checkbox" {...register("agree", AGREE_OPTIONS)} />
       {errors.agree?.message && <ErrorMessage>{errors.agree.message}</ErrorMessage>}
       <button>제출</button>
     </form>
@@ -30,11 +34,11 @@ export default function Page() {
 const VALUE_OPTIONS: RegisterOptions = {
   required: {
     value: true,
-    message: '필수값임'
+    message: "필수값임"
   },
   maxLength: {
     value: 5,
-    message: '5자리까지만 가능함.'
+    message: "5자리까지만 가능함."
   }
 };
 
@@ -45,9 +49,9 @@ const VALUE_OPTIONS: RegisterOptions = {
 const AGREE_OPTIONS: RegisterOptions = {
   required: {
     value: true,
-    message: '약관동의 꼭 해야함.'
+    message: "약관동의 꼭 해야함."
   }
-}
+};
 
 const ErrorMessage = styled.span`
   color: red;

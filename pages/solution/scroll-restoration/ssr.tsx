@@ -1,11 +1,6 @@
-import type {GetServerSideProps} from 'next';
-import {
-  getScrollRestorationDummyApi,
-  SCROLL_RESTORATION_HREFS,
-  ScrollRestorationExamplePageProp,
-  ScrollRestorationLinkList
-} from '@component/others/scroll-restoration';
-import {useScrollRestoration} from '@util/extend/scroll-restoration';
+import type {GetServerSideProps} from "next";
+import {getScrollRestorationDummyApi, SCROLL_RESTORATION_HREFS, ScrollRestorationExamplePageProp, ScrollRestorationLinkList} from "@component/others/scroll-restoration";
+import {useScrollRestoration} from "@util/extend/scroll-restoration";
 
 /** Flow (Only Production)
  * 1. (△) (약간의 높이 오차있음) 스크롤 좀 내리고 새로고침하면 스크롤 복구됨.
@@ -21,9 +16,7 @@ import {useScrollRestoration} from '@util/extend/scroll-restoration';
 export default function Page({list}: ScrollRestorationExamplePageProp) {
   useScrollRestoration();
 
-  return (
-    <ScrollRestorationLinkList list={list}/>
-  );
+  return <ScrollRestorationLinkList list={list} />;
 }
 
 export const getServerSideProps: GetServerSideProps<ScrollRestorationExamplePageProp> = async () => {

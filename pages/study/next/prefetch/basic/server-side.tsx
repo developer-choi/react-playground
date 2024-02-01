@@ -1,11 +1,9 @@
-import React from 'react';
-import type {GetServerSideProps} from 'next';
-import {timeoutPromise} from '@util/extend/test';
+import React from "react";
+import type {GetServerSideProps} from "next";
+import {timeoutPromise} from "@util/extend/test";
 
 export default function Page() {
-  return (
-    <div>Server Side Rendering</div>
-  );
+  return <div>Server Side Rendering</div>;
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {

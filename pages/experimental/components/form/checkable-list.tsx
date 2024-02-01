@@ -1,13 +1,13 @@
-import React, {memo, useCallback, useEffect, useState} from 'react';
-import type {GetServerSideProps} from 'next';
-import {range} from '@util/extend/data-type/number';
-import useCheckableList from '@util/services/checkable-list';
-import styled from 'styled-components';
-import CheckBox from '@component/atom/forms/CheckBox';
-import moment from 'moment';
-import {isMatchKeyboardEvent} from '@util/extend/event/keyboard-event';
-import Button from '@component/atom/element/Button';
-import {toast} from 'react-toastify';
+import React, {memo, useCallback, useEffect, useState} from "react";
+import type {GetServerSideProps} from "next";
+import {range} from "@util/extend/data-type/number";
+import useCheckableList from "@util/services/checkable-list";
+import styled from "styled-components";
+import CheckBox from "@component/atom/forms/CheckBox";
+import moment from "moment";
+import {isMatchKeyboardEvent} from "@util/extend/event/keyboard-event";
+import Button from "@component/atom/element/Button";
+import {toast} from "react-toastify";
 
 // URL: http://localhost:3000/experimental/components/form/checkable-list
 interface PageProp {
@@ -26,28 +26,28 @@ export default function Page({mails}: PageProp) {
       return;
     }
 
-    if (confirm('선택한 항목을 삭제하시겠습니꺼?')) {
-      toast.info(selectedList.join(', ') + ' 메일이 삭제완료되었습니다.');
+    if (confirm("선택한 항목을 삭제하시겠습니꺼?")) {
+      toast.info(selectedList.join(", ") + " 메일이 삭제완료되었습니다.");
     }
   }, [selectedList, haveSomeChecked]);
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
-      if (isMatchKeyboardEvent(event, {key: 'a', specialKeys: ['ctrlKey']})) {
+      if (isMatchKeyboardEvent(event, {key: "a", specialKeys: ["ctrlKey"]})) {
         toggleAllChecked();
         event.preventDefault();
       }
 
-      if (isMatchKeyboardEvent(event, {key: 'Delete'})) {
+      if (isMatchKeyboardEvent(event, {key: "Delete"})) {
         deleteSomeMails();
         event.preventDefault();
       }
     };
 
-    window.addEventListener('keydown', handler);
+    window.addEventListener("keydown", handler);
 
     return () => {
-      window.removeEventListener('keydown', handler);
+      window.removeEventListener("keydown", handler);
     };
   }, [toggleAllChecked, deleteSomeMails]);
 
@@ -68,7 +68,7 @@ export default function Page({mails}: PageProp) {
       </ListWrap>
     </>
   );
-};
+}
 
 interface Mail {
   pk: number;
@@ -77,7 +77,7 @@ interface Mail {
   timestamp: number;
 }
 
-const DUMMY_MAILS = range(1, 10).map(value => ({
+const DUMMY_MAILS = range(1, 10).map((value) => ({
   pk: value,
   title: `메일제목${value} `.repeat(5),
   important: value % 2 === 0,
@@ -117,7 +117,6 @@ export const MailListItem = memo(function MailListItem({mail, checked, onChangeC
     try {
       // Call a API and if result is success,
       setImportant(checked);
-
     } catch (error) {
       handleError(error);
     }
@@ -125,10 +124,10 @@ export const MailListItem = memo(function MailListItem({mail, checked, onChangeC
 
   return (
     <Row>
-      <CheckBox onChangeChecked={onChangeChecked} checked={checked} onShiftChecked={onMultipleChecked}/>
-      <CheckBox className="important-checkbox" onChangeChecked={onChangeImportant} checked={important}/>
+      <CheckBox onChangeChecked={onChangeChecked} checked={checked} onShiftChecked={onMultipleChecked} />
+      <CheckBox className="important-checkbox" onChangeChecked={onChangeImportant} checked={important} />
       <Title>{title}</Title>
-      <DateText>{moment(timestamp).format('YYYY.MM.DD HH:mm:ss')}</DateText>
+      <DateText>{moment(timestamp).format("YYYY.MM.DD HH:mm:ss")}</DateText>
     </Row>
   );
 });
@@ -141,30 +140,28 @@ const Row = styled.div`
   display: flex;
   align-items: center;
   column-gap: 10px;
-  
+
   .important-checkbox {
     input {
       appearance: none;
     }
-    
+
     ::before {
-      content: '';
+      content: "";
       background-image: url("/images/important-inactive.svg");
       background-repeat: no-repeat;
       background-size: contain;
       width: 18px;
       height: 18px;
     }
-    
+
     &.checked::before {
       background-image: url("/images/important-active.svg");
     }
   }
 `;
 
-const Title = styled.span`
-
-`;
+const Title = styled.span``;
 
 const DateText = styled.span`
   color: gray;

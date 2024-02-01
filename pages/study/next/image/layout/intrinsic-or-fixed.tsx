@@ -1,6 +1,6 @@
-import React from 'react';
-import Image from 'next/image';
-import {IMAGE} from '@util/dummy-image';
+import React from "react";
+import Image from "next/image";
+import {IMAGE} from "@util/dummy-image";
 
 /** intrinsic Flow
  * 브라우저 가로길이를 줄여보면,
@@ -18,8 +18,8 @@ import {IMAGE} from '@util/dummy-image';
 export default function Page() {
   return (
     <>
-      <IntrinsicExample/>
-      <FixedExample/>
+      <IntrinsicExample />
+      <FixedExample />
     </>
   );
 }
@@ -27,7 +27,7 @@ export default function Page() {
 function IntrinsicExample() {
   return (
     <div>
-      <Image width={square} height={square} src={src} alt="ALT" layout="intrinsic"/>
+      <Image width={square} height={square} src={src} alt="ALT" layout="intrinsic" />
     </div>
   );
 }
@@ -35,7 +35,7 @@ function IntrinsicExample() {
 function FixedExample() {
   return (
     <div>
-      <Image width={square} height={square} src={src} alt="ALT" layout="fixed"/>
+      <Image width={square} height={square} src={src} alt="ALT" layout="fixed" />
     </div>
   );
 }

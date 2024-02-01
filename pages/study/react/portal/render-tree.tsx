@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import {createPortal} from 'react-dom';
-import {useDelay} from '@util/extend/time';
+import React, {useEffect} from "react";
+import {createPortal} from "react-dom";
+import {useDelay} from "@util/extend/time";
 
 /**
  * URL: http://localhost:3000/study/react/portal/render-tree
@@ -16,27 +16,25 @@ export default function Page() {
   if (!visible) {
     return null;
   } else {
-    return <Parent/>
+    return <Parent />;
   }
 }
 
 function Parent() {
   useEffect(() => {
-    console.log('Parent is mounted.');
+    console.log("Parent is mounted.");
   }, []);
 
-  return (
-    <PortalChildren/>
-  );
+  return <PortalChildren />;
 }
 
 function PortalChildren() {
   useEffect(() => {
-    console.log('Children is mounted');
+    console.log("Children is mounted");
   }, []);
 
   try {
-    const element = document.getElementById('__next');
+    const element = document.getElementById("__next");
 
     if (!element) {
       return null;
