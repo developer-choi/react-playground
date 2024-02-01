@@ -1,7 +1,6 @@
 import {useEffect} from "react";
-import type {GetServerSideProps} from "next";
 import {windowPostMessage} from "@util/extend/browser/window-popup";
-import type {NaverLoginResult} from "@util/services/member/sns-login";
+import type {NaverLoginResult} from "@type/services/sns-login";
 
 export default function Page() {
   useEffect(() => {
@@ -16,9 +15,3 @@ export default function Page() {
 
   return null;
 }
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  return {
-    props: {}
-  };
-};
