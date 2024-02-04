@@ -1,8 +1,8 @@
-import React, {Dispatch, KeyboardEvent, SetStateAction, useCallback, useState} from "react";
-import styled from "styled-components";
-import InputText from "@component/extend/InputText";
-import type {MatchKeyboardEvent} from "@util/extend/event/keyboard-event";
-import {isMatchKeyboardEvent} from "@util/extend/event/keyboard-event";
+import React, {Dispatch, KeyboardEvent, SetStateAction, useCallback, useState} from 'react';
+import styled from 'styled-components';
+import InputText from '@component/extend/InputText';
+import type {MatchKeyboardEvent} from '@util/extend/event/keyboard-event';
+import {isMatchKeyboardEvent} from '@util/extend/event/keyboard-event';
 
 export interface InputListProp {
   list: string[];
@@ -11,40 +11,34 @@ export interface InputListProp {
 }
 
 export default function InputList({list, onChangeList, autoFocus = false}: InputListProp) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
-  const onKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLInputElement>) => {
-      if (!MATCH_EVENTS.some((match) => isMatchKeyboardEvent(event, match))) {
-        return;
-      }
+  const onKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
+    if (!MATCH_EVENTS.some(match => isMatchKeyboardEvent(event, match))) {
+      return;
+    }
 
-      onChangeList((prevState) => (value === "" || prevState.includes(value) ? prevState : prevState.concat(value)));
-      setValue("");
+    onChangeList(prevState => value === '' || prevState.includes(value) ? prevState : prevState.concat(value));
+    setValue('');
 
-      if (event.key === " ") {
-        event.preventDefault();
-      }
-    },
-    [onChangeList, value]
-  );
+    if (event.key === ' ') {
+      event.preventDefault();
+    }
+  }, [onChangeList, value]);
 
-  const removeItem = useCallback(
-    (target: string) => {
-      onChangeList((prevState) => prevState.filter((value) => value !== target));
-    },
-    [onChangeList]
-  );
+  const removeItem = useCallback((target: string) => {
+    onChangeList(prevState => prevState.filter(value => value !== target));
+  }, [onChangeList]);
 
   return (
     <Wrap>
-      {list.map((value) => (
+      {list.map(value =>
         <Item key={value}>
           {value}
           <RemoveButton onClick={() => removeItem(value)}>X</RemoveButton>
         </Item>
-      ))}
-      <InputText autoFocus={autoFocus} value={value} onChangeText={setValue} onKeyDown={onKeyDown} />
+      )}
+      <InputText autoFocus={autoFocus} value={value} onChangeText={setValue} onKeyDown={onKeyDown}/>
     </Wrap>
   );
 }
@@ -71,4 +65,6 @@ const RemoveButton = styled.button`
   font-size: 10px;
 `;
 
-const MATCH_EVENTS: MatchKeyboardEvent[] = [{key: " "}, {key: "Tab"}, {key: "Enter"}];
+const MATCH_EVENTS: MatchKeyboardEvent[] = [
+  {key: ' '}, {key: 'Tab'}, {key: 'Enter'}
+];

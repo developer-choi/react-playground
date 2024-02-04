@@ -1,6 +1,6 @@
 import type {CSSProperties, ForwardRefExoticComponent, PropsWithoutRef, ReactNode, RefAttributes} from "react";
 import React, {useEffect, useRef, useState} from "react";
-import {useIsFirstRender} from "@util/extend/react";
+import {useIsFirstRender} from '@util/extend/react';
 
 export interface AccordionProp<T> {
   children: ReactNode;
@@ -25,8 +25,8 @@ export default function Accordion<T>({children, onChange, collapsed, renderHeade
   }, [dependencyContent]);
 
   const contentDefaultStyle = {
-    overflow: "hidden",
-    transition: "max-height 0.4s ease-out"
+    overflow: 'hidden',
+    transition: 'max-height 0.4s ease-out'
   };
 
   const contentCollapsedStyle = {
@@ -35,7 +35,7 @@ export default function Accordion<T>({children, onChange, collapsed, renderHeade
 
   return (
     <>
-      <Header collapsed={collapsed} onClick={() => onChange(!collapsed)} additionalProps={additionalProps ?? {}} />
+      <Header collapsed={collapsed} onClick={() => onChange(!collapsed)} additionalProps={additionalProps ?? {}}/>
       <Content ref={contentRef} style={{...contentDefaultStyle, ...contentCollapsedStyle}} additionalProps={additionalProps ?? {}}>
         {children}
       </Content>

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import {IMAGE} from "@util/dummy-image";
-import Image from "next/image";
-import type {Property} from "csstype";
+import React from 'react';
+import styled from 'styled-components';
+import {IMAGE} from '@util/dummy-image';
+import Image from 'next/image';
+import type {Property} from 'csstype';
 
 /**
  * 이미지가 찌부되는것을 막기위한 방법 2(1) crop을 하되 상황에맞게 잘 crop한다.
@@ -14,9 +14,9 @@ import type {Property} from "csstype";
 export default function Page() {
   return (
     <>
-      <ExampleImage objectFit="fill" />
-      <ExampleImage objectFit="cover" />
-      <ExampleImage objectFit="contain" />
+      <ExampleImage objectFit="fill"/>
+      <ExampleImage objectFit="cover"/>
+      <ExampleImage objectFit="contain"/>
     </>
   );
 }
@@ -29,19 +29,19 @@ function ExampleImage({objectFit}: ExampleProp) {
   return (
     <ExampleWrap>
       <BorderWrapper>
-        <Image src={src} alt="스타크래프트 이미지" layout="fill" objectFit={objectFit} />
+        <Image src={src} alt="스타크래프트 이미지" layout="fill" objectFit={objectFit}/>
       </BorderWrapper>
       <BorderWrapper>
-        <Image src={src} alt="스타크래프트 이미지" layout="fill" objectFit={objectFit} objectPosition="top" />
+        <Image src={src} alt="스타크래프트 이미지" layout="fill" objectFit={objectFit} objectPosition="top"/>
       </BorderWrapper>
       <BorderWrapper>
-        <Image src={src} alt="스타크래프트 이미지" layout="fill" objectFit={objectFit} objectPosition="bottom" />
+        <Image src={src} alt="스타크래프트 이미지" layout="fill" objectFit={objectFit} objectPosition="bottom"/>
       </BorderWrapper>
       <BorderWrapper>
-        <Image src={src} alt="스타크래프트 이미지" layout="fill" objectFit={objectFit} objectPosition="right" />
+        <Image src={src} alt="스타크래프트 이미지" layout="fill" objectFit={objectFit} objectPosition="right"/>
       </BorderWrapper>
       <BorderWrapper>
-        <Image src={src} alt="스타크래프트 이미지" layout="fill" objectFit={objectFit} objectPosition="left" />
+        <Image src={src} alt="스타크래프트 이미지" layout="fill" objectFit={objectFit} objectPosition="left"/>
       </BorderWrapper>
     </ExampleWrap>
   );

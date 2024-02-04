@@ -1,10 +1,10 @@
-import React, {useCallback} from "react";
-import Modal, {ModalProp} from "@component/molecules/modal/Modal";
-import Button from "@component/atom/element/Button";
-import styled from "styled-components";
-import {RegisterOptions, SubmitErrorHandler, SubmitHandler, useForm} from "react-hook-form";
-import type {FieldError} from "react-hook-form/dist/types/errors";
-import {useDispatchOpenModal} from "@store/reducers/modal";
+import React, {useCallback} from 'react';
+import Modal, {ModalProp} from '@component/molecules/modal/Modal';
+import Button from '@component/atom/element/Button';
+import styled from 'styled-components';
+import {RegisterOptions, SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
+import type {FieldError} from 'react-hook-form/dist/types/errors';
+import {useDispatchOpenModal} from '@store/reducers/modal';
 // import {baseHandleErrors} from '@util/extend/react-hook-form';
 
 /**
@@ -27,63 +27,58 @@ import {useDispatchOpenModal} from "@store/reducers/modal";
  */
 export default function Page() {
   const {openModal} = useDispatchOpenModal();
-
+  
   const open = useCallback(() => {
     openModal({
       props: {},
       Component: InquiryModal
-    });
+    })
   }, [openModal]);
-
-  return <Button onClick={open}>Click Me</Button>;
+  
+  return (
+    <Button onClick={open}>Click Me</Button>
+  );
 }
 
-function InquiryModal({closeModal, ...rest}: Omit<ModalProp, "children">) {
+function InquiryModal({closeModal, ...rest}: Omit<ModalProp, 'children'>) {
   const {register, handleSubmit, watch} = useForm<InquiryFormData>({
     // shouldFocusError: false
   });
 
   const onError: SubmitErrorHandler<InquiryFormData> = useCallback((errors) => {
-    console.log("errors", errors);
+    console.log('errors', errors);
     const {firstContent, text, secondContent, thirdContent} = errors;
     legacyBaseHandleErrors([firstContent, text, secondContent, thirdContent]);
     // baseHandleErrors([firstContent, text, secondContent, thirdContent], true);
   }, []);
 
-  const onSubmit: SubmitHandler<InquiryFormData> = useCallback(
-    (data) => {
-      console.log("submit", data);
-      closeModal();
-    },
-    [closeModal]
-  );
+  const onSubmit: SubmitHandler<InquiryFormData> = useCallback(data => {
+    console.log('submit', data);
+    closeModal();
+  }, [closeModal]);
 
-  const visibleInput = watch("type") === "complicated";
+  const visibleInput = watch('type') === 'complicated';
 
   return (
     <Modal closeModal={closeModal} {...rest}>
       <Wrap onSubmit={handleSubmit(onSubmit, onError)}>
-        <StyledTextArea {...register("firstContent", FIRST_TEXT_AREA_OPTIONS)} />
-        <select {...register("type")}>
+        <StyledTextArea {...register('firstContent', FIRST_TEXT_AREA_OPTIONS)}/>
+        <select {...register('type')}>
           {INQUIRY_TYPES.map(({value, name}) => (
-            <option key={value} value={value}>
-              {name}
-            </option>
+            <option key={value} value={value}>{name}</option>
           ))}
         </select>
-        {!visibleInput ? null : <StyledInput {...register("text", INPUT_OPTIONS)} />}
-        <StyledTextArea {...register("secondContent", SECOND_TEXT_AREA_OPTIONS)} />
-        <StyledTextArea {...register("thirdContent", THIRD_TEXT_AREA_OPTIONS)} />
+        {!visibleInput ? null : <StyledInput {...register('text', INPUT_OPTIONS)}/>}
+        <StyledTextArea {...register('secondContent', SECOND_TEXT_AREA_OPTIONS)}/>
+        <StyledTextArea {...register('thirdContent', THIRD_TEXT_AREA_OPTIONS)}/>
         <Button>Submit</Button>
-        <Button type="button" className="gray" onClick={closeModal}>
-          Close
-        </Button>
+        <Button type="button" className="gray" onClick={closeModal}>Close</Button>
       </Wrap>
     </Modal>
   );
 }
 
-type InquiryType = "simple" | "complicated";
+type InquiryType = 'simple' | 'complicated';
 
 interface InquiryFormData {
   type: InquiryType;
@@ -102,14 +97,14 @@ function getOptions(name: keyof InquiryFormData): RegisterOptions {
   };
 }
 
-const INPUT_OPTIONS = getOptions("text");
-const FIRST_TEXT_AREA_OPTIONS = getOptions("firstContent");
-const SECOND_TEXT_AREA_OPTIONS = getOptions("secondContent");
-const THIRD_TEXT_AREA_OPTIONS = getOptions("thirdContent");
+const INPUT_OPTIONS = getOptions('text');
+const FIRST_TEXT_AREA_OPTIONS = getOptions('firstContent');
+const SECOND_TEXT_AREA_OPTIONS = getOptions('secondContent');
+const THIRD_TEXT_AREA_OPTIONS = getOptions('thirdContent');
 
-const INQUIRY_TYPES: {name: string; value: InquiryType}[] = [
-  {name: "simple", value: "simple"},
-  {name: "complicated", value: "complicated"}
+const INQUIRY_TYPES: {name: string, value: InquiryType;}[] = [
+  {name: 'simple', value: 'simple'},
+  {name: 'complicated', value: 'complicated'}
 ];
 
 function legacyBaseHandleErrors<T>(errorList: (FieldError | undefined)[]) {
@@ -129,7 +124,7 @@ const Wrap = styled.form`
   display: flex;
   flex-direction: column;
   padding: 20px;
-
+  
   > * {
     margin: 10px;
   }

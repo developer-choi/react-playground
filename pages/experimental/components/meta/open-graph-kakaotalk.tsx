@@ -1,11 +1,17 @@
-import React from "react";
-import OgMeta from "@component/atom/OgMeta";
+import React from 'react';
+import OgMeta from '@component/atom/OgMeta';
 
 export default function Page() {
   return (
     <>
-      <OgMeta image="/images/800x400.png" title="Custom Kakaotalk Title" description="Custom Kakaotalk Description" />
-      <div>open-graph-kakaotalk Page</div>
+      <OgMeta
+        image="/images/800x400.png"
+        title="Custom Kakaotalk Title"
+        description="Custom Kakaotalk Description"
+      />
+      <div>
+        open-graph-kakaotalk Page
+      </div>
     </>
   );
-}
+};

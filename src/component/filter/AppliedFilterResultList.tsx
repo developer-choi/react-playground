@@ -1,6 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import {useCurrentAppliedFilterResultList, useFilterQueryString} from "@util/services/product-filter/filter-query-string";
+import React from 'react';
+import styled from 'styled-components';
+import {
+  useCurrentAppliedFilterResultList,
+  useFilterQueryString
+} from '@util/services/product-filter/filter-query-string';
 
 export default function AppliedFilterResultList() {
   const itemList = useCurrentAppliedFilterResultList();
@@ -12,9 +15,7 @@ export default function AppliedFilterResultList() {
         <FilterResultWrap>
           <span>적용된 필터 목록 : </span>
           {itemList.map((item) => (
-            <FilterResultButton key={`${item.type}-${item.pk}`} type="button" onClick={() => removeFilterInQueryString(item)}>
-              {item.name} (X)
-            </FilterResultButton>
+            <FilterResultButton key={`${item.type}-${item.pk}`} type="button" onClick={() => removeFilterInQueryString(item)}>{item.name} (X)</FilterResultButton>
           ))}
         </FilterResultWrap>
       )}

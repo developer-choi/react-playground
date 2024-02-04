@@ -1,5 +1,10 @@
-import type {CorePagination, CorePaginationParam, MoveBothSidePagination, MoveOnePagination} from "@util/services/pagination/pagination-core";
-import {getTotalPage, makeMovePageElementData} from "@util/services/pagination/pagination-core";
+import type {
+  CorePagination,
+  CorePaginationParam,
+  MoveBothSidePagination,
+  MoveOnePagination
+} from '@util/services/pagination/pagination-core';
+import {getTotalPage, makeMovePageElementData} from '@util/services/pagination/pagination-core';
 
 export type ShortPagination = CorePagination & MoveOnePagination & MoveBothSidePagination;
 

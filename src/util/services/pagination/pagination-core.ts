@@ -1,11 +1,11 @@
-import type {LinkProps} from "next/link";
-import {range} from "@util/extend/data-type/number";
+import type {LinkProps} from 'next/link';
+import {range} from '@util/extend/data-type/number';
 
 /***************************************************
  * Common
  ***************************************************/
 
-export type Href = LinkProps["href"];
+export type Href = LinkProps['href'];
 
 interface TotalPageParam {
   total: number;
@@ -14,17 +14,14 @@ interface TotalPageParam {
 
 export function getTotalPage({total, articlePerPage}: TotalPageParam) {
   const dividedValue = Math.floor(total / articlePerPage);
-  return total % articlePerPage === 0 ? dividedValue : dividedValue + 1;
+  return (total % articlePerPage === 0) ? dividedValue : dividedValue + 1;
 }
 
-export type PaginationMethod =
-  | "defaultPageToHref"
-  | {
-      pageToHref: (page: number) => Href;
-    }
-  | {
-      onClickPage: (page: number) => void;
-    };
+export type PaginationMethod = 'defaultPageToHref' | {
+  pageToHref: (page: number) => Href;
+} | {
+  onClickPage: (page: number) => void;
+};
 
 export interface PageElementData {
   disable: boolean; //first, previous, next, last에서만 사용하고, 이동할 수 없는 페이지를 나타냄.
@@ -34,7 +31,7 @@ export interface PageElementData {
 }
 
 //Only first, previous, next, last
-export function makeMovePageElementData({currentPage, page, disable}: {disable: boolean; page: number; currentPage: number}): PageElementData {
+export function makeMovePageElementData({currentPage, page, disable}: {disable: boolean, page: number, currentPage: number}): PageElementData {
   const active = false;
 
   return {
@@ -45,18 +42,15 @@ export function makeMovePageElementData({currentPage, page, disable}: {disable: 
   };
 }
 
-export function makeMultiplePagesCommonPagination({startPage, totalPage, param}: {startPage: number; totalPage: number; param: MultiplePagesPaginationParam}) {
-  const {
-    currentPage,
-    config: {pagePerView}
-  } = param;
+export function makeMultiplePagesCommonPagination({startPage, totalPage, param}: {startPage: number, totalPage: number, param: MultiplePagesPaginationParam}) {
+  const {currentPage, config: {pagePerView}} = param;
 
   const tempEndPage = startPage + pagePerView - 1;
   const endPage = tempEndPage > totalPage ? totalPage : tempEndPage;
 
   const pages = range(startPage, endPage);
 
-  const betweenPageElementDataList = pages.map((page) => {
+  const betweenPageElementDataList = pages.map(page => {
     const active = currentPage === page;
     const disable = false;
 
@@ -76,7 +70,7 @@ export function makeMultiplePagesCommonPagination({startPage, totalPage, param}:
 
 /***************************************************
  * Configs
- ***************************************************/
+***************************************************/
 
 export interface CorePaginationConfig {
   articlePerPage: number;
@@ -98,14 +92,14 @@ export interface CorePaginationParam<T extends CorePaginationConfig = CorePagina
 
 export interface CorePaginationComponentProps extends CorePaginationParam {
   methods: PaginationMethod;
-  linkProps?: Pick<LinkProps, "scroll" | "replace">;
+  linkProps?: Pick<LinkProps, 'scroll' | 'replace'>;
 }
 
 export type MultiplePagesPaginationParam = CorePaginationParam<MultiplePagesPaginationConfig>;
 
 export interface MultiplePagesPaginationComponentProps extends MultiplePagesPaginationParam {
   methods: PaginationMethod;
-  linkProps?: Pick<LinkProps, "scroll" | "replace">;
+  linkProps?: Pick<LinkProps, 'scroll' | 'replace'>;
 }
 
 /***************************************************

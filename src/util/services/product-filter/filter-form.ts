@@ -1,14 +1,23 @@
 import {SubmitHandler, useForm, useFormContext} from "react-hook-form";
-import {useFilterListQuery, useFilterPkListToResult, useFilterPkOriginalRecordQuery, useProductListPageParam} from "@util/services/product-filter/filter-common";
-import type {NumericString} from "@type/string";
-import {ChangeEvent, ComponentPropsWithoutRef, useCallback, useEffect, useMemo} from "react";
-import {useFilterQueryString} from "@util/services/product-filter/filter-query-string";
-import {EMPTY_ARRAY, removeDuplicatedItems} from "@util/extend/data-type/array";
-import {flatDeepCategoryList, removeCategoryChildren, restoreCategoryChildren} from "@util/services/product-filter/category-filter";
-import type {CategoryCheckboxProp, GeneralFilterCheckboxProp} from "@component/filter/FilterCheckbox";
-import type {CategoryFilter} from "@type/response-sub/filter-sub";
-import type {FilterFormData, PriceFilterValue, RegularFilterType} from "@type/services/filter";
-import {restorePriceFilter} from "@util/services/product-filter/price-filter";
+import {
+  useFilterListQuery,
+  useFilterPkListToResult,
+  useFilterPkOriginalRecordQuery,
+  useProductListPageParam
+} from '@util/services/product-filter/filter-common';
+import type {NumericString} from '@type/string';
+import {ChangeEvent, ComponentPropsWithoutRef, useCallback, useEffect, useMemo} from 'react';
+import {useFilterQueryString} from '@util/services/product-filter/filter-query-string';
+import {EMPTY_ARRAY, removeDuplicatedItems} from '@util/extend/data-type/array';
+import {
+  flatDeepCategoryList,
+  removeCategoryChildren,
+  restoreCategoryChildren
+} from '@util/services/product-filter/category-filter';
+import type {CategoryCheckboxProp, GeneralFilterCheckboxProp} from '@component/filter/FilterCheckbox';
+import type {CategoryFilter} from '@type/response-sub/filter-sub';
+import type {FilterFormData, PriceFilterValue, RegularFilterType} from '@type/services/filter';
+import {restorePriceFilter} from '@util/services/product-filter/price-filter';
 import type {UseFormSetValue} from "react-hook-form/dist/types/form";
 
 /*************************************************************************************************************
@@ -27,7 +36,7 @@ export function useFilterFormProvider() {
 
   useRefreshFilterFormData(methods.setValue);
 
-  return methods;
+  return methods
 }
 
 /** <FormProvider 하위 컴포넌트에서 사용헤야함.
@@ -41,16 +50,13 @@ export function useHandleFilterForm() {
   const {applyFilterInQueryString} = useFilterQueryString();
   const {data} = useFilterListQuery();
 
-  const onSubmit: SubmitHandler<FilterFormData> = useCallback(
-    (formData) => {
-      if (!data) {
-        return;
-      }
+  const onSubmit: SubmitHandler<FilterFormData> = useCallback(formData => {
+    if (!data) {
+      return;
+    }
 
-      applyFilterInQueryString(convertFormDataWhenSubmit(formData, data.categoryList));
-    },
-    [applyFilterInQueryString, data]
-  );
+    applyFilterInQueryString(convertFormDataWhenSubmit(formData, data.categoryList));
+  }, [applyFilterInQueryString, data]);
 
   const reset = useCallback(() => {
     methods.reset(DEFAULT_FILTER_FORM_DATA);
@@ -64,6 +70,7 @@ export function useHandleFilterForm() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type, uniqueKey]);
+
 
   return {
     setValue: methods.setValue,
@@ -98,52 +105,41 @@ export function useHandleCategoryCheckbox({category, onChangeRecursiveOfParent}:
     return flatDeepCategoryList(category.children).map(({pk}) => String(pk) as NumericString);
   }, [category.children]);
 
-  const onChangeRecursive = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      if (directChildrenPkList.length > 0) {
-        const previousCategoryPkList = getValues("category");
-        const allDirectChildrenAreChecked = directChildrenPkList.every((pk) => previousCategoryPkList.includes(pk));
-        const stringPk = String(category.pk) as NumericString;
+  const onChangeRecursive = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    if (directChildrenPkList.length > 0) {
+      const previousCategoryPkList = getValues('category');
+      const allDirectChildrenAreChecked = directChildrenPkList.every((pk) => previousCategoryPkList.includes(pk));
+      const stringPk = String(category.pk) as NumericString;
 
-        if (allDirectChildrenAreChecked) {
-          setValue("category", removeDuplicatedItems(previousCategoryPkList.concat(stringPk)));
-        } else {
-          setValue(
-            "category",
-            previousCategoryPkList.filter((previousPk) => previousPk !== stringPk)
-          );
-        }
-      }
+      if (allDirectChildrenAreChecked) {
+        setValue('category', removeDuplicatedItems(previousCategoryPkList.concat(stringPk)));
 
-      onChangeRecursiveOfParent?.(event);
-    },
-    [category.pk, directChildrenPkList, getValues, onChangeRecursiveOfParent, setValue]
-  );
-
-  const {onChange: onChangeNative} = register("category");
-
-  const onChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      onChangeNative(event).then();
-      const previousCategoryPkList = getValues("category");
-
-      if (event.target.checked) {
-        setValue("category", removeDuplicatedItems(previousCategoryPkList.concat(allChildrenPkList)));
       } else {
-        setValue(
-          "category",
-          previousCategoryPkList.filter((previousPk) => !allChildrenPkList.includes(previousPk))
-        );
+        setValue('category', previousCategoryPkList.filter(previousPk => previousPk !== stringPk));
       }
+    }
 
-      onChangeRecursive(event);
-    },
-    [allChildrenPkList, getValues, onChangeNative, onChangeRecursive, setValue]
-  );
+    onChangeRecursiveOfParent?.(event);
+  }, [category.pk, directChildrenPkList, getValues, onChangeRecursiveOfParent, setValue]);
+
+  const {onChange: onChangeNative} = register('category');
+
+  const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    onChangeNative(event).then();
+    const previousCategoryPkList = getValues('category');
+
+    if (event.target.checked) {
+      setValue('category', removeDuplicatedItems(previousCategoryPkList.concat(allChildrenPkList)));
+    } else {
+      setValue('category', previousCategoryPkList.filter(previousPk => !allChildrenPkList.includes(previousPk)));
+    }
+
+    onChangeRecursive(event);
+  }, [allChildrenPkList, getValues, onChangeNative, onChangeRecursive, setValue]);
 
   return {
     inputProps: {
-      ...register("category"),
+      ...register('category'),
       value: category.pk,
       onChange
     },
@@ -152,17 +148,14 @@ export function useHandleCategoryCheckbox({category, onChangeRecursiveOfParent}:
 }
 
 /// <FormProvider 하위 컴포넌트에서 사용헤야함.
-export function useHandleGeneralCheckbox({filterType, filter}: GeneralFilterCheckboxProp): ComponentPropsWithoutRef<"input"> {
+export function useHandleGeneralCheckbox({filterType, filter}: GeneralFilterCheckboxProp): ComponentPropsWithoutRef<'input'> {
   const {register} = useFormContext<FilterFormData>();
   const {onChange: onChangeNative, ...rest} = register(filterType);
 
   //이렇게 안하면 버그생김. 출처: /study/rhf/custom-onchange-checkbox.tsx
-  const onChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      onChangeNative(event);
-    },
-    [onChangeNative]
-  );
+  const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    onChangeNative(event);
+  }, [onChangeNative]);
 
   return {
     ...rest,
@@ -182,7 +175,7 @@ function convertFormDataWhenSubmit(formData: FilterFormData, originalCategoryFil
 
   return {
     ...rest,
-    category: removedCategoryPkList
+    category: removedCategoryPkList,
   };
 }
 
@@ -194,39 +187,27 @@ function useRefreshFilterFormData(setValue: UseFormSetValue<FilterFormData>) {
   const pkOriginalRecord = useFilterPkOriginalRecordQuery();
 
   //쿼리스트링에 있던 값으로 폼데이터 > 카테고리 필터값 복원하는 로직
-  const refreshCategoryFilter = useCallback(
-    (parentCategoryPkList: number[]) => {
-      const categoryPkList = restoreCategoryChildren(parentCategoryPkList, categoryList);
-      setValue("category", categoryPkList);
-    },
-    [categoryList, setValue]
-  );
+  const refreshCategoryFilter = useCallback((parentCategoryPkList: number[]) => {
+    const categoryPkList = restoreCategoryChildren(parentCategoryPkList, categoryList);
+    setValue('category', categoryPkList);
+  }, [categoryList, setValue]);
 
-  const refreshPriceFilter = useCallback(
-    (price: PriceFilterValue) => {
-      if (pkOriginalRecord === undefined) {
-        return;
-      }
+  const refreshPriceFilter = useCallback((price: PriceFilterValue) => {
+    if (pkOriginalRecord === undefined) {
+      return;
+    }
 
-      const result = restorePriceFilter(price, pkOriginalRecord);
-      setValue("min-price", result["min-price"]);
-      setValue("max-price", result["max-price"]);
-    },
-    [pkOriginalRecord, setValue]
-  );
+    const result = restorePriceFilter(price, pkOriginalRecord);
+    setValue('min-price', result['min-price']);
+    setValue('max-price', result['max-price']);
+  }, [pkOriginalRecord, setValue]);
 
   //쿼리스트링에 있던 값으로 폼데이터 > 일반 필터값 복원하는 로직
-  const refreshRestFilter = useCallback(
-    (record: Record<Exclude<RegularFilterType, "category">, number[]>) => {
-      Object.entries(record).forEach(([filterType, pkList]) => {
-        setValue(
-          filterType as RegularFilterType,
-          pkList.map((pk) => String(pk) as NumericString)
-        );
-      });
-    },
-    [setValue]
-  );
+  const refreshRestFilter = useCallback((record: Record<Exclude<RegularFilterType, 'category'>, number[]>) => {
+    Object.entries(record).forEach(([filterType, pkList]) => {
+      setValue(filterType as RegularFilterType, pkList.map(pk => String(pk) as NumericString));
+    });
+  }, [setValue]);
 
   useEffect(() => {
     const {category, brand, size, color, ...price} = currentFilterPkList;
@@ -234,6 +215,7 @@ function useRefreshFilterFormData(setValue: UseFormSetValue<FilterFormData>) {
     refreshCategoryFilter(category);
     refreshPriceFilter(price);
     refreshRestFilter({brand, size, color});
+
   }, [currentFilterPkList, refreshCategoryFilter, refreshPriceFilter, refreshRestFilter]);
 }
 
@@ -242,6 +224,6 @@ const DEFAULT_FILTER_FORM_DATA: FilterFormData = {
   brand: [],
   color: [],
   size: [],
-  "max-price": undefined,
-  "min-price": undefined
+  'max-price': undefined,
+  'min-price': undefined
 };

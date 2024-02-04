@@ -1,4 +1,4 @@
-import type {Brand} from "@type/response-sub/brand-sub";
+import type {Brand} from '@type/response-sub/brand-sub';
 
 export interface BrandListWithChar {
   brandList: Brand[];
@@ -13,21 +13,19 @@ export interface ParseBrandListResult {
 export function parseBrandList(brandList: Brand[], searchText: string): ParseBrandListResult {
   const searchResult = !searchText ? brandList : brandList.filter(({name}) => name.toLowerCase().includes(searchText.toLowerCase()));
 
-  const record = searchResult.reduce(
-    (a, b) => {
-      const char = b.name[0].toUpperCase();
+  const record = searchResult.reduce((a, b) => {
+    const char = b.name[0].toUpperCase();
 
-      if (char in a) {
-        a[char].push(b);
-      } else {
-        // eslint-disable-next-line no-param-reassign
-        a[char] = [b];
-      }
+    if (char in a) {
+      a[char].push(b);
 
-      return a;
-    },
-    {} as Record<string, Brand[]>
-  );
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      a[char] = [b];
+    }
+
+    return a;
+  }, {} as Record<string, Brand[]>);
 
   const brandListWithCharList = Object.entries(record).map(([char, brandList]) => ({
     char,

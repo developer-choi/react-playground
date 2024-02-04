@@ -1,8 +1,8 @@
-import React, {useCallback} from "react";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
-import {useLogWhenAllRendering} from "@util/extend/test";
-import Button from "@component/atom/element/Button";
-import Link from "next/link";
+import React, {useCallback} from 'react';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
+import {useLogWhenAllRendering} from '@util/extend/test';
+import Button from '@component/atom/element/Button';
+import Link from 'next/link';
 
 /** Flow 1. initialData 테스트
  * http://localhost:3000/study/rq/initial-data 에서
@@ -26,10 +26,10 @@ export default function Page() {
   const {data} = useQuery({
     queryKey: QUERY_KEY,
     enabled: false,
-    initialData: "initial data"
-  });
+    initialData: 'initial data'
+  })
 
-  useLogWhenAllRendering("data", data);
+  useLogWhenAllRendering('data', data);
 
   const queryClient = useQueryClient();
   const onClick = useCallback(() => {
@@ -37,20 +37,20 @@ export default function Page() {
       queryKey: QUERY_KEY,
       queryFn: getApi,
       staleTime: 2000
-    });
+    })
   }, [queryClient]);
 
   return (
     <>
       <Button onClick={onClick}>Manually fetch</Button>
       <Link href="/study/rq/initial-data/inactive">
-        <a style={{display: "block"}}>/study/rq/initial-data/inactive</a>
+        <a style={{display: 'block'}}>/study/rq/initial-data/inactive</a>
       </Link>
     </>
   );
 }
 
-const QUERY_KEY = ["stale-time/initial-data"];
+const QUERY_KEY = ['stale-time/initial-data']
 
 async function getApi() {
   return new Date().getTime();

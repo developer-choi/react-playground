@@ -1,8 +1,8 @@
-import React from "react";
-import "swiper/css";
-import {Swiper, SwiperProps, SwiperSlide} from "swiper/react";
-import styled from "styled-components";
-import {IMAGE} from "@util/dummy-image";
+import React from 'react';
+import 'swiper/css';
+import {Swiper, SwiperProps, SwiperSlide} from 'swiper/react';
+import styled from 'styled-components';
+import {IMAGE} from '@util/dummy-image';
 
 /** Flow
  * BugImg ==> 첫 페이지 로딩 때 이미지가 겁나크게보임. (뷰포트 꽉채움)
@@ -22,9 +22,9 @@ import {IMAGE} from "@util/dummy-image";
 export default function Page() {
   return (
     <Swiper {...swiperProps}>
-      {imageList.map((image) => (
+      {imageList.map(image => (
         <SwiperSlide key={image}>
-          <BugImg src={image} />
+          <BugImg src={image}/>
           {/*<MotivationImg src={image}/>*/}
         </SwiperSlide>
       ))}
@@ -37,7 +37,7 @@ const BugImg = styled.img`
 `;
 
 const MotivationImg = styled.img`
-  //  width 100% 안했음.
+//  width 100% 안했음.
 `;
 
 const swiperProps: SwiperProps = {

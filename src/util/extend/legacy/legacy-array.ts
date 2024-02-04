@@ -1,4 +1,4 @@
-import {range} from "@util/extend/data-type/number";
+import {range} from '@util/extend/data-type/number';
 
 /**
  * 배열에서 n개씩 잘라서 반환하는 함수.
@@ -7,8 +7,8 @@ import {range} from "@util/extend/data-type/number";
  */
 export function splitIntoPieces<T>(array: T[], splitLength: number): T[][] {
   const arrayLength = array.length;
-  const splitCount = arrayLength === 0 || arrayLength % splitLength === 0 ? Math.floor(arrayLength / splitLength) : Math.floor(arrayLength / splitLength) + 1;
-  return new Array(splitCount).fill("").map((value, index) => array.slice(index * splitLength, (index + 1) * splitLength));
+  const splitCount = (arrayLength === 0 || arrayLength % splitLength === 0) ? Math.floor(arrayLength / splitLength) : Math.floor(arrayLength / splitLength) + 1;
+  return new Array(splitCount).fill('').map((value, index) => array.slice(index * splitLength, (index + 1) * splitLength));
 }
 
 /**
@@ -17,15 +17,16 @@ export function splitIntoPieces<T>(array: T[], splitLength: number): T[][] {
  * @example ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3) => [1, 5, 10]
  */
 export function splitEvenly<T>(array: T[], maxSize: number): T[] {
+  
   const arrayLength = array.length;
-
+  
   if (arrayLength <= maxSize) {
     return array;
   }
-
+  
   const overCount = arrayLength - maxSize; //1이상
   const magic = arrayLength / (overCount + 1);
-  const removeIndexes = range(1, overCount).map((value) => Math.floor(value * magic));
-
+  const removeIndexes = range(1, overCount).map(value => Math.floor(value * magic));
+  
   return array.filter((value, index) => !removeIndexes.includes(index));
 }

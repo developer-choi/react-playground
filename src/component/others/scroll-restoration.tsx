@@ -1,10 +1,10 @@
-import {timeoutPromise} from "@util/extend/test";
-import {range} from "@util/extend/data-type/number";
-import OptionalLink from "@component/atom/OptionalLink";
-import styled, {css} from "styled-components";
-import {flexCenter} from "@util/services/style/css";
-import Link from "next/link";
-import React from "react";
+import {timeoutPromise} from '@util/extend/test';
+import {range} from '@util/extend/data-type/number';
+import OptionalLink from '@component/atom/OptionalLink';
+import styled, {css} from 'styled-components';
+import {flexCenter} from '@util/services/style/css';
+import Link from 'next/link';
+import React from 'react';
 
 export function ScrollRestorationLinkList({list}: {list: ScrollRestorationLinkType[]}) {
   return (
@@ -21,7 +21,7 @@ export function ScrollRestorationLinkList({list}: {list: ScrollRestorationLinkTy
 export function ScrollRestorationTargetLinkList() {
   return (
     <LinkListWrap>
-      {SCROLL_RESTORATION_RANGE.map((value) => (
+      {SCROLL_RESTORATION_RANGE.map(value => (
         <Link key={value} href="/">
           <ScrolRestorationLinkRow>{value}</ScrolRestorationLinkRow>
         </Link>
@@ -31,10 +31,10 @@ export function ScrollRestorationTargetLinkList() {
 }
 
 export const SCROLL_RESTORATION_HREFS = {
-  default: "/study/next/scroll-restoration/default/target",
-  solution1: "/study/next/scroll-restoration/solution1/target",
-  solution2: "/study/next/scroll-restoration/solution2/target",
-  mySolution: "/solution/scroll-restoration/target"
+  default: '/study/next/scroll-restoration/default/target',
+  solution1: '/study/next/scroll-restoration/solution1/target',
+  solution2: '/study/next/scroll-restoration/solution2/target',
+  mySolution: '/solution/scroll-restoration/target',
 };
 
 const SCROLL_RESTORATION_RANGE = range(1, 10);
@@ -50,19 +50,20 @@ export interface ScrollRestorationExamplePageProp {
 }
 
 export async function getScrollRestorationDummyApi(internalHref: string): Promise<ScrollRestorationLinkType[]> {
-  const list = SCROLL_RESTORATION_RANGE.map((value) => {
+  const list = SCROLL_RESTORATION_RANGE.map(value => {
     if (value % 2 === 0) {
       return {
         key: value,
-        name: "Internal Link",
+        name: 'Internal Link',
         href: internalHref
       };
+
     } else {
       return {
         key: value,
-        name: "External Link",
-        href: "https://www.naver.com"
-      };
+        name: 'External Link',
+        href: 'https://www.naver.com'
+      }
     }
   });
 

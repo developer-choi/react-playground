@@ -1,6 +1,6 @@
-import React, {useMemo} from "react";
-import type {GetServerSideProps} from "next";
-import {shuffleArray} from "@util/extend/random";
+import React, {useMemo} from 'react';
+import type {GetServerSideProps} from 'next';
+import {shuffleArray} from '@util/extend/random';
 
 /**
  * 관리자에서 랜덤노출을 설정하면,
@@ -18,6 +18,7 @@ export default function Page({nameList, enableRandom}: PageProp) {
   const result = useMemo(() => {
     if (enableRandom) {
       return shuffleArray(nameList);
+
     } else {
       return nameList;
     }
@@ -25,8 +26,10 @@ export default function Page({nameList, enableRandom}: PageProp) {
 
   return (
     <>
-      {result.map((name) => (
-        <div key={name}>{name}</div>
+      {result.map(name => (
+        <div key={name}>
+          {name}
+        </div>
       ))}
     </>
   );
@@ -41,4 +44,9 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
   };
 };
 
-const NAME_LIST = ["John", "Jessica", "Adam", "Aria"];
+const NAME_LIST = [
+  'John',
+  'Jessica',
+  'Adam',
+  'Aria'
+];

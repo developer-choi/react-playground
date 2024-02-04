@@ -1,9 +1,9 @@
-import {useFormContext} from "react-hook-form";
-import type {FilterFormData, FilterPkOriginalRecord, AppliedFilter, PriceFilterValue} from "@type/services/filter";
-import {useFilterPkOriginalRecordQuery} from "@util/services/product-filter/filter-common";
-import type {CustomSliderProp, MinMaxRange} from "@component/atom/forms/CustomSlider";
-import {useCallback, useEffect, useMemo, useState} from "react";
-import {numberWithComma} from "@util/extend/data-type/number";
+import {useFormContext} from 'react-hook-form';
+import type {FilterFormData, FilterPkOriginalRecord, AppliedFilter, PriceFilterValue} from '@type/services/filter';
+import {useFilterPkOriginalRecordQuery} from '@util/services/product-filter/filter-common';
+import type {CustomSliderProp, MinMaxRange} from '@component/atom/forms/CustomSlider';
+import {useCallback, useEffect, useMemo, useState} from 'react';
+import {numberWithComma} from '@util/extend/data-type/number';
 
 /*************************************************************************************************************
  * Exported functions
@@ -24,8 +24,8 @@ export function usePriceFilterControl(): CustomSliderProp | undefined {
   }, [originalData]);
 
   const {setValue, watch} = useFormContext<FilterFormData>();
-  const minPriceInForm = watch()["min-price"];
-  const maxPriceInForm = watch()["max-price"];
+  const minPriceInForm = watch()['min-price'];
+  const maxPriceInForm = watch()['max-price'];
 
   const rangeInForm = useMemo<MinMaxRange | undefined>(() => {
     if (settingRange === undefined) {
@@ -44,17 +44,14 @@ export function usePriceFilterControl(): CustomSliderProp | undefined {
     setRange(rangeInForm);
   }, [rangeInForm]);
 
-  const applyForm = useCallback(
-    ({min, max}: MinMaxRange) => {
-      if (!settingRange) {
-        return;
-      }
+  const applyForm = useCallback(({min, max}: MinMaxRange) => {
+    if (!settingRange) {
+      return;
+    }
 
-      setValue("min-price", min === settingRange.min ? undefined : min);
-      setValue("max-price", max === settingRange.max ? undefined : max);
-    },
-    [setValue, settingRange]
-  );
+    setValue('min-price', min === settingRange.min ? undefined : min);
+    setValue('max-price', max === settingRange.max ? undefined : max);
+  }, [setValue, settingRange]);
 
   if (originalData === undefined || range === undefined) {
     return undefined;
@@ -69,23 +66,19 @@ export function usePriceFilterControl(): CustomSliderProp | undefined {
 }
 
 export function priceToFilterResult(priceFilter: PriceFilterValue, pkOriginalRecord: FilterPkOriginalRecord): AppliedFilter[] {
-  const minPrice = priceFilter["min-price"];
-  const maxPrice = priceFilter["max-price"];
+  const minPrice = priceFilter['min-price'];
+  const maxPrice = priceFilter['max-price'];
 
   return [
-    !validateMinPrice(minPrice, pkOriginalRecord.minPrice)
-      ? undefined
-      : {
-          type: "min-price",
-          name: `최소 ${numberWithComma(minPrice as number)}원`
-        },
-    !validateMaxPrice(maxPrice, pkOriginalRecord.maxPrice)
-      ? undefined
-      : {
-          type: "max-price",
-          name: `최대 ${numberWithComma(maxPrice as number)}원`
-        }
-  ].filter((value) => value !== undefined) as AppliedFilter[];
+    !validateMinPrice(minPrice, pkOriginalRecord.minPrice) ? undefined : {
+      type: 'min-price',
+      name: `최소 ${numberWithComma(minPrice as number)}원`
+    },
+    !validateMaxPrice(maxPrice, pkOriginalRecord.maxPrice) ? undefined : {
+      type: 'max-price',
+      name: `최대 ${numberWithComma(maxPrice as number)}원`
+    }
+  ].filter(value => value !== undefined) as AppliedFilter[];
 }
 
 /**
@@ -99,12 +92,12 @@ export function priceToFilterResult(priceFilter: PriceFilterValue, pkOriginalRec
  * 해당 가격필터값을 복원하지않습니다. (= 해당 키값으로 undefined를 넣어서 반환합니다.)
  */
 export function restorePriceFilter(value: PriceFilterValue, pkOriginalRecord: FilterPkOriginalRecord): PriceFilterValue {
-  const minPrice = value["min-price"];
-  const maxPrice = value["max-price"];
+  const minPrice = value['min-price'];
+  const maxPrice = value['max-price'];
 
   return {
-    "min-price": !validateMinPrice(minPrice, pkOriginalRecord.minPrice) ? undefined : minPrice,
-    "max-price": !validateMaxPrice(maxPrice, pkOriginalRecord.maxPrice) ? undefined : maxPrice
+    'min-price': !validateMinPrice(minPrice, pkOriginalRecord.minPrice) ? undefined : minPrice,
+    'max-price': !validateMaxPrice(maxPrice, pkOriginalRecord.maxPrice) ? undefined : maxPrice,
   };
 }
 

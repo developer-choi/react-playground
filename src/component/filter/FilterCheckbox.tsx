@@ -1,8 +1,8 @@
-import React, {ChangeEvent} from "react";
-import styled from "styled-components";
-import type {CategoryFilter, GeneralFilter} from "@type/response-sub/filter-sub";
-import {useHandleCategoryCheckbox, useHandleGeneralCheckbox} from "@util/services/product-filter/filter-form";
-import type {RegularFilterType} from "@type/services/filter";
+import React, {ChangeEvent} from 'react';
+import styled from 'styled-components';
+import type {CategoryFilter, GeneralFilter} from '@type/response-sub/filter-sub';
+import {useHandleCategoryCheckbox, useHandleGeneralCheckbox} from '@util/services/product-filter/filter-form';
+import type {RegularFilterType} from '@type/services/filter';
 
 export interface CategoryCheckboxProp {
   category: CategoryFilter;
@@ -14,15 +14,17 @@ export function CategoryCheckbox({category, onChangeRecursiveOfParent}: Category
 
   return (
     <Label draggable={false}>
-      <input type="checkbox" {...inputProps} />
+      <input type="checkbox" {...inputProps}/>
       {category.name}
-      {category.children?.map((children) => <CategoryCheckbox key={children.pk} category={children} onChangeRecursiveOfParent={onChangeRecursive} />)}
+      {category.children?.map(children => (
+        <CategoryCheckbox key={children.pk} category={children} onChangeRecursiveOfParent={onChangeRecursive}/>
+      ))}
     </Label>
   );
 }
 
 export interface GeneralFilterCheckboxProp {
-  filterType: Exclude<RegularFilterType, "category">;
+  filterType: Exclude<RegularFilterType, 'category'>;
   filter: GeneralFilter;
 }
 
@@ -31,10 +33,10 @@ export function GeneralFilterCheckbox({filterType, filter}: GeneralFilterCheckbo
 
   return (
     <Label draggable={false}>
-      <input type="checkbox" {...inputProps} />
+      <input type="checkbox" {...inputProps}/>
       {filter.name}
     </Label>
-  );
+  )
 }
 
 const Label = styled.label`

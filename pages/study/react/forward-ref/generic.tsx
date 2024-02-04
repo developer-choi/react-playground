@@ -1,7 +1,7 @@
-import React, {forwardRef, type Ref} from "react";
-import {useForm, useFormState, useWatch} from "react-hook-form";
-import type {Control} from "react-hook-form/dist/types/form";
-import {useToggle} from "@util/extend/react";
+import React, {forwardRef, type Ref} from 'react';
+import {useForm, useFormState, useWatch} from 'react-hook-form';
+import type {Control} from 'react-hook-form/dist/types/form';
+import {useToggle} from '@util/extend/react';
 
 /**
  * URL: http://localhost:3000/study/react/forward-ref/generic
@@ -17,11 +17,11 @@ export default function Page() {
 
   return (
     <>
-      <PasswordInput control={control} name="password" />
+      <PasswordInput control={control} name="password"/>
 
       {/* 이 control부분 any 빼면 타입에러남. 난 분명 Record<N, string>으로 잡았는데 타입추론은 Record<string, string>으로 됨. */}
-      <ForwardRefPasswordInput control={control as any} name="password" />
-      <TypeSafeForwardRefPasswordInput control={control} name="password" />
+      <ForwardRefPasswordInput control={control as any} name="password"/>
+      <TypeSafeForwardRefPasswordInput control={control} name="password"/>
     </>
   );
 }
@@ -43,11 +43,11 @@ function PasswordInput<N extends string, T extends Record<N, string>>({control, 
   const value = watch[name] as string | undefined;
   const errorMessage = errors[name]?.message as string | undefined;
   const isSuccess = !!value && !errorMessage;
-
+  
   return (
     <div>
-      <input type={visiblePassword ? "text" : "password"} />
-      {!isSuccess ? "" : "성공"}
+      <input type={visiblePassword ? 'text' : 'password'}/>
+      {!isSuccess ? '' : '성공'}
     </div>
   );
 }
@@ -63,8 +63,8 @@ function PasswordInputWithForwardRef<N extends string, T extends Record<N, strin
 
   return (
     <div>
-      <input ref={ref} type={visiblePassword ? "text" : "password"} />
-      {!isSuccess ? "" : "성공"}
+      <input ref={ref} type={visiblePassword ? 'text' : 'password'}/>
+      {!isSuccess ? '' : '성공'}
     </div>
   );
 }

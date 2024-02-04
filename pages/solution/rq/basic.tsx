@@ -1,14 +1,14 @@
-import React from "react";
-import {useQuery} from "@tanstack/react-query";
-import {EMPTY_ARRAY} from "@util/extend/data-type/array";
+import React from 'react';
+import {useQuery} from '@tanstack/react-query';
+import {EMPTY_ARRAY} from '@util/extend/data-type/array';
 
 // URL: http://localhost:3000/solution/rq/basic
 export default function Page() {
-  const list = useSomeQuery("some-param");
+  const list = useSomeQuery('some-param');
 
   return (
     <>
-      {list.map((value) => (
+      {list.map(value => (
         <span key={value}>{value}</span>
       ))}
     </>
@@ -31,9 +31,9 @@ async function getSomeApi() {
  */
 function useSomeQuery(apiRequestParam: any) {
   const {data} = useQuery({
-    queryKey: ["some-key", apiRequestParam],
+    queryKey: ['some-key', apiRequestParam],
     queryFn: getSomeApi
   });
 
-  return data?.list ?? EMPTY_ARRAY;
+  return data?.list ?? EMPTY_ARRAY
 }

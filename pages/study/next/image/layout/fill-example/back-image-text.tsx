@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import Image from "next/image";
+import React from 'react';
+import styled from 'styled-components';
+import Image from 'next/image';
 
 /**
  * 보통 메인페이지에 텍스트랑 같이쓰는 섹션은
@@ -11,7 +11,7 @@ import Image from "next/image";
 export default function Page() {
   return (
     <Section>
-      <Image src="/images/back.jpg" alt="백그라운드 이미지" layout="fill" objectFit="cover" />
+      <Image src="/images/back.jpg" alt="백그라운드 이미지" layout="fill" objectFit="cover"/>
       <TextWrap>
         <Item>200</Item>
         <Item>1,300</Item>

@@ -1,8 +1,8 @@
-import React from "react";
-import ClickAwayListener from "@component/atom/ClickAwayListener";
-import Button from "@component/atom/element/Button";
-import {useToggle} from "@util/extend/react";
-import styled from "styled-components";
+import React from 'react';
+import ClickAwayListener from '@component/atom/ClickAwayListener';
+import Button from '@component/atom/element/Button';
+import {useToggle} from '@util/extend/react';
+import styled from 'styled-components';
 
 export default function Page() {
   const {value: visible, setFalse: close, toggle} = useToggle();
@@ -11,7 +11,11 @@ export default function Page() {
     <Wrap>
       <ClickAwayListener onClickAway={close}>
         <Button onClick={toggle}>Click Me</Button>
-        {visible && <Tooltip>Hello World</Tooltip>}
+        {visible &&
+        <Tooltip>
+          Hello World
+        </Tooltip>
+        }
       </ClickAwayListener>
     </Wrap>
   );

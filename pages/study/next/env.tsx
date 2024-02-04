@@ -1,7 +1,7 @@
-import React from "react";
-import type {GetServerSideProps} from "next";
-import env from "@util/env";
-import styled from "styled-components";
+import React from 'react';
+import type {GetServerSideProps} from 'next';
+import env from '@util/env';
+import styled from 'styled-components';
 
 interface PageProp {
   publicEnv: string;
@@ -14,26 +14,14 @@ export default function Page({publicEnv, privateEnv, commonEnv}: PageProp) {
   return (
     <div>
       <Heading>In the getServerSideProps</Heading>
-      <div>
-        publicEnv=<b>{publicEnv}</b>
-      </div>
-      <div>
-        privateEnv=<b>{privateEnv}</b>
-      </div>
-      <div>
-        commonEnv=<b>{commonEnv}</b>
-      </div>
+      <div>publicEnv=<b>{publicEnv}</b></div>
+      <div>privateEnv=<b>{privateEnv}</b></div>
+      <div>commonEnv=<b>{commonEnv}</b></div>
 
       <Heading style={{marginTop: 20}}>In the client</Heading>
-      <div>
-        publicEnv=<b>{String(env.public.pub)}</b>
-      </div>
-      <div>
-        privateEnv=<b>{String(env.private.prv)}</b>
-      </div>
-      <div>
-        commonEnv=<b>{String(env.private.common)}</b>
-      </div>
+      <div>publicEnv=<b>{String(env.public.pub)}</b></div>
+      <div>privateEnv=<b>{String(env.private.prv)}</b></div>
+      <div>commonEnv=<b>{String(env.private.common)}</b></div>
     </div>
   );
 }

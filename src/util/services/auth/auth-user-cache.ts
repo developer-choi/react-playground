@@ -1,13 +1,13 @@
-import {QueryClient, useQuery, useQueryClient} from "@tanstack/react-query";
-import type {UserInfo} from "@type/response-sub/user-sub";
-import {useCallback, useEffect} from "react";
-import {getUserInfoOneApi} from "@api/user-api";
-import {getLoginTokenInCookie, LOGIN_TOKEN} from "@util/services/auth/auth-token";
-import type {GetServerSidePropsContext} from "next";
-import {useRouter} from "next/router";
-import {putAuthLogoutApi} from "@api/auth-api";
-import {removeCookie} from "@util/extend/browser/cookie";
-import {AuthError} from "@util/services/auth/AuthError";
+import {QueryClient, useQuery, useQueryClient} from '@tanstack/react-query';
+import type {UserInfo} from '@type/response-sub/user-sub';
+import {useCallback, useEffect} from 'react';
+import {getUserInfoOneApi} from '@api/user-api';
+import {getLoginTokenInCookie, LOGIN_TOKEN} from '@util/services/auth/auth-token';
+import type {GetServerSidePropsContext} from 'next';
+import {useRouter} from 'next/router';
+import {putAuthLogoutApi} from '@api/auth-api';
+import {removeCookie} from '@util/extend/browser/cookie';
+import {AuthError} from '@util/services/auth/AuthError';
 
 /*************************************************************************************************************
  * Exported functions
@@ -26,10 +26,10 @@ import {AuthError} from "@util/services/auth/AuthError";
 export function useAuth() {
   const queryClient = useQueryClient();
 
-  const {data} = useQuery<"checking" | null | undefined | UserInfo>({
+  const {data} = useQuery<'checking' | null | undefined | UserInfo>({
     queryKey: USER_INFO_QUERY_KEY,
     enabled: false,
-    initialData: "checking"
+    initialData: 'checking',
     // queryFn 없기때문에 refetchOnWindowFocus 안써도 됨
   });
 
@@ -48,7 +48,7 @@ export function useAuth() {
    * 3(3). 그래서, invalidate할 수 있는 수단을 export하지않았음. (쿼리키도 export하지않았음.)
    */
   useEffect(() => {
-    if (data !== "checking") {
+    if (data !== 'checking') {
       return;
     }
 
@@ -59,20 +59,18 @@ export function useAuth() {
       return;
     }
 
-    queryClient
-      .fetchQuery({
-        queryKey: USER_INFO_QUERY_KEY,
-        queryFn: () => getUserInfoOneApi(loginCookie.userPk)
-      })
-      .catch((error) => {
-        handleLoginError(error, queryClient);
-      });
+    queryClient.fetchQuery({
+      queryKey: USER_INFO_QUERY_KEY,
+      queryFn: () => getUserInfoOneApi(loginCookie.userPk),
+    }).catch((error) => {
+      handleLoginError(error, queryClient);
+    });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const loginStatus: "checking" | boolean = data === "checking" ? "checking" : data !== null;
-  const userInfo: null | undefined | UserInfo = data === "checking" ? null : data;
+  const loginStatus: 'checking' | boolean = data === 'checking' ? 'checking' : data !== null;
+  const userInfo: null | undefined | UserInfo = data === 'checking' ? null : data;
 
   return {
     loginStatus,
@@ -103,22 +101,19 @@ export function useLogout() {
   const {replace} = useRouter();
   const queryClient = useQueryClient();
 
-  return useCallback(
-    async (redirectPath = "/") => {
-      queryClient.setQueryData(USER_INFO_QUERY_KEY, null);
+  return useCallback(async (redirectPath = '/') => {
+    queryClient.setQueryData(USER_INFO_QUERY_KEY, null);
 
-      try {
-        await putAuthLogoutApi();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        removeCookie(LOGIN_TOKEN);
-      }
+    try {
+      await putAuthLogoutApi();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      removeCookie(LOGIN_TOKEN);
+    }
 
-      replace(redirectPath);
-    },
-    [queryClient, replace]
-  );
+    replace(redirectPath);
+  }, [queryClient, replace]);
 }
 
 // 주로 마이페이지 하위 페이지에서 쓰기 위함
@@ -139,6 +134,7 @@ export async function fetchAuthInServerSide(queryClient: QueryClient, context: G
       handleLoginError(error, queryClient, context);
       throw error; //호출한 페이지의 getServerSideProps에서는 이 AuthError를 잡아서 로그인페이지같은데로 보내는 등의 처리를 해야함.
     } else {
+
       /**
        * 로그인이 이미 되어있는데도 불구하고 API 호출하다가 에러가 났으면, 다시 로그인을 유도하는것은 의미가 없기 때문에,
        * 이 함수에서 처리해야하는 범위는 이미 벗어났으므로 에러를 처리하지않고 호출한곳으로 다시 던짐
@@ -151,7 +147,7 @@ export async function fetchAuthInServerSide(queryClient: QueryClient, context: G
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
-const USER_INFO_QUERY_KEY = ["user-info"];
+const USER_INFO_QUERY_KEY = ['user-info'];
 
 function handleLoginError(error: any, queryClient: QueryClient, context?: GetServerSidePropsContext) {
   console.error(error);

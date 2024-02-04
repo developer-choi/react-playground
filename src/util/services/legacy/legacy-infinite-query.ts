@@ -1,6 +1,6 @@
-import {useCallback, useMemo, useState} from "react";
-import {getTotalPage} from "@util/services/pagination/pagination-core";
-import {useInfiniteScroll} from "@util/extend/event/scroll";
+import {useCallback, useMemo, useState} from 'react';
+import {getTotalPage} from '@util/services/pagination/pagination-core';
+import {useInfiniteScroll} from '@util/extend/event/scroll';
 
 interface ListData<T> {
   total: number;
@@ -34,12 +34,13 @@ export default function useLegacyInfiniteQuery<T>({initialData, fetchMoreApi, ar
 
       const {total, list} = await fetchMoreApi(nextPage);
 
-      setPagingData((prevState) => ({
+      setPagingData(prevState => ({
         page: nextPage,
         total,
         list: prevState.list.concat(list),
         loading: false
       }));
+
     } catch (error) {
       console.error(error);
     }
@@ -56,10 +57,8 @@ export default function useLegacyInfiniteQuery<T>({initialData, fetchMoreApi, ar
     callback
   });
 
+
   return {
-    total,
-    loading,
-    list,
-    page
+    total, loading, list, page
   };
 }

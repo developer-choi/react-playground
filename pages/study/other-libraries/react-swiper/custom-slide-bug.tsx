@@ -1,9 +1,9 @@
-import React from "react";
-import {Swiper, SwiperSlide} from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import {Navigation} from "swiper";
-import styled from "styled-components";
+import React from 'react';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import {Navigation} from 'swiper';
+import styled from 'styled-components';
 
 // URL: http://localhost:3000/study/other-libraries/react-swiper/custom-slide-bug
 export default function Page() {
@@ -14,20 +14,22 @@ export default function Page() {
         <SwiperSlide>Slide 2</SwiperSlide>
 
         {/* Bug */}
-        <CustomSlide />
+        <CustomSlide/>
       </Swiper>
     </Wrap>
   );
 }
 
 function CustomSlide() {
-  return <SwiperSlide>Slide 6</SwiperSlide>;
+  return (
+    <SwiperSlide>Slide 6</SwiperSlide>
+  );
 }
 
 const Wrap = styled.div`
   .swiper-wrap {
     height: 500px;
-
+    
     .swiper-slide {
       display: flex;
       align-items: center;

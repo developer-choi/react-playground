@@ -12,12 +12,12 @@ export interface KakaoShare {
     sendDefault: (param: KakaoSendDefaultParam) => void;
   };
   Story: {
-    share: (param: KakaoStoryShareParma) => void;
-  };
+    share: (param: KakaoStoryShareParma) => void
+  }
 }
 
 interface KakaoSendDefaultParam {
-  objectType: "commerce";
+  objectType: 'commerce';
   content: {
     title: string;
     imageUrl: string;
@@ -39,15 +39,13 @@ interface KakaoTalkButtonLink {
   iosExecutionParams: string;
 }
 
-export type KakaoTalkCommerce =
-  | {
-      regularPrice: number;
-    }
-  | {
-      regularPrice: number;
-      discountRate: number;
-      discountPrice: number;
-    };
+export type KakaoTalkCommerce = {
+  regularPrice: number;
+} | {
+  regularPrice: number;
+  discountRate: number;
+  discountPrice: number;
+}
 
 interface KakaoStoryShareParma {
   url: string;

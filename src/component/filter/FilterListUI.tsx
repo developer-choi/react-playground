@@ -1,7 +1,7 @@
-import React from "react";
-import {CategoryCheckbox, GeneralFilterCheckbox} from "@component/filter/FilterCheckbox";
-import {useFilterListQuery} from "@util/services/product-filter/filter-common";
-import type {RegularFilterType} from "@type/services/filter";
+import React from 'react';
+import {CategoryCheckbox, GeneralFilterCheckbox} from '@component/filter/FilterCheckbox';
+import {useFilterListQuery} from '@util/services/product-filter/filter-common';
+import type {RegularFilterType} from '@type/services/filter';
 
 export function CategoryFilterListUI() {
   const {data} = useFilterListQuery();
@@ -12,7 +12,7 @@ export function CategoryFilterListUI() {
 
   return (
     <>
-      {data.categoryList.map((category) => (
+      {data.categoryList.map(category => (
         <CategoryCheckbox key={category.pk} category={category} />
       ))}
     </>
@@ -20,7 +20,7 @@ export function CategoryFilterListUI() {
 }
 
 export interface GeneralFilterListUIProp {
-  filterType: Exclude<RegularFilterType, "category">;
+  filterType: Exclude<RegularFilterType, 'category'>;
 }
 
 export function GeneralFilterListUI({filterType}: GeneralFilterListUIProp) {
@@ -34,7 +34,7 @@ export function GeneralFilterListUI({filterType}: GeneralFilterListUIProp) {
 
   return (
     <>
-      {filterList.map((filter) => (
+      {filterList.map(filter => (
         <GeneralFilterCheckbox key={filter.pk} filter={filter} filterType={filterType} />
       ))}
     </>

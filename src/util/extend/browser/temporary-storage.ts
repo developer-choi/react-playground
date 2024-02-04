@@ -1,40 +1,43 @@
-import type {TempTrySnsData} from "@util/services/temporary/try-sns";
-import type {TempSignupResultData} from "@util/services/temporary/signup-result";
+import type {TempTrySnsData} from '@util/services/temporary/try-sns';
+import type {TempSignupResultData} from '@util/services/temporary/signup-result';
 
 // 애플리케이션에서 임시로 저장하는 모든 데이터를 이 파일로 관리
 interface TemporaryStorage {
-  tempTrySnsLogin: TempTrySnsData;
-  tempSignupResult: TempSignupResultData;
+  tempTrySnsLogin: TempTrySnsData
+  tempSignupResult: TempSignupResultData
 }
 
-export function setTemporarySessionStorage<K extends keyof TemporaryStorage, V extends TemporaryStorage[K]>(key: K, value: V) {
-  sessionStorage.setItem(key, typeof value === "string" ? value : JSON.stringify(value));
+export function setTemporarySessionStorage<
+  K extends keyof TemporaryStorage,
+  V extends TemporaryStorage[K]
+>(key: K, value: V) {
+  sessionStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value))
 }
 
 export function getStringInTemporaryStorage<K extends keyof TemporaryStorage>(key: K, errorMessage: string) {
   return () => {
-    const item = sessionStorage.getItem(key);
+    const item = sessionStorage.getItem(key)
 
     if (!item) {
-      throw new MissingTemporaryDataError(errorMessage);
+      throw new MissingTemporaryDataError(errorMessage)
     }
 
-    return item;
-  };
+    return item
+  }
 }
 
 export function getObjectInTemporaryStorage<K extends keyof TemporaryStorage, V extends TemporaryStorage[K]>(key: K, errorMessage: string) {
   return () => {
-    const item = getStringInTemporaryStorage(key, errorMessage)();
+    const item = getStringInTemporaryStorage(key, errorMessage)()
 
     try {
-      return JSON.parse(item) as V;
+      return JSON.parse(item) as V
     } catch (error) {
-      console.error(error);
-      sessionStorage.removeItem(key);
-      throw new InvalidTemporaryDataError(errorMessage);
+      console.error(error)
+      sessionStorage.removeItem(key)
+      throw new InvalidTemporaryDataError(errorMessage)
     }
-  };
+  }
 }
 
 /**
@@ -48,7 +51,7 @@ export class InvalidTemporaryDataError extends Error {}
 
 // ex: '잘못된 접근입니다' 하고나서 메인페이지 튕기는거
 export function handleMissingTempDataError(error: MissingTemporaryDataError) {
-  alert(error.message);
+  alert(error.message)
 
-  location.replace("/");
+  location.replace('/')
 }

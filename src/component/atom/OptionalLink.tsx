@@ -1,5 +1,5 @@
-import React, {ComponentPropsWithoutRef, useEffect, useState} from "react";
-import Link, {LinkProps} from "next/link";
+import React, {ComponentPropsWithoutRef, useEffect, useState} from 'react';
+import Link, {LinkProps} from 'next/link';
 
 /**
  * href: FULL URL (관리자페이지에서 무언가를 등록할 때 (이미지배너 등) 연결될 URL을 입력하게되는데 그 때 입력되는 FULL URL
@@ -7,35 +7,40 @@ import Link, {LinkProps} from "next/link";
  * @example ("https://some.production.com/some/directory") ==> <Link href="/some/directory">으로 작동
  * @example ("") ==> <a>으로 작동
  */
-export interface OptionalLinkProp extends Omit<ComponentPropsWithoutRef<"a">, "href">, Pick<LinkProps, "prefetch"> {
+export interface OptionalLinkProp extends Omit<ComponentPropsWithoutRef<'a'>, 'href'>, Pick<LinkProps, 'prefetch'> {
   href: string | undefined | null;
 }
 
 export default function OptionalLink({prefetch, href, target, rel, ...rest}: OptionalLinkProp) {
-  const originLink = useOriginLink(href ?? "");
+  const originLink = useOriginLink(href ?? '');
 
-  if (originLink === "initial" || !originLink.href) {
+  if (originLink === 'initial' || !originLink.href) {
     return <a {...rest} />;
   }
 
   if (originLink.isOurOrigin) {
     return (
       <Link href={originLink.href} prefetch={prefetch}>
-        <a {...rest} />
+        <a {...rest}/>
       </Link>
     );
   }
 
-  const innerProp = target !== undefined ? {target, rel} : {target: "_blank", rel: "noreferrer"};
+  const innerProp = target !== undefined ?
+    {target, rel}
+    :
+    {target: '_blank', rel: 'noreferrer'};
 
-  return <a href={originLink.href} target={innerProp.target} rel={innerProp.rel} {...rest} />;
+  return (
+    <a href={originLink.href} target={innerProp.target} rel={innerProp.rel} {...rest}/>
+  );
 }
 
 function useOriginLink(href: string) {
-  const [originLink, setOriginLink] = useState<"initial" | {href: string; isOurOrigin: boolean}>("initial");
+  const [originLink, setOriginLink] = useState<'initial' | {href: string, isOurOrigin: boolean}>('initial');
 
   useEffect(() => {
-    if (href.startsWith("/")) {
+    if(href.startsWith('/')) {
       setOriginLink({
         isOurOrigin: true,
         href
@@ -61,29 +66,30 @@ function useOriginLink(href: string) {
        * 하지만 http://localhost:3000의 의미는 이 Origin의 root page를 가리키는 url이기 때문에,
        * 직접 이렇게 작성했다.
        */
-      if (origin === href || origin + "/" === href) {
+      if (origin === href || origin + '/' === href) {
         setOriginLink({
           isOurOrigin: true,
-          href: "/"
+          href: '/'
         });
         return;
       }
 
       setOriginLink({
         isOurOrigin: true,
-        href: href.replaceAll(origin, "")
+        href: href.replaceAll(origin, '')
       });
+
     } catch (error) {
       const originalMessage = (error as Error).message;
       const message = `${originalMessage}
 Expected URL (example): https://some.domain.com/some/path
-Link(Parameter): ${href === "" ? "(empty string)" : href}
+Link(Parameter): ${href === '' ? '(empty string)' : href}
     `;
       console.warn(message);
 
       setOriginLink({
         isOurOrigin: false,
-        href: ""
+        href: ''
       });
     }
   }, [href]);

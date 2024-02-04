@@ -1,5 +1,5 @@
-import CHANNEL_PATH from "@util/services/path-preset/channel-path";
-import BOARD_PATH from "@util/services/path-preset/board-path";
+import CHANNEL_PATH from '@util/services/path-preset/channel-path';
+import BOARD_PATH from '@util/services/path-preset/board-path';
 
 const ROOT_PATH = {
   channel: CHANNEL_PATH,

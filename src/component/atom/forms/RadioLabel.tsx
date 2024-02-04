@@ -1,30 +1,28 @@
-import React, {ChangeEvent, ComponentPropsWithoutRef, useCallback, useContext} from "react";
-import {RadioGroupContext} from "@component/atom/forms/RadioGroup";
-import styled from "styled-components";
-import classNames from "classnames";
+import React, {ChangeEvent, ComponentPropsWithoutRef, useCallback, useContext} from 'react';
+import {RadioGroupContext} from '@component/atom/forms/RadioGroup';
+import styled from 'styled-components';
+import classNames from 'classnames';
 
-export interface RadioLabelProps extends ComponentPropsWithoutRef<"label">, Pick<ComponentPropsWithoutRef<"input">, "disabled"> {
+export interface RadioLabelProps extends ComponentPropsWithoutRef<'label'>, Pick<ComponentPropsWithoutRef<'input'>, 'disabled'> {
   value: string;
   label?: string;
 }
 
 export default function RadioLabel({value, label, disabled, className, ...labelProps}: RadioLabelProps) {
+
   const {onChange, name, value: parentValue} = useContext(RadioGroupContext);
 
-  const _onChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      onChange(event.target.value);
-    },
-    [onChange]
-  );
+  const _onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value);
+  }, [onChange]);
 
   const checked = parentValue === value;
 
   return (
-    <Label className={classNames({checked: disabled ? false : checked, disabled}, className)} {...labelProps}>
-      <input type="radio" value={value} onChange={_onChange} name={name} checked={checked} />
-      {label ? label : value}
-    </Label>
+      <Label className={classNames({checked: disabled ? false : checked, disabled}, className)} {...labelProps}>
+        <input type="radio" value={value} onChange={_onChange} name={name} checked={checked}/>
+        {label ? label : value}
+      </Label>
   );
 }
 
@@ -32,7 +30,7 @@ const Label = styled.label`
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-
+  
   &.disabled {
     /**
      * 이 스타일을 적용한 근거 : https://developer.mozilla.org/ko/docs/Web/CSS/:disabled

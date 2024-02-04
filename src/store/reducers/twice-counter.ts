@@ -1,15 +1,15 @@
-import {createSlice} from "@reduxjs/toolkit";
-import type {CounterState} from "@store/reducers/counter";
+import {createSlice} from '@reduxjs/toolkit';
+import type {CounterState} from '@store/reducers/counter';
 
 const initialState: CounterState = {
   count: 0
 };
 
 const twiceCounterSlice = createSlice({
-  name: "twiceCounter",
+  name: 'twiceCounter',
   initialState,
   reducers: {
-    increaseTwice: (state) => {
+    increaseTwice: state => {
       state.count += 2;
     },
     decreaseTwice: (state) => {

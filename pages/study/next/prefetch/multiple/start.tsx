@@ -1,7 +1,7 @@
-import React from "react";
-import {range} from "@util/extend/data-type/number";
-import Link from "next/link";
-import styled from "styled-components";
+import React from 'react';
+import {range} from '@util/extend/data-type/number';
+import Link from 'next/link';
+import styled from 'styled-components';
 
 // URL: http://localhost:3000/study/next/prefetch/multiple/start
 
@@ -20,7 +20,7 @@ import styled from "styled-components";
 export default function Page() {
   return (
     <Wrap>
-      {targets.map((target) => (
+      {targets.map(target => (
         <Link key={target} href={target}>
           <a>{target}</a>
         </Link>
@@ -29,7 +29,7 @@ export default function Page() {
   );
 }
 
-const targets = range(1, 100).map((value) => `/study/next/prefetch/multiple/${value}`);
+const targets = range(1, 100).map(value => `/study/next/prefetch/multiple/${value}`);
 
 const Wrap = styled.div`
   display: flex;

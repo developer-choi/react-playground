@@ -1,9 +1,9 @@
-import React, {useCallback} from "react";
-import Link from "next/link";
-import {useRouter} from "next/router";
-import moment from "moment";
-import useCounter from "@util/services/counter";
-import Button from "@component/atom/element/Button";
+import React, {useCallback} from 'react';
+import Link from 'next/link';
+import {useRouter} from 'next/router';
+import moment from 'moment';
+import useCounter from '@util/services/counter';
+import Button from '@component/atom/element/Button';
 
 // URL: http://localhost:3000/study/next/prefetch/anchor-blocking/start
 
@@ -25,11 +25,11 @@ export default function Page() {
   const href = `/study/next/prefetch/anchor-blocking/${count}`;
 
   const onClick = useCallback(async () => {
-    console.log("start", moment().format("HH:mm:ss"));
-    await prefetch(href);
-    console.log("end", moment().format("HH:mm:ss"));
+    console.log('start', moment().format("HH:mm:ss"));
+    await prefetch(href)
+    console.log('end', moment().format("HH:mm:ss"));
   }, [href, prefetch]);
-
+  
   return (
     <>
       <Link href={href}>

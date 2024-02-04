@@ -1,6 +1,10 @@
-import {useQuery} from "@tanstack/react-query";
-import {getScrollRestorationDummyApi, SCROLL_RESTORATION_HREFS, ScrollRestorationLinkList} from "@component/others/scroll-restoration";
-import {useScrollRestoration} from "@util/extend/scroll-restoration";
+import {useQuery} from '@tanstack/react-query';
+import {
+  getScrollRestorationDummyApi,
+  SCROLL_RESTORATION_HREFS,
+  ScrollRestorationLinkList
+} from '@component/others/scroll-restoration';
+import {useScrollRestoration} from '@util/extend/scroll-restoration';
 
 /** Flow (Only Production)
  * 1. (X) 스크롤 좀 내리고 새로고침하면 스크롤 복구됨.
@@ -16,9 +20,11 @@ export default function Page() {
   useScrollRestoration();
 
   const {data = []} = useQuery({
-    queryKey: ["my-solution-csr"],
+    queryKey: ['my-solution-csr'],
     queryFn: () => getScrollRestorationDummyApi(SCROLL_RESTORATION_HREFS.mySolution)
   });
 
-  return <ScrollRestorationLinkList list={data} />;
+  return (
+    <ScrollRestorationLinkList list={data}/>
+  );
 }

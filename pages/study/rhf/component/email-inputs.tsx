@@ -1,28 +1,25 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
-import styled from "styled-components";
-import type {SubmitHandler, UseFormRegister} from "react-hook-form";
-import {FieldPath, FieldValues, useForm} from "react-hook-form";
-import Button from "@component/atom/element/Button";
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import styled from 'styled-components';
+import type {SubmitHandler, UseFormRegister} from 'react-hook-form';
+import {FieldPath, FieldValues, useForm} from 'react-hook-form';
+import Button from '@component/atom/element/Button';
 
 export default function Page() {
   const {register, setValue, handleSubmit} = useForm<Data>();
   const formRef = useRef<HTMLFormElement>(null);
 
-  const setDomain = useCallback(
-    (value: string) => {
-      setValue("email.domain", value);
-    },
-    [setValue]
-  );
+  const setDomain = useCallback((value: string) => {
+    setValue('email.domain', value);
+  }, [setValue]);
 
-  const onSubmit: SubmitHandler<Data> = useCallback((data) => {
-    console.log("submit", data);
+  const onSubmit: SubmitHandler<Data> = useCallback(data => {
+    console.log('submit', data);
   }, []);
 
   return (
     <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <EmailInput setDomain={setDomain} register={register} names={["email.id", "email.domain"]} />
-      <input {...register("name")} />
+      <EmailInput setDomain={setDomain} register={register} names={['email.id', 'email.domain']}/>
+      <input {...register('name')}/>
       <Button type="submit">제출</Button>
     </Form>
   );
@@ -43,7 +40,7 @@ interface EmailInputProps<T extends FieldValues, N extends FieldPath<T>> {
 }
 
 function EmailInput<T extends FieldValues, N extends FieldPath<T>>({register, names, setDomain}: EmailInputProps<T, N>) {
-  const [select, setSelect] = useState(""); // Limitation1. 이걸 받아야 Select Box 고를때마다 도메인이 입력되도록 구현가능.
+  const [select, setSelect] = useState(''); // Limitation1. 이걸 받아야 Select Box 고를때마다 도메인이 입력되도록 구현가능.
 
   // Limitation1. 이걸 받아야 Select Box 고를때마다 도메인이 입력되도록 구현가능.
   useEffect(() => {
@@ -58,10 +55,10 @@ function EmailInput<T extends FieldValues, N extends FieldPath<T>>({register, na
 
   return (
     <>
-      <input {...register(names[0])} />
+      <input {...register(names[0])}/>
       @
-      <input disabled={select !== ""} {...register(names[1])} />
-      <select value={select} onChange={(event) => setSelect(event.target.value)}>
+      <input disabled={select !== ''} {...register(names[1])}/>
+      <select value={select} onChange={event => setSelect(event.target.value)}>
         <option value="naver.com">naver.com</option>
         <option value="gmail.com">naver.com</option>
         <option value="">직접 입력</option>
@@ -73,12 +70,12 @@ function EmailInput<T extends FieldValues, N extends FieldPath<T>>({register, na
 const Form = styled.form`
   display: flex;
   align-items: center;
-
+  
   input {
     border: 1px solid black;
     padding: 5px;
   }
-
+  
   input:disabled {
     background-color: lightgray;
   }

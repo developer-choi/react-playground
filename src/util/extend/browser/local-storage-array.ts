@@ -1,6 +1,6 @@
-import {PkType, removeDuplicatedObject} from "@util/extend/data-type/array";
-import {LocalStorageObjectManager, useLocalStorageObjectManager} from "@util/extend/browser/local-storage-object";
-import {useCallback} from "react";
+import {PkType, removeDuplicatedObject} from '@util/extend/data-type/array';
+import {LocalStorageObjectManager, useLocalStorageObjectManager} from '@util/extend/browser/local-storage-object';
+import {useCallback} from 'react';
 
 interface LocalStorageArrayParameter<I extends Object, P extends PkType> {
   key: string;
@@ -17,8 +17,8 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
    * And I don't have any plan that makes derived classes extend this class. (= This is the reason that I don't set visibility to protected)
    * For the above two reasons, I set visibility to private.
    */
-  private readonly pkExtractor: LocalStorageArrayParameter<I, P>["pkExtractor"];
-  private readonly enableDuplicated: LocalStorageArrayParameter<I, P>["enableDuplicated"];
+  private readonly pkExtractor: LocalStorageArrayParameter<I, P>['pkExtractor'];
+  private readonly enableDuplicated: LocalStorageArrayParameter<I, P>['enableDuplicated'];
 
   constructor({key, enableDuplicated, pkExtractor}: LocalStorageArrayParameter<I, P>) {
     super({key, defaultValue: []});
@@ -32,6 +32,7 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
 
       if (array === null || !Array.isArray(array)) {
         return [];
+
       } else {
         return array;
       }
@@ -41,21 +42,21 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
   }
 
   removeByPk(pk: P): I[] {
-    const list = this.getParsedData().filter((prev) => this.pkExtractor(prev) !== pk);
+    const list = this.getParsedData().filter(prev => this.pkExtractor(prev) !== pk);
     this.setStringifyItem(list);
     return list;
   }
 
   appendLast(item: I): I[] {
     const items = [...this.getParsedData(), item];
-    const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.pkExtractor, "last");
+    const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.pkExtractor, 'last');
     this.setStringifyItem(list);
     return list;
   }
 
   appendFirst(item: I): I[] {
     const items = [item, ...this.getParsedData()];
-    const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.pkExtractor, "first");
+    const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.pkExtractor, 'first');
     this.setStringifyItem(list);
     return list;
   }
@@ -69,26 +70,17 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
 export function useLocalStorageArrayManager<I extends Object, P extends PkType>(manager: LocalStorageArrayManager<I, P>) {
   const {state, changeState} = useLocalStorageObjectManager(manager);
 
-  const appendFirst = useCallback(
-    (item: I) => {
-      changeState(manager.appendFirst(item));
-    },
-    [manager, changeState]
-  );
+  const appendFirst = useCallback((item: I) => {
+    changeState(manager.appendFirst(item));
+  }, [manager, changeState]);
 
-  const appendLast = useCallback(
-    (item: I) => {
-      changeState(manager.appendLast(item));
-    },
-    [manager, changeState]
-  );
+  const appendLast = useCallback((item: I) => {
+    changeState(manager.appendLast(item));
+  }, [manager, changeState]);
 
-  const removeByPk = useCallback(
-    (pk: P) => {
-      changeState(manager.removeByPk(pk));
-    },
-    [manager, changeState]
-  );
+  const removeByPk = useCallback((pk: P) => {
+    changeState(manager.removeByPk(pk));
+  }, [manager, changeState]);
 
   return {
     list: state,

@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import {IMAGE} from "@util/dummy-image";
-import Image from "next/image";
+import React from 'react';
+import styled from 'styled-components';
+import {IMAGE} from '@util/dummy-image';
+import Image from 'next/image';
 
 /** 아이콘 불러오는데는 fixed가 최적임.
  *
@@ -13,8 +13,8 @@ import Image from "next/image";
 export default function Page() {
   return (
     <>
-      <MainNavSection />
-      <MainNavSection />
+      <MainNavSection/>
+      <MainNavSection/>
     </>
   );
 }
@@ -22,9 +22,9 @@ export default function Page() {
 function MainNavSection() {
   return (
     <Section>
-      {IMAGE.list.icon.map((image) => (
+      {IMAGE.list.icon.map(image => (
         <a key={image}>
-          <Image src={image} alt="아이콘이미지" layout="fixed" width={60} height={60} />
+          <Image src={image} alt="아이콘이미지" layout="fixed" width={60} height={60}/>
         </a>
       ))}
     </Section>

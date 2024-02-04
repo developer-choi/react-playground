@@ -1,6 +1,6 @@
-import React, {useState} from "react";
-import InputList from "@component/molecules/InputList";
-import styled from "styled-components";
+import React, {useState} from 'react';
+import InputList from '@component/molecules/InputList';
+import styled from 'styled-components';
 
 // URL: http://localhost:3000/experimental/components/form/input-list
 export default function Page() {
@@ -8,7 +8,7 @@ export default function Page() {
 
   return (
     <Wrap>
-      <InputList list={values} onChangeList={setValues} autoFocus />
+      <InputList list={values} onChangeList={setValues} autoFocus/>
     </Wrap>
   );
 }

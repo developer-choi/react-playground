@@ -1,5 +1,5 @@
-import type {FieldError} from "react-hook-form/dist/types/errors";
-import type {RegisterOptions, ValidationValueMessage} from "react-hook-form/dist/types/validator";
+import type {FieldError} from 'react-hook-form/dist/types/errors';
+import type {RegisterOptions, ValidationValueMessage} from 'react-hook-form/dist/types/validator';
 
 export function baseHandleErrors(errorList: (FieldError | undefined)[]) {
   for (const error of errorList) {
@@ -10,7 +10,7 @@ export function baseHandleErrors(errorList: (FieldError | undefined)[]) {
     const {message} = error;
 
     if (!message) {
-      throw new TypeError("error message를 지정안했음. register중에 ValidationValueMessage 타입으로 쓰지않은 값이 있는지 확인");
+      throw new TypeError('error message를 지정안했음. register중에 ValidationValueMessage 타입으로 쓰지않은 값이 있는지 확인');
     }
 
     alert(message);
@@ -31,27 +31,27 @@ export function baseHandleErrors(errorList: (FieldError | undefined)[]) {
  *   }
  * }
  */
-export function getRequiredOptions(required: RegisterOptions["required"]): ValidationValueMessage<boolean> | undefined {
+export function getRequiredOptions(required: RegisterOptions['required']): ValidationValueMessage<boolean> | undefined {
   if (required === undefined) {
-    return undefined;
+    return undefined
   }
 
-  if (typeof required === "object") {
-    return required;
+  if(typeof required === 'object') {
+    return required
   }
 
   if (required === true) {
     return {
       value: true,
-      message: "필수입니다."
-    };
+      message: '필수입니다.'
+    }
   }
 
   if (required === false) {
     return {
       value: false,
-      message: ""
-    };
+      message: ''
+    }
   }
 
   // typeof required === 'string'
@@ -63,7 +63,7 @@ export function getRequiredOptions(required: RegisterOptions["required"]): Valid
 
 export function validateTrim(errorMessage: string, required = true) {
   return (value: string) => {
-    if (value === "" && !required) {
+    if (value === '' && !required) {
       return true;
     } else if (value.trim()) {
       return true;

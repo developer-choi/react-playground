@@ -1,26 +1,23 @@
-import React, {ComponentPropsWithoutRef, DragEvent, useCallback, useState} from "react";
-import InputFile, {InputFileProp} from "@component/extend/InputFile";
-import styled from "styled-components";
-import {preventDefault} from "@util/extend/event/event";
-import classNames from "classnames";
+import React, {ComponentPropsWithoutRef, DragEvent, useCallback, useState} from 'react';
+import InputFile, {InputFileProp} from '@component/extend/InputFile';
+import styled from 'styled-components';
+import {preventDefault} from '@util/extend/event/event';
+import classNames from 'classnames';
 
-export interface DragAndDropProps extends ComponentPropsWithoutRef<"label">, Pick<InputFileProp, "onChangeFiles" | "onChangeFile" | "accept"> {
+export interface DragAndDropProps extends ComponentPropsWithoutRef<'label'>, Pick<InputFileProp, 'onChangeFiles' | 'onChangeFile' | 'accept'> {
   enableFileExplorer?: boolean;
 }
 
 export default function DragAndDrop({className, enableFileExplorer, children, onChangeFile, onChangeFiles, accept, ...rest}: DragAndDropProps) {
   const [dragging, setDragging] = useState(false);
 
-  const _onDrop = useCallback(
-    (event: DragEvent<HTMLLabelElement>) => {
-      event.preventDefault(); // 이거 해야 onDrop 가능
-      const files = Array.from(event.dataTransfer.files);
-      setDragging(false);
-      onChangeFiles?.(files);
-      onChangeFile?.(files[0]);
-    },
-    [onChangeFile, onChangeFiles]
-  );
+  const _onDrop = useCallback((event: DragEvent<HTMLLabelElement>) => {
+    event.preventDefault(); // 이거 해야 onDrop 가능
+    const files = Array.from(event.dataTransfer.files);
+    setDragging(false);
+    onChangeFiles?.(files);
+    onChangeFile?.(files[0]);
+  }, [onChangeFile, onChangeFiles]);
 
   const _onDragLeave = useCallback(() => {
     setDragging(false);
@@ -45,19 +42,25 @@ export default function DragAndDrop({className, enableFileExplorer, children, on
       {...rest}
     >
       {children}
-      <StyledInputFile multiple={!!onChangeFiles} onChangeFiles={onChangeFiles} onChangeFile={onChangeFile} accept={accept} />
+      <StyledInputFile
+        multiple={!!onChangeFiles}
+        onChangeFiles={onChangeFiles}
+        onChangeFile={onChangeFile}
+        accept={accept}
+      />
     </Wrap>
   );
-}
+};
 
 const Wrap = styled.label`
   &.dragging {
+    
     //이거 안하면 자식위를 드래그한상태로 마우스 커서가 지나갈 때 onDragLeave event가 발생함.
     * {
       pointer-events: none;
     }
   }
-
+  
   &.clickable {
     cursor: pointer;
   }

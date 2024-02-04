@@ -1,9 +1,11 @@
-import React from "react";
-import {COURSE_SORT, useCourseQueryString} from "@util/services/course";
-import styled from "styled-components";
-import classNames from "classnames";
+import React from 'react';
+import {COURSE_SORT, useCourseQueryString} from '@util/services/course';
+import styled from 'styled-components';
+import classNames from 'classnames';
 
-export interface CourseSortMenuProp {}
+export interface CourseSortMenuProp {
+
+}
 
 export default function CourseSortMenu({}: CourseSortMenuProp) {
   const {onSort, currentSort} = useCourseQueryString();
@@ -22,8 +24,8 @@ export default function CourseSortMenu({}: CourseSortMenuProp) {
 const SortButton = styled.button`
   margin: 1px;
   background-color: lightgray;
-
+  
   &.active {
-    background-color: ${(props) => props.theme.main};
+    background-color: ${props => props.theme.main};
   }
 `;

@@ -9,7 +9,7 @@ const initialState: LoadingLayerState = {
 };
 
 const loadingLayerSlice = createSlice({
-  name: "loadingLayer",
+  name: 'loadingLayer',
   initialState,
   reducers: {
     closeLoadingLayer: (state) => {

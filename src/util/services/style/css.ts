@@ -1,4 +1,4 @@
-import {css} from "styled-components";
+import {css} from 'styled-components';
 
 export const flexDirectionColumn = css`
   display: flex;
@@ -42,8 +42,8 @@ export const removeLeftBorderRadius = css`
 `;
 
 export function circleCss(radius: number | string) {
-  const _radius = typeof radius === "string" ? radius : `${radius}px`;
-
+  const _radius = typeof radius === 'string' ? radius : `${radius}px`;
+  
   return css`
     width: ${_radius};
     height: ${_radius};

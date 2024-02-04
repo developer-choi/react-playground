@@ -1,10 +1,10 @@
-import React, {MouseEvent, useCallback, useEffect, useRef} from "react";
-import styled from "styled-components";
-import Modal, {ModalProp} from "@component/molecules/modal/Modal";
-import Button from "@component/atom/element/Button";
-import type {CloseModalCallback} from "@store/reducers/modal";
+import React, {MouseEvent, useCallback, useEffect, useRef} from 'react';
+import styled from 'styled-components';
+import Modal, {ModalProp} from '@component/molecules/modal/Modal';
+import Button from '@component/atom/element/Button';
+import type {CloseModalCallback} from '@store/reducers/modal';
 
-export interface ConfirmModalProp extends Omit<ModalProp, "children"> {
+export interface ConfirmModalProp extends Omit<ModalProp, 'children'> {
   title?: string;
   content: string;
   onCancel?: (closeModal: CloseModalCallback, event: MouseEvent<HTMLButtonElement>) => void;
@@ -12,27 +12,21 @@ export interface ConfirmModalProp extends Omit<ModalProp, "children"> {
 }
 
 export default function ConfirmModal({closeModal, title, content, onCancel = closeModal, onConfirm = closeModal, ...rest}: ConfirmModalProp) {
-  const _onCancel = useCallback(
-    (event: MouseEvent<HTMLButtonElement>) => {
-      if (!onCancel) {
-        closeModal();
-      } else {
-        onCancel(closeModal, event);
-      }
-    },
-    [onCancel, closeModal]
-  );
+  const _onCancel = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    if (!onCancel) {
+      closeModal();
+    } else {
+      onCancel(closeModal, event);
+    }
+  }, [onCancel, closeModal]);
 
-  const _onConfirm = useCallback(
-    (event: MouseEvent<HTMLButtonElement>) => {
-      if (!onConfirm) {
-        closeModal();
-      } else {
-        onConfirm(closeModal, event);
-      }
-    },
-    [onConfirm, closeModal]
-  );
+  const _onConfirm = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    if (!onConfirm) {
+      closeModal();
+    } else {
+      onConfirm(closeModal, event);
+    }
+  }, [onConfirm, closeModal]);
 
   const cancelRef = useRef<HTMLButtonElement>(null);
 
@@ -44,9 +38,7 @@ export default function ConfirmModal({closeModal, title, content, onCancel = clo
     <Wrap closeModal={closeModal} {...rest}>
       {!title ? null : <Title>{title}</Title>}
       <Content>{content}</Content>
-      <Button ref={cancelRef} onClick={_onCancel}>
-        취소
-      </Button>
+      <Button ref={cancelRef} onClick={_onCancel}>취소</Button>
       <Button onClick={_onConfirm}>확인</Button>
     </Wrap>
   );
@@ -54,7 +46,7 @@ export default function ConfirmModal({closeModal, title, content, onCancel = clo
 
 const Wrap = styled(Modal)`
   padding: 30px;
-
+  
   > *:not(:first-child) {
     margin-top: 20px;
   }

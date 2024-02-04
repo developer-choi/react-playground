@@ -1,10 +1,10 @@
-import React, {useEffect} from "react";
-import type {GetServerSideProps} from "next";
-import {validateNumber} from "@util/extend/browser/query-string";
-import {timeoutPromise} from "@util/extend/test";
-import {useQuery} from "@tanstack/react-query";
-import styled from "styled-components";
-import {useRouter} from "next/router";
+import React, {useEffect} from 'react';
+import type {GetServerSideProps} from 'next';
+import {validateNumber} from '@util/extend/browser/query-string';
+import {timeoutPromise} from '@util/extend/test';
+import {useQuery} from '@tanstack/react-query';
+import styled from 'styled-components';
+import {useRouter} from 'next/router';
 
 interface PageProp {
   pk: number;
@@ -32,10 +32,14 @@ export default function Page({pk}: PageProp) {
   const {data} = useSolutionQuery(pk);
 
   if (!data?.value) {
-    return <Wrap>로딩중</Wrap>;
+    return (
+      <Wrap>로딩중</Wrap>
+    );
   }
 
-  return <Wrap>{data.value}</Wrap>;
+  return (
+    <Wrap>{data.value}</Wrap>
+  );
 }
 
 const Wrap = styled.div`
@@ -45,7 +49,7 @@ const Wrap = styled.div`
 
 type ParamType = {
   pk: string;
-};
+}
 
 export const getServerSideProps: GetServerSideProps<PageProp, ParamType> = async ({params}) => {
   try {
@@ -59,7 +63,7 @@ export const getServerSideProps: GetServerSideProps<PageProp, ParamType> = async
   } catch (error) {
     return {
       redirect: {
-        destination: "/study/rq/handle-error/list",
+        destination: '/study/rq/handle-error/list',
         permanent: false
       }
     };
@@ -68,7 +72,7 @@ export const getServerSideProps: GetServerSideProps<PageProp, ParamType> = async
 
 function getCommonOption(pk: number) {
   return {
-    queryKey: ["some-detail-query-by-retry-zero", pk],
+    queryKey: ['some-detail-query-by-retry-zero', pk],
     queryFn: () => getDetailApi(pk),
     refetchOnWindowFocus: false,
     retry: false
@@ -93,8 +97,8 @@ function useBadQuery(pk: number) {
 
   useEffect(() => {
     if (query.data?.visible === false) {
-      alert("해당 페이지로 접근할 수 없습니다.");
-      replace("/study/rq/handle-error/list");
+      alert('해당 페이지로 접근할 수 없습니다.');
+      replace('/study/rq/handle-error/list');
     }
   }, [query.data?.visible, replace]);
 
@@ -119,15 +123,15 @@ function useBadQuery(pk: number) {
 function useNormalQuery(pk: number) {
   const query = useQuery({
     ...getCommonOption(pk),
-    cacheTime: 0 //이부분이 useBadQuery()와 다름.
+    cacheTime: 0, //이부분이 useBadQuery()와 다름.
   });
 
   const {replace} = useRouter();
 
   useEffect(() => {
     if (query.data?.visible === false) {
-      alert("해당 페이지로 접근할 수 없습니다.");
-      replace("/study/rq/handle-error/list");
+      alert('해당 페이지로 접근할 수 없습니다.');
+      replace('/study/rq/handle-error/list');
     }
   }, [query.data?.visible, replace]);
 
@@ -150,15 +154,15 @@ function useSolutionQuery(pk: number) {
 
     //이부분으로 API 응답이 4xx 5xx일 떄 대응함.
     if (query.isError) {
-      alert("(다른메시지) 해당 페이지로 접근할 수 없습니다.");
-      replace("/study/rq/handle-error/list");
+      alert('(다른메시지) 해당 페이지로 접근할 수 없습니다.');
+      replace('/study/rq/handle-error/list');
       return;
     }
 
     //이부분으로 API응답은 200인데 해당 상세페이지를 볼 수 없는 경우(진열상태 등)를 대응함.
     if (!availableDetailPage) {
-      alert("해당 페이지로 접근할 수 없습니다.");
-      replace("/study/rq/handle-error/list");
+      alert('해당 페이지로 접근할 수 없습니다.');
+      replace('/study/rq/handle-error/list');
     }
   }, [availableDetailPage, query.isError, query.isFetching, replace]);
 
@@ -180,7 +184,7 @@ export function getHandleRQErrorExample(pk: number) {
 
   if (pk >= 3) {
     return {
-      type: "throw-error" as "throw-error",
+      type: 'throw-error' as 'throw-error',
       visible: false,
       value
     };
@@ -188,28 +192,28 @@ export function getHandleRQErrorExample(pk: number) {
 
   if (pk === 2) {
     return {
-      type: "success-but-error-data" as "success-but-error-data",
+      type: 'success-but-error-data' as 'success-but-error-data',
       visible: false,
       value
     };
   }
 
   return {
-    type: "success" as "success",
+    type: 'success' as 'success',
     visible: true,
     value
   };
 }
 
 async function getDetailApi(pk: number) {
-  console.log("getDetailApi called");
+  console.log('getDetailApi called');
 
   await timeoutPromise(500);
 
   const result = getHandleRQErrorExample(pk);
 
-  if (result.type === "throw-error") {
-    throw new Error("Some errors are occurred.");
+  if (result.type === 'throw-error') {
+    throw new Error('Some errors are occurred.');
   }
 
   return result;

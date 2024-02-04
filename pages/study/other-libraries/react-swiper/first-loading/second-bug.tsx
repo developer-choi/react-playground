@@ -1,8 +1,8 @@
-import React from "react";
-import "swiper/css";
-import {Swiper, SwiperProps, SwiperSlide} from "swiper/react";
-import styled from "styled-components";
-import {IMAGE} from "@util/dummy-image";
+import React from 'react';
+import 'swiper/css';
+import {Swiper, SwiperProps, SwiperSlide} from 'swiper/react';
+import styled from 'styled-components';
+import {IMAGE} from '@util/dummy-image';
 
 /** [Original / OriginalHtml]
  * Performance 탭으로 스크린샷떠가며 확인하면 로딩순서는 다음과같음. (단계별 캡처 필요)
@@ -25,10 +25,10 @@ import {IMAGE} from "@util/dummy-image";
 export default function Page() {
   return (
     <>
-      <Original />
-      <OriginalHtml />
-      <FixWidthReact />
-      <FixWidthHtml />
+      <Original/>
+      <OriginalHtml/>
+      <FixWidthReact/>
+      <FixWidthHtml/>
     </>
   );
 }
@@ -36,9 +36,9 @@ export default function Page() {
 function Original() {
   return (
     <Swiper {...swiperProps}>
-      {imageList.map((image) => (
+      {imageList.map(image => (
         <SwiperSlide key={image}>
-          <Img src={image} />
+          <Img src={image}/>
         </SwiperSlide>
       ))}
     </Swiper>
@@ -50,13 +50,16 @@ function OriginalHtml() {
     <div className="swiper">
       <div className="swiper-wrapper">
         <div className="swiper-slide">
-          <Img src="https://hi.esmplus.com/b/2023/03/23/1679539130521oddtsou.png" className="second-bug__Img-sc-nhflz1-0 cZLKmm" />
+          <Img src="https://hi.esmplus.com/b/2023/03/23/1679539130521oddtsou.png"
+               className="second-bug__Img-sc-nhflz1-0 cZLKmm"/>
         </div>
         <div className="swiper-slide">
-          <Img src="https://hi.esmplus.com/b/2023/03/23/1679539207398w77t7u4.png" className="second-bug__Img-sc-nhflz1-0 cZLKmm" />
+          <Img src="https://hi.esmplus.com/b/2023/03/23/1679539207398w77t7u4.png"
+               className="second-bug__Img-sc-nhflz1-0 cZLKmm"/>
         </div>
         <div className="swiper-slide">
-          <Img src="https://hi.esmplus.com/b/2023/03/23/167953926169784i86ks.png" className="second-bug__Img-sc-nhflz1-0 cZLKmm" />
+          <Img src="https://hi.esmplus.com/b/2023/03/23/167953926169784i86ks.png"
+               className="second-bug__Img-sc-nhflz1-0 cZLKmm"/>
         </div>
       </div>
     </div>
@@ -66,9 +69,9 @@ function OriginalHtml() {
 function FixWidthReact() {
   return (
     <Swiper {...swiperProps}>
-      {imageList.map((image) => (
+      {imageList.map(image => (
         <SwiperSlide style={{width: 200}} key={image}>
-          <Img src={image} />
+          <Img src={image}/>
         </SwiperSlide>
       ))}
     </Swiper>
@@ -80,13 +83,16 @@ function FixWidthHtml() {
     <div className="swiper">
       <div className="swiper-wrapper">
         <div className="swiper-slide" style={{width: 200}}>
-          <Img src="https://hi.esmplus.com/b/2023/03/23/1679539130521oddtsou.png" className="second-bug__Img-sc-nhflz1-0 cZLKmm" />
+          <Img src="https://hi.esmplus.com/b/2023/03/23/1679539130521oddtsou.png"
+               className="second-bug__Img-sc-nhflz1-0 cZLKmm"/>
         </div>
         <div className="swiper-slide" style={{width: 200}}>
-          <Img src="https://hi.esmplus.com/b/2023/03/23/1679539207398w77t7u4.png" className="second-bug__Img-sc-nhflz1-0 cZLKmm" />
+          <Img src="https://hi.esmplus.com/b/2023/03/23/1679539207398w77t7u4.png"
+               className="second-bug__Img-sc-nhflz1-0 cZLKmm"/>
         </div>
         <div className="swiper-slide" style={{width: 200}}>
-          <Img src="https://hi.esmplus.com/b/2023/03/23/167953926169784i86ks.png" className="second-bug__Img-sc-nhflz1-0 cZLKmm" />
+          <Img src="https://hi.esmplus.com/b/2023/03/23/167953926169784i86ks.png"
+               className="second-bug__Img-sc-nhflz1-0 cZLKmm"/>
         </div>
       </div>
     </div>

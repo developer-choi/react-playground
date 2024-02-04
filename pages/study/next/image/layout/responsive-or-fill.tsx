@@ -1,6 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import {IMAGE} from "@util/dummy-image";
+import React from 'react';
+import Image from 'next/image';
+import {IMAGE} from '@util/dummy-image';
 
 /**
  * 보면, fill은 아무것도 화면에 안나옴.
@@ -11,11 +11,11 @@ import {IMAGE} from "@util/dummy-image";
 export default function Page() {
   return (
     <>
-      <div style={{position: "relative"}}>
-        <Image src={src} alt="스타이미지" layout="fill" />
+      <div style={{position: 'relative'}}>
+        <Image src={src} alt="스타이미지" layout="fill"/>
       </div>
       <div>
-        <Image src={src} alt="스타이미지" layout="responsive" width={100} height={100} />
+        <Image src={src} alt="스타이미지" layout="responsive" width={100} height={100}/>
       </div>
     </>
   );

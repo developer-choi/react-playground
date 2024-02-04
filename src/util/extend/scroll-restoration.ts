@@ -1,5 +1,5 @@
-import {useRouter} from "next/router";
-import {useEffect} from "react";
+import {useRouter} from 'next/router';
+import {useEffect} from 'react';
 
 interface ScrollPosition {
   top: number;
@@ -7,7 +7,9 @@ interface ScrollPosition {
 }
 
 function getCacheManager() {
-  const positionHistoryCache: Record<string, ScrollPosition> = {};
+  const positionHistoryCache: Record<string, ScrollPosition> = {
+
+  };
 
   let beforePopStateAsPath: string | undefined;
 
@@ -56,14 +58,14 @@ export function useScrollRestoration() {
      * 이거 안쓰면 외부링크 갔다가 왔을 때 스크롤 안돌아옴.
      * 돌아왔을 때 다시 처음부터 마운트 될꺼니까. auto로 다시 바꿔줘야지 ㅇㅇ 맞음.
      */
-    window.history.scrollRestoration = "auto";
+    window.history.scrollRestoration = 'auto';
 
     const routeChangeStartHandler = () => {
       /**
        * 이거 안하면, 목적지에서 뒤로가기 눌렀을 때 스크롤이 유지되지않고 위로 올라가버리는 현상이 발생함.
        * (= next.js 기본동작을 무시하기위해)
        */
-      window.history.scrollRestoration = "manual";
+      window.history.scrollRestoration = 'manual';
 
       /**
        * 뒤로가기해서 나가든, 그냥 눌러서 나가든, 무조건 set하긴해야함.
@@ -89,15 +91,15 @@ export function useScrollRestoration() {
        * 이거 안쓰면 2회차부터 뒤로갈 때 목적지에서 스크롤 움직여버리는데 명확하게 원인설명안됨.
        * 출발지 ==> 목적지 ==> (뒤로가기) ==> 출발지 ==> (앞으로가기) ==> 목적지 ==> (뒤로가기) 딱 이 스탭에서 스크롤이 유지안되고 움직여버림.
        */
-      window.history.scrollRestoration = "manual";
+      window.history.scrollRestoration = 'manual';
     };
 
-    router.events.on("routeChangeStart", routeChangeStartHandler);
-    router.events.on("routeChangeComplete", routeChangeCompleteHandler);
+    router.events.on('routeChangeStart', routeChangeStartHandler);
+    router.events.on('routeChangeComplete', routeChangeCompleteHandler);
 
     return () => {
-      router.events.off("routeChangeStart", routeChangeStartHandler);
-      router.events.off("routeChangeComplete", routeChangeCompleteHandler);
+      router.events.off('routeChangeStart', routeChangeStartHandler);
+      router.events.off('routeChangeComplete', routeChangeCompleteHandler);
     };
   }, [router]);
 }

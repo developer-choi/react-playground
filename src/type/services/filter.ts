@@ -1,5 +1,5 @@
-import type {NumericString} from "@type/string";
-import type {CategoryFilter, GeneralFilter} from "@type/response-sub/filter-sub";
+import type {NumericString} from '@type/string';
+import type {CategoryFilter, GeneralFilter} from '@type/response-sub/filter-sub';
 
 //상품리스트 페이지를 구분할 수 있는값
 export interface ProductListPageParam {
@@ -32,21 +32,21 @@ export interface AppliedFilter {
 }
 
 //적용된 필터목록을 보여주기위한 원본 API 데이터
-export interface FilterPkOriginalRecord extends Record<Exclude<RegularFilterType, "category">, Record<number, GeneralFilter>> {
+export interface FilterPkOriginalRecord extends Record<Exclude<RegularFilterType, 'category'>, Record<number, GeneralFilter>> {
   category: Record<number, CategoryFilter>;
   maxPrice: number;
   minPrice: number;
 }
 
 export type FilterType = RegularFilterType | PriceFilterType;
-export type RegularFilterType = "category" | "brand" | "size" | "color";
-export type PriceFilterType = "min-price" | "max-price";
+export type RegularFilterType = 'category' | 'brand' | 'size' | 'color';
+export type PriceFilterType = 'min-price' | 'max-price';
 
 /**
  * 상품리스트 페이지의 타입.
  * 단순 카테고리 상품리스트 / 브랜드 상품리스트 / 검색리스트 / 베스트 상품리스트 (지마켓 베스트)
  */
-export type ProductListPageType = "category" | "brand" | "search" | "g-market-best";
+export type ProductListPageType = 'category' | 'brand' | 'search' | 'g-market-best';
 
 //https://corners.gmarket.co.kr/BestSellers
-export type GmarketBestCategoryType = "all" | "fashion-clothes" | "shoes";
+export type GmarketBestCategoryType = 'all' | 'fashion-clothes' | 'shoes';

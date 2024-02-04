@@ -1,10 +1,13 @@
-import React, {useCallback, useEffect} from "react";
-import Modal, {ModalProp} from "@component/molecules/modal/Modal";
-import Button from "@component/atom/element/Button";
-import {useDispatchOpenModal} from "@store/reducers/modal";
-import styled from "styled-components";
-import {getDiffDate} from "@util/extend/date/date-util";
-import {ClosedHistoryManager, forceClearClosedHistory} from "@util/extend/date/closed-history";
+import React, {useCallback, useEffect} from 'react';
+import Modal, {ModalProp} from '@component/molecules/modal/Modal';
+import Button from '@component/atom/element/Button';
+import {useDispatchOpenModal} from '@store/reducers/modal';
+import styled from 'styled-components';
+import {getDiffDate} from '@util/extend/date/date-util';
+import {
+  ClosedHistoryManager,
+  forceClearClosedHistory,
+} from '@util/extend/date/closed-history';
 
 // URL: http://localhost:3000/solution/components/closed-history/single
 export default function Page() {
@@ -36,7 +39,7 @@ export default function Page() {
   );
 }
 
-interface ApplePopupProp extends Omit<ModalProp, "children"> {
+interface ApplePopupProp extends Omit<ModalProp, 'children'> {
   closeDuringOneDay: () => void;
 }
 
@@ -61,7 +64,7 @@ const Wrap = styled(Modal)`
   align-items: flex-end;
 `;
 
-const PK = "apple-popup";
+const PK = 'apple-popup';
 
 const manager = new ClosedHistoryManager();
 
@@ -70,11 +73,11 @@ function getActiveApplePopupInClosedHistory() {
     pkList: [PK],
     closePeriod: {
       value: 1,
-      diffType: "date"
+      diffType: 'date'
     },
     clearPeriod: {
       value: 5,
-      diffType: "date"
+      diffType: 'date'
     }
   });
 }

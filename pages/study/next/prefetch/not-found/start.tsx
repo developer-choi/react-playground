@@ -1,6 +1,6 @@
-import React from "react";
-import Link from "next/link";
-import styled from "styled-components";
+import React from 'react';
+import Link from 'next/link';
+import styled from 'styled-components';
 
 // URL: http://localhost:3000/study/next/prefetch/not-found/start
 export default function Page() {

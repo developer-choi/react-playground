@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import {useAppSelector} from "@store/hooks";
-import {shallowEqual} from "react-redux";
-import {SIDEBAR_WIDTH} from "@component/layouts/some/SomeSidebar";
+import React from 'react';
+import styled from 'styled-components';
+import {useAppSelector} from '@store/hooks';
+import {shallowEqual} from 'react-redux';
+import {SIDEBAR_WIDTH} from '@component/layouts/some/SomeSidebar';
 
 export default function SomeHeader() {
-  const {title, onClickHeader, backgroundColor, height} = useAppSelector((state) => state.layout.headerProp, shallowEqual);
+  const {title, onClickHeader, backgroundColor, height} = useAppSelector(state => state.layout.headerProp, shallowEqual);
 
   return (
     <Wrap onClick={onClickHeader} style={{cursor: onClickHeader ? "pointer" : "auto", backgroundColor, height}}>

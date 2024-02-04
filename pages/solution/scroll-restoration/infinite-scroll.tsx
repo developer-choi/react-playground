@@ -1,11 +1,15 @@
-import React from "react";
-import {useScrollRestoration} from "@util/extend/scroll-restoration";
-import {QueryKey, useInfiniteQuery} from "@tanstack/react-query";
-import {useInfiniteScroll} from "@util/extend/event/scroll";
-import type {Course} from "@type/response-sub/course-sub";
-import type {QueryFunctionContext} from "@tanstack/query-core/build/lib/types";
-import {SCROLL_RESTORATION_HREFS, ScrollRestorationLinkList, ScrollRestorationLinkType} from "@component/others/scroll-restoration";
-import {getCourseListApi} from "@api/course-api";
+import React from 'react';
+import {useScrollRestoration} from '@util/extend/scroll-restoration';
+import {QueryKey, useInfiniteQuery} from '@tanstack/react-query';
+import {useInfiniteScroll} from '@util/extend/event/scroll';
+import type {Course} from '@type/response-sub/course-sub';
+import type {QueryFunctionContext} from '@tanstack/query-core/build/lib/types';
+import {
+  SCROLL_RESTORATION_HREFS,
+  ScrollRestorationLinkList,
+  ScrollRestorationLinkType
+} from '@component/others/scroll-restoration';
+import {getCourseListApi} from '@api/course-api';
 
 /** Flow
  * 기존 csr-rq에서 되는거 다되고,
@@ -16,8 +20,13 @@ import {getCourseListApi} from "@api/course-api";
 export default function Page() {
   useScrollRestoration();
 
-  const {data, fetchNextPage, hasNextPage, isFetching} = useInfiniteQuery({
-    queryKey: ["my-solution/infinite-scroll"],
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+  } = useInfiniteQuery({
+    queryKey: ['my-solution/infinite-scroll'],
     queryFn,
     getNextPageParam,
     refetchOnWindowFocus: false
@@ -34,16 +43,15 @@ export default function Page() {
     return null;
   }
 
-  const list = data.pages
-    .map(({courseList}) => courseList)
-    .flat()
-    .map<ScrollRestorationLinkType>(({pk, title}) => ({
-      key: pk,
-      name: title,
-      href: SCROLL_RESTORATION_HREFS.mySolution
-    }));
+  const list = data.pages.map(({courseList}) => courseList).flat().map<ScrollRestorationLinkType>(({pk, title}) => ({
+    key: pk,
+    name: title,
+    href: SCROLL_RESTORATION_HREFS.mySolution
+  }));
 
-  return <ScrollRestorationLinkList list={list} />;
+  return (
+    <ScrollRestorationLinkList list={list}/>
+  );
 }
 
 interface PageData {
@@ -59,7 +67,7 @@ async function queryFn(params: QueryFunctionContext<QueryKey, number>): Promise<
   return {
     courseList: list,
     page: pageParam,
-    nextPage: pageParam >= totalPage ? undefined : pageParam + 1
+    nextPage: pageParam >= totalPage ? undefined : pageParam + 1,
   };
 }
 

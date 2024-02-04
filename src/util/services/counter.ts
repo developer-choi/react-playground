@@ -1,4 +1,4 @@
-import {useCallback, useState} from "react";
+import {useCallback, useState} from 'react';
 
 export interface CounterParam {
   initial?: number;
@@ -11,7 +11,7 @@ export default function useCounter(params?: CounterParam) {
   const [count, setCount] = useState(initial);
 
   const increase = useCallback(() => {
-    setCount((prevState) => {
+    setCount(prevState => {
       const nextState = (prevState + 1) * multiple;
 
       if (log) {
@@ -23,7 +23,7 @@ export default function useCounter(params?: CounterParam) {
   }, [log, multiple]);
 
   const decrease = useCallback(() => {
-    setCount((prevState) => {
+    setCount(prevState => {
       const nextState = (prevState - 1) * multiple;
 
       if (log) {

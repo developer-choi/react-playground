@@ -1,7 +1,7 @@
-import React, {PropsWithChildren, useState} from "react";
-import RadioGroup from "@component/atom/forms/RadioGroup";
-import RadioLabel from "@component/atom/forms/RadioLabel";
-import {useLogMount, useLogWhenRendering} from "@util/extend/test";
+import React, {PropsWithChildren, useState} from 'react';
+import RadioGroup from '@component/atom/forms/RadioGroup';
+import RadioLabel from '@component/atom/forms/RadioLabel';
+import {useLogMount, useLogWhenRendering} from '@util/extend/test';
 
 /**
  * A <==> B 갈떄는 unmount, mount됨.
@@ -10,32 +10,51 @@ import {useLogMount, useLogWhenRendering} from "@util/extend/test";
  * 함수이름이 소문자로 시작하면 각종 hooks를 사용하지못하기때문에 합리적이라고 판단이 들었음.
  */
 export default function Page() {
-  const [abc, setAbc] = useState<"A" | "B" | "C">("A");
+  const [abc, setAbc] = useState<'A' | 'B' | 'C'>('A');
 
   return (
     <>
       <RadioGroup name="abc" value={abc} onChange={setAbc}>
-        <RadioLabel value="A" label="AAAAAAA" />
-        <RadioLabel value="B" label="BBBBBBB" />
-        <RadioLabel value="C" label="CCCCCCC" />
-        {abc === "A" ? <OriginalLayout>A 페이지</OriginalLayout> : abc === "B" ? <CustomLayout>B 페이지</CustomLayout> : funcLayout({children: "C 페이지"})}
+        <RadioLabel value="A" label="AAAAAAA"/>
+        <RadioLabel value="B" label="BBBBBBB"/>
+        <RadioLabel value="C" label="CCCCCCC"/>
+        {abc === 'A' ? (
+            <OriginalLayout>
+              A 페이지
+            </OriginalLayout>
+          )
+          : abc === 'B' ? (
+              <CustomLayout>
+                B 페이지
+              </CustomLayout>
+            )
+            : (
+              funcLayout({children: 'C 페이지'})
+            )
+        }
       </RadioGroup>
     </>
   );
 }
 
 function OriginalLayout({children}: PropsWithChildren) {
-  useLogMount("original-layout");
+  useLogMount('original-layout');
 
-  useLogWhenRendering("re-render", children);
+  useLogWhenRendering('re-render', children);
 
-  return <div>{children}</div>;
+  return (
+    <div>{children}</div>
+  );
 }
 
 function CustomLayout({children}: PropsWithChildren) {
-  return <OriginalLayout>{children}</OriginalLayout>;
+  return (
+    <OriginalLayout>{children}</OriginalLayout>
+  );
 }
 
 function funcLayout({children}: PropsWithChildren) {
-  return <OriginalLayout>{children}</OriginalLayout>;
+  return (
+    <OriginalLayout>{children}</OriginalLayout>
+  );
 }

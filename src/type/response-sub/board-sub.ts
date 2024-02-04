@@ -11,11 +11,11 @@ export interface Board {
 /** Naming Rule
  * [api path] + Param
  */
-export type BoardCreateParam = Pick<Board, "title" | "content" | "boardType">;
+export type BoardCreateParam = Pick<Board, 'title' | 'content' | 'boardType'>;
 
 /**
  * 자유게시판 / 공지사항
  */
-export type BoardType = "FREE" | "NOTICE";
+export type BoardType = 'FREE' | 'NOTICE';
 
-export type BoardSearchTab = "title" | "content" | "author";
+export type BoardSearchTab = 'title' | 'content' | 'author';

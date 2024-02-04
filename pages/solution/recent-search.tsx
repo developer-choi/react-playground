@@ -1,14 +1,14 @@
-import React, {useCallback, useEffect} from "react";
-import type {GetServerSideProps} from "next";
-import Link from "next/link";
-import {useRouter} from "next/router";
-import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from "react-hook-form";
-import {useForm} from "react-hook-form";
-import {range} from "@util/extend/data-type/number";
-import Button from "@component/atom/element/Button";
-import {LocalStorageArrayManager, useLocalStorageArrayManager} from "@util/extend/browser/local-storage-array";
-import styled from "styled-components";
-import {validateString} from "@util/extend/browser/query-string";
+import React, {useCallback, useEffect} from 'react';
+import type {GetServerSideProps} from 'next';
+import Link from 'next/link';
+import {useRouter} from 'next/router';
+import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
+import {range} from '@util/extend/data-type/number';
+import Button from '@component/atom/element/Button';
+import {LocalStorageArrayManager, useLocalStorageArrayManager} from '@util/extend/browser/local-storage-array';
+import styled from 'styled-components';
+import {validateString} from '@util/extend/browser/query-string';
 
 // URL: http://localhost:3000/solution/recent-search
 interface PageProp {
@@ -20,25 +20,22 @@ export default function Page({searchResult, searchText}: PageProp) {
   const {appendFirst, list: recentSearchList, removeByPk} = useRecentSearch();
   const {push} = useRouter();
 
-  const onSearch = useCallback(
-    (text: string) => {
-      push({
-        query: {
-          searchText: text
-        }
-      });
-      appendFirst({searchText: text});
-    },
-    [appendFirst, push]
-  );
+  const onSearch = useCallback((text: string) => {
+    push({
+      query: {
+        searchText: text
+      }
+    });
+    appendFirst({searchText: text});
+  }, [appendFirst, push]);
 
   return (
     <Wrap>
       <h1>게시글 검색페이지</h1>
 
-      <SearchForm searchText={searchText} onSearch={onSearch} />
+      <SearchForm searchText={searchText} onSearch={onSearch}/>
 
-      <RecentSearchList list={recentSearchList} removeItem={removeByPk} />
+      <RecentSearchList list={recentSearchList} removeItem={removeByPk}/>
 
       {searchResult.length === 0 ? null : (
         <div>
@@ -69,11 +66,12 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async ({query}) 
         searchText
       }
     };
+
   } catch (error) {
     return {
       props: {
         searchResult: [],
-        searchText: ""
+        searchText: ''
       }
     };
   }
@@ -92,23 +90,20 @@ function SearchForm({onSearch, searchText}: SearchFormProp) {
   });
 
   useEffect(() => {
-    setValue("searchText", searchText);
+    setValue('searchText', searchText);
   }, [searchText, setValue]);
 
-  const onError: SubmitErrorHandler<FormData> = useCallback((errors) => {
+  const onError: SubmitErrorHandler<FormData> = useCallback(errors => {
     alert(errors.searchText?.message as string);
   }, []);
 
-  const onSubmit: SubmitHandler<FormData> = useCallback(
-    (data) => {
-      onSearch(data.searchText);
-    },
-    [onSearch]
-  );
+  const onSubmit: SubmitHandler<FormData> = useCallback(data => {
+    onSearch(data.searchText);
+  }, [onSearch]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit, onError)}>
-      <input placeholder="검색어를 입력해주세요." autoComplete="off" {...register("searchText", {...OPTIONS})} />
+      <input placeholder="검색어를 입력해주세요." autoComplete="off" {...register('searchText', {...OPTIONS})}/>
       <Button type="submit">제출</Button>
     </form>
   );
@@ -117,8 +112,8 @@ function SearchForm({onSearch, searchText}: SearchFormProp) {
 const OPTIONS: RegisterOptions = {
   required: {
     value: true,
-    message: "검색어를 입력해주세요."
-  }
+    message: '검색어를 입력해주세요.'
+  },
 };
 
 interface FormData {
@@ -127,13 +122,10 @@ interface FormData {
 
 async function getApi(searchText: string) {
   return {
-    list: range(1, 10).map(
-      (value) =>
-        ({
-          pk: value,
-          title: `${searchText}-${value}`
-        }) as Board
-    )
+    list: range(1, 10).map(value => ({
+      pk: value,
+      title: `${searchText}-${value}`
+    } as Board))
   };
 }
 
@@ -144,29 +136,27 @@ interface Board {
 
 interface RecentSearchListProp {
   list: RecentSearch[];
-  removeItem: (pk: RecentSearch["searchText"]) => void;
+  removeItem: (pk: RecentSearch['searchText']) => void;
 }
 
 function RecentSearchList({list, removeItem}: RecentSearchListProp) {
   return (
     <RecentSearchListWrap>
       <h2>최근검색어</h2>
-      {list.length === 0 ? (
+      {list.length === 0 ?
         <p>최근검색어 목록이 없습니다.</p>
-      ) : (
+        :
         <ul>
           {list.map(({searchText}) => (
             <li key={searchText}>
               <Link href={`/solution/recent-search?searchText=${searchText}`}>
                 <a>{searchText}</a>
               </Link>
-              <button type="button" onClick={() => removeItem(searchText)}>
-                X
-              </button>
+              <button type="button" onClick={() => removeItem(searchText)}>X</button>
             </li>
           ))}
         </ul>
-      )}
+      }
     </RecentSearchListWrap>
   );
 }
@@ -182,7 +172,7 @@ const RecentSearchListWrap = styled.div`
   margin-top: 20px;
   margin-bottom: 20px;
   width: 300px;
-
+  
   button {
     margin-left: 20px;
     border: 1px solid black;
@@ -194,7 +184,7 @@ interface RecentSearch {
 }
 
 const manager = new LocalStorageArrayManager({
-  key: "recent-search",
+  key: 'recent-search',
   enableDuplicated: false,
   pkExtractor: ({searchText}: RecentSearch) => {
     return searchText;

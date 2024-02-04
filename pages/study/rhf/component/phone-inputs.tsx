@@ -1,10 +1,15 @@
-import Button from "@component/atom/element/Button";
-import React, {useCallback} from "react";
-import type {SubmitErrorHandler, SubmitHandler} from "react-hook-form";
-import {useForm} from "react-hook-form";
-import styled from "styled-components";
-import {baseHandleErrors} from "@util/extend/react-hook-form";
-import PhoneInput, {PhoneData, phoneErrors, phonePartsToString, validateDetailPhone} from "@component/molecules/PhoneInput";
+import Button from '@component/atom/element/Button';
+import React, {useCallback} from 'react';
+import type {SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
+import styled from 'styled-components';
+import {baseHandleErrors} from '@util/extend/react-hook-form';
+import PhoneInput, {
+  PhoneData,
+  phoneErrors,
+  phonePartsToString,
+  validateDetailPhone
+} from '@component/molecules/PhoneInput';
 
 export default function Page() {
   const {register, handleSubmit} = useForm<AllData>();
@@ -18,7 +23,7 @@ export default function Page() {
       subPhone: !isValidatedSubPhone ? undefined : phonePartsToString(subPhone)
     };
 
-    console.log("submit", sendData);
+    console.log('submit', sendData);
   }, []);
 
   const onError: SubmitErrorHandler<AllData> = useCallback(({phone, subPhone, username}) => {
@@ -28,10 +33,10 @@ export default function Page() {
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit, onError)}>
       {/* 필수연락처 */}
-      <PhoneInput required register={register} names={["phone.part1", "phone.part2", "phone.part3"]} />
+      <PhoneInput required register={register} names={['phone.part1', 'phone.part2', 'phone.part3']}/>
       {/* 선택연락처 */}
-      <PhoneInput required={false} register={register} names={["subPhone.part1", "subPhone.part2", "subPhone.part3"]} />
-      <input placeholder="username" {...register("username")} />
+      <PhoneInput required={false} register={register} names={['subPhone.part1', 'subPhone.part2', 'subPhone.part3']}/>
+      <input placeholder="username" {...register('username')}/>
       <Button type="submit">제출</Button>
     </StyledForm>
   );

@@ -1,16 +1,20 @@
-import React from "react";
-import styled from "styled-components";
-import {useClickOutside} from "@util/extend/event/event";
+import React from 'react';
+import styled from 'styled-components';
+import {useClickOutside} from '@util/extend/event/event';
 
 // URL: http://localhost:3000/experimental/click-outside/tutorial
 export default function Page() {
   const {wrapperRef} = useClickOutside<HTMLDivElement>({
     callback: () => {
-      alert("Click outside");
+      alert('Click outside');
     }
   });
 
-  return <Box ref={wrapperRef}>Try click outside</Box>;
+  return (
+    <Box ref={wrapperRef}>
+      Try click outside
+    </Box>
+  );
 }
 
 const Box = styled.div`
@@ -18,7 +22,7 @@ const Box = styled.div`
   padding: 20px;
   background-color: red;
   color: white;
-
+  
   align-items: center;
   justify-content: center;
 `;

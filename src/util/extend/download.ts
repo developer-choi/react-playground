@@ -3,7 +3,7 @@ export function downloadImage(url: string, filename: string) {
   const downloadedImg = new Image();
   downloadedImg.crossOrigin = "Anonymous";
   downloadedImg.src = url;
-  downloadedImg.style.display = "none";
+  downloadedImg.style.display = 'none';
 
   downloadedImg.onload = function imageReceived() {
     let canvas = document.createElement("canvas");
@@ -17,8 +17,8 @@ export function downloadImage(url: string, filename: string) {
     canvas.height = downloadedImg.height;
     context.drawImage(downloadedImg, 0, 0);
 
-    const dataurl = canvas.toDataURL("image/png");
-    const anchor = document.createElement("a");
+    const dataurl = canvas.toDataURL('image/png');
+    const anchor = document.createElement('a');
 
     anchor.download = filename;
     anchor.href = dataurl;

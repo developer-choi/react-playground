@@ -1,6 +1,6 @@
-import {useEffect} from "react";
-import {usePrevious} from "@util/extend/react";
-import {isEqual} from "lodash";
+import {useEffect} from 'react';
+import {usePrevious} from '@util/extend/react';
+import {isEqual} from 'lodash';
 
 interface DebugOption {
   debug: boolean;
@@ -12,8 +12,9 @@ export function debugLog({debug = true, messages}: DebugOption) {
     return;
   }
 
-  if (typeof messages === "string") {
+  if (typeof messages === 'string') {
     console.log(messages);
+
   } else {
     console.log(...messages);
   }
@@ -52,7 +53,7 @@ export function useLogMount(name: string) {
 }
 
 export function timeoutPromise(timeout: number) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(resolve, timeout);
   });
 }

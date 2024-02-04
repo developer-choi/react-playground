@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import DragAndDrop from "@component/atom/forms/DragAndDrop";
-import {flexCenter} from "@util/services/style/css";
-import {getFileRule} from "@util/extend/file/file-validation";
-import {fileSizeToByte} from "@util/extend/file/file-size";
-import useFilesToImages from "@util/extend/file/file-converter";
-import Link from "next/link";
+import React from 'react';
+import styled from 'styled-components';
+import DragAndDrop from '@component/atom/forms/DragAndDrop';
+import {flexCenter} from '@util/services/style/css';
+import {getFileRule} from '@util/extend/file/file-validation';
+import {fileSizeToByte} from '@util/extend/file/file-size';
+import useFilesToImages from '@util/extend/file/file-converter';
+import Link from 'next/link';
 
 // URL: http://localhost:3000/experimental/components/form/drag-and-drop
 export default function DragAndDropPage() {
@@ -26,15 +26,15 @@ export default function DragAndDropPage() {
         </Label>
       </Wrap>
       {images.map((image) => (
-        <img key={image.src} src={image.src} alt="user select image" />
+        <img key={image.src} src={image.src} alt="user select image"/>
       ))}
     </>
   );
 }
 
 const IMAGE_RULE = getFileRule({
-  allowExtensions: ["jpg", "png"],
-  limitSize: fileSizeToByte(20, "MB"),
+  allowExtensions: ['jpg', 'png'],
+  limitSize: fileSizeToByte(20, 'MB'),
   maxCount: 10
 });
 
@@ -46,9 +46,9 @@ const DropBox = styled(DragAndDrop)`
   width: 300px;
   height: 300px;
   border: 1px solid gray;
-
+  
   ${flexCenter};
-
+  
   &.dragging {
     border: 3px dashed red;
   }

@@ -1,5 +1,5 @@
-import React, {useCallback} from "react";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import React, {useCallback} from 'react';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
 
 /**
  * URL: http://localhost:3000/study/rq/use-query/bad-usage
@@ -9,28 +9,26 @@ import {useQuery, useQueryClient} from "@tanstack/react-query";
 export default function Page() {
   const queryClient = useQueryClient();
   const {data} = useQuery<string>({
-    queryKey: ["test"],
+    queryKey: ['test'],
     // enabled: false, << useQuery를 manual하게 쓰려고 queryFn 전달 안했으면 enabled false를 꼭 같이 전달해야함.
     refetchOnWindowFocus: false
-  });
+  })
 
   //했는데 왜 호출안됨?
   const onClick = useCallback(() => {
-    console.log("clicked");
+    console.log('clicked');
     queryClient.fetchQuery({
-      queryKey: ["test"],
+      queryKey: ['test'],
       queryFn: api
-    });
+    })
   }, [queryClient]);
 
   return (
     <div>
-      <button style={{padding: 10}} onClick={onClick}>
-        refresh
-      </button>
+      <button style={{padding: 10}} onClick={onClick}>refresh</button>
       <span>{data}</span>
     </div>
-  );
+  )
 }
 
 export async function getServerSideProps() {
@@ -40,6 +38,6 @@ export async function getServerSideProps() {
 }
 
 async function api() {
-  console.log("Call api");
-  return new Date().getTime();
+  console.log('Call api');
+  return new Date().getTime()
 }

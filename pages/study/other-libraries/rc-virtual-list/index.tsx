@@ -1,13 +1,13 @@
-import React, {useCallback, useMemo, useRef, useState} from "react";
-import styled from "styled-components";
-import List, {ListRef} from "rc-virtual-list";
-import {SubmitErrorHandler, SubmitHandler, useForm} from "react-hook-form";
-import Button from "@component/atom/element/Button";
-import type {GetServerSideProps} from "next";
-import type {Brand} from "@type/response-sub/brand-sub";
-import {parseBrandList} from "@util/services/brand";
-import {handleServerSideError} from "@util/services/handle-error/server-side-error";
-import {getBrandListApi} from "@api/brand-api";
+import React, {useCallback, useMemo, useRef, useState} from 'react';
+import styled from 'styled-components';
+import List, {ListRef} from 'rc-virtual-list';
+import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
+import Button from '@component/atom/element/Button';
+import type {GetServerSideProps} from 'next';
+import type {Brand} from '@type/response-sub/brand-sub';
+import {parseBrandList} from '@util/services/brand';
+import {handleServerSideError} from '@util/services/handle-error/server-side-error';
+import {getBrandListApi} from '@api/brand-api';
 
 interface PageProp {
   brandList: Brand[];
@@ -15,7 +15,7 @@ interface PageProp {
 
 export default function Page({brandList}: PageProp) {
   const {handleSubmit, register} = useForm<Data>();
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const listRef = useRef<ListRef>(null);
 
   const onSubmit: SubmitHandler<Data> = (data) => {
@@ -24,42 +24,35 @@ export default function Page({brandList}: PageProp) {
   };
 
   const onError: SubmitErrorHandler<Data> = (errors) => {
-    console.log("errors", errors);
+    console.log('errors', errors);
   };
 
   const {brandListWithCharList, charList} = useMemo(() => parseBrandList(brandList, searchText), [brandList, searchText]);
 
-  const scrollToAlphabet = useCallback(
-    (alphabet: string) => {
-      const index = charList.findIndex((original) => original === alphabet);
-      listRef.current?.scrollTo({
-        index,
-        align: "top"
-      });
-    },
-    [charList]
-  );
+  const scrollToAlphabet = useCallback((alphabet: string) => {
+    const index = charList.findIndex(original => original === alphabet);
+    listRef.current?.scrollTo({
+      index,
+      align: 'top'
+    });
+  }, [charList]);
 
   return (
     <Wrap>
       <ShortcutsWrap>
-        {brandListWithCharList
-          .map(({char}) => char)
-          .map((alphabet) => (
-            <Shortcut key={alphabet} onClick={() => scrollToAlphabet(alphabet)}>
-              {alphabet}
-            </Shortcut>
-          ))}
+        {brandListWithCharList.map(({char}) => char).map(alphabet => (
+          <Shortcut key={alphabet} onClick={() => scrollToAlphabet(alphabet)}>{alphabet}</Shortcut>
+        ))}
       </ShortcutsWrap>
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
-        <input {...register("searchText")} />
+        <input {...register('searchText')}/>
         <Button>검색</Button>
       </Form>
       <List ref={listRef} data={brandListWithCharList} itemHeight={1000} height={200} itemKey="char">
         {({char, brandList}) => (
           <Item>
             <Char>{char}</Char>
-            {brandList.map((brand) => (
+            {brandList.map(brand => (
               <BrandName key={brand.pk}>{brand.name}</BrandName>
             ))}
           </Item>
@@ -78,12 +71,15 @@ export const getServerSideProps: GetServerSideProps<PageProp> = async () => {
         brandList: list
       }
     };
+
   } catch (error) {
     return handleServerSideError(error);
   }
 };
 
-const ShortcutsWrap = styled.div``;
+const ShortcutsWrap = styled.div`
+  
+`;
 
 const Shortcut = styled.button`
   padding: 10px;
@@ -97,9 +93,12 @@ interface Data {
   searchText: string;
 }
 
-const Wrap = styled.div``;
+const Wrap = styled.div`
+`;
 
-const Item = styled.div``;
+const Item = styled.div`
+
+`;
 
 const Char = styled.div`
   background: red;

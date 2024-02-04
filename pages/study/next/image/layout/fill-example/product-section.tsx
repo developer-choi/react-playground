@@ -1,7 +1,7 @@
-import React from "react";
-import {IMAGE} from "@util/dummy-image";
-import styled from "styled-components";
-import Image from "next/image";
+import React from 'react';
+import {IMAGE} from '@util/dummy-image';
+import styled from 'styled-components';
+import Image from 'next/image';
 
 /** Goal(Bad example)
  * 브라우저 사이즈 줄였을 때
@@ -14,10 +14,10 @@ import Image from "next/image";
 export default function Page() {
   return (
     <Section>
-      {IMAGE.list.rectangular.slice(0, 5).map((image) => (
+      {IMAGE.list.rectangular.slice(0, 5).map(image => (
         <Item key={image}>
           <ImageWrap>
-            <Image src={image} layout="fill" alt="상품이미지" />
+            <Image src={image} layout="fill" alt="상품이미지"/>
           </ImageWrap>
           <Title>상품이름</Title>
         </Item>
@@ -30,8 +30,8 @@ const Section = styled.section`
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-
-  > :not(:last-of-type) {
+  
+  >:not(:last-of-type) {
     margin-right: 50px;
   }
 `;
@@ -45,4 +45,5 @@ const Item = styled.div`
   width: 20%;
 `;
 
-const Title = styled.div``;
+const Title = styled.div`
+`;

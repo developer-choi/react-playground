@@ -1,6 +1,6 @@
-import React, {useCallback} from "react";
-import type {SubmitHandler} from "react-hook-form";
-import {useForm} from "react-hook-form";
+import React, {useCallback} from 'react';
+import type {SubmitHandler} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 
 /**
  * URL: http://localhost:3000/study/rhf/basic/force-submit
@@ -15,13 +15,13 @@ export default function Page() {
     }
   });
 
-  const onSubmit: SubmitHandler<TestFormData> = useCallback((data) => {
-    console.log("onSubmit", data);
+  const onSubmit: SubmitHandler<TestFormData> = useCallback(data => {
+    console.log('onSubmit', data);
   }, []);
 
   return (
     <form>
-      <input type="checkbox" {...register("isChecked", {onChange: () => handleSubmit(onSubmit)()})} />
+      <input type="checkbox" {...register('isChecked', {onChange: () => handleSubmit(onSubmit)()})}/>
     </form>
   );
 }

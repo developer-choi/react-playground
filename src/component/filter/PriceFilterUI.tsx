@@ -1,8 +1,8 @@
-import React from "react";
-import {CustomSlider} from "@component/atom/forms/CustomSlider";
-import {numberWithComma} from "@util/extend/data-type/number";
-import {usePriceFilterControl} from "@util/services/product-filter/price-filter";
-import styled from "styled-components";
+import React from 'react';
+import {CustomSlider} from '@component/atom/forms/CustomSlider';
+import {numberWithComma} from '@util/extend/data-type/number';
+import {usePriceFilterControl} from '@util/services/product-filter/price-filter';
+import styled from 'styled-components';
 
 export default function PriceFilterUI() {
   const control = usePriceFilterControl();
@@ -16,9 +16,7 @@ export default function PriceFilterUI() {
   return (
     <Wrap>
       <CustomSlider value={value} settingRange={settingRange} onChange={onChange} onAfterChange={onAfterChange} />
-      <div>
-        {numberWithComma(value.min)}원 ~ {numberWithComma(value.max)}원
-      </div>
+      <div>{numberWithComma(value.min)}원 ~ {numberWithComma(value.max)}원</div>
     </Wrap>
   );
 }

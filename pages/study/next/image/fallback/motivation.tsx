@@ -1,6 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import {useDelay} from "@util/extend/time";
+import React from 'react';
+import Image from 'next/image';
+import {useDelay} from '@util/extend/time';
 
 /**
  * Image src가 undefined이면 에러메시지로 추론이 가능하지만,
@@ -17,8 +17,8 @@ export default function Page() {
 
   return (
     <>
-      <Image src={undefined as any} alt="test" layout="fill" />
-      <Image src={null as any} alt="test" layout="fill" />
+      <Image src={undefined as any} alt="test" layout="fill"/>
+      <Image src={null as any} alt="test" layout="fill"/>
     </>
   );
 }

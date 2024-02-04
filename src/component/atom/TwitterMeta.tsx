@@ -1,5 +1,5 @@
-import Head from "next/head";
-import env from "@util/env";
+import Head from 'next/head';
+import env from '@util/env';
 
 export interface TwitterMetaProp {
   /**
@@ -12,14 +12,14 @@ export interface TwitterMetaProp {
    * reference: https://webmasters.stackexchange.com/a/129139
    * example: https://example.com/images/example.png (not /images/example.png)
    */
-  cardType: "summary" | "summary_large_image"; //app and player are not available currently in this component.
+  cardType: 'summary' | 'summary_large_image'; //app and player are not available currently in this component.
   image: string;
   title: string;
   description: string;
 }
 
 export default function TwitterMeta({image, description, title, cardType}: TwitterMetaProp) {
-  const _image = image.includes("http") ? image : `${env.public.origin}${image}`;
+  const _image = image.includes('http') ? image : `${env.public.origin}${image}`;
   return (
     <Head>
       <meta key="twitter:card" name="twitter:card" content={cardType} />

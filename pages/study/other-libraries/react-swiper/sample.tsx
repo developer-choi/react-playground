@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import {Swiper, SwiperProps, SwiperSlide} from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
+import 'swiper/css';
+import 'swiper/css/navigation';
 import {Autoplay, Navigation} from "swiper";
-import styled from "styled-components";
+import styled from 'styled-components';
 
 // URL: http://localhost:3000/study/other-libraries/react-swiper/sample
 export default function Page() {
@@ -31,7 +31,7 @@ const swiperProps: SwiperProps = {
 const Wrap = styled.div`
   .swiper-wrap {
     height: 500px;
-
+    
     .swiper-slide {
       display: flex;
       align-items: center;

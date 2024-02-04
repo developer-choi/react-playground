@@ -1,6 +1,6 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {useAppDispatch} from "@store/hooks";
-import {useEffect} from "react";
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {useAppDispatch} from '@store/hooks';
+import {useEffect} from 'react';
 
 export interface HeaderProp {
   title: string;
@@ -15,14 +15,14 @@ export interface LayoutState {
 
 const initialState: LayoutState = {
   headerProp: {
-    title: "",
+    title: '',
     backgroundColor: "yellow",
     height: "auto"
-  }
+  },
 };
 
 const layoutSlice = createSlice({
-  name: "layout",
+  name: 'layout',
   initialState,
   reducers: {
     setHeaderActionCreator: (state, {payload}: PayloadAction<HeaderProp>) => {
@@ -38,7 +38,7 @@ export function useLayout(props: string | HeaderProp) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const headerProp: HeaderProp = typeof props === "string" ? {title: props} : props;
+    const headerProp: HeaderProp = typeof props === 'string' ? {title: props} : props;
     dispatch(setHeaderActionCreator(headerProp));
   }, [dispatch, props]);
 }

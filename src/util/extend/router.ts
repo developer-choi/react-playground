@@ -1,9 +1,9 @@
-import {TransitionOptions, useRouter} from "next/router";
-import {useCallback} from "react";
-import {cleanQuery} from "@util/extend/browser/query-string";
-import type {UrlObject} from "url";
-import {replaceMultiple} from "@util/extend/data-type/string";
-import {EMPTY_ARRAY} from "@util/extend/data-type/array";
+import {TransitionOptions, useRouter} from 'next/router';
+import {useCallback} from 'react';
+import {cleanQuery} from '@util/extend/browser/query-string';
+import type {UrlObject} from 'url';
+import {replaceMultiple} from '@util/extend/data-type/string';
+import {EMPTY_ARRAY} from '@util/extend/data-type/array';
 
 type TypedQuery<K extends string> = Partial<Record<K, undefined | string | number>>;
 type TypedParam<P extends string> = Record<P, string | number>;
@@ -14,50 +14,39 @@ type TypedParam<P extends string> = Record<P, string | number>;
 export function useKeepQuery<K extends string, P extends string = string>(paramKeys: P[] = EMPTY_ARRAY) {
   const router = useRouter();
 
-  const getKeepQuery = useCallback(
-    (query: TypedQuery<K>, param?: TypedParam<P>) => {
-      const previousQuery = {...router.query};
+  const getKeepQuery = useCallback((query: TypedQuery<K>, param?: TypedParam<P>) => {
+    const previousQuery = {...router.query};
 
-      paramKeys.forEach((key) => {
-        delete previousQuery[key];
-      });
+    paramKeys.forEach(key => {
+      delete previousQuery[key];
+    });
 
-      const pathname = !param
-        ? getRealPathname(router.asPath)
-        : replaceMultiple({
-            original: router.pathname,
-            replaceRecord: param,
-            keyCallback: (key) => `[${key}]`
-          });
+    const pathname = !param ? getRealPathname(router.asPath) : replaceMultiple({
+      original: router.pathname,
+      replaceRecord: param,
+      keyCallback: key => `[${key}]`
+    });
 
-      return {
-        pathname,
-        query: cleanQuery({
-          ...previousQuery,
-          ...query
-        })
-      } as UrlObject;
-    },
-    [paramKeys, router.asPath, router.pathname, router.query]
-  );
+    return {
+      pathname,
+      query: cleanQuery({
+        ...previousQuery,
+        ...query
+      }),
+    } as UrlObject;
+  }, [paramKeys, router.asPath, router.pathname, router.query]);
 
   /**
    * Keep existing query
    * Keep existing pathname
    */
-  const pushKeepQuery = useCallback(
-    (query: TypedQuery<K>, params?: TypedParam<P>, options?: TransitionOptions) => {
-      router.push(getKeepQuery(query, params), undefined, options);
-    },
-    [getKeepQuery, router]
-  );
+  const pushKeepQuery = useCallback((query: TypedQuery<K>, params?: TypedParam<P>, options?: TransitionOptions) => {
+    router.push(getKeepQuery(query, params), undefined, options);
+  }, [getKeepQuery, router]);
 
-  const replaceKeepQuery = useCallback(
-    (query: TypedQuery<K>, params?: TypedParam<P>, options?: TransitionOptions) => {
-      router.replace(getKeepQuery(query, params), undefined, options);
-    },
-    [getKeepQuery, router]
-  );
+  const replaceKeepQuery = useCallback((query: TypedQuery<K>, params?: TypedParam<P>, options?: TransitionOptions) => {
+    router.replace(getKeepQuery(query, params), undefined, options);
+  }, [getKeepQuery, router]);
 
   return {
     getKeepQuery,
@@ -70,12 +59,14 @@ export function useKeepQuery<K extends string, P extends string = string>(paramK
  * @example ('/some/path?key=value#hash') ==> '/some/path'
  */
 export function getRealPathname(asPath: string) {
-  if (asPath.includes("?")) {
-    const endIndex = asPath.indexOf("?");
+  if (asPath.includes('?')) {
+    const endIndex = asPath.indexOf('?');
     return asPath.slice(0, endIndex);
-  } else if (asPath.includes("#")) {
-    const endIndex = asPath.indexOf("#");
+
+  } else if (asPath.includes('#')) {
+    const endIndex = asPath.indexOf('#');
     return asPath.slice(0, endIndex);
+
   } else {
     return asPath;
   }

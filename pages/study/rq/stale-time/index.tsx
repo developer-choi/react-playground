@@ -1,8 +1,8 @@
-import React, {useCallback} from "react";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
-import {useLogWhenRendering} from "@util/extend/test";
-import Button from "@component/atom/element/Button";
-import moment from "moment";
+import React, {useCallback} from 'react';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
+import {useLogWhenRendering} from '@util/extend/test';
+import Button from '@component/atom/element/Button';
+import moment from 'moment';
 
 /** Flow (탭전환없이 해당 페이지에서 진행해야함. 개발자도구로도 포커스가 가면안됨)
  * 1. 10초동안 매우빠르게 지속적으로 버튼 광클하면,
@@ -22,7 +22,7 @@ export default function Page() {
   const queryClient = useQueryClient();
 
   const {data} = useQuery({
-    queryKey: ["call-api/manually"],
+    queryKey: ['call-api/manually'],
     queryFn: someApi,
 
     /**
@@ -33,12 +33,12 @@ export default function Page() {
      *
      * 그래서 이 값은, 아래에 queryClient.fetchQuery()와 전혀 ....상관이없는건아니고, 간접적으로 영향을 주긴줌.
      */
-    staleTime: 2000
+    staleTime: 2000,
   });
 
   const onClick = useCallback(() => {
     queryClient.fetchQuery({
-      queryKey: ["call-api/manually"],
+      queryKey: ['call-api/manually'],
       queryFn: someApi,
 
       /**
@@ -54,12 +54,14 @@ export default function Page() {
     });
   }, [queryClient]);
 
-  useLogWhenRendering("re-rendering", data);
+  useLogWhenRendering('re-rendering', data);
 
-  return <Button onClick={onClick}>Call someApi by fetchQuery</Button>;
+  return (
+    <Button onClick={onClick}>Call someApi by fetchQuery</Button>
+  );
 }
 
 async function someApi() {
-  console.log("The someApi() called.");
-  return moment().format("HH:mm:ss");
+  console.log('The someApi() called.');
+  return moment().format('HH:mm:ss');
 }

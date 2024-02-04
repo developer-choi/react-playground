@@ -1,15 +1,15 @@
-import React, {forwardRef, PropsWithChildren, Ref} from "react";
-import styled from "styled-components";
-import Button from "@component/atom/element/Button";
-import {useToggle} from "@util/extend/react";
-import {useClickOutside} from "@util/extend/event/event";
+import React, {forwardRef, PropsWithChildren, Ref} from 'react';
+import styled from 'styled-components';
+import Button from '@component/atom/element/Button';
+import {useToggle} from '@util/extend/react';
+import {useClickOutside} from '@util/extend/event/event';
 
 // URL: http://localhost:3000/experimental/click-outside/complicated
 export default function Page() {
   return (
     <Wrap>
-      <Example name="A" />
-      <Example name="B" />
+      <Example name="A"/>
+      <Example name="B"/>
     </Wrap>
   );
 }
@@ -25,9 +25,7 @@ function Example({name}: {name: string}) {
 
   return (
     <LayerContainer ref={wrapperRef} visible={visible} message={`message ${name}`}>
-      <Button className={ignoreClassName} onClick={toggleLayer}>
-        Click Me ({name})
-      </Button>
+      <Button className={ignoreClassName} onClick={toggleLayer}>Click Me ({name})</Button>
     </LayerContainer>
   );
 }
@@ -46,7 +44,11 @@ const LayerContainer = forwardRef(function LayerContainer({children, visible, me
     <LayerWrapper>
       {children}
 
-      {!visible ? null : <Layer ref={ref}>{message}</Layer>}
+      {!visible ? null : (
+        <Layer ref={ref}>
+          {message}
+        </Layer>
+      )}
     </LayerWrapper>
   );
 });

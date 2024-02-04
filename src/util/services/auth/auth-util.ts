@@ -1,19 +1,19 @@
-import type {GetServerSideProps} from "next";
-import {QueryClient} from "@tanstack/query-core";
-import {dehydrate, type DehydratedPageProps} from "@tanstack/react-query";
-import {getLoginTokenInCookie, isLoggedInCookie} from "@util/services/auth/auth-token";
-import {handleServerSideError} from "@util/services/handle-error/server-side-error";
-import {fetchAuthInServerSide} from "@util/services/auth/auth-user-cache";
-import {useRouter} from "next/router";
-import {useCallback} from "react";
-import type {AuthError} from "@util/services/auth/AuthError";
+import type {GetServerSideProps} from 'next';
+import {QueryClient} from '@tanstack/query-core';
+import {dehydrate, type DehydratedPageProps} from '@tanstack/react-query';
+import {getLoginTokenInCookie, isLoggedInCookie} from '@util/services/auth/auth-token';
+import {handleServerSideError} from '@util/services/handle-error/server-side-error';
+import {fetchAuthInServerSide} from '@util/services/auth/auth-user-cache';
+import {useRouter} from 'next/router';
+import {useCallback} from 'react';
+import type {AuthError} from '@util/services/auth/AuthError';
 
-export const getSSPForNotLoggedIn: GetServerSideProps<{}> = async (context) => {
+export const getSSPForNotLoggedIn: GetServerSideProps<{}> = async context => {
   if (isLoggedInCookie(context)) {
     return {
       redirect: {
         permanent: false,
-        destination: "/" // main page path
+        destination: '/' // main page path
       }
     };
   } else {
@@ -21,9 +21,9 @@ export const getSSPForNotLoggedIn: GetServerSideProps<{}> = async (context) => {
       props: {}
     };
   }
-};
+}
 
-export const getSSPForLoggedIn: GetServerSideProps<{}> = async (context) => {
+export const getSSPForLoggedIn: GetServerSideProps<{}> = async context => {
   try {
     getLoginTokenInCookie({
       context,
@@ -55,7 +55,7 @@ export const getSSPForFetchAuth: GetServerSideProps<DehydratedPageProps> = async
   }
 };
 
-export const LOGIN_REDIRECT_QUERY_KEY = "redirectPath";
+export const LOGIN_REDIRECT_QUERY_KEY = 'redirectPath';
 
 export function getAfterLoginSuccessUrl() {
   const redirectUrl = new URLSearchParams(location.search).get(LOGIN_REDIRECT_QUERY_KEY);
@@ -77,10 +77,7 @@ export function useAlertForNotLoggedIn() {
         throwable: true
       });
     } catch (error) {
-      const {
-        message,
-        option: {redirectPath}
-      } = error as AuthError;
+      const {message, option: {redirectPath}} = error as AuthError;
 
       if (confirm(message)) {
         push(redirectPath).then();

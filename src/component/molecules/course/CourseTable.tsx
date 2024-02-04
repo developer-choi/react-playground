@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import type {CourseListResponse} from "@type/response/course";
-import moment from "moment";
-import BasicPagination from "@component/molecules/pagination/BasicPagination";
-import {COURSE_PAGINATION_CONFIG, useCourseQueryString} from "@util/services/course";
-import ShortPagination from "@component/molecules/pagination/ShortPagination";
-import NearPagination from "@component/molecules/pagination/NearPagination";
-import {CourseLikeButton} from "@component/atom/like-button";
+import React from 'react';
+import styled from 'styled-components';
+import type {CourseListResponse} from '@type/response/course';
+import moment from 'moment';
+import BasicPagination from '@component/molecules/pagination/BasicPagination';
+import {COURSE_PAGINATION_CONFIG, useCourseQueryString} from '@util/services/course';
+import ShortPagination from '@component/molecules/pagination/ShortPagination';
+import NearPagination from '@component/molecules/pagination/NearPagination';
+import {CourseLikeButton} from '@component/atom/like-button';
 
 export interface CourseTableProp {
   listResponse: CourseListResponse;
@@ -19,39 +19,57 @@ export default function CourseTable({listResponse}: CourseTableProp) {
     <>
       <Table>
         <thead>
-          <tr>
-            <td>제목</td>
-            <td>과목</td>
-            <td>선생님</td>
-            <td>강의실</td>
-            <td>시작시간</td>
-            <td>좋아요</td>
-          </tr>
+        <tr>
+          <td>제목</td>
+          <td>과목</td>
+          <td>선생님</td>
+          <td>강의실</td>
+          <td>시작시간</td>
+          <td>좋아요</td>
+        </tr>
         </thead>
 
         <tbody>
-          {listResponse.list.map(({pk, title, topic, teacher, room, startTimestamp, like}) => (
-            <tr key={pk}>
-              <td>{title}</td>
-              <td>{topic.name}</td>
-              <td>{teacher.name}</td>
-              <td>{room.name}</td>
-              <td>{moment(startTimestamp).format("YYYY-MM-DD HH:mm")}</td>
-              <td>
-                <CourseLikeButton initial={like} pk={pk} />
-              </td>
-            </tr>
-          ))}
+        {listResponse.list.map(({pk, title, topic, teacher, room, startTimestamp, like}) => (
+          <tr key={pk}>
+            <td>{title}</td>
+            <td>{topic.name}</td>
+            <td>{teacher.name}</td>
+            <td>{room.name}</td>
+            <td>{moment(startTimestamp).format('YYYY-MM-DD HH:mm')}</td>
+            <td><CourseLikeButton initial={like} pk={pk}/></td>
+          </tr>
+        ))}
         </tbody>
       </Table>
 
-      <BasicPagination methods={{pageToHref}} currentPage={currentPage} total={listResponse.total} config={COURSE_PAGINATION_CONFIG} />
+      <BasicPagination
+        methods={{pageToHref}}
+        currentPage={currentPage}
+        total={listResponse.total}
+        config={COURSE_PAGINATION_CONFIG}
+      />
 
-      <ShortPagination methods={{onClickPage}} currentPage={currentPage} total={listResponse.total} config={COURSE_PAGINATION_CONFIG} />
+      <ShortPagination
+        methods={{onClickPage}}
+        currentPage={currentPage}
+        total={listResponse.total}
+        config={COURSE_PAGINATION_CONFIG}
+      />
 
-      <NearPagination methods="defaultPageToHref" currentPage={currentPage} total={listResponse.total} config={COURSE_PAGINATION_CONFIG} />
+      <NearPagination
+        methods="defaultPageToHref"
+        currentPage={currentPage}
+        total={listResponse.total}
+        config={COURSE_PAGINATION_CONFIG}
+      />
 
-      <NearPagination methods="defaultPageToHref" currentPage={currentPage} total={listResponse.total} config={{articlePerPage: COURSE_PAGINATION_CONFIG.articlePerPage, pagePerView: 7}} />
+      <NearPagination
+        methods="defaultPageToHref"
+        currentPage={currentPage}
+        total={listResponse.total}
+        config={{articlePerPage: COURSE_PAGINATION_CONFIG.articlePerPage, pagePerView: 7}}
+      />
     </>
   );
 }
@@ -62,7 +80,7 @@ const Table = styled.table`
       background: yellow;
     }
   }
-
+  
   td {
     padding: 8px;
     border: 1px solid black;
