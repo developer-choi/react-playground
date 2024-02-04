@@ -1,4 +1,4 @@
-import type {SnsLoginResponse, SnsType, SnsUserData} from "@type/services/sns-login";
+import type {SnsLoginResponse, SnsType, SnsUserData} from '@type/services/sns-login';
 
 /*************************************************************************************************************
  * Exported functions
@@ -28,42 +28,42 @@ export function convertSnsUserData(snsType: SnsType, response: SnsLoginResponse)
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
-const CSRF_TOKEN = "scvasdcqacx";
+const CSRF_TOKEN = 'scvasdcqacx';
 
-const SNS_CALLBACK_PATHNAME = "/experimental/member/sns-callback";
+const SNS_CALLBACK_PATHNAME = '/experimental/member/sns-callback';
 
 const SNS_LOGIN_ORIGIN_RECORD: Record<SnsType, string> = {
-  naver: "https://nid.naver.com/oauth2.0/authorize",
-  apple: "https://appleid.apple.com/auth/authorize",
-  kakao: "https://kauth.kakao.com/oauth/authorize",
-  payco: "https://id.payco.com/oauth2.0/authorize"
+  naver: 'https://nid.naver.com/oauth2.0/authorize',
+  apple: 'https://appleid.apple.com/auth/authorize',
+  kakao: 'https://kauth.kakao.com/oauth/authorize',
+  payco: 'https://id.payco.com/oauth2.0/authorize'
 };
 
 const SNS_LOGIN_PARAM_RECORD: Record<SnsType, (redirectUrl: string) => Record<string, string>> = {
   naver: (redirectUrl) => ({
-    response_type: "code",
-    client_id: "dsazcxasdqweqwr",
+    response_type: 'code',
+    client_id: 'dsazcxasdqweqwr',
     redirect_uri: redirectUrl,
     state: CSRF_TOKEN
   }),
   payco: (redirectUrl) => ({
-    response_type: "code",
-    client_id: "asdzxcqawqwfasd",
+    response_type: 'code',
+    client_id: 'asdzxcqawqwfasd',
     redirect_uri: redirectUrl,
-    serviceProviderCode: "FRIENDS",
-    userLocale: "ko_KR"
+    serviceProviderCode: 'FRIENDS',
+    userLocale: 'ko_KR'
   }),
   kakao: (redirectUrl) => ({
-    response_type: "code",
-    client_id: "zxcasqdqwcqefqweg",
+    response_type: 'code',
+    client_id: 'zxcasqdqwcqefqweg',
     redirect_uri: redirectUrl
   }),
   apple: (redirectUrl) => ({
-    client_id: "a.b.c.e.d.f.g",
+    client_id: 'a.b.c.e.d.f.g',
     redirect_uri: redirectUrl,
-    response_type: "code id_token",
-    scope: "name email",
-    response_mode: "form_post"
+    response_type: 'code id_token',
+    scope: 'name email',
+    response_mode: 'form_post'
   })
 };
 
@@ -72,16 +72,17 @@ const SNS_LOGIN_PARAM_RECORD: Record<SnsType, (redirectUrl: string) => Record<st
  * 관리자가 각 SNS별 관리자에서 정보제공동의 설정을 잘 했다면 이 에러가 발생할 수는 없지만,
  * 운영상의 이슈로 정보제공동의 설정이 잘못된 경우 발생할 수 있음.
  */
-class MissingRequiredSnsUserDataError extends Error {}
+class MissingRequiredSnsUserDataError extends Error {
+}
 
-type RequiredSnsUserData = Extract<keyof SnsUserData, "nickname" | "name" | "email" | "gender" | "birthYearDate">;
+type RequiredSnsUserData = Extract<keyof SnsUserData, 'nickname' | 'name' | 'email' | 'gender' | 'birthYearDate'>;
 
 const REQUIRED_SNS_USER_DATA_ENTRIES: {key: RequiredSnsUserData; message: string}[] = [
-  {key: "name", message: "이름 정보가 제공되지않아 SNS 회원가입이 실패하였습니다."},
-  {key: "nickname", message: "닉네임 정보가 제공되지않아 SNS 회원가입이 실패하였습니다."},
-  {key: "email", message: "이메일 정보가 제공되지않아 SNS 회원가입이 실패하였습니다."},
-  {key: "birthYearDate", message: "생년월일 정보가 제공되지않아 SNS 회원가입이 실패하였습니다."},
-  {key: "gender", message: "성별 정보가 제공되지않아 SNS 회원가입이 실패하였습니다."}
+  {key: 'name', message: '이름 정보가 제공되지않아 SNS 회원가입이 실패하였습니다.'},
+  {key: 'nickname', message: '닉네임 정보가 제공되지않아 SNS 회원가입이 실패하였습니다.'},
+  {key: 'email', message: '이메일 정보가 제공되지않아 SNS 회원가입이 실패하였습니다.'},
+  {key: 'birthYearDate', message: '생년월일 정보가 제공되지않아 SNS 회원가입이 실패하였습니다.'},
+  {key: 'gender', message: '성별 정보가 제공되지않아 SNS 회원가입이 실패하였습니다.'}
 ];
 
 // TypeError (Can not read property of ... 에러 안뜨게 조심)
@@ -95,18 +96,18 @@ const CONVERTER_RECORD: Record<SnsType, (response: SnsLoginResponse) => Partial<
       name: response.data.name,
       nickname: response.data.nickname,
       email: response.data.email,
-      phone: response.data.user.response.mobile?.replaceAll("-", ""),
-      gender: gender === undefined ? undefined : gender === "M" ? "male" : "female",
+      phone: response.data.user.response.mobile?.replaceAll('-', ''),
+      gender: gender === undefined ? undefined : gender === 'M' ? 'male' : 'female',
       birthYearDate: birthyear && birthday ? birthyear + birthday : undefined
     };
   },
   payco: () => {
-    throw new Error("구현생략");
+    throw new Error('구현생략');
   },
   kakao: () => {
-    throw new Error("구현생략");
+    throw new Error('구현생략');
   },
   apple: () => {
-    throw new Error("구현생략");
+    throw new Error('구현생략');
   }
 };

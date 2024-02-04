@@ -1,4 +1,4 @@
-export type SnsType = "naver" | "kakao" | "apple" | "payco";
+export type SnsType = 'naver' | 'kakao' | 'apple' | 'payco';
 
 export interface SnsLoginResponse {
   data: UserDataFromNaverLogin;
@@ -15,7 +15,7 @@ export interface SnsUserData {
   nickname: string;
   name: string;
   email: string;
-  gender: "male" | "female";
+  gender: 'male' | 'female';
   phone: string | undefined; //ex: '01012341234' 하이픈없이. 카카오는 휴대폰번호 정보를 제공해주지않아서 undefined타입 추가.
   birthYearDate: string; // ex: '19950510'
 }
@@ -31,7 +31,7 @@ export interface UserDataFromNaverLogin {
   email: string | undefined;
   user: {
     response: {
-      gender: "M" | "F" | undefined;
+      gender: 'M' | 'F' | undefined;
       mobile: string | undefined; //ex: '010-1234-1234'
       birthday: string | undefined; //ex: '05-10'
       birthyear: string | undefined; //ex: '1995'
