@@ -6,7 +6,7 @@ import {handleServerSideError} from '@util/services/handle-error/server-side-err
 import {fetchAuthInServerSide} from '@util/services/auth/auth-user-cache';
 import {useRouter} from 'next/router';
 import {useCallback} from 'react';
-import type {AuthError} from '@util/services/auth/AuthError';
+import type {AuthError} from '@util/services/auth/auth-redirect';
 
 export const getSSPForNotLoggedIn: GetServerSideProps<{}> = async context => {
   if (isLoggedInCookie(context)) {
@@ -54,19 +54,6 @@ export const getSSPForFetchAuth: GetServerSideProps<DehydratedPageProps> = async
     return handleServerSideError(error);
   }
 };
-
-export const LOGIN_REDIRECT_QUERY_KEY = 'redirectPath';
-
-export function getAfterLoginSuccessUrl() {
-  const redirectUrl = new URLSearchParams(location.search).get(LOGIN_REDIRECT_QUERY_KEY);
-  const hash = location.hash;
-
-  if (redirectUrl === null) {
-    return "/" + hash;
-  }
-
-  return redirectUrl + hash;
-}
 
 export function useAlertForNotLoggedIn() {
   const {push} = useRouter();

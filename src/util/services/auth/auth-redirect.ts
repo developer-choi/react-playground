@@ -1,7 +1,16 @@
 import {useRouter} from 'next/router';
 import {useCallback} from 'react';
 import type {GetServerSidePropsResult} from 'next';
-import {LOGIN_REDIRECT_QUERY_KEY} from '@util/services/auth/auth-util';
+
+export function getAfterLoginSuccessUrl() {
+  const redirectUrl = new URLSearchParams(location.search).get(LOGIN_REDIRECT_QUERY_KEY);
+
+  if (redirectUrl === null) {
+    return '/';
+  }
+
+  return decodeURIComponent(redirectUrl);
+}
 
 /**
  * 로그인 안해놓고 로그인이 필요한 서비스를 이용하려고 한 경우 발생
@@ -13,7 +22,7 @@ export class AuthError extends Error {
   constructor(message: string, option: AuthErrorOption) {
     super(message);
     this.option = {
-      redirectPath: `/experimental/handle-error/login?${LOGIN_REDIRECT_QUERY_KEY}=${option.redirectPath}`
+      redirectPath: `/experimental/handle-error/login?${LOGIN_REDIRECT_QUERY_KEY}=${encodeURIComponent(option.redirectPath)}`
     };
   }
 }
@@ -51,3 +60,8 @@ export function handleAuthErrorInServer(error: AuthError): GetServerSidePropsRes
     }
   };
 }
+
+/*************************************************************************************************************
+ * Non Export
+ *************************************************************************************************************/
+const LOGIN_REDIRECT_QUERY_KEY = 'redirectPath';

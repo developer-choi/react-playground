@@ -7,7 +7,7 @@ import type {GetServerSidePropsContext} from 'next';
 import {useRouter} from 'next/router';
 import {putAuthLogoutApi} from '@api/auth-api';
 import {removeCookie} from '@util/extend/browser/cookie';
-import {AuthError} from '@util/services/auth/AuthError';
+import {AuthError} from '@util/services/auth/auth-redirect';
 
 /*************************************************************************************************************
  * Exported functions

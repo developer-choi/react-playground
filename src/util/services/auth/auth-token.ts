@@ -1,6 +1,6 @@
 import type {GetServerSidePropsContext} from 'next';
 import {getCookie, setCookie} from '@util/extend/browser/cookie';
-import {AuthError} from '@util/services/auth/AuthError';
+import {AuthError} from '@util/services/auth/auth-redirect';
 
 export interface LoginToken {
   userPk: number;
@@ -47,7 +47,7 @@ export function getLoginTokenInCookie<T extends boolean = false>(param?: LoginTo
     let redirectPath: string
 
     try {
-      redirectPath = context ? context.resolvedUrl : `${location.pathname}${location.search}${location.hash}`
+      redirectPath = context ? context.resolvedUrl : `${location.pathname}${location.search}`
     } catch (error) {
       console.error('Server Side에서 접근한 경우, api 함수에 context를 전달해주세요. 그래야 AuthError가 발생했을 때 redirectPath를 정확하게 지정할 수 있습니다.');
       redirectPath = '/'

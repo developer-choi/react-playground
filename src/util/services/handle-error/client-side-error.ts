@@ -1,4 +1,4 @@
-import {AuthError, useHandleAuthErrorInClient} from '@util/services/auth/AuthError';
+import {AuthError, useHandleAuthErrorInClient} from '@util/services/auth/auth-redirect';
 import type {AxiosErrorWithResponse} from '@api/config';
 import {haveAxiosResponse} from '@api/config';
 import {toast} from 'react-toastify';

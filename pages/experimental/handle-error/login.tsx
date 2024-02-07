@@ -9,9 +9,10 @@ import {toast} from 'react-toastify';
 import styled from 'styled-components';
 import ValidateError from '@util/services/handle-error/ValidateError';
 import {postAuthLoginApi} from '@api/auth-api';
-import {getAfterLoginSuccessUrl, getSSPForNotLoggedIn} from '@util/services/auth/auth-util';
-import {useHandleClientSideError} from "@util/services/handle-error/client-side-error";
+import {getSSPForNotLoggedIn} from '@util/services/auth/auth-util';
+import {useHandleClientSideError} from '@util/services/handle-error/client-side-error';
 import {useRefreshAuth} from '@util/services/auth/auth-user-cache';
+import {getAfterLoginSuccessUrl} from '@util/services/auth/auth-redirect';
 
 // URL: http://localhost:3000/experimental/handle-error/login
 export default function LoginPage() {
