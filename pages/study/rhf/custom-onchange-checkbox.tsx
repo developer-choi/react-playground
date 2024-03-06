@@ -139,6 +139,44 @@ function NonBugForm() {
   );
 }
 
+/**
+ * register할 때 name 끝에 배열 index를 적어도 버그는 발생하지않긴하지만,
+ * 필터폼처럼, name의 몇번째 인덱스인지 알 수 없는경우는 결국
+ * category pk같은 값을 전달할 수밖에 없어지므로
+ * 이때는 이 방법을 사용할 메리트가 사라짐.
+ * 아래 방식은, 배열길이가 대부분 고정이거나 간단한 1차원 배열 1개 하나만있는 약관동의목록같은경우 유효함.
+ */
+function NonBugForm2() {
+  const {handleSubmit, register, watch} = useForm<Data>();
+
+  const onSubmit: SubmitHandler<Data> = useCallback(data => {
+    console.log('submit', data);
+  }, []);
+
+  const onChangeApple = useCallback(() => {
+    console.log('onChangeApple');
+  }, []);
+
+  const onChangeKiwi = useCallback(() => {
+    console.log('onChangeKiwi');
+  }, []);
+
+  const onChangeBanana = useCallback(() => {
+    console.log('onChangeBanana');
+  }, []);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FruitCheckbox fruit="apple" {...register('fruit.0', {onChange: onChangeApple})}/>
+      <FruitCheckbox fruit="kiwi" {...register('fruit.1', {onChange: onChangeKiwi})}/>
+      <FruitCheckbox fruit="banana" {...register('fruit.2', {onChange: onChangeBanana})}/>
+      <div>
+        값 = {watch().fruit?.join(', ')}
+      </div>
+    </form>
+  );
+}
+
 interface CheckboxProps extends ComponentPropsWithoutRef<'input'> {
   fruit: Fruit
 }
