@@ -3,6 +3,7 @@ import InputFile from '@component/extend/InputFile';
 import Button from '@component/atom/element/Button';
 import styled from 'styled-components';
 import {postFileUploadApi} from '@api/file-api';
+import type {AxiosProgressEvent} from 'axios';
 
 // URL: http://localhost:3000/experimental/components/form/video
 export default function ApiProgressPage() {
@@ -15,10 +16,12 @@ export default function ApiProgressPage() {
     }
 
     try {
-      await postFileUploadApi(file, ({total, loaded}: ProgressEvent) => {
-        const value = loaded / total;
-        console.log('percent', value * 100);
-        setPercent(value);
+      await postFileUploadApi(file, ({total, loaded}: AxiosProgressEvent) => {
+        if (total) {
+          const value = loaded / total;
+          console.log('percent', value * 100);
+          setPercent(value);
+        }
       });
 
     } catch (error) {
