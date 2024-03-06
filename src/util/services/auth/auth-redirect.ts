@@ -1,8 +1,9 @@
 import {useRouter} from 'next/router';
 import {useCallback} from 'react';
 import type {GetServerSidePropsResult} from 'next';
+import {useRemoveLoginUserData} from '@util/services/auth/auth-user-cache';
 
-export function getAfterLoginSuccessUrl() {
+export function getLoginRedirectUrl() {
   const redirectUrl = new URLSearchParams(location.search).get(LOGIN_REDIRECT_QUERY_KEY);
 
   if (redirectUrl === null) {
@@ -40,8 +41,11 @@ interface AuthErrorOption {
  */
 export function useHandleAuthErrorInClient() {
   const {push} = useRouter();
+  const removeUserData = useRemoveLoginUserData()
 
   return useCallback((error: AuthError) => {
+    removeUserData();
+
     if (confirm(error.message)) {
       push(error.option.redirectPath);
     }

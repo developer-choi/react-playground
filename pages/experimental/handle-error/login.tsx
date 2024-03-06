@@ -12,7 +12,7 @@ import {postAuthLoginApi} from '@api/auth-api';
 import {getSSPForNotLoggedIn} from '@util/services/auth/auth-util';
 import {useHandleClientSideError} from '@util/services/handle-error/client-side-error';
 import {useRefreshAuth} from '@util/services/auth/auth-user-cache';
-import {getAfterLoginSuccessUrl} from '@util/services/auth/auth-redirect';
+import {getLoginRedirectUrl} from '@util/services/auth/auth-redirect';
 
 // URL: http://localhost:3000/experimental/handle-error/login
 export default function LoginPage() {
@@ -44,7 +44,7 @@ export default function LoginPage() {
 
       refreshAuth().then();
 
-      replace(getAfterLoginSuccessUrl()).then();
+      replace(getLoginRedirectUrl()).then();
 
     } catch (error) {
       if(error instanceof ValidateError) {
@@ -78,7 +78,7 @@ export default function LoginPage() {
   }, [email, handleClientSideError, password, push, refreshAuth, replace]);
 
   useEffect(() => {
-    const redirectUrl = getAfterLoginSuccessUrl();
+    const redirectUrl = getLoginRedirectUrl();
     prefetch(redirectUrl).then();
   }, [prefetch, replace]);
 

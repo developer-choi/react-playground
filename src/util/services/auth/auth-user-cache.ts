@@ -97,6 +97,15 @@ export function useRefreshAuth() {
   }, [queryClient]);
 }
 
+export function useRemoveLoginUserData() {
+  const queryClient = useQueryClient();
+
+  return useCallback(() => {
+    queryClient.setQueryData(USER_INFO_QUERY_KEY, null);
+    removeCookie(LOGIN_TOKEN);
+  }, []);
+}
+
 export function useLogout() {
   const {replace} = useRouter();
   const queryClient = useQueryClient();
