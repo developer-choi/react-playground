@@ -75,7 +75,7 @@ const Title = styled.div`
   font-size: 20px;
 `;
 
-const manager = new ClosedHistoryManager('special-event');
+const manager = new ClosedHistoryManager('some-special-event2');
 
 function useActiveEventPopupInClosedHistory() {
   const {data} = useQuery({
@@ -92,10 +92,6 @@ function useActiveEventPopupInClosedHistory() {
     pkList: data.map(event => event.pk),
     closePeriod: {
       value: 1,
-      diffType: 'date'
-    },
-    clearPeriod: {
-      value: 5,
       diffType: 'date'
     }
   });

@@ -6,17 +6,27 @@ import {findItem} from '@util/extend/data-type/array';
 export interface ClosedHistoryParam<T extends string | number> {
   pkList: T[]; //여러개의 n일간 안보기 팝업목록중에, 하나를 골라서 띄우고싶기 위해서.
 
-  //다시 뜨기 위한 계산방법, 이 기간값보다 차이가 작아야 팝업이 뜸.
+  /**
+   * 얼마만큼 차이가 나야 팝업이 다시 뜰 수 있는지를 지정
+   * 주의 : 24시간동안 보지않기 vs 1일간 보지않기는 서로 다름.
+   * 1일간 보지않기 = 날짜 차이가 하루라도 나면 active 상태로 판단함. (= 1월 1일 23시 50분과 1월 2일 00시 10분은 20분 차이지만 1일차이로 간주)
+   */
   closePeriod: MatchPeriod;
-
-  //기록을 삭제하기위한 계산방법, 이 기간값보다 차이가 크면 기록에서 삭제함.
-  clearPeriod?: MatchPeriod;
 }
 
 type ConditionalPkResult<T extends string | number> = T extends number ? number | undefined : string | undefined;
 
 export class ClosedHistoryManager {
-  uniquePrefix: string; //여러 종류의 n일간 안보기팝업을 구분할 수 있는 유니크한 이름
+  /**
+   * 여러 종류의 n일간 안보기팝업을 구분할 수 있는 유니크한 접미사
+   * pk가 number인 팝업 (multiple)은 반드시 지정해야하고,
+   * pk가 string인 팝업 (single)은 굳이 안지정해도됨.
+   *
+   * pk가 number라는것은, 관리자에서 등록한 다른 DB 테이블에 저장된 다른 용도의 팝업과 id가 겹칠 수 있으므로 unique prefix를 지정하는것이고,
+   *
+   * pk가 string이라는 것은, 이미 pk 자체가 유니크한 경우가 있어서 굳이 지정하지않아도 된다는 뜻. 값을 'some-special-event-popup' 이런식으로 지정할 수 있으니까.
+   */
+  uniquePrefix: string;
 
   constructor(uniquePrefix = "") {
     this.uniquePrefix = uniquePrefix;
@@ -26,39 +36,33 @@ export class ClosedHistoryManager {
    * @param 여러개의 n일간 안보기 팝업목록
    * @return 그중에 띄워야하는 팝업의 PK
    */
-  getActiveInClosedHistory<T extends string | number>({pkList, closePeriod, clearPeriod}: ClosedHistoryParam<T>): ConditionalPkResult<T> {
-    const pkListToClosedHistoryKey = pkList.map(pk => this.makeClosedHistoryKey(pk));
-
+  getActiveInClosedHistory<T extends string | number>({pkList, closePeriod}: ClosedHistoryParam<T>): ConditionalPkResult<T> {
     const historyList = manager.getParsedData();
 
-    if (clearPeriod) {
-      const resultList = historyList.filter((history) => {
-        if (!pkListToClosedHistoryKey.find((param) => history.uniqueKeyInStorage === param.uniqueKeyInStorage)) {
-          return true;
-        }
+    // 너무 옛날기록은 삭제
+    const resultList = historyList.filter((history) => {
+      const diffValue = getDiffPeriod(new Date(), history.closedTimestamp, CLOSE_PERIOD.diffType);
+      return diffValue <= CLOSE_PERIOD.value;
+    });
 
-        const diffValue = getDiffPeriod(new Date(), history.closedTimestamp, clearPeriod.diffType);
-        return diffValue <= clearPeriod.value;
-      });
+    manager.setStringifyItem(resultList);
 
-      manager.setStringifyItem(resultList);
-    }
+    return findItem(pkList, (pk) => {
+      const findHistory = resultList.find(history => history.uniquePrefix === this.uniquePrefix && history.originalPk === pk);
 
-    return findItem(pkListToClosedHistoryKey, ({uniqueKeyInStorage, originalPk}) => {
-      const findHistory = historyList.find(history => history.uniqueKeyInStorage === uniqueKeyInStorage);
-
+      // 해당 팝업을 단 한번도 n일간 보지않기 한 적이 없으면
       if (!findHistory) {
-        return originalPk;
+        return pk;
       }
 
       const diffValue = getDiffPeriod(new Date(), findHistory.closedTimestamp, closePeriod.diffType);
       const validated = diffValue >= closePeriod.value;
 
       if (!validated) {
-        return false;
+        return false; // TODO 왜 여기 undefined 리턴해도 타입에러안남?
       }
 
-      return originalPk;
+      return pk;
     }) as ConditionalPkResult<T>;
   }
 
@@ -67,22 +71,12 @@ export class ClosedHistoryManager {
   }
 
   addManuallyClosedHistory(pk: string | number, timestamp: number) {
-    const {originalPk, uniqueKeyInStorage} = this.makeClosedHistoryKey(pk);
-
     manager.appendFirst({
-      uniqueKeyInStorage: uniqueKeyInStorage,
-      originalPk,
+      uniquePrefix: this.uniquePrefix,
+      originalPk: pk,
       closedTimestamp: timestamp,
       closedDateFormat: moment(timestamp).format('YYYY.MM.DD HH:mm:ss')
     });
-  }
-
-  private makeClosedHistoryKey(pk: string | number): ClosedHistoryKey {
-    return {
-      //originalPk자체가 다른 n일동안 안보기 팝업의 PK와 구분될 수 있는 string값이라면, pkInlocalStorage값도 동일하게 설정
-      uniqueKeyInStorage: !this.uniquePrefix ? pk.toString() : `${this.uniquePrefix}-${pk}`,
-      originalPk: pk
-    };
   }
 }
 
@@ -90,18 +84,12 @@ export function forceClearClosedHistory() {
   manager.setStringifyItem([]);
 }
 
-interface ClosedHistoryKey {
-  /**
-   * @example
-   * main-event-banner-${bannerPk} //동적인 경우
-   * event-induction //정적인 경우
-   * 로컬스토리지 안에서, 다른 유형의 n일간 보지않기 팝업을 구분할 수 있는값
-   */
-  uniqueKeyInStorage: string;
+interface UniqueCloseHistory {
+  uniquePrefix: string;
   originalPk: number | string; //n일간 보지않기 팝업 원본데이터의 PK
 }
 
-interface ClosedHistory extends ClosedHistoryKey {
+interface ClosedHistory extends UniqueCloseHistory {
   //닫았을 때 timestamp
   closedTimestamp: number;
   closedDateFormat: string;
@@ -122,8 +110,14 @@ function getDiffPeriod(targetDate: Date, closedTimestamp: number, diffType: Matc
   }
 }
 
+// 1년이 지난 기록은 삭제
+const CLOSE_PERIOD: MatchPeriod = {
+  diffType: 'date',
+  value: 365
+}
+
 const manager = new LocalStorageArrayManager({
   key: 'closed-history-in-specific-period',
   enableDuplicated: false, //같은 PK면 닫은기록에는 하나만 생성되야함.
-  pkExtractor: (value: ClosedHistory) => value.uniqueKeyInStorage
+  getUnique: ({uniquePrefix, originalPk}: ClosedHistory) => uniquePrefix + originalPk
 });

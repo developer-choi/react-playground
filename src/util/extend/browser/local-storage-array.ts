@@ -4,7 +4,13 @@ import {useCallback} from 'react';
 
 interface LocalStorageArrayParameter<I extends Object, P extends PkType> {
   key: string;
-  pkExtractor: (item: I) => P;
+
+  /**
+   * array의 item을 구분할 수 있는 유니크한 값으로 변환해주는 함수
+   * 대부분의 경우, array의 item의 pk 키값을 반환하도록 지정.
+   * 내부적으로 item끼리 구분하는 용도로만 사용함.
+   */
+  getUnique: (item: I) => P;
   enableDuplicated: boolean;
 }
 
@@ -13,16 +19,16 @@ interface LocalStorageArrayParameter<I extends Object, P extends PkType> {
  */
 export class LocalStorageArrayManager<I extends Object, P extends PkType> extends LocalStorageObjectManager<I[]> {
   /**
-   * @private The pkExtractor must not be accessible in public.
+   * @private The getUnique must not be accessible in public.
    * And I don't have any plan that makes derived classes extend this class. (= This is the reason that I don't set visibility to protected)
    * For the above two reasons, I set visibility to private.
    */
-  private readonly pkExtractor: LocalStorageArrayParameter<I, P>['pkExtractor'];
+  private readonly getUnique: LocalStorageArrayParameter<I, P>['getUnique'];
   private readonly enableDuplicated: LocalStorageArrayParameter<I, P>['enableDuplicated'];
 
-  constructor({key, enableDuplicated, pkExtractor}: LocalStorageArrayParameter<I, P>) {
+  constructor({key, enableDuplicated, getUnique}: LocalStorageArrayParameter<I, P>) {
     super({key, defaultValue: []});
-    this.pkExtractor = pkExtractor;
+    this.getUnique = getUnique;
     this.enableDuplicated = enableDuplicated;
   }
 
@@ -42,21 +48,21 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
   }
 
   removeByPk(pk: P): I[] {
-    const list = this.getParsedData().filter(prev => this.pkExtractor(prev) !== pk);
+    const list = this.getParsedData().filter(prev => this.getUnique(prev) !== pk);
     this.setStringifyItem(list);
     return list;
   }
 
   appendLast(item: I): I[] {
     const items = [...this.getParsedData(), item];
-    const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.pkExtractor, 'last');
+    const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.getUnique, 'last');
     this.setStringifyItem(list);
     return list;
   }
 
   appendFirst(item: I): I[] {
     const items = [item, ...this.getParsedData()];
-    const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.pkExtractor, 'first');
+    const list = this.enableDuplicated ? items : removeDuplicatedObject(items, this.getUnique, 'first');
     this.setStringifyItem(list);
     return list;
   }

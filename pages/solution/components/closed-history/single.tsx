@@ -74,10 +74,6 @@ function getActiveApplePopupInClosedHistory() {
     closePeriod: {
       value: 1,
       diffType: 'date'
-    },
-    clearPeriod: {
-      value: 5,
-      diffType: 'date'
     }
   });
 }

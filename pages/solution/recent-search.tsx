@@ -186,7 +186,7 @@ interface RecentSearch {
 const manager = new LocalStorageArrayManager({
   key: 'recent-search',
   enableDuplicated: false,
-  pkExtractor: ({searchText}: RecentSearch) => {
+  getUnique: ({searchText}: RecentSearch) => {
     return searchText;
   }
 });
