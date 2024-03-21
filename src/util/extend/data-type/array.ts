@@ -45,14 +45,17 @@ export type PkType = string | number;
 export function removeDuplicatedObject<I extends Object, P extends PkType>(items: I[], pkExtractor: (item: I) => P, recent: 'last' | 'first'): I[] {
   const _items = recent === 'last' ? items : [...items].reverse();
 
-  const map = new Map<P, I>();
+  const object = {} as Record<P, I>
 
   _items.forEach(item => {
     const pk = pkExtractor(item);
-    map.set(pk, item);
+    
+    // 중복된 값을 덮어 쓰고나서 나중에 배열로 반환할 때 순서가 뒤바뀌는것을 방지
+    delete object[pk];
+    object[pk] = item;
   });
 
-  const result = Array.from(map).map(([, item]) => item);
+  const result = Object.entries(object).map(([, value]) => value) as I[];
 
   if (recent === 'last') {
     return result;
