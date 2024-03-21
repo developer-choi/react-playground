@@ -1,9 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import {useDispatchOpenModal} from '@store/reducers/modal';
-import {
-  ClosedHistoryManager,
-  forceClearClosedHistory,
-} from '@util/extend/date/closed-history';
+import {ClosedHistoryManager} from '@util/extend/date/closed-history';
 import {getDiffDate} from '@util/extend/date/date-util';
 import Button from '@component/atom/element/Button';
 import Modal, {ModalProp} from '@component/molecules/modal/Modal';
@@ -34,10 +31,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div>
-      <Button onClick={onClick}>테스트용 기록생성</Button>
-      <Button onClick={forceClearClosedHistory}>초기화</Button>
-    </div>
+    <Button onClick={onClick}>테스트용 기록생성</Button>
   );
 }
 

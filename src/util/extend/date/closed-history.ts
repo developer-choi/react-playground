@@ -80,10 +80,6 @@ export class ClosedHistoryManager {
   }
 }
 
-export function forceClearClosedHistory() {
-  manager.setStringifyItem([]);
-}
-
 interface UniqueCloseHistory {
   uniquePrefix: string;
   originalPk: number | string; //n일간 보지않기 팝업 원본데이터의 PK

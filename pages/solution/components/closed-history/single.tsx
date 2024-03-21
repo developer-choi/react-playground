@@ -4,10 +4,7 @@ import Button from '@component/atom/element/Button';
 import {useDispatchOpenModal} from '@store/reducers/modal';
 import styled from 'styled-components';
 import {getDiffDate} from '@util/extend/date/date-util';
-import {
-  ClosedHistoryManager,
-  forceClearClosedHistory,
-} from '@util/extend/date/closed-history';
+import {ClosedHistoryManager} from '@util/extend/date/closed-history';
 
 // URL: http://localhost:3000/solution/components/closed-history/single
 export default function Page() {
@@ -38,10 +35,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div>
-      <Button onClick={onClick}>테스트용 기록생성</Button>
-      <Button onClick={forceClearClosedHistory}>초기화</Button>
-    </div>
+    <Button onClick={onClick}>테스트용 기록생성</Button>
   );
 }
 
