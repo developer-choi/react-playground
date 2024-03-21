@@ -12,7 +12,13 @@ import {
 // URL: http://localhost:3000/solution/components/closed-history/single
 export default function Page() {
   const {openModal} = useDispatchOpenModal();
-  const activeApplePopupPk = getActiveApplePopupInClosedHistory();
+  const activeApplePopupPk = manager.getActiveInClosedHistory({
+    pkList: [PK],
+    closePeriod: {
+      value: 1,
+      diffType: 'date'
+    }
+  });
 
   useEffect(() => {
     if (activeApplePopupPk) {
@@ -67,13 +73,3 @@ const Wrap = styled(Modal)`
 const PK = 'apple-popup';
 
 const manager = new ClosedHistoryManager();
-
-function getActiveApplePopupInClosedHistory() {
-  return manager.getActiveInClosedHistory({
-    pkList: [PK],
-    closePeriod: {
-      value: 1,
-      diffType: 'date'
-    }
-  });
-}

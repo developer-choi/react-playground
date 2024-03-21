@@ -59,7 +59,7 @@ export class ClosedHistoryManager {
       const validated = diffValue >= closePeriod.value;
 
       if (!validated) {
-        return false; // TODO 왜 여기 undefined 리턴해도 타입에러안남?
+        return false;
       }
 
       return pk;
