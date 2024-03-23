@@ -49,7 +49,7 @@ export function useHandleAuthErrorInClient() {
     if (confirm(error.message)) {
       push(error.option.redirectPath);
     }
-  }, [push]);
+  }, [push, removeUserData]);
 }
 
 /**

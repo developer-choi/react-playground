@@ -103,7 +103,7 @@ export function useRemoveLoginUserData() {
   return useCallback(() => {
     queryClient.setQueryData(USER_INFO_QUERY_KEY, null);
     removeCookie(LOGIN_TOKEN);
-  }, []);
+  }, [queryClient]);
 }
 
 export function useLogout() {
