@@ -3,7 +3,10 @@ import {type FieldPath, type FieldValues, type SubmitHandler, useForm, useFormSt
 import type {Control, UseFormRegisterReturn} from 'react-hook-form/dist/types/form';
 import {useToggle} from '@util/extend/react';
 
-// URL: http://localhost:3000/experimental/components/form/password-input
+/**
+ * URL: http://localhost:3000/experimental/components/form/password-input
+ * Doc : https://docs.google.com/document/d/1YpwgJ2PoG2MfD6S9NDppZUGUgG_71UxbsGNXARkFGiE/edit
+ */
 export default function Page() {
   const {register, handleSubmit, control} = useForm<TestFormData>({
     mode: 'all'
