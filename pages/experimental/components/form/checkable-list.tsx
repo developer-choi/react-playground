@@ -9,7 +9,11 @@ import {isMatchKeyboardEvent} from '@util/extend/event/keyboard-event';
 import Button from '@component/atom/element/Button';
 import {toast} from 'react-toastify';
 
-// URL: http://localhost:3000/experimental/components/form/checkable-list
+/**
+ * URL: http://localhost:3000/experimental/components/form/checkable-list
+ * TODO https://github.com/developer-choi/test-playground/commit/dfa09a5df789c9517ff38fa62b480b5a181d72d0 이거 보며 checkable-list를 rhf로 변환하기
+ * 그대신 이 예제도 냅둬야하는게 rhf 안쓰는 프로젝트에서는 이거 해야하니까.
+ */
 interface PageProp {
   mails: Mail[];
 }
