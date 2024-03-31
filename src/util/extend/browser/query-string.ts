@@ -187,3 +187,37 @@ const mayNumber2 = validateNumber('');
 
 console.log(mayNumber1, mayNumber2, canUndefined1, canUndefined2, canUndefined3);
 */
+
+/**
+ * https://stackoverflow.com/a/52539264/22674805
+ * @param init URLSearchParams의 init parameter와 동일, 대체로 location.search값 그대로 전달하면됨.
+ * @return 쿼리스트링을 객체로 변환하여 반환. 쿼리스트링이 비어있으면 빈객체로 반환
+ * @example ('?fruit=apple&fruit=banana') ==> {fruit: ['apple', 'banana']}
+ */
+export function convertQueryStringToObject(init?: string): Record<string, string | string[]> {
+  const params = new URLSearchParams(init ?? location.search);
+
+  return Array.from(params.entries()).reduce((acc, tuple) => {
+    // getting the key and value from each tuple
+    const [key, value] = tuple;
+
+    if (acc.hasOwnProperty(key)) {
+      // if the current key is already an array, we'll add the value to it
+      if (Array.isArray(acc[key])) {
+        // eslint-disable-next-line no-param-reassign
+        acc[key] = [...acc[key] as string[], value];
+      } else {
+        // if it's not an array, but contains a value, we'll convert it into an array
+        // and add the current value to it
+        // eslint-disable-next-line no-param-reassign
+        acc[key] = [acc[key] as string, value];
+      }
+    } else {
+      // plain assignment if no special case is present
+      // eslint-disable-next-line no-param-reassign
+      acc[key] = value;
+    }
+
+    return acc;
+  }, {} as Record<string, string | string[]>);
+}
