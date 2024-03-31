@@ -193,6 +193,18 @@ console.log(mayNumber1, mayNumber2, canUndefined1, canUndefined2, canUndefined3)
  * @param init URLSearchParams의 init parameter와 동일, 대체로 location.search값 그대로 전달하면됨.
  * @return 쿼리스트링을 객체로 변환하여 반환. 쿼리스트링이 비어있으면 빈객체로 반환
  * @example ('?fruit=apple&fruit=banana') ==> {fruit: ['apple', 'banana']}
+ *
+ * TODO 오히려 사용방법이 불편해진 단점이 있음. 개선필요.
+ * 대다수의 경우 쿼리객체 전체가 필요하지않음.
+ * new URLSearchParams(location.search).get('redirect_url') 이런 코드가 있다고 하면,
+ * validateQueryString(convertQueryStringToObject().redirect_url, {required: false, throwable: false}); 이렇게 해야함.
+ * 왜냐하면 URLSearchParams의 get, getAll은 동작이 서로 다르니까. get만 쓰는경우 첫 번째 배열요소만 쓰니까.
+ * 하지만 이 함수는 string, string[], undefined 셋다 지원하다보니 결국 유효성검증도 다시 돌려야함.
+ * 그럼 결과적으로 코드가 오히려 더 길어짐.
+ *
+ * 그래서 결국 convertQueryStringToObjectToString(init?: string, key: string) 뭐 이런식으로 (함수이름은 가칭) 만들어서 밸류값 하나만 반환하게 할텐데,
+ * 그럼 호출하는곳 기준으로는 new URLSearchParams(location.search).get('...') 하는거랑 차이나는게 location.search 하나밖에 없어짐.
+ * 그럼 결국 도찐개찐임.
  */
 export function convertQueryStringToObject(init?: string): ParsedUrlQuery {
   const params = new URLSearchParams(init ?? location.search);
