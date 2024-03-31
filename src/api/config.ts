@@ -66,7 +66,7 @@ function makeAxiosInstance(context?: GetServerSidePropsContext): AxiosInstance {
      * Client Side = 동일한 상황에서, 현재 탭에서 좋아요 버튼을 누르는 경우 handleClientSideError에서 잡혀서 로그인페이지로 갈거임.
      * Client Side (2) = 마이페이지 안에서 그냥 자동으로 effect function 같은곳에서 API 호출하다 401에러가 발생할 경우, 동일하게 잡혀서 로그인페이지로 갈거임.
      */
-    throw new AuthError('인증되지 않은 회원입니다. 다시 로그인하시겠습니까?', {redirectPath});
+    throw new AuthError('인증되지 않은 회원입니다. 다시 로그인하시겠습니까?', redirectPath);
   });
 
   return instance;

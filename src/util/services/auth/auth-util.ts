@@ -64,7 +64,7 @@ export function useAlertForNotLoggedIn() {
         throwable: true
       });
     } catch (error) {
-      const {message, option: {redirectPath}} = error as AuthError;
+      const {message, redirectPath} = error as AuthError;
 
       if (confirm(message)) {
         push(redirectPath).then();

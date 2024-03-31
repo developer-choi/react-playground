@@ -18,18 +18,12 @@ export function getLoginRedirectUrl() {
  * 구체적으로, LoginToken이 없는데 LoginToken이 필요한 API를 호출하려고 하는경우 그전에 이 에러가 떠서 막히도록 구현됨.
  */
 export class AuthError extends Error {
-  option: AuthErrorOption;
+  readonly redirectPath: string;
 
-  constructor(message: string, option: AuthErrorOption) {
+  constructor(message: string, redirectPath: string) {
     super(message);
-    this.option = {
-      redirectPath: `/experimental/handle-error/login?${LOGIN_REDIRECT_QUERY_KEY}=${encodeURIComponent(option.redirectPath)}`
-    };
+    this.redirectPath = `/experimental/handle-error/login?${LOGIN_REDIRECT_QUERY_KEY}=${encodeURIComponent(redirectPath)}`;
   }
-}
-
-interface AuthErrorOption {
-  redirectPath: string;
 }
 
 /**
@@ -47,7 +41,7 @@ export function useHandleAuthErrorInClient() {
     removeUserData();
 
     if (confirm(error.message)) {
-      push(error.option.redirectPath);
+      push(error.redirectPath);
     }
   }, [push, removeUserData]);
 }
@@ -60,7 +54,7 @@ export function handleAuthErrorInServer(error: AuthError): GetServerSidePropsRes
   return {
     redirect: {
       permanent: false,
-      destination: error.option.redirectPath
+      destination: error.redirectPath
     }
   };
 }

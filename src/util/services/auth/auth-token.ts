@@ -54,9 +54,7 @@ export function getLoginTokenInCookie<T extends boolean = false>(param?: LoginTo
     }
 
     if (throwable) {
-      throw new AuthError('Login is required.', {
-        redirectPath
-      });
+      throw new AuthError('Login is required.', redirectPath);
     } else {
       return undefined as ConditionalResultType<T>
     }
