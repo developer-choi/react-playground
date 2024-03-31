@@ -23,7 +23,7 @@ export function validateString<R extends boolean = true, T extends boolean = tru
   let errorMessage = '';
 
   if (required && !queryValue) {
-    errorMessage = 'The queryValue is not exist';
+    errorMessage = 'The queryValue is not exist.';
   }
 
   if (!errorMessage && Array.isArray(queryValue)) {
@@ -194,7 +194,7 @@ console.log(mayNumber1, mayNumber2, canUndefined1, canUndefined2, canUndefined3)
  * @return 쿼리스트링을 객체로 변환하여 반환. 쿼리스트링이 비어있으면 빈객체로 반환
  * @example ('?fruit=apple&fruit=banana') ==> {fruit: ['apple', 'banana']}
  */
-export function convertQueryStringToObject(init?: string): Record<string, string | string[] | undefined> {
+export function convertQueryStringToObject(init?: string): ParsedUrlQuery {
   const params = new URLSearchParams(init ?? location.search);
 
   return Array.from(params.entries()).reduce((acc, tuple) => {
@@ -219,5 +219,5 @@ export function convertQueryStringToObject(init?: string): Record<string, string
     }
 
     return acc;
-  }, {} as Record<string, string | string[]>);
+  }, {} as ParsedUrlQuery);
 }
