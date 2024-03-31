@@ -11,11 +11,11 @@ export default function Home() {
       query: {
         fruit: ["apple", "banana"]
       }
+    }).then(() => {
+      console.log(convertQueryStringToObject(location.search));
     });
-  }, [replace]);
 
-  useEffect(() => {
-    console.log(convertQueryStringToObject(location.search));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;
