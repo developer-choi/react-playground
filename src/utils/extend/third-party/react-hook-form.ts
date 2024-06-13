@@ -1,5 +1,9 @@
 import {FieldError, RegisterOptions, ValidationValueMessage} from 'react-hook-form';
 
+/**
+ * 가장 큰 목적은, 폼 제출했을 때 여러개의 에러가 동시에 발생한 경우
+ * 개발자가 원하는 순서대로 에러를 사용자에게 피드백 하기 위함.
+ */
 export function baseHandleErrors(errorList: (FieldError | undefined)[]) {
   for (const error of errorList) {
     if (!error) {

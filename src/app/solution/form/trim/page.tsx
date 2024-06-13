@@ -8,6 +8,7 @@ import {baseHandleErrors, validateTrim} from '@/utils/extend/third-party/react-h
 
 /**
  * URL: http://localhost:3000/solution/form/trim
+ * Doc : https://docs.google.com/document/d/1dsUhjzYW46Qq6meZ9_D0ApZnBeZLOFW2WmrxlxQ8gCk/edit#heading=h.7r6n7x8l67mo
  *
  * 문자열 양옆에 공백을 제거하려면 2가지 기술이 필요
  * 1. 입력할 떄 유효성 검증해서 제출못하게 막아야 ("   " 이렇게 해놓고 제출하면 막아야)
