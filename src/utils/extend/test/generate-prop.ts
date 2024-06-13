@@ -1,8 +1,12 @@
-export type ArrayProperties<T> = {
+type Arrayify<T> = {
   [K in keyof T]: T[K][];
 };
 
-export function generateCombinations<T>(obj: ArrayProperties<T>): T[] {
+type FilterRecord<T> = {
+  [K in keyof T]: T[K] extends boolean ? { name: string; value: T[K] }[] : { name: string; value: T[K] | undefined }[];
+};
+
+export function generateCombinations<T>(obj: Partial<Arrayify<T>>): { filterRecord: FilterRecord<T>; combinations: T[] } {
   const keys = Object.keys(obj) as (keyof T)[];
   const result: T[] = [];
 
@@ -13,7 +17,7 @@ export function generateCombinations<T>(obj: ArrayProperties<T>): T[] {
     }
 
     const key = keys[index];
-    const values = obj[key];
+    const values = obj[key]!;
 
     for (let value of values) {
       const newCombination = { ...current, [key]: value };
@@ -22,7 +26,25 @@ export function generateCombinations<T>(obj: ArrayProperties<T>): T[] {
   }
 
   helper({}, 0);
-  return result;
+
+  const filterRecord = {} as FilterRecord<T>;
+
+  keys.forEach((key) => {
+    const values = obj[key]!;
+    if (typeof values[0] === 'boolean') {
+      filterRecord[key] = values.map((value) => ({
+        name: `${String(key)} ${String(value)}`,
+        value,
+      })) as FilterRecord<T>[typeof key];
+    } else {
+      filterRecord[key] = [
+        { name: 'unset', value: undefined },
+        ...values.map((value) => ({ name: value as string, value })),
+      ] as FilterRecord<T>[typeof key];
+    }
+  });
+
+  return { filterRecord, combinations: result };
 }
 
 interface TestButtonProp {
@@ -31,7 +53,7 @@ interface TestButtonProp {
 }
 
 function test() {
-  const list = generateCombinations<TestButtonProp>({
+  const {combinations} = generateCombinations<TestButtonProp>({
     disabled: [true, false],
     variant: ['fill', 'outline']
   });
@@ -41,5 +63,5 @@ function test() {
    * disabled 경우의 수 2가지
    * 합 2 x 2 = 4가지 케이스의 배열이 응답됨.
    */
-  console.log(list);
+  console.log(combinations);
 }
