@@ -4,7 +4,7 @@ import React, {useCallback} from 'react';
 import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
 import {useForm} from 'react-hook-form';
 import {trimObject} from '@/utils/extend/data-type/object';
-import {baseHandleErrors, validateTrim} from '@/utils/extend/third-party/react-hook-form';
+import {baseHandleErrors, validateTrim} from '@/utils/extend/library/react-hook-form';
 
 /**
  * URL: http://localhost:3000/solution/form/trim

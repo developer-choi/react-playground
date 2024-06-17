@@ -2,7 +2,7 @@
 
 import {RegisterOptions, SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
 import React, {useCallback} from 'react';
-import {baseHandleErrors} from '@/utils/extend/third-party/react-hook-form';
+import {baseHandleErrors} from '@/utils/extend/library/react-hook-form';
 import HiddenInput from '@/components/form/input/HiddenInput';
 
 /**

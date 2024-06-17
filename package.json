@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "env-cmd -f .env.localhost next dev",
+    "build:dev": "env-cmd -f .env.development next build && env-cmd -f .env.development next start",
+    "build:prod": "next build && next start",
     "start": "next start",
     "lint": "next lint"
   },

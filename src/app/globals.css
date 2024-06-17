@@ -5,3 +5,11 @@
   padding: 0;
   margin: 0;
 }
+
+button {
+  padding: 10px;
+  background: aqua;
+  color: white;
+  font-weight: bold;
+  border: 1px solid black;
+}
