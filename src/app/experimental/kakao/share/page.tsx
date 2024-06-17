@@ -6,7 +6,8 @@ import useCounter from '@/utils/extend/library/counter';
 import {useKakaoShare} from '@/utils/extend/library/kakao';
 
 /**
- * URL : http://localhost:3000/solution/kakao/share
+ * URL : http://localhost:3000/experimental/kakao/share
+ * Doc : https://docs.google.com/document/d/11c1oVMukpdpBcE0jeewfnlKklJ1YxJoBIxgM-qEdL0Q/edit
  */
 export default function Page() {
   const {increase, count} = useCounter({initial: 1});
