@@ -43,7 +43,7 @@ export function useKakaoShare() {
 
     const {regularPrice, discountPrice, discountRate, thumbnail, pk, title} = product;
 
-    const resultUrl = env.public.origin + `/solution/kakao/share-target?pk=${pk}`;
+    const resultUrl = env.public.origin + `/experimental/kakao/share-target?pk=${pk}`;
 
     kakaoMethods.Share.sendDefault({
       objectType: 'commerce',
