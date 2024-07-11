@@ -4,6 +4,7 @@ import {LoginError} from '@/utils/service/auth/redirect';
 /**
  * 해당 모듈은, server / client side 양쪽에서 호출할 수 있도록
  * 어느 한쪽에서만 동작하는 코드를 작성하지 밀아야합니다.
+ * Doc : https://docs.google.com/document/d/1Mi1vh2OR45EOhj63jl3cq_5ZKscFb1uVMkVYn180IMw/edit#heading=h.jdcuemqp6ojl
  */
 
 /**

@@ -3,6 +3,10 @@ import Credentials from 'next-auth/providers/credentials';
 import {getNextNavigating} from '@/utils/service/auth/path';
 import {NextResponse} from 'next/server';
 
+/**
+ * [Next Auth Overview] https://docs.google.com/document/d/1PYKKPneIYB8j8vz8fQgqwBLAkEmB69KJfeFTSXhtdbk/edit#heading=h.mkk12las5ndq
+ * [Next Auth auth.ts] https://docs.google.com/document/d/1w0Kn91aacGsdKFPTxsdM3JsyRzKynTR4kgJzyS3rcbY/edit#heading=h.14tqv65n973
+ */
 export const {handlers, signOut, auth} = NextAuth({
   pages: {
     signIn: '/guest/login',
