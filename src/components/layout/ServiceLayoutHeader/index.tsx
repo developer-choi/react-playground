@@ -10,7 +10,7 @@ export default function ServiceLayoutHeader() {
 
   const logout = useCallback(() => {
     signOut({
-      callbackUrl: '/guest/login'
+      redirect: false
     });
   }, []);
 
@@ -18,7 +18,7 @@ export default function ServiceLayoutHeader() {
     <header className={styles.header}>
       <div className={styles.gnb}>
         <Link href="/">Home</Link>
-        <Link href="/mypage?key=mypage">Mypage</Link>
+        <Link href="/mypage?key=한글">Mypage</Link>
       </div>
 
       {/* 로딩중이면, 세션정보 갖고있는지 여부로 체크하고, 그게 아니라면 status로 체크 */}
