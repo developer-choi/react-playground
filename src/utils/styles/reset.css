@@ -1,0 +1,104 @@
+/* reset.css 가장 원본은 markup-playground 참고 */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/*************************************************************************************************************
+ * Custom Reset CSS > Form
+ *************************************************************************************************************/
+button, input, textarea {
+  margin: 0;
+  padding: 0;
+  border: none;
+  
+  /* 브라우저가 해당 태그에 직접 기본스타일 지정하고있어서, body로 부터 기본값 상속받기위해 작성함. */
+  font-size: inherit;
+  color: inherit;
+}
+
+/* 이 2개는 기본 폰트가 따로 적용되어있어서 이렇게 해야 body로 부터 커스텀 폰트 상속받음. */
+input, textarea {
+  font-family: inherit;
+}
+
+/**
+ * button은 기본 배경색 disabled 배경색 둘 다 있는데,
+ * button, button:disabled 안하고 button 하나만 배경색 지정해도 둘 다 지정됨.
+ */
+button, input:disabled, textarea:disabled {
+  background: transparent;
+}
+
+textarea {
+  resize: none;
+}
+
+/* input type number 화살표 지우기 */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/*************************************************************************************************************
+ * Custom Reset CSS > 기타
+ *************************************************************************************************************/
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}

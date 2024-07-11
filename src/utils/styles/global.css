@@ -1,15 +1,17 @@
-* {
-  box-sizing: border-box;
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
+/* global.css 가장 원본은 markup-playground 참고 */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-size: 14px;
 }
 
 button {
-  padding: 10px;
-  background: aqua;
-  color: white;
-  font-weight: bold;
-  border: 1px solid black;
+  cursor: pointer;
+}
+
+input:disabled, button:disabled, textarea:disabled {
+  cursor: not-allowed;
 }
