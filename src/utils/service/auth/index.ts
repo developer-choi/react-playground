@@ -1,5 +1,5 @@
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
+import NextAuth from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
 import {getNextNavigating} from '@/utils/service/auth/path';
 import {NextResponse} from 'next/server';
 
@@ -20,13 +20,13 @@ export const {handlers, signOut, auth} = NextAuth({
           access_token: access_token as string,
           name: name as string,
           member_id: member_id as number,
-        }
+        };
       },
     })
   ],
   callbacks: {
-    jwt: async ({ token, user,  trigger}) => {
-      if(trigger === "signIn") {
+    jwt: async ({token, user, trigger}) => {
+      if (trigger === 'signIn') {
         token.user = user;
       }
 
@@ -36,7 +36,7 @@ export const {handlers, signOut, auth} = NextAuth({
       session.user = token.user;
       return session;
     },
-    authorized({ auth, request: { headers, nextUrl, url } }) {
+    authorized({auth, request: {headers, nextUrl, url}}) {
       const isLoggedIn = !!auth?.user;
 
       const nextNavigating = getNextNavigating({
@@ -46,16 +46,18 @@ export const {handlers, signOut, auth} = NextAuth({
       });
 
       switch (nextNavigating.type) {
-        case "already-authenticated":
-        case "not-authenticated":
+        case 'already-authenticated':
+        case 'not-authenticated':
           return NextResponse.redirect(new URL(nextNavigating.nextUrl, url));
         default: {
           // https://www.propelauth.com/post/getting-url-in-next-server-components
           const newHeaders = new Headers(headers);
-          newHeaders.set("current-pathname-with-search", nextUrl.pathname + nextUrl.search);
-          return NextResponse.next({ headers: newHeaders });
+          newHeaders.set(CURENT_URL_IN_HEADER, nextUrl.pathname + nextUrl.search);
+          return NextResponse.next({headers: newHeaders});
         }
       }
     },
   },
 });
+
+export const CURENT_URL_IN_HEADER = 'current-pathname-with-search';
