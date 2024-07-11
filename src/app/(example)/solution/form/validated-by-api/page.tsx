@@ -37,14 +37,14 @@ export default function Page() {
  * 닉네임이 중복되요 말고 다른 케이스도 있다면,
  * 그 메시지로 커스텀이 되야하는데?
  */
-const VALIDATED_NICKNAME_OPTIONS: RegisterOptions = {
+const VALIDATED_NICKNAME_OPTIONS: RegisterOptions<TestFormData> = {
   required: {
     value: true,
     message: '닉네임이 중복됨'
   }
 };
 
-const NICKNAME_OPTIONS: RegisterOptions = {
+const NICKNAME_OPTIONS: RegisterOptions<TestFormData> = {
   required: {
     value: true,
     message: '닉네임은 필수임'
