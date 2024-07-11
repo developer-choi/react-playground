@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import {getNextNavigating} from '@/utils/service/auth/path';
+import {NextResponse} from 'next/server';
 
 export const {handlers, signOut, auth} = NextAuth({
   pages: {
@@ -33,6 +35,27 @@ export const {handlers, signOut, auth} = NextAuth({
     session: async ({session, token}) => {
       session.user = token.user;
       return session;
+    },
+    authorized({ auth, request: { headers, nextUrl, url } }) {
+      const isLoggedIn = !!auth?.user;
+
+      const nextNavigating = getNextNavigating({
+        nextPathname: nextUrl.pathname,
+        isLoggedIn,
+        redirectUrl: nextUrl.pathname + nextUrl.search
+      });
+
+      switch (nextNavigating.type) {
+        case "already-authenticated":
+        case "not-authenticated":
+          return NextResponse.redirect(new URL(nextNavigating.nextUrl, url));
+        default: {
+          // https://www.propelauth.com/post/getting-url-in-next-server-components
+          const newHeaders = new Headers(headers);
+          newHeaders.set("current-pathname-with-search", nextUrl.pathname + nextUrl.search);
+          return NextResponse.next({ headers: newHeaders });
+        }
+      }
     },
   },
 });
