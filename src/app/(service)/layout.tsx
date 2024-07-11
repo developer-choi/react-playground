@@ -1,15 +1,15 @@
-import {PropsWithChildren} from 'react';
+import React, {PropsWithChildren} from 'react';
 import '@/utils/styles/reset.css';
 import '@/utils/styles/global.css';
+import {SessionProvider} from 'next-auth/react';
+import {auth} from '@/utils/service/auth';
 
-export default function Layout({children}: PropsWithChildren) {
+export default async function ServiceLayout({children}: PropsWithChildren) {
+  const session = await auth();
+
   return (
-    <AnyApplicationProvider>
+    <SessionProvider refetchOnWindowFocus={false} session={session}>
       {children}
-    </AnyApplicationProvider>
+    </SessionProvider>
   );
-}
-
-function AnyApplicationProvider({children}: PropsWithChildren) {
-  return children;
 }
