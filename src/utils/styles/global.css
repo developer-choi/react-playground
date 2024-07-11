@@ -15,3 +15,16 @@ button {
 input:disabled, button:disabled, textarea:disabled {
   cursor: not-allowed;
 }
+
+button {
+  padding: 8px 24px;
+  border: black;
+  background-color: lightskyblue;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: underline;
+}
