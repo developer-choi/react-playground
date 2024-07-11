@@ -36,7 +36,7 @@ interface TestFormData {
   name: string;
 }
 
-const options: RegisterOptions = {
+const options: RegisterOptions<TestFormData> = {
   required: {
     value: true,
     message: '이름은 필수입니다.'
