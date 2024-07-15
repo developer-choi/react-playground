@@ -56,7 +56,7 @@ export const {handlers, signOut, auth} = NextAuth({
         default: {
           // https://www.propelauth.com/post/getting-url-in-next-server-components
           const newHeaders = new Headers(headers);
-          newHeaders.set(CURENT_URL_IN_HEADER, nextUrl.pathname + nextUrl.search);
+          newHeaders.set(CURRENT_URL_IN_HEADER, nextUrl.pathname + nextUrl.search);
           return NextResponse.next({headers: newHeaders});
         }
       }
@@ -64,4 +64,4 @@ export const {handlers, signOut, auth} = NextAuth({
   },
 });
 
-export const CURENT_URL_IN_HEADER = 'current-pathname-with-search';
+export const CURRENT_URL_IN_HEADER = 'current-pathname-with-search';

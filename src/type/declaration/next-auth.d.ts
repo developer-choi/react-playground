@@ -4,7 +4,7 @@ import {NextRequest} from "next/server";
 export declare module 'next-auth' {
   interface User {
     member_id: number;
-    access_token: accessstring;
+    access_token: string;
     // email: string;
     // name: string;
     // id: string;
