@@ -102,3 +102,11 @@ input[type=number] {
 a {
   text-decoration: none;
 }
+
+/* Modal, Non Modal 공통 reset.css */
+dialog {
+  color: inherit;
+  border: none;
+  padding: 0;
+  overflow: visible;
+}
