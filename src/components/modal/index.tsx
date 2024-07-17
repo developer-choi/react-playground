@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import {usePathname} from 'next/navigation';
 import {EssentialModalProps} from '@/components/modal/ModalProvider';
 import {useEffectFromTheSecondTime} from '@/utils/extend/library/react';
+import {createPortal} from 'react-dom';
 
 export interface ModalProps extends EssentialModalProps, Omit<ComponentPropsWithoutRef<'div'>, 'onClick' | 'children'> {
   easilyClose?: boolean; // backdrop / esc 눌러서 모달 닫게 해주는 기능, default false
@@ -54,9 +55,9 @@ export default function Modal({className, easilyClose, onClose, ...rest}: PropsW
     event.stopPropagation();
   }, []);
 
-  return (
+  return createPortal((
     <dialog ref={modalRef} className={styles.modal} onClick={easilyClose ? onClose : undefined}>
       <div className={classNames(styles.modalInnerContainer, className)} onClick={onClickModalContent} {...rest} />
     </dialog>
-  )
+  ), document.body);
 }

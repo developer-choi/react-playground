@@ -1,0 +1,5 @@
+.stateWrap {
+  > :not(button) {
+    background-color: red !important;
+  }
+}
