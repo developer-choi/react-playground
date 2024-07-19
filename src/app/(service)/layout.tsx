@@ -8,7 +8,9 @@ import ServiceLayoutHeader from '@/components/layout/ServiceLayoutHeader';
 import {getMessages} from 'next-intl/server';
 import {getUserLocale} from '@/utils/service/i18n';
 import IntlClientProvider from '@/utils/service/i18n/IntlClientProvider';
-import ModalProvider from '@/components/modal/ModalProvider';
+import dynamic from 'next/dynamic';
+
+const ModalProvider = dynamic(() => import('@/components/modal/ModalProvider'), {ssr: false});
 
 /**
  * 로그인 여부와 상관없이 콜백페이지만 제외하고 모든 페이지를 감싸는 레이아웃
