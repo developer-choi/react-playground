@@ -1,3 +1,5 @@
+import {DEFAULT_HOME_URL} from '@/utils/service/auth/redirect';
+
 interface NextNavigatingParam {
   redirectUrl: string; // pathname + querystring
   isLoggedIn: boolean;
@@ -9,7 +11,7 @@ export type NextNavigatingResult = {
   nextUrl: `/guest/login?redirect=${string}`
 } | {
   type: "already-authenticated";
-  nextUrl: `/`
+  nextUrl: typeof DEFAULT_HOME_URL
 } | {
   type: "correct"
 };
@@ -26,7 +28,7 @@ export function getNextNavigating({redirectUrl, nextPathname, isLoggedIn}: NextN
   } else if (isNotPrivate && isLoggedIn) {
     return {
       type: 'already-authenticated',
-      nextUrl: "/" as const
+      nextUrl: DEFAULT_HOME_URL
     }
 
   } else {
