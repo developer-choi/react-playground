@@ -8,10 +8,19 @@ import Link from 'next/link';
 export default function ServiceLayoutHeader() {
   const session = useSession();
 
-  const logout = useCallback(() => {
-    signOut({
-      redirect: false
-    });
+  const logout = useCallback(async () => {
+    try {
+      await backendLogoutApi();
+      await signOut({
+        redirect: false
+      });
+    } catch (error) {
+      await signOut({
+        redirect: false
+      });
+
+      throw error;
+    }
   }, []);
 
   return (
@@ -31,4 +40,8 @@ export default function ServiceLayoutHeader() {
       )}
     </header>
   );
+}
+
+async function backendLogoutApi() {
+
 }

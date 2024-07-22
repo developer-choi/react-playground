@@ -6,9 +6,21 @@ import {signOut} from '@/utils/service/auth';
 export async function GET(request: NextRequest) {
   const redirectUrl = request.nextUrl.searchParams.get("redirect") ?? '/';
 
-  await signOut({
-    redirect: false
-  });
+  try {
+    await backendLogoutApi()
+    await signOut({
+      redirect: false
+    });
+  } catch (error) {
+    await signOut({
+      redirect: false
+    });
+    throw error;
+  }
 
   redirect(`/guest/login?redirect=${encodeURIComponent(redirectUrl)}`)
+}
+
+async function backendLogoutApi() {
+
 }
