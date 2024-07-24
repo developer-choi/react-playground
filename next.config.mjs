@@ -4,6 +4,14 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('src/utils/service/i18n');
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'picsum.photos',
+      },
+    ],
+  },
+};
 
 export default withNextIntl(nextConfig);

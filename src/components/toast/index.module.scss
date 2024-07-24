@@ -1,0 +1,21 @@
+@use "./toast-util" as toastUtil;
+@use "/src/utils/styles/util" as util;
+
+.defaultSnackBar {
+  @include toastUtil.resetToastBoxStyle;
+  @include toastUtil.setToastBoxStyle(#000000B2);
+  @include toastUtil.setToastTextStyle(14px, 20px, white);
+  padding: 16px !important;
+  
+  // 닫기버튼 노출시키기 위함
+  align-items: center;
+  
+  .body > div {
+    @include util.textOverflowEllipseMultiline(2);
+  }
+}
+
+.closeButton {
+  height: 24px;
+  margin-left: 4px;
+}

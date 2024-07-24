@@ -1,0 +1,46 @@
+@mixin hiddenDefaultInputIcon {
+  appearance: none;
+  width: 0;
+  height: 0;
+}
+
+@mixin textOverflowEllipsis {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/**
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-line-clamp
+ * n번째 줄에서 ...처리하는 CSS, 브라우저 호환이 안되는 경우가 많아서 1줄만 하는 경우 위 mixin 사용하기
+ * @param lineCount number
+ */
+@mixin textOverflowEllipseMultiline($lineCount) {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: $lineCount;
+  word-break: break-word;
+}
+
+@mixin flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin absoluteFull {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+@mixin absoluteCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
