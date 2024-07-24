@@ -10,16 +10,24 @@ export default function ServiceLayoutHeader() {
   const session = useSession();
   const pathname = usePathname();
 
+  // https://docs.google.com/document/d/1PRzGtGusjqi4LfU0R4dC4wLPKfxQN5GcJ7JJXOAkdK0/edit
   const logout = useCallback(async () => {
     try {
       await backendLogoutApi();
       await signOut({
         redirect: false
       });
-    } catch (error) {
+    } catch (error: any) {
+      // [Authentication 요구사항 > Final step. 로그아웃 하기 (주로 헤더에있는)] https://docs.google.com/document/d/1p5jI5u3NZOHbRge9M0ZCmhQgqCriZfpUGks6I7blQlI/edit#heading=h.41h4ckzdotb
+
       await signOut({
         redirect: false
       });
+
+      // already logout
+      if (error.status === 401) {
+        return;
+      }
 
       throw error;
     }
