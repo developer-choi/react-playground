@@ -9,7 +9,7 @@ export default function I18nClientTest() {
   const onClick = useCallback(() => {
     console.log(t('key1.key2.static'));
     console.log(t('key1.key2.dynamic', {some: 'dynamic'}));
-    console.log(t('not found code 2'));
+    // console.log(t('not found code 2'));
   }, [t]);
   
   return (
