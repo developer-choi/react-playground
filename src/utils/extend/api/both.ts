@@ -10,34 +10,14 @@ import {LoginError} from '@/utils/service/auth/redirect';
 /**
  * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
  */
-export async function getCustomFetchInBothSide(input: string | URL | globalThis.Request, options: GetFetchParameter): Promise<CustomResponse> {
-  const request = handleRequest(input, options);
+export async function customFetchInBothSide(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
+  const request = handleRequest(input, parameter);
   const response = await fetch(request.input, request.init);
   return handleResponse(response);
 }
 
-/**
- * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
- */
-export async function othersCustomFetch(input: string | URL | globalThis.Request, parameter: OthersFetchParameter) {
-  const {input: requestUrl, init: {headers, body, ...rest}} = handleRequest(input, parameter);
-  const newHeaders = new Headers(headers);
-
-  if (typeof body === "object") {
-    newHeaders.set("Content-Type", "application/json");
-  }
-
-  const response = await fetch(requestUrl, {
-    headers: newHeaders,
-    body: typeof body === "object" ? JSON.stringify(body) : body,
-    ...rest
-  });
-
-  return handleResponse(response);
-}
-
-function handleRequest(input: string | URL | globalThis.Request, parameter: GetFetchParameter) {
-  const {headers, session, authorize, ...init} = parameter;
+function handleRequest(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
+  const {headers, session, authorize, body, ...init} = parameter;
   const newHeaders = new Headers(headers);
 
   switch (authorize) {
@@ -61,6 +41,11 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: GetF
       break;
   }
 
+  // GET의 경우에는 없고, 그 외 나머지는 JSON이 될 수도, Primitive일 수도 있음.
+  if (typeof body === "object") {
+    newHeaders.set("Content-Type", "application/json");
+  }
+
   // TODO URL 앞에 env로 개발환경 / 운영환경 셋팅하는부분은 추후 추가
   const requestUrl = typeof input !== "string" || input.startsWith("http") ? input : `http://localhost:3000/${input}`;
 
@@ -68,6 +53,7 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: GetF
     input: requestUrl,
     init: {
       headers: newHeaders,
+      body: typeof body === "object" ? JSON.stringify(body) : body,
       ...init
     }
   }
@@ -101,8 +87,9 @@ async function handleResponse(response: Response) {
   }
 }
 
-export interface GetFetchParameter extends RequestInit {
-  session: Session | null;
+// Client Side / Server Side 각 환경에서 한번 더 확장한 fetch 함수 만들 때 이 타입을 사용
+export interface ExtendedCustomFetchParameter extends RequestInit {
+  method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
 
   /**
    * none = request에 accessToken을 싣지않음.
@@ -112,8 +99,8 @@ export interface GetFetchParameter extends RequestInit {
   authorize: 'private' | 'public' | 'none';
 }
 
-export interface OthersFetchParameter extends GetFetchParameter {
-  method: "POST" | "DELETE" | "PATCH";
+export interface CustomFetchParameter extends ExtendedCustomFetchParameter {
+  session: Session | null;
 }
 
 export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'url'> {

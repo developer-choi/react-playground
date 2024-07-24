@@ -1,13 +1,16 @@
 'use client';
 
 import {getSession, signOut} from "next-auth/react";
-import {getCustomFetchInBothSide, GetFetchParameter} from "@/utils/extend/api/both";
 import {LoginError} from '@/utils/service/auth/redirect';
+import {
+  customFetchInBothSide,
+  ExtendedCustomFetchParameter
+} from '@/utils/extend/api/both';
 
-export async function getCustomFetchInClientSide(input: string | URL | globalThis.Request, parameter: Omit<GetFetchParameter, 'session'>) {
+export async function customFetchInClientSide(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
   try {
     const session = await getSession();
-    return await getCustomFetchInBothSide(input, {...parameter, session});
+    return await customFetchInBothSide(input, {...parameter, session});
   } catch (error: any) {
     if (error instanceof LoginError) {
       const redirectUrl = location.pathname + location.search;

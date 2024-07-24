@@ -1,6 +1,6 @@
 import {getRequestConfig} from 'next-intl/server';
 import {isServer} from '@/utils/extend/library/next';
-import {getCustomFetchInServerSide} from '@/utils/extend/api/server';
+import {customFetchInServerSide} from '@/utils/extend/api/server';
 import {handleIntlError} from '@/utils/service/i18n/handleIntlError';
 
 // https://next-intl-docs.vercel.app/docs/getting-started/app-router/without-i18n-routing
@@ -21,7 +21,7 @@ export interface Locale {
 
 export async function getUserLocale(): Promise<Locale> {
   try {
-    const { json } = await getCustomFetchInServerSide('/member', {authorize: 'private'});
+    const { json } = await customFetchInServerSide('/member', {authorize: 'private', method: 'GET'});
     return {
       short: json.user.langauge
     };
