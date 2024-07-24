@@ -88,7 +88,8 @@ async function handleResponse(response: Response) {
 }
 
 // Client Side / Server Side 각 환경에서 한번 더 확장한 fetch 함수 만들 때 이 타입을 사용
-export interface ExtendedCustomFetchParameter extends RequestInit {
+export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
+  body?: RequestInit['body'] | object;
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
 
   /**
