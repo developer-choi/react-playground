@@ -1,5 +1,3 @@
-/* reset.css 가장 원본은 markup-playground 참고 */
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -57,20 +55,14 @@ button, input, textarea {
   padding: 0;
   border: none;
   
-  /* 브라우저가 해당 태그에 직접 기본스타일 지정하고있어서, body로 부터 기본값 상속받기위해 작성함. */
   font-size: inherit;
   color: inherit;
 }
 
-/* 이 2개는 기본 폰트가 따로 적용되어있어서 이렇게 해야 body로 부터 커스텀 폰트 상속받음. */
 input, textarea {
   font-family: inherit;
 }
 
-/**
- * button은 기본 배경색 disabled 배경색 둘 다 있는데,
- * button, button:disabled 안하고 button 하나만 배경색 지정해도 둘 다 지정됨.
- */
 button, input:disabled, textarea:disabled {
   background: transparent;
 }
@@ -79,15 +71,12 @@ textarea {
   resize: none;
 }
 
-/* input type number 화살표 지우기 */
-/* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
 }
@@ -101,9 +90,9 @@ input[type=number] {
 
 a {
   text-decoration: none;
+  color: inherit; /* 이거 안하면 링크 방문여부에 따른 그 컬러 나옴 */
 }
 
-/* Modal, Non Modal 공통 reset.css */
 dialog {
   color: inherit;
   border: none;
