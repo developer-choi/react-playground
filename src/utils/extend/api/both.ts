@@ -20,25 +20,12 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   const {headers, session, authorize, body, ...init} = parameter;
   const newHeaders = new Headers(headers);
 
-  switch (authorize) {
-    case "public": {
-      if (session) {
-        newHeaders.set("access-token'", session.user.access_token);
-      }
-      break;
-    }
-    case "private": {
-      if (!session) {
-        throw LOGIN_ERROR;
-      } else {
-        newHeaders.set("access-token'", session.user.access_token);
-      }
-      break;
-    }
+  if (authorize === 'private' && !session) {
+    throw LOGIN_ERROR;
 
-    case "none":
-    default:
-      break;
+  } else if (authorize !== 'none' && session) {
+    // access token 대신
+    newHeaders.set("access-token'", session.user.access_token);
   }
 
   // GET의 경우에는 없고, 그 외 나머지는 JSON이 될 수도, Primitive일 수도 있음.
