@@ -26,13 +26,45 @@ export function isMatchKeyboardEvent(event: Pick<KeyboardEvent, 'key' | SpecialK
 }
 
 /**
+ * Custom hook to handle keyboard events matching a specific keyboard shortcut.
+ *
+ * @param keyboardShortcut - The target key and special key combination to match against the keyboard event.
+ * @param callback - The function to be called when the keyboard event matches the specified shortcut.
+ */
+export function useKeyboardShortcut(keyboardShortcut: KeyboardShortcut, callback: (event: KeyboardEvent) => void) {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!isCharacterKeyPressed(event)) {
+        return;
+      }
+
+      if (!isMatchKeyboardEvent(event, keyboardShortcut)) {
+        return;
+      }
+
+      callback(event);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [callback, keyboardShortcut]);
+}
+
+/*************************************************************************************************************
+ * Non Export
+ *************************************************************************************************************/
+
+/**
  * Checks if the special keys in a given keyboard event match the specified special key combination.
  *
  * @param event - An object representing the state of special keys (ctrlKey, altKey, metaKey, shiftKey).
  * @param specialKeys - The list of special keys that should be pressed.
  * @returns True if the specified special keys are pressed and no other special keys are pressed, false otherwise.
  */
-export function isMatchingSpecialKeys(event: Record<SpecialKey, boolean>, specialKeys: SpecialKey[]): boolean {
+function isMatchingSpecialKeys(event: Record<SpecialKey, boolean>, specialKeys: SpecialKey[]): boolean {
   const remainingKeys = SPECIAL_KEYS.filter(key => !specialKeys.includes(key));
   return specialKeys.every(key => event[key]) && remainingKeys.every(key => !event[key]);
 }
@@ -62,32 +94,4 @@ export function isCharacterKeyPressed(event: KeyboardEvent): boolean {
    * 그러므로 길이가 1인걸로 체크하는것으로 결정했습니다.
    */
   return key.length === 1;
-}
-
-/**
- * Custom hook to handle keyboard events matching a specific keyboard shortcut.
- *
- * @param keyboardShortcut - The target key and special key combination to match against the keyboard event.
- * @param callback - The function to be called when the keyboard event matches the specified shortcut.
- */
-export function useKeyboardShortcut(keyboardShortcut: KeyboardShortcut, callback: (event: KeyboardEvent) => void) {
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isCharacterKeyPressed(event)) {
-        return;
-      }
-
-      if (!isMatchKeyboardEvent(event, keyboardShortcut)) {
-        return;
-      }
-
-      callback(event);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [callback, keyboardShortcut]);
 }
