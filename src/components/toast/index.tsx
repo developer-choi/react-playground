@@ -1,5 +1,5 @@
 import {CloseButtonProps, toast, ToastOptions} from 'react-toastify';
-import IcClose from '@/components/icon/IcClose';
+import CloseIcon from '@/components/icon/CloseIcon';
 import styles from './index.module.scss';
 
 export interface DefaultSnackBarOptions {
@@ -31,7 +31,7 @@ export const SNACK_BAR_OPTIONS: ToastOptions = {
 function SnackBarCloseIcon(props: CloseButtonProps) {
   return (
     <button className={styles.closeButton} style={{background: 'transparent', padding: 0}} onClick={props.closeToast}>
-      <IcClose />
+      <CloseIcon />
     </button>
   );
 }
