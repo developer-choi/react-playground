@@ -1,16 +1,72 @@
 import {Session} from "next-auth";
+import {getSession, signOut} from 'next-auth/react';
+import {redirect} from 'next/navigation';
 import {LoginError} from '@/utils/service/auth/redirect';
+import {auth} from '@/utils/service/auth';
 
-/**
- * 해당 모듈은, server / client side 양쪽에서 호출할 수 있도록
- * 어느 한쪽에서만 동작하는 코드를 작성하지 밀아야합니다.
- * Doc : https://docs.google.com/document/d/1Mi1vh2OR45EOhj63jl3cq_5ZKscFb1uVMkVYn180IMw/edit#heading=h.jdcuemqp6ojl
- */
-
-/**
+/** customFetchOnXXXSide() 공통 주석
  * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
  */
-export async function customFetchInBothSide(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
+
+export async function customFetchOnClientSide(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
+  try {
+    const session = await getSession();
+    return await customFetchInBothSide(input, {...parameter, session});
+  } catch (error: any) {
+    if (error instanceof LoginError) {
+      const redirectUrl = location.pathname + location.search;
+
+      await signOut({
+        redirect: false
+      });
+
+      throw new LoginError("Login is required", `/guest/login?redirect=${encodeURIComponent(redirectUrl)}`);
+    } else {
+      throw error;
+    }
+  }
+}
+
+export async function customFetchOnServerSide(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
+  try {
+    const session = await auth();
+    return await customFetchInBothSide(input, {...parameter, session});
+  } catch (error: any) {
+    if (error instanceof LoginError) {
+      const currentUrl = require('next/headers').headers().get('current-pathname-with-search') ?? '/'; // middleware에서 셋팅
+      redirect(`/api/next-auth/logout?redirect=${currentUrl}`);
+
+    } else {
+      throw error;
+    }
+  }
+}
+
+export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'url'> {
+  json: any; // TODO 추후 제네릭 추가예정
+  text: string | '';
+}
+
+/*************************************************************************************************************
+ * Non Export
+ *************************************************************************************************************/
+interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
+  body?: RequestInit['body'] | object;
+  method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
+
+  /**
+   * none = request에 accessToken을 싣지않음.
+   * public = 로그인되어있으면 accessToken을 request에 실음
+   * private = public 특징 포함하며, 로그인 안되어있으면 LoginError 던짐
+   */
+  authorize: 'private' | 'public' | 'none';
+}
+
+interface CustomFetchParameter extends ExtendedCustomFetchParameter {
+  session: Session | null;
+}
+
+async function customFetchInBothSide(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
   const request = handleRequest(input, parameter);
   const response = await fetch(request.input, request.init);
   return handleResponse(response);
@@ -72,28 +128,6 @@ async function handleResponse(response: Response) {
   } else {
     return Promise.reject(customResponse);
   }
-}
-
-// Client Side / Server Side 각 환경에서 한번 더 확장한 fetch 함수 만들 때 이 타입을 사용
-export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
-  body?: RequestInit['body'] | object;
-  method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
-
-  /**
-   * none = request에 accessToken을 싣지않음.
-   * public = 로그인되어있으면 accessToken을 request에 실음
-   * private = public 특징 포함하며, 로그인 안되어있으면 LoginError 던짐
-   */
-  authorize: 'private' | 'public' | 'none';
-}
-
-export interface CustomFetchParameter extends ExtendedCustomFetchParameter {
-  session: Session | null;
-}
-
-export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'url'> {
-  json: any; // TODO 추후 제네릭 추가예정
-  text: string | '';
 }
 
 const LOGIN_ERROR = new LoginError("Login is required");

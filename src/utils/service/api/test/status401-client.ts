@@ -1,5 +1,5 @@
-import {customFetchInClientSide} from "@/utils/extend/api/client";
+import {customFetchOnClientSide} from '@/utils/extend/api/both';
 
 export function getTestStatus401ClientApi() {
-  return customFetchInClientSide("/api/test/status-401", {authorize: 'private', method: 'GET'});
+  return customFetchOnClientSide("/api/test/status-401", {authorize: 'private', method: 'GET'});
 }
