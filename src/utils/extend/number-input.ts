@@ -61,7 +61,7 @@ export function useComputableNumberInput<T extends InternalFieldName>(registerRe
 type UnsupportOptions = 'onChange' | 'setValueAs' | 'valueAsNumber' | 'valueAsDate';
 
 export interface IncomputableNumberOptions<T extends FieldValues, N extends FieldPath<T>> extends Omit<RegisterOptions<T, N>, UnsupportOptions> {
-  type?: ComponentPropsWithoutRef<'input'>['type'];
+  type?: 'tel';
   mask?: boolean;
 }
 
