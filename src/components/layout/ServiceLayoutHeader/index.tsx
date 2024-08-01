@@ -4,11 +4,9 @@ import styles from './index.module.scss';
 import {signOut, useSession} from 'next-auth/react';
 import {useCallback} from 'react';
 import Link from 'next/link';
-import {usePathname} from 'next/navigation';
 
 export default function ServiceLayoutHeader() {
   const session = useSession();
-  const pathname = usePathname();
 
   // https://docs.google.com/document/d/1PRzGtGusjqi4LfU0R4dC4wLPKfxQN5GcJ7JJXOAkdK0/edit
   const logout = useCallback(async () => {
@@ -33,11 +31,6 @@ export default function ServiceLayoutHeader() {
     }
   }, []);
 
-  // Next Auth 테스트 안하는 페이지에서는 안나오도록 수정
-  if (VISIBLE_ROOT_PATH.some(visibleRootPath => pathname.includes(visibleRootPath))) {
-    return null;
-  }
-
   return (
     <header className={styles.header}>
       <div className={styles.gnb}>
@@ -60,9 +53,3 @@ export default function ServiceLayoutHeader() {
 async function backendLogoutApi() {
 
 }
-
-const VISIBLE_ROOT_PATH = [
-  '/experimental',
-  '/solution',
-  '/study'
-];
