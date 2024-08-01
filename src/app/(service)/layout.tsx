@@ -6,8 +6,6 @@ import ServiceLayoutHeader from '@/components/layout/ServiceLayoutHeader';
 import {getMessages} from 'next-intl/server';
 import {getUserLocale} from '@/utils/service/i18n';
 import IntlClientProvider from '@/utils/service/i18n/IntlClientProvider';
-import '@/utils/styles/reset.css';
-import '@/utils/styles/global.css';
 import dynamic from 'next/dynamic';
 
 const ExtendedToastContainer = dynamic(() => import('@/components/toast/ExtendedToastContainer'), {ssr: false});
