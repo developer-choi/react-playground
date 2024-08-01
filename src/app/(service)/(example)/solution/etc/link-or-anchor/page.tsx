@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import LinkOrAnchor from '@/components/element/link/LinkOrAnchor';
+import LinkOrAnchor from '@/components/element/LinkOrAnchor';
 
 // URL: http://localhost:3000/solution/etc/link-or-anchor
 export default function Page() {

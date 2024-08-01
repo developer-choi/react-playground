@@ -1,8 +1,7 @@
 'use state';
 
 import React, {ComponentPropsWithoutRef, useEffect, useState} from 'react';
-import {LinkProps} from 'next/link';
-import CustomLink from '@/components/element/link/CustomLink';
+import Link, {LinkProps} from 'next/link';
 
 /**
  * href: FULL URL (관리자페이지에서 무언가를 등록할 때 (이미지배너 등) 연결될 URL을 입력하게되는데 그 때 입력되는 FULL URL
@@ -14,7 +13,7 @@ export interface LinkOrAnchorProps extends Omit<ComponentPropsWithoutRef<'a'>, '
   href: string | undefined | null;
 }
 
-export default function LinkOrAnchor({href, target, rel, ...rest}: LinkOrAnchorProps) {
+export default function LinkOrAnchor({prefetch, href, target, rel, ...rest}: LinkOrAnchorProps) {
   const originLink = useOriginLink(href ?? '');
 
   if (originLink === 'initial' || !originLink.href) {
@@ -23,7 +22,7 @@ export default function LinkOrAnchor({href, target, rel, ...rest}: LinkOrAnchorP
 
   if (originLink.isOurOrigin) {
     return (
-      <CustomLink href={originLink.href} {...rest}/>
+      <Link href={originLink.href} prefetch={prefetch} {...rest}/>
     );
   }
 
