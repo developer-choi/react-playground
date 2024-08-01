@@ -1,5 +1,5 @@
 import {getTranslations} from 'next-intl/server';
-import I18nClientTest from '@/app/(service)/(example)/study/i18n/I18nClientTest';
+import I18nClientTest from '@/app/(example)/study/i18n/I18nClientTest';
 
 /**
  * URL : http://localhost:3000/study/i18n
