@@ -3,9 +3,6 @@ import InnerSessionProvider from '@/utils/service/auth/InnerSessionProvider';
 import {SessionProvider} from 'next-auth/react';
 import {auth} from '@/utils/service/auth';
 import ServiceLayoutHeader from '@/components/layout/ServiceLayoutHeader';
-import {getMessages} from 'next-intl/server';
-import {getUserLocale} from '@/utils/service/i18n';
-import IntlClientProvider from '@/utils/service/i18n/IntlClientProvider';
 import dynamic from 'next/dynamic';
 
 const ExtendedToastContainer = dynamic(() => import('@/components/toast/ExtendedToastContainer'), {ssr: false});
@@ -17,18 +14,16 @@ const ModalProvider = dynamic(() => import('@/components/modal/ModalProvider'), 
  * 다국어 셋팅 출처 : https://next-intl-docs.vercel.app/docs/getting-started/app-router/without-i18n-routing
  */
 export default async function ServiceLayout({children}: PropsWithChildren) {
-  const [messages, locale, session] = await Promise.all([getMessages(), getUserLocale(), auth()]);
+  const session = await auth();
 
   return (
     <SessionProvider refetchOnWindowFocus={false} session={session}>
       <InnerSessionProvider>
-        <IntlClientProvider locale={locale.short} messages={messages}>
-          <ServiceLayoutHeader/>
-          <ModalProvider>
-            {children}
-          </ModalProvider>
-          <ExtendedToastContainer/>
-        </IntlClientProvider>
+        <ServiceLayoutHeader/>
+        <ModalProvider>
+          {children}
+        </ModalProvider>
+        <ExtendedToastContainer/>
       </InnerSessionProvider>
     </SessionProvider>
   );
