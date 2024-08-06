@@ -34,10 +34,6 @@ export function isMatchKeyboardEvent(event: Pick<KeyboardEvent, 'key' | SpecialK
 export function useKeyboardShortcut(keyboardShortcut: KeyboardShortcut, callback: (event: KeyboardEvent) => void) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isCharacterKeyPressed(event)) {
-        return;
-      }
-
       if (!isMatchKeyboardEvent(event, keyboardShortcut)) {
         return;
       }
