@@ -24,7 +24,7 @@ export interface CalendarDate {
 }
 
 // 기준 : 시작이 월요일
-export function getCalendarWeekList(year: number, month: number): CalendarDate[][] {
+export function getCalendarWeekList<T = CalendarDate>(year: number, month: number, converter?: (date: CalendarDate) => T): T[][] {
   const {endOfMonth, startOfMonth} = getMonthBoundary(year, month);
 
   const prevMonthDayCount = startOfMonth.getDay() === 0 ? 6 : startOfMonth.getDay() - 1;
@@ -40,13 +40,22 @@ export function getCalendarWeekList(year: number, month: number): CalendarDate[]
   const nextMonthDates = new Array(nextMonthDayCount === 7 ? 0 : nextMonthDayCount)
     .fill('').map((_, index) => new Date(year, month, index + 1));
 
-  const calendarDates: CalendarDate[] = prevMonthDates.concat(currentMonthDates, nextMonthDates).map(date => ({
-    original: date,
-    isMatchedMonth: month === date.getMonth() + 1,
-    year: date.getFullYear(),
-    month: date.getMonth() + 1,
-    date: date.getDate()
-  }))
+  const calendarDates: T[] = prevMonthDates.concat(currentMonthDates, nextMonthDates).map(date => {
+    const calendarDate: CalendarDate = {
+      original: date,
+      isMatchedMonth: month === date.getMonth() + 1,
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      date: date.getDate()
+    };
+
+    if (converter) {
+      return converter(calendarDate);
+
+    } else {
+      return calendarDate as T;
+    }
+  });
 
   return arraySplit(calendarDates, 7);
 }
