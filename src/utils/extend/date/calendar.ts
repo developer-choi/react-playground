@@ -17,10 +17,14 @@ export function getMonthBoundary(year: number, month: number): MonthBoundary {
 
 export interface CalendarDate {
   original: Date;
-  isMatchedMonth: boolean;
   year: number;
-  month: number;
+  month: number; // 현재 달과 1차이난다거나 그런거없이 다 보정된상태로 전달됨
   date: number;
+  state: {
+    isMatchedMonth: boolean;
+    isLast: boolean;
+    isFirst: boolean;
+  };
 }
 
 // 기준 : 시작이 월요일
@@ -41,12 +45,18 @@ export function getCalendarWeekList<T = CalendarDate>(year: number, month: numbe
     .fill('').map((_, index) => new Date(year, month, index + 1));
 
   const calendarDates: T[] = prevMonthDates.concat(currentMonthDates, nextMonthDates).map(date => {
+    const numericDate = date.getDate();
+
     const calendarDate: CalendarDate = {
       original: date,
-      isMatchedMonth: month === date.getMonth() + 1,
       year: date.getFullYear(),
       month: date.getMonth() + 1,
-      date: date.getDate()
+      date: numericDate,
+      state: {
+        isMatchedMonth: month === date.getMonth() + 1,
+        isFirst: numericDate === 1,
+        isLast: endOfMonth.getDate() === numericDate
+      }
     };
 
     if (converter) {
