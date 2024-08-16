@@ -3,7 +3,7 @@
 import {RegisterOptions, SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
 import React, {useCallback} from 'react';
 import {baseHandleErrors} from '@/utils/extend/library/react-hook-form';
-import HiddenInput from '@/components/form/input/HiddenInput';
+import HiddenInput from '@/components/form/Input/HiddenInput';
 
 /**
  * URL: http://localhost:3000/solution/form/validated-by-api

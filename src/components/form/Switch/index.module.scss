@@ -1,0 +1,72 @@
+@use "/src/components/form/form-elements/index.module" as form;
+@use "/src/styles/color";
+
+@mixin colorByState {
+  // default track
+  > input[type="checkbox"] {
+    background: nth(color.$grayColors, 1);
+    
+    // default thumb
+    &::before {
+      background-color: white;
+    }
+    
+    // checked track
+    &:checked {
+      background: #F89B5C;
+      
+      // checked thumb
+      &::before {
+        background: map-get(color.$brandColors, primary);
+      }
+    }
+    
+    // disabled + unchecked track
+    &:disabled {
+      background: nth(color.$grayColors, 6);
+      
+      // disabled + unchecked thumb
+      &::before {
+        background: nth(color.$grayColors, 7);
+      }
+    }
+  }
+}
+
+$radius: 20px;
+
+.label {
+  @include form.commonRadioCheckSwitchWrapper;
+  @include colorByState;
+  
+  // track
+  > input[type="checkbox"] {
+    appearance: none;
+    position: relative;
+    width: 36px;
+    height: 14px;
+    border-radius: 360px;
+    cursor: pointer; // input은 cursor 기본값이 포인터가 아님.
+    
+    // thumb
+    &::before {
+      position: absolute;
+      content: "";
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      
+      width: $radius;
+      height: $radius;
+      border-radius: 50%;
+      box-shadow: -1px 1px 1px 0 #33333340;
+      
+      transition: left 0.2s;
+    }
+    
+    &:checked::before {
+      left: calc(100% - $radius);
+      box-shadow: 1px 1px 1px 0 #33333340;
+    }
+  }
+}

@@ -1,6 +1,5 @@
-.formWrap {
+@mixin designSystemForm {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-width: 400px;
+  gap: 24px;
 }

@@ -1,9 +1,9 @@
 'use client';
 
 import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
-import {useCallback, KeyboardEvent} from 'react';
+import {KeyboardEvent, useCallback} from 'react';
 import {baseHandleErrors} from '@/utils/extend/library/react-hook-form';
-import {Form} from '@/components/form/form';
+import styles from './page.module.scss';
 
 /**
  * URL: http://localhost:3000/experimental/module/keyboard-shortcut/form-submit-shortcut
@@ -32,15 +32,14 @@ export default function Page() {
         // https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/requestSubmit
         formElement.requestSubmit();
       }
-
     }
   }, []);
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <form className={styles.formWrap} onSubmit={handleSubmit(onSubmit, onError)}>
       <input {...register('title')}/>
       <textarea {...register('content')} onKeyDown={onKeyDown}/>
-    </Form>
+    </form>
   );
 }
 

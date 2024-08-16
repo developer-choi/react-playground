@@ -1,6 +1,6 @@
 'use client';
 
-import {EffectCallback, useCallback, useEffect, useRef, useState} from 'react';
+import {EffectCallback, ReactElement, ReactNode, useCallback, useEffect, useRef, useState} from 'react';
 
 export function useToggle(initial = false) {
   const [bool, setBool] = useState(initial);
@@ -64,3 +64,14 @@ export function useDelay(timeout: number) {
 
   return bool;
 }
+
+export function isReactElement(value: ReactNode) {
+  try {
+    const keys = Object.keys(value as any);
+    return REACT_ELEMENT_KEYS.every(key => keys.includes(key));
+  } catch (error) {
+    return false;
+  }
+}
+
+const REACT_ELEMENT_KEYS: (keyof ReactElement)[] = ['key', 'type', 'props'];
