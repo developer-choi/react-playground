@@ -1,5 +1,5 @@
 import React from 'react';
-import {ServerComponentProps} from '@/type/declaration/next';
+import {ServerComponentProps} from '@/types/declaration/next';
 
 const Page = (props: ServerComponentProps) => {
   const {pk} = props.searchParams;

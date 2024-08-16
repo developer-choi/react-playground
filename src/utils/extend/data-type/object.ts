@@ -85,7 +85,7 @@ export function safeLoopRecursivelyObject<O extends object>(object: O, convertCa
     const result = convertCallback(parameter);
 
     if (typeof parameter.value !== typeof result) {
-      throw new Error('The converted value type is different than before.');
+      throw new Error('The converted value types is different than before.');
     }
 
     return result;

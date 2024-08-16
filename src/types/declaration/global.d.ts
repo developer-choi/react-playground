@@ -1,4 +1,4 @@
-import {Kakao} from '@/type/declaration/kakao';
+import {Kakao} from '@/types/declaration/kakao';
 
 export {};
 

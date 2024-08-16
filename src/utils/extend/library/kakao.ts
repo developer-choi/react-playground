@@ -1,7 +1,7 @@
 import type {ScriptProps} from 'next/dist/client/script';
 import {useCallback, useMemo, useState} from 'react';
-import env from '@/utils/env';
-import {KakaoTalkCommerce} from '@/type/declaration/kakao';
+import env from '@/utils/service/env';
+import {KakaoTalkCommerce} from '@/types/declaration/kakao';
 
 export function useKakaoInit() {
   const [initialized, setInitialized] = useState(false);
