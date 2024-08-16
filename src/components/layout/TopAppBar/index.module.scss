@@ -1,0 +1,45 @@
+@use "/src/styles/util";
+
+.container {
+  &.sticky {
+    position: sticky;
+    top: 0;
+  }
+
+  > :not(.center),
+  .empty {
+    // 디자인 시스템 요구사항, 이 자리에는 이 크기만 올 수 있고, 가로길이가 이거보다 길어지면 타이틀 중앙정렬 달성이 불가능함.
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  > :not(.center) {
+    cursor: pointer;
+  }
+
+  width: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 24px;
+  padding-block: 14px;
+  background-color: white;
+}
+
+.title {
+  display: block;
+  flex-grow: 1;
+  
+  > span {
+    @include util.textOverflowEllipsis;
+    width: 100%;
+    
+    &.left {
+      text-align: left;
+    }
+    
+    &.center {
+      text-align: center;
+    }
+  }
+}

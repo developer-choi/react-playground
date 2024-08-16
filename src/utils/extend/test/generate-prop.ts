@@ -1,12 +1,25 @@
 type Arrayify<T> = {
-  [K in keyof T]: T[K][];
+  [K in keyof T]: (T[K] | 'all')[] | 'boolean';
 };
 
 type FilterRecord<T> = {
-  [K in keyof T]: T[K] extends boolean ? { name: string; value: T[K] }[] : { name: string; value: T[K] | undefined }[];
+  [K in keyof T]: T[K] extends boolean
+    ? {
+      type: 'checkbox';
+      name: string;
+      value: undefined;
+    }[]
+    : {
+      type: 'radio';
+      name: string;
+      value: 'all' | T[K] | undefined;
+    }[];
 };
 
-export function generateCombinations<T>(obj: Partial<Arrayify<T>>): { filterRecord: FilterRecord<T>; combinations: T[] } {
+export function generatePropsList<T>(obj: Partial<Arrayify<T>>): {
+  filterRecord: FilterRecord<T>;
+  combinations: T[];
+} {
   const keys = Object.keys(obj) as (keyof T)[];
   const result: T[] = [];
 
@@ -19,9 +32,16 @@ export function generateCombinations<T>(obj: Partial<Arrayify<T>>): { filterReco
     const key = keys[index];
     const values = obj[key]!;
 
-    for (let value of values) {
-      const newCombination = { ...current, [key]: value };
-      helper(newCombination, index + 1);
+    if (values === 'boolean') {
+      for (let value of [false, true]) {
+        const newCombination = { ...current, [key]: value };
+        helper(newCombination, index + 1);
+      }
+    } else {
+      for (let value of values.filter((value) => value !== 'all')) {
+        const newCombination = { ...current, [key]: value };
+        helper(newCombination, index + 1);
+      }
     }
   }
 
@@ -31,37 +51,36 @@ export function generateCombinations<T>(obj: Partial<Arrayify<T>>): { filterReco
 
   keys.forEach((key) => {
     const values = obj[key]!;
-    if (typeof values[0] === 'boolean') {
-      filterRecord[key] = values.map((value) => ({
-        name: `${String(key)} ${String(value)}`,
-        value,
-      })) as FilterRecord<T>[typeof key];
-    } else {
+    if (values === 'boolean') {
       filterRecord[key] = [
-        { name: 'unset', value: undefined },
-        ...values.map((value) => ({ name: value as string, value })),
+        { type: 'checkbox', name: `${String(key)}`, value: undefined },
       ] as FilterRecord<T>[typeof key];
+    } else {
+      filterRecord[key] = values.map((value) => ({
+        type: 'radio',
+        name: value === '' ? 'empty' : value === undefined ? 'default' : value,
+        value: value === undefined ? '' : value,
+      })) as FilterRecord<T>[typeof key];
     }
   });
 
   return { filterRecord, combinations: result };
 }
 
-interface TestButtonProp {
-  variant: 'outline' | 'fill';
-  disabled: boolean;
-}
+export function filterPropsList<T extends Object>(array: T[], filter: Record<keyof T, any>) {
+  return array.filter((data) => {
+    return Object.entries(filter).every(([key, valueInFilter]) => {
+      if (!(key in data) || valueInFilter === 'all') {
+        return true;
+      }
 
-function test() {
-  const {combinations} = generateCombinations<TestButtonProp>({
-    disabled: [true, false],
-    variant: ['fill', 'outline']
+      const valueInData = data[key as keyof T];
+
+      if ((valueInData === undefined || valueInData === '') && (valueInFilter === undefined || valueInFilter === '')) {
+        return true;
+      }
+
+      return valueInData === valueInFilter;
+    });
   });
-
-  /**
-   * variant 경우의 수 2가지
-   * disabled 경우의 수 2가지
-   * 합 2 x 2 = 4가지 케이스의 배열이 응답됨.
-   */
-  console.log(combinations);
 }

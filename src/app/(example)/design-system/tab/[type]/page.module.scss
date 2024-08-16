@@ -1,0 +1,45 @@
+@use "/src/styles/color";
+@use "/src/styles/util";
+@use "/src/styles/layout.module";
+
+.articleListWrap {
+  padding-inline: map-get(layout.$layout, horizontalPadding);
+}
+
+.article {
+  display: block;
+  padding-block: 16px;
+  border-bottom: 1px solid nth(color.$grayColors, 7);
+}
+
+.title {
+  @include util.textOverflowEllipsis;
+  margin-bottom: 8px;
+  
+  &.haveRed {
+    color: nth(color.$grayColors, 5);
+    
+    +.date {
+      color: nth(color.$grayColors, 5);
+    }
+  }
+  
+  &.important {
+    &::before {
+      position: relative;
+      bottom: 3px;
+      
+      display: inline-block;
+      content: ' ';
+      width: 4px;
+      height: 4px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background-color: map-get(color.$stateColors, warning);
+    }
+  }
+}
+
+.date {
+  color: nth(color.$grayColors, 4);
+}

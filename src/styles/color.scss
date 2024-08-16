@@ -15,7 +15,7 @@ $grayColors: (
 $stateColors: (
   success: #3FB034, // map-get($stateColors, success);
   error: #ff0000, // map-get($stateColors, error);
-  disabled: nth($grayColors, 2) // map-get($stateColors, disabled);
+  disabled: nth($grayColors, 6) // map-get($stateColors, disabled);
 );
 
 $brandColors: (

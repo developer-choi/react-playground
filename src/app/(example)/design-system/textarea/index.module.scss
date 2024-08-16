@@ -1,0 +1,17 @@
+.wrap {
+  padding: 20px;
+  
+  form label:has(input[type="radio"]) {
+    margin-right: 8px;
+  }
+}
+
+.textAreaList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  
+  > * {
+    width: 300px;
+  }
+}

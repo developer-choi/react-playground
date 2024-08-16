@@ -1,0 +1,8 @@
+@use "/src/styles/color";
+
+.content {
+  display: block;
+  padding-top: 16px;
+  white-space: pre-line;
+  color: nth(color.$grayColors, 4);
+}
