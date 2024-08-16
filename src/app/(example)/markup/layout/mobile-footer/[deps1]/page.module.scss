@@ -1,0 +1,58 @@
+@use "/src/styles/color";
+@use "/src/styles/layout.module";
+@use "/src/components/element/typography/index.module" as typography;
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: map-get(layout.$layout, mobileBottomNavHeight);
+  
+  display: flex;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex: 1;
+  
+  &.active > .navText {
+    font-weight: bold;
+    color: map-get(color.$brandColors, primary);
+  }
+  
+  padding-top: 8px;
+}
+
+.badgeContainer {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  
+  > .badge {
+    position: absolute;
+    top: -2px;
+    left: calc(100% - 8px);
+  }
+}
+
+.navText {
+  @include typography.body3;
+  display: block;
+  color: nth(color.$grayColors, 3);
+  
+  margin-top: 2px;
+  
+  &.disabled {
+    color: map-get(color.$stateColors, disabled);
+  }
+}
