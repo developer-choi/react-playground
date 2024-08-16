@@ -19,10 +19,7 @@ export interface ActiveLinkProps extends CustomLinkProps {
    * pathname, querystring까지 정확하게 일치해야 active 상태가됨.
    * Usage는, /same/path?query=anotherValue 처럼 링크마다 쿼리스트링만 다른 케이스에서 사용
    */
-  enableActive: {
-    mode: LinkActiveMode;
-    className: string; // activeClass는 반드시 module stylesheet의 styles 객체에서 전달되야합니다. ex: styles.active
-  };
+  mode: LinkActiveMode;
 }
 
 /**
@@ -41,7 +38,7 @@ export default function ActiveLink(props: ActiveLinkProps) {
  * href는 "?query=value"와 "/current/path?query=value" 모두 지원함.
  * 이거 export하면 가끔 쓸일 있음 (/mobile-footer 하위 페이지 참고)
  */
-export function useCheckHrefIsActive(href: LinkProps['href'], enableActive: ActiveLinkProps['enableActive']): string | undefined {
+export function useCheckHrefIsActive(href: LinkProps['href'], mode: LinkActiveMode): 'active' | undefined {
   const currentPathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -49,14 +46,13 @@ export function useCheckHrefIsActive(href: LinkProps['href'], enableActive: Acti
   const nextUrl = stringHref.startsWith('/') ? stringHref : currentPathname + stringHref;
   const nextPathname = nextUrl.split('?')[0];
 
-  const isActive =
-    enableActive.mode === 'exact'
-      ? nextUrl === currentPathname + (searchParams.size === 0 ? '' : '?' + searchParams.toString())
-      // /fruit-fake/sub와 /fruit/sub를 구분하기 위한 코드. 그냥 바로 startWith로 체크하면 /fruit이나 /fruit-fake나 둘 다 active가 됨.
-      : currentPathname === nextPathname ? true : currentPathname.startsWith(`${nextPathname}/`);
+  const isActive = mode === 'exact'
+    ? nextUrl === currentPathname + (searchParams.size === 0 ? '' : '?' + searchParams.toString())
+    // /fruit-fake/sub와 /fruit/sub를 구분하기 위한 코드. 그냥 바로 startWith로 체크하면 /fruit이나 /fruit-fake나 둘 다 active가 됨.
+    : currentPathname === nextPathname ? true : currentPathname.startsWith(`${nextPathname}/`);
 
   if (isActive) {
-    return enableActive.className;
+    return 'active';
   } else {
     return undefined;
   }
@@ -65,8 +61,8 @@ export function useCheckHrefIsActive(href: LinkProps['href'], enableActive: Acti
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
-function InnerLink({ className, href, enableActive, ...rest }: ActiveLinkProps) {
-  const activeClass = useCheckHrefIsActive(href, enableActive);
+function InnerLink({ className, href, mode, ...rest }: ActiveLinkProps) {
+  const activeClass = useCheckHrefIsActive(href, mode);
   return <CustomLink href={href} className={classNames(className, activeClass)} {...rest} />;
 }
 

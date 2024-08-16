@@ -10,16 +10,16 @@ export default function Page() {
   return (
     <>
       <div className={styles.simpleTab}>
-        <ActiveLink className={styles.link} href={`${prefixPath}/community`} enableActive={{mode: 'startsWith', className: styles.active}}>Community</ActiveLink>
-        <ActiveLink className={styles.link} href={`${prefixPath}/mypage`} enableActive={{mode: 'startsWith', className: styles.active}}>Mypage</ActiveLink>
+        <ActiveLink className={styles.link} href={`${prefixPath}/community`} mode="startsWith">Community</ActiveLink>
+        <ActiveLink className={styles.link} href={`${prefixPath}/mypage`} mode="startsWith">Mypage</ActiveLink>
       </div>
 
-      <ActiveLink href={`${prefixPath}/community/free-board/1`} enableActive={{mode: 'startsWith', className: styles.active}}>Community 하위</ActiveLink>
-      <ActiveLink href={`${prefixPath}/mypage/change-password`} enableActive={{mode: 'startsWith', className: styles.active}}>Mypage 하위</ActiveLink>
+      <ActiveLink href={`${prefixPath}/community/free-board/1`} mode="startsWith">Community 하위</ActiveLink>
+      <ActiveLink href={`${prefixPath}/mypage/change-password`} mode="startsWith">Mypage 하위</ActiveLink>
 
       <div>
-        <ActiveLink href="?sort=desc" enableActive={{mode: 'startsWith', className: styles.active}}>Desc</ActiveLink>
-        <ActiveLink href="?sort=asc" enableActive={{mode: 'startsWith', className: styles.active}}>Asc</ActiveLink>
+        <ActiveLink href="?sort=desc" mode="startsWith">Desc</ActiveLink>
+        <ActiveLink href="?sort=asc" mode="startsWith">Asc</ActiveLink>
       </div>
     </>
   );

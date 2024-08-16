@@ -10,13 +10,13 @@ export default function Page() {
   return (
     <>
       <div className={styles.simpleTab}>
-        <ActiveLink className={styles.link} href={`${boardListHref}?sort=desc`} enableActive={{mode: 'exact', className: styles.active}}>desc</ActiveLink>
-        <ActiveLink className={styles.link} href={`${boardListHref}?sort=asc`} enableActive={{mode: 'exact', className: styles.active}}>asc</ActiveLink>
+        <ActiveLink className={styles.link} href={`${boardListHref}?sort=desc`} mode="exact">desc</ActiveLink>
+        <ActiveLink className={styles.link} href={`${boardListHref}?sort=asc`} mode="exact">asc</ActiveLink>
       </div>
 
       <div className={styles.simpleTab}>
-        <ActiveLink className={styles.link} href="?sort=desc" enableActive={{mode: 'exact', className: styles.active}}>desc</ActiveLink>
-        <ActiveLink className={styles.link} href="?sort=asc" enableActive={{mode: 'exact', className: styles.active}}>asc</ActiveLink>
+        <ActiveLink className={styles.link} href="?sort=desc" mode="exact">desc</ActiveLink>
+        <ActiveLink className={styles.link} href="?sort=asc" mode="exact">asc</ActiveLink>
       </div>
     </>
   );

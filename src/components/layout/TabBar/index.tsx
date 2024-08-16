@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import styles from './index.module.scss';
 import ActiveLink, {ActiveLinkProps, LinkActiveMode} from '@/components/element/link/ActiveLink';
 
-export type TabBarItem = Omit<ActiveLinkProps, 'enableActive'>;
+export type TabBarItem = Omit<ActiveLinkProps, 'mode'>;
 
 export interface TabBarProps {
   /**
@@ -35,7 +35,7 @@ export default function TabBar({ widthMode, activeMode, style, className, linkLi
         <ActiveLink
           key={index}
           className={classNames(styles.item)}
-          enableActive={{ mode: activeMode, className: styles.active }}
+          mode={activeMode}
           {...rest}
         >
           <span className={styles.label}>{children}</span>

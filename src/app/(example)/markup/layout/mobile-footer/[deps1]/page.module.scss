@@ -25,7 +25,7 @@
   flex-direction: column;
   flex: 1;
   
-  &.active > .navText {
+  &:global(.active) > .navText {
     font-weight: bold;
     color: map-get(color.$brandColors, primary);
   }
