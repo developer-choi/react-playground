@@ -5,6 +5,7 @@ import {auth} from '@/utils/service/auth';
 import ServiceLayoutHeader from '@/components/layout/ServiceLayoutHeader';
 import dynamic from 'next/dynamic';
 
+// 첫 페이지 로딩 시점에 안보여도 되는 것들은 모두 dynamic import 하기로 함
 const ExtendedToastContainer = dynamic(() => import('@/components/toast/ExtendedToastContainer'), {ssr: false});
 const ModalProvider = dynamic(() => import('@/components/modal/ModalProvider'), {ssr: false});
 

@@ -1,0 +1,15 @@
+@use "/src/styles/color";
+@use "/src/styles/design-system.module";
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: white;
+  padding: 20px;
+  gap: 48px;
+}
+
+.formWrap {
+  @include design-system.designSystemForm;
+}
