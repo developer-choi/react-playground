@@ -1,0 +1,24 @@
+@use "/src/styles/color";
+
+// https://docs.google.com/document/d/1CLI8GDnyOAk2_rE5rE05hddkSFX1Rf86-ExLHOQwBdw/edit#heading=h.2bz2629pkxby
+
+html, body {
+  height: 100%;
+}
+
+body {
+  color: nth(color.$grayColors, 1);
+  font-size: 14px;
+}
+
+button {
+  cursor: pointer;
+}
+
+input:disabled, button:disabled, textarea:disabled {
+  cursor: not-allowed;
+}
+
+table {
+  table-layout: fixed;
+}

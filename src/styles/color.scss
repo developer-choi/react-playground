@@ -1,0 +1,24 @@
+// [Design System Stylesheet] https://docs.google.com/document/d/1P05K5UDxKyNkFkSTeH3QiDy2AbXo7hfcHnTERO8yDsU/edit
+
+$grayColors: (
+  #333333, // nth($grayColors, 1);
+  #444444,
+  #646464,
+  #898989,
+  #bdbdbd, // nth($grayColors, 5);
+  #dbdbdb,
+  #ebebeb,
+  #f0f0f0,
+  #f5f5f5, // nth($grayColors, 9);
+);
+
+$stateColors: (
+  success: #3FB034, // map-get($stateColors, success);
+  error: #ff0000, // map-get($stateColors, error);
+  disabled: nth($grayColors, 2) // map-get($stateColors, disabled);
+);
+
+$brandColors: (
+  primary: #0099bb, // map-get($brandColors, primary);
+  secondary: #a82631 // map-get($brandColors, secondary);
+)

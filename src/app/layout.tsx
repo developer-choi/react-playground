@@ -2,7 +2,7 @@ import {PropsWithChildren} from 'react';
 import type {Metadata, Viewport} from 'next';
 import {getFontByLanguage} from '@/utils/service/i18n/font';
 import '@/styles/reset.css';
-import '@/styles/global.css';
+import '@/styles/global.scss';
 
 // https://docs.google.com/document/d/16UpoOvdENYDO3fHK-YyR70Vet3gyjFbgxT-fwi4R3cY/edit
 export const metadata: Metadata = {
