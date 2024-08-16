@@ -2,36 +2,34 @@
 
 import {useForm} from 'react-hook-form';
 import React, {useState} from 'react';
-import Input from '@/components/form/Input';
+import TextArea from '@/components/form/TextArea';
 import styles from './index.module.scss';
 import {filterPropsList, generatePropsList} from '@/utils/extend/test/generate-prop';
-import PasswordInput from '@/components/form/Input/PasswordInput';
 
 /**
  * Doc : https://docs.google.com/document/d/1l3CZHTA4ja1ovUC0fiZ9-Fb72_PMXdLTx_0gNhZ39Jg/edit
- * URL: http://localhost:3000/design-system/input
+ * URL: http://localhost:3000/markup/design-system/textarea
  */
-const {combinations, filterRecord} = generatePropsList<TextFieldProps>({
+const {combinations, filterRecord} = generatePropsList<TextAreaProps>({
   disabled: 'boolean',
-  type: [undefined, 'password'],
   error: [undefined, 'error text'],
   label: [undefined, 'label text'],
   placeholder: [undefined, 'placeholder text'],
   info: [undefined, 'info text'],
+  //@ts-ignore
+  rows: [undefined, '2', '4']
 });
 
-export default function TextFieldPage() {
+export default function TextAreaPage() {
   const {register, watch} = useForm<TestFormData>({
     defaultValues: {
       disabled: false,
-
-      // 폼 기본값에서 undefined를 주면안되고 그대신 빈문자열을 줘야함. 렌더링한번되고나면 폼데이터값이 빈문자열로 리셋되기떄문.
       placeholder: '',
       info: '',
       label: '',
       error: '',
-      type: '',
-    },
+      rows: ''
+    }
   });
 
   const filteredList = filterPropsList(combinations, watch());
@@ -43,7 +41,7 @@ export default function TextFieldPage() {
           <div key={key}>
             {array.map(({name, value, type}) => (
               <label key={name}>
-                <input type={type} value={value} {...register(key as keyof TextFieldProps)} />
+                <input type={type} value={value} {...register(key as keyof TextAreaProps)} />
                 {name}
               </label>
             ))}
@@ -51,9 +49,9 @@ export default function TextFieldPage() {
         ))}
       </form>
 
-      <div className={styles.inputList}>
+      <div className={styles.textAreaList}>
         {filteredList.map((props, index) => (
-          <InputTester key={index} {...props} />
+          <TextAreaTester key={index} {...props} />
         ))}
       </div>
     </div>
@@ -65,27 +63,21 @@ interface TestFormData {
   label: string | '';
   error: string | '';
   info: string | '';
-  type: 'text' | 'password' | '';
   disabled: boolean;
+  rows: 2 | 4 | '';
 }
 
-interface TextFieldProps {
+interface TextAreaProps {
+  disabled: boolean;
   placeholder: string | undefined;
   label: string | undefined;
   error: string | undefined;
   info: string | undefined;
-  type: 'text' | 'password' | undefined;
-  disabled: boolean;
+  rows: 2 | 4 | undefined;
 }
 
-function InputTester({type, ...rest}: TextFieldProps) {
+function TextAreaTester(props: TextAreaProps) {
   const [value, setValue] = useState('');
 
-  if (type === 'password') {
-    return (
-      <PasswordInput {...rest} value={value} onChange={(event) => setValue(event.target.value)}/>
-    );
-  } else {
-    return <Input {...rest} value={value} onChange={(event) => setValue(event.target.value)} rightRender="Points"/>;
-  }
+  return <TextArea {...props} value={value} onChange={(event) => setValue(event.target.value)}/>;
 }

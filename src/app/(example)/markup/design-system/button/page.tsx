@@ -10,7 +10,7 @@ import InfoSvg from '@/components/icon/InfoSvg';
 
 /**
  * Doc : https://docs.google.com/document/d/1aEHPwWUlT8nLpzuJwogzQerYawVbWIk8WCMRaxleDaI/edit
- * URL: http://localhost:3000/design-system/button
+ * URL: http://localhost:3000/markup/design-system/button
  */
 const {combinations, filterRecord} = generatePropsList<ButtonProps>({
   disabled: 'boolean', // boolean이면 [true, false] 하지말고 이렇게. 하면 이따 filterRecord에서도 type checkbox로 옴

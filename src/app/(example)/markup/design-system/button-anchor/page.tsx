@@ -9,7 +9,7 @@ import DesignSystemTestForm from '@/components/test/DesignSystemTestForm';
 import InfoSvg from '@/components/icon/InfoSvg';
 
 /**
- * URL: http://localhost:3000/design-system/button-anchor
+ * URL: http://localhost:3000/markup/design-system/button-anchor
  * Doc : https://docs.google.com/document/d/1aEHPwWUlT8nLpzuJwogzQerYawVbWIk8WCMRaxleDaI/edit
  */
 const {combinations, filterRecord} = generatePropsList<ButtonProps>({

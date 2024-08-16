@@ -3,14 +3,13 @@ import styles from './page.module.scss';
 import classNames from 'classnames';
 import React from 'react';
 import CustomLink from '@/components/element/link/CustomLink';
-import {ServerComponentProps} from '@/types/declaration/next';
 import TabBar, {TabBarItem} from '@/components/layout/TabBar';
 
 /**
- * URL: http://localhost:3000/design-system/tab/notice
+ * URL: http://localhost:3000/markup/design-system/tab/notice
  * Doc : https://docs.google.com/document/d/1I9RL3PafRfNwzKa7ZTvChWVygDlGWGyr57qSmr4FqOY/edit#heading=h.za52bsfg8q5d
  */
-export default function Page({ params }: ServerComponentProps) {
+export default function Page() {
   const isMobile = true;
   const pageContent = isMobile ? layoutStyles.mobilePageContent : layoutStyles.pageContentMedium;
 
@@ -20,7 +19,7 @@ export default function Page({ params }: ServerComponentProps) {
       {articleList.length > 0 && (
         <div className={styles.articleListWrap}>
           {articleList.map(({ id, title, date, haveRed, important }) => (
-            <CustomLink key={id} className={styles.article} href={`/announce/${params.announceType}/${id}`}>
+            <CustomLink key={id} className={styles.article} href={`/markup/design-system/top-app-bar`}>
               <span className={classNames(styles.title, { [styles.haveRed]: haveRed, [styles.important]: important })}>
                 {title}
               </span>
@@ -35,15 +34,15 @@ export default function Page({ params }: ServerComponentProps) {
 
 const tabBarLinkList: TabBarItem[] = [
   {
-    href: '/design-system/tab/notice',
+    href: '/markup/design-system/tab/notice',
     children: 'Notice',
   },
   {
-    href: '/design-system/tab/instruction',
+    href: '/markup/design-system/tab/instruction',
     children: 'Instruction',
   },
   {
-    href: '/design-system/tab/policy',
+    href: '/markup/design-system/tab/policy',
     children: 'Policy',
   },
 ];

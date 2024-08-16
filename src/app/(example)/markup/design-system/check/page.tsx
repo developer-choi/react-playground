@@ -3,7 +3,7 @@ import Checkbox from '@/components/form/Checkbox';
 import Radio, {RadioGroup} from '@/components/form/Radio';
 import Switch from '@/components/form/Switch';
 
-// URL: http://localhost:3000/design-system/check
+// URL: http://localhost:3000/markup/design-system/check
 // Doc: https://docs.google.com/document/d/1l3CZHTA4ja1ovUC0fiZ9-Fb72_PMXdLTx_0gNhZ39Jg/edit?usp=drivesdk
 export default function Page() {
   return (
