@@ -1,5 +1,5 @@
 @use 'container.module';
-@use "/src/styles/typography.module" as typography;
+@use "/src/styles/typography.module";
 
 .defaultHeader {
   flex-shrink: 0;

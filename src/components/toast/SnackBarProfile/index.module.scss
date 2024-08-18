@@ -1,5 +1,5 @@
 @use "../toast-util" as toastUtil;
-@use "/src/styles/util" as util;
+@use "/src/styles/util";
 
 .profileSnackBar {
   @include toastUtil.resetToastBoxStyle;

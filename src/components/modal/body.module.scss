@@ -1,6 +1,6 @@
 @use "container.module";
 @use "/src/styles/color";
-@use "/src/styles/typography.module" as typography;
+@use "/src/styles/typography.module";
 
 $scrollbarHandlerWidth: 4px;
 $modalPadding: container.$modalPadding;
