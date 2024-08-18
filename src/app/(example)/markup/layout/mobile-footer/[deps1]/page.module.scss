@@ -1,6 +1,6 @@
 @use "/src/styles/color";
 @use "/src/styles/layout.module";
-@use "/src/components/element/typography/index.module" as typography;
+@use "/src/styles/typography.module" as typography;
 
 .wrap {
   display: flex;

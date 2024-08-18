@@ -1,4 +1,4 @@
-import styles from './index.module.scss';
+import styles from '@/styles/typography.module.scss';
 import {CSSProperties, PropsWithChildren} from 'react';
 import classNames from 'classnames';
 
