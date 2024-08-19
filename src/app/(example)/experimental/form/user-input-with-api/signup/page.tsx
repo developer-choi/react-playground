@@ -6,65 +6,63 @@ import {useUserFieldApiValidation} from '@/utils/service/user/api-validation';
 import Input, {InputProps} from '@/components/form/Input';
 import {useEmailInput} from '@/utils/service/user/fields/email';
 import Button from '@/components/element/Button';
+import HiddenInput from '@/components/form/Input/HiddenInput';
 
 // URL: http://localhost:3000/experimental/form/user-input-with-api/signup
 // Doc: [Handle member input] https://docs.google.com/document/d/1O0UMNf505xpytsAAUlKFr29rMmj5XvdP8Gr1uP9l4-s/edit#heading=h.dbl5hy7qrxlu
 // Doc: [HiddenInput] https://docs.google.com/document/d/11GkQkim2_x9jiADwnyzNhzTPBQfx6qiTsi1AVmhZ3P0/edit
 export default function Page() {
-  const {inputProps, form} = useSignUpForm();
+  const {inputProps, validatedProps, form} = useSignUpForm();
 
   return (
     <form onSubmit={form.onSubmit}>
       <Input {...inputProps.email}/>
+      <HiddenInput {...validatedProps.email}/>
       <Button type="submit" loading={form.isLoading}>Submit</Button>
     </form>
   );
 }
 
 function useSignUpForm() {
-  // 원래 내 이름값, API에서 받아온 값이어야하고, 내정보수정 에서만 전달하면됨.
+  /**
+   * 원래 내 이름값,
+   * 내정보수정 에서는 꼭 전달해야하고
+   * 회원가입에서는 없어야함.
+   */
   const initial = {
-    email: 'hong@gildong.com'
+    // email: 'hong@gildong.com'
+    email: undefined
   };
 
   const methods = useForm<TestFormData>({
     defaultValues: {
       email: initial.email
     },
+
   });
 
   const {register, handleSubmit, formState: {errors}} = methods;
 
-  const {errorMessage, isLoading, checkFromValidate} = useUserFieldApiValidation({
+  const emailInputProps: InputProps = {
+    // 회원가입에서는 그대로 쓰고 (required true) / 수정에서는 required false로 옵션만 커스텀하면됨.
+    ...useEmailInput({errors, name: 'email', register}),
+    autoComplete: 'email',
+    autoFocus: true,
+  };
+
+  const {errorMessage, isLoading, hiddenInputProps} = useUserFieldApiValidation({
     form: {
       methods,
       fieldName: 'email',
-      initialValue: initial.email
+      validationFieldName: 'validated.email',
+      initialValue: initial.email // 회원가입에서는 undefined, 내정보수정에서는 문자열값
     },
     apiConfig: {
       type: 'email',
-      validationMode: 'does-not-exist',
-      onlyActiveUser: false // 회원가입에서는 false, 비번찾기에서는 true
+      validationMode: 'does-not-exist', // 회원가입에서는 없는게 정상, 아이디찾기는 있는게 정상
+      onlyActiveUser: false // 회원가입에서는 false, 아이디찾기에서는 true
     }
   });
-
-  const emailInputProps: InputProps = {
-    // 회원가입에서는 그대로 쓰고 (required true) / 수정에서는 required false로 옵션만 커스텀하면됨.
-    ...useEmailInput({
-      errors,
-      name: 'email',
-      register,
-      options: {
-        validate: {
-          checkFromValidate
-        }
-      }
-    }),
-    autoComplete: 'email',
-    autoFocus: true,
-    error: errorMessage
-  };
-
 
   const onError: SubmitErrorHandler<TestFormData> = useCallback(errors => {
     console.error('errors', errors)
@@ -78,17 +76,28 @@ function useSignUpForm() {
     console.log('data', data);
   }, [isLoading]);
 
+  console.log('result errorMessage', errorMessage);
+
   return {
     form: {
       onSubmit: handleSubmit(onSubmit, onError),
       isLoading
     },
     inputProps: {
-      email: emailInputProps
+      email: {
+        ...emailInputProps,
+        error: errorMessage
+      }
     },
+    validatedProps: {
+      email: hiddenInputProps
+    }
   };
 }
 
 interface TestFormData {
   email: string;
+  validated: {
+    email: string;
+  };
 }

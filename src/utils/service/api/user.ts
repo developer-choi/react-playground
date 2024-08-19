@@ -11,12 +11,12 @@ export interface UserFieldCountApiRequest {
    * 비번찾기할 때 아이디 조회하는 경우, 탈퇴한 아이디로는 못찾게 해야함. (count 계산 시 미포함시켜서 count === 0 되게)
    * 기본값 false
    */
-  onlyActiveUser?: boolean;
+  onlyActiveUser: boolean;
 }
 
 export interface ProcessedUserFieldCountApiResponse {
   validated: boolean;
-  errorMessage?: string;
+  errorMessage?: string; // 4xx 5xx
 }
 
 /**
@@ -33,11 +33,7 @@ export async function getUserFieldCountApi({validationMode, ...rest}: UserFieldC
     const isValid = validationMode === 'does-not-exist' ? count === 0 : count > 0;
 
     return {
-      validated: isValid,
-      errorMessage: isValid ? undefined :
-        validationMode === 'does-not-exist'
-          ? '이미 존재하는 값입니다.' // 예: 회원가입 중복 검사 시
-          : '해당 값이 존재하지 않습니다.' // 예: 비밀번호 찾기 시
+      validated: isValid
     };
   } catch (error: any) {
     return {

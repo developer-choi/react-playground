@@ -30,6 +30,8 @@ export async function GET(request: NextRequest) {
 const db: Record<UserFieldCountApiRequest['type'], string[]> = {
   email: [
     'test@test.com',
+    'test3@test.com',
+    'test5@test.com',
   ],
   nick_name: [
     '홍길동'
