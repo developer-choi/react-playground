@@ -1,13 +1,12 @@
-import {useEffect} from 'react';
-import type {FieldPath, FieldValues, Path, PathValue, UseFormReturn} from 'react-hook-form';
+import {useCallback, useEffect, useState} from 'react';
+import type {FieldPath, FieldValues, Path, PathValue, UseFormReturn, FieldPathValue, Validate} from 'react-hook-form';
 import {getUserFieldCountApi, UserFieldCountApiRequest, ProcessedUserFieldCountApiResponse} from '@/utils/service/api/user';
 import {useQuery, useQueryClient, UseQueryResult} from '@tanstack/react-query';
 
 interface ValidateUserInputParams<T extends FieldValues> {
   form: {
-    methods: Pick<UseFormReturn<T>, 'setValue' | 'watch' | 'formState'>;
+    methods: UseFormReturn<T>;
     fieldName: FieldPath<T>;
-    validationFieldName: FieldPath<T>;
     /**
      * 회원가입 폼에서는 값이 없고,
      * 내정보 수정 폼에서는 값이 있어야함.
@@ -22,19 +21,20 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
   const {
     form: {
       methods: {
-        setValue,
         formState,
-        watch
+        watch,
+        clearErrors
       },
       fieldName,
-      validationFieldName,
       initialValue
     },
     apiConfig: {validationMode, type, onlyActiveUser}
   } = params;
 
   const inputValue: PathValue<T, Path<T>> | undefined = watch(fieldName); // 기본값 선언 안했으면 undefined 될 수 있음.
-  const inputErrorMessage = formState.errors[fieldName]?.message as string | undefined;
+  const inputError = formState.errors[fieldName];
+  const inputErrorMessage = inputError?.message as string | undefined;
+
   const queryClient = useQueryClient();
 
   /**
@@ -44,20 +44,21 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
    * 3. 현재 내 닉네임과 동일한 경우 (홍길동에서 님 추가했다가 다시 님 삭제한 경우 홍길동과 동일해서 이 때 호출되면 안됨) ==> 이 경우 즉시 성공으로 판단해야.
    */
   useEffect(() => {
-    if (!inputValue || inputErrorMessage || initialValue === inputValue) {
+    if (!inputValue || (inputError && inputError.type !== VALIDATE_TYPE) || initialValue === inputValue) {
       return;
     }
 
     const timeoutId = setTimeout(() => {
       queryClient.prefetchQuery({
         queryKey: [QUERY_KEY, type, inputValue, validationMode, onlyActiveUser],
-        queryFn: () =>
-          getUserFieldCountApi({
+        queryFn: () => {
+          return getUserFieldCountApi({
             type,
             value: inputValue,
             validationMode,
             onlyActiveUser
-          }),
+          });
+        },
         staleTime: 5 * 60 * 1000
       });
     }, 500);
@@ -65,7 +66,7 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [type, inputValue, queryClient, validationMode, inputErrorMessage, onlyActiveUser, initialValue]);
+  }, [type, inputValue, queryClient, validationMode, inputErrorMessage, onlyActiveUser, initialValue, inputError]);
 
   const queryResult = useQuery<ProcessedUserFieldCountApiResponse>({
     queryKey: [QUERY_KEY, type, inputValue, validationMode, onlyActiveUser],
@@ -73,20 +74,33 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
     enabled: false
   });
 
+  const [validatedValue, setValidatedValue] = useState<PathValue<T, Path<T>>>();
+
   useEffect(() => {
-    if (!queryResult.data) {
-      return;
+    if (inputError?.type === VALIDATE_TYPE) {
+      clearErrors(fieldName);
     }
 
-    setValue(validationFieldName, queryResult.data.validated as PathValue<T, Path<T>>);
-  }, [queryResult.data, setValue, validationFieldName]);
-
-  // 회원정보 수정폼에서 최초렌더링 / 이후 수정하다 다시 바꿔서 옛날 값으로 바꿨다면, API 호출없이 true로 바꿔줘야.
-  useEffect(() => {
-    if (inputValue && initialValue === inputValue) {
-      setValue(validationFieldName, true as PathValue<T, Path<T>>);
+    /**
+     * Case 1. 기존 유저의 필드값과 같은 경우
+     * Case 2. API를 통해 유효한걸로 판단된 경우
+     */
+    if (queryResult.data?.validated || initialValue === inputValue) {
+      setValidatedValue(inputValue);
     }
-  }, [inputValue, initialValue, setValue, validationFieldName]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValue, inputValue, queryResult.data]);
+
+  const checkFromValidate: Validate<FieldPathValue<T, FieldPath<T>>, T> = useCallback(() => {
+    const validated = validatedValue === inputValue;
+
+    if (!validated) {
+      return `${FIELD_TYPE_LABELS[type]}이(가) 중복인지 확인해주세요.`;
+    } else {
+      return true;
+    }
+  }, [inputValue, type, validatedValue]);
 
   const errorMessage = determinePriorityErrorMessage({
     inputValue,
@@ -97,19 +111,19 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
 
   const isSuccess = !!queryResult.data?.validated;
 
-  console.log('validatedResult', queryResult.data?.validated);
-
   return {
     errorMessage,
     isSuccess,
-    isLoading: queryResult.isLoading
+    isLoading: queryResult.isLoading,
+    checkFromValidate
   };
 }
 
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
-const QUERY_KEY = 'CHECK_DUPLICATION'
+const QUERY_KEY = 'CHECK_DUPLICATION';
+const VALIDATE_TYPE = 'checkFromValidate';
 
 const FIELD_TYPE_LABELS: Record<UserFieldCountApiRequest['type'], string> = {
   nick_name: '닉네임',

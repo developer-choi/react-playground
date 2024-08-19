@@ -6,18 +6,16 @@ import {useUserFieldApiValidation} from '@/utils/service/user/api-validation';
 import Input, {InputProps} from '@/components/form/Input';
 import {useEmailInput} from '@/utils/service/user/fields/email';
 import Button from '@/components/element/Button';
-import HiddenInput from '@/components/form/Input/HiddenInput';
 
 // URL: http://localhost:3000/experimental/form/user-input-with-api/signup
 // Doc: [Handle member input] https://docs.google.com/document/d/1O0UMNf505xpytsAAUlKFr29rMmj5XvdP8Gr1uP9l4-s/edit#heading=h.dbl5hy7qrxlu
 // Doc: [HiddenInput] https://docs.google.com/document/d/11GkQkim2_x9jiADwnyzNhzTPBQfx6qiTsi1AVmhZ3P0/edit
 export default function Page() {
-  const {inputProps, validatedProps, form} = useSignUpForm();
+  const {inputProps, form} = useSignUpForm();
 
   return (
     <form onSubmit={form.onSubmit}>
       <Input {...inputProps.email}/>
-      <HiddenInput {...validatedProps.email}/>
       <Button type="submit" loading={form.isLoading}>Submit</Button>
     </form>
   );
@@ -31,27 +29,16 @@ function useSignUpForm() {
 
   const methods = useForm<TestFormData>({
     defaultValues: {
-      email: initial.email,
-      validated: {
-        email: false
-      }
+      email: initial.email
     },
   });
 
   const {register, handleSubmit, formState: {errors}} = methods;
 
-  const emailInputProps: InputProps = {
-    // 회원가입에서는 그대로 쓰고 (required true) / 수정에서는 required false로 옵션만 커스텀하면됨.
-    ...useEmailInput({errors, name: 'email', register}),
-    autoComplete: 'email',
-    autoFocus: true,
-  };
-
-  const {errorMessage, isLoading} = useUserFieldApiValidation({
+  const {errorMessage, isLoading, checkFromValidate} = useUserFieldApiValidation({
     form: {
       methods,
       fieldName: 'email',
-      validationFieldName: 'validated.email',
       initialValue: initial.email
     },
     apiConfig: {
@@ -60,6 +47,24 @@ function useSignUpForm() {
       onlyActiveUser: false // 회원가입에서는 false, 비번찾기에서는 true
     }
   });
+
+  const emailInputProps: InputProps = {
+    // 회원가입에서는 그대로 쓰고 (required true) / 수정에서는 required false로 옵션만 커스텀하면됨.
+    ...useEmailInput({
+      errors,
+      name: 'email',
+      register,
+      options: {
+        validate: {
+          checkFromValidate
+        }
+      }
+    }),
+    autoComplete: 'email',
+    autoFocus: true,
+    error: errorMessage
+  };
+
 
   const onError: SubmitErrorHandler<TestFormData> = useCallback(errors => {
     console.error('errors', errors)
@@ -79,20 +84,11 @@ function useSignUpForm() {
       isLoading
     },
     inputProps: {
-      email: {
-        ...emailInputProps,
-        error: errorMessage
-      }
+      email: emailInputProps
     },
-    validatedProps: {
-      email: register('validated.email', {required: '이메일이 중복인지 확인해주세요'})
-    }
   };
 }
 
 interface TestFormData {
   email: string;
-  validated: {
-    email: boolean;
-  };
 }
