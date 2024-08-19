@@ -53,6 +53,7 @@ export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'u
 interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
   body?: RequestInit['body'] | object;
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
+  query?: Record<string, string | string[] | boolean | number | null | undefined>;
 
   /**
    * none = request에 accessToken을 싣지않음.
@@ -73,7 +74,7 @@ async function customFetchInBothSide(input: string | URL | globalThis.Request, p
 }
 
 function handleRequest(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
-  const {headers, session, authorize, body, ...init} = parameter;
+  const {headers, session, authorize, body, query, ...init} = parameter;
   const newHeaders = new Headers(headers);
 
   if (authorize === 'private' && !session) {
@@ -90,7 +91,12 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   }
 
   // TODO URL 앞에 env로 개발환경 / 운영환경 셋팅하는부분은 추후 추가
-  const requestUrl = typeof input !== "string" || input.startsWith("http") ? input : `http://localhost:3000${input}`;
+  let requestUrl = typeof input !== "string" || input.startsWith("http") ? input : `http://localhost:3000${input}`;
+
+  if (query) {
+    const newQuery = Object.fromEntries(Object.entries(query).map(([key, value]) => [key, String(value)]));
+    requestUrl += `?${new URLSearchParams(newQuery).toString()}`
+  }
 
   return {
     input: requestUrl,
@@ -99,7 +105,7 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
       body: typeof body === "object" ? JSON.stringify(body) : body,
       ...init
     }
-  }
+  };
 }
 
 async function handleResponse(response: Response) {
