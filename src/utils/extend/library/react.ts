@@ -75,3 +75,13 @@ export function isReactElement(value: ReactNode) {
 }
 
 const REACT_ELEMENT_KEYS: (keyof ReactElement)[] = ['key', 'type', 'props'];
+
+export function usePrevious<T>(value: T) {
+  const ref = useRef<T>();
+
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+
+  return ref.current;
+}
