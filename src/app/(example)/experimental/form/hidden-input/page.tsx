@@ -6,7 +6,7 @@ import {baseHandleErrors} from '@/utils/extend/library/react-hook-form';
 import HiddenInput from '@/components/form/Input/HiddenInput';
 
 /**
- * URL: http://localhost:3000/solution/form/validated-by-api
+ * URL: http://localhost:3000/experimental/form/hidden-input
  * Doc : https://docs.google.com/document/d/11GkQkim2_x9jiADwnyzNhzTPBQfx6qiTsi1AVmhZ3P0/edit
  */
 export default function Page() {
