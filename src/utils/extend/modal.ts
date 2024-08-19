@@ -1,6 +1,6 @@
 import {useCallback, useContext} from 'react';
 import AlertModal, {AlertModalProps} from '@/components/modal/preset/AlertModal';
-import {ModalContext} from '@/components/modal/ModalProvider';
+import {ModalContext} from '@/components/setting/ModalProvider';
 
 //모달을 띄우려면 최소한 있어야하는 타입 (store를 통해서 띄우지않고 local state를 통해서 모달을 띄우는 한이 있더라도 이 타입은 반드시 필요함)
 export interface EssentialModalProps {

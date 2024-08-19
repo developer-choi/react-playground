@@ -10,7 +10,7 @@ export default async function Page() {
   return (
     <>
       <div>{t('key1.key2.static')}</div>
-      <div>{t('key1.key2.dynamic', {some: 'dynamic'})}</div>
+      <div>{t('key1.key2.dynamic', {some: 'some'})}</div>
       {/*<div>{t('not found code1')}</div>*/}
       <I18nClientTest/>
     </>
