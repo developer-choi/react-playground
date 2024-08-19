@@ -14,7 +14,7 @@ export interface UserFieldCountApiRequest {
   onlyActiveUser: boolean;
 }
 
-export interface ProcessedUserFieldCountApiResponse {
+export interface UserFieldCountApiResponse {
   validated: boolean;
   errorMessage?: string; // 4xx 5xx
 }
@@ -22,7 +22,7 @@ export interface ProcessedUserFieldCountApiResponse {
 /**
  * 아이디, 이메일, 닉네임 중복 및 유효성 검증
  */
-export async function getUserFieldCountApi({validationMode, ...rest}: UserFieldCountApiRequest): Promise<ProcessedUserFieldCountApiResponse> {
+export async function getUserFieldCountApi({validationMode, ...rest}: UserFieldCountApiRequest): Promise<UserFieldCountApiResponse> {
   try {
     const {json: {count}} = await customFetchOnClientSide(`/api/test/user/field/count`, {
       method: 'GET',
@@ -30,10 +30,8 @@ export async function getUserFieldCountApi({validationMode, ...rest}: UserFieldC
       query: rest
     });
 
-    const isValid = validationMode === 'does-not-exist' ? count === 0 : count > 0;
-
     return {
-      validated: isValid
+      validated: validationMode === 'does-not-exist' ? count === 0 : count > 0
     };
   } catch (error: any) {
     return {

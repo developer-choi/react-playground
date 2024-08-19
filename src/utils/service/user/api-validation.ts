@@ -1,11 +1,10 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import type {FieldError, FieldPath, FieldValues, Path, PathValue, UseFormReturn} from 'react-hook-form';
 import {
   getUserFieldCountApi,
-  ProcessedUserFieldCountApiResponse,
+  UserFieldCountApiResponse,
   UserFieldCountApiRequest
 } from '@/utils/service/api/user';
-import {useQuery, useQueryClient, UseQueryResult} from '@tanstack/react-query';
 
 export interface ValidateUserInputParams<T extends FieldValues> {
   form: {
@@ -47,24 +46,20 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
   const inputValue: PathValue<T, Path<T>> | undefined = watch(fieldName); // 기본값 선언 안했으면 undefined 될 수 있음.
   const inputError = formState.errors[fieldName] as FieldError | undefined;
 
-  const queryResult = useQuery<ProcessedUserFieldCountApiResponse>({
-    queryKey: [QUERY_KEY, type, inputValue, validationMode, onlyActiveUser],
-    refetchOnWindowFocus: false,
-    enabled: false
+  const [state, setState] = useState<ApiState>({
+    isFetching: false,
+    data: undefined,
   });
 
   useEffect(() => {
-    if (queryResult.isFetching) {
-      console.log('fetching clear errors');
+    if (state.isFetching) {
       clearErrors(fieldName);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryResult.isFetching]);
+  }, [state.isFetching]);
 
   useEffect(() => {
-    console.log('queryResult.data', queryResult.data);
-
-    if (!queryResult.data) {
+    if (!state.data) {
       return;
     }
 
@@ -74,15 +69,13 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
         validationMode,
         type
       },
-      queryResult
+      state
     });
 
     if (processedInputError !== undefined) {
-      console.log('setError', processedInputError); // 시발 여기서 분명 찍혔고 setError() 실행됐고 다른데서 리셋 엎어치기 안했는데 에러객체에 에러값이 안들어감 ㅡㅡ
-
       setError(fieldName, {
         type: processedInputError.type,
-        message: processedInputError.message + `${Date.now()}`
+        message: processedInputError.message
       });
       return;
     }
@@ -91,16 +84,13 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
      * Case 1. 기존 유저의 필드값과 같은 경우
      * Case 2. API를 통해 유효한걸로 판단된 경우
      */
-    if (queryResult.data.validated || initialValue === inputValue) {
+    if (state.data.validated || initialValue === inputValue) {
       setValue(validationFieldName, inputValue as PathValue<T, Path<T>>);
-      console.log('validated & clear Error');
       clearErrors(fieldName);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryResult.data]);
-
-  const queryClient = useQueryClient();
+  }, [state.data]);
 
   /**
    * 단 주의 할 점은, 아래 상황에서 중복검사 API가 호출되면 안됨
@@ -117,23 +107,29 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
     }
 
     const timeoutId = setTimeout(() => {
-      queryClient.prefetchQuery({
-        queryKey: [QUERY_KEY, type, inputValue, validationMode, onlyActiveUser],
-        queryFn: () => {
-          return getUserFieldCountApi({
-            type,
-            value: inputValue,
-            validationMode,
-            onlyActiveUser
-          });
-        },
+      setState({
+        data: undefined,
+        isFetching: true
+      });
+      
+      getUserFieldCountApi({
+        type,
+        value: inputValue,
+        validationMode,
+        onlyActiveUser
+      }).then(result => {
+        setState({
+          data: result,
+          isFetching: false
+        });
       });
     }, 500);
 
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [type, inputValue, queryClient, validationMode, inputError, onlyActiveUser, initialValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputValue]);
 
   const hiddenInputProps = register(validationFieldName, {
     validate: {
@@ -149,8 +145,6 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
           message: `${FIELD_TYPE_LABELS[type]}이(가) 중복인지 확인해주세요.`
         };
 
-        console.log('setError in validate()');
-
         // 기존 다른 inputError가 있으면 덮어쓰지않기위함
         setError(fieldName, inputError ? inputError : fetchingError);
 
@@ -159,14 +153,11 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
     }
   });
 
-  const isSuccess = !!queryResult.data?.validated;
-
-  console.log('inputError', inputError);
-
+  const isSuccess = !!state.data?.validated;
   return {
     errorMessage: inputError?.message,
     isSuccess,
-    isLoading: queryResult.isLoading,
+    isFetching: state.isFetching,
     hiddenInputProps
   };
 }
@@ -174,8 +165,6 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
-const QUERY_KEY = 'CHECK_DUPLICATION';
-
 interface InputFieldError {
   type: FieldError['type'] | 'fetching' | 'api'; // api 타입은, API 응답결과에 의해 에러가 발생한 경우를 뜻함. (4xx 5xx 혹은 이미 존재하거나 존재하지않거나)
   message: string;
@@ -198,23 +187,28 @@ const FIELD_TYPE_LABELS: Record<UserFieldCountApiRequest['type'], string> = {
   email: '이메일'
 };
 
+interface ApiState {
+  isFetching: boolean;
+  data: undefined | UserFieldCountApiResponse;
+}
+
 interface PriorityErrorMessageParams {
   inputValue: string | undefined; // watch('someKey')
-  queryResult: UseQueryResult<ProcessedUserFieldCountApiResponse>;
+  state: ApiState;
   apiConfig: Pick<UserFieldCountApiRequest, 'type' | 'validationMode'>;
 }
 
 function determinePriorityErrorMessage(params: PriorityErrorMessageParams): undefined | InputFieldError {
-  const {inputValue, queryResult, apiConfig} = params;
+  const {inputValue, state, apiConfig} = params;
 
-  if (!inputValue?.length || queryResult.isFetching || !queryResult.data || queryResult.data.validated) {
+  if (!inputValue?.length || state.isFetching || !state.data || state.data.validated) {
     return undefined;
   }
 
-  if (queryResult.data.errorMessage) {
+  if (state.data.errorMessage) {
     return {
       type: 'api',
-      message: queryResult.data.errorMessage
+      message: state.data.errorMessage
     };
   }
 

@@ -18,7 +18,7 @@ export default function Page() {
     <form onSubmit={form.onSubmit}>
       <Input {...inputProps.email}/>
       <HiddenInput {...validatedProps.email}/>
-      <Button type="submit" loading={form.isLoading}>Submit</Button>
+      <Button type="submit" loading={form.isFetching}>Submit</Button>
     </form>
   );
 }
@@ -50,7 +50,7 @@ function useSignUpForm() {
     autoFocus: true,
   };
 
-  const {errorMessage, isLoading, hiddenInputProps} = useUserFieldApiValidation({
+  const {errorMessage, isFetching, hiddenInputProps} = useUserFieldApiValidation({
     form: {
       methods,
       fieldName: 'email',
@@ -69,19 +69,17 @@ function useSignUpForm() {
   }, []);
 
   const onSubmit: SubmitHandler<TestFormData> = useCallback(data => {
-    if (isLoading) {
+    if (isFetching) {
       return;
     }
 
     console.log('data', data);
-  }, [isLoading]);
-
-  console.log('result errorMessage', errorMessage);
+  }, [isFetching]);
 
   return {
     form: {
       onSubmit: handleSubmit(onSubmit, onError),
-      isLoading
+      isFetching
     },
     inputProps: {
       email: {
