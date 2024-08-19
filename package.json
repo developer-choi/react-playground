@@ -14,6 +14,7 @@
     "url": "https://github.com/developer-choi/react-playground"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.51.23",
     "autonumeric": "^4.10.5",
     "classnames": "^2.5.1",
     "env-cmd": "^10.1.0",
@@ -29,6 +30,7 @@
     "sass": "^1.77.6"
   },
   "devDependencies": {
+    "@tanstack/react-query-devtools": "^5.51.23",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.17.7",
     "@types/node": "^20.14.5",
