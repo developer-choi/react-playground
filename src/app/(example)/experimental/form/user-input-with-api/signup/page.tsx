@@ -8,9 +8,16 @@ import {useEmailInput} from '@/utils/service/user/fields/email';
 import Button from '@/components/element/Button';
 import HiddenInput from '@/components/form/Input/HiddenInput';
 
-// URL: http://localhost:3000/experimental/form/user-input-with-api/signup
-// Doc: [Handle member input] https://docs.google.com/document/d/1O0UMNf505xpytsAAUlKFr29rMmj5XvdP8Gr1uP9l4-s/edit#heading=h.dbl5hy7qrxlu
-// Doc: [HiddenInput] https://docs.google.com/document/d/11GkQkim2_x9jiADwnyzNhzTPBQfx6qiTsi1AVmhZ3P0/edit
+/**
+ * URL: http://localhost:3000/experimental/form/user-input-with-api/signup
+ * Doc: [Handle member input] https://docs.google.com/document/d/1O0UMNf505xpytsAAUlKFr29rMmj5XvdP8Gr1uP9l4-s/edit#heading=h.dbl5hy7qrxlu
+ * Doc: [HiddenInput] https://docs.google.com/document/d/11GkQkim2_x9jiADwnyzNhzTPBQfx6qiTsi1AVmhZ3P0/edit
+ *
+ * [중복 체크되는 이메일 목록]
+ * test@test.com
+ * test3@test.com
+ * test5@test.com
+ */
 export default function Page() {
   const {inputProps, validatedProps, form} = useSignUpForm();
 
@@ -23,6 +30,15 @@ export default function Page() {
   );
 }
 
+/**
+ * 회원정보 (이메일, 닉네임 등) 인풋 구현할 때는, 2개의 함수를 기억하면됨.
+ * 1. 항상 > use[Some]Input() 사용
+ * 2. onChange 시점에 API를 통해 유효성검증이 필요하면, 추가로 useUserFieldApiValidation() 사용.
+ *
+ * 그래서 email / nickname / birthday 총 3개를 입력해야한다면,
+ * use[Some]Input()는 3번 호출되고
+ * useUserFieldApiValidation()는 2번 호출되는 양상이 될거임.
+ */
 function useSignUpForm() {
   /**
    * 원래 내 이름값,
@@ -30,22 +46,30 @@ function useSignUpForm() {
    * 회원가입에서는 없어야함.
    */
   const initial = {
-    // email: 'hong@gildong.com'
-    email: undefined
+    email: 'hong@gildong.com'
+    // email: undefined
   };
 
   const methods = useForm<TestFormData>({
     defaultValues: {
-      email: initial.email
+      email: initial.email ?? ''
     },
 
+    /** TODO
+     * onChange 시점에 API로 유효성검증 하는경우 mode를 기본값으로 쓰면, 값이 유효하지않은데 API 호출되버림
+     * 하지만 단점은, 아직 이메일 다 입력도 안했는데 에러메시지가 노출된다는것.
+     * 이부분은 추후 개선하기로...
+     */
+    mode: 'onChange'
   });
 
   const {register, handleSubmit, formState: {errors}} = methods;
 
+  // 회원가입에서는 그대로 쓰고 (required true) / 수정에서는 required false로 옵션만 커스텀하면됨.
+  const emailInput = useEmailInput({errors, name: 'email', register});
+
   const emailInputProps: InputProps = {
-    // 회원가입에서는 그대로 쓰고 (required true) / 수정에서는 required false로 옵션만 커스텀하면됨.
-    ...useEmailInput({errors, name: 'email', register}),
+    ...emailInput.inputProps,
     autoComplete: 'email',
     autoFocus: true,
   };
@@ -68,7 +92,8 @@ function useSignUpForm() {
     console.error('errors', errors)
   }, []);
 
-  const onSubmit: SubmitHandler<TestFormData> = useCallback(data => {
+  // 클라이언트 컨트롤용 데이터는 서버로 보내지않게 하기위함
+  const onSubmit: SubmitHandler<TestFormData> = useCallback(({validated, ...data}) => {
     if (isFetching) {
       return;
     }

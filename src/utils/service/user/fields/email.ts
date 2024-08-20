@@ -20,13 +20,13 @@ export interface UserEmailInputParam<T extends FieldValues> {
  * 3. 기타 input props (autoComplete / autoCapitalize 등)
  * 4. useExistUserValue() (필요시)
  */
-export function useEmailInput<T extends FieldValues>(param: UserEmailInputParam<T>): InputProps {
+export function useEmailInput<T extends FieldValues>(param: UserEmailInputParam<T>) {
   const { register, name, options, errors } = param;
 
   const { validate, ...rest } = options ?? {};
   const error = errors[name];
 
-  return {
+  const inputProps: InputProps = {
     ...register(name, {
       required: TEXTS.error.required,
       validate: {
@@ -45,6 +45,13 @@ export function useEmailInput<T extends FieldValues>(param: UserEmailInputParam<
     label: TEXTS.label,
     error: error?.message as string | undefined,
     placeholder: TEXTS.placeholder,
+  };
+
+  return {
+    inputProps,
+    apiErrorRecord: {
+      notMatched: '존재하지않는 이메일입니다.'
+    },
   };
 }
 
