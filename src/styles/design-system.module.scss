@@ -1,5 +1,9 @@
-@mixin designSystemForm {
+@mixin commonForm {
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.commonForm {
+  @include commonForm;
 }
