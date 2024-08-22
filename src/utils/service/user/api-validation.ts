@@ -24,6 +24,7 @@ export interface ValidateUserInputParams<T extends FieldValues> {
 /**
  * 회원정보 인풋중에, onChange 시점에 API 를 통해 유효성검증을 하는 경우 이 hooks를 사용.
  * (이미 존재하는 닉네임입니다) 이런거 하기위해
+ * 숨은 출력으로 setError()를 함. 그래서 formState.error로 에러메시지 똑같이 가져오면됨
  */
 export function useUserFieldApiValidation<T extends FieldValues>(params: ValidateUserInputParams<T>) {
   const {
@@ -191,7 +192,6 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
   const isSuccess = !!apiState.data?.validated;
 
   return {
-    errorMessage: inputError?.message,
     isSuccess,
     isFetching: apiState.isFetching,
     hiddenInputProps

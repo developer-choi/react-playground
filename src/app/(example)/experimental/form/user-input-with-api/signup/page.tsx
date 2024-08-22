@@ -74,7 +74,7 @@ function useSignUpForm() {
     autoFocus: true,
   };
 
-  const {errorMessage, isFetching, hiddenInputProps} = useUserFieldApiValidation({
+  const {isFetching, hiddenInputProps} = useUserFieldApiValidation({
     form: {
       methods,
       fieldName: 'email',
@@ -107,10 +107,7 @@ function useSignUpForm() {
       isFetching
     },
     inputProps: {
-      email: {
-        ...emailInputProps,
-        error: errorMessage
-      }
+      email: emailInputProps
     },
     validatedProps: {
       email: hiddenInputProps
