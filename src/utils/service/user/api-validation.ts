@@ -69,6 +69,7 @@ export function useUserFieldApiValidation<T extends FieldValues>(params: Validat
    */
   const inputError = formState.errors[fieldName] as FieldError | undefined;
 
+  // 예전엔 이게 react-query로 관리됐는데 캐싱할 근거가 없어져서 state로 관리중
   const [apiState, setApiState] = useState<ApiState>({
     isFetching: false,
     data: undefined,
@@ -238,7 +239,7 @@ interface PriorityErrorMessageParams {
  *
  * 오직, API Error 메시지만 우선순위를 결정함.
  * 1순위 > API에서 예상못한 에러메시지가 온 경우 (4xx 5xx, etc) 그거 노출
- * 2순위 > API에서 예상된 에러메시지가 온 경우 > 그거 노출 (이미 존재하는 닉네임입니다)
+ * 2순위 > API에서 예상된 에러응답이 온 경우 (count가 0이어야 정상인데 1왔거나) > '이미 존재하는 닉네임입니다'
  */
 function determinePriorityErrorMessage(params: PriorityErrorMessageParams): undefined | InputFieldError {
   const {inputValue, state, apiConfig} = params;
