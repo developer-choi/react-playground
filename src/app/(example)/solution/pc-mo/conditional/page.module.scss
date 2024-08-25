@@ -1,0 +1,15 @@
+.wrap {
+  padding: 36px;
+  
+  &.mobile {
+    padding: 12px;
+  }
+}
+
+.h1 {
+  font-size: 28px;
+  
+  &.mobile {
+    font-size: 20px;
+  }
+}
