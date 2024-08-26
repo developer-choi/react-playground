@@ -6,9 +6,7 @@ export default function Layout({children}: PropsWithChildren) {
   return (
     <div className={styles.wrap}>
       <header className={styles.header}/>
-      <main className={styles.page}>
-        {children}
-      </main>
+      {children}
     {/* footer */}
     </div>
   );

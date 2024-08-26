@@ -1,8 +1,6 @@
 'use client';
 
 import styles from './page.module.scss';
-import {useState} from 'react';
-import Button from '@/components/element/Button';
 
 /**
  * URL: http://localhost:3000/markup/layout/sticky-header
@@ -15,11 +13,10 @@ import Button from '@/components/element/Button';
  * 그래서 Add row 버튼 눌러보며 행 겟수에 따른 스티키헤더 동작 잘 되는지 확인
  */
 export default function Page() {
-  const [count, setCount] = useState(1);
+  const count = 20;
 
   return (
-    <div className={styles.pageContentLarge}>
-      <Button size="large" style={{width: '100%'}} onClick={() => setCount(prevState => prevState + 1)}>Add row</Button>
+    <div className={styles.pageContentLarge} style={{width:'100%'}}>
       {new Array(count).fill('').map((_, index) => (
         <div key={index} className={styles.box}/>
       ))}
