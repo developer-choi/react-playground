@@ -2,6 +2,7 @@ import React, {CSSProperties} from 'react';
 import classNames from 'classnames';
 import styles from './index.module.scss';
 import ActiveLink, {ActiveLinkProps, LinkActiveMode} from '@/components/element/link/ActiveLink';
+import {isMobileOnBothSide} from '@/utils/extend/library/next';
 
 export type TabBarItem = Omit<ActiveLinkProps, 'mode'>;
 
@@ -24,7 +25,7 @@ export interface TabBarProps {
  * Doc : https://docs.google.com/document/d/1I9RL3PafRfNwzKa7ZTvChWVygDlGWGyr57qSmr4FqOY/edit#heading=h.za52bsfg8q5d
  */
 export default function TabBar({ widthMode, activeMode, style, className, linkList }: TabBarProps) {
-  const isMobile = true;
+  const isMobile = isMobileOnBothSide();
 
   return (
     <div

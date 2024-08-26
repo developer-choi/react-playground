@@ -4,13 +4,14 @@ import classNames from 'classnames';
 import React from 'react';
 import CustomLink from '@/components/element/link/CustomLink';
 import TabBar, {TabBarItem} from '@/components/layout/TabBar';
+import {isMobileOnBothSide} from '@/utils/extend/library/next';
 
 /**
  * URL: http://localhost:3000/markup/design-system/tab/notice
  * Doc : https://docs.google.com/document/d/1I9RL3PafRfNwzKa7ZTvChWVygDlGWGyr57qSmr4FqOY/edit#heading=h.za52bsfg8q5d
  */
 export default function Page() {
-  const isMobile = true;
+  const isMobile = isMobileOnBothSide();
   const pageContent = isMobile ? layoutStyles.mobilePageContent : layoutStyles.pageContentMedium;
 
   return (

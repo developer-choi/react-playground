@@ -5,6 +5,7 @@ import React, { CSSProperties, PropsWithChildren, ReactElement } from 'react';
 import classNames from 'classnames';
 import { useRouter } from 'next/navigation';
 import IcBackspace from '@/components/icon/IcBackspace';
+import {isMobileOnBothSide} from '@/utils/extend/library/next';
 
 export interface TopAppBarProps {
   position?: 'sticky' | 'static'; // default로 mobile은 sticky, pc는 static입니다.
@@ -21,7 +22,7 @@ export interface TopAppBarProps {
  */
 export default function TopAppBar(props: PropsWithChildren<TopAppBarProps>) {
   const { position, titleAlign = 'center', enableBackspace = true, rightRender, children, ...rest } = props;
-  const isMobile = true;
+  const isMobile = isMobileOnBothSide();
   const positionWithDefault = position ? position : isMobile ? 'sticky' : 'static';
   const { back } = useRouter();
 

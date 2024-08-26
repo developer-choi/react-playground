@@ -43,7 +43,7 @@
   }
 }
 
-.item.active {
+.item:global(.active) {
   color: map-get(color.$brandColors, primary);
 
   &::after {

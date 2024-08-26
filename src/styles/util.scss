@@ -11,7 +11,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  // line-height: normal; g같이 밑으로 오는 글자는 overflow hidden 스타일때문에 짤릴 수 있음. 이럴땐 line-height값을 적절하게 조정해야하는데, 디자인에서 text별 line-height 설정된거 보고 따라하면 그럴일 안생김.
+  // line-height: normal; 이 mixin을 사용하는 곳에서는 폰트사이즈보다 큰 line-height를 지정해야 g같은 밑으로가는 글자가 밑에서 안짤림.
 }
 
 /**
