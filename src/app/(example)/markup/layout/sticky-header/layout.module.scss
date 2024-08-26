@@ -9,15 +9,15 @@
 }
 
 .header {
-  position: sticky;
+  position: fixed; // 이렇게 sticky 안쓰고 스티키헤더를 구현하더라 유튜브 치지직 둘다
   top: 0;
-  flex-shrink: 0;
   width: 100%;
   height: map-get(layout.$layout, pcHeaderHeight);
   background-color: red;
 }
 
 .page {
+  padding-top: map-get(layout.$layout, pcHeaderHeight); // margin-top을 하지않는 이슈는 heigt 100% 같은거 할 때 부모높이 기준으로 계산하게되는데 이 때 부모높이를 전체 페이지 높이로 하기위함
   width: 100%;
   flex-grow: 1;
 }
