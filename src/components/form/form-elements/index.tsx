@@ -45,10 +45,16 @@ export interface FormElementUnderText extends ComponentPropsWithRef<'span'> {
   type?: 'info' | 'error';
 }
 
-export function FormElementUnderText({className, type, ...rest}: FormElementUnderText) {
+export function FormElementUnderText({className, type, children, ...rest}: FormElementUnderText) {
   const typeClass = !type ? undefined : styles[type];
 
+  if (!children) {
+    return null;
+  }
+
   return (
-    <span className={classNames(styles.formElementUnderText, typeClass, className)} {...rest}/>
+    <span className={classNames(styles.formElementUnderText, typeClass, className)} {...rest}>
+      {children}
+    </span>
   );
 }
