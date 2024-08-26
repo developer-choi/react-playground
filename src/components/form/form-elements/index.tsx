@@ -1,4 +1,4 @@
-import {ReactNode, PropsWithChildren, CSSProperties} from "react";
+import {ReactNode, PropsWithChildren, CSSProperties, ComponentPropsWithRef} from 'react';
 import classNames from 'classnames';
 import styles from './index.module.scss';
 
@@ -26,11 +26,29 @@ export function FormElementWrapper({label, error, children, style, className = '
    */
   return (
     <label style={style} className={classNames(styles.container, className)}>
-      {!label ? null : <span className={styles.label}>{label}</span>}
+      {!label ? null : <Label>{label}</Label>}
 
       {children}
 
-      {!error ? null : <span className={styles.formErrorMessage}>{error}</span>}
+      {!error ? null : <FormElementUnderText type="error">{error}</FormElementUnderText>}
     </label>
   )
+}
+
+export function Label({className, ...rest}: ComponentPropsWithRef<'span'>) {
+  return (
+    <span className={classNames(styles.label, className)} {...rest}/>
+  );
+}
+
+export interface FormElementUnderText extends ComponentPropsWithRef<'span'> {
+  type?: 'info' | 'error';
+}
+
+export function FormElementUnderText({className, type, ...rest}: FormElementUnderText) {
+  const typeClass = !type ? undefined : styles[type];
+
+  return (
+    <span className={classNames(styles.formElementUnderText, typeClass, className)} {...rest}/>
+  );
 }

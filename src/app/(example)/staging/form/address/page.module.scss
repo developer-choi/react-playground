@@ -1,0 +1,17 @@
+@use "/src/styles/design-system.module";
+
+.pageWrap {
+  @include design-system.commonForm;
+  padding: 24px;
+}
+
+.addressWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.postCode {
+  display: flex;
+  gap: 8px;
+}

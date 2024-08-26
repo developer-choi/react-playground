@@ -28,10 +28,17 @@ $formElement: (
   line-height: map-get($formElement, labelLineHeight);
 }
 
-.formErrorMessage {
+.formElementUnderText {
   display: block;
   margin-top: map-get($formElement, errorMarginTop);
-  color: map-get(color.$stateColors, error);
+  
+  &.error {
+    color: map-get(color.$stateColors, error);
+  }
+  
+  &.info {
+    color: map-get(color.$stateColors, info);
+  }
 }
 
 /**
