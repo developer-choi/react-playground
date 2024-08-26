@@ -5,7 +5,7 @@ import styles from './page.module.scss';
 import {KeyboardShortcut, useKeyboardShortcut} from '@/utils/extend/event/keyboard';
 import {isVideoInFullscreen} from '@/utils/extend/browser/document';
 
-// URL: http://localhost:3000/experimental/module/keyboard-shortcut/window-keydown
+// URL: http://localhost:3000/staging/module/keyboard-shortcut/window-keydown
 // Doc: https://docs.google.com/document/d/1uZLOByowdB8hPDVzDHaSkaBij8T08LOkkobxGi8jAHs/edit
 export default function WindowKeyDownPage() {
   const [value, setValue] = useState('');

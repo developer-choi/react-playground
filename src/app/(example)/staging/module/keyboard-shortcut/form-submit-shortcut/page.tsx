@@ -6,7 +6,7 @@ import {baseHandleErrors} from '@/utils/extend/library/react-hook-form';
 import styles from './page.module.scss';
 
 /**
- * URL: http://localhost:3000/experimental/module/keyboard-shortcut/form-submit-shortcut
+ * URL: http://localhost:3000/staging/module/keyboard-shortcut/form-submit-shortcut
  * Doc: https://docs.google.com/document/d/1mH1bLEUtys1WOLKsSSOS0fwOeTrHVdJSCyvu9rVSofI/edit#heading=h.7g0b3jegikqf
  *
  * Text Area에 포커스 대고 Ctrl Enter 하면 로그찍힘. (= 단축키로 폼서브밋 시키기)
