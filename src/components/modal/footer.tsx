@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import React, {ComponentPropsWithoutRef, ReactNode} from 'react';
 import Button, {ButtonProps} from '@/components/element/Button';
 
-export type ModalButtonProps = Pick<ButtonProps, 'onClick' | 'type' | 'className' | 'style' | 'children'>;
+export type ModalButtonProps = Pick<ButtonProps, 'className' | 'style' | 'children'>;
 
 export interface OneButtonModalFooterProps extends Omit<ModalFooterProps, 'children'> {
   /**
@@ -12,6 +12,9 @@ export interface OneButtonModalFooterProps extends Omit<ModalFooterProps, 'child
    */
   buttonText: ReactNode;
   onClick: ButtonProps['onClick'];
+  buttonType?: ButtonProps['type'];
+  loading?: ButtonProps['loading'];
+  disabled?: ButtonProps['disabled'];
 
   /**
    * 하지만 예외케이스가 존재하기때문에, 푸터에서는 수정은 허용하되
@@ -26,13 +29,14 @@ export interface OneButtonModalFooterProps extends Omit<ModalFooterProps, 'child
  * 하지만 예외케이스가 존재하기때문에, 푸터에서는 수정은 허용하되
  * 푸터를 호출하는 모달 컴포넌트에서는 예외모달이 아니고서야 커스텀 스타일값을 전달하지않는 방향으로 대응하겠습니다.
  */
-export function OneButtonModalFooter({className, style, onClick, buttonText, customProps}: OneButtonModalFooterProps) {
+export function OneButtonModalFooter({className, style, onClick, buttonText, buttonType, loading, customProps}: OneButtonModalFooterProps) {
   return (
     <ModalFooter style={style} className={classNames(styles.oneButtonFooter, className)}>
       <Button
         size="large"
         onClick={onClick}
-        type={customProps?.type}
+        type={buttonType}
+        loading={loading}
         className={customProps?.className}
         style={customProps?.style}
       >
@@ -47,14 +51,17 @@ export interface TwoButtonsModalFooter extends Omit<ModalFooterProps, 'children'
    * 위에있는 OneButton 주석 참고 부탁드립니다.
    */
   left: {
-    buttonText: ReactNode;
+    buttonText?: ReactNode; // default "취소"
     onClick: ButtonProps['onClick'];
     customProps?: ModalButtonProps;
   };
 
   right: {
-    buttonText: ReactNode;
+    buttonText?: ReactNode; // default 확인
     onClick: ButtonProps['onClick'];
+    disabled?: ButtonProps['disabled'];
+    buttonType?: ButtonProps['type'];
+    loading?: ButtonProps['loading'];
     customProps?: ModalButtonProps;
   };
 }
@@ -66,16 +73,16 @@ export function TwoButtonsModalFooter({style, className, left, right}: TwoButton
         size="large"
         variant="outlined"
         onClick={left.onClick}
-        type={left.customProps?.type}
         className={left.customProps?.className}
         style={left.customProps?.style}
       >
-        {left.customProps?.children ?? left.buttonText}
+        {left.customProps?.children ?? left.buttonText ?? '취소'}
       </Button>
       <Button
         size="large"
         onClick={right.onClick}
-        type={right.customProps?.type}
+        type={right.buttonType}
+        loading={right.loading}
         className={right.customProps?.className}
         style={right.customProps?.style}
       >
