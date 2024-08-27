@@ -93,7 +93,7 @@ function loopRecursively(value: object, convertCallback: ConvertCallback, option
  * 1. convertCallback은, 전달된 value와 동일한 data type을 반환해야하며
  * 2. 1번으로 인해 이 함수의 반환타입은 전달된 value와 동일한 type임을 보장합니다. (제네릭까지 셋팅)
  */
-export function safeLoopRecursivelyObject<O extends object>(object: O, convertCallback: ConvertCallback, option?: LoopRecursivelyOption): O {
+export function typeSafedLoopRecursivelyObject<O extends object>(object: O, convertCallback: ConvertCallback, option?: LoopRecursivelyOption): O {
   const wrappedCallback: ConvertCallback = (parameter) => {
     const result = convertCallback(parameter);
 
@@ -112,7 +112,7 @@ export function safeLoopRecursivelyObject<O extends object>(object: O, convertCa
  * @example ({key1: ' 1 ', key2: [' 2 '], key3: {subKey: ' 3 '}}) ==> {key1: '1', key2: ['2'], key3: {subKey: '3'}}
  */
 export function trimObject<O extends object>(value: O, option?: LoopRecursivelyOption): O {
-  return safeLoopRecursivelyObject(value, function ({value}) {
+  return typeSafedLoopRecursivelyObject(value, function ({value}) {
     if (typeof value === 'string') {
       return value.trim();
     } else {
@@ -120,6 +120,33 @@ export function trimObject<O extends object>(value: O, option?: LoopRecursivelyO
     }
   }, option);
 }
+
+/**
+ * API 호출직전 폼 데이터를 정리합니다.
+ * 1. 문자열 값은 좌우 공백을 제거하고,
+ * 2. null이나 빈문자열인 key는 undefined로 값을 바꿔서 API 호출 시 제외되도록 합니다.
+ */
+export function cleanFormData(formData: object, option?: LoopRecursivelyOption) {
+  return loopRecursively(formData, function ({value}) {
+    if (value === null) {
+      return undefined;
+    }
+
+    if (typeof value === 'string') {
+      const trimmedValue = value.trim();
+
+      // trim 했을 때 빈문자열인 케이스도 정리하기위해 굳이 if문을 한번 더 작성하였음
+      if (trimmedValue === '') {
+        return undefined;
+      } else {
+        return trimmedValue;
+      }
+    }
+
+    return value;
+  }, option);
+}
+
 
 /*
 const test = {
