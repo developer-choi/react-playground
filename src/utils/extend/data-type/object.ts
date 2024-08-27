@@ -32,6 +32,8 @@ export function itemListToDataOfType<T extends string>(itemList: NameValueItem<T
   };
 }
 
+type ConvertableValue = number | string | boolean | Function | null | undefined;
+
 /**
  * loopRecursively()에 제공된 value값이 만약 객체일 경우, callback으로 그 객체의 키값까지 같이 전달됩니다.
  * 객체안에 객체가 들어있는 경우, 부모 객체와 자식 객체의 key값을 .으로 구분해서 전달됩니다.
@@ -39,7 +41,7 @@ export function itemListToDataOfType<T extends string>(itemList: NameValueItem<T
  * loopRecursively({key1: 'a', key2: {subKey: 'b'}}) 만약 이렇게 호출한다면,
  * callback으로는 {key: 'key1', value: 'a'}, {key: 'key2.subKey', value: 'b'} 이렇게 전달됩니다.
  */
-export type ConvertCallback = (parameter: {key?: string, value: any}) => any;
+export type ConvertCallback = (parameter: {key?: string, value: ConvertableValue}) => any;
 
 export interface LoopRecursivelyOption {
   /**
@@ -60,10 +62,10 @@ export interface LoopRecursivelyOption {
  * 1. typeof 연산자를 value에 사용해서 체크할 수도 있고, (하단 trimObject() 확인)
  * 2. key값 / value값을 비교해서 체크할 수도 있습니다.
  */
-function loopRecursively<V>(value: V, convertCallback: ConvertCallback, option?: LoopRecursivelyOption): any {
-  function recursive(parameter: V, parentKey?: string): any {
+function loopRecursively(value: object, convertCallback: ConvertCallback, option?: LoopRecursivelyOption): any {
+  function recursive(parameter: object | ConvertableValue, parentKey?: string): any {
     if (Array.isArray(parameter)) {
-      return parameter.map(item => recursive(item, parentKey)) as V;
+      return parameter.map(item => recursive(item, parentKey));
 
     } else if (parameter === null || typeof parameter !== 'object') {
 
@@ -78,7 +80,7 @@ function loopRecursively<V>(value: V, convertCallback: ConvertCallback, option?:
       return Object.fromEntries(Object.entries(parameter).map(([keyInObject, valueInObject]) => {
         const key = parentKey ? `${parentKey}.${keyInObject}` : keyInObject;
         return [keyInObject, recursive(valueInObject, key)];
-      })) as V;
+      }));
     }
   }
 
