@@ -42,6 +42,11 @@ export function itemListToDataOfType<T extends string>(itemList: NameValueItem<T
 export type ConvertCallback = (parameter: {key?: string, value: any}) => any;
 
 export interface LoopRecursivelyOption {
+  /**
+   * 객체가 중첩된 경우, ['key1.key2'] 이런식의 기능도 지원합니다.
+   * object, array 둘 다 지원됩니다.
+   * 단, key1.key2.[2].key3 이런식으로 특정 index는 지원하지않습니다.
+   */
   ignoreKeyList: string[];
 }
 
