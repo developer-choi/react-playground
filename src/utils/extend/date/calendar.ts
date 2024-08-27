@@ -52,7 +52,7 @@ export function getCalendarBoundary(year: number, month: number): DateBoundary {
 export interface CalendarDate {
   original: Date;
   year: number;
-  month: number; // 현재 달과 1차이난다거나 그런거없이 다 보정된상태로 전달됨
+  month: number; // 현재 달과 1차이난다거나 그런거없이 보정된상태로 전달됨
   date: number;
 
   // 마크업 할 때 사용
@@ -120,4 +120,32 @@ export function getCalendarWeekList<T = CalendarDate>(year: number, month: numbe
   });
 
   return arraySplit(calendarDates, 7);
+}
+
+export interface CalendarNavigation {
+  year: number;
+  month: number;
+}
+
+export function getCalendarNavigation(year: number, month: number) {
+  const previousCalendar: CalendarNavigation = month === 1 ? {
+    year: year - 1,
+    month: 12
+  } : {
+    year,
+    month: month - 1
+  };
+
+  const nextCalendar: CalendarNavigation = month === 12 ? {
+    year: year + 1,
+    month: 1
+  } : {
+    year,
+    month: month + 1
+  };
+
+  return {
+    previousCalendar,
+    nextCalendar
+  }
 }

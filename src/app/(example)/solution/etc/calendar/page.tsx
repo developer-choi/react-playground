@@ -1,7 +1,7 @@
 'use client';
 
 import {useCallback, useMemo, useState} from 'react';
-import {getCalendarWeekList} from '@/utils/extend/date/calendar';
+import {getCalendarNavigation, getCalendarWeekList} from '@/utils/extend/date/calendar';
 import styles from './page.module.scss';
 import classNames from 'classnames';
 
@@ -15,37 +15,23 @@ export default function Page() {
 
   const next = useCallback(() => {
     setCurrent(prevState => {
-      const nextMonth = prevState.month + 1;
+      const {nextCalendar} = getCalendarNavigation(prevState.year, prevState.month);
 
-      if (nextMonth === 13) {
-        return {
-          year: prevState.year + 1,
-          month: 1
-        };
-      } else {
-        return {
-          year: prevState.year,
-          month: nextMonth
-        };
-      }
+      return {
+        year: nextCalendar.year,
+        month: nextCalendar.month
+      };
     });
   }, []);
 
   const previous = useCallback(() => {
     setCurrent(prevState => {
-      const previousMonth = prevState.month - 1;
+      const {previousCalendar} = getCalendarNavigation(prevState.year, prevState.month);
 
-      if (previousMonth === 0) {
-        return {
-          year: prevState.year - 1,
-          month: 12
-        };
-      } else {
-        return {
-          year: prevState.year,
-          month: previousMonth
-        };
-      }
+      return {
+        year: previousCalendar.year,
+        month: previousCalendar.month
+      };
     });
   }, []);
 
@@ -75,7 +61,7 @@ export default function Page() {
           <tr key={index}>
             {week.map(date => (
               <td key={`${date.month}-${date.date}`}>
-                <span className={classNames(styles.calendarDate, {[styles.notMatched]: !date.state.calendar.isMatchedMonth}, {[styles.isToday]: date.state.current.isToday}, {[styles.thisWeek]: date.state.current.isThisWeek})}>
+                <span className={classNames(styles.calendarDate, {[styles.notMatched]: !date.state.calendar.isMatchedMonth}, {[styles.isToday]: date.state.current.isToday})}>
                   {date.date}
                 </span>
               </td>
