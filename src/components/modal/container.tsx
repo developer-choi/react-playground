@@ -81,7 +81,7 @@ export function ModalContainer({className, size = 'medium', type, easilyClose, o
 
   // https://docs.google.com/document/d/16-Z3RmslEMvhfwOMmePYTRg4HkUjKjWSxxF2SB7NGGU/edit#heading=h.dpm2y2x8qp1i
   return createPortal((
-    <dialog ref={modalRef} className={classNames(styles[type + 'Container'], {[styles.open]: _open})} onClick={easilyClose ? onClose : undefined}>
+    <dialog ref={modalRef} className={classNames(styles.rootModalContainer, styles[type + 'Container'], {[styles.open]: _open})} onClick={easilyClose ? onClose : undefined}>
       <div className={classNames(styles.rootModalInner, styles[type + 'Inner'], styles[size], className)} onClick={onClickBackdrop} {...rest} />
     </dialog>
   ), document.body);
