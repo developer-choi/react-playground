@@ -41,37 +41,43 @@ export function itemListToDataOfType<T extends string>(itemList: NameValueItem<T
  */
 export type ConvertCallback = (parameter: {key?: string, value: any}) => any;
 
+export interface LoopRecursivelyOption {
+  ignoreKeyList: string[];
+}
+
 /**
  * value를 순회 돌면서, Array 또는 중첩된 Object를 계속 재귀 순회하면서 value값만 바꾸는 함수입니다.
  * @param value 임의의 값이 올 수 있지만, object를 권장함
  * @param convertCallback value의 키값마다 저장된 값을 변환할 콜백함수, 변환하지 않을 값이면 callback의 parameter를 그대로 반환해야함.
+ * @param option 순회할 때 적용할 옵션
  *
  * @description convertCallback에서 전달되는 key, value로 내가 바꾸려고 하는 값인지를 체크하는 방법은,
  * 1. typeof 연산자를 value에 사용해서 체크할 수도 있고, (하단 trimObject() 확인)
  * 2. key값 / value값을 비교해서 체크할 수도 있습니다.
  */
-function loopRecursively<V>(value: V, convertCallback: ConvertCallback): any {
-  function recursive(value: V, convertCallback: ConvertCallback, parentKey?: string): any {
-    if (Array.isArray(value)) {
-      return value.map(item => recursive(item, convertCallback, parentKey)) as V;
+function loopRecursively<V>(value: V, convertCallback: ConvertCallback, option?: LoopRecursivelyOption): any {
+  function recursive(parameter: V, parentKey?: string): any {
+    if (Array.isArray(parameter)) {
+      return parameter.map(item => recursive(item, parentKey)) as V;
 
-    } else if (typeof value !== 'object' || value === null) {
-      return convertCallback({key: parentKey, value});
+    } else if (parameter === null || typeof parameter !== 'object') {
+
+      if (parentKey && option && option.ignoreKeyList.includes(parentKey)) {
+        return parameter;
+
+      } else {
+        return convertCallback({key: parentKey, value: parameter});
+      }
 
     } else {
-      return Object.fromEntries(Object.entries(value).map(([keyInObject, valueInObject]) => {
+      return Object.fromEntries(Object.entries(parameter).map(([keyInObject, valueInObject]) => {
         const key = parentKey ? `${parentKey}.${keyInObject}` : keyInObject;
-
-        if (typeof valueInObject === 'object' || valueInObject === null) {
-          return [keyInObject, recursive(valueInObject, convertCallback, key)];
-        } else {
-          return [keyInObject, convertCallback({key, value: valueInObject})];
-        }
+        return [keyInObject, recursive(valueInObject, key)];
       })) as V;
     }
   }
 
-  return recursive(value, convertCallback);
+  return recursive(value);
 }
 
 /**
@@ -80,7 +86,7 @@ function loopRecursively<V>(value: V, convertCallback: ConvertCallback): any {
  * 1. convertCallback은, 전달된 value와 동일한 data type을 반환해야하며
  * 2. 1번으로 인해 이 함수의 반환타입은 전달된 value와 동일한 type임을 보장합니다. (제네릭까지 셋팅)
  */
-export function safeLoopRecursivelyObject<O extends object>(object: O, convertCallback: ConvertCallback): O {
+export function safeLoopRecursivelyObject<O extends object>(object: O, convertCallback: ConvertCallback, option?: LoopRecursivelyOption): O {
   const wrappedCallback: ConvertCallback = (parameter) => {
     const result = convertCallback(parameter);
 
@@ -91,21 +97,21 @@ export function safeLoopRecursivelyObject<O extends object>(object: O, convertCa
     return result;
   }
 
-  return loopRecursively(object, wrappedCallback);
+  return loopRecursively(object, wrappedCallback, option);
 }
 
 /**
  * 자식의 자식의 자식까지 전부 뒤져서 string이면 trim()함
  * @example ({key1: ' 1 ', key2: [' 2 '], key3: {subKey: ' 3 '}}) ==> {key1: '1', key2: ['2'], key3: {subKey: '3'}}
  */
-export function trimObject<O extends object>(value: O): O {
+export function trimObject<O extends object>(value: O, option?: LoopRecursivelyOption): O {
   return safeLoopRecursivelyObject(value, function ({value}) {
     if (typeof value === 'string') {
       return value.trim();
     } else {
       return value;
     }
-  });
+  }, option);
 }
 
 /*
