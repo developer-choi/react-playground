@@ -75,7 +75,7 @@ export default function Page() {
           <tr key={index}>
             {week.map(date => (
               <td key={`${date.month}-${date.date}`}>
-                <span className={classNames(styles.calendarDate, {[styles.notMatched]: !date.state.calendar.isMatchedMonth})}>
+                <span className={classNames(styles.calendarDate, {[styles.notMatched]: !date.state.calendar.isMatchedMonth}, {[styles.isToday]: date.state.current.isToday}, {[styles.thisWeek]: date.state.current.isThisWeek})}>
                   {date.date}
                 </span>
               </td>

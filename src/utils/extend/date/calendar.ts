@@ -59,14 +59,13 @@ export interface CalendarDate {
   state: {
     // 현재 날짜와 상관없는 해당 달력만의 정보
     calendar: {
-      isMatchedMonth: boolean; // 달력의 월과 같은 월인지. ("달력" 기준 저번달, 다음달인지 아닌지)
+      isMatchedMonth: boolean; // 조회한 달력의 월과 같은 월인지. ("달력" 기준 저번달, 다음달인지 아닌지를 구분할 때 사용)
       isLastDate: boolean; // 해당 월의 마지막 날인지
       isFirstDate: boolean; // 해당 월의 첫 날인지
     };
 
     // 현재 날짜와 관련이 있는 달력의 정보
     current: {
-      isThisWeek: boolean; // 이번주와 달력의 특정 일이 같은 주인지
       isToday: boolean; // 오늘과 동일한 날짜인지 여부
     };
   };
@@ -90,7 +89,6 @@ export function getCalendarWeekList<T = CalendarDate>(year: number, month: numbe
     .fill('').map((_, index) => new Date(year, month, index + 1));
 
   const today = new Date();
-  const thisWeek = getWeekBoundary(today);
 
   const calendarDates: T[] = prevMonthDates.concat(currentMonthDates, nextMonthDates).map(date => {
     const numericDate = date.getDate();
@@ -108,8 +106,7 @@ export function getCalendarWeekList<T = CalendarDate>(year: number, month: numbe
           isLastDate: isMatchedMonth && end.getDate() === numericDate
         },
         current: {
-          isThisWeek: thisWeek.start.getDate() <= numericDate && numericDate <= thisWeek.end.getDate(),
-          isToday: numericDate === today.getDate(),
+          isToday: numericDate === today.getDate() && (today.getMonth() === date.getMonth()) && (today.getFullYear() === date.getFullYear()),
         },
       }
     };

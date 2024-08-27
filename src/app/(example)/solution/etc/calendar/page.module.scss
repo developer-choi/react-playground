@@ -35,4 +35,13 @@
   &.notMatched {
     color: lightgray;
   }
+  
+  &.isToday {
+    color: red;
+    font-weight: bold;
+  }
+  
+  &.thisWeek {
+    background: lightgray;
+  }
 }
