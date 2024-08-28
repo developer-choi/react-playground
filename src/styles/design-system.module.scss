@@ -9,6 +9,15 @@
   @include commonForm;
 }
 
+@mixin commonSubForm {
+  @include commonForm;
+  gap: 8px;
+}
+
+.commonSubForm {
+  @include commonSubForm;
+}
+
 // https://docs.google.com/document/d/1PuIedTgshX2lHkh9YgIW6sv9W7aiyuA_aTxdPlQ6Vm0/edit
 $zIndexes: (
   modal: 30,
