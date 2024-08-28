@@ -4,7 +4,7 @@ import {useCallback} from 'react';
 import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
 import {useUserFieldApiValidation} from '@/utils/service/user/api-validation';
 import Input, {InputProps} from '@/components/form/Input';
-import {useEmailInput} from '@/utils/service/user/fields/email';
+import {getEmailInputProps} from '@/utils/service/user/fields/email';
 import Button from '@/components/element/Button';
 import HiddenInput from '@/components/form/Input/HiddenInput';
 
@@ -66,10 +66,8 @@ function useSignUpForm() {
   const {register, handleSubmit, formState: {errors}} = methods;
 
   // 회원가입에서는 그대로 쓰고 (required true) / 수정에서는 required false로 옵션만 커스텀하면됨.
-  const emailInput = useEmailInput({errors, name: 'email', register});
-
   const emailInputProps: InputProps = {
-    ...emailInput.inputProps,
+    ...getEmailInputProps({errors, name: 'email', register}),
     autoComplete: 'email',
     autoFocus: true,
   };
