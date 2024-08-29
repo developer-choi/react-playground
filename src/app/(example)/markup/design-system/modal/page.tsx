@@ -1,8 +1,8 @@
 'use client';
 
-import React, { ReactElement, ReactNode, useCallback } from 'react';
+import React, {ReactElement, ReactNode, useCallback} from 'react';
 import styles from './page.module.scss';
-import { useForm } from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import Image from 'next/image';
 import {H2} from '@/components/element/typography';
 import Radio, {RadioGroup} from '@/components/form/Radio';
@@ -13,6 +13,7 @@ import DefaultModalBody from '@/components/modal/body';
 import {OneButtonModalFooter, TwoButtonsModalFooter} from '@/components/modal/footer';
 import {useToggle} from '@/utils/extend/library/react';
 import {useOpenModal} from '@/utils/extend/modal';
+import designSystemStyles from '@/styles/design-system.module.scss';
 
 // URL: http://localhost:3000/markup/design-system/modal
 // Doc: https://docs.google.com/document/d/16-Z3RmslEMvhfwOMmePYTRg4HkUjKjWSxxF2SB7NGGU/edit
@@ -22,6 +23,7 @@ export default function DesignSystemTest() {
       <ClassifyModalTest />
       <CompositionModalTest />
       <OthersModalTest />
+      <FullCustomTest/>
     </div>
   );
 }
@@ -41,8 +43,8 @@ function ClassifyModalTest() {
 
   return (
     <>
-      <form className={styles.formWrap} onSubmit={handleSubmit(openModal)}>
-        <H2>모달 분류 속성 테스트</H2>
+      <H2>모달 분류 속성 테스트</H2>
+      <form className={designSystemStyles.commonForm} onSubmit={handleSubmit(openModal)}>
         <RadioGroup label="컨테이너">
           <Radio label="기본" value="centerAlign" {...register('type')} />
           <Radio label="바텀" value="bottomSheet" {...register('type')} />
@@ -143,8 +145,8 @@ function CompositionModalTest() {
 
   return (
     <>
-      <form className={styles.formWrap} onSubmit={handleSubmit(openModal)}>
-        <H2>모달 조합 테스트</H2>
+      <H2>모달 조합 테스트</H2>
+      <form className={designSystemStyles.commonForm} onSubmit={handleSubmit(openModal)}>
         <RadioGroup label="컨테이너">
           <Radio label="기본" value="centerAlign" {...register('type')} />
           <Radio label="바텀" value="bottomSheet" {...register('type')} />
@@ -202,8 +204,8 @@ function OthersModalTest() {
 
   return (
     <>
-      <div className={styles.formWrap}>
-        <H2>그 외 모달 테스트</H2>
+      <H2>그 외 모달 테스트</H2>
+      <div className={designSystemStyles.commonForm}>
         <Button onClick={alert}>Alert (완성품)</Button>
         <Button onClick={promotion.setTrue}>프로모션</Button>
       </div>
@@ -225,6 +227,24 @@ function OthersModalTest() {
       )}
     </>
   );
+}
+
+// 헤더 바디 푸터 규칙 아예 안지키고 완전 풀커스텀 하는 예시
+function FullCustomTest() {
+  const {bool: visible, setTrue, setFalse: onClose} = useToggle();
+
+  return (
+    <>
+      <H2>헤더 바디 푸터 규칙 아예 안지키고 완전 풀커스텀 하는 예시</H2>
+      <Button onClick={setTrue}>Click Me</Button>
+
+      {!visible ? null : (
+        <ModalContainer onClose={onClose} easilyClose>
+          Hello World
+        </ModalContainer>
+      )}
+    </>
+  )
 }
 
 interface CompositionFormData {

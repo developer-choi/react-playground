@@ -25,7 +25,7 @@ export default function AlertModal({title, content, onClose, confirm, ...rest}: 
   }, [confirm, onClose]);
   
   return (
-    <ModalContainer type="centerAlign" onClose={onClose} {...rest}>
+    <ModalContainer onClose={onClose} {...rest}>
       <DefaultModalHeader>{title}</DefaultModalHeader>
       <DefaultModalBody>
         {content}

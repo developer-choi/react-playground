@@ -7,9 +7,12 @@
   align-items: flex-start;
   background: white;
   padding: 20px;
-  gap: 48px;
-}
-
-.formWrap {
-  @include design-system.commonForm;
+  
+  > h2 {
+    margin-bottom: 12px;
+  }
+  
+  > h2:not(:first-child) {
+    margin-top: 48px;
+  }
 }

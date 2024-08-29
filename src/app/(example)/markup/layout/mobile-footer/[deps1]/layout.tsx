@@ -5,21 +5,19 @@ import ActiveLink, {ActiveLinkProps, useCheckHrefIsActive} from '@/components/el
 import styles from './page.module.scss';
 import {COLOR} from '@/styles/color';
 import IcAnnounce from '@/components/icon/IcAnnounce';
-import ModalProvider from '@/components/setting/ModalProvider';
 
 export default function Layout({children}: PropsWithChildren) {
   return (
-    <ModalProvider>
-      <div className={styles.wrap}>
-        {children}
-        <footer className={styles.footer}>
-          <NavItem href="/markup/layout/mobile-footer/product" activeMode="startsWith" icon={IcAnnounce} text="Product"/>
-          <NavItem href="/markup/layout/mobile-footer/event" activeMode="startsWith" icon={IcAnnounce} text="Event"/>
-          <NavItem href="/markup/layout/mobile-footer/community" activeMode="startsWith" icon={IcAnnounce} text="Community"/>
-          <NavItem href="/markup/layout/mobile-footer/mypage" activeMode="startsWith" icon={IcAnnounce} text="Mypage"/>
-        </footer>
-      </div>
-    </ModalProvider>
+    <div className={styles.wrap}>
+      {children}
+      <footer className={styles.footer}>
+        <NavItem href="/markup/layout/mobile-footer/product" activeMode="startsWith" icon={IcAnnounce} text="Product"/>
+        <NavItem href="/markup/layout/mobile-footer/event" activeMode="startsWith" icon={IcAnnounce} text="Event"/>
+        <NavItem href="/markup/layout/mobile-footer/community" activeMode="startsWith" icon={IcAnnounce}
+                 text="Community"/>
+        <NavItem href="/markup/layout/mobile-footer/mypage" activeMode="startsWith" icon={IcAnnounce} text="Mypage"/>
+      </footer>
+    </div>
   );
 }
 
