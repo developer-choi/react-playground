@@ -1,3 +1,18 @@
+export type PkType = string | number;
+export type Direction = 'asc' | 'desc';
+
+export type LoopCallback<I, R> = (item: I, index: number, array: Array<I>) => R;
+
+export function replace<T>(array: Array<T>, conditionCallback: LoopCallback<T, boolean>, replaceCallback: (item: T) => T) {
+  return array.map((item, index, original) => {
+    if (conditionCallback(item, index, original)) {
+      return replaceCallback(item);
+    } else {
+      return item;
+    }
+  });
+}
+
 export function arraySplit<T>(list: T[], length: number): T[][] {
   const resultArray: T[][] = [];
   const resultLength = Math.ceil(list.length / length);
@@ -19,8 +34,6 @@ export function popSpecificIndex<T>(array: T[], index: number) {
     item
   };
 }
-
-export type Direction = 'asc' | 'desc';
 
 export function sortByNumber<T>(direction: Direction, list: T[], valueExtractor: (item: T) => number) {
   return [...list].sort((a, b) => {
@@ -50,6 +63,33 @@ export function sortByString<T>(direction: Direction, list: T[], valueExtractor:
   });
 }
 
+/**
+ * @param items 중복을 제거하고싶은 배열
+ * @param pkExtractor 배열의 PK를 추출하는 함수
+ * @param recent 'first' = 배열 뒤에있는 중복을 삭제하고 앞에있는것을 남김
+ * @param recent 'last' = 배열 앞에있는 중복을 삭제하고 뒤에있는것을 남김
+ */
+export function removeDuplicatedObject<I extends Object, P extends PkType>(items: I[], pkExtractor: (item: I) => P, recent: 'last' | 'first'): I[] {
+  const _items = recent === 'last' ? items : [...items].reverse();
+
+  const object = {} as Record<P, I>
+
+  _items.forEach(item => {
+    const pk = pkExtractor(item);
+
+    // 중복된 값을 덮어 쓰고나서 나중에 배열로 반환할 때 순서가 뒤바뀌는것을 방지
+    delete object[pk];
+    object[pk] = item;
+  });
+
+  const result = Object.entries(object).map(([, value]) => value) as I[];
+
+  if (recent === 'last') {
+    return result;
+  }
+
+  return result.reverse();
+}
 
 /**
  * @example ([1, 2, 3], 1) => 2
