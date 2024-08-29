@@ -14,8 +14,8 @@
   top: 0;
   width: 100%;
   height: map-get(layout.$layout, pcHeaderHeight);
-  background-color: red;
   z-index: map-get(design-system.$zIndexes, pcStickyHeader);
+  background-color: red; // 원래는 white여야함. transparent하면 안됨. 밑에가 보여버림
 }
 
 .page {
