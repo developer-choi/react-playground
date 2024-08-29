@@ -3,6 +3,7 @@
 import React, {useEffect} from 'react';
 import {H1} from '@/components/element/typography';
 import layoutStyles from '@/styles/layout.module.scss';
+import designSystemStyles from '@/styles/design-system.module.scss';
 import {ServerComponentProps} from '@/types/declaration/next';
 import {useOpenModal} from '@/utils/extend/modal';
 
@@ -21,6 +22,18 @@ export default function Page({params}: ServerComponentProps) {
   return (
     <div className={layoutStyles.mobilePageContent}>
       <H1 style={{textTransform: 'capitalize'}}>{params.deps1}</H1>
+      <div className={designSystemStyles.rowBox}/>
+      <div className={designSystemStyles.rowBox}/>
+      <div className={designSystemStyles.rowBox}/>
+      <div className={designSystemStyles.rowBox}/>
+      <div className={designSystemStyles.rowBox}/>
+      <div className={designSystemStyles.rowBox}/>
+      <div className={designSystemStyles.rowBox}/>
+      <div className={designSystemStyles.rowBox}/>
+      <div className={designSystemStyles.rowBox}/>
+      <div className={designSystemStyles.rowBox}>
+        마지막 박스까지 잘 보이는지 체크!
+      </div>
     </div>
   );
 }

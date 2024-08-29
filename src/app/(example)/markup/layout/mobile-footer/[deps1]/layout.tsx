@@ -23,7 +23,6 @@ export default function Layout({children}: PropsWithChildren) {
   );
 }
 
-
 interface NavItemProps {
   href: string;
   text: string;

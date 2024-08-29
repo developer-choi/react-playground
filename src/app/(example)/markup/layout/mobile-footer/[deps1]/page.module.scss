@@ -17,6 +17,7 @@
   right: 0;
   height: map-get(layout.$layout, mobileBottomNavHeight);
   z-index: map-get(design-system.$zIndexes, mobileBottomNav);
+  background: white;
   
   display: flex;
 }

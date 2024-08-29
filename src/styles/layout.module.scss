@@ -34,6 +34,6 @@ $layout: (
 
 .mobilePageContent {
   width: 100%;
-  height: 100%;
-  margin-bottom: map-get($layout, mobileBottomNavHeight);
+  flex-grow: 1;
+  padding-bottom: map-get($layout, mobileBottomNavHeight);
 }
