@@ -7,7 +7,7 @@ interface LocalStorageObjectParameter<V extends Object> {
    * 애초에 매니저 생성할 때부터 유효성검증로직을 선택적으로 추가하여,
    * LocalStorage에 값을 읽거나 쓸때 유효하지않은값이 읽히거나 써지지않도록 함.
    */
-  validateCallback?: (parsedValue: any) => boolean;
+  validateCallback?: (parsedValue: V) => boolean;
   defaultValue: V;
   //TODO legacyKeys (array) 받아서 옛날 키값이면 삭제하는 기능 추가하자. LocalStorageManagerObject ~ Array 둘다 적용되게.
 }
