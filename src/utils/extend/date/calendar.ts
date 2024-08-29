@@ -20,8 +20,8 @@ export function getMonthBoundary(year: number, month: number): DateBoundary {
 }
 
 /**
- * @return start 해당 월의 첫 번째 일의 Date 객체
- * @return end 해당 월의 마지막 일의 Date 객체
+ * @return start 해당 주의 첫 날짜인 월요일의 Date 객체
+ * @return end 해당 주의 마지막 날짜인 일요일의 Date 객체
  */
 export function getWeekBoundary(date: Date): DateBoundary {
   const count = date.getDay() === 0 ? 6 : date.getDay() - 1;
@@ -38,6 +38,10 @@ export function getWeekBoundary(date: Date): DateBoundary {
   };
 }
 
+/**
+ * @return start 해당 달력의 첫 번째 일의 Date 객체 (저번달일 수도 있음. 일단 월요일임)
+ * @return end 해당 달력의 마지막 일의 Date 객체 (다음달일 수도 있음. 일단 일요일임)
+ */
 export function getCalendarBoundary(year: number, month: number): DateBoundary {
   const {end, start} = getMonthBoundary(year, month);
   const prevMonthDayCount = start.getDay() === 0 ? 6 : start.getDay() - 1;
