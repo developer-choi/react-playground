@@ -3,12 +3,18 @@ import {getSession, signOut} from 'next-auth/react';
 import {redirect} from 'next/navigation';
 import {LoginError} from '@/utils/service/auth/redirect';
 import {auth} from '@/utils/service/auth';
+import {isServer} from '@/utils/extend/library/next';
+import {InvalidEnvironmentError} from '@/utils/extend/error/both-side';
 
 /** customFetchOnXXXSide() 공통 주석
  * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
  */
 
 export async function customFetchOnClientSide(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
+  if(isServer()) {
+    throw new InvalidEnvironmentError('customFetchOnClientSide()는 Server Side에서 호출되면 안됩니다.');
+  }
+
   try {
     const session = await getSession();
     return await customFetchInBothSide(input, {...parameter, session});
@@ -28,6 +34,10 @@ export async function customFetchOnClientSide(input: string | URL | globalThis.R
 }
 
 export async function customFetchOnServerSide(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
+  if(!isServer()) {
+    throw new InvalidEnvironmentError('customFetchOnServerSide()는 Client Side에서 호출되면 안됩니다.');
+  }
+
   try {
     const session = await auth();
     return await customFetchInBothSide(input, {...parameter, session});

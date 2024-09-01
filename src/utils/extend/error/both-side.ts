@@ -22,3 +22,13 @@ export class ValidateError extends Error {
     this.reason = config?.reason;
   }
 }
+
+/**
+ * Server Side에서 호출해야하는 에러인데, Client Side에서 호출했거나 또는 그 반대의 경우 발생되는 에러.
+ * 대부분이 개발단계에서 진작에 해결된 상태로 빌드가 되야하는 에러들.
+ */
+export class InvalidEnvironmentError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
