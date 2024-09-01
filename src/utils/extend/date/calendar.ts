@@ -19,6 +19,12 @@ export function getMonthBoundary(year: number, month: number): DateBoundary {
   };
 }
 
+// 해당 월이 몇일까지 있는지 반환
+export function getDaysInMonth(year: number, month: number) {
+  const {end} = getMonthBoundary(year, month);
+  return end.getDate();
+}
+
 /**
  * @return start 해당 주의 첫 날짜인 월요일의 Date 객체
  * @return end 해당 주의 마지막 날짜인 일요일의 Date 객체
