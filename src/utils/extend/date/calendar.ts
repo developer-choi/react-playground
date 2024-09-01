@@ -19,7 +19,10 @@ export function getMonthBoundary(year: number, month: number): DateBoundary {
   };
 }
 
-// 해당 월이 몇일까지 있는지 반환
+/**
+ * 1. 해당 월이 몇일까지 있는지 반환 (갯수)
+ * 2. 또는 해당 월의 마지막 날짜가 몇일인지를 알아낼 때도 활용 가능. (날짜)
+ */
 export function getDaysInMonth(year: number, month: number) {
   const {end} = getMonthBoundary(year, month);
   return end.getDate();
