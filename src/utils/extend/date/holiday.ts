@@ -12,23 +12,16 @@ export function isHoliday(year: number, month: number, date: number) {
   const day = value.getDay();
 
   if (day === 6 || day === 0) {
-    console.log(`주말 (${year}-${month}-${date})`);
     return true;
   }
 
   if (HOLIDAY.solar.some(holiday => holiday.month === month && holiday.date === date)) {
-    console.log(`양력 (${year}-${month}-${date})`);
     return true;
   }
 
   return HOLIDAY.lunar.some(holiday => {
     const toPreviousYear = holiday.month === 12 && holiday.date === 31;
     const solar = convertLunarDateToSolar(toPreviousYear ? year - 1 : year, holiday.month, holiday.date)
-
-    if (solar.month === month && solar.date === date) {
-      console.log(`음력 (${year}-${month}-${date}) ${holiday.name}`);
-    }
-
     return solar.month === month && solar.date === date;
   });
 }
