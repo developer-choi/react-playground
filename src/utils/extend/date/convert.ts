@@ -3,10 +3,13 @@
  * 다른 타입을 Date타입으로 바꾸는 함수가 있는 모듈입니다.
  */
 
-export interface DestructedDate {
+export interface SimpleDate {
   year: number;
   month: number;
   date: number;
+}
+
+export interface DestructedDate extends SimpleDate {
   hour: number;
   minute: number;
   second: number;
