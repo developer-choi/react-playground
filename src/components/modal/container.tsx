@@ -72,12 +72,12 @@ export function ModalContainer({className, size = 'medium', type = 'centerAlign'
   }, [_open]);
 
   const onClickBackdrop = useCallback((event: MouseEvent<HTMLDivElement>) => {
-    if (type === 'fullScreen') {
+    if (!easilyClose) {
       return;
     }
 
     event.stopPropagation();
-  }, [type]);
+  }, [easilyClose]);
 
   // https://docs.google.com/document/d/16-Z3RmslEMvhfwOMmePYTRg4HkUjKjWSxxF2SB7NGGU/edit#heading=h.dpm2y2x8qp1i
   return createPortal((
