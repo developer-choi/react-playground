@@ -11,7 +11,7 @@ export interface DateBoundary {
  */
 export function getMonthBoundary(year: number, month: number): DateBoundary {
   const start = new Date(year, month - 1, 1);
-  const end = new Date(year, month, 0);
+  const end = new Date(year, month, 0, 23, 59, 59);
 
   return {
     start,
@@ -49,7 +49,7 @@ export function getCalendarBoundary(year: number, month: number): DateBoundary {
 
   return {
     start: new Date(year, month - 1, 1 - prevMonthDayCount),
-    end: new Date(year, month, nextMonthDayCount === 7 ? 0 : nextMonthDayCount)
+    end: new Date(year, month, nextMonthDayCount === 7 ? 0 : nextMonthDayCount, 23, 59, 59)
   };
 }
 
