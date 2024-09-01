@@ -1,5 +1,5 @@
 import {PropsWithChildren} from 'react';
-import AppProvider from '@/components/setting';
+import AppProvider from '@/components/setting/AppProvider';
 
 export default function Layout({children}: PropsWithChildren) {
   return (
