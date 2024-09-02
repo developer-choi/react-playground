@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import IntlClientProvider from '@/components/setting/IntlClientProvider';
 import {getMessages} from 'next-intl/server';
 import {getUserLocale} from '@/utils/service/i18n';
+import ReactQueryProvider from '@/components/setting/ReactQueryProvider';
 
 // 첫 페이지 로딩 시점에 안보여도 되는 것들은 모두 dynamic import 하기로 함
 const ExtendedToastContainer = dynamic(() => import('@/components/setting/ExtendedToastContainer'), {ssr: false});
@@ -24,9 +25,11 @@ export default async function AppProvider({children}: PropsWithChildren) {
       <InnerSessionProvider>
         <ServiceLayoutHeader/>
         <IntlClientProvider locale={locale.short} messages={messages}>
-          <ModalProvider>
-            {children}
-          </ModalProvider>
+          <ReactQueryProvider>
+            <ModalProvider>
+              {children}
+            </ModalProvider>
+          </ReactQueryProvider>
         </IntlClientProvider>
         <ExtendedToastContainer/>
       </InnerSessionProvider>
