@@ -145,6 +145,7 @@
   @include buttonColorSet;
   
   // flex-shrink: 0; button 공통스타일에 이런속성 쓰면 안됨. 인풋, 버튼이 한줄로 있는 케이스에서나 통하지 버튼 2개이상 있는 케이스에서는 오히려 안됨.
+  align-self: flex-start; // flex direction column 컨테이너 에서도 기본적으로 본인 크기만큼만 길어지도록 설정
 }
 
 .buttonLink {
