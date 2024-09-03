@@ -33,7 +33,8 @@ export default function Button(props: ButtonProps) {
       onClick={customOnClick}
       {...rest}
     >
-      {_loading ? <LoadingSpinner className="loading" square={LINE_HEIGHT_BY_SIZE[size]}/> : children}
+      <div className={classNames(styles.childrenContainer, {[styles.loading]: _loading})}>{children}</div>
+      {!_loading ? null : <LoadingSpinner className={styles.loadingSpinner} square={LINE_HEIGHT_BY_SIZE[size]}/>}
     </button>
   );
 }
