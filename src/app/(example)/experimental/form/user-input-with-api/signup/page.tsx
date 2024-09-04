@@ -4,7 +4,7 @@ import {useCallback} from 'react';
 import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
 import {useUserFieldApiValidation} from '@/utils/service/user/api-validation';
 import Input, {InputProps} from '@/components/form/Input';
-import {getEmailInputProps} from '@/utils/service/user/fields/email';
+import {EMAIL_TEXT, getEmailInputProps} from '@/utils/service/user/fields/email';
 import Button from '@/components/element/Button';
 import HiddenInput from '@/components/form/Input/HiddenInput';
 
@@ -91,13 +91,24 @@ function useSignUpForm() {
   }, []);
 
   // 클라이언트 컨트롤용 데이터는 서버로 보내지않게 하기위함
-  const onSubmit: SubmitHandler<TestFormData> = useCallback(({validated, ...data}) => {
+  const onSubmit: SubmitHandler<TestFormData> = useCallback(async ({validated, ...data}) => {
     if (isFetching) {
       return;
     }
-
-    console.log('data', data);
-  }, [isFetching]);
+    
+    try {
+      await signupApi(data);
+    } catch (error) {
+      if (error === '이미 이메일이 존재한다는 에러') {
+        methods.setError('email', {
+          type: 'api',
+          message: EMAIL_TEXT.alreadyExist
+        }, {
+          shouldFocus: true
+        });
+      }
+    }
+  }, [isFetching, methods]);
 
   return {
     form: {
@@ -118,4 +129,8 @@ interface TestFormData {
   validated: {
     email: string;
   };
+}
+
+async function signupApi(data: any) {
+  console.log('request api', data);
 }
