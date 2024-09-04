@@ -1,4 +1,22 @@
-### 마이그레이션 순서
-1. 예제 페이지를 legacy 브랜치에서 가져와서 추가
-2. 하면서 페이지파일 말고 나머지 컴포넌트나 util 파일은 사용하는곳 체크해서 삭제하면서 추가
-3. 예제 페에지에는 Doc, URL 링크 추가
+### 공부를 위한 프로젝트 입니다.
+1. /app/(service): 실무 프로젝트 상황을 가정하고 페이지를 분류해놓은 폴더 (실제 웹사이트에 존재하는 페이지)
+2. /app/(example): 예제페이지 모음
+3. /app/(example)/solution: 실무에 적용해서 검증이 완료
+4. /app/(example)/staging: 테스트가 완료되었으나 실무에 적용할 기회가 없었던 예제페이지
+5. /app/(example)/experimental: 테스트중인 페이지
+6. /app/(example)/study: 라이브러리/프레임워크를 학습했던 예제 페이지
+7. /app/(example)/markup: 마크업 예제 페이지
+
+### 개인 프로젝트 이기 때문에, 차이점이 있습니다.
+1. 제 취향대로 코드를 작성했고, 실무에서는 스타일을 회사에 맞춥니다.
+2. 주석과 커밋메시지가 영어로 되어있다면, 단순히 영어에 익숙해지려고 작성했었습니다.
+
+### 주제별로 예제페이지를 모아놓은 성격이 강합니다.
+1. 수십개의 페이지가 자주 최신화되지는 않기 때문에,
+2. 코드의 통일성이 없는 경우가 발생합니다.
+
+### 프로젝트 분기점
+1. [2020-01-15 React 16.12.0](https://github.com/developer-choi/react-playground/commit/fe7400c2)
+2. [2021-04-19 Next 10.3.1](https://github.com/developer-choi/react-playground/commit/773639be)
+3. [2022-11-03 Next 12.3.1](https://github.com/developer-choi/react-playground/commit/6c63faa5)
+4. [2024-04-03 Next 14.1.4](https://github.com/developer-choi/react-playground/commit/8155f804)
