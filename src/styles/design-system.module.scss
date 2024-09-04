@@ -14,6 +14,10 @@
 @mixin commonSubForm {
   @include commonForm;
   gap: 8px;
+  
+  &:global(.row) {
+    flex-direction: row;
+  }
 }
 
 .commonSubForm {
