@@ -4,7 +4,11 @@ import React, {useCallback} from 'react';
 import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
 import {useForm} from 'react-hook-form';
 import {trimObject} from '@/utils/extend/data-type/object';
-import {baseHandleErrors, validateTrim} from '@/utils/extend/library/react-hook-form';
+import {
+  baseHandleErrors,
+  validateMinLengthWithTrim,
+  validateRequiredWithTrim,
+} from '@/utils/extend/library/react-hook-form';
 
 /**
  * URL: http://localhost:3000/solution/form/trim
@@ -17,31 +21,63 @@ import {baseHandleErrors, validateTrim} from '@/utils/extend/library/react-hook-
 export default function Page() {
   const {register, handleSubmit} = useForm<TestFormData>();
 
-  const onError: SubmitErrorHandler<TestFormData> = useCallback(({name}) => {
-    baseHandleErrors([name]);
+  const onError: SubmitErrorHandler<TestFormData> = useCallback(({name, email}) => {
+    baseHandleErrors([name, email]);
   }, []);
 
+  // 성공 케이스에서도 코드가 2배가 되야함. 공백을 추가한 상태로 제출한 경우도 같이 체크해야하니까.
   const onSubmit: SubmitHandler<TestFormData> = useCallback(data => {
     console.log('submit', trimObject(data));
   }, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit, onError)}>
-      <input {...register('name', options)}/>
+      <input {...register('name', NAME_OPTIONS)}/>
+      <input {...register('email', EMAIL_OPTIONS)}/>
+      <button>Submit</button>
     </form>
   );
 }
 
 interface TestFormData {
   name: string;
+  email: string;
 }
 
-const options: RegisterOptions<TestFormData> = {
+const MIN_LENGTH = 3;
+
+const NAME_OPTIONS: RegisterOptions<TestFormData> = {
+  required: {
+    value: true,
+    message: '이름은 필수입니다.'
+  },
+  minLength: {
+    value: MIN_LENGTH,
+    message: '이름은 최소 3글자 입력해야합니다.'
+  },
+  // 실패 케이스에서 코드가 2배가 되야함. 기존 실패케이스 마다 공백인 케이스를 한번씩 더 체크해야하니까.
+  validate: {
+    required: validateRequiredWithTrim('이름은 필수입니다.'),
+    minLength: validateMinLengthWithTrim(MIN_LENGTH, '이름은 최소 3글자 입력해야합니다.')
+  }
+};
+
+const EMAIL_OPTIONS: RegisterOptions<TestFormData> = {
   required: {
     value: true,
     message: '이름은 필수입니다.'
   },
   validate: {
-    notSpace: validateTrim('이름은 필수입니다. (공백입력했음)')
+    required: validateRequiredWithTrim('이름은 필수입니다.'),
+    regex: value => {
+      const trimmedValue = value.trim();
+
+      if (trimmedValue.includes('@')) {
+        return true;
+
+      } else {
+        return '이메일 형식이 올바르지 않습니다.'
+      }
+    }
   }
 };

@@ -138,6 +138,7 @@ export function cleanFormData(formData: object, option?: LoopRecursivelyOption) 
       // trim 했을 때 빈문자열인 케이스도 정리하기위해 굳이 if문을 한번 더 작성하였음
       if (trimmedValue === '') {
         return undefined;
+
       } else {
         return trimmedValue;
       }
