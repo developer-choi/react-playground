@@ -31,6 +31,10 @@ export function calculateTotal<T>(list: T[], callback: (item: T) => number) {
   }, 0);
 }
 
+export function calculateNumberTotal(list: number[]) {
+  return calculateTotal(list, value => value);
+}
+
 export function getAbsoluteValueWithSign(value: number) {
   const absoluteValue = Math.abs(value);
   const signType = value >= 0 ? 'positive' : 'negative';
