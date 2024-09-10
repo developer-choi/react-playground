@@ -12,6 +12,8 @@ export default function ServiceLayoutHeader() {
   const logout = useCallback(async () => {
     try {
       await backendLogoutApi();
+
+      // redirect는 따로 여기서 안시킴. InnerSessionProvider에서 session.status가 변하는걸 감지해서 처리함.
       await signOut({
         redirect: false
       });
