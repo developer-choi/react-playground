@@ -4,6 +4,7 @@ import {CloseModalCallback} from '@/utils/extend/modal';
 import {DefaultModalHeader} from '@/components/modal/header';
 import {OneButtonModalFooter} from '@/components/modal/footer';
 import DefaultModalBody from '@/components/modal/body';
+import typographyStyles from '@/styles/typography.module.scss';
 
 export interface AlertModalProps extends ComposedModalProps {
   title: string;
@@ -27,7 +28,7 @@ export default function AlertModal({title, content, onClose, confirm, ...rest}: 
   return (
     <ModalContainer onClose={onClose} {...rest}>
       <DefaultModalHeader>{title}</DefaultModalHeader>
-      <DefaultModalBody>
+      <DefaultModalBody className={typographyStyles.body1}>
         {content}
       </DefaultModalBody>
       <OneButtonModalFooter buttonText={confirm?.children ?? 'Confirm'} onClick={onConfirmWithDefault} />
