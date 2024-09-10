@@ -155,3 +155,14 @@
 .loadingSpinner {
   @include util.absoluteCenter;
 }
+
+.imageWrapper {
+  display: inline-block;
+  font-size: 0;
+  // width를 style prop으로 반드시 지정하도록 강제
+  
+  > img {
+    width: 100%;
+    height: auto;
+  }
+}

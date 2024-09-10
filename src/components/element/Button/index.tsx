@@ -1,4 +1,4 @@
-import React, {ComponentPropsWithRef, useCallback, MouseEvent} from 'react';
+import React, {ComponentPropsWithRef, useCallback, MouseEvent, ComponentPropsWithoutRef} from 'react';
 import classNames from 'classnames';
 import styles from './index.module.scss'
 import LoadingSpinner from '@/components/element/LoadingSpinner';
@@ -44,7 +44,23 @@ export type ButtonLinkProps = CustomLinkProps & Pick<ButtonProps, 'variant' | 's
 export function ButtonLink({className, size = 'medium', color = 'primary', variant = 'contained', ...rest}: ButtonLinkProps) {
   return (
     <CustomLink className={classNames(styles.button, styles[size], styles[color], styles[variant], styles.buttonLink, className)} {...rest}/>
-  )
+  );
+}
+
+export function ImageButton({className, type = 'button', style, width, ...rest}: ComponentPropsWithoutRef<'button'> & ImageWrapperProps) {
+  return (
+    <button type={type} style={{width, ...style}} className={classNames(styles.imageWrapper, className)} {...rest}/>
+  );
+}
+
+export function ImageLink({className, style, width, ...rest}: CustomLinkProps & ImageWrapperProps) {
+  return (
+    <CustomLink style={{width, ...style}} className={classNames(styles.imageWrapper, className)} {...rest}/>
+  );
+}
+
+interface ImageWrapperProps {
+  width: number; // children으로 전달되는 Image는 container의 비율만큼 커져야해서 width가 필수
 }
 
 // 로딩의 크기는 가로세로 모두 line-height만큼만 커져야 전체 버튼사이즈의 변화가 안생김.
