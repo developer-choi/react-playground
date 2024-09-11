@@ -33,6 +33,7 @@
     "ua-parser-js": "^1.0.38"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.53.0",
     "@tanstack/react-query-devtools": "^5.55.4",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.17.7",
