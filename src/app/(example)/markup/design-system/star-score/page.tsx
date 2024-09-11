@@ -1,4 +1,4 @@
-import StarScore from '@/components/element/StarScore/StarScore';
+import StarScore from '@/components/element/StarScore';
 
 // URL: http://localhost:3000/markup/design-system/star-score
 export default function Page() {
