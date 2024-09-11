@@ -2,7 +2,6 @@ import React, {PropsWithChildren} from 'react';
 import {auth} from '@/utils/service/auth';
 import {SessionProvider} from 'next-auth/react';
 import InnerSessionProvider from '@/components/setting/InnerSessionProvider';
-import ServiceLayoutHeader from '@/components/layout/ServiceLayoutHeader';
 import dynamic from 'next/dynamic';
 import IntlClientProvider from '@/components/setting/IntlClientProvider';
 import {getMessages} from 'next-intl/server';
@@ -23,7 +22,6 @@ export default async function AppProvider({children}: PropsWithChildren) {
   return (
     <SessionProvider refetchOnWindowFocus={false} session={session}>
       <InnerSessionProvider>
-        <ServiceLayoutHeader/>
         <IntlClientProvider locale={locale.short} messages={messages}>
           <ReactQueryProvider>
             <ModalProvider>
