@@ -67,8 +67,7 @@ function useSignUpForm() {
 
   // 회원가입에서는 그대로 쓰고 (required true) / 수정에서는 required false로 옵션만 커스텀하면됨.
   const emailInputProps: InputProps = {
-    ...getEmailInputProps({errors, name: 'email', register}),
-    autoComplete: 'email',
+    ...getEmailInputProps({name: 'email', errors, register}),
     autoFocus: true,
   };
 

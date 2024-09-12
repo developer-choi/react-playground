@@ -57,7 +57,8 @@ export function getEmailInputProps<T extends FieldValues>(param: UserInputParam<
  * 2. 그 안에서 useTranslations()를 통해 에러메시지, 라벨, 힌트텍스트를 번역했어야함. (랭디 참고)
  */
 export const EMAIL_TEXT = {
-  alreadyExist: '이미 존재하는 이메일입니다.'
+  alreadyExist: '이미 존재하는 이메일입니다.',
+  withdrawal: '탈퇴한 회원입니다.'
 };
 
 /*************************************************************************************************************

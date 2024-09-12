@@ -51,9 +51,3 @@ export function useLogMount(name: string) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }
-
-export function timeoutPromise(timeout: number) {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
-  });
-}

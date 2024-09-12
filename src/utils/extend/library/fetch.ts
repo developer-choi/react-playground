@@ -69,8 +69,9 @@ interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
    * none = request에 accessToken을 싣지않음.
    * public = 로그인되어있으면 accessToken을 request에 실음
    * private = public 특징 포함하며, 로그인 안되어있으면 LoginError 던짐
+   * guest = 로그인이 되어있으면 GuestError를 던짐
    */
-  authorize: 'private' | 'public' | 'none';
+  authorize: 'private' | 'public' | 'none' | 'guest';
 }
 
 interface CustomFetchParameter extends ExtendedCustomFetchParameter {

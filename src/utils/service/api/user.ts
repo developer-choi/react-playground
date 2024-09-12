@@ -24,7 +24,7 @@ export interface UserFieldCountApiResponse {
  */
 export async function getUserFieldCountApi({validationMode, ...rest}: UserFieldCountApiRequest): Promise<UserFieldCountApiResponse> {
   try {
-    const {json: {count}} = await customFetchOnClientSide(`/api/test/user/field/count`, {
+    const {json: {count}} = await customFetchOnClientSide(`/api/user/field/count`, {
       method: 'GET',
       authorize: 'public',
       query: rest

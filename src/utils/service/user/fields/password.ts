@@ -132,7 +132,7 @@ export function getConfirmPasswordInput<T extends FieldValues>({options = {}, pa
 
 // 필기는 같은폴더 email.ts 주석 참고
 export const PASSWORD_TEXT = {
-  notFound: '비밀번호를 다시 확인해주세요.',
+  notFound: '아이디 또는 비밀번호를 다시 확인해주세요.',
   invalidOrigin: '기존 비밀번호가 일치하지 않습니다.'
 };
 
