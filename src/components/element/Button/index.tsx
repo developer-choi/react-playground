@@ -8,9 +8,7 @@ export interface ButtonProps extends Pick<ComponentPropsWithRef<'button'>, UsedP
   size?: ButtonSize; // default 'medium'
   variant?: ButtonVariant; // default 'contained'
   color?: ButtonColor; // default 'primary'
-  loading?: boolean | 'mutating' | {
-    mutationKey: MutationKey
-  };
+  loading?: boolean;
 }
 
 // Doc : https://docs.google.com/document/d/1aEHPwWUlT8nLpzuJwogzQerYawVbWIk8WCMRaxleDaI/edit
@@ -74,4 +72,3 @@ type UsedProps = "style" | "className" | "onClick" | 'disabled' | 'children' | '
 export type ButtonSize = "medium" | "large";
 export type ButtonVariant = "contained" | "outlined";
 export type ButtonColor = 'primary' | 'secondary' | string;
-type MutationKey = any; // RQ
