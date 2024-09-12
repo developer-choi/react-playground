@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 import {filterPropsList, generatePropsList} from '@/utils/extend/test/generate-prop';
 import {ButtonColor, ButtonLink, ButtonSize, ButtonVariant} from '@/components/element/Button';
 import DesignSystemTestForm from '@/components/test/DesignSystemTestForm';
-import InfoSvg from '@/components/icon/InfoSvg';
+import InfoIcon from '@/components/icon/InfoIcon';
 
 /**
  * URL: http://localhost:3000/markup/design-system/button-anchor
@@ -63,7 +63,7 @@ function ButtonInfo({visibleInfo, props}: ButtonInfoProps) {
 
   return (
     <div>
-      <ButtonLink href="" {...rest}>{icon ? <InfoSvg/> : ''} Click Me</ButtonLink>
+      <ButtonLink href="" {...rest}>{icon ? <InfoIcon/> : ''} Click Me</ButtonLink>
       {!visibleInfo ? null : (
         <ul>
           {Object.entries(props).map(([key, value]) => (

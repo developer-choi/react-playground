@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef } from 'react';
 
-export default function IcAnnounce({ fill = '#646464', ...rest }: ComponentPropsWithoutRef<'svg'>) {
+export default function BoardIcon({ fill = '#646464', ...rest }: ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
       <g clipPath="url(#clip0_2935_74)">

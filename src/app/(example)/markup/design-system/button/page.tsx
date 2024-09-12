@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 import {filterPropsList, generatePropsList} from '@/utils/extend/test/generate-prop';
 import Button, {ButtonColor, ButtonSize, ButtonVariant} from '@/components/element/Button';
 import DesignSystemTestForm from '@/components/test/DesignSystemTestForm';
-import InfoSvg from '@/components/icon/InfoSvg';
+import InfoIcon from '@/components/icon/InfoIcon';
 
 /**
  * Doc : https://docs.google.com/document/d/1aEHPwWUlT8nLpzuJwogzQerYawVbWIk8WCMRaxleDaI/edit
@@ -69,7 +69,7 @@ function ButtonInfo({visibleInfo, props}: ButtonInfoProps) {
 
   return (
     <div>
-      <Button {...rest}>{icon ? <InfoSvg/> : ''} Click Me</Button>
+      <Button {...rest}>{icon ? <InfoIcon/> : ''} Click Me</Button>
       {!visibleInfo ? null : (
         <ul>
           {Object.entries(props).map(([key, value]) => (

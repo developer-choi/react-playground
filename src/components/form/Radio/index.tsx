@@ -1,7 +1,7 @@
 import React, {forwardRef, PropsWithChildren, Ref} from 'react';
 import styles from './index.module.scss';
 import classNames from 'classnames';
-import IcRadio from '@/components/icon/IcRadio';
+import RadioIcon from '@/components/icon/RadioIcon';
 import {CheckboxProps} from '@/components/form/Checkbox';
 import {FormElementWrapper, FormElementWrapperProps} from '@/components/form/form-elements';
 
@@ -11,7 +11,7 @@ export default forwardRef(function Radio(props: CheckboxProps, ref: Ref<HTMLInpu
 
   return (
     <label style={style} className={classNames(styles.wrapper, styles[color])}>
-      <IcRadio/>
+      <RadioIcon/>
       <input ref={ref} type="radio" {...rest} />
       {label}
     </label>

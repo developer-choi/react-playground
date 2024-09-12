@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef } from 'react';
 
-export default function IcBackspace({ fill = '#333333', ...rest }: ComponentPropsWithoutRef<'svg'>) {
+export default function BackspaceIcon({ fill = '#333333', ...rest }: ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
       <path

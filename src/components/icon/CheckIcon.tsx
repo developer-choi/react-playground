@@ -1,6 +1,6 @@
 import {ComponentPropsWithoutRef} from 'react';
 
-export default function IcCheck({fill = "#0099bb", ...rest}: ComponentPropsWithoutRef<'svg'>) {
+export default function CheckIcon({fill = "#0099bb", ...rest}: ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
       <path fillRule="evenodd" clipRule="evenodd"

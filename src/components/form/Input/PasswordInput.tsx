@@ -1,7 +1,7 @@
 import Input, {InputProps} from "@/components/form/Input";
 import React, {useCallback, useState} from "react";
-import EyeOnSvg from "@/components/icon/EyeOnSvg";
-import EyeOffSvg from "@/components/icon/EyeOffSvg";
+import EyeOnIcon from "@/components/icon/EyeOnIcon";
+import EyeOffIcon from "@/components/icon/EyeOffIcon";
 
 export type PasswordInputProps = Omit<InputProps, "type" | "rightRender">;
 
@@ -18,7 +18,7 @@ export default function PasswordInput(props: PasswordInputProps) {
 
   const fill = props.disabled ? 'lightgray' : 'gray';
 
-  const eyeIcon = isPasswordVisible ? <EyeOffSvg fill={fill} onClick={hidePassword} /> : <EyeOnSvg fill={fill} onClick={showPassword} />;
+  const eyeIcon = isPasswordVisible ? <EyeOffIcon fill={fill} onClick={hidePassword} /> : <EyeOnIcon fill={fill} onClick={showPassword} />;
 
   return <Input type={isPasswordVisible ? "text" : "password"} rightRender={eyeIcon} {...props} />;
 }

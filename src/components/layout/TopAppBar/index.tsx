@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 import React, { CSSProperties, PropsWithChildren, ReactElement } from 'react';
 import classNames from 'classnames';
 import { useRouter } from 'next/navigation';
-import IcBackspace from '@/components/icon/IcBackspace';
+import BackspaceIcon from '@/components/icon/BackspaceIcon';
 import {isMobileOnBothSide} from '@/utils/extend/library/next';
 
 export interface TopAppBarProps {
@@ -28,7 +28,7 @@ export default function TopAppBar(props: PropsWithChildren<TopAppBarProps>) {
 
   return (
     <div className={classNames(styles.container, styles[positionWithDefault])} {...rest}>
-      {enableBackspace ? <IcBackspace onClick={back} /> : <div className={styles.empty} />}
+      {enableBackspace ? <BackspaceIcon onClick={back} /> : <div className={styles.empty} />}
       <span className={styles.title}>
         <span className={styles[titleAlign]}>{children}</span>
       </span>

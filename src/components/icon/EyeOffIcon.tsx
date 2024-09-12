@@ -1,6 +1,6 @@
 import {ComponentPropsWithRef} from "react";
 
-export default function EyeOffSvg({fill = 'gray', ...rest}: ComponentPropsWithRef<'svg'>) {
+export default function EyeOffIcon({fill = 'gray', ...rest}: ComponentPropsWithRef<'svg'>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368" {...rest}>
       <path
