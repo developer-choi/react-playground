@@ -9,11 +9,30 @@ export interface ButtonProps extends Pick<ComponentPropsWithRef<'button'>, UsedP
   variant?: ButtonVariant; // default 'contained'
   color?: ButtonColor; // default 'primary'
   loading?: boolean;
+
+  /**
+   * https://docs.google.com/document/d/1aEHPwWUlT8nLpzuJwogzQerYawVbWIk8WCMRaxleDaI/edit
+   * true일 경우, 기본값과 스타일이 변경됨.
+   * 1. size = default medium
+   * 2. type = default submit
+   * 3. 스타일 = width 100% + margin-top
+   */
+  isSubmit?: boolean;
 }
 
 // Doc : https://docs.google.com/document/d/1aEHPwWUlT8nLpzuJwogzQerYawVbWIk8WCMRaxleDaI/edit
 export default function Button(props: ButtonProps) {
-  const { children, className, type = 'button', loading, size = 'medium', variant = 'contained', color = 'primary', onClick, ...rest } = props;
+  const {
+    children,
+    className,
+    type = 'button',
+    loading,
+    size = 'medium',
+    variant = 'contained',
+    color = 'primary',
+    onClick,
+    ...rest
+  } = props;
   const _loading = typeof loading === "boolean" ? loading : false; // TODO 다양한 로딩 타입으로 계산
 
   const customOnClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {

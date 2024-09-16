@@ -15,7 +15,7 @@ export default function Login() {
     <form className={designSystemStyles.commonForm} onSubmit={form.onSubmit}>
       <Input {...inputProps.email}/>
       <PasswordInput {...inputProps.password}/>
-      <Button type="submit" loading={form.loading}>Login</Button>
+      <Button type="submit" className="submit" loading={form.loading}>Login</Button>
       <Link href="/mypage" style={{textDecoration: 'underline'}}>Mypage로 바로가는 링크</Link>
     </form>
   );

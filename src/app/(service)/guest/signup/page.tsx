@@ -16,7 +16,7 @@ export default function Page() {
       <Input {...inputProps.email}/>
       <PasswordInput {...inputProps.password}/>
       <PasswordInput {...inputProps.passwordConfirm}/>
-      <Button loading={form.loading} type="submit" size="large">회원가입</Button>
+      <Button loading={form.loading} type="submit" className="submit">회원가입</Button>
     </form>
   );
 }

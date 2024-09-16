@@ -6,7 +6,9 @@ export default async function ServiceLayout({children}: PropsWithChildren) {
   return (
     <AppProvider>
       <ServiceLayoutHeader/>
-      {children}
+      <div style={{padding: 16}}>
+        {children}
+      </div>
     </AppProvider>
   );
 }
