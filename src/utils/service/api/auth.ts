@@ -1,12 +1,23 @@
-import {PostLoginApiRequest, PostLoginApiResponse} from '@/types/services/auth';
+import {LoginApiRequest, LoginApiResponse, SignUpApiRequest} from '@/types/services/auth';
 import {customFetchOnClientSide} from '@/utils/extend/library/fetch';
+import {cleanFormData} from '@/utils/extend/data-type/object';
 
-export async function postLoginApi(param: PostLoginApiRequest) {
+export async function postLoginApi(param: LoginApiRequest) {
   const {json} = await customFetchOnClientSide('/api/auth/login', {
     method: 'POST',
     authorize: 'guest',
-    body: param
+    body: cleanFormData(param)
   });
 
-  return json as PostLoginApiResponse;
+  return json as LoginApiResponse;
+}
+
+export async function postSignUpApi(param: SignUpApiRequest) {
+  const {json} = await customFetchOnClientSide('/api/auth/signup', {
+    method: 'POST',
+    authorize: 'guest',
+    body: cleanFormData(param)
+  });
+
+  return json;
 }

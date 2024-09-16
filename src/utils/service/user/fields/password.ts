@@ -1,10 +1,4 @@
-import {
-  FieldPath,
-  FieldValues,
-  UseFormClearErrors,
-  UseFormGetValues,
-  UseFormSetError
-} from 'react-hook-form';
+import {FieldPath, FieldValues, UseFormReturn} from 'react-hook-form';
 import {UserInputParam} from '@/utils/service/user/fields/email';
 import {PasswordInputProps} from '@/components/form/Input/PasswordInput';
 
@@ -35,11 +29,9 @@ export function getPurePasswordInputProps<T extends FieldValues>({name, options,
   };
 }
 
-export interface PasswordWithConfirmInputParam<T extends FieldValues> extends UserInputParam<T> {
+export interface PasswordWithConfirmInputParam<T extends FieldValues> extends Pick<UserInputParam<T>, 'name' | 'options'> {
   confirmFormName: FieldPath<T>;
-  setError: UseFormSetError<T>;
-  getValues: UseFormGetValues<T>;
-  clearErrors: UseFormClearErrors<T>;
+  methods: UseFormReturn<T>;
 }
 
 /**
@@ -49,15 +41,18 @@ export interface PasswordWithConfirmInputParam<T extends FieldValues> extends Us
  * 1. 확인용 비밀번호는 하단 getConfirmPasswordInputProps()를 사용
  * 2. 비밀번호 인풋 하나만 단독으로 있는 경우에는 getPurePasswordInputProps()를 사용. (ex: 로그인 페이지)
  */
-export function getPasswordInputPropsWithConfirm<T extends FieldValues>({confirmFormName, setError, getValues, clearErrors, options = {}, ...rest}: PasswordWithConfirmInputParam<T>): PasswordInputProps {
+export function getPasswordInputPropsWithConfirm<T extends FieldValues>({confirmFormName, options = {}, methods, name}: PasswordWithConfirmInputParam<T>): PasswordInputProps {
   /**
    * 실무에서는 옵션 커스텀 할 수 있도록 하는 이 번거로운 구현을 삭제하는게 좋아보임.
    * 확장할 일이 생기지도 않았는데 확장할 수 있는 옵션 제공을 하는건 내 코딩 스타일이 아님.
    */
   const { validate, ...restOptions } = options;
+  const {setError, getValues, clearErrors, register, formState: {errors}} = methods;
 
   const passwordInputProps = getPurePasswordInputProps({
-    ...rest,
+    name,
+    errors,
+    register,
     options: {
       /**
        * (1) required 규칙, 에러메시지, label~placeholder 텍스트는 위 pure 함수에서 설정되어있음.
@@ -93,7 +88,6 @@ export function getPasswordInputPropsWithConfirm<T extends FieldValues>({confirm
     ...passwordInputProps,
     label: '새 비번',
     placeholder: '새 비번 힌트텍스트',
-    hiddenErrorMessage: true, // 비번이 따닥 붙어있는 경우, 디자인에서 에러메시지를 안보이게 노출하고 2개 인풋 합쳐서 노출해달라고 했다고 가정
   };
 }
 
@@ -126,7 +120,6 @@ export function getConfirmPasswordInput<T extends FieldValues>({options = {}, pa
     ...passwordInputProps,
     label: '새 비번 확인',
     placeholder: '새 비번확인 힌트텍스트',
-    hiddenErrorMessage: true, // 비번이 따닥 붙어있는 경우, 디자인에서 에러메시지를 안보이게 노출하고 2개 인풋 합쳐서 노출해달라고 했다고 가정
   }
 }
 

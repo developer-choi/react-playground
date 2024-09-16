@@ -7,7 +7,7 @@ import {getPurePasswordInputProps, PASSWORD_TEXT} from '@/utils/service/user/fie
 import {useMutation} from '@tanstack/react-query';
 import {useHandleClientSideError} from '@/utils/extend/error/client-side';
 import {postLoginApi} from '@/utils/service/api/auth';
-import {PostLoginApiFailResponse} from '@/types/services/auth';
+import {LoginApiFailResponse} from '@/types/services/auth';
 import {useLogin} from '@/utils/service/auth/hooks';
 
 // SNS 로그인이 아닌 일반 로그인에 해당
@@ -34,26 +34,26 @@ export default function useGeneralLoginForm() {
       const result = await mutateAsync(data);
       login(result);
     } catch (error: any) {
-      if ('json' in error) {
-        const {code} = error.json as PostLoginApiFailResponse;
-
-        switch (code) {
-          case 'NOT_FOUND':
-            setError('email', {
-              type: 'api',
-              message: PASSWORD_TEXT.notFound
-            });
-            setError('password', {
-              type: 'api',
-              message: PASSWORD_TEXT.notFound
-            });
-            return;
-          default:
-            handleClientSideError(error);
-        }
-
-      } else {
+      if (!('json' in error)) {
         handleClientSideError(error);
+        return;
+      }
+
+      const {code} = error.json as LoginApiFailResponse;
+
+      switch (code) {
+        case 'NOT_FOUND':
+          setError('email', {
+            type: 'api',
+            message: PASSWORD_TEXT.notFound
+          });
+          setError('password', {
+            type: 'api',
+            message: PASSWORD_TEXT.notFound
+          });
+          return;
+        default:
+          handleClientSideError(error);
       }
     }
   }, [handleClientSideError, login, mutateAsync, setError]);

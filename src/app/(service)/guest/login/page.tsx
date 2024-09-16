@@ -5,7 +5,7 @@ import Link from 'next/link';
 import designSystemStyles from '@/styles/design-system.module.scss';
 import Input from '@/components/form/Input';
 import Button from '@/components/element/Button';
-import useGeneralLoginForm from '@/utils/service/user/login/useGeneralLoginForm';
+import useGeneralLoginForm from '@/utils/service/user/guest/useGeneralLoginForm';
 import PasswordInput from '@/components/form/Input/PasswordInput';
 
 export default function Login() {

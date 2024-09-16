@@ -1,14 +1,14 @@
 import {NextRequest} from 'next/server';
 import {
   FailLoginCode,
-  PostLoginApiRequest,
-  PostLoginApiResponse,
+  LoginApiRequest,
+  LoginApiResponse,
   SuccessLoginCode
 } from '@/types/services/auth';
 import {timeoutPromise} from '@/utils/extend/test/promise';
 
 export async function POST(request: NextRequest) {
-  const {email} = await request.json() as PostLoginApiRequest;
+  const {email} = await request.json() as LoginApiRequest;
   await timeoutPromise(200);
 
   if(email !== 'email@domain.com') {
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const response: PostLoginApiResponse = {
+    const response: LoginApiResponse = {
       member_id: 1,
       email,
       name: 'somename',

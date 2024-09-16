@@ -1,9 +1,12 @@
-export interface PostLoginApiRequest {
+/*************************************************************************************************************
+ * Login
+ *************************************************************************************************************/
+export interface LoginApiRequest {
   email: string;
   password: string;
 }
 
-export interface PostLoginApiResponse {
+export interface LoginApiResponse {
   member_id: number;
   email: string;
   name: string;
@@ -11,7 +14,7 @@ export interface PostLoginApiResponse {
   code: SuccessLoginCode;
 }
 
-export interface PostLoginApiFailResponse {
+export interface LoginApiFailResponse {
   code: FailLoginCode;
 }
 
@@ -23,3 +26,21 @@ export type SuccessLoginCode = 'SUCCESS' | 'EXPIRED';
  * WITHDRAWAL 탈퇴한 회원
  */
 export type FailLoginCode = 'NOT_FOUND' | 'WITHDRAWAL';
+
+/*************************************************************************************************************
+ * Sign Up
+ *************************************************************************************************************/
+export interface SignUpApiRequest {
+  email: string;
+  password: string;
+}
+
+export interface SignUpApiResponse {
+  code: 'ALREADY_EMAIL_EXISTED';
+}
+/*************************************************************************************************************
+ * Find
+ *************************************************************************************************************/
+export interface FindPasswordApiRequest {
+  email: string;
+}
