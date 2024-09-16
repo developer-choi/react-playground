@@ -1,7 +1,5 @@
 import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
 import {useCallback, useEffect} from 'react';
-import {signIn} from 'next-auth/react';
-import {getRedirectUrlWhenLoginSuccess} from '@/utils/service/auth/redirect';
 import {useRouter} from 'next/navigation';
 import {InputProps} from '@/components/form/Input';
 import {getEmailInputProps} from '@/utils/service/user/fields/email';
@@ -10,6 +8,7 @@ import {useMutation} from '@tanstack/react-query';
 import {useHandleClientSideError} from '@/utils/extend/error/client-side';
 import {postLoginApi} from '@/utils/service/api/auth';
 import {PostLoginApiFailResponse} from '@/types/services/auth';
+import {useLogin} from '@/utils/service/auth/hooks';
 
 // SNS 로그인이 아닌 일반 로그인에 해당
 export default function useGeneralLoginForm() {
@@ -29,17 +28,11 @@ export default function useGeneralLoginForm() {
     alert(JSON.stringify(errors));
   }, []);
 
+  const login = useLogin();
   const onSubmit: SubmitHandler<LoginFormData> = useCallback(async data => {
     try {
       const result = await mutateAsync(data);
-
-      // TODO 이부분도 common login success 로직으로 교체해야. 당장 LT도 그렇게 쓰고있고, TBH는 SNS 로그인 성공 로직이 들어있었으니까.
-      await signIn("credentials", {
-        callbackUrl: getRedirectUrlWhenLoginSuccess(), // TODO 이부분도, 로그인 성공 후 리다이랙트 우선순위 규칙에 따라 다시 수정을 해야함. 비번 변경 30일 안내 뭐 그런거일수도있음.
-        ...result
-      }, {
-        replace: true,
-      });
+      login(result);
     } catch (error: any) {
       if ('json' in error) {
         const {code} = error.json as PostLoginApiFailResponse;
@@ -63,7 +56,7 @@ export default function useGeneralLoginForm() {
         handleClientSideError(error);
       }
     }
-  }, [handleClientSideError, mutateAsync, setError]);
+  }, [handleClientSideError, login, mutateAsync, setError]);
 
   const emailInputProps: InputProps = {
     ...getEmailInputProps({name: 'email', errors, register}),

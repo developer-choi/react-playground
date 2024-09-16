@@ -1,37 +1,13 @@
 'use client';
 
 import styles from './index.module.scss';
-import {signOut, useSession} from 'next-auth/react';
-import {useCallback} from 'react';
+import {useSession} from 'next-auth/react';
 import Link from 'next/link';
+import {useLogout} from '@/utils/service/auth/hooks';
 
 export default function ServiceLayoutHeader() {
   const session = useSession();
-
-  // https://docs.google.com/document/d/1PRzGtGusjqi4LfU0R4dC4wLPKfxQN5GcJ7JJXOAkdK0/edit
-  const logout = useCallback(async () => {
-    try {
-      await backendLogoutApi();
-
-      // redirect는 따로 여기서 안시킴. InnerSessionProvider에서 session.status가 변하는걸 감지해서 처리함.
-      await signOut({
-        redirect: false
-      });
-    } catch (error: any) {
-      // [Authentication 요구사항 > Final step. 로그아웃 하기 (주로 헤더에있는)] https://docs.google.com/document/d/1p5jI5u3NZOHbRge9M0ZCmhQgqCriZfpUGks6I7blQlI/edit#heading=h.41h4ckzdotb
-
-      await signOut({
-        redirect: false
-      });
-
-      // already logout
-      if (error.status === 401) {
-        return;
-      }
-
-      throw error;
-    }
-  }, []);
+  const logout = useLogout();
 
   return (
     <header className={styles.header}>
@@ -50,8 +26,4 @@ export default function ServiceLayoutHeader() {
       )}
     </header>
   );
-}
-
-async function backendLogoutApi() {
-
 }
