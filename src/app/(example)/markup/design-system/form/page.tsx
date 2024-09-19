@@ -37,7 +37,7 @@ export default function Page() {
           <Input placeholder="상세 주소 입력" error="에러메시지" hiddenErrorMessage/>
           <FormElementUnderText type="error">에러메시지</FormElementUnderText>
         </div>
-        <Button style={{width: '100%'}} size="large" className="submit">제출</Button>
+        <Button isSubmit>제출</Button>
       </form>
     </div>
   );

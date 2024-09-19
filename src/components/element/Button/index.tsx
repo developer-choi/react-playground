@@ -24,10 +24,11 @@ export interface ButtonProps extends Pick<ComponentPropsWithRef<'button'>, UsedP
 export default function Button(props: ButtonProps) {
   const {
     children,
+    isSubmit,
     className,
-    type = 'button',
+    type = isSubmit ? 'submit' : 'button',
     loading,
-    size = 'medium',
+    size = isSubmit ? 'large' : 'medium',
     variant = 'contained',
     color = 'primary',
     onClick,
@@ -46,7 +47,7 @@ export default function Button(props: ButtonProps) {
   return (
     <button
       type={type}
-      className={classNames(styles.button, {[styles.loading]: _loading}, styles[size], styles[color], styles[variant], className)}
+      className={classNames(styles.button, {[styles.loading]: _loading}, styles[size], styles[color], styles[variant], {[styles.submit]: isSubmit, className})}
       onClick={customOnClick}
       {...rest}
     >
