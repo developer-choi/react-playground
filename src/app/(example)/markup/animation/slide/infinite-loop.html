@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<style>
+  * {
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+  }
+  
+  .container {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  @keyframes slide {
+    from {
+      transform: translateX(0);
+    }
+    
+    to {
+      /* 계산식 : (가로길이 x 노출갯수) + (간격 x 노출갯수) */
+      /* (320 x 10) + (20 x 10) */
+      transform: translateX(-3400px);
+    }
+  }
+  
+  .box {
+    margin-inline: 10px;
+    width: 320px;
+    height: 200px;
+    background: red;
+    border: 1px solid black;
+    flex-shrink: 0;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: white;
+    font-weight: bold;
+    
+    animation-name: slide;
+    animation-duration: 12s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-direction: normal;
+    animation-fill-mode: backwards;
+  }
+</style>
+<div class="container">
+  <div class="box">1</div>
+  <div class="box">2</div>
+  <div class="box">3</div>
+  <div class="box">4</div>
+  <div class="box">5</div>
+  <div class="box">6</div>
+  <div class="box">7</div>
+  <div class="box">8</div>
+  <div class="box">9</div>
+  <div class="box">10</div>
+  <div class="box">1</div>
+  <div class="box">2</div>
+  <div class="box">3</div>
+  <div class="box">4</div>
+  <div class="box">5</div>
+  <div class="box">6</div>
+  <div class="box">7</div>
+  <div class="box">8</div>
+  <div class="box">9</div>
+  <div class="box">10</div>
+</div>
+</body>
+</html>
