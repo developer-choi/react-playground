@@ -1,6 +1,6 @@
 import {FormElementWrapper, FormElementWrapperProps} from '@/components/form/form-elements';
 import classNames from 'classnames';
-import {ComponentPropsWithRef, forwardRef, MouseEvent, ReactNode, Ref, useCallback} from 'react';
+import {ComponentPropsWithRef, ForwardedRef, forwardRef, MouseEvent, ReactNode, useCallback} from 'react';
 import styles from './index.module.scss';
 import {isReactElement} from '@/utils/extend/library/react';
 import CheckIcon from '@/components/icon/CheckIcon';
@@ -11,7 +11,7 @@ export interface InputProps extends ComponentPropsWithRef<"input">, Omit<FormEle
   success?: boolean; // <Input
 }
 
-export default forwardRef(function Input({label, error, rightRender, style, className, hiddenErrorMessage, disabled, success, ...rest}: InputProps, ref: Ref<HTMLInputElement>) {
+export default forwardRef(function Input({label, error, rightRender, style, className, hiddenErrorMessage, disabled, success, ...rest}: InputProps, ref: ForwardedRef<HTMLInputElement>) {
   /**
    * disabled일 때는, 인풋을 포함해서 테두리영역 안에있는 아이콘까지 전부다 클릭했을 때 반응이 없어야함.
    */

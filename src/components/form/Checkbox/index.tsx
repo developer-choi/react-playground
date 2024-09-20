@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithRef, forwardRef, Ref } from 'react';
+import React, {ComponentPropsWithRef, ForwardedRef, forwardRef} from 'react';
 import styles from './index.module.scss';
 import classNames from 'classnames';
 import CheckIcon from '@/components/icon/CheckIcon';
@@ -10,7 +10,7 @@ export interface CheckboxProps extends Omit<ComponentPropsWithRef<'input'>, 'typ
   color?: 'primary' | 'secondary';
 }
 
-export default forwardRef(function Checkbox(props: CheckboxProps, ref: Ref<HTMLInputElement>) {
+export default forwardRef(function Checkbox(props: CheckboxProps, ref: ForwardedRef<HTMLInputElement>) {
   const { style, className, label, color = 'primary', ...rest } = props;
 
   return (

@@ -1,6 +1,6 @@
 'use client';
 
-import React, {forwardRef, PropsWithChildren, Ref} from 'react';
+import React, {ForwardedRef, forwardRef, PropsWithChildren} from 'react';
 import styles from './page.module.scss';
 import {useToggle} from '@/utils/extend/library/react';
 import {useClickOutside} from '@/utils/extend/event/click-outside';
@@ -36,7 +36,7 @@ interface LayerContainerProp extends PropsWithChildren {
   message: string;
 }
 
-const LayerContainer = forwardRef(function LayerContainer({children, visible, message}: LayerContainerProp, ref: Ref<HTMLDivElement>) {
+const LayerContainer = forwardRef(function LayerContainer({children, visible, message}: LayerContainerProp, ref: ForwardedRef<HTMLDivElement>) {
   return (
     <div className={styles.layerWrapper}>
       {children}

@@ -1,11 +1,11 @@
-import Input, {InputProps} from "@/components/form/Input";
-import React, {forwardRef, Ref, useCallback, useState} from 'react';
-import EyeOnIcon from "@/components/icon/EyeOnIcon";
-import EyeOffIcon from "@/components/icon/EyeOffIcon";
+import Input, {InputProps} from '@/components/form/Input';
+import React, {ForwardedRef, forwardRef, useCallback, useState} from 'react';
+import EyeOnIcon from '@/components/icon/EyeOnIcon';
+import EyeOffIcon from '@/components/icon/EyeOffIcon';
 
 export type PasswordInputProps = Omit<InputProps, "type" | "rightRender">;
 
-export default forwardRef(function PasswordInput(props: PasswordInputProps, ref: Ref<HTMLInputElement>) {
+export default forwardRef(function PasswordInput(props: PasswordInputProps, ref: ForwardedRef<HTMLInputElement>) {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const showPassword = useCallback(() => {
