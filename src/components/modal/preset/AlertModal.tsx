@@ -14,9 +14,10 @@ export interface AlertModalProps extends ComposedModalProps {
     children?: string;
     // 추후 풀커스텀이 필요해지는 그 때 props 추가
   };
+  visibleHeaderClose?: boolean; // default false
 }
 
-export default function AlertModal({title, content, onClose, confirm, ...rest}: AlertModalProps) {
+export default function AlertModal({title, content, onClose, confirm, visibleHeaderClose, ...rest}: AlertModalProps) {
   const onConfirmWithDefault = useCallback(() => {
     if (confirm?.onClick) {
       confirm.onClick(onClose);
@@ -27,7 +28,7 @@ export default function AlertModal({title, content, onClose, confirm, ...rest}: 
   
   return (
     <ModalContainer onClose={onClose} {...rest}>
-      <DefaultModalHeader>{title}</DefaultModalHeader>
+      <DefaultModalHeader onClose={visibleHeaderClose ? onClose : undefined}>{title}</DefaultModalHeader>
       <DefaultModalBody className={typographyStyles.body1}>
         {content}
       </DefaultModalBody>
