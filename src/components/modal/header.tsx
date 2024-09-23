@@ -11,6 +11,12 @@ export interface DefaultModalHeaderProps extends ModalHeaderProps {
 /**
  * 타이틀만 나오거나,
  * 타이틀 + X버튼 나오거나.
+ *
+ * Alert, Confirm을 제외한 나머지 모달들은 모달 컴포넌트 안에서 X버튼 노출할지 결정하고,
+ * Alert Confirm에 한해서는 visibleHeaderClose props를 통해 외부에서 X버튼을 노출할지 결정할것.
+ *
+ * 사유는, Alert Confirm이 아닌 나머지 모달은 모달의 기능이 고정적이지만,
+ * Alert Confirm은 버튼의 onClick에 무엇을 전달할지 모르다보니 규칙을 이렇게 결정함.
  */
 export function DefaultModalHeader({ children, onClose, ...rest }: DefaultModalHeaderProps) {
   return (
