@@ -9,7 +9,7 @@ import {useEffect} from 'react';
  * 반드시, 필요없는 경우 clearTimeout를 호출해야합니다.
  */
 export function runCallbackInFuture(futureTimestamp: number, callback: () => void) {
-  const timeout = futureTimestamp - new Date().getTime();
+  const timeout = futureTimestamp - Date.now();
 
   if (timeout < 0) {
     console.warn('futureTimestamp is not more future than present. The callback is not executed.');
