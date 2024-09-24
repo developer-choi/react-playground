@@ -1,11 +1,10 @@
 'use client';
 
 import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
-import React, {ComponentPropsWithoutRef} from 'react';
-import {useCallback} from 'react';
+import React, {useCallback} from 'react';
 import {AddressFormData, useAddressForm, useOpenPostcodePopup} from '@/utils/service/user/fields/daum-postcode';
 import {baseHandleErrors} from '@/utils/extend/library/react-hook-form';
-import Input from '@/components/form/Input';
+import Input, {InputProps} from '@/components/form/Input';
 import {FormElementUnderText, Label} from '@/components/form/form-elements';
 import Button from '@/components/element/Button';
 import styles from './page.module.scss';
@@ -49,7 +48,7 @@ function useSignupAddressForm() {
 
   const inputProps = useAddressForm<SignAddressFormData>(methods);
 
-  const nameProps: ComponentPropsWithoutRef<'input'> = {
+  const nameProps: InputProps = {
     ...methods.register('name', {required: '이름은 필수임'}),
     placeholder: '이름'
   };
