@@ -3,7 +3,7 @@
 import React, {useCallback} from 'react';
 import {LocalStorageObjectManager, useLocalStorageObjectManager} from '@/utils/extend/browser/local-storage-object';
 import Button from '@/components/element/Button';
-import {validateIncludeString} from '@/utils/extend/browser/query-string';
+import {validateIncludeString} from '@/utils/extend/browser/query-string/validate';
 
 // URL: http://localhost:3000/experimental/localstorage-manager/basic
 export default function Page() {

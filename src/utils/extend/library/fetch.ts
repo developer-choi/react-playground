@@ -5,6 +5,7 @@ import {LoginError} from '@/utils/service/auth/redirect';
 import {auth} from '@/utils/service/auth';
 import {isServer} from '@/utils/extend/library/next';
 import {InvalidEnvironmentError} from '@/utils/extend/error/both-side';
+import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
 
 /** customFetchOnXXXSide() 공통 주석
  * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
@@ -63,7 +64,7 @@ export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'u
 interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
   body?: RequestInit['body'] | object;
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
-  query?: Record<string, string | string[] | boolean | number | null | undefined>;
+  query?: ConvertableQuery;
 
   /**
    * none = request에 accessToken을 싣지않음.
@@ -103,11 +104,7 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
 
   // TODO URL 앞에 env로 개발환경 / 운영환경 셋팅하는부분은 추후 추가
   let requestUrl = typeof input !== "string" || input.startsWith("http") ? input : `${process.env.NEXT_PUBLIC_ORIGIN}${input}`;
-
-  if (query) {
-    const newQuery = Object.fromEntries(Object.entries(query).map(([key, value]) => [key, String(value)]));
-    requestUrl += `?${new URLSearchParams(newQuery).toString()}`
-  }
+  requestUrl += stringifyQuery(query);
 
   return {
     input: requestUrl,
