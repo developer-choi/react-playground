@@ -30,8 +30,6 @@ function CertificationTimer() {
     },
   });
 
-  console.log(timer);
-
   return (
     <div>
       <div>{timer.status}</div>
