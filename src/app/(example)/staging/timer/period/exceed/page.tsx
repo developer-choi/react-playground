@@ -16,7 +16,10 @@ export default function Page() {
 
 function Past() {
   const pastResult = usePeriodTimer({
-    period: PAST_PERIOD
+    period: PAST_PERIOD,
+    onTerminated: () => {
+      console.log('onTerminated in <Past/>');
+    }
   });
 
   return (
@@ -29,9 +32,11 @@ function Past() {
 function Future() {
   const futureResult = usePeriodTimer({
     period: FUTURE_PERIOD,
-    futureFormat: function (remain, futureTimestamp) {
-      console.log(remain);
+    futureFormat: function (_, futureTimestamp) {
       return dayjs(futureTimestamp).format('YYYY-MM-DD HH:mm:ss') + ' 시작'
+    },
+    onTerminated: () => {
+      console.log('onTerminated in <Future/>');
     }
   });
 

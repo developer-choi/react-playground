@@ -22,6 +22,9 @@ function DynamicPeriodExample() {
 
   const dynamicResult = usePeriodTimer({
     period: data,
+    onTerminated: () => {
+      console.log('onTerminated in <DynamicPeriodExample/>');
+    }
   });
 
   return (
@@ -35,7 +38,10 @@ function DynamicPeriodExample() {
 
 function StaticPeriodExample() {
   const staticResult = usePeriodTimer({
-    period: STATIC_PERIOD
+    period: STATIC_PERIOD,
+    onTerminated: () => {
+      console.log('onTerminated in <StaticPeriodExample/>');
+    }
   });
 
   return (
@@ -51,6 +57,6 @@ async function getDynamicEventBanner() {
 }
 
 const STATIC_PERIOD = {
-  startTimestamp: Date.now() - 1000,
+  startTimestamp: Date.now() - 2000,
   endTimestamp: Date.now() + 5000
 };

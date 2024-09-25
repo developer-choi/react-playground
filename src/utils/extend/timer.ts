@@ -59,6 +59,13 @@ export interface PeriodTimerParam {
   };
   proceedingFormat?: typeof defaultPeriodTimerProceedingFormat;
   futureFormat?: (remain: ReturnType<typeof calculateRemainTime>, futureTimestamp: number) => string;
+
+  /**
+   * 1. 타이머가 실행중이다가 종료되었거나,
+   * 2. 애초에 기간부터가 종료일이 과거여서 시작도 못하는 경우
+   * 이 콜백함수가 실행됨.
+   * (= 시작일이 미래인 경우에는 실행되지 않음)
+   */
   onTerminated?: ExpiredTimerParam['onTerminated'];
 }
 
@@ -124,7 +131,7 @@ export function usePeriodTimer(param: PeriodTimerParam): PeriodTimerResult {
   const {snapshotTimestamp, status} = useExpiredTimer({
     expiredTimestamp: !enabled ? 0 : period!.endTimestamp,
     enabled,
-    onTerminated
+    onTerminated: periodState === 'future' ? undefined : onTerminated // 시작일이 미래인 경우에는 실행되지 않도록 하기위함.
   });
 
   const proceedingResult = (!enabled || status !== 'proceeding' || !period) ? null : calculateRemainTime(snapshotTimestamp, period.endTimestamp);
@@ -197,6 +204,12 @@ function defaultPeriodTimerFutureFormat(_: ReturnType<typeof calculateRemainTime
 interface ExpiredTimerParam {
   expiredTimestamp: number;
   enabled?: boolean;
+
+  /**
+   * 1. 첫 실행시점 부터 종료상태였거나,
+   * 2. 진행중이다 종료가 되었으면
+   * 호출됨.
+   */
   onTerminated?: (expiredTimestamp: number) => void
 }
 
@@ -271,7 +284,7 @@ function useExpiredTimer({expiredTimestamp, enabled = true, onTerminated}: Expir
   }, [enabled, snapshotTimestamp]);
 
   useEffect(() => {
-    if (previousStatus === 'proceeding' && status === 'terminated') {
+    if ((previousStatus === undefined || previousStatus === 'proceeding') && status === 'terminated') {
       onTerminated?.(expiredTimestamp);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
