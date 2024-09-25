@@ -11,6 +11,10 @@ export function randomNumber(from: number, to: number) {
   return Math.floor(Math.random() * length) + _min;
 }
 
+export function randomBoolean(percent: number = 50): boolean {
+  return Math.random() > (100 - percent) / 100;
+}
+
 export function randomInArray<T>(array: T[], count = 1): T[] {
   let temp = [...array];
   const maxCount = count < array.length ? count : array.length;

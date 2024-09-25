@@ -1,9 +1,5 @@
 import {randomNumber} from '@/utils/extend/random';
 
-export function randomBoolean(percent: number = 50): boolean {
-  return Math.random() > (100 - percent) / 100;
-}
-
 /**
  * @param anagramArray 랜덤한 문자열을 만들 때 들어갈 요소들
  * @param length 랜덤한 문자열의 길이
@@ -11,7 +7,6 @@ export function randomBoolean(percent: number = 50): boolean {
  * @example (['a', 'b', 'c'], 5) ==> return 'aabac'
  */
 export function makeRandomString(anagramArray: Array<string | number>, length: number): string {
-
   let result = new Array<string>(length);
 
   for (let i = 0; i < length; i++) {
