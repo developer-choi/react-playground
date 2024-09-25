@@ -4,10 +4,10 @@ import {usePrevious} from '@/utils/extend/library/react';
 import {runCallbackInFuture} from '@/utils/extend/date/future';
 
 export interface DiffTimerOption {
-  onTerminated?: () => void;
   beforeStart?: () => void;
   format?: typeof defaultDiffTimerFormat;
   diffSeconds: number;
+  onTerminated?: ExpiredTimerParam['onTerminated'];
 }
 
 /**
@@ -59,6 +59,7 @@ export interface PeriodTimerParam {
   };
   proceedingFormat?: typeof defaultPeriodTimerProceedingFormat;
   futureFormat?: (remain: ReturnType<typeof calculateRemainTime>, futureTimestamp: number) => string;
+  onTerminated?: ExpiredTimerParam['onTerminated'];
 }
 
 export interface PeriodTimerResult {
@@ -84,7 +85,8 @@ export function usePeriodTimer(param: PeriodTimerParam): PeriodTimerResult {
   const {
     period,
     proceedingFormat = defaultPeriodTimerProceedingFormat,
-    futureFormat = defaultPeriodTimerFutureFormat
+    futureFormat = defaultPeriodTimerFutureFormat,
+    onTerminated
   } = param;
   const timeoutId = useRef<NodeJS.Timeout>();
   const currentTimestamp = Date.now();
@@ -121,7 +123,8 @@ export function usePeriodTimer(param: PeriodTimerParam): PeriodTimerResult {
 
   const {snapshotTimestamp, status} = useExpiredTimer({
     expiredTimestamp: !enabled ? 0 : period!.endTimestamp,
-    enabled
+    enabled,
+    onTerminated
   });
 
   const proceedingResult = (!enabled || status !== 'proceeding' || !period) ? null : calculateRemainTime(snapshotTimestamp, period.endTimestamp);
