@@ -24,8 +24,12 @@ export interface ModalContainerProps extends EssentialModalProps, Omit<Component
   open?: boolean;
 }
 
-// Alert, Confirm 등 모달 확장할 때 이 타입을 확장하기
-export type ComposedModalProps = Omit<ModalContainerProps, 'type' | 'size'>;
+/**
+ * SignUpModal 등 다른 모달을 구현할 때, props 타입은 이걸로 확장하기.
+ * 그래야 하는 이유는, type이나 size 같은건 모두 모달 확장한 컴포넌트에서 결정할 props이지
+ * 그 모달을 호출하는 곳에서 결정해야하는 props가 아니기 때문.
+ */
+export type ComposedModalProps = Omit<ModalContainerProps, 'type' | 'size' | 'disableOpenFocus'>;
 
 export function ModalContainer({className, size = 'medium', type = 'centerAlign', easilyClose, onClose, open, disableOpenFocus = false, ...rest}: ModalContainerProps) {
   const modalRef = useRef<HTMLDialogElement>(null);
