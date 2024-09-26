@@ -57,6 +57,7 @@ export interface PeriodTimerParam {
     startTimestamp: number;
     endTimestamp: number;
   };
+  isLoading?: boolean; // period를 외부 (API)에서 받아오는 경우 로딩상태를 전달하기 위함
   proceedingFormat?: typeof defaultPeriodTimerProceedingFormat;
   futureFormat?: (remain: ReturnType<typeof calculateRemainTime>, futureTimestamp: number) => string;
 
@@ -93,17 +94,23 @@ export function usePeriodTimer(param: PeriodTimerParam): PeriodTimerResult {
     period,
     proceedingFormat = defaultPeriodTimerProceedingFormat,
     futureFormat = defaultPeriodTimerFutureFormat,
-    onTerminated
+    onTerminated,
+    isLoading
   } = param;
   const timeoutId = useRef<NodeJS.Timeout>();
   const currentTimestamp = Date.now();
   const periodState = getPeriodState(currentTimestamp, period);
 
   // 처음부터 period가 존재하는 케이스
-  const initialEnabled = !period ? false : periodState === 'proceeding';
+  const initialEnabled = !!period && isLoading !== true;
   const [enabled, setEnabled] = useState(initialEnabled);
 
   useEffect(() => {
+    if (isLoading) {
+      setEnabled(false);
+      return;
+    }
+
     if (periodState === 'past') {
       return;
     }
@@ -126,10 +133,10 @@ export function usePeriodTimer(param: PeriodTimerParam): PeriodTimerResult {
       clearTimeout(timeoutId.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [periodState]);
+  }, [periodState, isLoading]);
 
   const {snapshotTimestamp, status} = useExpiredTimer({
-    expiredTimestamp: !enabled ? 0 : period!.endTimestamp,
+    expiredTimestamp: (!enabled || !period) ? 0 : period.endTimestamp,
     enabled,
     onTerminated: periodState === 'future' ? undefined : onTerminated // 시작일이 미래인 경우에는 실행되지 않도록 하기위함.
   });
@@ -284,7 +291,11 @@ function useExpiredTimer({expiredTimestamp, enabled = true, onTerminated}: Expir
   }, [enabled, snapshotTimestamp]);
 
   useEffect(() => {
-    if ((previousStatus === undefined || previousStatus === 'proceeding') && status === 'terminated') {
+    if (!enabled) {
+      return;
+    }
+
+    if ((previousStatus !== 'terminated') && status === 'terminated') {
       onTerminated?.(expiredTimestamp);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

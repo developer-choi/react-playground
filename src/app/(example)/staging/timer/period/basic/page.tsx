@@ -22,6 +22,7 @@ function DynamicPeriodExample() {
 
   const dynamicResult = usePeriodTimer({
     period: data,
+    isLoading,
     onTerminated: () => {
       console.log('onTerminated in <DynamicPeriodExample/>');
     }
