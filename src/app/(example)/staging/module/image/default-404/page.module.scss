@@ -1,0 +1,11 @@
+.listContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.productItem {
+  display: flex;
+  flex-direction: column;
+}
