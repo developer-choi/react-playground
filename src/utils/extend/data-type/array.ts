@@ -63,6 +63,10 @@ export function sortByString<T>(direction: Direction, list: T[], valueExtractor:
   });
 }
 
+export function removeDuplicatedItems<T extends string | number>(array: T[]): T[] {
+  return Array.from(new Set(array));
+}
+
 /**
  * @param items 중복을 제거하고싶은 배열
  * @param pkExtractor 배열의 PK를 추출하는 함수
