@@ -20,8 +20,8 @@ export default function Page() {
         <Radio name="color" label="primary" value="primary"/>
         <Radio name="color" color="secondary" label="secondary" value="secondary"/>
 
-        <Radio disabled label="disabled primary"/>
-        <Radio disabled name="value" color="secondary" label="secondary"/>
+        <Radio disabled label="disabled primary" value="primary"/>
+        <Radio disabled name="value" color="secondary" label="secondary" value="secondary"/>
       </RadioGroup>
 
       <div>
