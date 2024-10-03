@@ -6,6 +6,7 @@ export interface UserFieldCountApiRequest {
 
   /**
    * TODO 아래 2개로 가지말고 그냥 validationMode를 ‘find’ | ‘signup’ 이렇게 잡으면 안되나?
+   * - 추후 실무에서 작업할 떄 기회가 되면, 그 때 분석해서 useUserFieldApiValidation()와 함께 예제 완성시키기. (Route Handler를 통해 API 까지 온전히 동작하는 예제로)
    *
    * find
    * 1. 있는게 정상
