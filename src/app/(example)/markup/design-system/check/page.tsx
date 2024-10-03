@@ -9,19 +9,19 @@ export default function Page() {
   return (
     <div style={{display: 'flex', flexDirection: 'column', gap: 20}}>
       <div>
-        <Checkbox label="primary" value="primary"/>
-        <Checkbox color="secondary" label="secondary" value="secondary"/>
+        <Checkbox label="primary"/>
+        <Checkbox color="secondary" label="secondary"/>
 
-        <Checkbox disabled label="disabled primary" value="primary"/>
-        <Checkbox disabled color="secondary" label="disabled secondary" value="secondary"/>
+        <Checkbox disabled label="disabled primary"/>
+        <Checkbox disabled color="secondary" label="disabled secondary"/>
       </div>
 
       <RadioGroup label="Radio Group" error="error text">
         <Radio name="color" label="primary" value="primary"/>
         <Radio name="color" color="secondary" label="secondary" value="secondary"/>
 
-        <Radio disabled label="disabled primary" value="primary"/>
-        <Radio disabled name="value" color="secondary" label="secondary" value="secondary"/>
+        <Radio disabled label="disabled primary"/>
+        <Radio disabled name="value" color="secondary" label="secondary"/>
       </RadioGroup>
 
       <div>

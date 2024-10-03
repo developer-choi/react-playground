@@ -5,13 +5,12 @@ import CheckIcon from '@/components/icon/CheckIcon';
 import UncheckIcon from '@/components/icon/UncheckIcon';
 
 // https://docs.google.com/document/d/1rqmOi11-M61mjOkk5i63SigHNN8BJYLpka8c73tSLb0/edit?usp=drivesdk
-export interface CheckboxProps<T extends string> extends Omit<ComponentPropsWithRef<'input'>, 'type'> {
+export interface CheckboxProps extends Omit<ComponentPropsWithRef<'input'>, 'type'> {
   label?: string;
   color?: 'primary' | 'secondary';
-  value: T;
 }
 
-export default forwardRef(function Checkbox<T extends string>(props: CheckboxProps<T>, ref: ForwardedRef<HTMLInputElement>) {
+export default forwardRef(function Checkbox(props: CheckboxProps, ref: ForwardedRef<HTMLInputElement>) {
   const { style, className, label, color = 'primary', ...rest } = props;
 
   return (
