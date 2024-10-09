@@ -1,6 +1,6 @@
 'use client';
 
-import {getTestStatus401ClientApi} from '@/utils/service/api/test/status401';
+import {getTestStatus401ClientApi} from '@/utils/service/api/test';
 import {useCallback} from 'react';
 import {useHandleClientSideError} from '@/utils/extend/error/client-side';
 
