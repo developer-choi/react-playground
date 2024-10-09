@@ -149,6 +149,7 @@ async function handleResponse(response: Response) {
   } else if (response.status === 401) {
     throw LOGIN_ERROR;
   } else {
+    console.error(customResponse);
     return Promise.reject(customResponse);
   }
 }
