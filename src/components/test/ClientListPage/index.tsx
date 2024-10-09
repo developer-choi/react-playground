@@ -26,6 +26,7 @@ export default function ClientListPage() {
 
 
 function useListQuery() {
+  // Doc : [How to customize gcTime] https://docs.google.com/document/d/1Jy8i1g2i9ekNSRELs_PePs609rASovIJvSzS-W9y6Wc/edit
   return useInfiniteQuery({
     queryKey: ['list'],
     queryFn: function ({pageParam}) {
