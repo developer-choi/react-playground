@@ -4,7 +4,7 @@ import {redirect} from 'next/navigation';
 import {LoginError} from '@/utils/service/auth/redirect';
 import {auth} from '@/utils/service/auth';
 import {isServer} from '@/utils/extend/library/next';
-import {InvalidEnvironmentError} from '@/utils/extend/error/both-side';
+import {InvalidEnvironmentError} from '@/utils/service/error/both-side';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
 
 /** customFetchOnXXXSide() 공통 주석

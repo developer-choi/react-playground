@@ -1,6 +1,14 @@
 import AutoNumeric, {Options} from 'autonumeric';
 import {ChangeEvent, ComponentPropsWithoutRef, useCallback, useEffect, useRef} from 'react';
-import {UseFormRegisterReturn, InternalFieldName, FieldValues, FieldPath, UseFormRegister, RegisterOptions} from 'react-hook-form';
+import {
+  FieldPath,
+  FieldValues,
+  InternalFieldName,
+  RegisterOptions,
+  UseFormRegister,
+  UseFormRegisterReturn
+} from 'react-hook-form';
+import {extractNumericCharacters} from '@/utils/extend/data-type/string';
 
 /**
  * Defaults
@@ -79,11 +87,11 @@ export function useIncomputableNumberInputRegister<T extends FieldValues, N exte
   const inputMode: ComponentPropsWithoutRef<'input'>['inputMode'] = _type === 'tel' || _type === undefined ? undefined : 'numeric';
 
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    event.target.value = parseString(event.target.value, NUMBERS);
+    event.target.value = extractNumericCharacters(event.target.value);
   }, []);
 
   const setValueAs = useCallback((value: string) => {
-    return parseString(value, NUMBERS);
+    return extractNumericCharacters(value);
   }, []);
 
   return {
@@ -91,26 +99,4 @@ export function useIncomputableNumberInputRegister<T extends FieldValues, N exte
     type: _type,
     inputMode
   };
-}
-
-const NUMBERS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
-/**
- * Returns truncated characters until they are found, such as parseInt().
- * If the first character is not allowed, an empty string is returned.
- *
- * @example ('123abc', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']) => '123'
- */
-export function parseString(text: string, allowCharacters: string[]) {
-  let _text = '';
-
-  for (const char of text) {
-    if (!allowCharacters.includes(char)) {
-      break;
-    }
-
-    _text += char;
-  }
-
-  return _text;
 }

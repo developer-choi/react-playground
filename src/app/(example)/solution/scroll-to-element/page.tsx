@@ -2,7 +2,7 @@
 
 import styles from './page.module.css';
 import {useCallback} from 'react';
-import {scrollToElement} from '@/utils/extend/html/scroll';
+import {scrollToElement} from '@/utils/extend/browser/scroll';
 
 /**
  * URL : http://localhost:3000/solution/scroll-to-element

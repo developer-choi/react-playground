@@ -28,3 +28,30 @@ export function splitEvenly<T>(array: T[], maxSize: number): T[] {
   const removeIndexes = range(1, overCount).map(value => Math.floor(value * magic));
   return array.filter((_, index) => !removeIndexes.includes(index));
 }
+
+/**
+ * @example ([1, 2, 3], 1) => 2
+ * @example ([1, 2, 3], 2) => 3
+ * @example ([1, 2, 3], 3) => 1
+ */
+export function getNextLoopItem<T>(list: T[], item: T): T {
+  const index = list.indexOf(item)
+
+  if (index === -1) {
+    console.error("item is not in list", item, list);
+    return item
+  }
+
+  if (list.length === 1) {
+    return item
+  }
+
+  const isLast = index === list.length - 1;
+
+  if (isLast) {
+    return list[0];
+
+  } else {
+    return list[index + 1];
+  }
+}
