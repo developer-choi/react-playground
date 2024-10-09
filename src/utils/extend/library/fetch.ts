@@ -18,7 +18,7 @@ export async function customFetchOnClientSide(input: string | URL | globalThis.R
 
   try {
     const session = await getSession();
-    return await customFetchInBothSide(input, {...parameter, session});
+    return await customFetch(input, {...parameter, session});
   } catch (error: any) {
     if (error instanceof LoginError) {
       const redirectUrl = location.pathname + location.search;
@@ -41,7 +41,7 @@ export async function customFetchOnServerSide(input: string | URL | globalThis.R
 
   try {
     const session = await auth();
-    return await customFetchInBothSide(input, {...parameter, session});
+    return await customFetch(input, {...parameter, session});
   } catch (error: any) {
     if (error instanceof LoginError) {
       const currentUrl = require('next/headers').headers().get('current-pathname-with-search') ?? '/'; // middleware에서 셋팅
@@ -51,6 +51,15 @@ export async function customFetchOnServerSide(input: string | URL | globalThis.R
       throw error;
     }
   }
+}
+
+/**
+ * authorize none으로 client / server side 어디에서나 호출하기 위한 함수.
+ * 그래서 로그인 체크도 하지않고,
+ * 로그인이 실패할 일도 없어서 로그인 실패 처리로직도 없음.
+ */
+export async function customFetchOnBothSide(input: string | URL | globalThis.Request, parameter: Omit<ExtendedCustomFetchParameter, 'authorize'>) {
+  return await customFetch(input, {...parameter, session: null, authorize: 'none'});
 }
 
 export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'url'> {
@@ -79,7 +88,7 @@ interface CustomFetchParameter extends ExtendedCustomFetchParameter {
   session: Session | null;
 }
 
-async function customFetchInBothSide(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
+async function customFetch(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
   const request = handleRequest(input, parameter);
   const response = await fetch(request.input, request.init);
   return handleResponse(response);
