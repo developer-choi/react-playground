@@ -1,4 +1,4 @@
-import {randomNumber} from '@/utils/extend/random';
+import {randomNumber} from '@/utils/extend/test/random';
 
 /**
  * @param anagramArray 랜덤한 문자열을 만들 때 들어갈 요소들
