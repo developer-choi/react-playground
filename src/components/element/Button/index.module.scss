@@ -29,6 +29,11 @@
       font-size: 14px,
       line-height: 20px
     ),
+    small: (
+      padding: 3px 5px,
+      font-size: 12px,
+      line-height: 16px
+    ),
   );
   
   padding: map-get(map-get($style, $size), padding);
@@ -45,7 +50,7 @@
     style: solid;
     radius: 4px;
   }
-  @each $size in large, medium {
+  @each $size in large, medium, small {
     &.#{$size} {
       @include textByButtonSize($size);
     }
