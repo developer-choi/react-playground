@@ -67,6 +67,14 @@ export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'u
   text: string | '';
 }
 
+/** customFetchOnXXXSide() 공통 주석
+ * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
+ */
+
+export const REVALIDATE_TAG = {
+  boardList: 'board-list'
+};
+
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
@@ -82,6 +90,10 @@ interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
    * guest = 로그인이 되어있으면 GuestError를 던짐
    */
   authorize: 'private' | 'public' | 'none' | 'guest';
+
+  next?: RequestInit['next'] & {
+    tags?: (keyof typeof REVALIDATE_TAG)[]
+  };
 }
 
 interface CustomFetchParameter extends ExtendedCustomFetchParameter {
