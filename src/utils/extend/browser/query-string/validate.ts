@@ -1,6 +1,6 @@
 import type {ParsedUrlQuery} from 'querystring';
-import {range} from 'lodash';
 import {ValidateError} from '@/utils/service/error/both-side';
+import {range} from '@/utils/extend/data-type/number';
 
 export type QueryValue = ParsedUrlQuery['any-key'];
 

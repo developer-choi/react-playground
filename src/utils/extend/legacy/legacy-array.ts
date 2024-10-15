@@ -1,4 +1,4 @@
-import {range} from 'lodash';
+import {range} from '@/utils/extend/data-type/number';
 
 /**
  * 배열에서 n개씩 잘라서 반환하는 함수.

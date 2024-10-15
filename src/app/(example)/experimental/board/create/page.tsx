@@ -1,9 +1,12 @@
+'use client';
+
 import {useCallback} from 'react';
 import {deleteAllBoardsApi, postMultipleBoardsApi} from '@/utils/service/api/board';
 import dayjs from 'dayjs';
-import {range} from 'lodash';
 import {randomInArray} from '@/utils/extend/test/random';
 import {BoardRow} from '@/types/services/board';
+import {range} from '@/utils/extend/data-type/number';
+import Button from '@/components/element/Button';
 
 // URL: http://localhost:3000/experimental/board/create
 export default function Page() {
@@ -23,7 +26,7 @@ export default function Page() {
 
   return (
     <div>
-      <button onClick={initialize}>모두 삭제 후 글 100개 만들기</button>
+      <Button onClick={initialize}>모두 삭제 후 글 100개 만들기</Button>
     </div>
   );
 }
