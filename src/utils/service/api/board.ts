@@ -1,5 +1,5 @@
 import {BoardRow, PatchBoardApiRequest, PostBoardApiRequest} from '@/types/services/board';
-import {customFetchOnClientSide, customFetchOnServerSide} from '@/utils/extend/library/fetch';
+import {customFetchOnBothSide, customFetchOnClientSide, customFetchOnServerSide} from '@/utils/extend/library/fetch';
 
 export function patchBoardApi(board: PatchBoardApiRequest) {
   return customFetchOnClientSide(`/api/board/${board.pk}`, {
@@ -44,9 +44,8 @@ export async function getBoardApi(pk: number) {
 }
 
 export async function getBoardListApi(filter?: BoardRow['type']) {
-  const {json: {list, currentTime}} = await customFetchOnServerSide(`/api/board`, {
+  const {json: {list, currentTime}} = await customFetchOnBothSide(`/api/board`, {
     method: 'GET',
-    authorize: 'none', // 원래는 private 이어야하는데 테스트목적
     next: {
       tags: ['boardList'],
     },
