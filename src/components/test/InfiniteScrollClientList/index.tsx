@@ -5,7 +5,7 @@ import {getTestPlainListApi} from '@/utils/service/api/test';
 import {useInfiniteScroll} from '@/utils/extend/browser/useInfiniteScroll';
 import styles from './index.module.scss';
 
-export default function ClientListPage() {
+export default function InfiniteScrollClientList() {
   const queryResult = useListQuery();
 
   useInfiniteScroll({
