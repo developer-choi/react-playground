@@ -1,0 +1,21 @@
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  height: 200px;
+  font-size: 36px;
+  font-weight: bold;
+  
+  &:nth-of-type(even) {
+    background-color: aliceblue;
+  }
+  
+  &:nth-of-type(odd) {
+    background-color: whitesmoke;
+  }
+  
+  > a {
+    text-decoration: underline;
+  }
+}
