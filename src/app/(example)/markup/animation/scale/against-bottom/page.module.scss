@@ -1,0 +1,27 @@
+.page {
+  padding: 60px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  width: 200px;
+  height: 300px;
+  background-color: black;
+  cursor: pointer;
+  
+  // 오 이렇게 걍 transform을 넣어도 되는구나
+  transition: transform 0.4s;
+  transform-origin: bottom; /* 아래쪽을 기준으로 변형 */
+  
+  &:hover {
+    transform: scaleX(1.1) scaleY(1.1); /* 가로 1.2배, 세로 1.5배로 확대 */
+  }
+}
