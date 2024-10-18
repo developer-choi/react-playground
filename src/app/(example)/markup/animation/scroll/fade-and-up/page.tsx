@@ -4,7 +4,7 @@ import styles from './page.module.scss';
 import {useEffect, useRef} from 'react';
 
 /**
- * URL: http://localhost:3000/example/markup/animation/fade-with-moove
+ * URL: http://localhost:3000/markup/animation/scroll/fade-and-up
  *
  * 스펙 1. 스크롤 내리면 그 때 박스들이 아래에서 위로 올라오면서 fade-in 처리됨.
  * 스펙 2. 다시 스크롤 올리면 아까 봤던 박스들은 그대로 있음.
