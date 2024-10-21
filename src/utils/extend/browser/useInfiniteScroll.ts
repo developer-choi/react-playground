@@ -1,13 +1,20 @@
 import {useEffect, useRef} from 'react';
 import {UseInfiniteQueryResult} from '@tanstack/react-query';
 
+// https://docs.google.com/document/d/1IeMIvPc-18TKEscvuRYmktziMxieeKW_wJGB779nOXg/edit
 export interface InfiniteScrollParam {
   listSelector: string;
   offset?: number; // default 300
   queryResult: Pick<UseInfiniteQueryResult, 'fetchNextPage' | 'hasNextPage' | 'isFetchingNextPage'>;
 }
 
-// https://docs.google.com/document/d/1IeMIvPc-18TKEscvuRYmktziMxieeKW_wJGB779nOXg/edit
+
+/** QnA 2회차 불러올 때부터, 스크롤이 바닥 근처에 있을 때 API를 더 볼러오는게 아니라, 상단에 있을 때 더 불러와요
+ *  >>
+ *  hasNextPage / isFetchingNextPage 값이 데이터를 패칭할 때마다 값이 바뀌는지 체크.
+ *  만약 안바뀐다면, listEndDom이 계속 리스트의 중간쯤에 걸쳐져있어서
+ *  바닥이 아닌 중간쯤에 스크롤이 지나갈 때 API가 호출됨.
+ */
 export function useInfiniteScroll({listSelector, queryResult, offset = 300}: InfiniteScrollParam) {
   const observerRef = useRef<IntersectionObserver>();
   const {fetchNextPage, hasNextPage, isFetchingNextPage} = queryResult;
