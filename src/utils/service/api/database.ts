@@ -1,14 +1,10 @@
-import {readFile, writeFile} from 'fs/promises';
+import {readFile, writeFile} from '@/utils/server/file';
 import {BoardTable} from '@/types/services/board';
 
 const database = {
   board: {
-    get: async function getBoard() {
-      const data = await readFile('database/board.json', {
-        encoding: 'utf-8'
-      });
-
-      return JSON.parse(data) as BoardTable;
+    get: function getBoard() {
+      return readFile<BoardTable>('database/board.json');
     },
     set: async function setBoard(board: BoardTable) {
       return writeFile('database/board.json', JSON.stringify(board));
