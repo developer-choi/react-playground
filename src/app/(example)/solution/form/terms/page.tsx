@@ -10,13 +10,13 @@ import {FormElementUnderText} from '@/components/form/form-elements';
 // URL: http://localhost:3000/solution/form/terms
 // Doc: https://docs.google.com/document/d/1cupk32maDTWKqu3SqoinuxmshuPxVN49tUZo49o9nvc/edit?tab=t.0
 export default function Page() {
-  const {register, handleSubmit, watch, setValue, formState: {errors}} = useForm<AgreeFormData>();
+  const {register, handleSubmit, watch, setValue, formState: {errors}} = useForm<TermsFormData>();
 
-  const onError: SubmitErrorHandler<AgreeFormData> = useCallback((errors) => {
+  const onError: SubmitErrorHandler<TermsFormData> = useCallback((errors) => {
     console.error(errors);
   }, []);
 
-  const onSubmit: SubmitHandler<AgreeFormData> = useCallback(async (data) => {
+  const onSubmit: SubmitHandler<TermsFormData> = useCallback(async (data) => {
     console.log('data', data);
   }, []);
 
@@ -60,11 +60,11 @@ export default function Page() {
   );
 }
 
-interface AgreeFormData {
+interface TermsFormData {
   required1: boolean;
   optional1: boolean;
 }
 
-const REQUIRED_OPTIONS: RegisterOptions<AgreeFormData, 'required1'> = {
+const REQUIRED_OPTIONS: RegisterOptions<TermsFormData, 'required1'> = {
   required: '필수 약관에 동의해주세요'
 };
