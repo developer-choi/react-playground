@@ -20,7 +20,7 @@ export default function useGeneralLoginForm() {
     }
   });
 
-  const {mutateAsync, isPending} = useMutation({
+  const {mutateAsync, isPending, isSuccess} = useMutation({
     mutationFn: postLoginApi
   });
 
@@ -30,6 +30,11 @@ export default function useGeneralLoginForm() {
 
   const login = useLogin();
   const onSubmit: SubmitHandler<LoginFormData> = useCallback(async data => {
+    // API 호출중 or 성공 후 다음 페이지 이동 전까지 폼제출 안되게
+    if(isPending || isSuccess) {
+      return;
+    }
+
     try {
       const result = await mutateAsync(data);
       login(result);
@@ -56,7 +61,7 @@ export default function useGeneralLoginForm() {
           handleClientSideError(error);
       }
     }
-  }, [handleClientSideError, login, mutateAsync, setError]);
+  }, [handleClientSideError, isPending, isSuccess, login, mutateAsync, setError]);
 
   const emailInputProps: InputProps = {
     ...getEmailInputProps({name: 'email', errors, register}),
@@ -88,7 +93,7 @@ export default function useGeneralLoginForm() {
   return {
     form: {
       onSubmit: handleSubmit(onSubmit, onError),
-      loading: isPending
+      loading: isPending || isSuccess
     },
     inputProps: {
       email: emailInputProps,

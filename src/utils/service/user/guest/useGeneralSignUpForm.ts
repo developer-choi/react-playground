@@ -42,11 +42,16 @@ export default function useGeneralSignUpForm() {
     passwordValue: watch('password')
   });
 
-  const {isPending, mutateAsync} = useMutation({
+  const {isPending, mutateAsync, isSuccess} = useMutation({
     mutationFn: postSignUpApi
   });
   
   const onSubmit: SubmitHandler<SignUpFormData> = useCallback(async data => {
+    // API 호출중 or 성공 후 다음 페이지 이동 전까지 폼제출 안되게
+    if(isPending || isSuccess) {
+      return;
+    }
+
     try {
       await mutateAsync({
         email: data.email,
@@ -76,12 +81,12 @@ export default function useGeneralSignUpForm() {
           handleClientSideError(error);
       }
     }
-  }, [handleClientSideError, mutateAsync, replace, setError]);
+  }, [handleClientSideError, isPending, isSuccess, mutateAsync, replace, setError]);
 
   return {
     form: {
       onSubmit: handleSubmit(onSubmit),
-      loading: isPending,
+      loading: isPending || isSuccess,
     },
     inputProps: {
       email: emailInputProps,
