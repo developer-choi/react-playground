@@ -1,0 +1,24 @@
+// <label>를 감싸는것 만으로도, 클릭했을 때 File Explorer가 열림.
+.wrap {
+  position: relative;
+}
+
+.input {
+  // <input type file 자체 기능인 Drag And Drop을 이용하기 위해 부모 영역만큼 차지하게 만듬
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  
+  // 그 다음 겉으로 안보이게 만들어야하는데, display none이나 visibility hidden은 이벤트를 못받아서 안됨.
+  opacity: 0;
+  
+  /**
+   * 요소에 마우스 커서 올렸을 때 커서 안바뀌어서 이거 추가했다간, 드래그앤드롭 기본동작이 인먹힘.
+   * 그래서 결국 cursor pointer를 여기에 추가했음.
+   */
+  // z-index: -1; container
+  // pointer-events: none;
+  cursor: pointer;
+}

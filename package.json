@@ -29,7 +29,8 @@
     "react-hook-form": "^7.52.0",
     "react-toastify": "^10.0.5",
     "sass": "^1.77.6",
-    "ua-parser-js": "^1.0.38"
+    "ua-parser-js": "^1.0.38",
+    "uuid": "^11.0.2"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.53.0",
