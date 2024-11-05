@@ -11,6 +11,8 @@ export interface FileValidateOption {
 /**
  * @exception ValidateError 용량 제한 벗어난 경우
  * @exception ValidateError 확장자 벗어난 경우
+ * @exception ValidateError maxCount보다 많은 갯수의 파일을 전달한 경우
+ * @exception ValidateError 기존에 등록된 파일과 동일한 파일을 등록하려고 한 경우
  * TODO 이미지에서도 쓰지만 이미지를 제외한 나머지 파일에서도 사용 가능하게 만들어야함.
  *
  * @param newFiles 새로 추가하려는 파일 (FULL 유효성검증 대상)
@@ -20,18 +22,21 @@ export interface FileValidateOption {
 export function validateFiles(newFiles: File[], options: FileValidateOption, previousValidatedFiles?: File[]) {
   const {limitSize, allowExtensions, maxCount, enableDuplicated} = options;
 
-  const newFileCountIsExceed = (maxCount !== undefined) && newFiles.length > maxCount;
-  const totalFileCountIsExceed = (maxCount !== undefined) && previousValidatedFiles?.length && (newFiles.length + previousValidatedFiles.length) > maxCount;
-
-  if (newFileCountIsExceed || totalFileCountIsExceed) {
-    throw new ValidateError(`최대 ${maxCount}개의 파일만 가능합니다.`);
+  if (maxCount !== undefined) {
+    const newFileCountIsExceed = newFiles.length > maxCount;
+    const totalFileCountIsExceed = previousValidatedFiles?.length && (newFiles.length + previousValidatedFiles.length) > maxCount;
+    if (newFileCountIsExceed || totalFileCountIsExceed) {
+      throw new ValidateError(`최대 ${maxCount}개의 파일만 가능합니다.`);
+    }
   }
 
-  const previousFileNames = previousValidatedFiles?.map(file => file.name);
-  const duplicatedFile = (!enableDuplicated || !previousFileNames) ? undefined : newFiles.find(file => previousFileNames.includes(file.name));
+  if (enableDuplicated && previousValidatedFiles) {
+    const previousFileNames = previousValidatedFiles.map(file => file.name);
+    const duplicatedFile = newFiles.find(file => previousFileNames.includes(file.name));
 
-  if (duplicatedFile) {
-    throw new ValidateError(`${duplicatedFile.name}파일이 이미 존재합니다.`);
+    if (duplicatedFile) {
+      throw new ValidateError(`${duplicatedFile.name}파일이 이미 존재합니다.`);
+    }
   }
 
   newFiles.forEach(file => {
