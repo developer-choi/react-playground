@@ -1,8 +1,10 @@
 import {FileValidateOption, validateFiles} from '@/utils/extend/file/file-validation';
 import {useCallback, useEffect, useState} from 'react';
-import {handleClientSideError, ValidateError} from '@/utils/extend/file/common';
 import {InputFileProps} from '@/components/form/InputFile';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
+import {ValidateError} from '@/utils/service/error/both-side';
+import {useHandleClientSideError} from '@/utils/service/error/client-side';
+import {useOpenModal} from '@/utils/extend/modal';
 
 // https://docs.google.com/document/d/1_9-Bw4SihS6DGpskF8Xor_gaahHetDfKDk6QJeZQ6Ig/edit?tab=t.0
 export interface SingleFileImagePreviewParameter {
@@ -13,6 +15,9 @@ export interface SingleFileImagePreviewParameter {
 
 // 프로필이미지 변경폼 처럼 단일 이미지 미리보기만 필요한 경우에 씀
 export function useSingleFileImagePreview({initialImageUrl, extensions, validateOption}: SingleFileImagePreviewParameter) {
+  const {openAlertModal} = useOpenModal();
+  const handleClientSideError = useHandleClientSideError();
+
   const [item, setItem] = useState<{preview: Pick<HTMLImageElement, 'src' | 'alt'> | undefined, file: File | undefined}>({
     preview: !initialImageUrl ? undefined : {
       src: initialImageUrl,
@@ -50,9 +55,16 @@ export function useSingleFileImagePreview({initialImageUrl, extensions, validate
         };
       });
     } catch (error) {
-      handleClientSideError(error);
+      if (error instanceof ValidateError) {
+        openAlertModal({
+          title: '파일등록',
+          content: error.message
+        });
+      } else {
+        handleClientSideError(error);
+      }
     }
-  }, [validateOption]);
+  }, [openAlertModal, handleClientSideError, validateOption]);
 
   const removeItem = useCallback(() => {
     setItem({
@@ -88,9 +100,10 @@ export interface MultipleFileImagePreviewParameter extends Pick<SingleFileImageP
  * (POST, PATCH API 호출하기 위한) 원본 파일도 반환
  */
 export function useMultipleFileImagePreview({extensions, validateOption}: MultipleFileImagePreviewParameter) {
+  const {openAlertModal} = useOpenModal();
+  const handleClientSideError = useHandleClientSideError();
+  
   const [list, setList] = useState<ExtendedImageFile[]>([]);
-
-  // const handleClientSideError = useHandleClientSideError();
 
   /** revokeObjectUrl 시점 정리
    * 1. unmount
@@ -127,9 +140,16 @@ export function useMultipleFileImagePreview({extensions, validateOption}: Multip
         }
       });
     } catch (error) {
-      handleClientSideError(error);
+      if (error instanceof ValidateError) {
+        openAlertModal({
+          title: '파일등록',
+          content: error.message
+        });
+      } else {
+        handleClientSideError(error);
+      }
     }
-  }, [list, validateOption]);
+  }, [openAlertModal, handleClientSideError, list, validateOption]);
 
   const removeItem = useCallback((item: ExtendedImageFile) => {
     setList(prevState => {
