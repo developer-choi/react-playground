@@ -69,20 +69,16 @@ export function ButtonLink({className, size = 'medium', color = 'primary', varia
   );
 }
 
-export function ImageButton({className, type = 'button', style, width, ...rest}: ComponentPropsWithoutRef<'button'> & ImageWrapperProps) {
+export function ImageButton({className, type = 'button', style, ...rest}: ComponentPropsWithoutRef<'button'>) {
   return (
-    <button type={type} style={{width, ...style}} className={classNames(styles.imageWrapper, className)} {...rest}/>
+    <button type={type} style={style} className={classNames(styles.imageWrapper, className)} {...rest}/>
   );
 }
 
-export function ImageLink({className, style, width, ...rest}: CustomLinkProps & ImageWrapperProps) {
+export function ImageLink({className, style, ...rest}: CustomLinkProps) {
   return (
-    <CustomLink style={{width, ...style}} className={classNames(styles.imageWrapper, className)} {...rest}/>
+    <CustomLink style={style} className={classNames(styles.imageWrapper, className)} {...rest}/>
   );
-}
-
-interface ImageWrapperProps {
-  width: number; // children으로 전달되는 Image는 container의 비율만큼 커져야해서 width가 필수
 }
 
 // 로딩의 크기는 가로세로 모두 line-height만큼만 커져야 전체 버튼사이즈의 변화가 안생김.
