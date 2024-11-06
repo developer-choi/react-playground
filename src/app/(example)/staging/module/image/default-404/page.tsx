@@ -10,7 +10,7 @@ export default function Page() {
   const list: Product[] = range(1, 100).map(value => ({
     pk: value,
     name: `${value}번 상품`,
-    thumbnail: value % 4 === 0 ? '' : 'https://picsum.photos/200/200',
+    thumbnail: value % 4 === 0 ? '' : 'https://picsum.photos/200/300',
     price: 100000
   }));
 
@@ -33,7 +33,7 @@ interface Product {
 function ProductListItem({product}: {product: Product}) {
   return (
     <div className={styles.productItem}>
-      <CustomImage src={product.thumbnail} width={200} height={200} alt="상품 이미지" fallback={{type: 'default-404'}}/>
+      <CustomImage src={product.thumbnail} width={200} height={300} alt="상품 이미지" fallback={{type: 'default-404'}}/>
       <Body2>{product.name}</Body2>
       <Body2>{numberWithComma(product.price)}원</Body2>
     </div>

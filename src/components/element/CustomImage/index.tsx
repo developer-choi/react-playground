@@ -4,6 +4,7 @@ import Image, {ImageProps} from 'next/image';
 import styles from './index.module.scss';
 import NextjsLogo from '/public/imgs/nextjs.svg';
 import {ReactElement, useCallback, useEffect, useState} from 'react';
+import classNames from 'classnames';
 
 export interface CustomImageProps extends Omit<ImageProps, 'src'> {
   src: ImageProps['src'] | '' | null | undefined; // 이미지 src 출처가 API 같은 외부이고, 그 값이 유효하지않은 케이스도 대응하기 위함
@@ -27,7 +28,7 @@ export interface CustomImageProps extends Omit<ImageProps, 'src'> {
   };
 }
 
-export default function CustomImage({ src, fallback, onError, quality = 100, width, height, ...rest }: CustomImageProps) {
+export default function CustomImage({ src, fallback, onError, quality = 100, width, height, className, ...rest }: CustomImageProps) {
   const [source, setSource] = useState({
     src,
     error: !src,
@@ -62,6 +63,7 @@ export default function CustomImage({ src, fallback, onError, quality = 100, wid
       // eslint-disable-next-line jsx-a11y/alt-text
       <Image
         src={source.src as string}
+        className={className}
         onError={onError ?? customOnError}
         quality={quality}
         width={width}
@@ -80,10 +82,13 @@ export default function CustomImage({ src, fallback, onError, quality = 100, wid
   }
 
   // default 404
-  return <NotFoundImage width={width} height={height}/>
+  return <NotFoundImage width={width} height={height} className={className}/>
 }
 
-function NotFoundImage({width, height}: Pick<ImageProps, 'width' | 'height'>) {
+function NotFoundImage({width, height, className}: Pick<ImageProps, 'width' | 'height' | 'className'>) {
+  const paddingInline = (Number(width) - 64) / 2;
+  const paddingBlock = (Number(height) - 64) / 2;
+
   /**
    * 보통 이 자리에 사이트 로고가 많이 쓰임.
    * 이미지 종류, 배경색은 디자인 시스템에 정의하면됨.
@@ -91,8 +96,6 @@ function NotFoundImage({width, height}: Pick<ImageProps, 'width' | 'height'>) {
    * 원래 이미지가 노출되던 사이즈의 비율이 당연히 위치마다 다 다르기때문에, 이걸 통이미지로 대체하려고했다간 이미지가 상하나 좌우로 찌부됨.
    */
   return (
-    <div style={{width, height}} className={styles.notFoundContainer}>
-      <Image src={NextjsLogo} width={64} height={64} alt="사이트 로고"/>
-    </div>
+    <Image src={NextjsLogo} style={{paddingInline, paddingBlock}} className={classNames(styles.notFoundContainer, className)} width={width} height={height} alt="사이트 로고"/>
   );
 }

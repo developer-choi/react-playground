@@ -1,0 +1,9 @@
+.container {
+  display: inline-block; // 마치 <img 태그와 동일하게 스타일링 할 수 있도록 <img와 동일한 display 적용
+  font-size: 0;
+}
+
+.image {
+  border-radius: 50%;
+  object-fit: cover;
+}
