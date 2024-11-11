@@ -1,7 +1,6 @@
 import React, {PropsWithChildren} from 'react';
 import {auth} from '@/utils/service/auth';
 import {SessionProvider} from 'next-auth/react';
-import InnerSessionProvider from '@/components/setting/InnerSessionProvider';
 import dynamic from 'next/dynamic';
 import IntlClientProvider from '@/components/setting/IntlClientProvider';
 import {getMessages} from 'next-intl/server';
@@ -21,16 +20,14 @@ export default async function AppProvider({children}: PropsWithChildren) {
 
   return (
     <SessionProvider refetchOnWindowFocus={false} session={session}>
-      <InnerSessionProvider>
-        <IntlClientProvider locale={locale.short} messages={messages}>
-          <ReactQueryProvider>
-            <ModalProvider>
-              {children}
-            </ModalProvider>
-          </ReactQueryProvider>
-        </IntlClientProvider>
-        <ExtendedToastContainer/>
-      </InnerSessionProvider>
+      <IntlClientProvider locale={locale.short} messages={messages}>
+        <ReactQueryProvider>
+          <ModalProvider>
+            {children}
+          </ModalProvider>
+        </ReactQueryProvider>
+      </IntlClientProvider>
+      <ExtendedToastContainer/>
     </SessionProvider>
   );
 }

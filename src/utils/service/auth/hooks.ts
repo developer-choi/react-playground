@@ -2,6 +2,9 @@ import {useCallback} from 'react';
 import {signIn, signOut} from 'next-auth/react';
 import {getRedirectUrlWhenLoginSuccess} from '@/utils/service/auth/redirect';
 import {LoginApiResponse} from '@/types/services/auth';
+import {useHandleClientSideError} from '@/utils/service/error/client-side';
+import {usePathname, useSearchParams} from 'next/navigation';
+import {getNextNavigating} from '@/utils/service/auth/path';
 
 /**
  * 로그인 성공 (아이디비번로그인, SNS 로그인 등) 후 실행되야하는 함수
@@ -32,33 +35,31 @@ export function useLogin() {
  * https://docs.google.com/document/d/1PRzGtGusjqi4LfU0R4dC4wLPKfxQN5GcJ7JJXOAkdK0/edit
  */
 export function useLogout() {
-  return useCallback(async () => {
+  const handleOnClientError = useHandleClientSideError();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  /**
+   * @param nextUrl pathname + querystring만 지원
+   * @exception 이동하려는 그 다음 페이지가 잘못된 경우 로그인 페이지로 이동 (로그인 안한 상태로 로그인을 해야만 갈 수 있는 url로 전달한다거나)
+   * @description 기획에서, 로그아웃 시 xxx 페이지로 이동 시키라는 요구사항을 대응하기 이함.
+   */
+  return useCallback(async (nextUrl?: string) => {
     try {
       await backendLogoutApi();
-
-      // redirect는 따로 여기서 안시킴. InnerSessionProvider에서 session.status가 변하는걸 감지해서 처리함.
-      await signOut({
-        redirect: false
-      });
-
-      /**
-       * 로그아웃 성공 후 리셋해야하는 캐시가 있다면 여기서 리셋
-       */
     } catch (error: any) {
-      // [Authentication 요구사항 > Final step. 로그아웃 하기 (주로 헤더에있는)] https://docs.google.com/document/d/1p5jI5u3NZOHbRge9M0ZCmhQgqCriZfpUGks6I7blQlI/edit#heading=h.41h4ckzdotb
-
-      await signOut({
-        redirect: false
+      handleOnClientError(error);
+    } finally {
+      const nextNavigating = getNextNavigating({
+        nextUrl: nextUrl ?? pathname + '?' + searchParams.toString(),
+        isLoggedIn: false,
       });
 
-      // already logout
-      if (error.status === 401) {
-        return;
-      }
-
-      throw error;
+      await signOut({
+        callbackUrl: nextNavigating.nextUrl,
+      });
     }
-  }, [])
+  }, [handleOnClientError, pathname, searchParams])
 }
 
 async function backendLogoutApi() {
