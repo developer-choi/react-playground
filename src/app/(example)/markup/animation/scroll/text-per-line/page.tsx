@@ -14,7 +14,7 @@ import {useEffect} from 'react';
  */
 export default function Page() {
   useEffect(() => {
-    const words = document.querySelectorAll(`#section > div`);
+    const words = document.querySelectorAll(`#section > .${styles.line}`);
 
     // TODO 최적화 가능함 > 스크롤을 해당 섹션 도착했을 때 리스너를 추가해야함.
     const handleScroll = () => {
@@ -39,20 +39,20 @@ export default function Page() {
   }, []);
 
   return (
-    <div className={styles.page} style={{paddingBlock: 1000}}>
+    <div className={styles.page} style={{paddingBlock: 1200}}>
       <section id="section">
-        <div className={styles.box}>Lorem Ipsum is simply dummy text of the printing and</div>
-        <div className={styles.box}>typesetting industry. Lorem Ipsum has been the</div>
-        <div className={styles.box}>industrys standard dummy text ever since the 1500s,</div>
-        <div className={styles.box}>when an unknown printer took a galley of type and</div>
-        <div className={styles.box}>scrambled it to make a type specimen book. It has</div>
-        <div className={styles.box}>survived not only five centuries, but also the leap into</div>
-        <div className={styles.box}>electronic typesetting, remaining essentially</div>
-        <div className={styles.box}>unchanged. It was popularised in the 1960s with the</div>
-        <div className={styles.box}>release of Letraset sheets containing Lorem Ipsum</div>
-        <div className={styles.box}>passages, and more recently with desktop publishing</div>
-        <div className={styles.box}>software like Aldus PageMaker including versions of</div>
-        <div className={styles.box}>Lorem Ipsum.</div>
+        <p className={styles.line}>Lorem Ipsum is simply dummy text of the printing and</p>
+        <p className={styles.line}>typesetting industry. Lorem Ipsum has been the</p>
+        <p className={styles.line}>industrys standard dummy text ever since the 1500s,</p>
+        <p className={styles.line}>when an unknown printer took a galley of type and</p>
+        <p className={styles.line}>scrambled it to make a type specimen book. It has</p>
+        <p className={styles.line}>survived not only five centuries, but also the leap into</p>
+        <p className={styles.line}>electronic typesetting, remaining essentially</p>
+        <p className={styles.line}>unchanged. It was popularised in the 1960s with the</p>
+        <p className={styles.line}>release of Letraset sheets containing Lorem Ipsum</p>
+        <p className={styles.line}>passages, and more recently with desktop publishing</p>
+        <p className={styles.line}>software like Aldus PageMaker including versions of</p>
+        <p className={styles.line}>Lorem Ipsum.</p>
       </section>
     </div>
   );
