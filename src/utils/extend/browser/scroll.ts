@@ -8,7 +8,7 @@ export function scrollToElement(selector: string, offset = 0) {
 
   if (!element) {
     console.error(`selector not found: ${selector}`);
-    throw new HTMLError('스크롤 이동을 할 수 없습니다.');
+    throw new TypeError('스크롤 이동을 할 수 없습니다.');
   }
 
   const elementPosition = element.getBoundingClientRect().top + window.scrollY;
@@ -18,12 +18,4 @@ export function scrollToElement(selector: string, offset = 0) {
     top: offsetPosition,
     behavior: 'smooth',
   });
-}
-
-/// TODO 이거 어느폴더에 어떻게 분류할지, 그리고 에러를 HTMLError로 하는게맞는지 (다른에러랑 통합해야하는지 잘 모르겠음)
-class HTMLError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.message = message;
-  }
 }
