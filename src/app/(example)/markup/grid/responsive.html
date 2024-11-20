@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+Doc: https://docs.google.com/document/d/1JHgSScl5iTJDbJ3BMRPXCVxRWooWGmW6ipskxvZOhws/edit?tab=t.0
+
+실행해서 개발자도구 열고 하면너비를 줄엿다 펼쳣다 해보면됨.
+
+1. 이미지가 화면 너비에 따라 비율에맞춰서 늘어나거나 줄어들고,
+2. 그와중에 2x2 배열을 유지함.
+-->
+<div class="container">
+  <div class="box">
+    <img src="https://picsum.photos/100/200">
+  </div>
+  <div class="box">
+    <img src="https://picsum.photos/100/200">
+  </div>
+  <div class="box">
+    <img src="https://picsum.photos/100/200">
+  </div>
+  <div class="box">
+    <img src="https://picsum.photos/100/200">
+  </div>
+  <div class="box">
+    <img src="https://picsum.photos/100/200">
+  </div>
+</div>
+
+<style>
+  .container {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    font-size: 0;
+  }
+  
+  .box img {
+    width: 100%;
+    height: auto;
+  }
+</style>
+</body>
+</html>
