@@ -33,6 +33,8 @@ export interface CustomImageProps extends Omit<ImageProps, 'src'> {
  * <Video> 컴포넌트와 목적이 같음.
  * 추후 next/image의 Image를 사용하게 될 수도있고,
  * html의 기본 <img>를 사용하게 될 수도 있음.
+ *
+ * 이 컴포넌트의 결과적인 동작은, /(example)/module/image 하위 예제 페이지를 모두 만족해야함.
  */
 export default function CustomImage({ src, fallback, onError, quality = 100, width, height, className, ...rest }: CustomImageProps) {
   const [source, setSource] = useState({
@@ -69,7 +71,7 @@ export default function CustomImage({ src, fallback, onError, quality = 100, wid
       // eslint-disable-next-line jsx-a11y/alt-text
       <Image
         src={source.src as string}
-        className={className}
+        className={classNames(styles.image, className)}
         onError={onError ?? customOnError}
         quality={quality}
         width={width}
