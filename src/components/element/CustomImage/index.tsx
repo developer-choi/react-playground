@@ -28,6 +28,12 @@ export interface CustomImageProps extends Omit<ImageProps, 'src'> {
   };
 }
 
+/**
+ * 모든 이미지 (아이콘 포함)에 대해 적용되야하는 공통로직을 적용함.
+ * <Video> 컴포넌트와 목적이 같음.
+ * 추후 next/image의 Image를 사용하게 될 수도있고,
+ * html의 기본 <img>를 사용하게 될 수도 있음.
+ */
 export default function CustomImage({ src, fallback, onError, quality = 100, width, height, className, ...rest }: CustomImageProps) {
   const [source, setSource] = useState({
     src,
@@ -81,13 +87,13 @@ export default function CustomImage({ src, fallback, onError, quality = 100, wid
     return fallback.element;
   }
 
-  // default 404
-  return <NotFoundImage width={width} height={height} className={className}/>
+  // 기본 엑박이미지 (주로 404 케이스)
+  return <DefaultReplaceImage width={width} height={height} className={className}/>
 }
 
-function NotFoundImage({width, height, className}: Pick<ImageProps, 'width' | 'height' | 'className'>) {
-  const paddingInline = (Number(width) - 64) / 2;
-  const paddingBlock = (Number(height) - 64) / 2;
+function DefaultReplaceImage({width, height, className}: Pick<ImageProps, 'width' | 'height' | 'className'>) {
+  const paddingInline = (Number(width) - DEFAULT_IMG_RADIUS) / 2;
+  const paddingBlock = (Number(height) - DEFAULT_IMG_RADIUS) / 2;
 
   /**
    * 보통 이 자리에 사이트 로고가 많이 쓰임.
@@ -99,3 +105,5 @@ function NotFoundImage({width, height, className}: Pick<ImageProps, 'width' | 'h
     <Image src={NextjsLogo} style={{paddingInline, paddingBlock}} className={classNames(styles.notFoundContainer, className)} width={width} height={height} alt="사이트 로고"/>
   );
 }
+
+const DEFAULT_IMG_RADIUS = 64;
