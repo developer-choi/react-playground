@@ -1,6 +1,6 @@
 'use client';
 
-import Image, {ImageProps} from 'next/image';
+import {ImageProps} from 'next/image';
 import styles from './page.module.scss';
 import {CSSProperties} from 'react';
 import CustomImage from '@/components/element/CustomImage';

@@ -94,6 +94,8 @@ interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
   next?: RequestInit['next'] & {
     tags?: (keyof typeof REVALIDATE_TAG)[]
   };
+
+  // cache ==> authorize 가 private이면, "기본" no-store로 설정됨. 로그인 해야만 얻을 수 있는 정보는 대부분 API 호출 시점에 최신화된 데이터가 필요한 경우가 많았음.
 }
 
 interface CustomFetchParameter extends ExtendedCustomFetchParameter {
@@ -107,7 +109,7 @@ async function customFetch(input: string | URL | globalThis.Request, parameter: 
 }
 
 function handleRequest(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
-  const {headers, session, authorize, body, query, ...init} = parameter;
+  const {headers, session, authorize, body, query, cache, ...rest} = parameter;
   const newHeaders = new Headers(headers);
 
   if (authorize === 'private' && !session) {
@@ -127,13 +129,16 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   let requestUrl = typeof input !== "string" || input.startsWith("http") ? input : `${process.env.NEXT_PUBLIC_ORIGIN}${input}`;
   requestUrl += stringifyQuery(query);
 
+  const init: RequestInit = {
+    headers: newHeaders,
+    body: typeof body === "object" ? JSON.stringify(body) : body,
+    cache: (cache === undefined && authorize === 'private') ? 'no-store' : cache,
+    ...rest
+  };
+
   return {
     input: requestUrl,
-    init: {
-      headers: newHeaders,
-      body: typeof body === "object" ? JSON.stringify(body) : body,
-      ...init
-    }
+    init
   };
 }
 
