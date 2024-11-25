@@ -17,7 +17,7 @@ export interface KeyboardShortcut {
  * @example (event, {key: 'A', specialKeys: ['ctrlKey']}) ==> Returns true if the user presses 'A' while holding the Control key (and not any other special keys like alt, meta, or shift).
  * @example (event, {key: 'Delete'}) ==> Returns true if the user presses the 'Delete' key without holding any special keys.
  */
-export function isMatchKeyboardEvent(event: Pick<KeyboardEvent, 'key' | SpecialKey>, shortcut: KeyboardShortcut): boolean {
+export function isMatchKeyboardShortcut(event: Pick<KeyboardEvent, 'key' | SpecialKey>, shortcut: KeyboardShortcut): boolean {
   if (event.key.toLowerCase() !== shortcut.key.toLowerCase()) {
     return false;
   }
@@ -34,7 +34,7 @@ export function isMatchKeyboardEvent(event: Pick<KeyboardEvent, 'key' | SpecialK
 export function useKeyboardShortcut(keyboardShortcut: KeyboardShortcut, callback: (event: KeyboardEvent) => void) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isMatchKeyboardEvent(event, keyboardShortcut)) {
+      if (!isMatchKeyboardShortcut(event, keyboardShortcut)) {
         return;
       }
 
