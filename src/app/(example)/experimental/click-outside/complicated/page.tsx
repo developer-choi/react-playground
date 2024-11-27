@@ -36,7 +36,9 @@ interface LayerContainerProp extends PropsWithChildren {
   message: string;
 }
 
-const LayerContainer = forwardRef<HTMLDivElement, LayerContainerProp>(function LayerContainer({children, visible, message}, ref) {
+const LayerContainer = forwardRef<HTMLDivElement, LayerContainerProp>(function LayerContainer(props, ref) {
+  const {children, visible, message} = props;
+
   return (
     <div className={styles.layerWrapper}>
       {children}

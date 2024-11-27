@@ -6,7 +6,9 @@ export interface SwitchProps extends ComponentPropsWithoutRef<"input"> {
   label?: string;
 }
 
-export default forwardRef<HTMLInputElement, SwitchProps>(function Switch({label, style, className, ...rest}, ref) {
+export default forwardRef<HTMLInputElement, SwitchProps>(function Switch(props, ref) {
+  const {label, style, className, ...rest} = props;
+
   return (
     <label className={styles.label}>
       <input ref={ref} type="checkbox" {...rest} />

@@ -8,7 +8,8 @@ export interface TextAreaProps extends ComponentPropsWithRef<"textarea">, Omit<F
   showCount?: boolean; // maxLength까지 같이 입력되야함.
 }
 
-export default forwardRef<HTMLTextAreaElement, TextAreaProps>(function TextArea({label, error, style, className, maxLength, showCount, onChange, onKeyDown, rows = 8, ...rest}, ref) {
+export default forwardRef<HTMLTextAreaElement, TextAreaProps>(function TextArea(props, ref) {
+  const {label, error, style, className, maxLength, showCount, onChange, onKeyDown, rows = 8, ...rest} = props;
   const [textCount, setTextCount] = useState('');
 
   const customChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
