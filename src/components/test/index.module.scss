@@ -1,3 +1,6 @@
+@use '/src/styles/test';
+@use '/src/styles/util';
+
 .box {
   display: flex;
   align-items: center;
@@ -18,4 +21,10 @@
   > a {
     text-decoration: underline;
   }
+}
+
+.bigSection {
+  @include test.crossBackground;
+  @include util.flexCenter;
+  padding-block: 144px;
 }

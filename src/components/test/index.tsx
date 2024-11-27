@@ -7,3 +7,9 @@ export function CenterRowBox({className, ...rest}: ComponentPropsWithoutRef<'div
     <div className={classNames(styles.box, className)} {...rest}/>
   );
 }
+
+export function BigSectionAtIntroduce({className, ...rest}: ComponentPropsWithoutRef<'section'>) {
+  return (
+    <section className={classNames(styles.bigSection, className)} {...rest}/>
+  );
+}
