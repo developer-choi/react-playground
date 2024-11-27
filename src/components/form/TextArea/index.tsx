@@ -1,12 +1,4 @@
-import {
-  ChangeEvent,
-  ComponentPropsWithRef,
-  ForwardedRef,
-  forwardRef,
-  KeyboardEvent,
-  useCallback,
-  useState
-} from 'react';
+import {ChangeEvent, ComponentPropsWithRef, forwardRef, KeyboardEvent, useCallback, useState} from 'react';
 import styles from './index.module.scss';
 import {FormElementWrapper, FormElementWrapperProps} from '@/components/form/form-elements';
 import classNames from 'classnames';
@@ -16,7 +8,7 @@ export interface TextAreaProps extends ComponentPropsWithRef<"textarea">, Omit<F
   showCount?: boolean; // maxLength까지 같이 입력되야함.
 }
 
-export default forwardRef(function TextArea({label, error, style, className, maxLength, showCount, onChange, onKeyDown, rows = 8, ...rest}: TextAreaProps, ref: ForwardedRef<HTMLTextAreaElement>) {
+export default forwardRef<HTMLTextAreaElement, TextAreaProps>(function TextArea({label, error, style, className, maxLength, showCount, onChange, onKeyDown, rows = 8, ...rest}, ref) {
   const [textCount, setTextCount] = useState('');
 
   const customChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {

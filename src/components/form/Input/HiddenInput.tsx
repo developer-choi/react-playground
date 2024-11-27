@@ -1,6 +1,8 @@
-import {ComponentPropsWithoutRef, ForwardedRef, forwardRef} from 'react';
+import {ComponentPropsWithoutRef, forwardRef} from 'react';
 
-export default forwardRef(function HiddenInput({style, ...rest}: ComponentPropsWithoutRef<'input'>, ref: ForwardedRef<HTMLInputElement>) {
+export type HiddenInputProps = ComponentPropsWithoutRef<'input'>;
+
+export default forwardRef<HTMLInputElement, HiddenInputProps>(function HiddenInput({style, ...rest}, ref) {
   return (
     <input ref={ref} style={{width: 0, height: 0, appearance: 'none', position: 'absolute', ...style}} {...rest}/>
   );

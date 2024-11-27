@@ -1,4 +1,4 @@
-import React, {ChangeEvent, ComponentPropsWithoutRef, ForwardedRef, forwardRef, useCallback} from 'react';
+import React, {ChangeEvent, ComponentPropsWithoutRef, forwardRef, useCallback} from 'react';
 import styles from './index.module.scss';
 import classNames from 'classnames';
 
@@ -24,7 +24,9 @@ export interface InputFileProps extends Omit<ComponentPropsWithoutRef<'input'>, 
  * 3. <input type file>은 container 너비만큼 늘어나지만, 겉으로는 보이지않고 이벤트는 받을 수 있음. (Click, Drag And Drop)
  * 셋다 예제 페이지 참고 (default 키워드에 키보드 커서 놓고 Ctrl G)
  */
-export default forwardRef<HTMLInputElement, InputFileProps>(function InputFile({onChangeFiles, children, className, style, ...rest}: InputFileProps, ref: ForwardedRef<HTMLInputElement>) {
+export default forwardRef<HTMLInputElement, InputFileProps>(function InputFile(props, ref) {
+  const {onChangeFiles, children, className, style, ...rest} = props;
+
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? []);
 
