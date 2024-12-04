@@ -25,7 +25,6 @@ export default withSentryConfig(withNextIntl(nextConfig), {
   org: 'choeyujin',
   project: 'react-playground',
   authToken: process.env.SENTRY_AUTH_TOKEN,
-  productionBrowserSourceMaps: true,
 
 // Only print logs for uploading source maps in CI
   silent: !process.env.CI,
