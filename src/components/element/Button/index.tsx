@@ -20,7 +20,7 @@ export interface ButtonProps extends Pick<ComponentPropsWithRef<'button'>, UsedP
   isSubmit?: boolean;
 }
 
-// Doc : https://docs.google.com/document/d/1aEHPwWUlT8nLpzuJwogzQerYawVbWIk8WCMRaxleDaI/edit
+// Doc: https://docs.google.com/document/d/1aEHPwWUlT8nLpzuJwogzQerYawVbWIk8WCMRaxleDaI/edit
 export default function Button(props: ButtonProps) {
   const {
     children,

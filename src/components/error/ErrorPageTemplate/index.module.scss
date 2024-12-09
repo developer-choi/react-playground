@@ -1,0 +1,19 @@
+@use '/src/styles/util';
+@use "/src/styles/design-system.module";
+
+.outerContainer {
+  position: fixed;
+  z-index: map-get(design-system.$zIndexes, errorPageTemplate);
+  @include util.absoluteFull;
+  display: flex;
+  background-color: white;
+}
+
+.innerContainer {
+  margin-block: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  white-space: pre-line;
+}
