@@ -33,9 +33,6 @@ export function useHandleClientSideError() {
       });
 
     } else {
-      // TODO 여기서 에러를 던져야하는데 별도 커스텀클래스에 우선순위는 제일높은걸로 던져야할거같음. 에러클래스 분리 어떻게 해야할지까지 결정되고나서 확정
-      // Sentry.captureException(error);
-      
       openAlertModal({
         title: '모달 제목',
         content: '해당 현상이 지속되면 고객센터로 문의 해주세요.',
