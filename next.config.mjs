@@ -18,6 +18,19 @@ const nextConfig = {
   },
 };
 
+/**
+ * Do you want to route Sentry requests in the browser through your Next.js server to avoid ad blockers?
+ * > No
+ *
+ * Do you want to enable React component annotations to make breadcrumbs and session replays more readable?
+ * > Yes
+ *
+ * Do you want to enable Tracing to track the performance of your application?
+ * > No
+ *
+ * Do you want to enable Sentry Session Replay to get a video-like reproduction of errors during a user session?
+ * > No
+ */
 export default withSentryConfig(withNextIntl(nextConfig), {
 // For all available options, see:
 // https://github.com/getsentry/sentry-webpack-plugin#options
@@ -27,7 +40,7 @@ export default withSentryConfig(withNextIntl(nextConfig), {
   authToken: process.env.SENTRY_AUTH_TOKEN,
 
 // Only print logs for uploading source maps in CI
-  silent: !process.env.CI,
+  silent: true,
 
 // For all available options, see:
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
@@ -44,7 +57,7 @@ export default withSentryConfig(withNextIntl(nextConfig), {
 // This can increase your server load as well as your hosting bill.
 // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
 // side errors will fail.
-  tunnelRoute: '/monitoring',
+// tunnelRoute: '/monitoring',
 
 // Hides source maps from generated client bundles
   hideSourceMaps: true,
