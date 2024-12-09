@@ -2,6 +2,7 @@
 
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
 import {ErrorPageProps} from '@/types/declaration/next';
+import {useSentryCaptureGlobalError} from '@/utils/extend/library/sentry';
 
 /**
  * Doc: https://docs.google.com/document/d/1ivBWX3Oxl8T0xh3kcKxCTsvhDQz6Kt-uHKR-9AO-hxU/edit?tab=t.0
@@ -11,7 +12,9 @@ import {ErrorPageProps} from '@/types/declaration/next';
  * 2. (service)/layout와 (service) 폴더를 제외한 나머지 페이지 (callback 페이지 등)에서 오류가 발생했을 때
  * 노출되는 (= 극히 드물게 보임) 에러페이지
  */
-export default function ErrorPage({}: ErrorPageProps) {
+export default function ErrorPage({error}: ErrorPageProps) {
+  useSentryCaptureGlobalError(error);
+
   // https://nextjs.org/docs/14/app/building-your-application/routing/error-handling#handling-errors-in-root-layouts
   // global-error.js is only enabled in production. In development, our error overlay will show instead.
   return (

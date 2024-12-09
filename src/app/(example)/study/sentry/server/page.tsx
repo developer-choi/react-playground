@@ -1,5 +1,6 @@
 export const revalidate = 0;
 
+// URL: http://localhost:3000/test/study/server
 export default function Page() {
   return (
     <div>

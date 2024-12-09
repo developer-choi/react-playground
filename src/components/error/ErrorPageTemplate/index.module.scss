@@ -2,9 +2,9 @@
 @use "/src/styles/design-system.module";
 
 .outerContainer {
+  @include util.absoluteFull;
   position: fixed;
   z-index: map-get(design-system.$zIndexes, errorPageTemplate);
-  @include util.absoluteFull;
   display: flex;
   background-color: white;
 }
