@@ -2,6 +2,7 @@ import {useCallback} from 'react';
 import {useOpenModal} from '@/utils/extend/modal';
 import {useRouter} from 'next/navigation';
 import {DEFAULT_HOME_URL, LoginError} from '@/utils/service/auth/redirect';
+import * as Sentry from "@sentry/nextjs";
 
 export function useHandleClientSideError() {
   const {openAlertModal} = useOpenModal();
@@ -34,7 +35,7 @@ export function useHandleClientSideError() {
 
     } else {
       // TODO 여기서 에러를 던져야하는데 별도 커스텀클래스에 우선순위는 제일높은걸로 던져야할거같음. 에러클래스 분리 어떻게 해야할지까지 결정되고나서 확정
-      // Sentry.captureException(error);
+      Sentry.captureException(error);
       
       openAlertModal({
         title: '모달 제목',
