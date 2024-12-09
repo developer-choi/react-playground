@@ -1,6 +1,8 @@
 import {getBoardListApi} from '@/utils/service/api/board';
 import SamePageRefreshClientList from '@/components/test/SamePageRefreshClientList';
 
+export const revalidate = 0;
+
 /**
  * URL: http://localhost:3000/staging/list/refresh/same-page
  * Doc: https://docs.google.com/document/d/1ir7P3J1WbsIrqa2vNQ1Co39QYmkV4ef6MHcluH6m90s/edit?tab=t.0
