@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+섹션이 있고
+좌측은 456px 고정에
+우측 이미지만 줄어들어야하는 상황을 만들어야하는데,
+bug 꺼는 왜 max-width 100%인데 안줄어드는지 모르겠음.
+
+저 이미지만 따로 div로 감싸고 그 안에 img를 넣으면 줄어들긴하는데...
+-->
+<section class="outer-container">
+  <div class="bug inner-container">
+    <div class="left">
+      <h1>Text</h1>
+      <p>text text text text</p>
+    </div>
+    <img src="https://picsum.photos/720/720" class="right">
+  </div>
+</section>
+<section class="outer-container">
+  <div class="resolve inner-container">
+    <div class="left">
+      <h1>Text</h1>
+      <p>text text text text</p>
+    </div>
+    <img src="https://picsum.photos/720/720" class="right">
+  </div>
+</section>
+<style>
+  .inner-container {
+    width: 1232px;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+  
+  .left {
+    flex-shrink: 0;
+  }
+  
+  .bug {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .bug > .left {
+    width: 456px;
+  }
+  
+  .resolve {
+    display: grid;
+    align-items: center;
+    gap: 24px;
+    grid-template-columns: 456px 1fr;
+  }
+  
+  .right {
+    max-width: 100%;
+  }
+</style>
+</body>
+</html>
