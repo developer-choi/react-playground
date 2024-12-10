@@ -1,6 +1,6 @@
 'use client';
 
-import {ComponentPropsWithoutRef, CSSProperties, forwardRef, useRef, useState} from 'react';
+import {ComponentPropsWithoutRef, CSSProperties, forwardRef, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import styles from './index.module.scss';
 import {useShowOnViewport} from '@/utils/extend/browser/intersection-observer';
@@ -62,27 +62,36 @@ export default Video;
  */
 export type LazyVideoProps = VideoProps & {
   id: string;
+  autoPlayOnViewport?: boolean;
 };
 
-export function LazyVideo({id, src, ...rest}: LazyVideoProps) {
-  const containerRef = useRef<HTMLVideoElement>(null);
+export function LazyVideo({id, src, autoPlayOnViewport = true, ...rest}: LazyVideoProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [loaded, setLoaded] = useState(false);
+  const [onViewport, setOnViewport] = useState(false);
 
   // 이부분을 LW에서는 scroll 기반으로 viewport에 올라왔는지 체크하던데, 난 이걸로 바꿨음.
   useShowOnViewport({
     elementsSelector: `#${id}`,
     callback: function () {
-      containerRef.current?.classList.add('on-viewport');
+      console.log('on-viewport');
       setLoaded(true);
+      setOnViewport(true);
+    },
+    outViewportCallback: () => {
+      console.log('out-viewport');
+      setOnViewport(false);
     },
     offset: 500
   });
 
-  if (!loaded) {
-    return <Video ref={containerRef} id={id} {...rest}/>
-  }
+  useEffect(() => {
+    if (onViewport) {
+      videoRef.current?.play();
+    }
+  }, [onViewport]);
 
   return (
-    <Video ref={containerRef} id={id} src={src} {...rest}/>
+    <Video id={id} className={classNames({['on-viewport']: loaded})} src={loaded ? src : undefined} {...rest}/>
   );
 }
