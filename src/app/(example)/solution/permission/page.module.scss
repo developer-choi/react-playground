@@ -1,0 +1,32 @@
+@use "/src/styles/color";
+
+.wrap {
+  width: 200px;
+}
+
+.accordion {
+  .parent, .sub {
+    padding: 12px;
+    cursor: pointer;
+  }
+  
+  .parent {
+    background: map-get(color.$brandColors, primary);
+    border: 3px solid map-get(color.$brandColors, primary);
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .parent:hover {
+    background: white;
+  }
+  
+  .sub {
+    padding-left: 30px;
+  }
+  
+  .sub:hover {
+    text-decoration: underline;
+    font-weight: bold;
+  }
+}
