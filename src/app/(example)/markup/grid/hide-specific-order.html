@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+https://docs.google.com/document/d/1JHgSScl5iTJDbJ3BMRPXCVxRWooWGmW6ipskxvZOhws/edit?tab=t.0
+
+목표 = 아이템을 n번째 부터 화면에 안나오게 하기
+
+(js) 기능에 의해 리스트의 갯수를 조절해서 n번째 부터 안나오게 해야하는 경우라면 js로 직접 리스트 데이터를 필터링했을텐데,
+
+오로지 스크린 사이즈 기준으로 노출 갯수를 정하는 경우 (소개 페이지) js로 이걸 하기가 마땅하지않았음.
+useEffect로 스크린 사이즈 얻어와서 state를 조절하는건 마땅치않으니까.
+
+그래서 container의 높이값을 item의 height x rows 갯수 x gap간격 x 갯수만큼 곱해서 고정시키고 overflow hidden 했었는데,
+그게 너무 번거로워서 이런 방법을 찾아냈음.
+
+-->
+<div class="container">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+  <div class="item">4</div>
+  <div class="item">5</div>
+  <div class="item">6</div>
+  <div class="item">7</div>
+  <div class="item">8</div>
+  <div class="item">9</div>
+</div>
+<div id="next">Next Element</div>
+<style>
+  #next {
+    background-color: blue;
+    width: fit-content;
+  }
+  
+  .container {
+    display: grid;
+    grid-template-columns: repeat(2, 100px);
+    grid-template-rows: repeat(2, 200px);
+    gap: 24px;
+  }
+  
+  .item {
+    background-color: red;
+  }
+  
+  .item:nth-of-type(n+5) {
+    display: none;
+  }
+</style>
+</body>
+</html>
