@@ -1,7 +1,7 @@
 // resources
-export type B2bResource = 'notice' | 'notice.student' | 'notice.teacher';
+export type NoticeResource = 'notice' | 'notice.student' | 'notice.teacher';
 export type DashboardResource = 'dashboard' | 'dashboard.community' | 'dashboard.payment'
-export type Resource = B2bResource | DashboardResource;
+export type Resource = NoticeResource | DashboardResource;
 
 // actions
 export type ReadAction = 'READ';
