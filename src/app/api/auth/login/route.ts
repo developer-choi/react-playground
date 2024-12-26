@@ -25,7 +25,8 @@ export async function POST(request: NextRequest) {
       email,
       name: 'somename',
       access_token: '[access_token_value]',
-      code: SUCCESS_LOGIN_CODE.SUCCESS
+      code: SUCCESS_LOGIN_CODE.SUCCESS,
+      grantedPermissions: ['DASHBOARD.COMMUNITY:ALL', 'NOTICE.TEACHER:ALL'],
     };
 
     return Response.json(response);

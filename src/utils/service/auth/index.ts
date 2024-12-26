@@ -18,12 +18,13 @@ export const {handlers, signOut, auth} = NextAuth({
   providers: [
     Credentials({
       authorize: async (credentials) => {
-        const {email, access_token, name, member_id} = credentials;
+        const {email, access_token, name, member_id, grantedPermissions} = credentials;
         return {
           email: email as string,
           access_token: access_token as string,
           name: name as string,
           member_id: member_id as number,
+          grantedPermissions: grantedPermissions as string
         };
       },
     })

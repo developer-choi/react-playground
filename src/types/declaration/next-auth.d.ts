@@ -5,6 +5,7 @@ export declare module 'next-auth' {
   interface User {
     member_id: number;
     access_token: string;
+    grantedPermissions: string; // Permission들이 comma로 연결됨 (쿠키에는 배열이 저장이 안됨)
     // email: string;
     // name: string;
     // id: string;

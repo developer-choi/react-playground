@@ -1,3 +1,5 @@
+import {Permission} from '@/utils/extend/permission';
+
 /*************************************************************************************************************
  * Login
  *************************************************************************************************************/
@@ -12,6 +14,7 @@ export interface LoginApiResponse {
   name: string;
   access_token: string;
   code: SuccessLoginCode;
+  grantedPermissions: Permission[];
 }
 
 export interface LoginApiFailResponse {
