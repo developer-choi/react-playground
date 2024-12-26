@@ -1,6 +1,8 @@
 import DeleteTemporaryData from '@/components/DeleteTemporaryData';
 import {getTemporaryDataApi} from '@/utils/service/api/temporary';
+import {handleServerSideError} from '@/utils/service/error/server-side';
 
+// 꼭 미로그인 상태로 접근해야함.
 // URL: http://localhost:3000/guest/signup/success
 // Doc: https://docs.google.com/document/d/11KFXo5bfNYhSwa9EgxIinmnHGv9dCivwipBUc0D0pFY/edit
 export default async function Page() {
@@ -14,11 +16,6 @@ export default async function Page() {
       </>
     );
   } catch (error: any) {
-    if (error.status === 404) {
-      console.log(error.status);
-      return <div>잘못된 접근임 ㅅㄱ</div>;
-    } else {
-      throw error;
-    }
+    return handleServerSideError(error);
   }
 }
