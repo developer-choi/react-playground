@@ -1,7 +1,6 @@
 import {getRequestConfig} from 'next-intl/server';
 import {isServer} from '@/utils/extend/library/next';
 import {handleIntlError} from '@/utils/service/i18n/handleIntlError';
-import {customFetchOnServerSide} from '@/utils/extend/library/fetch';
 
 // https://next-intl-docs.vercel.app/docs/getting-started/app-router/without-i18n-routing
 // https://next-intl-docs.vercel.app/docs/environments/server-client-components#non-serializable-props
@@ -20,14 +19,17 @@ export interface Locale {
 }
 
 export async function getUserLocale(): Promise<Locale> {
-  try {
-    const { json } = await customFetchOnServerSide('/member', {authorize: 'private', method: 'GET'});
-    return {
-      short: json.user.langauge
-    };
-  } catch (error: any) {
-    return {
-      short: 'en'
-    };
-  }
+  // try {
+    // const { json } = await customFetchOnServerSide('/member', {authorize: 'private', method: 'GET'});
+    // return {
+    //   short: json.user.langauge
+    // };
+  // } catch (error: any) {
+  //   return {
+  //     short: 'en'
+  //   };
+  // }
+  return {
+    short: 'en'
+  };
 }

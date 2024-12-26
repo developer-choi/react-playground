@@ -4,8 +4,9 @@ import {redirect} from 'next/navigation';
 import {LoginError} from '@/utils/service/auth/redirect';
 import {auth} from '@/utils/service/auth';
 import {isServer} from '@/utils/extend/library/next';
-import {InvalidEnvironmentError} from '@/utils/service/error/both-side';
+import {ServicePermissionDeniedError, InvalidEnvironmentError} from '@/utils/service/error/both-side';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
+import {hasPermission, parsePermissionsinSession, Permission} from '@/utils/extend/permission';
 
 /** customFetchOnXXXSide() 공통 주석
  * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
@@ -91,6 +92,14 @@ interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
    */
   authorize: 'private' | 'public' | 'none' | 'guest';
 
+  /**
+   * 권한이 필요한 API를 호출하기 직전에, 로그인 한 유저의 권한이 충분한지 체크. (API 호출 '전'에 체크)
+   * 각각의 환경에 따라, 처리가 달라짐.
+   * 1. Client Side에서는 모달이 뜨고 끝남
+   * 2. Server Side에서는 403 에러페이지가 노출됨.
+   */
+  permission?: Permission;
+
   next?: RequestInit['next'] & {
     tags?: (keyof typeof REVALIDATE_TAG)[]
   };
@@ -105,11 +114,11 @@ interface CustomFetchParameter extends ExtendedCustomFetchParameter {
 async function customFetch(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
   const request = handleRequest(input, parameter);
   const response = await fetch(request.input, request.init);
-  return handleResponse(response);
+  return handleResponse(response, request.permission);
 }
 
 function handleRequest(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
-  const {headers, session, authorize, body, query, cache, ...rest} = parameter;
+  const {headers, session, authorize, body, query, cache, permission, ...rest} = parameter;
   const newHeaders = new Headers(headers);
 
   if (authorize === 'private' && !session) {
@@ -118,6 +127,18 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   } else if (authorize !== 'none' && session) {
     // access token 대신
     newHeaders.set("access-token'", session.user.access_token);
+  }
+
+  const grantedPermissions = !session ? [] : parsePermissionsinSession(session.user.grantedPermissions);
+
+  if(permission) {
+    if (!session) {
+      throw LOGIN_ERROR; // 로그인을 하지 않은 상태로 권한이 필요한 API를 호출할 수 없음.
+    }
+
+    if(!hasPermission(permission, grantedPermissions)) {
+      throw new ServicePermissionDeniedError(permission, grantedPermissions);
+    }
   }
 
   // GET의 경우에는 없고, 그 외 나머지는 JSON이 될 수도, Primitive일 수도 있음.
@@ -138,11 +159,15 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
 
   return {
     input: requestUrl,
-    init
+    init,
+    permission: {
+      request: permission,
+      granted: grantedPermissions
+    }
   };
 }
 
-async function handleResponse(response: Response) {
+async function handleResponse(response: Response, permission: {request: Permission | undefined, granted: Permission[]}) {
   const contentType = response.headers.get("Content-Type");
   let json = {};
   let text = '';
@@ -163,8 +188,13 @@ async function handleResponse(response: Response) {
 
   if (response.ok) {
     return customResponse;
+
+  } else if (response.status === 403) {
+    throw new ServicePermissionDeniedError(permission.request, permission.granted);
+
   } else if (response.status === 401) {
     throw LOGIN_ERROR;
+
   } else {
     console.error(customResponse);
     return Promise.reject(customResponse);

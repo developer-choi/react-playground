@@ -12,6 +12,10 @@ export function hasPermission(request: Permission, granted: Permission[]) {
   return granted.some(granted => comparePermission(request, granted));
 }
 
+export function parsePermissionsinSession(permissions: string): Permission[] {
+  return permissions.split(',') as Permission[];
+}
+
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
@@ -77,6 +81,6 @@ function isActionAllowed(request: Action, grantedAction: Action) {
 // 권한 구분자는 콜론으로 하기로 협의됨.
 type PermissionSeparator = ':';
 const Permission_Separator: PermissionSeparator = ':';
-function parsePermission(permission: Permission) {
+function parsePermission(permission: Permission): [Resource, Action] {
   return permission.split(Permission_Separator) as [Resource, Action];
 }

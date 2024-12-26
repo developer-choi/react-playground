@@ -1,3 +1,5 @@
+import {Permission} from '@/utils/extend/permission';
+
 /**
  * 공통: 런타임 에러
  * 1. 다양한 query-string이 있는 웹페이지에서 URL로 부터 query-string 유효성검증 하다가 잘못된 값이 있을 때
@@ -30,5 +32,27 @@ export class ValidateError extends Error {
 export class InvalidEnvironmentError extends Error {
   constructor(message: string) {
     super(message);
+  }
+}
+
+/**
+ * API를 호출할 때 권한이 필요한데,
+ * 유저의 권한이 부족한 경우 발생.
+ *
+ * API를 호출하기 직전에 체크해서 throw 될 수도 있고,
+ * API에서 403이 응답된 경우에도 이 에러로 감싸짐.
+ */
+export class ServicePermissionDeniedError extends Error {
+  request: Permission | undefined;
+  granted: Permission[];
+
+  constructor(request: Permission | undefined, granted: Permission[]) {
+    super('권한이 부족합니다.');
+    this.request = request;
+    this.granted = granted;
+  }
+
+  getMessageTemplate() {
+    return `Requested = ${this.request}\nGranted = ${this.granted.join(', ')}`;
   }
 }

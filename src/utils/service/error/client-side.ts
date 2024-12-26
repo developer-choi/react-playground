@@ -3,6 +3,7 @@ import {useOpenModal} from '@/utils/extend/modal';
 import {useRouter} from 'next/navigation';
 import {DEFAULT_HOME_URL, LoginError} from '@/utils/service/auth/redirect';
 import * as Sentry from "@sentry/nextjs";
+import {ServicePermissionDeniedError} from '@/utils/service/error/both-side';
 
 export function useHandleClientSideError() {
   const {openAlertModal} = useOpenModal();
@@ -11,6 +12,12 @@ export function useHandleClientSideError() {
   return useCallback(async (error: any) => {
     if (error instanceof GuestError) {
       replace(DEFAULT_HOME_URL);
+
+    } else if(error instanceof ServicePermissionDeniedError) {
+      openAlertModal({
+        title: '권한 오류',
+        content: error.getMessageTemplate(),
+      });
 
     } else if(error instanceof LoginError) {
       /** TODO

@@ -5,7 +5,7 @@ import {Collapse} from 'react-collapse';
 import {useToggle} from '@/utils/extend/library/react';
 import styles from './page.module.scss';
 
-// URL: http://localhost:3000/solution/permission
+// URL: http://localhost:3000/solution/permission/sidebar
 // Doc: [Permission Algorithm] https://docs.google.com/document/d/1Adprw6cjDQh2suSOCBuD2UuH6sIZjbyHa-w5sk9gDWs/edit?tab=t.0
 export default function Page() {
   // 로그인 성공했을 때 받아와서 next-auth 세션에 집어넣고, Server Side 혹은 Client Side에서 체크하면됨.
