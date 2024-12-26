@@ -10,8 +10,8 @@ import styles from './page.module.scss';
 export default function Page() {
   // 로그인 성공했을 때 받아와서 next-auth 세션에 집어넣고, Server Side 혹은 Client Side에서 체크하면됨.
   const userPermissions: Permission[] = [
-    'notice:ALL',
-    'dashboard:ALL'
+    'NOTICE:ALL',
+    'DASHBOARD:ALL'
   ];
 
   const sidebarLinks = getAvailableSidebarLinks(INITIAL_SIDEBAR_LINKS, userPermissions);
@@ -47,12 +47,12 @@ const NOTICE: SidebarLink = {
     {
       name: '선생님',
       href: '/notice/teacher',
-      permission: 'notice.teacher:READ'
+      permission: 'NOTICE.TEACHER:READ'
     },
     {
       name: '학생',
       href: '/notice/student',
-      permission: 'notice.student:READ'
+      permission: 'NOTICE.STUDENT:READ'
     },
   ],
 };
@@ -63,12 +63,12 @@ const DASHBOARD: SidebarLink = {
     {
       name: '결제',
       href: '/dashboard/payment',
-      permission: 'dashboard.payment:READ'
+      permission: 'DASHBOARD.PAYMENT:READ'
     },
     {
       name: '커뮤니티',
       href: '/dashboard/community',
-      permission: 'dashboard.community:READ'
+      permission: 'DASHBOARD.COMMUNITY:READ'
     },
   ],
 };
@@ -80,12 +80,12 @@ const SHORTCUTS: SidebarLink = {
     {
       name: '결제',
       href: '/dashboard/payment',
-      permission: 'dashboard.payment:READ'
+      permission: 'DASHBOARD.PAYMENT:READ'
     },
     {
       name: '선생님',
       href: '/notice/teacher',
-      permission: 'notice.teacher:READ'
+      permission: 'NOTICE.TEACHER:READ'
     },
     // 권한 계층구조가 3뎁스 4뎁스 까지 있어도, 사이드바는 2뎁스로 다 펼쳐서 뿌려도 아무런 문제가 없음.
     // {

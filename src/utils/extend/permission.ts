@@ -1,7 +1,4 @@
-// resources
-export type NoticeResource = 'notice' | 'notice.student' | 'notice.teacher';
-export type DashboardResource = 'dashboard' | 'dashboard.community' | 'dashboard.payment'
-export type Resource = NoticeResource | DashboardResource;
+export type Resource = FlatPermissionResource<ResourceObject>;
 
 // actions
 export type ReadAction = 'READ';
@@ -18,6 +15,25 @@ export function hasPermission(request: Permission, granted: Permission[]) {
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
+interface ResourceObject {
+  NOTICE: {
+    STUDENT: string;
+    TEACHER: string;
+  };
+  DASHBOARD: {
+    COMMUNITY: string;
+    PAYMENT: string;
+  };
+}
+
+// 권한을 객체로 정의한걸 일렬로 펴기위한 유틸리티 타입
+type FlatPermissionResource<T, Prefix extends string = ''> = {
+  [K in keyof T]:
+  T[K] extends string
+    ? `${Prefix}${K & string}` // 현재 키를 문자열로 추가
+    : `${Prefix}${K & string}` | FlatPermissionResource<T[K], `${Prefix}${K & string}.`>; // 하위 객체 처리
+}[keyof T];
+
 /**
  * @param request 확인하려고 하는 권한
  * @param granted 가지고있는 권한 (request와 리소스가 같거나 더 높아야함.)
