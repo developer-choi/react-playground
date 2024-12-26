@@ -34,28 +34,27 @@ export default function Button(props: ButtonProps) {
     onClick,
     ...rest
   } = props;
-  const _loading = typeof loading === 'boolean' ? loading : false; // TODO 다양한 로딩 타입으로 계산
 
   const customOnClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
-    if (_loading) {
+    if (loading) {
       return;
     }
 
     onClick?.(event);
-  }, [_loading, onClick]);
+  }, [loading, onClick]);
 
   return (
     <button
       type={type}
-      className={classNames(styles.button, {[styles.loading]: _loading}, styles[size], styles[color], styles[variant], {
+      className={classNames(styles.button, {[styles.loading]: loading}, styles[size], styles[color], styles[variant], {
         [styles.submit]: isSubmit,
         className
       })}
       onClick={customOnClick}
       {...rest}
     >
-      <div className={classNames(styles.childrenContainer, {[styles.loading]: _loading})}>{children}</div>
-      {!_loading ? null : <LoadingSpinner className={styles.loadingSpinner} square={LINE_HEIGHT_BY_SIZE[size]}/>}
+      <div className={classNames(styles.childrenContainer, {[styles.loading]: loading})}>{children}</div>
+      {!loading ? null : <LoadingSpinner className={styles.loadingSpinner} square={LINE_HEIGHT_BY_SIZE[size]}/>}
     </button>
   );
 }

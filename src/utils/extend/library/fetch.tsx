@@ -68,10 +68,6 @@ export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'u
   text: string | '';
 }
 
-/** customFetchOnXXXSide() 공통 주석
- * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
- */
-
 export const REVALIDATE_TAG = {
   boardList: 'board-list'
 };
@@ -111,6 +107,9 @@ interface CustomFetchParameter extends ExtendedCustomFetchParameter {
   session: Session | null;
 }
 
+/** customFetch() 공통 주석
+ * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
+ */
 async function customFetch(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
   const request = handleRequest(input, parameter);
   const response = await fetch(request.input, request.init);
@@ -146,7 +145,6 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
     newHeaders.set("Content-Type", "application/json");
   }
 
-  // TODO URL 앞에 env로 개발환경 / 운영환경 셋팅하는부분은 추후 추가
   let requestUrl = typeof input !== "string" || input.startsWith("http") ? input : `${process.env.NEXT_PUBLIC_ORIGIN}${input}`;
   requestUrl += stringifyQuery(query);
 
