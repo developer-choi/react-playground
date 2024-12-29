@@ -13,7 +13,8 @@ $layout: (
  * @size large, medium, small, xsmall
  */
 @mixin horizontalWidthContainer($size) {
-  width: calc(map-get($layout, $size));
+  width: 100%;
+  max-width: calc(map-get($layout, $size));
   margin: 0 auto;
 }
 

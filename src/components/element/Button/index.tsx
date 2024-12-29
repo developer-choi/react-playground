@@ -47,7 +47,7 @@ export default function Button(props: ButtonProps) {
     <button
       type={type}
       className={classNames(styles.button, {[styles.loading]: loading}, styles[size], styles[color], styles[variant], {
-        [styles.submit]: isSubmit,
+        submit: isSubmit,
         className
       })}
       onClick={customOnClick}

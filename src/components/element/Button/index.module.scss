@@ -20,17 +20,17 @@
 @mixin textByButtonSize($size) {
   $style: (
     large: (
-      padding: 11px,
+      padding: 11px 33px,
       font-size: 16px,
       line-height: 24px
     ),
     medium: (
-      padding: 9px 11px,
+      padding: 9px 27px,
       font-size: 14px,
       line-height: 20px
     ),
     small: (
-      padding: 3px 5px,
+      padding: 3px 9px,
       font-size: 12px,
       line-height: 16px
     ),
@@ -48,7 +48,7 @@
   border: {
     width: 1px;
     style: solid;
-    radius: 4px;
+    radius: 2px;
   }
   @each $size in large, medium, small {
     &.#{$size} {
@@ -118,9 +118,13 @@
   position: relative; // 로딩을 absolute로 만들기 위해
   
   // [Button (Markup)] https://docs.google.com/document/d/1aEHPwWUlT8nLpzuJwogzQerYawVbWIk8WCMRaxleDaI/edit
-  &.submit {
+  &:global(.submit) {
     width: 100%;
     margin-top: 24px;
+  }
+  
+  &:global(.full) {
+    width: 100%;
   }
 }
 
