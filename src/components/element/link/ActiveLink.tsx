@@ -5,8 +5,9 @@ import {LinkProps} from 'next/link';
 import classNames from 'classnames';
 import {usePathname, useSearchParams} from 'next/navigation';
 import CustomLink, {CustomLinkProps} from '@/components/element/link/CustomLink';
+import {doesUrlMatchPathAndQuery} from '@/utils/extend/browser/query-string/convert';
 
-export type LinkActiveMode = 'startsWith' | 'exact';
+export type LinkActiveMode = 'startsWith' | 'exact' | 'manual';
 
 export interface ActiveLinkProps extends CustomLinkProps {
   /**
@@ -20,6 +21,7 @@ export interface ActiveLinkProps extends CustomLinkProps {
    * Usage는, /same/path?query=anotherValue 처럼 링크마다 쿼리스트링만 다른 케이스에서 사용
    */
   mode: LinkActiveMode;
+  active?: boolean; // mode가 manual인 경우에 사용
 }
 
 /**
@@ -38,18 +40,34 @@ export default function ActiveLink(props: ActiveLinkProps) {
  * href는 "?query=value"와 "/current/path?query=value" 모두 지원함.
  * 이거 export하면 가끔 쓸일 있음 (/mobile-footer 하위 페이지 참고)
  */
-export function useCheckHrefIsActive(href: LinkProps['href'], mode: LinkActiveMode): 'active' | undefined {
+export function useCheckHrefIsActive(href: LinkProps['href'], mode: LinkActiveMode, active?: boolean): 'active' | undefined {
   const currentPathname = usePathname();
   const searchParams = useSearchParams();
 
   const stringHref = convertHrefToString(href);
+
+  /**
+   * /path1/path2/path?query=value 대신에
+   * ?query=value 도 대응될 수 있도록 하기위함.
+   */
   const nextUrl = stringHref.startsWith('/') ? stringHref : currentPathname + stringHref;
   const nextPathname = nextUrl.split('?')[0];
 
-  const isActive = mode === 'exact'
-    ? nextUrl === currentPathname + (searchParams.size === 0 ? '' : '?' + searchParams.toString())
-    // /fruit-fake/sub와 /fruit/sub를 구분하기 위한 코드. 그냥 바로 startWith로 체크하면 /fruit이나 /fruit-fake나 둘 다 active가 됨.
-    : currentPathname === nextPathname ? true : currentPathname.startsWith(`${nextPathname}/`);
+  let isActive = false;
+
+  switch (mode) {
+    case 'manual':
+      isActive = !!active;
+      break;
+    case 'exact': {
+      // console.log(encodeURIComponent(nextUrl).replaceAll('%20', '+'), searchParams.toString());
+      isActive = doesUrlMatchPathAndQuery(nextUrl, currentPathname, searchParams);
+      break;
+    }
+    case 'startsWith':
+      isActive = currentPathname === nextPathname ? true : currentPathname.startsWith(`${nextPathname}/`);
+      break;
+  }
 
   if (isActive) {
     return 'active';
@@ -61,8 +79,8 @@ export function useCheckHrefIsActive(href: LinkProps['href'], mode: LinkActiveMo
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
-function InnerLink({ className, href, mode, ...rest }: ActiveLinkProps) {
-  const activeClass = useCheckHrefIsActive(href, mode);
+function InnerLink({ className, href, mode, active, ...rest }: ActiveLinkProps) {
+  const activeClass = useCheckHrefIsActive(href, mode, active);
   return <CustomLink href={href} className={classNames(className, activeClass)} {...rest} />;
 }
 

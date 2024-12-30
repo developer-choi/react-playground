@@ -1,5 +1,7 @@
-import styles from './page.module.scss';
+import styles from '@/app/(example)/markup/module/active-link/[...path]/page.module.scss';
 import ActiveLink from '@/components/element/link/ActiveLink';
+import React from 'react';
+import {H2} from '@/components/element/typography';
 
 /**
  * URL : http://localhost:3000/markup/module/active-link/community
@@ -9,20 +11,61 @@ import ActiveLink from '@/components/element/link/ActiveLink';
 export default function Page() {
   return (
     <>
-      <div className={styles.simpleTab}>
-        <ActiveLink className={styles.link} href={`${prefixPath}/community`} mode="startsWith">Community</ActiveLink>
-        <ActiveLink className={styles.link} href={`${prefixPath}/mypage`} mode="startsWith">Mypage</ActiveLink>
+      <div>
+        <H2>startsWith mode 1</H2>
+        <div className={styles.simpleTab}>
+          <ActiveLink className={styles.link} href={`${prefixPath}/community`} mode="startsWith">Community</ActiveLink>
+          <ActiveLink className={styles.link} href={`${prefixPath}/mypage`} mode="startsWith">Mypage</ActiveLink>
+        </div>
+        <ActiveLink className={styles.link} href={`${prefixPath}/community/free-board/1`} mode="startsWith">Community 하위</ActiveLink>
+        <ActiveLink className={styles.link} href={`${prefixPath}/mypage/change-password`} mode="startsWith">Mypage 하위</ActiveLink>
       </div>
 
-      <ActiveLink href={`${prefixPath}/community/free-board/1`} mode="startsWith">Community 하위</ActiveLink>
-      <ActiveLink href={`${prefixPath}/mypage/change-password`} mode="startsWith">Mypage 하위</ActiveLink>
+      <div>
+        <H2>exact mode 1</H2>
+        <div className={styles.simpleTab}>
+          <ActiveLink className={styles.link} href={`${boardListHref}?sort=desc`} mode="exact">desc</ActiveLink>
+          <ActiveLink className={styles.link} href={`${boardListHref}?sort=asc`} mode="exact">asc</ActiveLink>
+        </div>
+      </div>
 
       <div>
-        <ActiveLink href="?sort=desc" mode="startsWith">Desc</ActiveLink>
-        <ActiveLink href="?sort=asc" mode="startsWith">Asc</ActiveLink>
+        <H2>exact mode 2</H2>
+        <div className={styles.simpleTab}>
+          <ActiveLink className={styles.link} href="?sort=desc" mode="exact">desc</ActiveLink>
+          <ActiveLink className={styles.link} href="?sort=asc" mode="exact">asc</ActiveLink>
+        </div>
+      </div>
+
+      <div>
+        <H2>Manual</H2>
+        <ActiveLink className={styles.link} href="?sort=desc" mode="manual" active>desc</ActiveLink>
+        <ActiveLink className={styles.link} href="?sort=asc" mode="manual">asc</ActiveLink>
+      </div>
+      <div>
+        <H2>Special Character</H2>
+        {SEARCH.map(search => (
+          <ActiveLink key={search} className={styles.link} href={`?search=${search}`} mode="exact">{search}</ActiveLink>
+        ))}
       </div>
     </>
   );
 }
 
 const prefixPath = '/markup/module/active-link';
+
+const boardListHref = '/markup/module/active-link/exact';
+
+/** 들어가면 안되는거 (문법오류)
+ * # (해쉬)
+ * % (특수문자 인코딩할 때 쓰는 값)
+ * & (쿼리스트링 간에 구분할 때 쓰는 값)
+ */
+const SEARCH = [
+  'english',
+  '사이 공백',
+  'between blank',
+  'p+lus',
+  'specialcharacter',
+  '`s!p@e$c^i*a(l)c-h_a+r|a[c]t{e}r<>,./?'
+];

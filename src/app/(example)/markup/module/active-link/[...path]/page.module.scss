@@ -3,6 +3,8 @@
   color: inherit;
   text-underline: none;
   background-color: whitesmoke;
+  line-height: 28px;
+  margin-inline: 4px;
   
   &:global(.active) {
     background-color: red;
@@ -15,7 +17,7 @@
 .simpleTab {
   display: flex;
   > * {
-    width: 200px;
+    width: 120px;
     height: 40px;
     
     display: flex;
