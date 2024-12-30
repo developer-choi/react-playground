@@ -128,7 +128,7 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
     newHeaders.set("access-token'", session.user.access_token);
   }
 
-  const grantedPermissions = !session ? [] : parsePermissionsinSession(session.user.grantedPermissions);
+  const grantedPermissions = (!permission || !session) ? [] : parsePermissionsinSession(session.user.grantedPermissions);
 
   if(permission) {
     if (!session) {
