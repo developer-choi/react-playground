@@ -17,12 +17,12 @@ export default function SamePageRefreshClientList({list}: SamePageRefreshClientL
       title: `(created) - ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`,
       type: 'free'
     });
-    await revalidateTagOnServerAction('boardList');
+    await revalidateTagOnServerAction('board-list');
   }, []);
 
   const deleteBoard = useCallback(async (pk: number) => {
     await deleteBoardApi(pk);
-    await revalidateTagOnServerAction('boardList');
+    await revalidateTagOnServerAction('board-list');
   }, []);
 
   const patchBoard = useCallback(async (pk: number) => {
@@ -31,7 +31,7 @@ export default function SamePageRefreshClientList({list}: SamePageRefreshClientL
       title: `(modified) - ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`,
       type: 'gallery'
     });
-    await revalidateTagOnServerAction('boardList');
+    await revalidateTagOnServerAction('board-list');
   }, []);
 
   return (

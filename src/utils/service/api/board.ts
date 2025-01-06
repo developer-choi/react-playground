@@ -47,7 +47,7 @@ export async function getBoardListApi(filter?: BoardRow['type']) {
   const {json: {list, currentTime}} = await customFetchOnBothSide(`/api/board`, {
     method: 'GET',
     next: {
-      tags: ['boardList'],
+      tags: ['board-list'],
     },
     query: {
       filter
