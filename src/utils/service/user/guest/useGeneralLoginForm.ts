@@ -25,7 +25,7 @@ export default function useGeneralLoginForm() {
   });
 
   const onError: SubmitErrorHandler<LoginFormData> = useCallback(errors => {
-    alert(JSON.stringify(errors));
+    console.error(errors);
   }, []);
 
   const login = useLogin();

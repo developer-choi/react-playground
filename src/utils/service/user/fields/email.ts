@@ -1,5 +1,6 @@
 import {FieldErrors, FieldPath, FieldValues, RegisterOptions, UseFormRegister} from 'react-hook-form';
 import {InputProps} from '@/components/form/Input';
+import get from 'lodash/get';
 
 export interface UserInputParam<T extends FieldValues> {
   name: FieldPath<T>;
@@ -24,7 +25,6 @@ export function getEmailInputProps<T extends FieldValues>(param: UserInputParam<
   const { register, name, options, errors } = param;
 
   const { validate, ...rest } = options ?? {};
-  const error = errors[name];
 
   return {
     ...register(name, {
@@ -44,7 +44,7 @@ export function getEmailInputProps<T extends FieldValues>(param: UserInputParam<
     }),
     type: 'email',
     label: TEXT.label,
-    error: error?.message as string | undefined,
+    error: get(errors, name)?.message as string | undefined,
     placeholder: TEXT.placeholder,
   };
 }

@@ -1,6 +1,7 @@
 import {FieldPath, FieldValues, UseFormReturn} from 'react-hook-form';
 import {UserInputParam} from '@/utils/service/user/fields/email';
 import {PasswordInputProps} from '@/components/form/Input/PasswordInput';
+import get from 'lodash/get';
 
 /**
  * Doc : https://docs.google.com/document/d/1YpwgJ2PoG2MfD6S9NDppZUGUgG_71UxbsGNXARkFGiE/edit?pli=1#heading=h.928v2tsf8s16
@@ -25,7 +26,7 @@ export function getPurePasswordInputProps<T extends FieldValues>({name, options,
     }),
     label: TEXT.label,
     placeholder: TEXT.placeholder,
-    error: errors[name]?.message as string | undefined
+    error: get(errors, name)?.message as string | undefined
   };
 }
 
