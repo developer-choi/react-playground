@@ -2,7 +2,7 @@
 
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
 import {ErrorPageProps} from '@/types/declaration/next';
-import {useSentryCaptureGlobalError} from '@/utils/extend/library/sentry';
+import useSentryCaptureGlobalError from '@/utils/extend/library/useSentryCaptureGlobalError';
 
 // 서비스에 대한 대부분의 에러는 이 페이지가 보임.
 export default function ErrorPage({error}: ErrorPageProps) {

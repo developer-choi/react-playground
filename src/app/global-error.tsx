@@ -2,7 +2,7 @@
 
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
 import {ErrorPageProps} from '@/types/declaration/next';
-import {useSentryCaptureGlobalError} from '@/utils/extend/library/sentry';
+import useSentryCaptureGlobalError from '@/utils/extend/library/useSentryCaptureGlobalError';
 
 /**
  * Doc: https://docs.google.com/document/d/1ivBWX3Oxl8T0xh3kcKxCTsvhDQz6Kt-uHKR-9AO-hxU/edit?tab=t.0

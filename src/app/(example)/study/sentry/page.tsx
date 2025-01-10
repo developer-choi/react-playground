@@ -59,6 +59,7 @@ export default function Page() {
 
 class CustomClientError extends Error {
   readonly name = 'CustomClientError';
+  readonly someCustomData = 'Some Custom Data';
 
   constructor(message: string) {
     super(message);
