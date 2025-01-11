@@ -1,13 +1,12 @@
-import {Session} from "next-auth";
+import {Session} from 'next-auth';
 import {getSession, signOut} from 'next-auth/react';
 import {redirect} from 'next/navigation';
 import {LoginError} from '@/utils/service/auth/redirect';
 import {auth} from '@/utils/service/auth';
 import {isServer} from '@/utils/extend/library/next';
-import {ServicePermissionDeniedError, InvalidEnvironmentError} from '@/utils/service/error/both-side';
+import {InvalidEnvironmentError, ServicePermissionDeniedError} from '@/utils/service/error/both-side';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
 import {hasPermission, parsePermissionsinSession, Permission} from '@/utils/extend/permission';
-import {ValueOf} from '@/types/utility';
 
 /** customFetchOnXXXSide() 공통 주석
  * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
@@ -69,11 +68,7 @@ export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'u
   text: string | '';
 }
 
-export const REVALIDATE_TAG = {
-  boardList: 'board-list' as const
-};
-
-export type RevalidateTagType = ValueOf<typeof REVALIDATE_TAG>;
+export type RevalidateTagType = 'board-list';
 
 /*************************************************************************************************************
  * Non Export
