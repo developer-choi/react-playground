@@ -38,9 +38,8 @@ function someApi() {
   return customFetchOnClientSide(`/api/permission`, {
     method: 'POST',
     body: [],
-    authorize: 'none',
-    permission: 'DASHBOARD.PAYMENT:CREATE'
-    // permission: 'DASHBOARD.COMMUNITY:CREATE'
+    authorize: 'DASHBOARD.PAYMENT:CREATE'
+    // authorize: 'DASHBOARD.COMMUNITY:CREATE'
   });
 }
 

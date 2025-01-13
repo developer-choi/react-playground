@@ -83,16 +83,17 @@ interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
    * public = 로그인되어있으면 accessToken을 request에 실음
    * private = public 특징 포함하며, 로그인 안되어있으면 LoginError 던짐
    * guest = 로그인이 되어있으면 GuestError를 던짐
+   *
+   * 이 4개는 권한이 필요없는것으로 간주
    */
-  authorize: 'private' | 'public' | 'none' | 'guest';
 
-  /**
+  /** Permission는 "최소" private의 특징을 상속받음.
    * 권한이 필요한 API를 호출하기 직전에, 로그인 한 유저의 권한이 충분한지 체크. (API 호출 '전'에 체크)
    * 각각의 환경에 따라, 처리가 달라짐.
    * 1. Client Side에서는 모달이 뜨고 끝남
    * 2. Server Side에서는 403 에러페이지가 노출됨.
    */
-  permission?: Permission;
+  authorize: 'private' | 'public' | 'none' | 'guest' | Permission;
 
   next?: RequestInit['next'] & {
     tags?: RevalidateTagType[]
@@ -115,17 +116,20 @@ async function customFetch(input: string | URL | globalThis.Request, parameter: 
 }
 
 function handleRequest(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
-  const {headers, session, authorize, body, query, cache, permission, ...rest} = parameter;
+  const {headers, session, authorize, body, query, cache, ...rest} = parameter;
   const newHeaders = new Headers(headers);
+  const isPrivate = isAuthorizePrivate(authorize);
 
-  if (authorize === 'private' && !session) {
+  if (isPrivate && !session) {
     throw LOGIN_ERROR;
+  }
 
-  } else if (authorize !== 'none' && session) {
+  if (authorize !== 'none' && session) {
     // access token 대신
     newHeaders.set("access-token'", session.user.access_token);
   }
 
+  const permission = authorizeToPermission(authorize);
   const grantedPermissions = (!permission || !session) ? [] : parsePermissionsinSession(session.user.grantedPermissions);
 
   if(permission) {
@@ -149,7 +153,7 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   const init: RequestInit = {
     headers: newHeaders,
     body: typeof body === "object" ? JSON.stringify(body) : body,
-    cache: (cache === undefined && authorize === 'private') ? 'no-store' : cache,
+    cache: (cache === undefined && isPrivate) ? 'no-store' : cache,
     ...rest
   };
 
@@ -194,6 +198,31 @@ async function handleResponse(response: Response, permission: {request: Permissi
   } else {
     console.error(customResponse);
     return Promise.reject(customResponse);
+  }
+}
+
+function authorizeToPermission(authorize: ExtendedCustomFetchParameter['authorize']): undefined | Permission {
+  switch (authorize) {
+    case 'private':
+    case 'none':
+    case 'guest':
+    case 'public':
+      return undefined;
+
+    default:
+      return authorize;
+  }
+}
+
+function isAuthorizePrivate(authorize: ExtendedCustomFetchParameter['authorize']): boolean {
+  switch (authorize) {
+    case 'none':
+    case 'guest':
+    case 'public':
+      return false;
+
+    default:
+      return true;
   }
 }
 

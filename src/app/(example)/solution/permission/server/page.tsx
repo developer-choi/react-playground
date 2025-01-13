@@ -12,9 +12,8 @@ export default async function Page() {
      * 둘 다 에러처리는 똑같아야함. 권한없다고 에러페이지 보여주기
      */
     await customFetchOnServerSide('/api/permission', {
-      authorize: 'private',
-      permission: 'DASHBOARD.PAYMENT:READ',
-      // permission: 'DASHBOARD.COMMUNITY:READ',
+      authorize: 'DASHBOARD.PAYMENT:READ',
+      // authorize: 'DASHBOARD.COMMUNITY:READ',
       method: 'GET'
     });
 
