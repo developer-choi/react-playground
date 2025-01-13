@@ -2,8 +2,8 @@ import {useCallback} from 'react';
 import {useOpenModal} from '@/utils/extend/modal';
 import {useRouter} from 'next/navigation';
 import {DEFAULT_HOME_URL} from '@/utils/service/auth/redirect';
-import * as Sentry from "@sentry/nextjs";
-import {CustomizedError, LoginError, ServicePermissionDeniedError} from '@/utils/service/error/both-side';
+import * as Sentry from '@sentry/nextjs';
+import {GuestError, LoginError, ServicePermissionDeniedError} from '@/utils/service/error/both-side';
 
 export function useHandleClientSideError() {
   const {openAlertModal} = useOpenModal();
@@ -50,17 +50,4 @@ export function useHandleClientSideError() {
       });
     }
   }, [openAlertModal, replace]);
-}
-
-/**
- * 로그인이 되어있는 상태에서
- * 로그인이 안되야만 가능한 액션을 했을 때 발생하는 에러.
- * Client Side에서만 발생할것같아서 여기 파일에 작성했고,
- * 에러처리 방법은 대부분 (아무런 피드백없이) 기본 홈 페이지로 보내면 될것같음!
- */
-export class GuestError extends CustomizedError {
-  readonly name = 'GuestError';
-  constructor(message = '이미 로그인이 되어있어서 해당 동작을 실행할 수 없습니다.') {
-    super(message);
-  }
 }

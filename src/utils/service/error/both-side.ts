@@ -52,16 +52,6 @@ export class ValidateError extends CustomizedError {
 }
 
 /**
- * Server Side에서 호출해야하는 에러인데, Client Side에서 호출했거나 또는 그 반대의 경우 발생되는 에러.
- * 대부분이 개발단계에서 진작에 해결된 상태로 빌드가 되야하는 에러들.
- */
-export class InvalidEnvironmentError extends Error {
-  constructor(message: string) {
-    super(message);
-  }
-}
-
-/**
  * API를 호출할 때 권한이 필요한데,
  * 유저의 권한이 부족한 경우 발생.
  *
@@ -70,11 +60,11 @@ export class InvalidEnvironmentError extends Error {
  */
 export class ServicePermissionDeniedError extends CustomizedError {
   readonly name = 'ServicePermissionDeniedError';
-  readonly request: Permission | undefined;
+  readonly request: Permission;
   readonly granted: Permission[];
 
-  constructor(request: Permission | undefined, granted: Permission[]) {
-    super(`Requested = ${request}\nGranted = ${granted.join(', ')}`);
+  constructor(request: Permission, granted: Permission[], cause?: FetchError) {
+    super(`Requested = ${request}\nGranted = ${granted.join(', ')}`, {cause});
     this.request = request;
     this.granted = granted;
   }
@@ -102,5 +92,32 @@ export class LoginError extends CustomizedError {
   constructor(message: string, loginUrlWithRedirect = '/') {
     super(message);
     this.loginUrlWithRedirect = loginUrlWithRedirect;
+  }
+}
+
+/**
+ * 개발자가 프로젝트에서 정한 코드관련 정책을 지키지 않은 경우 발생함.
+ *
+ * 1. server side에서만 호출되기를 기대하고 작성한 함수를 client side에서 호출했거나
+ * 2. 1 | 2 | 3 등 자연수만 전달되기를 기대하고 작성한 함수에 소수점같은 값을 전달한다거나,
+ */
+export class InvalidDevelopPolicyError extends CustomizedError {
+  readonly name = 'InvalidDevelopPolicyError';
+  readonly data: any | undefined;
+
+  constructor(message: string, data?: any) {
+    super(message);
+    this.data = data;
+  }
+}
+
+/**
+ * 로그인이 되어있는 상태에서
+ * 로그인이 안되야만 가능한 액션을 했을 때 발생하는 에러.
+ */
+export class GuestError extends CustomizedError {
+  readonly name = 'GuestError';
+  constructor(message = '이미 로그인이 되어있어서 해당 동작을 실행할 수 없습니다.') {
+    super(message);
   }
 }

@@ -3,7 +3,13 @@ import {getSession, signOut} from 'next-auth/react';
 import {redirect} from 'next/navigation';
 import {auth} from '@/utils/service/auth';
 import {isServer} from '@/utils/extend/library/next';
-import {InvalidEnvironmentError, FetchError, LoginError, ServicePermissionDeniedError} from '@/utils/service/error/both-side';
+import {
+  FetchError,
+  GuestError,
+  InvalidDevelopPolicyError,
+  LoginError,
+  ServicePermissionDeniedError
+} from '@/utils/service/error/both-side';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
 import {hasPermission, parsePermissionsinSession, Permission} from '@/utils/extend/permission';
 
@@ -13,7 +19,7 @@ import {hasPermission, parsePermissionsinSession, Permission} from '@/utils/exte
 
 export async function customFetchOnClientSide(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
   if(isServer()) {
-    throw new InvalidEnvironmentError('customFetchOnClientSide()는 Server Side에서 호출되면 안됩니다.');
+    throw new InvalidDevelopPolicyError('customFetchOnClientSide()는 Server Side에서 호출되면 안됩니다.');
   }
 
   try {
@@ -36,7 +42,7 @@ export async function customFetchOnClientSide(input: string | URL | globalThis.R
 
 export async function customFetchOnServerSide(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
   if(!isServer()) {
-    throw new InvalidEnvironmentError('customFetchOnServerSide()는 Client Side에서 호출되면 안됩니다.');
+    throw new InvalidDevelopPolicyError('customFetchOnServerSide()는 Client Side에서 호출되면 안됩니다.');
   }
 
   try {
@@ -123,6 +129,10 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
     throw LOGIN_ERROR;
   }
 
+  if (authorize === 'guest' && session) {
+    throw new GuestError();
+  }
+
   if (authorize !== 'none' && session) {
     // access token 대신
     newHeaders.set("access-token'", session.user.access_token);
@@ -192,8 +202,13 @@ async function handleResponse(response: Response, permission: {request: Permissi
   const defaultFetchError = new FetchError(customResponse);
 
   switch (response.status) {
-    case 403:
-      throw new ServicePermissionDeniedError(permission.request, permission.granted);
+    case 403: {
+      if (!permission.request) {
+        throw new InvalidDevelopPolicyError(`request permission을 명시하지않았는데 403 에러가 응답되었음.`, response);
+      } else {
+        throw new ServicePermissionDeniedError(permission.request, permission.granted, defaultFetchError);
+      }
+    }
 
     case 401:
       throw LOGIN_ERROR;
