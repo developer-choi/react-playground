@@ -1,4 +1,5 @@
 import {Permission} from '@/utils/extend/permission';
+import {CustomResponse} from '@/utils/extend/library/fetch';
 
 export interface CustomizedErrorOption {
   cause: Error;
@@ -76,6 +77,21 @@ export class ServicePermissionDeniedError extends CustomizedError {
     super(`Requested = ${request}\nGranted = ${granted.join(', ')}`);
     this.request = request;
     this.granted = granted;
+  }
+}
+
+/**
+ * fetch() 호출 자체는 성공했으나, response.ok가 true가 아닌 모든 케이스.
+ * 예를들어 fetch() 호출 자체가 Type Error 'Failed to fetch' 같은 케이스는 이 에러로 감싸지지않음.
+ * 단, 401 / 403은 예외로, 이 에러 다신 별도의 커스텀 에러가 던져짐.
+ */
+export class FetchError extends CustomizedError {
+  readonly response: CustomResponse;
+  readonly name = 'FetchError';
+
+  constructor(response: CustomResponse) {
+    super('An error occurred while calling the API.');
+    this.response = response;
   }
 }
 

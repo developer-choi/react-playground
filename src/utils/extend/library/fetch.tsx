@@ -3,7 +3,7 @@ import {getSession, signOut} from 'next-auth/react';
 import {redirect} from 'next/navigation';
 import {auth} from '@/utils/service/auth';
 import {isServer} from '@/utils/extend/library/next';
-import {InvalidEnvironmentError, LoginError, ServicePermissionDeniedError} from '@/utils/service/error/both-side';
+import {InvalidEnvironmentError, FetchError, LoginError, ServicePermissionDeniedError} from '@/utils/service/error/both-side';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
 import {hasPermission, parsePermissionsinSession, Permission} from '@/utils/extend/permission';
 
@@ -187,16 +187,19 @@ async function handleResponse(response: Response, permission: {request: Permissi
 
   if (response.ok) {
     return customResponse;
+  }
 
-  } else if (response.status === 403) {
-    throw new ServicePermissionDeniedError(permission.request, permission.granted);
+  const defaultFetchError = new FetchError(customResponse);
 
-  } else if (response.status === 401) {
-    throw LOGIN_ERROR;
+  switch (response.status) {
+    case 403:
+      throw new ServicePermissionDeniedError(permission.request, permission.granted);
 
-  } else {
-    console.error(customResponse);
-    return Promise.reject(customResponse);
+    case 401:
+      throw LOGIN_ERROR;
+
+    default:
+      throw defaultFetchError;
   }
 }
 
