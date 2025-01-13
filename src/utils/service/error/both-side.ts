@@ -1,5 +1,29 @@
 import {Permission} from '@/utils/extend/permission';
 
+export interface CustomizedErrorOption {
+  cause: Error;
+  sentry: {
+    level: number;
+    priority: 'high' | 'middle' | 'low';
+  };
+}
+
+/**
+ * 모든 커스텀 에러에 공통적으로 적용되야하는 설계를 반영
+ */
+export abstract class CustomizedError extends Error {
+  readonly abstract name: string;
+  readonly sentry: CustomizedErrorOption['sentry'] | undefined;
+  // readonly platform: 'server' | 'client'; 공통적으로 적용하고싶은 로직이 있다면 적용
+
+  protected constructor(message: string, option?: Partial<CustomizedErrorOption>) {
+    const {cause, sentry} = option ?? {};
+    super(message, {cause});
+    this.sentry = sentry;
+    // this.platform = isServer() ? 'server' : 'client';
+  }
+}
+
 /**
  * 공통: 런타임 에러
  * 1. 다양한 query-string이 있는 웹페이지에서 URL로 부터 query-string 유효성검증 하다가 잘못된 값이 있을 때
@@ -14,9 +38,10 @@ import {Permission} from '@/utils/extend/permission';
  * ex: 로그인 API를 호출하기전에 유효성검증하다가 ValidateError가 발생했고, reason에 'email'로 나와있다면, 이메일 값이 문제가 있음을 나타냄.
  * 그래서 reason === 'email'이면 이메일 입력박스에 포커스를 준다거나 하는 방식으로 응용하기 위해 추가.
  */
-export class ValidateError extends Error {
-  title?: string;
-  reason?: string;
+export class ValidateError extends CustomizedError {
+  readonly title?: string;
+  readonly reason?: string;
+  readonly name = 'ValidateError';
 
   constructor(message: string, config?: {title?: string, reason?: string}) {
     super(message);
@@ -42,17 +67,24 @@ export class InvalidEnvironmentError extends Error {
  * API를 호출하기 직전에 체크해서 throw 될 수도 있고,
  * API에서 403이 응답된 경우에도 이 에러로 감싸짐.
  */
-export class ServicePermissionDeniedError extends Error {
-  request: Permission | undefined;
-  granted: Permission[];
+export class ServicePermissionDeniedError extends CustomizedError {
+  readonly name = 'ServicePermissionDeniedError';
+  readonly request: Permission | undefined;
+  readonly granted: Permission[];
 
   constructor(request: Permission | undefined, granted: Permission[]) {
-    super('권한이 부족합니다.');
+    super(`Requested = ${request}\nGranted = ${granted.join(', ')}`);
     this.request = request;
     this.granted = granted;
   }
+}
 
-  getMessageTemplate() {
-    return `Requested = ${this.request}\nGranted = ${this.granted.join(', ')}`;
+export class LoginError extends CustomizedError {
+  readonly name = 'LoginError';
+  readonly loginUrlWithRedirect: string; // 로그인페이지 URL에 리다이랙트 URL까지 포함된 값 ex: /guest/login?redirect=...
+
+  constructor(message: string, loginUrlWithRedirect = '/') {
+    super(message);
+    this.loginUrlWithRedirect = loginUrlWithRedirect;
   }
 }

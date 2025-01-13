@@ -1,27 +1,26 @@
 import React from 'react';
-import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
-import {ServicePermissionDeniedError} from '@/utils/service/error/both-side';
+import {CustomizedError} from '@/utils/service/error/both-side';
+import {CustomizedErrorPage} from '@/components/error/ErrorPageTemplate';
 
 // Doc: [Can not catch an ServerSideError on client] https://docs.google.com/document/d/1UmDWmmGTNH_XNupQ-tegMnQwzb-m5yD2Hz_NzO2glic/edit?tab=t.0
 export function handleServerSideError(error: any) {
-  if (error instanceof InvalidAccessError) {
+  if (error instanceof CustomizedError) {
     return (
-      <ErrorPageTemplate title="Invalid Access" content={error.message}/>
+      <CustomizedErrorPage error={error}/>
     );
   }
 
-  if (error instanceof ServicePermissionDeniedError) {
-    return (
-      <ErrorPageTemplate title="403" content={error.getMessageTemplate()}/>
-    );
-  }
-
-  // Error Boundary 만나기 위함
+  /**
+   * 1. Error Boundary를 만나서 에러페이지가 보이기 위함.
+   * 2. Server Side에서 Sentry가 울리기 위함.
+   */
   throw error;
 }
 
 // 회원가입 폼 페이지 안거치고 회원가입 완료페이지 간 경우
-export class InvalidAccessError extends Error {
+export class InvalidAccessError extends CustomizedError {
+  readonly name = 'InvalidAccessError';
+
   constructor(message = '잘못된 접근입니다.') {
     super(message);
   }

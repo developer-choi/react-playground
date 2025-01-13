@@ -13,6 +13,10 @@ export function hasPermission(request: Permission, granted: Permission[]) {
 }
 
 export function parsePermissionsinSession(permissions: string): Permission[] {
+  if (!permissions) {
+    return [];
+  }
+
   return permissions.split(',') as Permission[];
 }
 

@@ -1,10 +1,9 @@
 import {Session} from 'next-auth';
 import {getSession, signOut} from 'next-auth/react';
 import {redirect} from 'next/navigation';
-import {LoginError} from '@/utils/service/auth/redirect';
 import {auth} from '@/utils/service/auth';
 import {isServer} from '@/utils/extend/library/next';
-import {InvalidEnvironmentError, ServicePermissionDeniedError} from '@/utils/service/error/both-side';
+import {InvalidEnvironmentError, LoginError, ServicePermissionDeniedError} from '@/utils/service/error/both-side';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
 import {hasPermission, parsePermissionsinSession, Permission} from '@/utils/extend/permission';
 

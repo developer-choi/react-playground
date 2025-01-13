@@ -26,7 +26,7 @@ export class ClosedHistoryManager {
    *
    * pk가 string이라는 것은, 이미 pk 자체가 유니크한 경우가 있어서 굳이 지정하지않아도 된다는 뜻. 값을 'some-special-event-popup' 이런식으로 지정할 수 있으니까.
    */
-  uniquePrefix: string;
+  readonly uniquePrefix: string;
 
   constructor(uniquePrefix = "") {
     this.uniquePrefix = uniquePrefix;
