@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 import ActiveLink, {ActiveLinkProps, LinkActiveMode} from '@/components/element/link/ActiveLink';
 import {isMobileOnBothSide} from '@/utils/extend/library/next';
 
-export type TabBarItem = Omit<ActiveLinkProps, 'mode'>;
+export type TabBarItem = Omit<ActiveLinkProps, 'active'>;
 
 export interface TabBarProps {
   /**
@@ -36,7 +36,7 @@ export default function TabBar({ widthMode, activeMode, style, className, linkLi
         <ActiveLink
           key={index}
           className={classNames(styles.item)}
-          mode={activeMode}
+          active={activeMode}
           {...rest}
         >
           <span className={styles.label}>{children}</span>

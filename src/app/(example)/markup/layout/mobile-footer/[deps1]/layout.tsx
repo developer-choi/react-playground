@@ -24,7 +24,7 @@ export default function Layout({children}: PropsWithChildren) {
 interface NavItemProps {
   href: string;
   text: string;
-  activeMode: Required<ActiveLinkProps['mode']>;
+  activeMode: Required<ActiveLinkProps['active']>;
   icon: FunctionComponent<ComponentPropsWithoutRef<'svg'>>;
 }
 
@@ -32,7 +32,7 @@ function NavItem({activeMode, href, text, icon: Icon}: NavItemProps) {
   const isActive = useCheckHrefIsActive(href, activeMode);
 
   return (
-    <ActiveLink href={href} className={styles.navLink} mode="startsWith">
+    <ActiveLink href={href} className={styles.navLink} active="startsWith">
       <Icon fill={isActive ? COLOR.brand.primary : undefined}/>
       <span className={styles.navText}>{text}</span>
     </ActiveLink>
