@@ -7,8 +7,18 @@ import InputFile from '@/components/form/Input/inputFile';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import Button from '@/components/element/Button';
 
-// URL: http://localhost:3000/staging/form/file/rhf
-// Doc: https://docs.google.com/document/d/1vlpxoOK6XzDqWgvEqGvHb_Ie6yGcq9BH5-m_XBF3FQk/edit?tab=t.0
+/**
+ * URL: http://localhost:3000/staging/form/file/rhf
+ * Doc: https://docs.google.com/document/d/1vlpxoOK6XzDqWgvEqGvHb_Ie6yGcq9BH5-m_XBF3FQk/edit?tab=t.0
+ *
+ * 이 예제는, [Limitations of RHF and File] https://docs.google.com/document/d/1-LnoMFl3sXkgyIxVaiJ5Guh5iJQHbqrMBjrmw4EPSBM/edit?tab=t.0
+ * 이 문서에 적힌 RHF의 한계를 극복하기 위한 RHF의 기본 예제 페이지고,
+ *
+ * 이 한계를 극복시켜서 만든 내 모듈들을 테스트 하는 페이지는, 같은 폴더 내
+ * 1. drag-and-drop (여러개 케이스)
+ * 2. with-profile 페이지 (1개 케이스)
+ * 참고 하면됨.
+ */
 export default function Page() {
   const {register, handleSubmit, setValue, watch, formState: {errors}} = useForm<FileFormData>();
 
