@@ -60,7 +60,8 @@ export default function DragAndDropPage() {
       {!errors.valid?.message ? null : (
         <FormElementUnderText type="error">{errors.valid.message}</FormElementUnderText>
       )}
-      <Button type="submit" size="large">제출</Button>
+      <div style={{height: 2000, backgroundColor: 'lightcoral'}}/>
+      <Button isSubmit>제출</Button>
     </form>
   );
 }
