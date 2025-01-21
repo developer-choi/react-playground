@@ -89,7 +89,7 @@ export function useSingleFileImagePreview({initialImageUrl, extensions, validate
 }
 
 export interface MultipleFileImagePreviewParameter extends Pick<SingleFileImagePreviewParameter, 'extensions'> {
-  validateOption?: Omit<FileValidateOption, 'allowExtensions'>; // 파일 유효성검증할 때 사용
+  validateOption?: Omit<FileValidateOption, 'extensions'>; // 파일 유효성검증할 때 사용
 }
 
 /** Return
