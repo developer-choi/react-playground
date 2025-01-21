@@ -1,6 +1,6 @@
 import {FileValidateOption, validateFiles} from '@/utils/extend/file/file-validation';
 import {useCallback, useEffect, useState} from 'react';
-import {InputFileProps} from '@/components/form/InputFile';
+import {InputFileProps} from '@/components/form/Input/inputFile';
 import {v4 as uuidv4} from 'uuid';
 import {ValidateError} from '@/utils/service/error/both-side';
 import {useHandleClientSideError} from '@/utils/service/error/client-side';

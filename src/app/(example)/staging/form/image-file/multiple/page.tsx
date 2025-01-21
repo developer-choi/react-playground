@@ -3,7 +3,7 @@
 import {useMultipleFileImagePreview} from '@/utils/extend/file/file-converter';
 import {fileSizeToByte} from '@/utils/extend/file/file-size';
 import React from 'react';
-import InputFile from '@/components/form/InputFile';
+import InputFile from '@/components/form/Input/inputFile';
 import Image from 'next/image';
 
 // URL: http://localhost:3000/staging/form/image-file/multiple

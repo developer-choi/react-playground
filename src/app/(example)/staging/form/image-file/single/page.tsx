@@ -4,7 +4,7 @@ import React from 'react';
 import {fileSizeToByte} from '@/utils/extend/file/file-size';
 import Image from 'next/image';
 import {useSingleFileImagePreview} from '@/utils/extend/file/file-converter';
-import InputFile from '@/components/form/InputFile';
+import InputFile from '@/components/form/Input/inputFile';
 
 /** Scenario 1
  * 파일 하나 등록 하고나서

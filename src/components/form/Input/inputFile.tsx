@@ -62,8 +62,8 @@ export default forwardRef<HTMLInputElement, InputFileProps>(function InputFile(p
   }, [onChangeFiles]);
 
   return (
-    <label className={classNames(styles.wrap, className)} style={style}>
-      <input ref={ref} type="file" onChange={onChange} className={styles.input} {...rest} />
+    <label className={classNames(styles.inputFileWrap, className)} style={style}>
+      <input ref={ref} type="file" onChange={onChange} className={styles.inputFile} {...rest} />
       {children}
     </label>
   );

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import InputFile from '@/components/form/InputFile';
+import InputFile from '@/components/form/Input/inputFile';
 import ProfileImage from '@/components/element/ProfileImage';
 import {useSingleFileImagePreview} from '@/utils/extend/file/file-converter';
 import {fileSizeToByte} from '@/utils/extend/file/file-size';
