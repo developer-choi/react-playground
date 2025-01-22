@@ -8,13 +8,13 @@ import Switch from '@/components/form/Switch';
 export default function Page() {
   return (
     <div style={{display: 'flex', flexDirection: 'column', gap: 20}}>
-      <div>
+      <RadioGroup>
         <Checkbox label="primary"/>
         <Checkbox color="secondary" label="secondary"/>
 
         <Checkbox disabled label="disabled primary"/>
         <Checkbox disabled color="secondary" label="disabled secondary"/>
-      </div>
+      </RadioGroup>
 
       <RadioGroup label="Radio Group" error="error text">
         <Radio name="color" label="primary" value="primary"/>
@@ -24,11 +24,11 @@ export default function Page() {
         <Radio disabled name="value" color="secondary" label="secondary" value="secondary"/>
       </RadioGroup>
 
-      <div>
+      <RadioGroup>
         <Switch label="text"/>
         <Switch disabled label="disabled text"/>
         <Switch checked disabled label="selected & disabled text"/>
-      </div>
+      </RadioGroup>
     </div>
   );
 }

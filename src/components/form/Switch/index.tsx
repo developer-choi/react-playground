@@ -10,7 +10,7 @@ export default forwardRef<HTMLInputElement, SwitchProps>(function Switch(props, 
   const {label, style, className, ...rest} = props;
 
   return (
-    <label className={styles.label}>
+    <label className={styles.switchLabel}>
       <input ref={ref} type="checkbox" {...rest} />
       {label}
     </label>
