@@ -1,4 +1,5 @@
 import type {ErrorEvent, EventHint} from '@sentry/types';
+import {CustomizedError} from '@/utils/service/error/both-side';
 
 export function beforeSend(event: ErrorEvent, hint: EventHint) {
   /** TODO
@@ -10,5 +11,16 @@ export function beforeSend(event: ErrorEvent, hint: EventHint) {
   event.extra = {
     original: hint.originalException,
   };
+
+  if (!(hint.originalException instanceof CustomizedError)) {
+    return event;
+  }
+
+  const option = hint.originalException.sentry;
+
+  if (option?.level) {
+    event.level = option.level;
+  }
+
   return event;
 }

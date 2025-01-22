@@ -1,24 +1,34 @@
 import {Permission} from '@/utils/extend/permission';
 import {CustomResponse} from '@/utils/extend/library/fetch';
+import type {SeverityLevel} from '@sentry/types';
 
-export interface CustomizedErrorOption {
+// export type SentryTag = 'some';
+export interface SentryOption {
+  level: SeverityLevel;
+
+  /**
+   * sentry로 보내지 않기 위한 설정.
+   * 애초에 Sentry로 가지않게 던지는 곳에서 조건 따져서 throw 하면 되는 아니냐 라는 생각이 아직 있기 때문에, 검토만 하는중
+   */
+  // ignore: boolean;
+  // readonly tag: SentryTag 다른사람들 태그 활용법 찾아보고, 마땅한게 없으면 난 태그를 여기에 추가할 계획임. 그러고나서 beforesend에 추가.
+  // readonly sendAlert: 'email' | 'slack; 이런 옵션도 좋을거같고, 있으면 tag에 추가하고 그 tag를 sentry에서 설정을 해두는거지.
+}
+
+export interface CustomizedErrorOption extends SentryOption {
   cause: Error;
-  sentry: {
-    level: number;
-    priority: 'high' | 'middle' | 'low';
-  };
 }
 
 /**
  * 모든 커스텀 에러에 공통적으로 적용되야하는 설계를 반영
  */
 export abstract class CustomizedError extends Error {
-  readonly abstract name: string;
-  readonly sentry: CustomizedErrorOption['sentry'] | undefined;
-  // readonly platform: 'server' | 'client'; 공통적으로 적용하고싶은 로직이 있다면 적용
+  readonly abstract name: string; // 반드시 overriding 해야하고, 이후 수정 못하게 설정
+  readonly sentry: Partial<SentryOption> | undefined;
+  // readonly platform: 'server' | 'client'; 공통적으로 저장하고 싶은 데이터가 있다면 추가
 
   protected constructor(message: string, option?: Partial<CustomizedErrorOption>) {
-    const {cause, sentry} = option ?? {};
+    const {cause, ...sentry} = option ?? {};
     super(message, {cause});
     this.sentry = sentry;
     // this.platform = isServer() ? 'server' : 'client';
