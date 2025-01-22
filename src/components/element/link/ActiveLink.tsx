@@ -12,6 +12,8 @@ export type LinkActiveMode = 'startsWith' | 'exact' | boolean;
 export interface ActiveLinkProps extends CustomLinkProps {
   /**
    * [startsWith mode]
+   * pathname으로만 비교함. querystring은 고려대상이 아님. (사이드바 메뉴에서 하위뎁스에 링크가 액티브인지 체크할 때, 쿼리스트링 상관없이 사용 가능)
+   *
    * 현재 위치한 URL이 /community/list 이고,
    * to가 /community 이면
    * active 상태로 판단
