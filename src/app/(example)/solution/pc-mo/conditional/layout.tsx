@@ -1,5 +1,6 @@
 import React, {PropsWithChildren} from 'react';
 import {isMobileOnBothSide} from '@/utils/extend/library/next';
+import {LayoutProps} from '@/types/declaration/next';
 
 /**
  * 방법 1. Parallel Routes 없이 Conditional 로직으로 분기 태우는 경우
@@ -8,7 +9,7 @@ import {isMobileOnBothSide} from '@/utils/extend/library/next';
  * 정석 방법인 parallel routes에 비해 파일 수가 2배로 적음.
  * PC / Mobile 레이아웃 종류가 적고, 간단한 경우에만 추천
  */
-export default async function ServiceLayout({children}: PropsWithChildren) {
+export default async function ServiceLayout({children}: LayoutProps) {
   return (
     <PrivateLayout>
       {children}

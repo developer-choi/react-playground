@@ -1,12 +1,13 @@
 'use client';
 
-import {ComponentPropsWithoutRef, FunctionComponent, PropsWithChildren} from 'react';
+import {ComponentPropsWithoutRef, FunctionComponent} from 'react';
 import ActiveLink, {ActiveLinkProps, useCheckHrefIsActive} from '@/components/element/link/ActiveLink';
 import styles from './page.module.scss';
 import {COLOR} from '@/styles/color';
 import BoardIcon from '@/components/icon/BoardIcon';
+import {LayoutProps} from '@/types/declaration/next';
 
-export default function Layout({children}: PropsWithChildren) {
+export default function Layout({children}: LayoutProps) {
   return (
     <div className={styles.wrap}>
       {children}

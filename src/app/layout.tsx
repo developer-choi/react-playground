@@ -1,8 +1,8 @@
-import {PropsWithChildren} from 'react';
 import type {Metadata, Viewport} from 'next';
 import {getFontByLanguage} from '@/utils/service/i18n/font';
 import '@/styles/reset.css';
 import '@/styles/global.scss';
+import {LayoutProps} from '@/types/declaration/next';
 
 // https://docs.google.com/document/d/16UpoOvdENYDO3fHK-YyR70Vet3gyjFbgxT-fwi4R3cY/edit
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export const viewport: Viewport = {
   themeColor: 'white',
 };
 
-export default async function RootLayout({children}: PropsWithChildren) {
+export default async function RootLayout({children}: LayoutProps) {
   const font = await getFontByLanguage();
 
   return (

@@ -1,8 +1,9 @@
-import React, {PropsWithChildren} from 'react';
+import React from 'react';
 import AppProvider from '@/components/setting/AppProvider';
 import ServiceLayoutHeader from '@/components/layout/ServiceLayoutHeader';
+import {LayoutProps} from '@/types/declaration/next';
 
-export default async function ServiceLayout({children}: PropsWithChildren) {
+export default async function ServiceLayout({children}: LayoutProps) {
   return (
     <AppProvider>
       <ServiceLayoutHeader/>
