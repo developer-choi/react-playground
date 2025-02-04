@@ -1,9 +1,14 @@
 import React from 'react';
-import {CustomizedError} from '@/utils/service/error/both-side';
+import {CustomizedError, FetchError} from '@/utils/service/error/both-side';
 import {CustomizedErrorPage} from '@/components/error/ErrorPageTemplate';
+import {notFound} from 'next/navigation';
 
 // Doc: [Can not catch an ServerSideError on client] https://docs.google.com/document/d/1UmDWmmGTNH_XNupQ-tegMnQwzb-m5yD2Hz_NzO2glic/edit?tab=t.0
 export function handleServerSideError(error: any) {
+  if (error instanceof FetchError && error.response.status === 404) {
+    notFound();
+  }
+
   if (error instanceof CustomizedError) {
     return (
       <CustomizedErrorPage error={error}/>
