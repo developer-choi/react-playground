@@ -47,10 +47,10 @@ export default function CustomImage({ src, fallback, onError, quality = 100, wid
       return;
     }
 
-    setSource({
-      src: fallback.type !== 'replace-image' ? '' : fallback.src,
-      error: true,
-    });
+    setSource((prevState) => ({
+      src: prevState.src,
+      error: true, // src 문법은 올바르나, 실제로는 유효하지않은 (404, 403 등) 이미지인 경우
+    }));
   }, [fallback]);
 
   useEffect(() => {
@@ -64,9 +64,8 @@ export default function CustomImage({ src, fallback, onError, quality = 100, wid
    * 이미지 노출되는 케이스
    * 1. 이미지 URL 형식이 유효하고, 이미지 불러오는 과정에서 오류가 발생하지 않은경우
    * 2. 위 1번 케이스가 아니면서 fallback 따로 지정 안한경우 (기본 이미지 동작 그대로 엑박 노출)
-   * 3. 위 1번 케이스가 아니면서 fallback 이미지 지정한 경우
    */
-  if (!source.error || fallback === undefined || fallback.type === 'replace-image') {
+  if (!source.error || fallback === undefined) {
     return (
       // eslint-disable-next-line jsx-a11y/alt-text
       <Image
@@ -79,6 +78,10 @@ export default function CustomImage({ src, fallback, onError, quality = 100, wid
         {...rest}
       />
     );
+  }
+
+  if (fallback.type === 'replace-image') {
+    return <Image src={fallback.src} quality={quality} {...rest} alt="Fallback image" />;
   }
 
   if (fallback.type === 'hidden') {
