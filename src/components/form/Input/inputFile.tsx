@@ -44,6 +44,7 @@ export default forwardRef<HTMLInputElement, InputFileProps>(function InputFile(p
      * 2. 다시 파일탐색기 열고
      * 3. 파일탐색기를 그냥 닫아버리면
      * 4. onChange handler는 호출되긴 하는데, files가 빈배열로 나옴.
+     * ☆☆☆ 파일탐색기를 취소하는 동작이, 기존에 파일을 등록 했었냐 안했냐에 따라 차이가 난다는게 핵심임.
      */
 
     // eslint-disable-next-line no-param-reassign
