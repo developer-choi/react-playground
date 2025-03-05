@@ -42,7 +42,7 @@ export async function getUserFieldCountApi({validationMode, ...rest}: UserFieldC
   try {
     const {json: {count}} = await customFetchOnClientSide(`/api/user/field/count`, {
       method: 'GET',
-      authorize: 'public',
+      authorize: 'none',
       query: rest
     });
 

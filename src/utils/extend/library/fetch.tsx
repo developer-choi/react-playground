@@ -85,11 +85,10 @@ interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
 
   /**
    * none = request에 accessToken을 싣지않음.
-   * public = 로그인되어있으면 accessToken을 request에 실음
    * private = public 특징 포함하며, 로그인 안되어있으면 LoginError 던짐
    * guest = 로그인이 되어있으면 GuestError를 던짐
    *
-   * 이 4개는 권한이 필요없는것으로 간주
+   * 이 3개는 권한이 필요없는것으로 간주
    */
 
   /** Permission는 "최소" private의 특징을 상속받음.
@@ -98,7 +97,7 @@ interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
    * 1. Client Side에서는 모달이 뜨고 끝남
    * 2. Server Side에서는 403 에러페이지가 노출됨.
    */
-  authorize: 'private' | 'public' | 'none' | 'guest' | Permission;
+  authorize: 'private' | 'none' | 'guest' | Permission;
 
   next?: RequestInit['next'] & {
     tags?: RevalidateTagType[]
@@ -223,7 +222,6 @@ function authorizeToPermission(authorize: ExtendedCustomFetchParameter['authoriz
     case 'private':
     case 'none':
     case 'guest':
-    case 'public':
       return undefined;
 
     default:
@@ -235,7 +233,6 @@ function isAuthorizePrivate(authorize: ExtendedCustomFetchParameter['authorize']
   switch (authorize) {
     case 'none':
     case 'guest':
-    case 'public':
       return false;
 
     default:
