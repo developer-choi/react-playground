@@ -2,7 +2,7 @@
 
 import {useQuery} from '@tanstack/react-query';
 import React from 'react';
-import {getBoardListApi} from '@/utils/service/api/board';
+import {getBoardListApi} from '@/utils/service/api/board-client';
 import {H1} from '@/components/element/typography';
 import {CenterRowBox} from '@/components/test/index';
 import Link from 'next/link';

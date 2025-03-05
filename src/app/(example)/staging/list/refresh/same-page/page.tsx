@@ -1,4 +1,4 @@
-import {getBoardListApi} from '@/utils/service/api/board';
+import {getBoardListApi} from '@/utils/service/api/board-client';
 import SamePageRefreshClientList from '@/components/test/SamePageRefreshClientList';
 
 export const revalidate = 0;

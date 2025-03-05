@@ -1,7 +1,7 @@
 import React from 'react';
 import {dehydrate, HydrationBoundary} from '@tanstack/react-query';
 import {getQueryClient} from '@/utils/extend/library/react-query';
-import {getBoardListApi} from '@/utils/service/api/board';
+import {getBoardListApi} from '@/utils/service/api/board-client';
 import AnotherPageRefreshClientList from '@/components/test/AnotherPageRefreshClientList';
 
 export const revalidate = 0;

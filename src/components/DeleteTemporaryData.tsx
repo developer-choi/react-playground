@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect} from 'react';
-import {deleteTemporaryDataApi, TemporaryDataKey} from '@/utils/service/api/temporary';
+import {deleteTemporaryDataApi, TemporaryDataKey} from '@/utils/service/api/temporary-client';
 
 /**
  * Doc: https://docs.google.com/document/d/11KFXo5bfNYhSwa9EgxIinmnHGv9dCivwipBUc0D0pFY/edit

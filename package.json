@@ -33,6 +33,7 @@
     "react-hook-form": "^7.52.0",
     "react-toastify": "^10.0.5",
     "sass": "^1.77.6",
+    "server-only": "^0.0.1",
     "ua-parser-js": "^1.0.38",
     "uuid": "^11.0.2"
   },

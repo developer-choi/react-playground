@@ -1,5 +1,5 @@
-import {customFetchOnServerSide} from '@/utils/extend/library/fetch';
 import {handleServerSideError} from '@/utils/service/error/server-side';
+import {customFetchOnServerSide} from '@/utils/extend/library/fetch/server';
 
 // URL: http://localhost:3000/solution/permission/server
 // Doc: [Permission Algorithm] https://docs.google.com/document/d/1Adprw6cjDQh2suSOCBuD2UuH6sIZjbyHa-w5sk9gDWs/edit?tab=t.0

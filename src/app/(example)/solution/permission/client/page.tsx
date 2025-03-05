@@ -3,9 +3,9 @@
 import {Permission} from '@/utils/extend/permission';
 import Button from '@/components/element/Button';
 import {useCallback} from 'react';
-import {customFetchOnClientSide} from '@/utils/extend/library/fetch';
 import {useHandleClientSideError} from '@/utils/service/error/client-side';
 import {useMutation} from '@tanstack/react-query';
+import {customFetchOnClientSide} from '@/utils/extend/library/fetch/client';
 
 // URL: http://localhost:3000/solution/permission/client
 // Doc: [Permission Algorithm] https://docs.google.com/document/d/1Adprw6cjDQh2suSOCBuD2UuH6sIZjbyHa-w5sk9gDWs/edit?tab=t.0

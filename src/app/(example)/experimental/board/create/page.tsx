@@ -1,7 +1,7 @@
 'use client';
 
 import {useCallback} from 'react';
-import {deleteAllBoardsApi, postMultipleBoardsApi} from '@/utils/service/api/board';
+import {deleteAllBoardsApi, postMultipleBoardsApi} from '@/utils/service/api/board-client';
 import dayjs from 'dayjs';
 import {randomInArray} from '@/utils/extend/test/random';
 import {BoardRow} from '@/types/services/board';

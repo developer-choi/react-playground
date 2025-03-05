@@ -1,8 +1,4 @@
 import {Session} from 'next-auth';
-import {getSession, signOut} from 'next-auth/react';
-import {redirect} from 'next/navigation';
-import {auth} from '@/utils/service/auth';
-import {isServer} from '@/utils/extend/library/next';
 import {
   FetchError,
   GuestError,
@@ -13,72 +9,7 @@ import {
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
 import {hasPermission, parsePermissionsinSession, Permission} from '@/utils/extend/permission';
 
-/** customFetchOnXXXSide() 공통 주석
- * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
- */
-
-export async function customFetchOnClientSide(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
-  if(isServer()) {
-    throw new InvalidDevelopPolicyError('customFetchOnClientSide()는 Server Side에서 호출되면 안됩니다.');
-  }
-
-  try {
-    const session = parameter.authorize === 'none' ? null : await getSession();
-    return customFetch(input, {...parameter, session});
-  } catch (error: any) {
-    if (error instanceof LoginError) {
-      const redirectUrl = location.pathname + location.search;
-
-      await signOut({
-        redirect: false
-      });
-
-      throw new LoginError("Login is required", `/guest/login?redirect=${encodeURIComponent(redirectUrl)}`);
-    } else {
-      throw error;
-    }
-  }
-}
-
-export async function customFetchOnServerSide(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
-  if(!isServer()) {
-    throw new InvalidDevelopPolicyError('customFetchOnServerSide()는 Client Side에서 호출되면 안됩니다.');
-  }
-
-  try {
-    const session = parameter.authorize === 'none' ? null : await auth();
-    return customFetch(input, {...parameter, session});
-  } catch (error: any) {
-    if (error instanceof LoginError) {
-      const currentUrl = require('next/headers').headers().get('current-pathname-with-search') ?? '/'; // middleware에서 셋팅
-      redirect(`/api/next-auth/logout?redirect=${currentUrl}`);
-
-    } else {
-      throw error;
-    }
-  }
-}
-
-/**
- * authorize none으로 client / server side 어디에서나 호출하기 위한 함수.
- * 그래서 로그인 체크도 하지않고,
- * 로그인이 실패할 일도 없어서 로그인 실패 처리로직도 없음.
- */
-export async function customFetchOnBothSide(input: string | URL | globalThis.Request, parameter: Omit<ExtendedCustomFetchParameter, 'authorize'>) {
-  return customFetch(input, {...parameter, session: null, authorize: 'none'});
-}
-
-export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'url'> {
-  json: any; // TODO 추후 제네릭 추가예정
-  text: string | '';
-}
-
-export type RevalidateTagType = 'board-list';
-
-/*************************************************************************************************************
- * Non Export
- *************************************************************************************************************/
-interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
+export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
   body?: RequestInit['body'] | object;
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
   query?: ConvertableQuery;
@@ -104,19 +35,39 @@ interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
   };
 }
 
-interface CustomFetchParameter extends ExtendedCustomFetchParameter {
+/**
+ * authorize none으로 client / server side 어디에서나 호출하기 위한 함수.
+ * 그래서 로그인 체크도 하지않고,
+ * 로그인이 실패할 일도 없어서 로그인 실패 처리로직도 없음.
+ */
+export async function customFetchOnBothSide(input: string | URL | globalThis.Request, parameter: Omit<ExtendedCustomFetchParameter, 'authorize'>) {
+  return customFetch(input, {...parameter, session: null, authorize: 'none'});
+}
+
+export interface CustomFetchParameter extends ExtendedCustomFetchParameter {
   session: Session | null;
 }
 
 /** customFetch() 공통 주석
  * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
  */
-async function customFetch(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
+export async function customFetch(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
   const request = handleRequest(input, parameter);
   const response = await fetch(request.input, request.init);
   return handleResponse(response, request.permission);
 }
 
+
+export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'url'> {
+  json: any; // TODO 추후 제네릭 추가예정
+  text: string | '';
+}
+
+export type RevalidateTagType = 'board-list';
+
+/*************************************************************************************************************
+ * Non Export
+ *************************************************************************************************************/
 function handleRequest(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
   const {headers, session, authorize, body, query, cache, ...rest} = parameter;
   const newHeaders = new Headers(headers);

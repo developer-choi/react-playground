@@ -3,8 +3,8 @@
 import {usePathname, useSearchParams} from 'next/navigation';
 import React, {useCallback} from 'react';
 import Button from '@/components/element/Button';
-import {customFetchOnClientSide} from '@/utils/extend/library/fetch';
 import {useNavigation} from '@/utils/extend/browser/query-string/useNavigation';
+import {customFetchOnClientSide} from '@/utils/extend/library/fetch/client';
 
 /**
  * URL: http://localhost:3000/staging/module/query-string/test

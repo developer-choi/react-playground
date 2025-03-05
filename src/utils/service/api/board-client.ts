@@ -1,5 +1,6 @@
 import {BoardRow, PatchBoardApiRequest, PostBoardApiRequest} from '@/types/services/board';
-import {customFetchOnBothSide, customFetchOnClientSide, customFetchOnServerSide} from '@/utils/extend/library/fetch';
+import {customFetchOnClientSide} from '@/utils/extend/library/fetch/client';
+import {customFetchOnBothSide} from '@/utils/extend/library/fetch';
 
 export function patchBoardApi(board: PatchBoardApiRequest) {
   return customFetchOnClientSide(`/api/board/${board.pk}`, {
@@ -32,15 +33,6 @@ export function deleteAllBoardsApi() {
     method: 'DELETE',
     authorize: 'none' // 원래는 private 이어야하는데 테스트목적
   });
-}
-
-export async function getBoardApi(pk: number) {
-  const {json} = await customFetchOnServerSide(`/api/board/${pk}`, {
-    method: 'GET',
-    authorize: 'none' // 원래는 private 이어야하는데 테스트목적
-  });
-
-  return json as BoardRow;
 }
 
 export async function getBoardListApi(filter?: BoardRow['type']) {
