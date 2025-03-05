@@ -23,7 +23,7 @@ export async function customFetchOnClientSide(input: string | URL | globalThis.R
   }
 
   try {
-    const session = await getSession();
+    const session = parameter.authorize === 'none' ? null : await getSession();
     return customFetch(input, {...parameter, session});
   } catch (error: any) {
     if (error instanceof LoginError) {
@@ -46,7 +46,7 @@ export async function customFetchOnServerSide(input: string | URL | globalThis.R
   }
 
   try {
-    const session = await auth();
+    const session = parameter.authorize === 'none' ? null : await auth();
     return customFetch(input, {...parameter, session});
   } catch (error: any) {
     if (error instanceof LoginError) {
@@ -85,8 +85,8 @@ interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
 
   /**
    * none = request에 accessToken을 싣지않음.
-   * private = public 특징 포함하며, 로그인 안되어있으면 LoginError 던짐
-   * guest = 로그인이 되어있으면 GuestError를 던짐
+   * guest = request에 accessToken을 싣지않음. + 로그인이 되어있으면 GuestError를 던짐
+   * private = request에 accessToken을 포함함 + 로그인 안되어있으면 LoginError 던짐
    *
    * 이 3개는 권한이 필요없는것으로 간주
    */
@@ -102,8 +102,6 @@ interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
   next?: RequestInit['next'] & {
     tags?: RevalidateTagType[]
   };
-
-  // cache ==> authorize 가 private이면, "기본" no-store로 설정됨. 로그인 해야만 얻을 수 있는 정보는 대부분 API 호출 시점에 최신화된 데이터가 필요한 경우가 많았음.
 }
 
 interface CustomFetchParameter extends ExtendedCustomFetchParameter {
@@ -161,7 +159,7 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   const init: RequestInit = {
     headers: newHeaders,
     body: typeof body === "object" ? JSON.stringify(body) : body,
-    cache: (cache === undefined && isPrivate) ? 'no-store' : cache,
+    cache: (cache === undefined && authorize === 'none') ? 'force-cache' : cache,
     ...rest
   };
 
