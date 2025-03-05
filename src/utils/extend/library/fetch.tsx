@@ -24,7 +24,7 @@ export async function customFetchOnClientSide(input: string | URL | globalThis.R
 
   try {
     const session = await getSession();
-    return await customFetch(input, {...parameter, session});
+    return customFetch(input, {...parameter, session});
   } catch (error: any) {
     if (error instanceof LoginError) {
       const redirectUrl = location.pathname + location.search;
@@ -47,7 +47,7 @@ export async function customFetchOnServerSide(input: string | URL | globalThis.R
 
   try {
     const session = await auth();
-    return await customFetch(input, {...parameter, session});
+    return customFetch(input, {...parameter, session});
   } catch (error: any) {
     if (error instanceof LoginError) {
       const currentUrl = require('next/headers').headers().get('current-pathname-with-search') ?? '/'; // middleware에서 셋팅
@@ -65,7 +65,7 @@ export async function customFetchOnServerSide(input: string | URL | globalThis.R
  * 로그인이 실패할 일도 없어서 로그인 실패 처리로직도 없음.
  */
 export async function customFetchOnBothSide(input: string | URL | globalThis.Request, parameter: Omit<ExtendedCustomFetchParameter, 'authorize'>) {
-  return await customFetch(input, {...parameter, session: null, authorize: 'none'});
+  return customFetch(input, {...parameter, session: null, authorize: 'none'});
 }
 
 export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'url'> {
