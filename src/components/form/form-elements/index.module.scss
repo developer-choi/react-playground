@@ -10,6 +10,7 @@ $formElement: (
 
 .container {
   width: 100%;
+  min-width: 0; // 인풋, 드롭다운 등의 요소들이 grid 컨테이너나 flex 컨테이너 밑에 여러개로 가로로 올 때 화면 너비가 작아져도 뚫고나가지않도록 하기위함.
 }
 
 .label {
