@@ -5,7 +5,8 @@ import {LinkProps} from 'next/link';
 import classNames from 'classnames';
 import {usePathname, useSearchParams} from 'next/navigation';
 import CustomLink, {CustomLinkProps} from '@/components/element/link/CustomLink';
-import {doesUrlMatchPathAndQuery} from '@/utils/extend/browser/query-string/convert';
+import {areUrlsIdentical} from '@/utils/extend/browser/query-string/convert';
+import {doesPathStartWithSegment} from '@/utils/extend/data-type/string';
 
 export type LinkActiveMode = 'startsWith' | 'exact' | boolean;
 
@@ -52,7 +53,6 @@ export function useCheckHrefIsActive(href: LinkProps['href'], active: LinkActive
    * ?query=value 도 대응될 수 있도록 하기위함.
    */
   const nextUrl = stringHref.startsWith('/') ? stringHref : currentPathname + stringHref;
-  const nextPathname = nextUrl.split('?')[0];
 
   let isActive = false;
 
@@ -63,11 +63,11 @@ export function useCheckHrefIsActive(href: LinkProps['href'], active: LinkActive
   switch (active) {
     case 'exact': {
       // console.log(encodeURIComponent(nextUrl).replaceAll('%20', '+'), searchParams.toString());
-      isActive = doesUrlMatchPathAndQuery(nextUrl, currentPathname, searchParams);
+      isActive = areUrlsIdentical(nextUrl, currentPathname + (searchParams.size === 0 ? '' : '?' + searchParams.toString()));
       break;
     }
     case 'startsWith':
-      isActive = currentPathname === nextPathname ? true : currentPathname.startsWith(`${nextPathname}/`);
+      isActive = doesPathStartWithSegment(nextUrl, currentPathname);
       break;
   }
 

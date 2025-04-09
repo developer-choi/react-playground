@@ -1,5 +1,4 @@
 import {ParsedUrlQuery, stringify} from 'querystring';
-import {ReadonlyURLSearchParams} from 'next/navigation';
 
 // record의 value로 object만 없으면 됨.
 export type ConvertableQuery = Record<string, string | string[] | boolean | number | number[] | null | undefined>;
@@ -30,15 +29,6 @@ export function stringifyQuery(query?: ConvertableQuery): '' | `?${string}` {
   } else {
     return `?${stringify(cleanedQuery)}`;
   }
-}
-
-/**
- * @param originalUrl 링크에 지정한 URL, /path?query=value 형식 (앞에 오리진 없어야함)
- * @param targetPath 비교할 URL (현재 유저가 접속한 URL 등) /path 형식 (앞에 오리진 없어야함)
- * @param targetSearchParams 비교할 쿼리스트링 (현재 유저가 접속한 URL 등) ?query=value&query2=value2 형식
- */
-export function doesUrlMatchPathAndQuery(originalUrl: string, targetPath: string, targetSearchParams: ReadonlyURLSearchParams,): boolean {
-  return areUrlsIdentical(originalUrl, targetPath + (targetSearchParams.size === 0 ? '' : '?' + targetSearchParams.toString()));
 }
 
 /**

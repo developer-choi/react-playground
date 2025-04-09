@@ -1,4 +1,5 @@
 import {DEFAULT_HOME_URL} from '@/utils/service/auth/redirect';
+import {doesPathStartWithSegment, extractPathname} from '@/utils/extend/data-type/string';
 
 interface NextNavigatingParam {
   nextUrl: string; // pathname + querystring
@@ -17,10 +18,20 @@ export type NextNavigatingResult = {
 };
 
 export function getNextNavigating({nextUrl, isLoggedIn}: NextNavigatingParam): NextNavigatingResult {
-  const nextUrlObject = new URL(`http://some.domain.com${nextUrl}`);
-  const nextPathname = nextUrlObject.pathname;
-  const isPrivate = PRIVATE_PATHNAMES.some(pathname => nextPathname.startsWith(pathname));
-  const isNotPrivate = NOT_PRIVATE_PATHNAME.some(pathname => nextPathname.startsWith(pathname));
+  const correct: NextNavigatingResult = {
+    type: 'correct',
+    nextUrl
+  };
+
+  const nextPathname = extractPathname(nextUrl);
+
+  // 여기서 거르지않으면 밑에서 isPrivate, isNotPrivate에서 둘 다 true가 할당됨.
+  if (nextPathname === '/') {
+    return correct;
+  }
+
+  const isPrivate = PRIVATE_PATHNAME.some(pathname => doesPathStartWithSegment(nextPathname, pathname));
+  const isNotPrivate = NOT_PRIVATE_PATHNAME.some(pathname => doesPathStartWithSegment(nextPathname, pathname));
 
   if (isPrivate && !isLoggedIn) {
     return {
@@ -34,17 +45,14 @@ export function getNextNavigating({nextUrl, isLoggedIn}: NextNavigatingParam): N
     }
 
   } else {
-    return {
-      type: "correct",
-      nextUrl
-    };
+    return correct;
   }
 }
 
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
-const PRIVATE_PATHNAMES = [
+const PRIVATE_PATHNAME = [
   "/mypage"
 ];
 
