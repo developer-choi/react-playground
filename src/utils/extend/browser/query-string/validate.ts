@@ -72,7 +72,7 @@ export function validateIncludeString<S extends string, R extends boolean = true
 }
 
 //+123 -123 0123 셋다안되고 123가능.
-export function validateNumber<R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<R, T>): ConditionalValueType<number, R, T> {
+export function validateComputableNumber<R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<R, T>): ConditionalValueType<number, R, T> {
   const {throwable = true, required = true} = options ?? {};
   let errorMessage = '';
 
@@ -139,12 +139,12 @@ console.log(mayFruit1, mayFruit2, canUndefined1, canUndefined2, canUndefined3);
 */
 
 /*
-const canUndefined1 = validateNumber('',  {required: false, throwable: false});
-const canUndefined2 = validateNumber('',  {required: false, throwable: true});
-const canUndefined3 = validateNumber('',  {required: true, throwable: false});
+const canUndefined1 = validateComputableNumber('',  {required: false, throwable: false});
+const canUndefined2 = validateComputableNumber('',  {required: false, throwable: true});
+const canUndefined3 = validateComputableNumber('',  {required: true, throwable: false});
 
-const mayNumber1 = validateNumber('',  {required: true, throwable: true});
-const mayNumber2 = validateNumber('');
+const mayNumber1 = validateComputableNumber('',  {required: true, throwable: true});
+const mayNumber2 = validateComputableNumber('');
 
 console.log(mayNumber1, mayNumber2, canUndefined1, canUndefined2, canUndefined3);
 */
