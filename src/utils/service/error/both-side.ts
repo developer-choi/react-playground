@@ -17,6 +17,7 @@ export interface SentryOption {
 
 export interface CustomizedErrorOption extends SentryOption {
   cause: Error;
+  meta?: object;
 }
 
 /**
@@ -25,11 +26,13 @@ export interface CustomizedErrorOption extends SentryOption {
 export abstract class CustomizedError extends Error {
   readonly abstract name: string; // 반드시 overriding 해야하고, 이후 수정 못하게 설정
   readonly sentry: Partial<SentryOption> | undefined;
+  readonly meta: object | undefined;
   // readonly platform: 'server' | 'client'; 공통적으로 저장하고 싶은 데이터가 있다면 추가
 
   protected constructor(message: string, option?: Partial<CustomizedErrorOption>) {
-    const {cause, ...sentry} = option ?? {};
+    const {cause, meta, ...sentry} = option ?? {};
     super(message, {cause});
+    this.meta = meta;
     this.sentry = sentry;
     // this.platform = isServer() ? 'server' : 'client';
   }
@@ -54,8 +57,8 @@ export class ValidateError extends CustomizedError {
   readonly reason?: string;
   readonly name = 'ValidateError';
 
-  constructor(message: string, config?: {title?: string, reason?: string}) {
-    super(message);
+  constructor(message: string, config?: {title?: string, reason?: string} & Pick<CustomizedError, 'meta'>) {
+    super(message, {meta: config?.meta});
     this.title = config?.title;
     this.reason = config?.reason;
   }
