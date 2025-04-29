@@ -26,6 +26,10 @@
   flex-grow: 1;
 }
 
+.unit {
+  white-space: nowrap; // 이렇게 안하면, 인풋 뒤에 나오는 텍스트가 길어져서 세로로 줄내림됨.
+}
+
 .hiddenInput {
   @include util.hiddenDefaultInputIcon;
 }

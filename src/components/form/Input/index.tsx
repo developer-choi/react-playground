@@ -25,7 +25,7 @@ export default forwardRef<HTMLInputElement, InputProps>(function Input(props, re
   }, [disabled]);
 
   // 우측에 무엇이 렌더링 되더라도, React Element가 아니면 기본적으로 태그하나 감싸서 의도된 스타일링 (flex gap 등)이 적용될 수 있도록 하기위함
-  const _rightRender = isReactElement(rightRender) ? rightRender : <span>{rightRender}</span>;
+  const _rightRender = isReactElement(rightRender) ? rightRender : <span className={styles.unit}>{rightRender}</span>;
 
   return (
     <FormElementWrapper style={style} className={className} label={label} error={hiddenErrorMessage ? undefined : error}>
