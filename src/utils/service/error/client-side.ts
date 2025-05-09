@@ -3,7 +3,7 @@ import {useOpenModal} from '@/utils/extend/modal';
 import {useRouter} from 'next/navigation';
 import {DEFAULT_HOME_URL} from '@/utils/service/auth/redirect';
 import * as Sentry from '@sentry/nextjs';
-import {GuestError, LoginError, ServicePermissionDeniedError} from '@/utils/service/error/both-side';
+import {FetchError, GuestError, LoginError, ServicePermissionDeniedError} from '@/utils/service/error/both-side';
 
 export function useHandleClientSideError() {
   const {openAlertModal} = useOpenModal();
@@ -43,10 +43,18 @@ export function useHandleClientSideError() {
     } else {
       // TODO 여기서 에러를 던져야하는데 별도 커스텀클래스에 우선순위는 제일높은걸로 던져야할거같음. 에러클래스 분리 어떻게 해야할지까지 결정되고나서 확정
       Sentry.captureException(error);
-      
+
+      let title = '요청이 실패했어요.';
+      let content = '해당 현상이 지속되면 고객센터로 문의 해주세요.';
+
+      // 주로 폼 제출 후 API에서 유효성검증 하다 오류난 경우, 기본적인 처리로 그냥 API에서 응답한 오류메시지 그대로 보여주는 처리 넣었음.
+      if (error instanceof FetchError && error.apiErrorInfo) {
+        content = error.apiErrorInfo.message;
+      }
+
       openAlertModal({
-        title: '모달 제목',
-        content: '해당 현상이 지속되면 고객센터로 문의 해주세요.',
+        title,
+        content,
       });
     }
   }, [openAlertModal, replace]);

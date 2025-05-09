@@ -83,6 +83,12 @@ export class ServicePermissionDeniedError extends CustomizedError {
   }
 }
 
+// API에서 에러가 발생한 경우, 별도로 응답되는 에러 데이터. 있을 수도, 없을 수도 있음. (500에러, 404에러 등은 이런 데이터가 없음), 주로 POST / UPDATE에서 유효성검증 하다 실패했을 때 주로 사용함.
+export interface CustomizedApiErrorInfo {
+  type: string;
+  message: string;
+}
+
 /**
  * fetch() 호출 자체는 성공했으나, response.ok가 true가 아닌 모든 케이스.
  * 예를들어 fetch() 호출 자체가 Type Error 'Failed to fetch' 같은 케이스는 이 에러로 감싸지지않음.
@@ -91,10 +97,12 @@ export class ServicePermissionDeniedError extends CustomizedError {
 export class FetchError extends CustomizedError {
   readonly response: CustomResponse;
   readonly name = 'FetchError';
+  readonly apiErrorInfo: CustomizedApiErrorInfo | undefined;
 
-  constructor(response: CustomResponse) {
+  constructor(response: CustomResponse, apiErrorInfo: CustomizedApiErrorInfo | undefined) {
     super('An error occurred while calling the API.');
     this.response = response;
+    this.apiErrorInfo = apiErrorInfo;
   }
 }
 

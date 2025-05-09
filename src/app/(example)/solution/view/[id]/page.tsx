@@ -31,6 +31,6 @@ async function getBoardViewApi(id: number) {
       status: 404,
       text: '',
       url: '게시글상세API'
-    });
+    }, undefined);
   }
 }

@@ -1,5 +1,6 @@
 import {Session} from 'next-auth';
 import {
+  CustomizedApiErrorInfo,
   FetchError,
   GuestError,
   InvalidDevelopPolicyError,
@@ -83,33 +84,33 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
 
   if (authorize !== 'none' && session) {
     // access token 대신
-    newHeaders.set("access-token'", session.user.access_token);
+    newHeaders.set('access-token', session.user.access_token);
   }
 
   const permission = authorizeToPermission(authorize);
   const grantedPermissions = (!permission || !session) ? [] : parsePermissionsinSession(session.user.grantedPermissions);
 
-  if(permission) {
+  if (permission) {
     if (!session) {
       throw LOGIN_ERROR; // 로그인을 하지 않은 상태로 권한이 필요한 API를 호출할 수 없음.
     }
 
-    if(!hasPermission(permission, grantedPermissions)) {
+    if (!hasPermission(permission, grantedPermissions)) {
       throw new ServicePermissionDeniedError(permission, grantedPermissions);
     }
   }
 
   // GET의 경우에는 없고, 그 외 나머지는 JSON이 될 수도, Primitive일 수도 있음.
-  if (typeof body === "object") {
-    newHeaders.set("Content-Type", "application/json");
+  if (typeof body === 'object') {
+    newHeaders.set('Content-Type', 'application/json');
   }
 
-  let requestUrl = typeof input !== "string" || input.startsWith("http") ? input : `${process.env.NEXT_PUBLIC_ORIGIN}${input}`;
+  let requestUrl = typeof input !== 'string' || input.startsWith('http') ? input : `${process.env.NEXT_PUBLIC_ORIGIN}${input}`;
   requestUrl += stringifyQuery(query);
 
   const init: RequestInit = {
     headers: newHeaders,
-    body: typeof body === "object" ? JSON.stringify(body) : body,
+    body: typeof body === 'object' ? JSON.stringify(body) : body,
     cache: (cache === undefined && authorize === 'none') ? 'force-cache' : cache,
     ...rest
   };
@@ -124,12 +125,15 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   };
 }
 
-async function handleResponse(response: Response, permission: {request: Permission | undefined, granted: Permission[]}) {
-  const contentType = response.headers.get("Content-Type");
+async function handleResponse(response: Response, permission: {
+  request: Permission | undefined,
+  granted: Permission[]
+}) {
+  const contentType = response.headers.get('Content-Type');
   let json = {};
   let text = '';
 
-  if (contentType && contentType.includes("application/json")) {
+  if (contentType && contentType.includes('application/json')) {
     json = await response.json();
   } else {
     text = await response.text();
@@ -147,7 +151,7 @@ async function handleResponse(response: Response, permission: {request: Permissi
     return customResponse;
   }
 
-  const defaultFetchError = new FetchError(customResponse);
+  const defaultFetchError = new FetchError(customResponse, ('error' in json) ? json.error as CustomizedApiErrorInfo : undefined);
 
   switch (response.status) {
     case 403: {
@@ -189,4 +193,4 @@ function isAuthorizePrivate(authorize: ExtendedCustomFetchParameter['authorize']
   }
 }
 
-const LOGIN_ERROR = new LoginError("Login is required");
+const LOGIN_ERROR = new LoginError('Login is required');
