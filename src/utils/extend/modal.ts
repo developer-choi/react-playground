@@ -25,23 +25,25 @@ export interface ModalState<P extends EssentialModalProps> {
    * pk는 모달의 state값에만 존재하고,
    * 실제 모달 컴포넌트의 props에는 전달되지않아야함. (close할때만 필요한 값이기 때문)
    */
-  modals: (ModalPayload<P> & {pk: number})[];
-  openModal: (param: ModalPayload<P>) => void;
+  list: (ModalPayload<P> & {pk: number})[];
+  open: (param: ModalPayload<P>) => void;
 }
 
 // 이 파일은 꼭 ModalProvider 같은 레이아웃 파일과 분리되야함. 안그럼 Modal 컴포넌트들의 css가 두번씩 import됨.
-export function useOpenModal() {
-  const openModal = useContext(ModalContext).openModal as <P extends EssentialModalProps>(payload: ModalPayload<P>) => void;
+export function useModal() {
+  const open = useContext(ModalContext).open as <P extends EssentialModalProps>(payload: ModalPayload<P>) => void;
 
-  const openAlertModal = useCallback((props: WithoutEssentialModalProp<AlertModalProps>) => {
-    openModal({
+  const openAlert = useCallback((props: WithoutEssentialModalProp<AlertModalProps>) => {
+    open({
       Component: AlertModal,
       props
     })
-  }, [openModal]);
+  }, [open]);
 
   return {
-    openModal,
-    openAlertModal
+    open: {
+      custom: open,
+      alert: openAlert
+    },
   };
 }

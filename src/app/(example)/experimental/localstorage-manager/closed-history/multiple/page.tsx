@@ -2,7 +2,7 @@
 
 import React, {useCallback, useEffect, useState} from 'react';
 import {ComposedModalProps, ModalContainer} from '@/components/modal/container';
-import {useOpenModal} from '@/utils/extend/modal';
+import {useModal} from '@/utils/extend/modal';
 import {getDiffDate} from '@/utils/extend/date/util';
 import Button from '@/components/element/Button';
 import {ClosedHistoryManager} from '@/utils/extend/date/closed-history';
@@ -12,14 +12,14 @@ import {ClosedHistoryManager} from '@/utils/extend/date/closed-history';
  * Doc: https://docs.google.com/document/d/13gkrex798BO5tF2MnZOpom2HdgO3p8Eh1VUHT1NYJoI/edit#heading=h.oauybibldcx5
  */
 export default function Page() {
-  const {openModal} = useOpenModal();
+  const {open} = useModal();
   const activeEventPopupData = useActiveEventPopupInClosedHistory();
   const [someOpened, setSomeOpened] = useState(false);
 
   useEffect(() => {
     if (!someOpened && activeEventPopupData) {
       setSomeOpened(true);
-      openModal({
+      open.custom({
         Component: EventPopup,
         props: {
           data: activeEventPopupData,
@@ -27,7 +27,7 @@ export default function Page() {
         }
       });
     }
-  }, [activeEventPopupData, openModal, someOpened]);
+  }, [activeEventPopupData, open, someOpened]);
 
   const onClick = useCallback(() => {
     manager.addManuallyClosedHistory(2, getDiffDate(new Date(), [0, 0, 0, -1]).getTime()); //n시간전 기록 강제생성

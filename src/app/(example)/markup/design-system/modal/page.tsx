@@ -12,7 +12,7 @@ import {DefaultModalHeader, ProfileModalHeader} from '@/components/modal/header'
 import DefaultModalBody from '@/components/modal/body';
 import {OneButtonModalFooter, TwoButtonsModalFooter} from '@/components/modal/footer';
 import {useToggle} from '@/utils/extend/library/react';
-import {useOpenModal} from '@/utils/extend/modal';
+import {useModal} from '@/utils/extend/modal';
 import designSystemStyles from '@/styles/design-system.module.scss';
 
 // URL: http://localhost:3000/markup/design-system/modal
@@ -191,14 +191,14 @@ function CompositionModalTest() {
 }
 
 function OthersModalTest() {
-  const {openAlertModal} = useOpenModal();
+  const {open} = useModal();
 
   const alert = useCallback(() => {
-    openAlertModal({
+    open.alert({
       title: 'Alert (완성품) 모달은',
       content: 'X버튼없고, 스몰사이즈 중앙정렬 컨테이너에 버튼 1개짜리 조합입니다.',
     });
-  }, [openAlertModal]);
+  }, [open]);
 
   const promotion = useToggle();
 

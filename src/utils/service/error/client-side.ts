@@ -1,12 +1,12 @@
 import {useCallback} from 'react';
-import {useOpenModal} from '@/utils/extend/modal';
+import {useModal} from '@/utils/extend/modal';
 import {useRouter} from 'next/navigation';
 import {DEFAULT_HOME_URL} from '@/utils/service/auth/redirect';
 import * as Sentry from '@sentry/nextjs';
 import {FetchError, GuestError, LoginError, ServicePermissionDeniedError} from '@/utils/service/error/index';
 
 export function useHandleClientSideError() {
-  const {openAlertModal} = useOpenModal();
+  const {open} = useModal();
   const {replace} = useRouter();
   
   return useCallback(async (error: any) => {
@@ -14,7 +14,7 @@ export function useHandleClientSideError() {
       replace(DEFAULT_HOME_URL);
 
     } else if(error instanceof ServicePermissionDeniedError) {
-      openAlertModal({
+      open.alert({
         title: '권한 오류',
         content: error.message,
       });
@@ -28,7 +28,7 @@ export function useHandleClientSideError() {
        * 그러려면 useLogout()도 따로 만들고 그 안에서 또다시 useClientSideLogout() 이런거 만들어야겠다 ㅠㅠ
        */
 
-      openAlertModal({
+      open.alert({
         title: '모달 제목',
         content: '로그인 후 이용이 가능합니다',
         confirm: {
@@ -52,10 +52,10 @@ export function useHandleClientSideError() {
         content = error.apiErrorInfo.message;
       }
 
-      openAlertModal({
+      open.alert({
         title,
         content,
       });
     }
-  }, [openAlertModal, replace]);
+  }, [open, replace]);
 }
