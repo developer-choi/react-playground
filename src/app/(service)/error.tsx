@@ -3,7 +3,7 @@
 import {CustomizedErrorPage, InternalServerErrorPage} from '@/components/error/ErrorPageTemplate';
 import {ErrorPageProps} from '@/types/declaration/next';
 import useSentryCaptureGlobalError from '@/utils/extend/library/useSentryCaptureGlobalError';
-import {CustomizedError} from '@/utils/service/error/both-side';
+import {CustomizedError} from '@/utils/service/error';
 
 // 서비스에 대한 대부분의 에러는 이 페이지가 보임.
 export default function ErrorPage({error}: ErrorPageProps) {

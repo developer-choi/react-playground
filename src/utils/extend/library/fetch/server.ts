@@ -1,6 +1,6 @@
 import 'server-only';
 
-import {LoginError} from '@/utils/service/error/both-side';
+import {LoginError} from '@/utils/service/error';
 import {auth} from '@/utils/service/auth';
 import {redirect} from 'next/navigation';
 import {customFetch, ExtendedCustomFetchParameter} from '@/utils/extend/library/fetch/index';

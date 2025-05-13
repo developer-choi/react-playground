@@ -1,5 +1,5 @@
 import {isServer} from '@/utils/extend/library/next';
-import {InvalidDevelopPolicyError, LoginError} from '@/utils/service/error/both-side';
+import {InvalidDevelopPolicyError, LoginError} from '@/utils/service/error';
 import {getSession, signOut} from 'next-auth/react';
 import {customFetch, ExtendedCustomFetchParameter} from '@/utils/extend/library/fetch/index';
 

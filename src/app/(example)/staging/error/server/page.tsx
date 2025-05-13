@@ -1,4 +1,4 @@
-import {ServicePermissionDeniedError} from '@/utils/service/error/both-side';
+import {ServicePermissionDeniedError} from '@/utils/service/error';
 import {handleServerSideError} from '@/utils/service/error/server-side';
 
 export const revalidate = 0;

@@ -3,7 +3,7 @@ import {useOpenModal} from '@/utils/extend/modal';
 import {useRouter} from 'next/navigation';
 import {DEFAULT_HOME_URL} from '@/utils/service/auth/redirect';
 import * as Sentry from '@sentry/nextjs';
-import {FetchError, GuestError, LoginError, ServicePermissionDeniedError} from '@/utils/service/error/both-side';
+import {FetchError, GuestError, LoginError, ServicePermissionDeniedError} from '@/utils/service/error/index';
 
 export function useHandleClientSideError() {
   const {openAlertModal} = useOpenModal();

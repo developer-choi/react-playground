@@ -6,7 +6,7 @@ import {
   InvalidDevelopPolicyError,
   LoginError,
   ServicePermissionDeniedError
-} from '@/utils/service/error/both-side';
+} from '@/utils/service/error';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
 import {hasPermission, parsePermissionsinSession, Permission} from '@/utils/extend/permission';
 

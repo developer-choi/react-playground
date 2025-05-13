@@ -2,7 +2,7 @@ import {Body1, H1} from '@/components/element/typography';
 import layoutStyles from '@/styles/layout.module.scss';
 import styles from './index.module.scss';
 import classNames from 'classnames';
-import {CustomizedError, ServicePermissionDeniedError} from '@/utils/service/error/both-side';
+import {CustomizedError, ServicePermissionDeniedError} from '@/utils/service/error';
 import React from 'react';
 import {InvalidAccessError} from '@/utils/service/error/server-side';
 

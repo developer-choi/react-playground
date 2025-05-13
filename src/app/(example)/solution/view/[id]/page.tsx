@@ -1,6 +1,6 @@
 import {PageServerComponentProps} from '@/types/declaration/next';
 import {handleServerSideError, validateViewPageIdParams} from '@/utils/service/error/server-side';
-import {FetchError} from '@/utils/service/error/both-side';
+import {FetchError} from '@/utils/service/error';
 
 // URL: http://localhost:3000/solution/view/1 > 1번 게시글 페이지로 나옴.
 // URL: http://localhost:3000/solution/view/a > a번 게시글 페이지는 없으니까 상세데이터 API도 호출도 하지않고 바로 404 페이지 표시됨

@@ -1,5 +1,5 @@
 import React from 'react';
-import {CustomizedError, FetchError} from '@/utils/service/error/both-side';
+import {CustomizedError, FetchError} from '@/utils/service/error/index';
 import {CustomizedErrorPage} from '@/components/error/ErrorPageTemplate';
 import {notFound} from 'next/navigation';
 import {PageServerComponentProps} from '@/types/declaration/next';
