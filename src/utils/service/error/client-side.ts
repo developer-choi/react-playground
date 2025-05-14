@@ -69,6 +69,8 @@ interface HandlingErrorContext {
 }
 
 function handleUnexpectedError(error: any, {modal}: HandlingErrorContext) {
+  console.error(error);
+
   // TODO 여기서 에러를 던져야하는데 별도 커스텀클래스에 우선순위는 제일높은걸로 던져야할거같음. 에러클래스 분리 어떻게 해야할지까지 결정되고나서 확정
   Sentry.captureException(error);
 
