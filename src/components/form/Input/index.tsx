@@ -1,8 +1,7 @@
 import {FormElementWrapper, FormElementWrapperProps} from '@/components/form/form-elements';
 import classNames from 'classnames';
-import {ComponentPropsWithRef, forwardRef, MouseEvent, ReactNode, useCallback} from 'react';
+import {ComponentPropsWithRef, forwardRef, isValidElement, MouseEvent, ReactNode, useCallback} from 'react';
 import styles from './index.module.scss';
-import {isReactElement} from '@/utils/extend/library/react';
 import CheckIcon from '@/components/icon/CheckIcon';
 
 export interface InputProps extends ComponentPropsWithRef<"input">, Omit<FormElementWrapperProps, "kind"> {
@@ -25,7 +24,7 @@ export default forwardRef<HTMLInputElement, InputProps>(function Input(props, re
   }, [disabled]);
 
   // 우측에 무엇이 렌더링 되더라도, React Element가 아니면 기본적으로 태그하나 감싸서 의도된 스타일링 (flex gap 등)이 적용될 수 있도록 하기위함
-  const _rightRender = isReactElement(rightRender) ? rightRender : <span className={styles.unit}>{rightRender}</span>;
+  const _rightRender = isValidElement(rightRender) ? rightRender : <span className={styles.unit}>{rightRender}</span>;
 
   return (
     <FormElementWrapper style={style} className={className} label={label} error={hiddenErrorMessage ? undefined : error}>
