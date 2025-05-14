@@ -4,10 +4,12 @@ import {useRouter} from 'next/navigation';
 import {DEFAULT_HOME_URL} from '@/utils/service/auth/redirect';
 import * as Sentry from '@sentry/nextjs';
 import {FetchError, GuestError, LoginError, ServicePermissionDeniedError} from '@/utils/service/error/index';
+import {useLogout} from '@/utils/service/auth/hooks';
 
 export function useHandleClientSideError() {
   const {open} = useModal();
   const {replace} = useRouter();
+  const logout = useLogout();
   
   return useCallback(async (error: any) => {
     if (error instanceof GuestError) {
@@ -33,8 +35,9 @@ export function useHandleClientSideError() {
         content: '로그인 후 이용이 가능합니다',
         confirm: {
           children: '로그인 하러가기',
-          onClick: (onClose) => {
+          onClick: async (onClose) => {
             onClose();
+            await logout();
             replace(error.loginUrlWithRedirect);
           },
         }
@@ -57,5 +60,5 @@ export function useHandleClientSideError() {
         content,
       });
     }
-  }, [open, replace]);
+  }, [logout, open, replace]);
 }
