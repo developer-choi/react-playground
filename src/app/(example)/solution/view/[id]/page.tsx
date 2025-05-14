@@ -26,7 +26,7 @@ async function getBoardViewApi(id: number) {
     };
   } else {
     throw new FetchError({
-      headers: {} as any,
+      original: {} as any,
       json: {},
       status: 404,
       text: '',

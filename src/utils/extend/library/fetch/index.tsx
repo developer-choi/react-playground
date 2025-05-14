@@ -34,6 +34,15 @@ export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> 
   next?: RequestInit['next'] & {
     tags?: RevalidateTagType[]
   };
+
+  response?: Partial<{
+    /**
+     * (default) auto
+     * 1. Response의 Content-Type이 application/json인 경우 await response.json() 해서 json키에 저장함
+     * 2. Response의 Content-Type이 text/plain인 경우 await response.text() 해서 text키에 저장함
+     */
+    dataType?: 'auto' | 'manual';
+  }>;
 }
 
 /**
@@ -55,13 +64,13 @@ export interface CustomFetchParameter extends ExtendedCustomFetchParameter {
 export async function customFetch<D>(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
   const request = handleRequest(input, parameter);
   const response = await fetch(request.input, request.init);
-  return handleResponse<D>(response, request.permission);
+  return handleResponse<D>(response, request.permission, parameter);
 }
 
-
-export interface CustomResponse<D = any> extends Pick<Response, 'status' | 'headers' | 'url'> {
+export interface CustomResponse<D = any> extends Pick<Response, 'status' | 'url'> {
   json: D;
   text: string | '';
+  original: Response;
 }
 
 export type RevalidateTagType = 'board-list';
@@ -70,7 +79,7 @@ export type RevalidateTagType = 'board-list';
  * Non Export
  *************************************************************************************************************/
 function handleRequest(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
-  const {headers, session, authorize, body, query, cache, ...rest} = parameter;
+  const {headers, session, authorize, body, query, cache, response, ...rest} = parameter;
   const newHeaders = new Headers(headers);
   const isPrivate = isAuthorizePrivate(authorize);
 
@@ -101,7 +110,7 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   }
 
   // GET의 경우에는 없고, 그 외 나머지는 JSON이 될 수도, Primitive일 수도 있음.
-  if (typeof body === 'object') {
+  if (typeof body === 'object' && newHeaders.get('Content-Type') === null) {
     newHeaders.set('Content-Type', 'application/json');
   }
 
@@ -110,7 +119,7 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
 
   const init: RequestInit = {
     headers: newHeaders,
-    body: typeof body === 'object' ? JSON.stringify(body) : body,
+    body: typeof body !== 'object' || body instanceof Blob ? body : JSON.stringify(body),
     cache: (cache === undefined && authorize === 'none') ? 'force-cache' : cache,
     ...rest
   };
@@ -128,23 +137,27 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
 async function handleResponse<D>(response: Response, permission: {
   request: Permission | undefined,
   granted: Permission[]
-}) {
+}, parameter: CustomFetchParameter) {
   const contentType = response.headers.get('Content-Type');
   let json = {};
   let text = '';
 
-  if (contentType && contentType.includes('application/json')) {
-    json = await response.json();
-  } else {
-    text = await response.text();
+  const dataType = parameter.response?.dataType ?? 'auto';
+
+  if (dataType === 'auto' && contentType) {
+    if (contentType.includes('application/json')) {
+      json = await response.json();
+    } else if (contentType.includes('text/plain')) {
+      text = await response.text();
+    }
   }
 
   const customResponse: CustomResponse<D> = {
     status: response.status,
     url: response.url,
-    headers: response.headers,
     json: json as D,
-    text
+    text,
+    original: response,
   };
 
   if (response.ok) {
