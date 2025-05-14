@@ -2,13 +2,7 @@ import {useModal} from '@/utils/extend/modal';
 import {useRouter} from 'next/navigation';
 import {DEFAULT_HOME_URL} from '@/utils/service/auth/redirect';
 import * as Sentry from '@sentry/nextjs';
-import {
-  CustomizedError,
-  FetchError,
-  GuestError,
-  LoginError,
-  ServicePermissionDeniedError
-} from '@/utils/service/error/index';
+import {CustomizedError, FetchError, GuestError, LoginError,} from '@/utils/service/error/index';
 import type {AppRouterInstance} from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import {QueryClient, useQueryClient} from '@tanstack/react-query';
 import {useCallback} from 'react';
@@ -31,7 +25,6 @@ export function useHandleClientSideError() {
       GuestError: (error) => handleGuestError(error, context),
       LoginError: (error) => handleLoginError(error, logout, context),
       FetchError: (error) => handleFetchError(error, context),
-      ServicePermissionDeniedError: (error) => handleServicePermissionDeniedError(error, context),
     };
 
     if (error instanceof CustomizedError) {
@@ -53,7 +46,6 @@ interface ErrorInstances {
   GuestError: GuestError;
   LoginError: LoginError;
   FetchError: FetchError;
-  ServicePermissionDeniedError: ServicePermissionDeniedError;
 }
 
 type ErrorName = keyof ErrorInstances;
@@ -127,11 +119,4 @@ function handleFetchError(error: FetchError, {modal}: HandlingErrorContext) {
         content: error.apiErrorInfo?.message ?? '해당 현상이 지속되면 고객센터로 문의 해주세요.',
       });
   }
-}
-
-function handleServicePermissionDeniedError(error: ServicePermissionDeniedError, {modal}: HandlingErrorContext) {
-  modal.open.alert({
-    title: '권한 오류',
-    content: error.message,
-  });
 }

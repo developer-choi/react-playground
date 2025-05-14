@@ -1,4 +1,3 @@
-import {Permission} from '@/utils/extend/permission';
 import {CustomResponse} from '@/utils/extend/library/fetch';
 import type {SeverityLevel} from '@sentry/types';
 
@@ -61,25 +60,6 @@ export class ValidateError extends CustomizedError {
     super(message, {meta: config?.meta});
     this.title = config?.title;
     this.reason = config?.reason;
-  }
-}
-
-/**
- * API를 호출할 때 권한이 필요한데,
- * 유저의 권한이 부족한 경우 발생.
- *
- * API를 호출하기 직전에 체크해서 throw 될 수도 있고,
- * API에서 403이 응답된 경우에도 이 에러로 감싸짐.
- */
-export class ServicePermissionDeniedError extends CustomizedError {
-  readonly name = 'ServicePermissionDeniedError';
-  readonly request: Permission;
-  readonly granted: Permission[];
-
-  constructor(request: Permission, granted: Permission[], cause?: FetchError) {
-    super(`Requested = ${request}\nGranted = ${granted.join(', ')}`, {cause});
-    this.request = request;
-    this.granted = granted;
   }
 }
 

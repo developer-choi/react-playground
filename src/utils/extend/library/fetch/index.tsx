@@ -1,14 +1,6 @@
 import {Session} from 'next-auth';
-import {
-  CustomizedApiErrorInfo,
-  FetchError,
-  GuestError,
-  InvalidDevelopPolicyError,
-  LoginError,
-  ServicePermissionDeniedError
-} from '@/utils/service/error';
+import {CustomizedApiErrorInfo, FetchError, GuestError, LoginError,} from '@/utils/service/error';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
-import {hasPermission, parsePermissionsinSession, Permission} from '@/utils/extend/permission';
 
 export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
   body?: RequestInit['body'] | object;
@@ -19,17 +11,8 @@ export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> 
    * none = request에 accessToken을 싣지않음.
    * guest = request에 accessToken을 싣지않음. + 로그인이 되어있으면 GuestError를 던짐
    * private = request에 accessToken을 포함함 + 로그인 안되어있으면 LoginError 던짐
-   *
-   * 이 3개는 권한이 필요없는것으로 간주
    */
-
-  /** Permission는 "최소" private의 특징을 상속받음.
-   * 권한이 필요한 API를 호출하기 직전에, 로그인 한 유저의 권한이 충분한지 체크. (API 호출 '전'에 체크)
-   * 각각의 환경에 따라, 처리가 달라짐.
-   * 1. Client Side에서는 모달이 뜨고 끝남
-   * 2. Server Side에서는 403 에러페이지가 노출됨.
-   */
-  authorize: 'private' | 'none' | 'guest' | Permission;
+  authorize: 'private' | 'none' | 'guest';
 
   next?: RequestInit['next'] & {
     tags?: RevalidateTagType[]
@@ -64,7 +47,7 @@ export interface CustomFetchParameter extends ExtendedCustomFetchParameter {
 export async function customFetch<D>(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
   const request = handleRequest(input, parameter);
   const response = await fetch(request.input, request.init);
-  return handleResponse<D>(response, request.permission, parameter);
+  return handleResponse<D>(response, parameter);
 }
 
 export interface CustomResponse<D = any> extends Pick<Response, 'status' | 'url'> {
@@ -81,7 +64,7 @@ export type RevalidateTagType = 'board-list';
 function handleRequest(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
   const {headers, session, authorize, body, query, cache, response, ...rest} = parameter;
   const newHeaders = new Headers(headers);
-  const isPrivate = isAuthorizePrivate(authorize);
+  const isPrivate = authorize === 'private';
 
   if (isPrivate && !session) {
     throw LOGIN_ERROR;
@@ -94,19 +77,6 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   if (authorize !== 'none' && session) {
     // access token 대신
     newHeaders.set('access-token', session.user.access_token);
-  }
-
-  const permission = authorizeToPermission(authorize);
-  const grantedPermissions = (!permission || !session) ? [] : parsePermissionsinSession(session.user.grantedPermissions);
-
-  if (permission) {
-    if (!session) {
-      throw LOGIN_ERROR; // 로그인을 하지 않은 상태로 권한이 필요한 API를 호출할 수 없음.
-    }
-
-    if (!hasPermission(permission, grantedPermissions)) {
-      throw new ServicePermissionDeniedError(permission, grantedPermissions);
-    }
   }
 
   // GET의 경우에는 없고, 그 외 나머지는 JSON이 될 수도, Primitive일 수도 있음.
@@ -127,17 +97,10 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   return {
     input: requestUrl,
     init,
-    permission: {
-      request: permission,
-      granted: grantedPermissions
-    }
   };
 }
 
-async function handleResponse<D>(response: Response, permission: {
-  request: Permission | undefined,
-  granted: Permission[]
-}, parameter: CustomFetchParameter) {
+async function handleResponse<D>(response: Response, parameter: CustomFetchParameter) {
   const contentType = response.headers.get('Content-Type');
   let json = {};
   let text = '';
@@ -167,42 +130,11 @@ async function handleResponse<D>(response: Response, permission: {
   const defaultFetchError = new FetchError(customResponse, ('error' in json) ? json.error as CustomizedApiErrorInfo : undefined);
 
   switch (response.status) {
-    case 403: {
-      if (!permission.request) {
-        throw new InvalidDevelopPolicyError(`request permission을 명시하지않았는데 403 에러가 응답되었음.`, response);
-      } else {
-        throw new ServicePermissionDeniedError(permission.request, permission.granted, defaultFetchError);
-      }
-    }
-
     case 401:
       throw LOGIN_ERROR;
 
     default:
       throw defaultFetchError;
-  }
-}
-
-function authorizeToPermission(authorize: ExtendedCustomFetchParameter['authorize']): undefined | Permission {
-  switch (authorize) {
-    case 'private':
-    case 'none':
-    case 'guest':
-      return undefined;
-
-    default:
-      return authorize;
-  }
-}
-
-function isAuthorizePrivate(authorize: ExtendedCustomFetchParameter['authorize']): boolean {
-  switch (authorize) {
-    case 'none':
-    case 'guest':
-      return false;
-
-    default:
-      return true;
   }
 }
 
