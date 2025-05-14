@@ -3,14 +3,14 @@ import {InvalidDevelopPolicyError, LoginError} from '@/utils/service/error';
 import {getSession, signOut} from 'next-auth/react';
 import {customFetch, ExtendedCustomFetchParameter} from '@/utils/extend/library/fetch/index';
 
-export async function customFetchOnClientSide(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
+export async function customFetchOnClientSide<D>(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
   if(isServer()) {
     throw new InvalidDevelopPolicyError('customFetchOnClientSide()는 Server Side에서 호출되면 안됩니다.');
   }
 
   try {
     const session = parameter.authorize === 'none' ? null : await getSession();
-    return customFetch(input, {...parameter, session});
+    return customFetch<D>(input, {...parameter, session});
   } catch (error: any) {
     if (error instanceof LoginError) {
       const redirectUrl = location.pathname + location.search;

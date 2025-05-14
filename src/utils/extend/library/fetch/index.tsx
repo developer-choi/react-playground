@@ -41,8 +41,8 @@ export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> 
  * 그래서 로그인 체크도 하지않고,
  * 로그인이 실패할 일도 없어서 로그인 실패 처리로직도 없음.
  */
-export async function customFetchOnBothSide(input: string | URL | globalThis.Request, parameter: Omit<ExtendedCustomFetchParameter, 'authorize'>) {
-  return customFetch(input, {...parameter, session: null, authorize: 'none'});
+export async function customFetchOnBothSide<D>(input: string | URL | globalThis.Request, parameter: Omit<ExtendedCustomFetchParameter, 'authorize'>) {
+  return customFetch<D>(input, {...parameter, session: null, authorize: 'none'});
 }
 
 export interface CustomFetchParameter extends ExtendedCustomFetchParameter {
@@ -52,15 +52,15 @@ export interface CustomFetchParameter extends ExtendedCustomFetchParameter {
 /** customFetch() 공통 주석
  * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
  */
-export async function customFetch(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
+export async function customFetch<D>(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
   const request = handleRequest(input, parameter);
   const response = await fetch(request.input, request.init);
-  return handleResponse(response, request.permission);
+  return handleResponse<D>(response, request.permission);
 }
 
 
-export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'url'> {
-  json: any; // TODO 추후 제네릭 추가예정
+export interface CustomResponse<D = any> extends Pick<Response, 'status' | 'headers' | 'url'> {
+  json: D;
   text: string | '';
 }
 
@@ -125,7 +125,7 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   };
 }
 
-async function handleResponse(response: Response, permission: {
+async function handleResponse<D>(response: Response, permission: {
   request: Permission | undefined,
   granted: Permission[]
 }) {
@@ -139,11 +139,11 @@ async function handleResponse(response: Response, permission: {
     text = await response.text();
   }
 
-  const customResponse: CustomResponse = {
+  const customResponse: CustomResponse<D> = {
     status: response.status,
     url: response.url,
     headers: response.headers,
-    json,
+    json: json as D,
     text
   };
 

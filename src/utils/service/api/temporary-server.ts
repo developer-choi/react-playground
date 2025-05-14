@@ -3,10 +3,15 @@ import {customFetchOnServerSide} from '@/utils/extend/library/fetch/server';
 import {InvalidAccessError} from '@/utils/service/error/server-side';
 import {cookies} from 'next/headers';
 
-// TODO 추후 Generic 추가예정
-export async function getTemporaryDataApi(name: TemporaryDataKey) {
+interface TemporaryResponse {
+  signUpSuccess: {
+    email: string;
+  }
+}
+
+export async function getTemporaryDataApi<K extends TemporaryDataKey>(name: K) {
   try {
-    const {json} = await customFetchOnServerSide(`/api/temporary/${name}`, {
+    const {json} = await customFetchOnServerSide<TemporaryResponse[K]>(`/api/temporary/${name}`, {
       method: 'GET',
       authorize: 'none',
       headers: {
