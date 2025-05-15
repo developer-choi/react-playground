@@ -109,11 +109,19 @@ async function handleResponse<D>(response: Response, parameter: CustomFetchParam
 
   if (dataType === 'auto' && contentType) {
     if (contentType.includes('application/json')) {
-      json = await response.json();
+      /**
+       * https://developer.mozilla.org/en-US/docs/Web/API/Response/json
+       * This object could be anything that can be represented by JSON — an object, an array, a string, a number…
+       */
+      // json = await response.json();
     } else if (contentType.includes('text/plain')) {
-      text = await response.text();
+      // text = await response.text();
     }
   }
+
+  // 이부분을 .json()이나 .text()로 바꿔보며 로그 찍어보며 테스트했음.
+  const data = await response.text()
+  console.log('contentType', contentType, data === '' ? '[empty string]' : data, typeof data);
 
   const customResponse: CustomResponse<D> = {
     status: response.status,
