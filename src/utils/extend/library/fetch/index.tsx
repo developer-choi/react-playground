@@ -1,5 +1,5 @@
 import {Session} from 'next-auth';
-import {CustomizedApiErrorInfo, FetchError, GuestError, LoginError,} from '@/utils/service/error';
+import {CustomizedApiErrorInfo, FetchError, GuestError, MismatchedApiResponseError, LoginError,} from '@/utils/service/error';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
 
 export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
@@ -100,7 +100,7 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
 }
 
 async function handleResponse<D>(response: Response, parameter: CustomFetchParameter) {
-  const data = await parseResponseData<D>(response, parameter);
+  const data = await extractResponseData<D>(response, parameter);
 
   const customResponse: CustomResponse<D> = {
     status: response.status,
@@ -125,7 +125,7 @@ async function handleResponse<D>(response: Response, parameter: CustomFetchParam
   }
 }
 
-async function parseResponseData<D>(response: Response, parameter: CustomFetchParameter): Promise<D> {
+async function extractResponseData<D>(response: Response, parameter: CustomFetchParameter): Promise<D> {
   const contentType = response.headers.get('Content-Type');
   const dataType = parameter.response?.dataType ?? 'auto';
 
@@ -133,15 +133,20 @@ async function parseResponseData<D>(response: Response, parameter: CustomFetchPa
     return null as D;
   }
 
-  if (contentType.includes('application/json')) {
-    return response.json();
+  // return await 한 이유는 이 메소드들에서 에러가 던져질 수 있기 때문.
+  try {
+    if (contentType.includes('application/json')) {
+      return await response.json();
+    }
+
+    if (contentType.includes('text/plain')) {
+      return (await response.text()) as D;
+    }
+  } catch (error) {
+    throw new MismatchedApiResponseError(parameter, response);
   }
 
-  if (contentType.includes('text/plain')) {
-    return response.text() as Promise<D>;
-  }
-
-  return null as D;
+  throw new MismatchedApiResponseError(parameter, response);
 }
 
 const LOGIN_ERROR = new LoginError('Login is required');
