@@ -25,7 +25,7 @@ async function getBoardViewApi(id: number) {
       title: `${id}번 게시글`
     };
   } else {
-    throw new FetchError({
+    throw new FetchError({} as any, {
       original: {} as any,
       json: {},
       status: 404,

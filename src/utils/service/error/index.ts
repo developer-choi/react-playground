@@ -1,4 +1,4 @@
-import {CustomResponse} from '@/utils/extend/library/fetch';
+import {CustomFetchParameter, CustomResponse} from '@/utils/extend/library/fetch';
 import type {SeverityLevel} from '@sentry/types';
 
 // export type SentryTag = 'some';
@@ -75,12 +75,14 @@ export interface CustomizedApiErrorInfo {
  * 단, 401 / 403은 예외로, 이 에러 다신 별도의 커스텀 에러가 던져짐.
  */
 export class FetchError extends CustomizedError {
+  readonly request: CustomFetchParameter;
   readonly response: CustomResponse;
   readonly name = 'FetchError';
   readonly apiErrorInfo: CustomizedApiErrorInfo | undefined;
 
-  constructor(response: CustomResponse, apiErrorInfo: CustomizedApiErrorInfo | undefined) {
+  constructor(request: CustomFetchParameter, response: CustomResponse, apiErrorInfo: CustomizedApiErrorInfo | undefined) {
     super('An error occurred while calling the API.');
+    this.request = request;
     this.response = response;
     this.apiErrorInfo = apiErrorInfo;
   }

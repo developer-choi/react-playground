@@ -127,7 +127,7 @@ async function handleResponse<D>(response: Response, parameter: CustomFetchParam
     return customResponse;
   }
 
-  const defaultFetchError = new FetchError(customResponse, ('error' in json) ? json.error as CustomizedApiErrorInfo : undefined);
+  const defaultFetchError = new FetchError(parameter, customResponse, ('error' in json) ? json.error as CustomizedApiErrorInfo : undefined);
 
   switch (response.status) {
     case 401:
