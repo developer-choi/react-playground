@@ -40,7 +40,7 @@ export interface UserFieldCountApiResponse {
  */
 export async function getUserFieldCountApi({validationMode, ...rest}: UserFieldCountApiRequest): Promise<UserFieldCountApiResponse> {
   try {
-    const {json: {count}} = await customFetchOnClientSide<{count: number}>(`/api/user/field/count`, {
+    const {data: {count}} = await customFetchOnClientSide<{count: number}>(`/api/user/field/count`, {
       method: 'GET',
       authorize: 'none',
       query: rest

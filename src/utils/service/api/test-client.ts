@@ -7,12 +7,11 @@ export function getTestStatus401ClientApi() {
 }
 
 export async function getTestPlainListApi(page: number) {
-  const {json} = await customFetchOnBothSide('/api/test/plain-list', {
+  const {data} = await customFetchOnBothSide<PlainListApiResponse>('/api/test/plain-list', {
     method: 'GET',
     query: {
       page
     }
   });
-
-  return json as PlainListApiResponse;
+  return data;
 }

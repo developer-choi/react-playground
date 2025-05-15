@@ -70,9 +70,9 @@ export interface CustomizedApiErrorInfo {
 }
 
 /**
- * fetch() 호출 자체는 성공했으나, response.ok가 true가 아닌 모든 케이스.
- * 예를들어 fetch() 호출 자체가 Type Error 'Failed to fetch' 같은 케이스는 이 에러로 감싸지지않음.
- * 단, 401 / 403은 예외로, 이 에러 다신 별도의 커스텀 에러가 던져짐.
+ * API 호출이 성공했고, 응답값도 존재하지만, 2xx가 아닌 경우 발생함. (response.ok가 false)
+ * 즉, API 호출조차도 실패한 케이스는 이 에러가 던져지지 않음. (Type Error 'Failed to fetch' 같은 케이스)
+ * 단, 일부 에러코드는 별도의 에러클래스가 던져짐 (401)
  */
 export class FetchError extends CustomizedError {
   readonly request: CustomFetchParameter;

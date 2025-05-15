@@ -51,8 +51,7 @@ export async function customFetch<D>(input: string | URL | globalThis.Request, p
 }
 
 export interface CustomResponse<D = any> extends Pick<Response, 'status' | 'url'> {
-  json: D;
-  text: string | '';
+  data: D;
   original: Response;
 }
 
@@ -101,25 +100,12 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
 }
 
 async function handleResponse<D>(response: Response, parameter: CustomFetchParameter) {
-  const contentType = response.headers.get('Content-Type');
-  let json = {};
-  let text = '';
-
-  const dataType = parameter.response?.dataType ?? 'auto';
-
-  if (dataType === 'auto' && contentType) {
-    if (contentType.includes('application/json')) {
-      json = await response.json();
-    } else if (contentType.includes('text/plain')) {
-      text = await response.text();
-    }
-  }
+  const data = await parseResponseData<D>(response, parameter);
 
   const customResponse: CustomResponse<D> = {
     status: response.status,
     url: response.url,
-    json: json as D,
-    text,
+    data,
     original: response,
   };
 
@@ -127,7 +113,8 @@ async function handleResponse<D>(response: Response, parameter: CustomFetchParam
     return customResponse;
   }
 
-  const defaultFetchError = new FetchError(parameter, customResponse, ('error' in json) ? json.error as CustomizedApiErrorInfo : undefined);
+  const apiErrorInfo: CustomizedApiErrorInfo | undefined = (data && typeof data === 'object' && 'error' in data) ? data.error as CustomizedApiErrorInfo : undefined;
+  const defaultFetchError = new FetchError(parameter, customResponse, apiErrorInfo);
 
   switch (response.status) {
     case 401:
@@ -136,6 +123,25 @@ async function handleResponse<D>(response: Response, parameter: CustomFetchParam
     default:
       throw defaultFetchError;
   }
+}
+
+async function parseResponseData<D>(response: Response, parameter: CustomFetchParameter): Promise<D> {
+  const contentType = response.headers.get('Content-Type');
+  const dataType = parameter.response?.dataType ?? 'auto';
+
+  if (!contentType || dataType !== 'auto') {
+    return null as D;
+  }
+
+  if (contentType.includes('application/json')) {
+    return response.json();
+  }
+
+  if (contentType.includes('text/plain')) {
+    return response.text() as Promise<D>;
+  }
+
+  return null as D;
 }
 
 const LOGIN_ERROR = new LoginError('Login is required');

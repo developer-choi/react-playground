@@ -36,7 +36,7 @@ export function deleteAllBoardsApi() {
 }
 
 export async function getBoardListApi(filter?: BoardRow['type']) {
-  const {json} = await customFetchOnBothSide<BoardListApiResponse>(`/api/board`, {
+  const {data} = await customFetchOnBothSide<BoardListApiResponse>(`/api/board`, {
     method: 'GET',
     next: {
       tags: ['board-list'],
@@ -46,5 +46,5 @@ export async function getBoardListApi(filter?: BoardRow['type']) {
     }
   });
 
-  return json;
+  return data;
 }

@@ -11,7 +11,7 @@ interface TemporaryResponse {
 
 export async function getTemporaryDataApi<K extends TemporaryDataKey>(name: K) {
   try {
-    const {json} = await customFetchOnServerSide<TemporaryResponse[K]>(`/api/temporary/${name}`, {
+    const {data} = await customFetchOnServerSide<TemporaryResponse[K]>(`/api/temporary/${name}`, {
       method: 'GET',
       authorize: 'none',
       headers: {
@@ -19,7 +19,7 @@ export async function getTemporaryDataApi<K extends TemporaryDataKey>(name: K) {
       }
     });
 
-    return json;
+    return data;
   } catch (error: any) {
     if (error.status === 404) {
       throw new InvalidAccessError();

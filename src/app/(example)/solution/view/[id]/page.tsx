@@ -27,9 +27,8 @@ async function getBoardViewApi(id: number) {
   } else {
     throw new FetchError({} as any, {
       original: {} as any,
-      json: {},
+      data: {},
       status: 404,
-      text: '',
       url: '게시글상세API'
     }, undefined);
   }
