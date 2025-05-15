@@ -16,3 +16,8 @@ export const BOARD_TYPE_RECORD: Record<BoardRow['type'], string> = {
 
 export type PostBoardApiRequest = Omit<BoardRow, 'pk'>;
 export type PatchBoardApiRequest = BoardRow;
+
+export interface BoardListApiResponse {
+  list: BoardRow[];
+  currentTime: string; // YYYY-MM-DD HH:mm:ss
+}

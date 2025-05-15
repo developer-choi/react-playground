@@ -23,13 +23,13 @@ export default function Page() {
   console.log('query', query);
 
   const callApi = useCallback(async () => {
-    const {json} = await customFetchOnClientSide('/api/test/query-string', {
+    const {data} = await customFetchOnClientSide('/api/test/query-string', {
       method: 'GET',
       authorize: 'none',
       query: TEST_QUERY
     });
 
-    console.log('json', json);
+    console.log('data', data);
   }, []);
 
   const {replace} = useNavigation();

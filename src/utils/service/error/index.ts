@@ -1,5 +1,4 @@
-import {Permission} from '@/utils/extend/permission';
-import {CustomResponse} from '@/utils/extend/library/fetch';
+import {CustomFetchParameter, CustomResponse} from '@/utils/extend/library/fetch';
 import type {SeverityLevel} from '@sentry/types';
 
 // export type SentryTag = 'some';
@@ -64,25 +63,6 @@ export class ValidateError extends CustomizedError {
   }
 }
 
-/**
- * API를 호출할 때 권한이 필요한데,
- * 유저의 권한이 부족한 경우 발생.
- *
- * API를 호출하기 직전에 체크해서 throw 될 수도 있고,
- * API에서 403이 응답된 경우에도 이 에러로 감싸짐.
- */
-export class ServicePermissionDeniedError extends CustomizedError {
-  readonly name = 'ServicePermissionDeniedError';
-  readonly request: Permission;
-  readonly granted: Permission[];
-
-  constructor(request: Permission, granted: Permission[], cause?: FetchError) {
-    super(`Requested = ${request}\nGranted = ${granted.join(', ')}`, {cause});
-    this.request = request;
-    this.granted = granted;
-  }
-}
-
 // API에서 에러가 발생한 경우, 별도로 응답되는 에러 데이터. 있을 수도, 없을 수도 있음. (500에러, 404에러 등은 이런 데이터가 없음), 주로 POST / UPDATE에서 유효성검증 하다 실패했을 때 주로 사용함.
 export interface CustomizedApiErrorInfo {
   type: string;
@@ -90,19 +70,62 @@ export interface CustomizedApiErrorInfo {
 }
 
 /**
- * fetch() 호출 자체는 성공했으나, response.ok가 true가 아닌 모든 케이스.
- * 예를들어 fetch() 호출 자체가 Type Error 'Failed to fetch' 같은 케이스는 이 에러로 감싸지지않음.
- * 단, 401 / 403은 예외로, 이 에러 다신 별도의 커스텀 에러가 던져짐.
+ * API 호출이 성공했고, 응답값도 존재하지만, 2xx가 아닌 경우 발생함. (response.ok가 false)
+ * 즉, API 호출조차도 실패한 케이스는 이 에러가 던져지지 않음. (Type Error 'Failed to fetch' 같은 케이스)
+ * 단, 일부 에러코드는 별도의 에러클래스가 던져짐 (401)
  */
 export class FetchError extends CustomizedError {
+  readonly request: CustomFetchParameter;
   readonly response: CustomResponse;
   readonly name = 'FetchError';
   readonly apiErrorInfo: CustomizedApiErrorInfo | undefined;
 
-  constructor(response: CustomResponse, apiErrorInfo: CustomizedApiErrorInfo | undefined) {
+  constructor(request: CustomFetchParameter, response: CustomResponse, apiErrorInfo: CustomizedApiErrorInfo | undefined) {
     super('An error occurred while calling the API.');
+    this.request = request;
     this.response = response;
     this.apiErrorInfo = apiErrorInfo;
+  }
+}
+
+/**
+ * API 호출이 성공했고, 응답값도 존재하지만,
+ * 1. response.headers의 Content-Type 와
+ * 2. ExtendedCustomFetchParameter의 dataType
+ * 3. 실제 응답된 데이터
+ * 이 3개가 서로 호환되지 않는 경우 이 에러가 발생함.
+ *
+ * Case
+ * 1. Content-Type이 'application/json' 혹은 'text/plain'이 아니면서 && dataType을 manual로 지정하지 않은 경우 (클라이언트 개발자 잘못)
+ * ==>
+ * 이런 경우, 직접 'manual'로 지정하고, response.blob() 등으로 직접 응답 데이터를 가져와야함.
+ *
+ * 2. Content-Type 값이 'application/json' 인데 응답 데이터를 json으로 변환하다가 오류가 발생한 경우 (서버 개발자 잘못일 확률 높음)
+ * ==>
+ * 원인은, https://developer.mozilla.org/en-US/docs/Web/API/Response/json#exceptions에 명시됨.
+ * 예시 > 서버에서 응답 헤더는 json이라고 했으면서 실제 데이터는 json으로 변환할 수 없는 데이터를 응답 한 경우
+ *
+ * 3. Content-Type 값이 'text/plain'인데, 응답 데이터를 text로 변환하다가 오류가 발생한 경우
+ * ==>
+ * 원인은, https://developer.mozilla.org/en-US/docs/Web/API/Response/text#exceptions에 명시됨.
+ */
+export class MismatchedApiResponseError extends CustomizedError {
+  readonly request: CustomFetchParameter;
+  readonly response: Pick<Response, 'status' | 'url'>;
+  readonly name = 'MismatchedApiResponseError';
+
+  constructor(request: CustomFetchParameter, response: Response) {
+    super('Mismatch between response Content-Type, expected dataType, and actual response data.');
+    this.request = request;
+
+    /**
+     * 처음에는 여기에 text() 데이터라도 담으려고했는데, text()가 비동기 로직이어서 이 생성자 안에서 실행할 수가 없었음.
+     * 이 에러 호출하는 밖에서 text()를 해서 이 안으로 전달하려고도 해봤지만, 당장 가치를 못느껴서 미루기로 헀음.
+     */
+    this.response = {
+      url: response.url,
+      status: response.status
+    };
   }
 }
 

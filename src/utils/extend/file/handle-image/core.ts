@@ -6,10 +6,10 @@ import {
   validateImageFile
 } from '@/utils/extend/file/file-validation';
 import {InputFileProps} from '@/components/form/Input/inputFile';
-import {useOpenModal} from '@/utils/extend/modal';
+import {useModal} from '@/utils/extend/modal';
 import {useHandleClientSideError} from '@/utils/service/error/client-side';
 import {v4 as uuidv4} from 'uuid';
-import {ValidateError} from '@/utils/service/error/both-side';
+import {ValidateError} from '@/utils/service/error';
 
 export interface CoreSingleImageFileParameter {
   options?: Partial<FileValidateOption>; // 기본값은 이미지 전체 가능, 따로 지정할 경우 dot을 포함해야함. (ex: ['.jpg']), 이걸로 input type file의 accept도 만듬.
@@ -115,7 +115,7 @@ export function getInitialSingleFileAndThumbnail(initialImageUrl: string | undef
  * 이미지 미리보기를 위한 Object Url를 create 및 revoke까지 지원
  */
 function useOnChangeFiles({options, list, setList, multiple}: CoreImagePreviewParameter) {
-  const {openAlertModal} = useOpenModal();
+  const {open} = useModal();
   const handleClientSideError = useHandleClientSideError();
   const objectUrlRef = useRef<string[]>([]);
 
@@ -170,7 +170,7 @@ function useOnChangeFiles({options, list, setList, multiple}: CoreImagePreviewPa
       }
     } catch (error) {
       if (error instanceof ValidateError) {
-        openAlertModal({
+        open.alert({
           title: '파일등록',
           content: error.message
         });
@@ -178,5 +178,5 @@ function useOnChangeFiles({options, list, setList, multiple}: CoreImagePreviewPa
         handleClientSideError(error);
       }
     }
-  }, [options, keepPrevData, multiple, list, setList, openAlertModal, handleClientSideError]);
+  }, [options, keepPrevData, multiple, list, setList, open, handleClientSideError]);
 }

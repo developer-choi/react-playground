@@ -5,14 +5,14 @@ import {getDiffDate} from '@/utils/extend/date/util';
 import Button from '@/components/element/Button';
 import {ClosedHistoryManager} from '@/utils/extend/date/closed-history';
 import {ComposedModalProps, ModalContainer} from '@/components/modal/container';
-import {useOpenModal} from '@/utils/extend/modal';
+import {useModal} from '@/utils/extend/modal';
 
 /**
  * URL: http://localhost:3000/experimental/localstorage-manager/closed-history/single
  * Doc: https://docs.google.com/document/d/13gkrex798BO5tF2MnZOpom2HdgO3p8Eh1VUHT1NYJoI/edit#heading=h.oauybibldcx5
  */
 export default function Page() {
-  const {openModal} = useOpenModal();
+  const {open} = useModal();
   const activeApplePopupPk = manager.getActiveInClosedHistory({
     pkList: [PK],
     closePeriod: {
@@ -23,14 +23,14 @@ export default function Page() {
 
   useEffect(() => {
     if (activeApplePopupPk) {
-      openModal({
+      open.custom({
         Component: ApplePopup,
         props: {
           closeDuringOneDay: () => manager.closeDuringSpecificPeriod(activeApplePopupPk)
         }
       });
     }
-  }, [activeApplePopupPk, openModal]);
+  }, [activeApplePopupPk, open]);
 
   const onClick = useCallback(() => {
     manager.addManuallyClosedHistory(PK, getDiffDate(new Date(), [0, 0, 0, -26]).getTime()); //n시간전 기록생성

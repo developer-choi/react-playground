@@ -2,9 +2,9 @@ import {useCallback} from 'react';
 import {signIn, signOut} from 'next-auth/react';
 import {getRedirectUrlWhenLoginSuccess} from '@/utils/service/auth/redirect';
 import {LoginApiResponse} from '@/types/services/auth';
-import {useHandleClientSideError} from '@/utils/service/error/client-side';
 import {usePathname, useSearchParams} from 'next/navigation';
 import {getNextNavigating} from '@/utils/service/auth/path';
+import * as Sentry from '@sentry/nextjs';
 
 /**
  * 로그인 성공 (아이디비번로그인, SNS 로그인 등) 후 실행되야하는 함수
@@ -35,7 +35,6 @@ export function useLogin() {
  * https://docs.google.com/document/d/1PRzGtGusjqi4LfU0R4dC4wLPKfxQN5GcJ7JJXOAkdK0/edit
  */
 export function useLogout() {
-  const handleOnClientError = useHandleClientSideError();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -48,7 +47,7 @@ export function useLogout() {
     try {
       await backendLogoutApi();
     } catch (error: any) {
-      handleOnClientError(error);
+      Sentry.captureException(error);
     } finally {
       const nextNavigating = getNextNavigating({
         nextUrl: nextUrl ?? pathname + '?' + searchParams.toString(),
@@ -59,7 +58,7 @@ export function useLogout() {
         callbackUrl: nextNavigating.nextUrl,
       });
     }
-  }, [handleOnClientError, pathname, searchParams])
+  }, [pathname, searchParams])
 }
 
 async function backendLogoutApi() {

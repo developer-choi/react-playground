@@ -1,14 +1,6 @@
 import {Session} from 'next-auth';
-import {
-  CustomizedApiErrorInfo,
-  FetchError,
-  GuestError,
-  InvalidDevelopPolicyError,
-  LoginError,
-  ServicePermissionDeniedError
-} from '@/utils/service/error/both-side';
+import {CustomizedApiErrorInfo, FetchError, GuestError, MismatchedApiResponseError, LoginError,} from '@/utils/service/error';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
-import {hasPermission, parsePermissionsinSession, Permission} from '@/utils/extend/permission';
 
 export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
   body?: RequestInit['body'] | object;
@@ -19,21 +11,21 @@ export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> 
    * none = request에 accessToken을 싣지않음.
    * guest = request에 accessToken을 싣지않음. + 로그인이 되어있으면 GuestError를 던짐
    * private = request에 accessToken을 포함함 + 로그인 안되어있으면 LoginError 던짐
-   *
-   * 이 3개는 권한이 필요없는것으로 간주
    */
-
-  /** Permission는 "최소" private의 특징을 상속받음.
-   * 권한이 필요한 API를 호출하기 직전에, 로그인 한 유저의 권한이 충분한지 체크. (API 호출 '전'에 체크)
-   * 각각의 환경에 따라, 처리가 달라짐.
-   * 1. Client Side에서는 모달이 뜨고 끝남
-   * 2. Server Side에서는 403 에러페이지가 노출됨.
-   */
-  authorize: 'private' | 'none' | 'guest' | Permission;
+  authorize: 'private' | 'none' | 'guest';
 
   next?: RequestInit['next'] & {
     tags?: RevalidateTagType[]
   };
+
+  response?: Partial<{
+    /**
+     * (default) auto
+     * 1. Response의 Content-Type이 application/json인 경우 await response.json() 해서 json키에 저장함
+     * 2. Response의 Content-Type이 text/plain인 경우 await response.text() 해서 text키에 저장함
+     */
+    dataType?: 'auto' | 'manual';
+  }>;
 }
 
 /**
@@ -41,8 +33,8 @@ export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> 
  * 그래서 로그인 체크도 하지않고,
  * 로그인이 실패할 일도 없어서 로그인 실패 처리로직도 없음.
  */
-export async function customFetchOnBothSide(input: string | URL | globalThis.Request, parameter: Omit<ExtendedCustomFetchParameter, 'authorize'>) {
-  return customFetch(input, {...parameter, session: null, authorize: 'none'});
+export async function customFetchOnBothSide<D>(input: string | URL | globalThis.Request, parameter: Omit<ExtendedCustomFetchParameter, 'authorize'>) {
+  return customFetch<D>(input, {...parameter, session: null, authorize: 'none'});
 }
 
 export interface CustomFetchParameter extends ExtendedCustomFetchParameter {
@@ -52,16 +44,15 @@ export interface CustomFetchParameter extends ExtendedCustomFetchParameter {
 /** customFetch() 공통 주석
  * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
  */
-export async function customFetch(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
+export async function customFetch<D>(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
   const request = handleRequest(input, parameter);
   const response = await fetch(request.input, request.init);
-  return handleResponse(response, request.permission);
+  return handleResponse<D>(response, parameter);
 }
 
-
-export interface CustomResponse extends Pick<Response, 'status' | 'headers' | 'url'> {
-  json: any; // TODO 추후 제네릭 추가예정
-  text: string | '';
+export interface CustomResponse<D = any> extends Pick<Response, 'status' | 'url'> {
+  data: D;
+  original: Response;
 }
 
 export type RevalidateTagType = 'board-list';
@@ -70,9 +61,9 @@ export type RevalidateTagType = 'board-list';
  * Non Export
  *************************************************************************************************************/
 function handleRequest(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
-  const {headers, session, authorize, body, query, cache, ...rest} = parameter;
+  const {headers, session, authorize, body, query, cache, response, ...rest} = parameter;
   const newHeaders = new Headers(headers);
-  const isPrivate = isAuthorizePrivate(authorize);
+  const isPrivate = authorize === 'private';
 
   if (isPrivate && !session) {
     throw LOGIN_ERROR;
@@ -87,21 +78,8 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
     newHeaders.set('access-token', session.user.access_token);
   }
 
-  const permission = authorizeToPermission(authorize);
-  const grantedPermissions = (!permission || !session) ? [] : parsePermissionsinSession(session.user.grantedPermissions);
-
-  if (permission) {
-    if (!session) {
-      throw LOGIN_ERROR; // 로그인을 하지 않은 상태로 권한이 필요한 API를 호출할 수 없음.
-    }
-
-    if (!hasPermission(permission, grantedPermissions)) {
-      throw new ServicePermissionDeniedError(permission, grantedPermissions);
-    }
-  }
-
   // GET의 경우에는 없고, 그 외 나머지는 JSON이 될 수도, Primitive일 수도 있음.
-  if (typeof body === 'object') {
+  if (typeof body === 'object' && newHeaders.get('Content-Type') === null) {
     newHeaders.set('Content-Type', 'application/json');
   }
 
@@ -110,7 +88,7 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
 
   const init: RequestInit = {
     headers: newHeaders,
-    body: typeof body === 'object' ? JSON.stringify(body) : body,
+    body: typeof body !== 'object' || body instanceof Blob ? body : JSON.stringify(body),
     cache: (cache === undefined && authorize === 'none') ? 'force-cache' : cache,
     ...rest
   };
@@ -118,50 +96,27 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   return {
     input: requestUrl,
     init,
-    permission: {
-      request: permission,
-      granted: grantedPermissions
-    }
   };
 }
 
-async function handleResponse(response: Response, permission: {
-  request: Permission | undefined,
-  granted: Permission[]
-}) {
-  const contentType = response.headers.get('Content-Type');
-  let json = {};
-  let text = '';
+async function handleResponse<D>(response: Response, parameter: CustomFetchParameter) {
+  const data = await extractResponseData<D>(response, parameter);
 
-  if (contentType && contentType.includes('application/json')) {
-    json = await response.json();
-  } else {
-    text = await response.text();
-  }
-
-  const customResponse: CustomResponse = {
+  const customResponse: CustomResponse<D> = {
     status: response.status,
     url: response.url,
-    headers: response.headers,
-    json,
-    text
+    data,
+    original: response,
   };
 
   if (response.ok) {
     return customResponse;
   }
 
-  const defaultFetchError = new FetchError(customResponse, ('error' in json) ? json.error as CustomizedApiErrorInfo : undefined);
+  const apiErrorInfo: CustomizedApiErrorInfo | undefined = (data && typeof data === 'object' && 'error' in data) ? data.error as CustomizedApiErrorInfo : undefined;
+  const defaultFetchError = new FetchError(parameter, customResponse, apiErrorInfo);
 
   switch (response.status) {
-    case 403: {
-      if (!permission.request) {
-        throw new InvalidDevelopPolicyError(`request permission을 명시하지않았는데 403 에러가 응답되었음.`, response);
-      } else {
-        throw new ServicePermissionDeniedError(permission.request, permission.granted, defaultFetchError);
-      }
-    }
-
     case 401:
       throw LOGIN_ERROR;
 
@@ -170,27 +125,28 @@ async function handleResponse(response: Response, permission: {
   }
 }
 
-function authorizeToPermission(authorize: ExtendedCustomFetchParameter['authorize']): undefined | Permission {
-  switch (authorize) {
-    case 'private':
-    case 'none':
-    case 'guest':
-      return undefined;
+async function extractResponseData<D>(response: Response, parameter: CustomFetchParameter): Promise<D> {
+  const contentType = response.headers.get('Content-Type');
+  const dataType = parameter.response?.dataType ?? 'auto';
 
-    default:
-      return authorize;
+  if (!contentType || dataType !== 'auto') {
+    return null as D;
   }
-}
 
-function isAuthorizePrivate(authorize: ExtendedCustomFetchParameter['authorize']): boolean {
-  switch (authorize) {
-    case 'none':
-    case 'guest':
-      return false;
+  // return await 한 이유는 이 메소드들에서 에러가 던져질 수 있기 때문.
+  try {
+    if (contentType.includes('application/json')) {
+      return await response.json();
+    }
 
-    default:
-      return true;
+    if (contentType.includes('text/plain')) {
+      return (await response.text()) as D;
+    }
+  } catch (error) {
+    throw new MismatchedApiResponseError(parameter, response);
   }
+
+  throw new MismatchedApiResponseError(parameter, response);
 }
 
 const LOGIN_ERROR = new LoginError('Login is required');

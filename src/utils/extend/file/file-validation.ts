@@ -1,5 +1,5 @@
 import {getFileSizeDetail} from '@/utils/extend/file/file-size';
-import {ValidateError} from '@/utils/service/error/both-side';
+import {ValidateError} from '@/utils/service/error';
 
 export interface FileValidateOption {
   limitSize: number;
