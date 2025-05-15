@@ -113,6 +113,8 @@ function handleFetchError(error: FetchError, {modal}: HandlingErrorContext) {
       break;
 
     default:
+      console.error(error, {request: error.request, response: error.response, apiErrorInfo: error.apiErrorInfo});
+      Sentry.captureException(error);
       // 주로 폼 제출 후 API에서 유효성검증 하다 오류난 경우, 기본적인 처리로 그냥 API에서 응답한 오류메시지 그대로 보여주는 처리 넣었음.
       modal.open.alert({
         title: '요청이 실패했어요.',
