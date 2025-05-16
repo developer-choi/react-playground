@@ -86,10 +86,12 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   let requestUrl = typeof input !== 'string' || input.startsWith('http') ? input : `${process.env.NEXT_PUBLIC_ORIGIN}${input}`;
   requestUrl += stringifyQuery(query);
 
+  const needStringify = typeof body === 'object' && !(body instanceof Blob) && !(body instanceof FormData);
+
   const init: RequestInit = {
     headers: newHeaders,
-    body: typeof body !== 'object' || body instanceof Blob ? body : JSON.stringify(body),
-    cache: (cache === undefined && authorize === 'none') ? 'force-cache' : cache,
+    body: needStringify ? JSON.stringify(body) : body,
+    cache: cache === undefined && authorize === 'none' ? 'force-cache' : cache,
     ...rest
   };
 
