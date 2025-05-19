@@ -8,7 +8,7 @@ import {headers} from 'next/headers';
 
 export async function customFetchOnServerSide<D>(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
   try {
-    const session = parameter.authorize === 'none' ? null : await auth();
+    const session = parameter.authPolicy === 'none' ? null : await auth();
     return customFetch<D>(input, {...parameter, session});
   } catch (error: any) {
     if (error instanceof LoginError) {

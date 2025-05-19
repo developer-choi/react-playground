@@ -6,14 +6,14 @@ export function patchBoardApi(board: PatchBoardApiRequest) {
   return customFetchOnClientSide(`/api/board/${board.pk}`, {
     method: 'PATCH',
     body: board,
-    authorize: 'none' // 원래는 private 이어야하는데 테스트목적
+    authPolicy: 'none' // 원래는 private 이어야하는데 테스트목적
   });
 }
 export function postMultipleBoardsApi(boardList: PostBoardApiRequest[]) {
   return customFetchOnClientSide(`/api/board`, {
     method: 'POST',
     body: boardList,
-    authorize: 'none' // 원래는 private 이어야하는데 테스트목적
+    authPolicy: 'none' // 원래는 private 이어야하는데 테스트목적
   });
 }
 
@@ -24,14 +24,14 @@ export function postBoardApi(board: PostBoardApiRequest) {
 export function deleteBoardApi(pk: number) {
   return customFetchOnClientSide(`/api/board/${pk}`, {
     method: 'DELETE',
-    authorize: 'none' // 원래는 private 이어야하는데 테스트목적
+    authPolicy: 'none' // 원래는 private 이어야하는데 테스트목적
   });
 }
 
 export function deleteAllBoardsApi() {
   return customFetchOnClientSide(`/api/board`, {
     method: 'DELETE',
-    authorize: 'none' // 원래는 private 이어야하는데 테스트목적
+    authPolicy: 'none' // 원래는 private 이어야하는데 테스트목적
   });
 }
 

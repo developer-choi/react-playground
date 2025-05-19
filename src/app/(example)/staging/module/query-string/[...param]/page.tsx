@@ -25,7 +25,7 @@ export default function Page() {
   const callApi = useCallback(async () => {
     const {data} = await customFetchOnClientSide('/api/test/query-string', {
       method: 'GET',
-      authorize: 'none',
+      authPolicy: 'none',
       query: TEST_QUERY
     });
 

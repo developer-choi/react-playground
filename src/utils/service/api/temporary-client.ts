@@ -8,7 +8,7 @@ export interface PostTemporaryDataParam {
 export async function postTemporaryDataApi(param: PostTemporaryDataParam) {
   return customFetchOnClientSide(`/api/temporary/${param.name}`, {
     method: 'POST',
-    authorize: 'none',
+    authPolicy: 'none',
     body: param.data
   });
 }
@@ -16,7 +16,7 @@ export async function postTemporaryDataApi(param: PostTemporaryDataParam) {
 export async function deleteTemporaryDataApi(name: TemporaryDataKey) {
   return customFetchOnClientSide(`/api/temporary/${name}`, {
     method: 'DELETE',
-    authorize: 'none'
+    authPolicy: 'none'
   });
 }
 

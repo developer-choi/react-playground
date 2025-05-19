@@ -8,11 +8,12 @@ export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> 
   query?: ConvertableQuery;
 
   /**
-   * none = request에 accessToken을 싣지않음.
+   * optional = request에 accessToken을 싣긴함. (로그인이 되어있는 경우 한정) ==> 예시로 상품리스트&상세 페이지에서 상품의 좋아요 여부 응답하는 API의 경우 필요.
+   * none = request에 accessToken을 싣지않음. ==> Static Build 해야하는 페이지의 경우 사용
    * guest = request에 accessToken을 싣지않음. + 로그인이 되어있으면 GuestError를 던짐
    * private = request에 accessToken을 포함함 + 로그인 안되어있으면 LoginError 던짐
    */
-  authorize: 'private' | 'none' | 'guest';
+  authPolicy: 'none' | 'optional' | 'guest' | 'private';
 
   next?: RequestInit['next'] & {
     tags?: RevalidateTagType[]
@@ -33,8 +34,8 @@ export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> 
  * 그래서 로그인 체크도 하지않고,
  * 로그인이 실패할 일도 없어서 로그인 실패 처리로직도 없음.
  */
-export async function customFetchOnBothSide<D>(input: string | URL | globalThis.Request, parameter: Omit<ExtendedCustomFetchParameter, 'authorize'>) {
-  return customFetch<D>(input, {...parameter, session: null, authorize: 'none'});
+export async function customFetchOnBothSide<D>(input: string | URL | globalThis.Request, parameter: Omit<ExtendedCustomFetchParameter, 'authPolicy'>) {
+  return customFetch<D>(input, {...parameter, session: null, authPolicy: 'none'});
 }
 
 export interface CustomFetchParameter extends ExtendedCustomFetchParameter {
@@ -61,19 +62,19 @@ export type RevalidateTagType = 'board-list';
  * Non Export
  *************************************************************************************************************/
 function handleRequest(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
-  const {headers, session, authorize, body, query, cache, response, ...rest} = parameter;
+  const {headers, session, authPolicy, body, query, cache, response, ...rest} = parameter;
   const newHeaders = new Headers(headers);
-  const isPrivate = authorize === 'private';
+  const isPrivate = authPolicy === 'private';
 
   if (isPrivate && !session) {
     throw LOGIN_ERROR;
   }
 
-  if (authorize === 'guest' && session) {
+  if (authPolicy === 'guest' && session) {
     throw new GuestError();
   }
 
-  if (authorize !== 'none' && session) {
+  if (authPolicy !== 'none' && session) {
     // access token 대신
     newHeaders.set('access-token', session.user.access_token);
   }
@@ -91,7 +92,7 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   const init: RequestInit = {
     headers: newHeaders,
     body: needStringify ? JSON.stringify(body) : body,
-    cache: cache === undefined && authorize === 'none' ? 'force-cache' : cache,
+    cache: cache === undefined && authPolicy === 'none' ? 'force-cache' : cache,
     ...rest
   };
 

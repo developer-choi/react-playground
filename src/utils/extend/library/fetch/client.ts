@@ -9,7 +9,7 @@ export async function customFetchOnClientSide<D>(input: string | URL | globalThi
   }
 
   try {
-    const session = parameter.authorize === 'none' ? null : await getSession();
+    const session = parameter.authPolicy === 'none' ? null : await getSession();
     return customFetch<D>(input, {...parameter, session});
   } catch (error: any) {
     if (error instanceof LoginError) {
