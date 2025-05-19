@@ -143,6 +143,7 @@
      * 버튼안에 아이콘 또는 아이콘+텍스트가 들어가는 케이스때문에 이렇게 설정해야.
      */
   @include util.flexCenter;
+  display: inline-flex;
   
   /**
      * 버튼텍스트가 길어지는경우 대응.
