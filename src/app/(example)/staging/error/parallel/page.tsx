@@ -5,7 +5,10 @@ import {CustomErrorBoundary} from '@/components/error/client';
 
 export const revalidate = 0;
 
-// URL: http://localhost:3000/staging/error/parallel
+/**
+ * URL: http://localhost:3000/staging/error/parallel
+ * Doc: https://docs.google.com/document/d/1fZMQM2K6BaFh4KScvHqraM1s1Y31sp82u9ZsjeDQT18/edit?tab=t.0#heading=h.qpa582km21d4
+ */
 export default function Page() {
   return (
     <div className={styles.container}>
