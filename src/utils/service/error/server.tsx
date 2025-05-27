@@ -1,29 +1,29 @@
-import React from 'react';
 import {CustomizedError, FetchError} from '@/utils/service/error/index';
-import {CustomizedErrorPage} from '@/components/error/ErrorPageTemplate';
 import {notFound} from 'next/navigation';
 import {PageServerComponentProps} from '@/types/declaration/next';
 import {validateComputableNumber} from '@/utils/extend/browser/query-string/validate';
+import * as Sentry from '@sentry/nextjs';
+import {getErrorInfo} from '@/utils/service/error/info';
+import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
 
 // Doc: [Can not catch an ServerSideError on client] https://docs.google.com/document/d/1UmDWmmGTNH_XNupQ-tegMnQwzb-m5yD2Hz_NzO2glic/edit?tab=t.0
-export function handleServerSideError(error: any) {
+export function handleServerSideError(error: unknown) {
   console.error(error);
 
-  if (error instanceof FetchError && error.response.status === 404) {
-    notFound();
+  const { title, content } = getErrorInfo(error);
+
+  if (error instanceof FetchError) {
+    switch (error.response.status) {
+      case 403:
+        return <ErrorPageTemplate title={title} content={content} fullScreen={false} />;
+
+      case 404:
+        notFound();
+    }
   }
 
-  if (error instanceof CustomizedError) {
-    return (
-      <CustomizedErrorPage error={error}/>
-    );
-  }
-
-  /**
-   * 1. Error Boundary를 만나서 에러페이지가 보이기 위함.
-   * 2. Server Side에서 Sentry가 울리기 위함.
-   */
-  throw error;
+  Sentry.captureException(error);
+  return <ErrorPageTemplate title={title} content={content} fullScreen={false} />;
 }
 
 export function validateViewPageIdParams(id: PageServerComponentProps['params']['any']) {

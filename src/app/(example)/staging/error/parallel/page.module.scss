@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  height: 100%;
+  padding: 16px;
+  gap: 16px;
+  
+  > * {
+    flex: 1;
+  }
+}

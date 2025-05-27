@@ -67,6 +67,7 @@ export class ValidateError extends CustomizedError {
 export interface CustomizedApiErrorInfo {
   type: string;
   message: string;
+  params: any;
 }
 
 /**

@@ -1,8 +1,7 @@
 'use client';
 
-import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
 import {ErrorPageProps} from '@/types/declaration/next';
-import useSentryCaptureGlobalError from '@/utils/extend/library/useSentryCaptureGlobalError';
+import {ClientErrorFallback} from '@/components/error/client';
 
 /**
  * Doc: https://docs.google.com/document/d/1ivBWX3Oxl8T0xh3kcKxCTsvhDQz6Kt-uHKR-9AO-hxU/edit?tab=t.0
@@ -13,14 +12,12 @@ import useSentryCaptureGlobalError from '@/utils/extend/library/useSentryCapture
  * 노출되는 (= 극히 드물게 보임) 에러페이지
  */
 export default function ErrorPage({error}: ErrorPageProps) {
-  useSentryCaptureGlobalError(error);
-
   // https://nextjs.org/docs/14/app/building-your-application/routing/error-handling#handling-errors-in-root-layouts
   // global-error.js is only enabled in production. In development, our error overlay will show instead.
   return (
     <html>
     <body>
-    <ErrorPageTemplate title="Internal Server Error" content="새로고침해보세요, 지속되면 관리자 문의 해주세요"/>
+    <ClientErrorFallback error={error} isPage />
     </body>
     </html>
   );
