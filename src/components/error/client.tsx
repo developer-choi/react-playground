@@ -8,6 +8,7 @@ import {ErrorBoundary, FallbackProps} from 'react-error-boundary';
 import {useLogout} from '@/utils/service/auth/hooks';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
 
+// Server Side에서 children을 렌더링하다가 오류가 난 경우에도 사용이 가능.
 export function CustomErrorBoundary({children}: PropsWithChildren) {
   const FallbackComponent = useCallback(({error}: FallbackProps) => {
     return <ClientErrorFallback error={error} isPage={false}/>;

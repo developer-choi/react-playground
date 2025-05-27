@@ -1,9 +1,9 @@
-'use client';
-
 import styles from './page.module.scss';
 import {useDelay} from '@/utils/extend/library/react';
 import {CustomizedError} from '@/utils/service/error';
 import {CustomErrorBoundary} from '@/components/error/client';
+
+export const revalidate = 0;
 
 // URL: http://localhost:3000/staging/error/parallel
 export default function Page() {
