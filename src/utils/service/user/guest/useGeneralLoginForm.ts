@@ -5,7 +5,7 @@ import {InputProps} from '@/components/form/Input';
 import {getEmailInputProps} from '@/utils/service/user/fields/email';
 import {getPurePasswordInputProps, PASSWORD_TEXT} from '@/utils/service/user/fields/password';
 import {useMutation} from '@tanstack/react-query';
-import {useHandleClientSideError} from '@/utils/service/error/client-side';
+import {useHandleClientSideError} from '@/utils/service/error/client';
 import {postLoginApi} from '@/utils/service/api/auth';
 import {LoginApiFailResponse} from '@/types/services/auth';
 import {useLogin} from '@/utils/service/auth/hooks';

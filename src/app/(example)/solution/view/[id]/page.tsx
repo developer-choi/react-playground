@@ -1,5 +1,5 @@
 import {PageServerComponentProps} from '@/types/declaration/next';
-import {handleServerSideError, validateViewPageIdParams} from '@/utils/service/error/server-side';
+import {handleServerSideError, validateViewPageIdParams} from '@/utils/service/error/server';
 import {FetchError} from '@/utils/service/error';
 
 // URL: http://localhost:3000/solution/view/1 > 1번 게시글 페이지로 나옴.

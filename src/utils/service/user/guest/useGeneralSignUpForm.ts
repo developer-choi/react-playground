@@ -2,7 +2,7 @@ import {EMAIL_TEXT, getEmailInputProps} from '@/utils/service/user/fields/email'
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {useCallback} from 'react';
 import {getConfirmPasswordInput, getPasswordInputPropsWithConfirm} from '@/utils/service/user/fields/password';
-import {useHandleClientSideError} from '@/utils/service/error/client-side';
+import {useHandleClientSideError} from '@/utils/service/error/client';
 import {SignUpApiResponse} from '@/types/services/auth';
 import {useMutation} from '@tanstack/react-query';
 import {postSignUpApi} from '@/utils/service/api/auth';

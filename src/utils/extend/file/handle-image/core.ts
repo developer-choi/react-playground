@@ -7,7 +7,7 @@ import {
 } from '@/utils/extend/file/file-validation';
 import {InputFileProps} from '@/components/form/Input/inputFile';
 import {useModal} from '@/utils/extend/modal';
-import {useHandleClientSideError} from '@/utils/service/error/client-side';
+import {useHandleClientSideError} from '@/utils/service/error/client';
 import {v4 as uuidv4} from 'uuid';
 import {ValidateError} from '@/utils/service/error';
 

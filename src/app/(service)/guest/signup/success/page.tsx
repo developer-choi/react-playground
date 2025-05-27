@@ -1,5 +1,5 @@
 import DeleteTemporaryData from '@/components/DeleteTemporaryData';
-import {handleServerSideError} from '@/utils/service/error/server-side';
+import {handleServerSideError} from '@/utils/service/error/server';
 import {getTemporaryDataApi} from '@/utils/service/api/temporary-server';
 
 // 꼭 미로그인 상태로 접근해야함.

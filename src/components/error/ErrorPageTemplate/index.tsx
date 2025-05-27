@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 import classNames from 'classnames';
 import {CustomizedError} from '@/utils/service/error';
 import React from 'react';
-import {InvalidAccessError} from '@/utils/service/error/server-side';
+import {InvalidAccessError} from '@/utils/service/error/server';
 
 export interface ErrorPageTemplateProps {
   title: string;
