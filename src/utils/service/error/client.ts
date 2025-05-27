@@ -15,6 +15,8 @@ export function useHandleClientSideError() {
   const logout = useLogout();
 
   return useCallback((error: unknown) => {
+    console.error(error);
+
     const context: HandlingErrorContext = {
       modal,
       queryClient,
@@ -61,8 +63,6 @@ interface HandlingErrorContext {
 }
 
 function handleUnexpectedError(error: any, {modal}: HandlingErrorContext) {
-  console.error(error);
-
   // TODO 여기서 에러를 던져야하는데 별도 커스텀클래스에 우선순위는 제일높은걸로 던져야할거같음. 에러클래스 분리 어떻게 해야할지까지 결정되고나서 확정
   Sentry.captureException(error);
 
@@ -113,7 +113,7 @@ function handleFetchError(error: FetchError, {modal}: HandlingErrorContext) {
       break;
 
     default:
-      console.error(error, {request: error.request, response: error.response, apiErrorInfo: error.apiErrorInfo});
+      console.error({request: error.request, response: error.response, apiErrorInfo: error.apiErrorInfo});
       Sentry.captureException(error);
       // 주로 폼 제출 후 API에서 유효성검증 하다 오류난 경우, 기본적인 처리로 그냥 API에서 응답한 오류메시지 그대로 보여주는 처리 넣었음.
       modal.open.alert({

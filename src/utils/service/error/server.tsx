@@ -7,6 +7,8 @@ import {validateComputableNumber} from '@/utils/extend/browser/query-string/vali
 
 // Doc: [Can not catch an ServerSideError on client] https://docs.google.com/document/d/1UmDWmmGTNH_XNupQ-tegMnQwzb-m5yD2Hz_NzO2glic/edit?tab=t.0
 export function handleServerSideError(error: any) {
+  console.error(error);
+
   if (error instanceof FetchError && error.response.status === 404) {
     notFound();
   }
