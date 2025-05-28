@@ -11,13 +11,13 @@ import {ClientErrorFallback} from '@/components/error/client';
  * 2. (service)/layout와 (service) 폴더를 제외한 나머지 페이지 (callback 페이지 등)에서 오류가 발생했을 때
  * 노출되는 (= 극히 드물게 보임) 에러페이지
  */
-export default function ErrorPage({error}: ErrorPageProps) {
+export default function ErrorPage({error, reset}: ErrorPageProps) {
   // https://nextjs.org/docs/14/app/building-your-application/routing/error-handling#handling-errors-in-root-layouts
   // global-error.js is only enabled in production. In development, our error overlay will show instead.
   return (
     <html>
     <body>
-    <ClientErrorFallback error={error} isPage />
+    <ClientErrorFallback error={error} onReset={reset} isPage />
     </body>
     </html>
   );

@@ -10,8 +10,8 @@ import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
 
 // Server Side에서 children을 렌더링하다가 오류가 난 경우에도 사용이 가능.
 export function CustomErrorBoundary({children}: PropsWithChildren) {
-  const FallbackComponent = useCallback(({error}: FallbackProps) => {
-    return <ClientErrorFallback error={error} isPage={false}/>;
+  const FallbackComponent = useCallback(({error, resetErrorBoundary}: FallbackProps) => {
+    return <ClientErrorFallback error={error} isPage={false} onReset={resetErrorBoundary}/>;
   }, []);
 
   return <ErrorBoundary FallbackComponent={FallbackComponent}>{children}</ErrorBoundary>;
@@ -20,6 +20,12 @@ export function CustomErrorBoundary({children}: PropsWithChildren) {
 export interface ClientErrorFallbackProps {
   error: unknown;
   isPage: boolean; // default false, 전체 에러페이지인 error.tsx에서만 true로 전달할것
+
+  /**
+   * ErrorBoundary로 부터 렌더링됐다면 resetErrorBoundary props가 전달되었을거고,
+   * error.tsx로 부터 렌더링됐다면, reset props가 전달되었을것
+   */
+  onReset: () => void;
 }
 
 /** Client Side에서 렌더링 하다 오류가 발생한 경우
@@ -65,6 +71,13 @@ export function ClientErrorFallback({error, isPage}: ClientErrorFallbackProps) {
   if (error instanceof FetchError && error.response.status === 401) {
     return null; // 아무것도 안보여주고 effect 실행시켜서 로그아웃 시키기 위함
   }
+
+  // 추후 에러마다 버튼동작 다르게 하고싶으면 여기서 조건문 만들어서 전달, 이 때 onReset props가 필요하면 사용
+  // const button: ErrorPageTemplateProps['button'] = {
+  //   type: 'link',
+  //   text: '홈으로 가기',
+  //   href: '/'
+  // };
 
   return <ErrorPageTemplate title={title} content={content} fullScreen={isPage}/>;
 }
