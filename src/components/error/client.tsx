@@ -8,7 +8,14 @@ import {ErrorBoundary, FallbackProps} from 'react-error-boundary';
 import {useLogout} from '@/utils/service/auth/hooks';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
 
-// Server Side에서 children을 렌더링하다가 오류가 난 경우에도 사용이 가능.
+/**
+ * https://docs.google.com/document/d/1tlZKXFwleYRmh_xmMhRd5f8Isty5QCVdi8JtXGgL2Fo/edit?pli=1&tab=t.0#heading=h.q748k1fumnfu
+ *
+ * Server Side에서 children을 렌더링하다가 오류가 난 경우에도 사용이 가능....은 하지만,
+ * server에서 던져진 error 객체가 Error Boundary의 fallback으로 전달될 때 데이터들 유실되니까, 이 컴포넌트 쓸일 잘 없을거같고,
+ * client에서 던져진 error는 에러객체 보존된 상태로 잘 던져질 수 있겠지만 대체로 error.tsx로 대체하기 때문에,
+ * 이 컴포넌트는 페이지 단위가 아니라 그 아래 정말 깊은 특정 작은 컴포넌트만 감쌀 때 뺴고는 쓸일이 없어보임.
+ */
 export function CustomErrorBoundary({children}: PropsWithChildren) {
   const FallbackComponent = useCallback(({error, resetErrorBoundary}: FallbackProps) => {
     return <ClientErrorFallback error={error} isPage={false} onReset={resetErrorBoundary}/>;
