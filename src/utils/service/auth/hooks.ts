@@ -5,6 +5,7 @@ import {LoginApiResponse} from '@/types/services/auth';
 import {usePathname, useSearchParams} from 'next/navigation';
 import {getNextNavigating} from '@/utils/service/auth/path';
 import * as Sentry from '@sentry/nextjs';
+import {User} from 'next-auth';
 
 /**
  * 로그인 성공 (아이디비번로그인, SNS 로그인 등) 후 실행되야하는 함수
@@ -21,9 +22,17 @@ export function useLogin() {
      * 세션 세팅 후 임의의 API 호출해서 캐시 셋팅하고 나서 그 다음에 리다이랙트를 할 수 없는 상태임. ㅠㅠ
      */
 
+    const user: User = {
+      access_token: response.access_token,
+      member_id: response.member_id,
+      email: response.email,
+      name: response.name,
+      image: null,
+    };
+
     signIn("credentials", {
       callbackUrl,
-      ...response
+      ...user
     }, {
       replace: true,
     });
