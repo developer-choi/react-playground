@@ -3,12 +3,12 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {useCallback} from 'react';
 import {getConfirmPasswordInput, getPasswordInputPropsWithConfirm} from '@/utils/service/user/fields/password';
 import {useHandleClientSideError} from '@/utils/service/error/client';
-import {SignUpApiResponse} from '@/types/services/auth';
 import {useMutation} from '@tanstack/react-query';
 import {postSignUpApi} from '@/utils/service/api/auth';
 import {InputProps} from '@/components/form/Input';
 import {postTemporaryDataApi} from '@/utils/service/api/temporary-client';
 import {useRouter} from 'next/navigation';
+import {FetchError} from '@/utils/service/error';
 
 /**
  * TODO
@@ -62,15 +62,13 @@ export default function useGeneralSignUpForm() {
         data
       });
       replace('/guest/signup/success');
-    } catch (error: any) {
-      if (!('json' in error)) {
+    } catch (error) {
+      if (!(error instanceof FetchError && error.apiErrorInfo)) {
         handleClientSideError(error);
         return;
       }
 
-      const {code} = error.json as SignUpApiResponse;
-
-      switch (code) {
+      switch (error.apiErrorInfo.params.code) {
         case 'ALREADY_EMAIL_EXISTED':
           setError('email', {
             type: 'api',

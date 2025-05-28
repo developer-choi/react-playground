@@ -10,7 +10,7 @@ export async function customFetchOnServerSide<D>(input: string | URL | globalThi
   try {
     const session = parameter.authPolicy === 'none' ? null : await auth();
     return customFetch<D>(input, {...parameter, session});
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof LoginError) {
       const currentUrl = headers().get('current-pathname-with-search') ?? '/'; // middleware에서 셋팅
       redirect(`/api/next-auth/logout?redirect=${currentUrl}`);

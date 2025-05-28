@@ -15,7 +15,7 @@ export default async function Page() {
         <DeleteTemporaryData name="signUpSuccess"/>
       </>
     );
-  } catch (error: any) {
+  } catch (error) {
     return handleServerSideError(error);
   }
 }

@@ -1,6 +1,7 @@
 import {FetchError} from '@/utils/service/error/index';
 import {InvalidAccessError} from '@/utils/service/error/server';
 import {ErrorPageTemplateProps} from '@/components/error/ErrorPageTemplate';
+import {isObject} from '@/utils/extend/data-type/object';
 
 /** 설계 의도
  * 1. client side에서 에러가 발생했건
@@ -11,7 +12,11 @@ import {ErrorPageTemplateProps} from '@/components/error/ErrorPageTemplate';
  * 3. client side에서 발생했다면, ClientErrorFallback 컴포넌트에서 특별한 로직을 실행하고,
  * 4. server side에서 발생했다면, handleServerSideError() 에서 특별한 로직을 실행한다.
  */
-export function getErrorInfo(error: any): Pick<ErrorPageTemplateProps, 'title' | 'content'> {
+export function getErrorInfo(error: unknown): Pick<ErrorPageTemplateProps, 'title' | 'content'> {
+  if (!isObject(error)) {
+    throw error;
+  }
+
   if (error instanceof FetchError) {
     switch (error.response.status) {
       case 403:
@@ -36,8 +41,10 @@ export function getErrorInfo(error: any): Pick<ErrorPageTemplateProps, 'title' |
     };
   }
 
-  return {
-    title: '알 수 없는 에러가 발생했다',
-    content: '반복되면 고객센터 연락해라',
-  };
+  return DEFAULT;
 }
+
+const DEFAULT = {
+  title: '알 수 없는 에러가 발생했다',
+  content: '반복되면 고객센터 연락해라',
+};

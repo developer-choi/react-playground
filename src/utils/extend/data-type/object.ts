@@ -1,3 +1,15 @@
+export function isObject(error: unknown): error is object {
+  /**
+   * 내가 던지거나, Javascript 실행하다 던져진 에러의 경우, 거의 모두 object 타입으로 에러가 던져짐. (대부분이 Error 하위클래스)
+   * 일단 object가 아닌걸 여기서 걸러서 그 다음 실행문에서 in이나 instqnceof 연산자로 체크하기 위함.
+   *
+   * TS 5.4.5 버전 기준, error가 unknown 타입이면
+   * in 연산자는 개발자에게 타입에러있다고 알려주는데
+   * instanceof 연산자는 개발자에게 아무런 에러를 안알려줌.
+   */
+  return typeof error === 'object' && error === null;
+}
+
 export function reverse<K extends string, V extends string>(target: Record<K, V>): Record<V, K> {
   const targetKeys = Object.keys(target) as K[];
   return targetKeys.reduce((a, key) => {

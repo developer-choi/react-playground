@@ -5,10 +5,15 @@ import {validateComputableNumber} from '@/utils/extend/browser/query-string/vali
 import * as Sentry from '@sentry/nextjs';
 import {getErrorInfo} from '@/utils/service/error/info';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
+import {isObject} from '@/utils/extend/data-type/object';
 
 // Doc: [Can not catch an ServerSideError on client] https://docs.google.com/document/d/1UmDWmmGTNH_XNupQ-tegMnQwzb-m5yD2Hz_NzO2glic/edit?tab=t.0
 export function handleServerSideError(error: unknown) {
   console.error(error);
+
+  if (!isObject(error)) {
+    throw error;
+  }
 
   const { title, content } = getErrorInfo(error);
 

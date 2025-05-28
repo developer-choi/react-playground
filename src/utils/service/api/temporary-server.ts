@@ -2,6 +2,7 @@ import {TemporaryDataKey} from '@/utils/service/api/temporary-client';
 import {customFetchOnServerSide} from '@/utils/extend/library/fetch/server';
 import {InvalidAccessError} from '@/utils/service/error/server';
 import {cookies} from 'next/headers';
+import {FetchError} from '@/utils/service/error';
 
 interface TemporaryResponse {
   signUpSuccess: {
@@ -20,11 +21,11 @@ export async function getTemporaryDataApi<K extends TemporaryDataKey>(name: K) {
     });
 
     return data;
-  } catch (error: any) {
-    if (error.status === 404) {
-      throw new InvalidAccessError();
-    } else {
+  } catch (error) {
+    if (!(error instanceof FetchError && error.response.status !== 404)) {
       throw error;
     }
+
+    throw new InvalidAccessError();
   }
 }

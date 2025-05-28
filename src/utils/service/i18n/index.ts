@@ -24,7 +24,7 @@ export async function getUserLocale(): Promise<Locale> {
     // return {
     //   short: json.user.langauge
     // };
-  // } catch (error: any) {
+  // } catch (error) {
   //   return {
   //     short: 'en'
   //   };

@@ -1,4 +1,5 @@
 import {customFetchOnClientSide} from '@/utils/extend/library/fetch/client';
+import {FetchError} from '@/utils/service/error';
 
 export interface UserFieldCountApiRequest {
   type: 'email' | 'nick_name';
@@ -49,10 +50,14 @@ export async function getUserFieldCountApi({validationMode, ...rest}: UserFieldC
     return {
       validated: validationMode === 'does-not-exist' ? count === 0 : count > 0
     };
-  } catch (error: any) {
-    return {
-      validated: false,
-      errorMessage: error.message,
-    };
+  } catch (error) {
+    if (error instanceof FetchError && error.apiErrorInfo?.message) {
+      return {
+        validated: false,
+        errorMessage: error.apiErrorInfo.message,
+      };
+    } else {
+      throw error;
+    }
   }
 }

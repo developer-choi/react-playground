@@ -7,8 +7,8 @@ import {getPurePasswordInputProps, PASSWORD_TEXT} from '@/utils/service/user/fie
 import {useMutation} from '@tanstack/react-query';
 import {useHandleClientSideError} from '@/utils/service/error/client';
 import {postLoginApi} from '@/utils/service/api/auth';
-import {LoginApiFailResponse} from '@/types/services/auth';
 import {useLogin} from '@/utils/service/auth/hooks';
+import {FetchError} from '@/utils/service/error';
 
 // SNS 로그인이 아닌 일반 로그인에 해당
 export default function useGeneralLoginForm() {
@@ -38,15 +38,13 @@ export default function useGeneralLoginForm() {
     try {
       const result = await mutateAsync(data);
       login(result);
-    } catch (error: any) {
-      if (!('json' in error)) {
+    } catch (error) {
+      if (!(error instanceof FetchError && error.apiErrorInfo)) {
         handleClientSideError(error);
         return;
       }
 
-      const {code} = error.json as LoginApiFailResponse;
-
-      switch (code) {
+      switch (error.apiErrorInfo.params.code) {
         case 'NOT_FOUND':
           setError('email', {
             type: 'api',

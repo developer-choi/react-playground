@@ -46,7 +46,7 @@ export function useLogout() {
   return useCallback(async (nextUrl?: string) => {
     try {
       await backendLogoutApi();
-    } catch (error: any) {
+    } catch (error) {
       Sentry.captureException(error);
     } finally {
       const nextNavigating = getNextNavigating({
