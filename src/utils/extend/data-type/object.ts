@@ -7,7 +7,7 @@ export function isObject(error: unknown): error is object {
    * in 연산자는 개발자에게 타입에러있다고 알려주는데
    * instanceof 연산자는 개발자에게 아무런 에러를 안알려줌.
    */
-  return typeof error === 'object' && error === null;
+  return typeof error === 'object' && error !== null;
 }
 
 export function reverse<K extends string, V extends string>(target: Record<K, V>): Record<V, K> {
