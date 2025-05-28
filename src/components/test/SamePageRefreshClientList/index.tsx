@@ -3,7 +3,7 @@
 import {BoardRow} from '@/types/services/board';
 import {useCallback} from 'react';
 import {deleteBoardApi, patchBoardApi, postBoardApi} from '@/utils/service/api/board-client';
-import {revalidateTagOnServerAction} from '@/utils/extend/library/revalidate-tag';
+import {revalidateTagOnServerAction} from '@/utils/extend/library/server-action';
 import dayjs from 'dayjs';
 import Button from '@/components/element/Button';
 
