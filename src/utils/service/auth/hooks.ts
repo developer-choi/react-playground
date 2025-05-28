@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
 import {signIn, signOut} from 'next-auth/react';
-import {getRedirectUrlWhenLoginSuccess} from '@/utils/service/auth/redirect';
+import {DEFAULT_HOME_URL, getRedirectUrlWhenLoginSuccess} from '@/utils/service/auth/redirect';
 import {LoginApiResponse} from '@/types/services/auth';
 import {usePathname, useSearchParams} from 'next/navigation';
 import {getNextNavigating} from '@/utils/service/auth/path';
@@ -55,7 +55,7 @@ export function useLogout() {
       });
 
       await signOut({
-        callbackUrl: nextNavigating.nextUrl,
+        callbackUrl: nextNavigating.type !== 'correct' ? nextNavigating.nextUrl : DEFAULT_HOME_URL,
       });
     }
   }, [pathname, searchParams])
