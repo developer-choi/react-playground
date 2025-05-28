@@ -1,4 +1,5 @@
 export const DEFAULT_HOME_URL = '/';
+export const LOGIN_URL = '/guest/login';
 
 /**
  * 로그인 성공했을 때 리다이랙트 될 URL (pathname + search) 반환

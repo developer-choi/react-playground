@@ -2,6 +2,7 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import {getNextNavigating} from '@/utils/service/auth/path';
 import {NextResponse} from 'next/server';
+import {LOGIN_URL} from '@/utils/service/auth/redirect';
 
 /**
  * [Next Auth Overview] https://docs.google.com/document/d/1PYKKPneIYB8j8vz8fQgqwBLAkEmB69KJfeFTSXhtdbk/edit#heading=h.mkk12las5ndq
@@ -9,8 +10,8 @@ import {NextResponse} from 'next/server';
  */
 export const {handlers, signOut, auth} = NextAuth({
   pages: {
-    signIn: '/guest/login',
-    error: '/guest/login'
+    signIn: LOGIN_URL,
+    error: LOGIN_URL
   },
   session: {
     maxAge: 60 * 60 * 24 // 단위 : second
