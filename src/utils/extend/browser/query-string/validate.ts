@@ -1,5 +1,5 @@
 import type {ParsedUrlQuery} from 'querystring';
-import {ValidateError} from '@/utils/service/error';
+import {ValidateError} from '@/utils/service/error/class';
 import {range} from '@/utils/extend/data-type/number';
 
 export type QueryValue = ParsedUrlQuery['any-key'];

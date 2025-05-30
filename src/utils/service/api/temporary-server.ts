@@ -1,7 +1,8 @@
 import {TemporaryDataKey} from '@/utils/service/api/temporary-client';
 import {customFetchOnServerSide} from '@/utils/extend/library/fetch/server';
 import {cookies} from 'next/headers';
-import {FetchError, InvalidAccessError} from '@/utils/service/error';
+import {FetchError} from '@/utils/service/error/class/fetch';
+import {InvalidAccessError} from '@/utils/service/error/class/server';
 
 interface TemporaryResponse {
   signUpSuccess: {

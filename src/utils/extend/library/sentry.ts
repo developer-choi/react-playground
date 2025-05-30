@@ -1,5 +1,5 @@
 import type {ErrorEvent, EventHint} from '@sentry/types';
-import {CustomizedError} from '@/utils/service/error';
+import {CustomizedError} from '@/utils/service/error/class';
 
 export function beforeSend(event: ErrorEvent, hint: EventHint) {
   /** TODO

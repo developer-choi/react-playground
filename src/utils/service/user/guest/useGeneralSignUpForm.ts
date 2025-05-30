@@ -8,7 +8,7 @@ import {postSignUpApi} from '@/utils/service/api/auth';
 import {InputProps} from '@/components/form/Input';
 import {postTemporaryDataApi} from '@/utils/service/api/temporary-client';
 import {useRouter} from 'next/navigation';
-import {FetchError} from '@/utils/service/error';
+import {FetchError} from '@/utils/service/error/class/fetch';
 
 /**
  * TODO

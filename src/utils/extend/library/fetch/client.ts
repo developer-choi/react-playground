@@ -1,7 +1,8 @@
 import {isServer} from '@/utils/extend/library/next';
-import {InvalidDevelopPolicyError, LoginError} from '@/utils/service/error';
+import {InvalidDevelopPolicyError} from '@/utils/service/error/class';
 import {getSession, signOut} from 'next-auth/react';
 import {customFetch, ExtendedCustomFetchParameter} from '@/utils/extend/library/fetch/index';
+import {LoginError} from '@/utils/service/error/class/auth';
 
 export async function customFetchOnClientSide<D>(input: string | URL | globalThis.Request, parameter: ExtendedCustomFetchParameter) {
   if(isServer()) {

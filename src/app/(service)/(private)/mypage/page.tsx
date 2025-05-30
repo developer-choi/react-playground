@@ -1,11 +1,11 @@
 import {timeoutPromise} from '@/utils/extend/test/promise';
-import {LoginError} from '@/utils/service/error';
 import {Suspense} from 'react';
 import {handleServerSideError} from '@/utils/service/error/server';
+import {LoginError} from '@/utils/service/error/class/auth';
 
 /**
  * URL: http://localhost:3000/mypage?hello=world
- * Server Side에서 401에러가 동시에 여러번 발생했을 때에도 문제없이 동작하는지 테스트하기 위한 예제 페이지 
+ * Server Side에서 401에러가 동시에 여러번 발생했을 때에도 문제없이 동작하는지 테스트하기 위한 예제 페이지
  */
 export default function Page() {
   return (

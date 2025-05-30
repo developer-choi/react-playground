@@ -2,12 +2,14 @@ import {useModal} from '@/utils/extend/modal';
 import {useRouter} from 'next/navigation';
 import {DEFAULT_HOME_URL} from '@/utils/service/auth/redirect';
 import * as Sentry from '@sentry/nextjs';
-import {CustomizedError, FetchError, GuestError, LoginError,} from '@/utils/service/error/index';
+import {CustomizedError} from '@/utils/service/error/class';
 import type {AppRouterInstance} from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import {QueryClient, useQueryClient} from '@tanstack/react-query';
 import {useCallback} from 'react';
 import {useLogout} from '@/utils/service/auth/hooks';
 import {isObject} from '@/utils/extend/data-type/object';
+import {GuestError, LoginError} from '@/utils/service/error/class/auth';
+import { FetchError } from './class/fetch';
 
 export function useHandleClientSideError() {
   const modal = useModal();

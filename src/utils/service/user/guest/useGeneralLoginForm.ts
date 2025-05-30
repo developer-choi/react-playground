@@ -8,7 +8,7 @@ import {useMutation} from '@tanstack/react-query';
 import {useHandleClientSideError} from '@/utils/service/error/client';
 import {postLoginApi} from '@/utils/service/api/auth';
 import {useLogin} from '@/utils/service/auth/hooks';
-import {FetchError} from '@/utils/service/error';
+import {FetchError} from '@/utils/service/error/class/fetch';
 
 // SNS 로그인이 아닌 일반 로그인에 해당
 export default function useGeneralLoginForm() {

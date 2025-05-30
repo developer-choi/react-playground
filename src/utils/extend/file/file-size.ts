@@ -1,4 +1,4 @@
-import {ValidateError} from '@/utils/service/error';
+import {ValidateError} from '@/utils/service/error/class';
 
 export type FileUnit = 'B' | 'KB' | 'MB' | 'GB' | 'TB';
 

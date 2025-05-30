@@ -3,7 +3,7 @@
 import React, {useCallback} from 'react';
 import Button from '@/components/element/Button';
 import type {SeverityLevel} from '@sentry/types';
-import {CustomizedError} from '@/utils/service/error';
+import {CustomizedError} from '@/utils/service/error/class';
 
 // URL: http://localhost:3000/staging/error
 // Doc: https://docs.google.com/document/d/1TORw5hWSoWYiRhd6kg4D8tQ7pVsBQFOvPxavffrb4l0/edit?tab=t.0#heading=h.o3s6i3qc1fqj

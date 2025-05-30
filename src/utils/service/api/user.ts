@@ -1,5 +1,5 @@
 import {customFetchOnClientSide} from '@/utils/extend/library/fetch/client';
-import {FetchError} from '@/utils/service/error';
+import {FetchError} from '@/utils/service/error/class/fetch';
 
 export interface UserFieldCountApiRequest {
   type: 'email' | 'nick_name';

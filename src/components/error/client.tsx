@@ -1,12 +1,13 @@
 'use client';
 
 import {PropsWithChildren, useCallback, useEffect} from 'react';
-import {FetchError, LoginError} from '@/utils/service/error';
 import {getErrorInfo} from '@/utils/service/error/info';
 import * as Sentry from '@sentry/nextjs';
 import {ErrorBoundary, FallbackProps} from 'react-error-boundary';
 import {useLogout} from '@/utils/service/auth/hooks';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
+import {FetchError} from '@/utils/service/error/class/fetch';
+import {LoginError} from '@/utils/service/error/class/auth';
 
 /**
  * https://docs.google.com/document/d/1tlZKXFwleYRmh_xmMhRd5f8Isty5QCVdi8JtXGgL2Fo/edit?pli=1&tab=t.0#heading=h.q748k1fumnfu
