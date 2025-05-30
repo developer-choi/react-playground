@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import {getDiffBetweenDate} from '@/utils/extend/date/util';
-import {LocalStorageArrayManager} from '@/utils/extend/browser/local-storage-array';
+import {StorageArrayManager} from '@/utils/extend/browser/storage-array';
 import {LoopCallback} from '@/utils/extend/data-type/array';
 
 export interface ClosedHistoryParam<T extends string | number> {
@@ -126,8 +126,9 @@ const CLOSE_PERIOD: MatchPeriod = {
   value: 365
 }
 
-const manager = new LocalStorageArrayManager({
+const manager = new StorageArrayManager({
   key: 'closed-history-in-specific-period',
+  storage: 'LOCAL_STORAGE',
   enableDuplicated: false, //같은 PK면 닫은기록에는 하나만 생성되야함.
   getUnique: ({uniquePrefix, originalPk}: ClosedHistory) => uniquePrefix + originalPk
 });

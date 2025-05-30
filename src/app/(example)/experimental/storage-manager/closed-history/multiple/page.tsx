@@ -8,7 +8,7 @@ import Button from '@/components/element/Button';
 import {ClosedHistoryManager} from '@/utils/extend/date/closed-history';
 
 /**
- * URL: http://localhost:3000/experimental/localstorage-manager/closed-history/multiple
+ * URL: http://localhost:3000/experimental/storage-manager/closed-history/multiple
  * Doc: https://docs.google.com/document/d/13gkrex798BO5tF2MnZOpom2HdgO3p8Eh1VUHT1NYJoI/edit#heading=h.oauybibldcx5
  */
 export default function Page() {

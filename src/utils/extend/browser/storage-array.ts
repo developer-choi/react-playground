@@ -1,9 +1,14 @@
 import {useCallback} from 'react';
 import {PkType, removeDuplicatedObject} from '@/utils/extend/data-type/array';
-import {LocalStorageObjectManager, useLocalStorageObjectManager} from '@/utils/extend/browser/local-storage-object';
+import {
+  StorageObjectManager,
+  StorageObjectParameter,
+  useStorageObjectManager
+} from '@/utils/extend/browser/storage-object';
 
-interface LocalStorageArrayParameter<I extends Object, P extends PkType> {
+export interface StorageArrayParameter<I extends Object, P extends PkType> {
   key: string;
+  storage: StorageObjectParameter<I[]>['storage'];
 
   /**
    * array의 item을 구분할 수 있는 유니크한 값으로 변환해주는 함수
@@ -17,17 +22,17 @@ interface LocalStorageArrayParameter<I extends Object, P extends PkType> {
 /**
  * @description 로컬스토리지에 Array를 쉽고 안전하게 읽고 쓰기위해 만들었습니다.
  */
-export class LocalStorageArrayManager<I extends Object, P extends PkType> extends LocalStorageObjectManager<I[]> {
+export class StorageArrayManager<I extends Object, P extends PkType> extends StorageObjectManager<I[]> {
   /**
    * @private The getUnique must not be accessible in public.
    * And I don't have any plan that makes derived classes extend this class. (= This is the reason that I don't set visibility to protected)
    * For the above two reasons, I set visibility to private.
    */
-  private readonly getUnique: LocalStorageArrayParameter<I, P>['getUnique'];
-  private readonly enableDuplicated: LocalStorageArrayParameter<I, P>['enableDuplicated'];
+  private readonly getUnique: StorageArrayParameter<I, P>['getUnique'];
+  private readonly enableDuplicated: StorageArrayParameter<I, P>['enableDuplicated'];
 
-  constructor({key, enableDuplicated, getUnique}: LocalStorageArrayParameter<I, P>) {
-    super({key, defaultValue: []});
+  constructor({key, enableDuplicated, getUnique, storage}: StorageArrayParameter<I, P>) {
+    super({key, defaultValue: [], storage});
     this.getUnique = getUnique;
     this.enableDuplicated = enableDuplicated;
   }
@@ -70,11 +75,11 @@ export class LocalStorageArrayManager<I extends Object, P extends PkType> extend
 
 /**
  * @description
- * LocalStorageArrayManager: 단순히 로컬스토리지에 읽고 쓰는것만 도와줍니다.
- * useLocalStorageArrayManager: 로컬스트토리지에 저장된 값이 변할때 화면도 따라 변하는것을 쉽게 구현하도록 도와줍니다.
+ * StorageArrayManager: 단순히 로컬스토리지에 읽고 쓰는것만 도와줍니다.
+ * useStorageArrayManager: 로컬스트토리지에 저장된 값이 변할때 화면도 따라 변하는것을 쉽게 구현하도록 도와줍니다.
  */
-export function useLocalStorageArrayManager<I extends Object, P extends PkType>(manager: LocalStorageArrayManager<I, P>) {
-  const {state, changeState, isHydrating} = useLocalStorageObjectManager(manager);
+export function useStorageArrayManager<I extends Object, P extends PkType>(manager: StorageArrayManager<I, P>) {
+  const {state, changeState, isHydrating} = useStorageObjectManager(manager);
 
   const appendFirst = useCallback((item: I) => {
     changeState(manager.appendFirst(item));

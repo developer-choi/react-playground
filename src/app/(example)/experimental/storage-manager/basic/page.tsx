@@ -1,13 +1,13 @@
 'use client';
 
 import React, {useCallback} from 'react';
-import {LocalStorageObjectManager, useLocalStorageObjectManager} from '@/utils/extend/browser/local-storage-object';
+import {StorageObjectManager, useStorageObjectManager} from '@/utils/extend/browser/storage-object';
 import Button from '@/components/element/Button';
 import {validateIncludeString} from '@/utils/extend/browser/query-string/validate';
 
-// URL: http://localhost:3000/experimental/localstorage-manager/basic
+// URL: http://localhost:3000/experimental/storage-manager/basic
 export default function Page() {
-  const {state, changeState, isHydrating} = useLocalStorageObjectManager(manager);
+  const {state, changeState, isHydrating} = useStorageObjectManager(manager);
 
   const changeToValidValue = useCallback(() => {
     changeState({fruit: 'kiwi'});
@@ -34,8 +34,9 @@ export default function Page() {
 type Fruit = 'apple' | 'banana' | 'kiwi'
 const FRUIT_TYPE_LIST: Fruit[] = ['apple', 'banana', 'kiwi'];
 
-const manager = new LocalStorageObjectManager<{fruit: Fruit;}>({
+const manager = new StorageObjectManager<{fruit: Fruit;}>({
   key: 'solution/validated',
+  storage: 'LOCAL_STORAGE',
   validateCallback: parsedValue => {
     return !!validateIncludeString(parsedValue.fruit, FRUIT_TYPE_LIST, {
       throwable: false,

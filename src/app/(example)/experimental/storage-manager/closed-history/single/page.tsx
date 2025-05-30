@@ -8,7 +8,7 @@ import {ComposedModalProps, ModalContainer} from '@/components/modal/container';
 import {useModal} from '@/utils/extend/modal';
 
 /**
- * URL: http://localhost:3000/experimental/localstorage-manager/closed-history/single
+ * URL: http://localhost:3000/experimental/storage-manager/closed-history/single
  * Doc: https://docs.google.com/document/d/13gkrex798BO5tF2MnZOpom2HdgO3p8Eh1VUHT1NYJoI/edit#heading=h.oauybibldcx5
  */
 export default function Page() {
