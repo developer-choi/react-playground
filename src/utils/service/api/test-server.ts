@@ -1,5 +1,5 @@
-import {customFetchOnServerSide} from '@/utils/extend/library/fetch/server';
+import {fetchFromServer} from '@/utils/extend/library/fetch/fromServer';
 
 export async function getTestStatus401ServerApi() {
-  return customFetchOnServerSide("/api/test/status-401", {authPolicy: 'private', method: 'GET'});
+  return fetchFromServer("/api/test/status-401", {authPolicy: 'private', method: 'GET'});
 }

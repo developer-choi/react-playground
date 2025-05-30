@@ -1,9 +1,9 @@
-import {customFetchOnBothSide} from '@/utils/extend/library/fetch';
+import {customFetchOnBothSide} from '@/utils/extend/library/fetch/base';
 import {PlainListApiResponse} from '@/types/services/test';
-import {customFetchOnClientSide} from '@/utils/extend/library/fetch/client';
+import {fetchFromClient} from '@/utils/extend/library/fetch/fromClient';
 
 export function getTestStatus401ClientApi() {
-  return customFetchOnClientSide("/api/test/status-401", {authPolicy: 'private', method: 'GET'});
+  return fetchFromClient("/api/test/status-401", {authPolicy: 'private', method: 'GET'});
 }
 
 export async function getTestPlainListApi(page: number) {

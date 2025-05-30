@@ -1,5 +1,5 @@
 import {TemporaryDataKey} from '@/utils/service/api/temporary-client';
-import {customFetchOnServerSide} from '@/utils/extend/library/fetch/server';
+import {fetchFromServer} from '@/utils/extend/library/fetch/fromServer';
 import {cookies} from 'next/headers';
 import {FetchError} from '@/utils/service/error/class/fetch';
 import {InvalidAccessError} from '@/utils/service/error/class/server';
@@ -12,7 +12,7 @@ interface TemporaryResponse {
 
 export async function getTemporaryDataApi<K extends TemporaryDataKey>(name: K) {
   try {
-    const {data} = await customFetchOnServerSide<TemporaryResponse[K]>(`/api/temporary/${name}`, {
+    const {data} = await fetchFromServer<TemporaryResponse[K]>(`/api/temporary/${name}`, {
       method: 'GET',
       authPolicy: 'none',
       headers: {

@@ -4,7 +4,7 @@ import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-str
 import {GuestError, LoginError} from '@/utils/service/error/class/auth';
 import {FetchError, MismatchedApiResponseError} from '@/utils/service/error/class/fetch';
 
-export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> {
+export interface FetchOptions extends Omit<RequestInit, 'body'> {
   body?: RequestInit['body'] | object;
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
   query?: ConvertableQuery;
@@ -24,36 +24,36 @@ export interface ExtendedCustomFetchParameter extends Omit<RequestInit, 'body'> 
   response?: Partial<{
     /**
      * (default) auto
-     * 1. Response의 Content-Type이 application/json인 경우 await response.json() 해서 json키에 저장함
-     * 2. Response의 Content-Type이 text/plain인 경우 await response.text() 해서 text키에 저장함
+     * 1. Response의 Content-Type이 application/json인 경우 await response.json() 해서 data에 저장함
+     * 2. Response의 Content-Type이 text/plain인 경우 await response.text() 해서 data에 저장함
      */
     dataType?: 'auto' | 'manual';
   }>;
 }
 
-/**
- * authorize none으로 client / server side 어디에서나 호출하기 위한 함수.
+/** @deprecated
+ * authPolicy none으로 client / server side 어디에서나 호출하기 위한 함수.
  * 그래서 로그인 체크도 하지않고,
  * 로그인이 실패할 일도 없어서 로그인 실패 처리로직도 없음.
  */
-export async function customFetchOnBothSide<D>(input: string | URL | globalThis.Request, parameter: Omit<ExtendedCustomFetchParameter, 'authPolicy'>) {
-  return customFetch<D>(input, {...parameter, session: null, authPolicy: 'none'});
+export async function customFetchOnBothSide<D>(input: string | URL | globalThis.Request, options: Omit<FetchOptions, 'authPolicy'>) {
+  return customFetch<D>(input, {...options, session: null, authPolicy: 'none'});
 }
 
-export interface CustomFetchParameter extends ExtendedCustomFetchParameter {
+export interface FetchOptionsWithSession extends FetchOptions {
   session: Session | null;
 }
 
 /** customFetch() 공통 주석
  * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
  */
-export async function customFetch<D>(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
-  const request = handleRequest(input, parameter);
+export async function customFetch<D>(input: string | URL | globalThis.Request, options: FetchOptionsWithSession) {
+  const request = handleRequest(input, options);
   const response = await fetch(request.input, request.init);
-  return handleResponse<D>(response, parameter);
+  return handleResponse<D>(response, options);
 }
 
-export interface CustomResponse<D = any> extends Pick<Response, 'status' | 'url'> {
+export interface FetchResult<D = any> extends Pick<Response, 'status' | 'url'> {
   data: D;
   original: Response;
 }
@@ -63,8 +63,8 @@ export type RevalidateTagType = 'board-list';
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
-function handleRequest(input: string | URL | globalThis.Request, parameter: CustomFetchParameter) {
-  const {headers, session, authPolicy, body, query, cache, response, ...rest} = parameter;
+function handleRequest(input: string | URL | globalThis.Request, options: FetchOptionsWithSession) {
+  const {headers, session, authPolicy, body, query, cache, response, ...rest} = options;
   const newHeaders = new Headers(headers);
   const isPrivate = authPolicy === 'private';
 
@@ -104,10 +104,10 @@ function handleRequest(input: string | URL | globalThis.Request, parameter: Cust
   };
 }
 
-async function handleResponse<D>(response: Response, parameter: CustomFetchParameter) {
-  const data = await extractResponseData<D>(response, parameter);
+async function handleResponse<D>(response: Response, options: FetchOptionsWithSession) {
+  const data = await extractResponseData<D>(response, options);
 
-  const customResponse: CustomResponse<D> = {
+  const fetchResult: FetchResult<D> = {
     status: response.status,
     url: response.url,
     data,
@@ -115,11 +115,11 @@ async function handleResponse<D>(response: Response, parameter: CustomFetchParam
   };
 
   if (response.ok) {
-    return customResponse;
+    return fetchResult;
   }
 
   const apiErrorInfo: CustomizedApiErrorInfo | undefined = (data && typeof data === 'object' && 'error' in data) ? data.error as CustomizedApiErrorInfo : undefined;
-  const defaultFetchError = new FetchError(parameter, customResponse, apiErrorInfo);
+  const defaultFetchError = new FetchError(options, fetchResult, apiErrorInfo);
 
   switch (response.status) {
     case 401:
@@ -130,9 +130,9 @@ async function handleResponse<D>(response: Response, parameter: CustomFetchParam
   }
 }
 
-async function extractResponseData<D>(response: Response, parameter: CustomFetchParameter): Promise<D> {
+async function extractResponseData<D>(response: Response, options: FetchOptionsWithSession): Promise<D> {
   const contentType = response.headers.get('Content-Type');
-  const dataType = parameter.response?.dataType ?? 'auto';
+  const dataType = options.response?.dataType ?? 'auto';
 
   if (!contentType || dataType !== 'auto') {
     return null as D;
@@ -148,10 +148,10 @@ async function extractResponseData<D>(response: Response, parameter: CustomFetch
       return (await response.text()) as D;
     }
   } catch (error) {
-    throw new MismatchedApiResponseError(parameter, response);
+    throw new MismatchedApiResponseError(options, response);
   }
 
-  throw new MismatchedApiResponseError(parameter, response);
+  throw new MismatchedApiResponseError(options, response);
 }
 
 const LOGIN_ERROR = new LoginError('Login is required');

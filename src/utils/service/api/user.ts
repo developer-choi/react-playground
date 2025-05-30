@@ -1,4 +1,4 @@
-import {customFetchOnClientSide} from '@/utils/extend/library/fetch/client';
+import {fetchFromClient} from '@/utils/extend/library/fetch/fromClient';
 import {FetchError} from '@/utils/service/error/class/fetch';
 
 export interface UserFieldCountApiRequest {
@@ -41,7 +41,7 @@ export interface UserFieldCountApiResponse {
  */
 export async function getUserFieldCountApi({validationMode, ...rest}: UserFieldCountApiRequest): Promise<UserFieldCountApiResponse> {
   try {
-    const {data: {count}} = await customFetchOnClientSide<{count: number}>(`/api/user/field/count`, {
+    const {data: {count}} = await fetchFromClient<{count: number}>(`/api/user/field/count`, {
       method: 'GET',
       authPolicy: 'none',
       query: rest

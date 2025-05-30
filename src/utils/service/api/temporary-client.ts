@@ -1,4 +1,4 @@
-import {customFetchOnClientSide} from '@/utils/extend/library/fetch/client';
+import {fetchFromClient} from '@/utils/extend/library/fetch/fromClient';
 
 export interface PostTemporaryDataParam {
   name: TemporaryDataKey;
@@ -6,7 +6,7 @@ export interface PostTemporaryDataParam {
 }
 
 export async function postTemporaryDataApi(param: PostTemporaryDataParam) {
-  return customFetchOnClientSide(`/api/temporary/${param.name}`, {
+  return fetchFromClient(`/api/temporary/${param.name}`, {
     method: 'POST',
     authPolicy: 'none',
     body: param.data
@@ -14,7 +14,7 @@ export async function postTemporaryDataApi(param: PostTemporaryDataParam) {
 }
 
 export async function deleteTemporaryDataApi(name: TemporaryDataKey) {
-  return customFetchOnClientSide(`/api/temporary/${name}`, {
+  return fetchFromClient(`/api/temporary/${name}`, {
     method: 'DELETE',
     authPolicy: 'none'
   });

@@ -4,7 +4,7 @@ import {usePathname, useSearchParams} from 'next/navigation';
 import React, {useCallback} from 'react';
 import Button from '@/components/element/Button';
 import {useNavigation} from '@/utils/extend/browser/query-string/useNavigation';
-import {customFetchOnClientSide} from '@/utils/extend/library/fetch/client';
+import {fetchFromClient} from '@/utils/extend/library/fetch/fromClient';
 
 /**
  * URL: http://localhost:3000/staging/module/query-string/test
@@ -23,7 +23,7 @@ export default function Page() {
   console.log('query', query);
 
   const callApi = useCallback(async () => {
-    const {data} = await customFetchOnClientSide('/api/test/query-string', {
+    const {data} = await fetchFromClient('/api/test/query-string', {
       method: 'GET',
       authPolicy: 'none',
       query: TEST_QUERY

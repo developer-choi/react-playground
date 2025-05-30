@@ -1,16 +1,16 @@
 import {BoardListApiResponse, BoardRow, PatchBoardApiRequest, PostBoardApiRequest} from '@/types/services/board';
-import {customFetchOnClientSide} from '@/utils/extend/library/fetch/client';
-import {customFetchOnBothSide} from '@/utils/extend/library/fetch';
+import {fetchFromClient} from '@/utils/extend/library/fetch/fromClient';
+import {customFetchOnBothSide} from '@/utils/extend/library/fetch/base';
 
 export function patchBoardApi(board: PatchBoardApiRequest) {
-  return customFetchOnClientSide(`/api/board/${board.pk}`, {
+  return fetchFromClient(`/api/board/${board.pk}`, {
     method: 'PATCH',
     body: board,
     authPolicy: 'none' // 원래는 private 이어야하는데 테스트목적
   });
 }
 export function postMultipleBoardsApi(boardList: PostBoardApiRequest[]) {
-  return customFetchOnClientSide(`/api/board`, {
+  return fetchFromClient(`/api/board`, {
     method: 'POST',
     body: boardList,
     authPolicy: 'none' // 원래는 private 이어야하는데 테스트목적
@@ -22,14 +22,14 @@ export function postBoardApi(board: PostBoardApiRequest) {
 }
 
 export function deleteBoardApi(pk: number) {
-  return customFetchOnClientSide(`/api/board/${pk}`, {
+  return fetchFromClient(`/api/board/${pk}`, {
     method: 'DELETE',
     authPolicy: 'none' // 원래는 private 이어야하는데 테스트목적
   });
 }
 
 export function deleteAllBoardsApi() {
-  return customFetchOnClientSide(`/api/board`, {
+  return fetchFromClient(`/api/board`, {
     method: 'DELETE',
     authPolicy: 'none' // 원래는 private 이어야하는데 테스트목적
   });
