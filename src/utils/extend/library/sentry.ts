@@ -2,6 +2,13 @@ import type {ErrorEvent, EventHint} from '@sentry/types';
 import {CustomizedError} from '@/utils/service/error/class';
 
 export function beforeSend(event: ErrorEvent, hint: EventHint) {
+  // nextjs에서 server side에서 redirect() 하면 내부적으로 이 에러를 던져서 처리하도록 되어있는데 문제는 그게 Sentry까지 날아간다는 것이었음. 이거말고 다른 해결책을 못찾음.
+  const isNextRedirectError = hint.originalException && typeof hint.originalException === 'object' && 'digest' in hint.originalException && typeof hint.originalException.digest === 'string' && hint.originalException.digest.includes('NEXT_REDIRECT');
+
+  if (isNextRedirectError) {
+    return null;
+  }
+
   /** TODO
    * 1. Sentry에 에러 객체 원본을 보내도록 하고,
    * 2. 개발자는 분류기준을 정해서 오류들을 분류한 후 에러클래스로 제작한다.
