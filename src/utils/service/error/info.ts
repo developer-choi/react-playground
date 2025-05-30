@@ -1,5 +1,4 @@
-import {FetchError} from '@/utils/service/error/index';
-import {InvalidAccessError} from '@/utils/service/error/server';
+import {FetchError, InvalidAccessError} from '@/utils/service/error/index';
 import {ErrorPageTemplateProps} from '@/components/error/ErrorPageTemplate';
 import {isObject} from '@/utils/extend/data-type/object';
 

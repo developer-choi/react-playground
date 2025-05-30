@@ -1,4 +1,4 @@
-import {CustomizedError, FetchError, LoginError} from '@/utils/service/error/index';
+import {FetchError, LoginError} from '@/utils/service/error/index';
 import {notFound, redirect} from 'next/navigation';
 import {PageServerComponentProps} from '@/types/declaration/next';
 import {validateComputableNumber} from '@/utils/extend/browser/query-string/validate';
@@ -52,13 +52,4 @@ export function validateViewPageIdParams(id: PageServerComponentProps['params'][
   }
 
   return result;
-}
-
-// 회원가입 폼 페이지 안거치고 회원가입 완료페이지 간 경우
-export class InvalidAccessError extends CustomizedError {
-  readonly name = 'InvalidAccessError';
-
-  constructor(message = '잘못된 접근입니다.') {
-    super(message);
-  }
 }
