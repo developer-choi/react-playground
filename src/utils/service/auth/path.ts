@@ -7,13 +7,13 @@ interface NextNavigatingParam {
 }
 
 export type NextNavigatingResult = {
-  type: "not-authenticated";
+  type: 'not-authenticated';
   nextUrl: `/guest/login?redirect=${string}`
 } | {
-  type: "already-authenticated";
+  type: 'already-authenticated';
   nextUrl: typeof DEFAULT_HOME_URL
 } | {
-  type: "correct",
+  type: 'correct',
   nextUrl: string; // parameter로 전달했던 nextUrl과 같은 값
 };
 
@@ -30,19 +30,19 @@ export function getNextNavigating({nextUrl, isLoggedIn}: NextNavigatingParam): N
     return correct;
   }
 
-  const isPrivate = PRIVATE_PATHNAME.some(pathname => doesPathStartWithSegment(nextPathname, pathname));
-  const isNotPrivate = NOT_PRIVATE_PATHNAME.some(pathname => doesPathStartWithSegment(nextPathname, pathname));
+  const isGuest = PATHNAME.exact.guest.includes(nextPathname) || PATHNAME.startsWith.guest.some((pathname) => doesPathStartWithSegment(pathname, nextPathname));
+  const isPrivate = PATHNAME.exact.private.includes(nextPathname) || PATHNAME.startsWith.private.some((pathname) => doesPathStartWithSegment(pathname, nextPathname));
 
   if (isPrivate && !isLoggedIn) {
     return {
-      type: "not-authenticated",
+      type: 'not-authenticated',
       nextUrl: `/guest/login?redirect=${nextUrl}`
     };
-  } else if (isNotPrivate && isLoggedIn) {
+  } else if (isGuest && isLoggedIn) {
     return {
       type: 'already-authenticated',
       nextUrl: DEFAULT_HOME_URL
-    }
+    };
 
   } else {
     return correct;
@@ -52,10 +52,17 @@ export function getNextNavigating({nextUrl, isLoggedIn}: NextNavigatingParam): N
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
-const PRIVATE_PATHNAME = [
-  "/mypage"
-];
+const PATHNAME = {
+  startsWith: {
+    // 이 pathname로 시작하면 무조건 로그인해야만 갈 수 있는 페이지
+    private: ['/mypage'],
 
-const NOT_PRIVATE_PATHNAME = [
-  "/guest",
-];
+    // 이 pathname로 시작하면 무조건 로그인 안해야만 갈 수 있는 페이지
+    guest: ['/login'],
+  },
+  exact: {
+    // 정확하게 pathname이 일치해야
+    private: ['/some-private-path'],
+    guest: ['/some-guest-path'],
+  },
+};
