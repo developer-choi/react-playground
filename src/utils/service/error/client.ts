@@ -10,6 +10,7 @@ import {useLogout} from '@/utils/service/auth/hooks';
 import {isObject} from '@/utils/extend/data-type/object';
 import {GuestError, LoginError} from '@/utils/service/error/class/auth';
 import { FetchError } from './class/fetch';
+import {StorageObjectManager} from '@/utils/extend/browser/storage-object';
 
 export function useHandleClientSideError() {
   const modal = useModal();
@@ -52,6 +53,14 @@ export function useHandleClientSideError() {
 /*************************************************************************************************************
  * Non Export
  *************************************************************************************************************/
+const MANAGER = new StorageObjectManager({
+  key: 'PENDING',
+  storage: 'SESSION_STORAGE',
+  defaultValue: {
+    pending: false,
+  },
+});
+
 interface ErrorInstances {
   GuestError: GuestError;
   LoginError: LoginError;
@@ -90,11 +99,16 @@ function handleLoginError(
   logout: ReturnType<typeof useLogout>,
   {modal, router}: HandlingErrorContext,
 ) {
+  if (MANAGER.getParsedData().pending) {
+    return;
+  }
+
+  MANAGER.setStringifyItem({ pending: true });
+
   /** TODO
    * 로그아웃 사이드이펙트로 되야했던것들도 여기서 같이해야함. RQ 쓰고잇다면 특정 유저관련 캐시를 다 여기서 날려야하고.
    * ==>
    * 이거 관련 별도 문서 정리한게 있었는데, 로그아웃 / 로그인 사이드이펙트 관련 문서 잘 정리하고 여기 반영하기.
-   * 그러려면 useLogout()도 따로 만들고 그 안에서 또다시 useClientSideLogout() 이런거 만들어야겠다 ㅠㅠ
    */
 
   modal.open.alert({
@@ -103,8 +117,15 @@ function handleLoginError(
     confirm: {
       children: '로그인 하러가기',
       onClick: async (onClose) => {
-        onClose();
+        MANAGER.setStringifyItem({ pending: false });
+
+        /**
+         * 원래 logout은 모달 띄우기 전에 호출해도 되긴 하는데,
+         * logout 안에 로그아웃 후 리다이랙트 기능까지 next-auth에 강제로 포함이 되어있어서
+         * 결국 여기서 실행하기로 했음.
+         */
         await logout();
+        onClose();
         router.replace(error.loginUrlWithRedirect);
       },
     },
