@@ -7,6 +7,7 @@ import {getErrorInfo} from '@/utils/service/error/info';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
 import {isObject} from '@/utils/extend/data-type/object';
 import {headers} from 'next/headers';
+import {CURRENT_URL_IN_HEADER} from '@/utils/service/auth';
 
 // Doc: [Can not catch an ServerSideError on client] https://docs.google.com/document/d/1UmDWmmGTNH_XNupQ-tegMnQwzb-m5yD2Hz_NzO2glic/edit?tab=t.0
 export function handleServerSideError(error: unknown) {
@@ -23,7 +24,7 @@ export function handleServerSideError(error: unknown) {
    * + 대신, customFetchOnClientSide() 에서 발생한 에러는 useHandleClientSideError()가 아닌 customFetchOnClientSide() 에서 처리했음.
    */
   if (error instanceof LoginError) {
-    const currentUrl = headers().get('current-pathname-with-search') ?? '/'; // middleware에서 셋팅
+    const currentUrl = headers().get(CURRENT_URL_IN_HEADER) ?? '/'; // middleware에서 셋팅
     redirect(`/api/next-auth/logout?redirect=${currentUrl}`);
   }
 
