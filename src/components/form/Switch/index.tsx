@@ -1,5 +1,6 @@
 import {ComponentPropsWithoutRef, forwardRef} from 'react';
 import styles from './index.module.scss';
+import classNames from 'classnames';
 
 // https://www.daleseo.com/css-toggle-switch/
 export interface SwitchProps extends ComponentPropsWithoutRef<"input"> {
@@ -10,7 +11,7 @@ export default forwardRef<HTMLInputElement, SwitchProps>(function Switch(props, 
   const {label, style, className, ...rest} = props;
 
   return (
-    <label className={styles.switchLabel}>
+    <label style={style} className={classNames(styles.switchLabel, className)}>
       <input ref={ref} type="checkbox" {...rest} />
       {label}
     </label>

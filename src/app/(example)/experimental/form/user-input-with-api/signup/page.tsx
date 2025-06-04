@@ -90,7 +90,7 @@ function useSignUpForm() {
   }, []);
 
   // 클라이언트 컨트롤용 데이터는 서버로 보내지않게 하기위함
-  const onSubmit: SubmitHandler<TestFormData> = useCallback(async ({validated, ...data}) => {
+  const onSubmit: SubmitHandler<TestFormData> = useCallback(async ({validated: _validated, ...data}) => {
     if (isFetching) {
       return;
     }

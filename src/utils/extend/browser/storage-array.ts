@@ -6,7 +6,7 @@ import {
   useStorageObjectManager
 } from '@/utils/extend/browser/storage-object';
 
-export interface StorageArrayParameter<I extends Object, P extends PkType> {
+export interface StorageArrayParameter<I extends object, P extends PkType> {
   key: string;
   storage: StorageObjectParameter<I[]>['storage'];
 
@@ -22,7 +22,7 @@ export interface StorageArrayParameter<I extends Object, P extends PkType> {
 /**
  * @description 스토리지에 Array를 쉽고 안전하게 읽고 쓰기위해 만들었습니다.
  */
-export class StorageArrayManager<I extends Object, P extends PkType> extends StorageObjectManager<I[]> {
+export class StorageArrayManager<I extends object, P extends PkType> extends StorageObjectManager<I[]> {
   /**
    * @private The getUnique must not be accessible in public.
    * And I don't have any plan that makes derived classes extend this class. (= This is the reason that I don't set visibility to protected)
@@ -78,7 +78,7 @@ export class StorageArrayManager<I extends Object, P extends PkType> extends Sto
  * StorageArrayManager: 단순히 스토리지에 읽고 쓰는것만 도와줍니다.
  * useStorageArrayManager: 스트토리지에 저장된 값이 변할때 화면도 따라 변하는것을 쉽게 구현하도록 도와줍니다.
  */
-export function useStorageArrayManager<I extends Object, P extends PkType>(manager: StorageArrayManager<I, P>) {
+export function useStorageArrayManager<I extends object, P extends PkType>(manager: StorageArrayManager<I, P>) {
   const {state, changeState, isHydrating} = useStorageObjectManager(manager);
 
   const appendFirst = useCallback((item: I) => {

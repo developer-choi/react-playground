@@ -64,7 +64,7 @@ export type RevalidateTagType = 'board-list';
  * Non Export
  *************************************************************************************************************/
 function handleRequest(input: string | URL | globalThis.Request, options: FetchOptionsWithSession) {
-  const {headers, session, authPolicy, body, query, cache, response, ...rest} = options;
+  const {headers, session, authPolicy, body, query, cache, ...rest} = options;
   const newHeaders = new Headers(headers);
   const isPrivate = authPolicy === 'private';
 

@@ -5,6 +5,6 @@ export declare module 'react-toastify' {
     closeToast: (event: MouseEvent<HTMLElement>) => void;
     type: 'info' | 'success' | 'warning' | 'error' | 'default';
     ariaLabel?: string;
-    theme: 'light' | 'dark' | 'colored' | (string & {});
+    theme: 'light' | 'dark' | 'colored' | string;
   }
 }

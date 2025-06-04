@@ -1,4 +1,3 @@
-import {PropsWithChildren} from 'react';
 import styles from './index.module.scss';
 import {LayoutProps} from '@/types/declaration/next';
 

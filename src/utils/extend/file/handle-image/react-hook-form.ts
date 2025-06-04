@@ -36,6 +36,8 @@ export interface RHFSingleImageFileParameter<T extends FieldValues> extends Pick
   setItem?: (singleFile: Partial<SingleFileAndThumbnail>) => void // 완전 커스텀하고싶으면 전달
 }
 
+// TODO 여기 options 해놓고 안쓴이유 추후 분석하기...
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function useRHFSingleImageFile<T extends FieldValues>({options, isValidOptions, methods, names, ...rest}: RHFSingleImageFileParameter<T>) {
   const setItem = useCallback((item: Partial<SingleFileAndThumbnail>) => {
     methods.setValue(names.item, item as PathValue<T, Path<T>>);

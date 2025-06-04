@@ -7,11 +7,11 @@ import {randomNumber} from '@/utils/extend/test/random';
  * @example (['a', 'b', 'c'], 5) ==> return 'aabac'
  */
 export function makeRandomString(anagramArray: Array<string | number>, length: number): string {
-  let result = new Array<string>(length);
+  const result = new Array<string>(length);
 
   for (let i = 0; i < length; i++) {
 
-    let randomIndex = randomNumber(0, anagramArray.length - 1);
+    const randomIndex = randomNumber(0, anagramArray.length - 1);
     result.push(String(anagramArray[randomIndex]));
   }
 

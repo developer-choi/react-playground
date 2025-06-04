@@ -44,7 +44,7 @@ export function measureTriesToSuccess(percent = 50): number {
 }
 
 export function randomInArray<T>(array: T[], count = 1): T[] {
-  let temp = [...array];
+  const temp = [...array];
   const maxCount = count < array.length ? count : array.length;
 
   const result: T[] = [];

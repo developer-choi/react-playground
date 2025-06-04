@@ -16,6 +16,7 @@ const {combinations, filterRecord} = generatePropsList<TextAreaProps>({
   label: [undefined, 'label text'],
   placeholder: [undefined, 'placeholder text'],
   info: [undefined, 'info text'],
+  // eslint-disable-next-line
   //@ts-ignore
   rows: [undefined, '2', '4']
 });

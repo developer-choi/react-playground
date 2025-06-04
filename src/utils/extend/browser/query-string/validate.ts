@@ -45,7 +45,7 @@ export function validateIncludeString<S extends string, R extends boolean = true
   const {throwable = true, required = true} = options ?? {};
   let errorMessage = '';
 
-  let result = validateString(queryValue, {throwable, required});
+  const result = validateString(queryValue, {throwable, required});
 
   //가능한 상태는, string 아니면 undefined. 만약 에러라면 이 라인 실행안되고 에러만 던져짐.
   if (result === undefined) {
@@ -76,7 +76,7 @@ export function validateComputableNumber<R extends boolean = true, T extends boo
   const {throwable = true, required = true} = options ?? {};
   let errorMessage = '';
 
-  let validatedString = validateString(queryValue, {throwable, required});
+  const validatedString = validateString(queryValue, {throwable, required});
 
   //가능한 상태는, string 아니면 undefined. 만약 에러라면 이 라인 실행안되고 에러만 던져짐.
   if (validatedString === undefined) {

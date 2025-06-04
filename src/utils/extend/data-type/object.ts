@@ -44,7 +44,7 @@ export function itemListToDataOfType<T extends string>(itemList: NameValueItem<T
   };
 }
 
-type ConvertableValue = number | string | boolean | Function | null | undefined;
+type ConvertableValue = number | string | boolean | ((...args: unknown[]) => unknown) | null | undefined;
 
 /**
  * loopRecursively()에 제공된 value값이 만약 객체일 경우, callback으로 그 객체의 키값까지 같이 전달됩니다.

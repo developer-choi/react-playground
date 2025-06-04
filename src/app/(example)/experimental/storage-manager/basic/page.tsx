@@ -14,8 +14,7 @@ export default function Page() {
   }, [changeState]);
 
   const changeToInvalidValue = useCallback(() => {
-    //@ts-ignore
-    changeState({fruit: 'INVALID'});
+    changeState({fruit: 'INVALID' as any});
   }, [changeState]);
 
   if (isHydrating) {

@@ -73,7 +73,7 @@ export function removeDuplicatedItems<T extends string | number>(array: T[]): T[
  * @param recent 'first' = 배열 뒤에있는 중복을 삭제하고 앞에있는것을 남김
  * @param recent 'last' = 배열 앞에있는 중복을 삭제하고 뒤에있는것을 남김
  */
-export function removeDuplicatedObject<I extends Object, P extends PkType>(items: I[], pkExtractor: (item: I) => P, recent: 'last' | 'first'): I[] {
+export function removeDuplicatedObject<I extends object, P extends PkType>(items: I[], pkExtractor: (item: I) => P, recent: 'last' | 'first'): I[] {
   const _items = recent === 'last' ? items : [...items].reverse();
 
   const object = {} as Record<P, I>

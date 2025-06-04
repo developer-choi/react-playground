@@ -5,6 +5,8 @@ export function isServer() {
 }
 
 export function isMobileOnBothSide(): boolean {
+  // TODO 더 안전한 방법 찾기
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const userAgent = isServer() ? require('next/headers').headers().get('user-agent') : navigator.userAgent;
 
   if (!userAgent) {

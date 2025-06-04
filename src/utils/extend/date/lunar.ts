@@ -29,6 +29,7 @@ export function convertLunarDateToSolar(year: number, month: number, date: numbe
   y1 = year - 1841;
   m1 = month - 1;
 
+  // eslint-disable-next-line prefer-const
   leapyes = 0;
 
   const lday = getLday(date, y1, m1);
@@ -109,6 +110,7 @@ export function convertLunarDateToSolar(year: number, month: number, date: numbe
     }
   } while (1);
 
+  // eslint-disable-next-line prefer-const
   resultYear = y1;
 
   md[1] = y2 - 337;
@@ -123,7 +125,9 @@ export function convertLunarDateToSolar(year: number, month: number, date: numbe
     }
   } while (1);
 
+  // eslint-disable-next-line prefer-const
   resultMonth = m1;
+  // eslint-disable-next-line prefer-const
   resultDate = td;
 
   return {

@@ -6,6 +6,6 @@ export type HiddenInputProps = Omit<ComponentPropsWithoutRef<'input'>, 'type'>;
 
 export default forwardRef<HTMLInputElement, HiddenInputProps>(function HiddenInput({className, ...rest}, ref) {
   return (
-    <input ref={ref} type="checkbox" className={classNames(styles.hiddenInput)} {...rest}/>
+    <input ref={ref} type="checkbox" className={classNames(styles.hiddenInput, className)} {...rest}/>
   );
 });

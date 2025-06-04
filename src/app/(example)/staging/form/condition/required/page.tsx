@@ -126,7 +126,7 @@ interface ErrorResponse {
   index: number;
 }
 
-async function updateApi(data: TestFormData) {
+async function updateApi(_: TestFormData) {
   await timeoutPromise(1000);
 
   const response: ErrorResponse = {

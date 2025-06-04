@@ -33,12 +33,12 @@ export function generatePropsList<T>(obj: Partial<Arrayify<T>>): {
     const values = obj[key]!;
 
     if (values === 'boolean') {
-      for (let value of [false, true]) {
+      for (const value of [false, true]) {
         const newCombination = { ...current, [key]: value };
         helper(newCombination, index + 1);
       }
     } else {
-      for (let value of values.filter((value) => value !== 'all')) {
+      for (const value of values.filter((value) => value !== 'all')) {
         const newCombination = { ...current, [key]: value };
         helper(newCombination, index + 1);
       }
@@ -67,7 +67,7 @@ export function generatePropsList<T>(obj: Partial<Arrayify<T>>): {
   return { filterRecord, combinations: result };
 }
 
-export function filterPropsList<T extends Object>(array: T[], filter: Record<keyof T, any>) {
+export function filterPropsList<T extends object>(array: T[], filter: Record<keyof T, any>) {
   return array.filter((data) => {
     return Object.entries(filter).every(([key, valueInFilter]) => {
       if (!(key in data) || valueInFilter === 'all') {
