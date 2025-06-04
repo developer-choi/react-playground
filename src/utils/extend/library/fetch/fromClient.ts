@@ -11,7 +11,7 @@ export async function fetchFromClient<D>(input: string | URL | globalThis.Reques
 
   try {
     const session = options.authPolicy === 'none' ? null : await getSession();
-    return customFetch<D>(input, {...options, session});
+    return await customFetch<D>(input, {...options, session});
   } catch (error) {
     if (error instanceof LoginError) {
       const redirectUrl = location.pathname + location.search;
