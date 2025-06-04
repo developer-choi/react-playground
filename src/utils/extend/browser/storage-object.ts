@@ -14,7 +14,7 @@ export interface StorageObjectParameter<V extends Object> {
 }
 
 /**
- * @description 로컬스토리지에 Object를 쉽고 안전하게 읽고 쓰기위해 만들었습니다.
+ * @description 스토리지에 Object를 쉽고 안전하게 읽고 쓰기위해 만들었습니다.
  * 1. 매번 중복되는 코드를 제거하기 위해.
  * 2. localStorage | sessionStorage의 key는 문자열이라서 오타로인해 잘못 읽고 쓸 우려가 있어서.
  */
@@ -137,8 +137,8 @@ export class StorageObjectManager<V extends Object> {
 
 /**
  * @description
- * StorageObjectManager: 단순히 로컬/세션스토리지에 읽고 쓰는것만 도와줍니다.
- * useStorageObjectManager: 로컬/세션스트토리지에 저장된 값이 변할때 화면도 따라 변하는것을 쉽게 구현하도록 도와줍니다.
+ * StorageObjectManager: 단순히 스토리지에 읽고 쓰는것만 도와줍니다.
+ * useStorageObjectManager: 스트토리지에 저장된 값이 변할때 화면도 따라 변하는것을 쉽게 구현하도록 도와줍니다.
  */
 export function useStorageObjectManager<V extends Object>(manager: StorageObjectManager<V>) {
   const [state, setState] = useState(manager.getParsedData());

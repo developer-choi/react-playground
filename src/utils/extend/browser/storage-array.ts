@@ -20,7 +20,7 @@ export interface StorageArrayParameter<I extends Object, P extends PkType> {
 }
 
 /**
- * @description 로컬스토리지에 Array를 쉽고 안전하게 읽고 쓰기위해 만들었습니다.
+ * @description 스토리지에 Array를 쉽고 안전하게 읽고 쓰기위해 만들었습니다.
  */
 export class StorageArrayManager<I extends Object, P extends PkType> extends StorageObjectManager<I[]> {
   /**
@@ -75,8 +75,8 @@ export class StorageArrayManager<I extends Object, P extends PkType> extends Sto
 
 /**
  * @description
- * StorageArrayManager: 단순히 로컬스토리지에 읽고 쓰는것만 도와줍니다.
- * useStorageArrayManager: 로컬스트토리지에 저장된 값이 변할때 화면도 따라 변하는것을 쉽게 구현하도록 도와줍니다.
+ * StorageArrayManager: 단순히 스토리지에 읽고 쓰는것만 도와줍니다.
+ * useStorageArrayManager: 스트토리지에 저장된 값이 변할때 화면도 따라 변하는것을 쉽게 구현하도록 도와줍니다.
  */
 export function useStorageArrayManager<I extends Object, P extends PkType>(manager: StorageArrayManager<I, P>) {
   const {state, changeState, isHydrating} = useStorageObjectManager(manager);
