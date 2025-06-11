@@ -1,5 +1,5 @@
 import {customFetchOnBothSide} from '@/utils/extend/library/fetch/base';
-import {PlainListApiResponse} from '@/types/services/test';
+import {PlainListApiResponse} from '@/types/services/dummy';
 import {fetchFromClient} from '@/utils/extend/library/fetch/fromClient';
 
 export function getTestStatus401ClientApi() {

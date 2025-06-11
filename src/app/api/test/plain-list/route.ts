@@ -1,6 +1,6 @@
 import {NextRequest} from 'next/server';
 import {timeoutPromise} from '@/utils/extend/test/promise';
-import {PlainListApiResponse} from '@/types/services/test';
+import {PlainListApiResponse} from '@/types/services/dummy';
 import {range} from '@/utils/extend/data-type/number';
 
 export async function GET(request: NextRequest) {
