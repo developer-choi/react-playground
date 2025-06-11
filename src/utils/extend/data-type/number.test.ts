@@ -1,4 +1,4 @@
-import {numberWithComma, range} from '@/utils/extend/data-type/number';
+import {calculateNumberTotal, numberWithComma, range} from '@/utils/extend/data-type/number';
 
 describe('numberWithComma()', () => {
   const positiveCases = [
@@ -76,5 +76,15 @@ describe('range()', () => {
     it('should return a single-element array when from and to are equal', () => {
       expect(range(1, 1)).toEqual([1]);
     });
+  });
+});
+
+describe('calculateNumberTotal()', () => {
+  describe('General cases', () => {
+    expect(calculateNumberTotal([1, 2, 3, 4])).toBe(10);
+  });
+
+  describe('Boundary cases', () => {
+    expect(calculateNumberTotal([])).toBe(0);
   });
 });
