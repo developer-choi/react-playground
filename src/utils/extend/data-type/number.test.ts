@@ -1,4 +1,4 @@
-import {calculateNumberTotal, numberWithComma, range} from '@/utils/extend/data-type/number';
+import {calculateNumberTotal, calculateTotal, numberWithComma, range} from '@/utils/extend/data-type/number';
 
 describe('numberWithComma()', () => {
   const positiveCases = [
@@ -79,12 +79,30 @@ describe('range()', () => {
   });
 });
 
-describe('calculateNumberTotal()', () => {
+describe('calculateTotal()', () => {
+  const transactions = [
+    {type: 'DEPOSIT', change: 10000},
+    {type: 'WITHDRAWAL', change: -2500},
+    {type: 'WITHDRAWAL', change: -1500},
+    {type: 'DEPOSIT', change: 5000},
+  ];
+
   describe('General cases', () => {
-    expect(calculateNumberTotal([1, 2, 3, 4])).toBe(10);
+    it('should calculate the final balance from a list of transactions (deposits and withdrawals)', () => {
+      expect(calculateTotal(transactions, item => item.change)).toBe(11000);
+    });
   });
 
   describe('Boundary cases', () => {
-    expect(calculateNumberTotal([])).toBe(0);
+    it('should return 0 for an empty list of transactions', () => {
+      expect(calculateTotal([], (item: any) => item)).toBe(0);
+    });
+  });
+});
+
+describe('calculateNumberTotal()', () => {
+  // 나머지 케이스는 calculateTotal() 테스트에서 다 진행하기 때문에, 간략하게 확인합니다.
+  it('should return the correct sum for a list of positive and negative numbers', () => {
+    expect(calculateNumberTotal([1, 2, 3, 4])).toBe(10);
   });
 });
