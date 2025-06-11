@@ -4,7 +4,7 @@ import {range} from '@/utils/extend/data-type/number';
 
 export type QueryValue = ParsedUrlQuery['any-key'];
 
-interface ValidateQueryOption<R extends boolean, T extends boolean> {
+export interface ValidateQueryOption<R extends boolean, T extends boolean> {
   required?: R;
   throwable?: T;
 }
@@ -17,7 +17,7 @@ interface ValidateQueryOption<R extends boolean, T extends boolean> {
  */
 type ConditionalValueType<V, R extends boolean, T extends boolean> = (R | T) extends true ? V : V | undefined;
 
-// Doc: Doc: https://docs.google.com/document/d/1QBD1sg1FGhnyw4_6HNwuvHWc8-TYlNoF2zFd4z7Pq_E/edit
+// Doc: https://docs.google.com/document/d/1QBD1sg1FGhnyw4_6HNwuvHWc8-TYlNoF2zFd4z7Pq_E/edit
 export function validateString<R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<R, T>): ConditionalValueType<string, R, T> {
   const {throwable = true, required = true} = options ?? {};
   let errorMessage = '';
@@ -31,7 +31,12 @@ export function validateString<R extends boolean = true, T extends boolean = tru
   }
 
   if (!errorMessage) {
-    return queryValue as string;
+    // 빈문자열은 undefined랑 동일하게 처리되야함. 둘 다 유효하지않은 값이니까.
+    if (queryValue === '') {
+      return undefined as ConditionalValueType<string, R, T>;
+    } else {
+      return queryValue as string;
+    }
   }
 
   if (!throwable) {
