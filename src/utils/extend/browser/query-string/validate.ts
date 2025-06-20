@@ -31,30 +31,29 @@ type ConditionalValueType<V, R extends boolean, T extends boolean> = (R | T) ext
  */
 export function validateString<R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<R, T>): ConditionalValueType<string, R, T> {
   const {throwable = true, required = true} = options ?? {};
-  let errorMessage = '';
 
-  if (required && !queryValue) {
-    errorMessage = 'The queryValue is not exist.';
-  }
+  try {
+    if (required && !queryValue) {
+      throw new ValidateError('The queryValue is not exist.');
+    }
 
-  if (!errorMessage && Array.isArray(queryValue)) {
-    errorMessage = 'The queryValue is Array.';
-  }
+    if (Array.isArray(queryValue)) {
+      throw new ValidateError('The queryValue is Array.');
+    }
 
-  if (!errorMessage) {
     // 빈문자열은 undefined랑 동일하게 처리되야함. 둘 다 유효하지않은 값이니까.
     if (queryValue === '') {
       return undefined as ConditionalValueType<string, R, T>;
     } else {
       return queryValue as string;
     }
+  } catch (error) {
+    if (!throwable) {
+      return undefined as ConditionalValueType<string, R, T>;
+    } else {
+      throw error;
+    }
   }
-
-  if (!throwable) {
-    return undefined as ConditionalValueType<string, R, T>;
-  }
-
-  throw new ValidateError(errorMessage);
 }
 
 /**
@@ -67,32 +66,31 @@ export function validateString<R extends boolean = true, T extends boolean = tru
  */
 export function validateIncludeString<S extends string, R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, includeList: S[], options?: ValidateQueryOption<R, T>): ConditionalValueType<S, R, T> {
   const {throwable = true, required = true} = options ?? {};
-  let errorMessage = '';
 
-  const result = validateString(queryValue, {throwable, required});
+  try {
+    const result = validateString(queryValue, {throwable, required});
 
-  // validateString을 통과했으므로, result는 유효한 문자열이거나 (에러가 아닌) undefined 상태임.
-  if (result === undefined) {
-    return undefined as ConditionalValueType<S, R, T>;
-  }
+    // validateString을 통과했으므로, result는 유효한 문자열이거나 (에러가 아닌) undefined 상태임.
+    if (result === undefined) {
+      return undefined as ConditionalValueType<S, R, T>;
+    }
 
-  if (includeList.length === 0) {
-    errorMessage = 'The includeList is required.';
-  }
+    if (includeList.length === 0) {
+      throw new ValidateError('The includeList is required.');
+    }
 
-  if (!includeList.includes(queryValue as any)) {
-    errorMessage = 'The queryValue is not in the conditions';
-  }
+    if (!includeList.includes(queryValue as any)) {
+      throw new ValidateError('The queryValue is not in the conditions');
+    }
 
-  if (!errorMessage) {
     return queryValue as S;
+  } catch (error) {
+    if (!throwable) {
+      return undefined as ConditionalValueType<S, R, T>;
+    } else {
+      throw error;
+    }
   }
-
-  if (!throwable) {
-    return undefined as ConditionalValueType<S, R, T>;
-  }
-
-  throw new ValidateError(errorMessage);
 }
 
 /**
@@ -105,38 +103,37 @@ export function validateIncludeString<S extends string, R extends boolean = true
  */
 export function validateComputableNumber<R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<R, T>): ConditionalValueType<number, R, T> {
   const {throwable = true, required = true} = options ?? {};
-  let errorMessage = '';
 
-  const validatedString = validateString(queryValue, {throwable, required});
+  try {
+    const validatedString = validateString(queryValue, {throwable, required});
 
-  // validateString을 통과했으므로, result는 유효한 문자열이거나 (에러가 아닌) undefined 상태임.
-  if (validatedString === undefined) {
-    return undefined as ConditionalValueType<number, R, T>;
-  }
+    // validateString을 통과했으므로, result는 유효한 문자열이거나 (에러가 아닌) undefined 상태임.
+    if (validatedString === undefined) {
+      return undefined as ConditionalValueType<number, R, T>;
+    }
 
-  if (validatedString.length > MAX_INTEGER_LENGTH) {
-    errorMessage = 'The queryValue is exceed maxLength.';
-  }
+    if (validatedString.length > MAX_INTEGER_LENGTH) {
+      throw new ValidateError('The queryValue is exceed maxLength.');
+    }
 
-  // 순수 숫자 외의 문자가 포함된 경우 (부호, 영문 등) ==> "+123", "-123"도 여기서 걸림.
-  if (validatedString.split('').some(char => !NUMBERS.includes(char))) {
-    errorMessage = 'queryValue is not valid number';
-  }
+    // 순수 숫자 외의 문자가 포함된 경우 (부호, 영문 등) ==> "+123", "-123"도 여기서 걸림.
+    if (validatedString.split('').some(char => !NUMBERS.includes(char))) {
+      throw new ValidateError('queryValue is not valid number');
+    }
 
-  // "0123" 처럼 0으로 시작하는 숫자도 허용하지않음, 0123은 숫자 123와 같은 뜻이긴 하지만, 문자열에서는 허용하지않음.
-  if (validatedString.length > 1 && validatedString[0] === '0') {
-    errorMessage = 'queryValue is not valid number';
-  }
+    // "0123" 처럼 0으로 시작하는 숫자도 허용하지않음, 0123은 숫자 123와 같은 뜻이긴 하지만, 문자열에서는 허용하지않음.
+    if (validatedString.length > 1 && validatedString[0] === '0') {
+      throw new ValidateError('queryValue is not valid number');
+    }
 
-  if (!errorMessage) {
     return Number(queryValue);
+  } catch (error) {
+    if (!throwable) {
+      return undefined as ConditionalValueType<number, R, T>;
+    } else {
+      throw error;
+    }
   }
-
-  if (!throwable) {
-    return undefined as ConditionalValueType<number, R, T>;
-  }
-
-  throw new ValidateError(errorMessage);
 }
 
 const NUMBERS = range(0, 9).map(value => value.toString());
@@ -169,47 +166,46 @@ export interface StringPeriod {
  */
 export function validatePeriod<R extends boolean = true, T extends boolean = true>(start: QueryValue, end: QueryValue, maxDifferenceDate: number, options?: ValidateQueryOption<R, T>): ConditionalValueType<StringPeriod, R, T> {
   const {throwable = true, required = true} = options ?? {};
-  let errorMessage = '';
 
-  const _start = validateString(start, {throwable, required});
-  const _end = validateString(end, {throwable, required});
+  try {
+    const _start = validateString(start, {throwable, required});
+    const _end = validateString(end, {throwable, required});
 
-  // validateString을 통과했으므로, result는 유효한 문자열이거나 (에러가 아닌) undefined 상태임.
-  if (_start === undefined || _end === undefined) {
-    return undefined as ConditionalValueType<StringPeriod, R, T>;
-  }
+    // validateString을 통과했으므로, result는 유효한 문자열이거나 (에러가 아닌) undefined 상태임.
+    if (_start === undefined || _end === undefined) {
+      return undefined as ConditionalValueType<StringPeriod, R, T>;
+    }
 
-  const startDay = dayjs(_start, 'YYYY-MM-DD', true);
-  const endDay = dayjs(_end, 'YYYY-MM-DD', true);
+    const startDay = dayjs(_start, 'YYYY-MM-DD', true);
+    const endDay = dayjs(_end, 'YYYY-MM-DD', true);
 
-  if (!startDay.isValid()) {
-    errorMessage = `start has a wrong format. ${start}`;
-  }
+    if (!startDay.isValid()) {
+      throw new ValidateError(`start has a wrong format. ${start}`);
+    }
 
-  if (!endDay.isValid()) {
-    errorMessage = `end has a wrong format. ${end}`;
-  }
+    if (!endDay.isValid()) {
+      throw new ValidateError(`end has a wrong format. ${end}`);
+    }
 
-  if (endDay.isSameOrBefore(startDay, 'day')) {
-    errorMessage = 'End date must be after the start date.';
-  }
+    if (endDay.isSameOrBefore(startDay, 'day')) {
+      throw new ValidateError('End date must be after the start date.');
+    }
 
-  const diffDays = endDay.diff(startDay, 'day');
+    const diffDays = endDay.diff(startDay, 'day');
 
-  if (diffDays > maxDifferenceDate) {
-    errorMessage = `Period cannot be longer than ${maxDifferenceDate} days.`
-  }
+    if (diffDays > maxDifferenceDate) {
+      throw new ValidateError(`Period cannot be longer than ${maxDifferenceDate} days.`);
+    }
 
-  if (!errorMessage) {
     return {
       start: start as string,
       end: end as string,
     };
+  } catch (error) {
+    if (!throwable) {
+      return undefined as ConditionalValueType<StringPeriod, R, T>;
+    } else {
+      throw error;
+    }
   }
-
-  if (!throwable) {
-    return undefined as ConditionalValueType<StringPeriod, R, T>;
-  }
-
-  throw new ValidateError(errorMessage);
 }
