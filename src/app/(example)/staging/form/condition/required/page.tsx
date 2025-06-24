@@ -8,7 +8,7 @@ import Button from '@/components/element/Button';
 import designSystemStyles from '@/styles/design-system.module.scss';
 import classNames from 'classnames';
 import {useMutation} from '@tanstack/react-query';
-import {timeoutPromise} from '@/utils/extend/test/promise';
+import {timeoutPromise} from '@/utils/extend/random/promise';
 
 /**
  * URL: http://localhost:3000/staging/form/condition/required

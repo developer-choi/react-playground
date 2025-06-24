@@ -1,6 +1,6 @@
 import {NextRequest} from 'next/server';
 import dayjs from 'dayjs';
-import {timeoutPromise} from '@/utils/extend/test/promise';
+import {timeoutPromise} from '@/utils/extend/random/promise';
 import {PostBoardApiRequest} from '@/types/services/board';
 import database from '@/utils/service/api/database';
 

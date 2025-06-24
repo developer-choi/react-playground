@@ -1,5 +1,5 @@
 import {NextRequest} from 'next/server';
-import {timeoutPromise} from '@/utils/extend/test/promise';
+import {timeoutPromise} from '@/utils/extend/random/promise';
 import {PatchBoardApiRequest} from '@/types/services/board';
 import database from '@/utils/service/api/database';
 

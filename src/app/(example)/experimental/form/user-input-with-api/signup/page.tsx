@@ -14,9 +14,9 @@ import HiddenInput from '@/components/form/Input/HiddenInput';
  * Doc: [HiddenInput] https://docs.google.com/document/d/11GkQkim2_x9jiADwnyzNhzTPBQfx6qiTsi1AVmhZ3P0/edit
  *
  * [중복 체크되는 이메일 목록]
- * test@test.com
- * test3@test.com
- * test5@test.com
+ * random@random.com
+ * test3@random.com
+ * test5@random.com
  */
 export default function Page() {
   const {inputProps, validatedProps, form} = useSignUpForm();

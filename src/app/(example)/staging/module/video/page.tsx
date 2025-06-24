@@ -1,6 +1,6 @@
 import {BigSectionAtIntroduce} from '@/components/test';
 import {LazyVideo} from '@/components/element/Video';
-import {RESOURCE} from '@/utils/extend/test/resources';
+import {RESOURCE} from '@/utils/extend/random/resources';
 import React from 'react';
 
 // URL: http://localhost:3000/staging/module/video/lazy

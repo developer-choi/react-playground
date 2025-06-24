@@ -1,5 +1,5 @@
 import {NextRequest} from 'next/server';
-import {timeoutPromise} from '@/utils/extend/test/promise';
+import {timeoutPromise} from '@/utils/extend/random/promise';
 import {PlainListApiResponse} from '@/types/services/dummy';
 import {range} from '@/utils/extend/data-type/number';
 

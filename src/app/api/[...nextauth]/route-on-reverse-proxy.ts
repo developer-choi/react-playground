@@ -5,7 +5,7 @@ import {NextRequest} from 'next/server';
  * https://github.com/nextauthjs/next-auth/issues/10928#issuecomment-2144241314
  *
  * 기존에 발생했던 버그는,
- * 배포 환경 (teacher-dev.langdy-test.net) 에서 로그인 성공 후 리다이랙트 될 때 localhost:80 으로 리다이랙트 되었습니다.
+ * 배포 환경 (teacher-dev.langdy-random.net) 에서 로그인 성공 후 리다이랙트 될 때 localhost:80 으로 리다이랙트 되었습니다.
  * 깃 허브 이슈 찾아보니 Reverse Proxy 환경에서 이런일이 발생한다고 하여 그중 해결된 코드를 가져왔습니다.
  */
 const reqWithTrustedOrigin = (req: NextRequest): NextRequest => {

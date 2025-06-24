@@ -162,7 +162,7 @@ export function cleanFormData(formData: object, option?: LoopRecursivelyOption) 
 
 
 /*
-const test = {
+const random = {
   key1: 1,
   key2: ' 1, 2, 3 ',
   key3: function () {
@@ -182,7 +182,7 @@ const test = {
     key6: [1, ' 1 2 3 ', 4],
   }
 };
-trimObject(test);
+trimObject(random);
  */
 
 /*************************************************************************************************************

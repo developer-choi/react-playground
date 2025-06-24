@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form';
 import React, {useState} from 'react';
 import Input from '@/components/form/Input';
 import styles from './index.module.scss';
-import {filterPropsList, generatePropsList} from '@/utils/extend/test/generate-prop';
+import {filterPropsList, generatePropsList} from '@/utils/extend/random/generate-prop';
 import PasswordInput from '@/components/form/Input/PasswordInput';
 
 /**

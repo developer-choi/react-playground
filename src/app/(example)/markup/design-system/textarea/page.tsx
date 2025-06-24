@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form';
 import React, {useState} from 'react';
 import TextArea from '@/components/form/TextArea';
 import styles from './index.module.scss';
-import {filterPropsList, generatePropsList} from '@/utils/extend/test/generate-prop';
+import {filterPropsList, generatePropsList} from '@/utils/extend/random/generate-prop';
 
 /**
  * Doc : https://docs.google.com/document/d/1l3CZHTA4ja1ovUC0fiZ9-Fb72_PMXdLTx_0gNhZ39Jg/edit

@@ -1,6 +1,6 @@
 import {NextRequest} from 'next/server';
 import {UserFieldCountApiRequest} from '@/utils/service/api/user';
-import {timeoutPromise} from '@/utils/extend/test/promise';
+import {timeoutPromise} from '@/utils/extend/random/promise';
 
 export async function GET(request: NextRequest) {
   await timeoutPromise(500);
@@ -29,9 +29,9 @@ export async function GET(request: NextRequest) {
 
 const db: Record<UserFieldCountApiRequest['type'], string[]> = {
   email: [
-    'test@test.com',
-    'test3@test.com',
-    'test5@test.com',
+    'random@random.com',
+    'test3@random.com',
+    'test5@random.com',
   ],
   nick_name: [
     '홍길동'

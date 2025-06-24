@@ -5,7 +5,7 @@ import {
   LoginApiResponse,
   SuccessLoginCode
 } from '@/types/services/auth';
-import {timeoutPromise} from '@/utils/extend/test/promise';
+import {timeoutPromise} from '@/utils/extend/random/promise';
 
 export async function POST(request: NextRequest) {
   const {email} = await request.json() as LoginApiRequest;

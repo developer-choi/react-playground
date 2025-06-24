@@ -23,7 +23,7 @@ export default function Page() {
   console.log('query', query);
 
   const callApi = useCallback(async () => {
-    const {data} = await fetchFromClient('/api/test/query-string', {
+    const {data} = await fetchFromClient('/api/random/query-string', {
       method: 'GET',
       authPolicy: 'none',
       query: TEST_QUERY

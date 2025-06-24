@@ -1,4 +1,4 @@
-import {timeoutPromise} from '@/utils/extend/test/promise';
+import {timeoutPromise} from '@/utils/extend/random/promise';
 import {Suspense} from 'react';
 import {handleServerSideError} from '@/utils/service/error/server';
 import {LoginError} from '@/utils/service/error/class/auth';
