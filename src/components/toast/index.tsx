@@ -31,7 +31,7 @@ export const SNACK_BAR_OPTIONS: ToastOptions = {
 function SnackBarCloseIcon(props: CloseButtonProps) {
   return (
     <button className={styles.closeButton} style={{background: 'transparent', padding: 0}} onClick={props.closeToast}>
-      <CloseIcon />
+      <CloseIcon fill="white" />
     </button>
   );
 }
