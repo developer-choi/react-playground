@@ -1,4 +1,4 @@
-@use "../../toast/toast-util" as toastUtil;
+@use "/src/components/toast/util" as toastUtil;
 
 #snackBarDefaultWithProfileType {
   @include toastUtil.resetToastContainer;
