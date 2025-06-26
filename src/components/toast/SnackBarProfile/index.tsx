@@ -1,6 +1,6 @@
 import {toast, ToastOptions} from 'react-toastify';
 import Image from 'next/image';
-import {SNACK_BAR_OPTIONS} from '@/components/toast';
+import {DEFAULT_SNACK_BAR_OPTIONS} from '@/components/toast';
 import styles from './index.module.scss';
 
 export interface SnackBarProfileProps {
@@ -11,7 +11,7 @@ export interface SnackBarProfileProps {
 
 export function snackBarProfile(profile: SnackBarProfileProps, customOptions?: ToastOptions) {
   toast(<SnackBarProfile {...profile}/>, {
-    ...SNACK_BAR_OPTIONS,
+    ...DEFAULT_SNACK_BAR_OPTIONS,
     className: styles.profileSnackBar,
     bodyClassName: styles.body,
     ...customOptions

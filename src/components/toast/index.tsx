@@ -1,4 +1,4 @@
-import {CloseButtonProps, toast, ToastOptions} from 'react-toastify';
+import {CloseButtonProps, cssTransition, toast, ToastOptions} from 'react-toastify';
 import CloseIcon from '@/components/icon/CloseIcon';
 import styles from './index.module.scss';
 
@@ -9,20 +9,25 @@ export interface DefaultSnackBarOptions {
 
 export function snackBar(content: string, options?: DefaultSnackBarOptions, customOptions?: ToastOptions) {
   toast(content, {
-    ...SNACK_BAR_OPTIONS,
-    ...customOptions,
+    ...DEFAULT_SNACK_BAR_OPTIONS,
     className: styles.defaultSnackBar,
     bodyClassName: styles.body,
     closeButton: options?.closeIcon ? SnackBarCloseIcon : false,
+    ...customOptions,
   });
 }
 
-export const SNACK_BAR_OPTIONS: ToastOptions = {
+export const DEFAULT_SNACK_BAR_OPTIONS: ToastOptions = {
   hideProgressBar: true,
   icon: false,
-  autoClose: 100000,
+  autoClose: 1000,
   containerId: 'snackBarDefaultWithProfileType',
-  closeButton: false
+  closeButton: false,
+  transition: cssTransition({
+    enter: styles.enter,
+    exit: styles.exit,
+    collapse: false
+  })
 };
 
 /*************************************************************************************************************
