@@ -6,6 +6,7 @@ import HiddenInput from '@/components/form/Input/HiddenInput';
 import InputFile from '@/components/form/Input/inputFile';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import Button from '@/components/element/Button';
+import {getMessageFromFieldErrors} from '@/utils/extend/library/react-hook-form';
 
 /**
  * URL: http://localhost:3000/staging/form/file/rhf
@@ -50,7 +51,7 @@ export default function Page() {
         <HiddenInput {...register('valid', {required: '필수입니다.'})}/>
       </InputFile>
       {/* 에러메시지는 반드시 HiddenInput으로 연결해야함. */}
-      <FormElementUnderText type="error">{errors.valid?.message}</FormElementUnderText>
+      <FormElementUnderText type="error">{getMessageFromFieldErrors(errors, 'valid')}</FormElementUnderText>
       <div style={{height: 2000, backgroundColor: 'lightcoral'}}/>
       <Button isSubmit>제출</Button>
     </form>

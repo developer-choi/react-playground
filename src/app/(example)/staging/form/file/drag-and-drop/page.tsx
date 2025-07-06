@@ -11,6 +11,7 @@ import Button from '@/components/element/Button';
 import HiddenInput from '@/components/form/Input/HiddenInput';
 import {useRHFMultipleImageFile} from '@/utils/extend/file/handle-image/react-hook-form';
 import {FileAndThumbnail} from '@/utils/extend/file/handle-image/core';
+import {getMessageFromFieldErrors} from '@/utils/extend/library/react-hook-form';
 
 // URL: http://localhost:3000/staging/form/file/drag-and-drop
 // Doc: https://docs.google.com/document/d/1_9-Bw4SihS6DGpskF8Xor_gaahHetDfKDk6QJeZQ6Ig/edit?tab=t.0
@@ -57,9 +58,7 @@ export default function DragAndDropPage() {
       {list.map((extendedFile) => (
         <Image key={extendedFile.image.src} src={extendedFile.image.src} width={100} height={100} alt="user select image"/>
       ))}
-      {!errors.valid?.message ? null : (
-        <FormElementUnderText type="error">{errors.valid.message}</FormElementUnderText>
-      )}
+      <FormElementUnderText type="error">{getMessageFromFieldErrors(errors, 'valid')}</FormElementUnderText>
       <div style={{height: 2000, backgroundColor: 'lightcoral'}}/>
       <Button isSubmit>제출</Button>
     </form>

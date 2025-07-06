@@ -11,6 +11,7 @@ import {FormElementUnderText} from '@/components/form/form-elements';
 import Link from 'next/link';
 import {useSingleImageFile} from '@/utils/extend/file/handle-image/state';
 import {SingleFileAndThumbnail} from '@/utils/extend/file/handle-image/core';
+import {getMessageFromFieldErrors} from '@/utils/extend/library/react-hook-form';
 
 // URL: http://localhost:3000/staging/form/file/with-profile
 // Doc: 따로 없음.
@@ -86,7 +87,7 @@ function RHFBased() {
       <InputFile {...inputProps.file}>
         <ProfileImage size="large" src={item.image?.src}/>
       </InputFile>
-      <FormElementUnderText type="error">{errors.profileIsValid?.message}</FormElementUnderText>
+      <FormElementUnderText type="error">{getMessageFromFieldErrors(errors, 'profileIsValid')}</FormElementUnderText>
       <div>
         <Button type="submit">제출</Button>
         <Button variant="outlined" onClick={clearItem}>초기화</Button>

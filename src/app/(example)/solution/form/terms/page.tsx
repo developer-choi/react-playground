@@ -6,6 +6,7 @@ import {ChangeEvent, useCallback} from 'react';
 import Checkbox, {CheckboxProps} from '@/components/form/Checkbox';
 import Button from '@/components/element/Button';
 import {FormElementUnderText} from '@/components/form/form-elements';
+import {getMessageFromFieldErrors} from '@/utils/extend/library/react-hook-form';
 
 // URL: http://localhost:3000/solution/form/terms
 // Doc: https://docs.google.com/document/d/1cupk32maDTWKqu3SqoinuxmshuPxVN49tUZo49o9nvc/edit?tab=t.0
@@ -52,7 +53,7 @@ export default function Page() {
       <Checkbox {...allAgreeCheckboxProps}/>
       <div>
         <Checkbox {...requiredCheckboxProps}/>
-        <FormElementUnderText type="error">{errors.required1?.message}</FormElementUnderText>
+        <FormElementUnderText type="error">{getMessageFromFieldErrors(errors, 'required1')}</FormElementUnderText>
       </div>
       <Checkbox {...optionalCheckboxProps}/>
       <Button isSubmit>제출</Button>

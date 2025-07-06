@@ -1,4 +1,5 @@
-import {FieldError} from 'react-hook-form';
+import {FieldError, FieldErrors, FieldPath, FieldValues} from 'react-hook-form';
+import get from 'lodash/get';
 
 /**
  * 가장 큰 목적은, 폼 제출했을 때 여러개의 에러가 동시에 발생한 경우
@@ -21,6 +22,16 @@ export function baseHandleErrors(errorList: (FieldError | undefined)[]) {
     error.ref?.focus?.();
     break;
   }
+}
+
+export function getMessageFromFieldErrors<T extends FieldValues>(errors: FieldErrors<T>, name: FieldPath<T>): string | undefined {
+  const message = get(errors, name)?.message;
+
+  if (typeof message !== 'string') {
+    return undefined;
+  }
+
+  return message;
 }
 
 export function validateRequiredWithTrim(errorMessage: string, required = true) {
