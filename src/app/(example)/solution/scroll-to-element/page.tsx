@@ -6,14 +6,15 @@ import {scrollToElement} from '@/utils/extend/browser/scroll';
 
 /**
  * URL : http://localhost:3000/solution/scroll-to-element
+ * Doc: https://docs.google.com/document/d/1HW8KBo1MeS0ggfdorMDUTG4xaoiDsFjLROljk-2Lvl0/edit?tab=t.0
  */
 export default function Home() {
   const onClick1 = useCallback(() => {
-    scrollToElement('#target1');
+    scrollToElement(document.getElementById('target1'));
   }, []);
 
   const onClick2 = useCallback(() => {
-    scrollToElement('#target2');
+    scrollToElement(document.getElementById('target2'));
   }, []);
 
   return (
@@ -29,7 +30,7 @@ export default function Home() {
       <div className={styles.box}/>
       <div className={styles.box}/>
       <div className={styles.box}/>
-      <div id="target1" className={styles.target}>
+      <div id="target1" style={{marginTop: 100}} className={styles.target}>
         TARGET 1
       </div>
       <div className={styles.box}/>

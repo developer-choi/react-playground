@@ -1,14 +1,12 @@
 /**
- * @param selector #id .class 등
+ * @param element {HTMLElement}
  * @param offset 주로 fixed나 sticky의 헤더 높이값때문에 필요함
- * @throws HTMLError selector를 찾을 수 없을 때 발생
+ *
+ * @description element의 정확한 상단으로 오차없이 스크롤됩니다. 그래서, 상단에 뭐 가리는 요소 (fixed 등)가 있다면 그만큼 offset으로 전달하면 됩니다.
  */
-export function scrollToElement(selector: string, offset = 0) {
-  const element = document.querySelector(selector);
-
+export function scrollToElement(element: HTMLElement | null, offset = 0) {
   if (!element) {
-    console.error(`selector not found: ${selector}`);
-    throw new TypeError('스크롤 이동을 할 수 없습니다.');
+    return;
   }
 
   const elementPosition = element.getBoundingClientRect().top + window.scrollY;
