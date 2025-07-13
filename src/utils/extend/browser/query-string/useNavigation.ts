@@ -1,6 +1,7 @@
 import {useRouter} from 'next/navigation';
 import {useCallback} from 'react';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
+import {NavigateOptions} from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export interface NavigateQueryParam {
   query: ConvertableQuery;
@@ -10,12 +11,12 @@ export interface NavigateQueryParam {
 export function useNavigation() {
   const router = useRouter();
 
-  const replace = useCallback((param: NavigateQueryParam) => {
-    return router.replace(getHref(param));
+  const replace = useCallback((param: NavigateQueryParam, options?: NavigateOptions) => {
+    return router.replace(getHref(param), options);
   }, [router]);
 
-  const push = useCallback((param: NavigateQueryParam) => {
-    return router.push(getHref(param));
+  const push = useCallback((param: NavigateQueryParam, options?: NavigateOptions) => {
+    return router.push(getHref(param), options);
   }, [router]);
 
   // TODO 추후 여기에 필요성이 생길 시 legacy에 있던 useKeepQuery()에 있던 기능들 추가할 예정
