@@ -17,7 +17,14 @@ export const BOARD_TYPE_RECORD: Record<BoardRow['type'], string> = {
 export type PostBoardApiRequest = Omit<BoardRow, 'pk'>;
 export type PatchBoardApiRequest = BoardRow;
 
+export interface BoardListApiRequest {
+  filter?: BoardRow['type'] | 'all';
+  page: number;
+  limit: number;
+}
+
 export interface BoardListApiResponse {
   list: BoardRow[];
   currentTime: string; // YYYY-MM-DD HH:mm:ss
+  total: number; // 전체 게시글 개수
 }

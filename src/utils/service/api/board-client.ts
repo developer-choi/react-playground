@@ -1,4 +1,9 @@
-import {BoardListApiResponse, BoardRow, PatchBoardApiRequest, PostBoardApiRequest} from '@/types/services/board';
+import {
+  BoardListApiRequest,
+  BoardListApiResponse,
+  PatchBoardApiRequest,
+  PostBoardApiRequest
+} from '@/types/services/board';
 import {fetchFromClient} from '@/utils/extend/library/fetch/fromClient';
 import {customFetchOnBothSide} from '@/utils/extend/library/fetch/base';
 
@@ -35,14 +40,16 @@ export function deleteAllBoardsApi() {
   });
 }
 
-export async function getBoardListApi(filter?: BoardRow['type']) {
+export async function getBoardListApi(request: BoardListApiRequest) {
   const {data} = await customFetchOnBothSide<BoardListApiResponse>(`/api/board`, {
     method: 'GET',
     next: {
       tags: ['board-list'],
     },
     query: {
-      filter
+      page: request.page,
+      limit: request.limit,
+      filter: request.filter === 'all' ? undefined : request.filter
     }
   });
 
