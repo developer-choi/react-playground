@@ -10,11 +10,11 @@ import {scrollToElement} from '@/utils/extend/browser/scroll';
  */
 export default function Home() {
   const onClick1 = useCallback(() => {
-    scrollToElement(document.getElementById('target1'));
+    scrollToElement('#target1');
   }, []);
 
   const onClick2 = useCallback(() => {
-    scrollToElement(document.getElementById('target2'));
+    scrollToElement('#target2');
   }, []);
 
   return (
