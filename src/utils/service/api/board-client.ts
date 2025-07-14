@@ -50,7 +50,8 @@ export async function getBoardListApi(request: BoardListApiRequest) {
       page: request.page,
       limit: request.limit,
       filter: request.filter === 'all' ? undefined : request.filter
-    }
+    },
+    cache: 'no-store'
   });
 
   return data;
