@@ -64,7 +64,7 @@ export function sortByString<T>(direction: Direction, list: T[], valueExtractor:
 }
 
 export function removeDuplicatedItems<T extends string | number>(array: T[]): T[] {
-  return Array.from(new Set(array));
+  return [...new Set<T>(array)];
 }
 
 /**
