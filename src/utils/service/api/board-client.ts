@@ -40,7 +40,7 @@ export function deleteAllBoardsApi() {
   });
 }
 
-export async function getBoardListApi(request: BoardListApiRequest) {
+export async function getBoardListApi(request: BoardListApiRequest = {page: 1, limit: 1000, filter: 'all'}) {
   const {data} = await customFetchOnBothSide<BoardListApiResponse>(`/api/board`, {
     method: 'GET',
     next: {

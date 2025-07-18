@@ -14,7 +14,7 @@ export default async function Page() {
 
   queryClient.prefetchQuery({
     queryKey: ['boardList'],
-    queryFn: () => getBoardListApi()
+    queryFn: () => getBoardListApi(),
   });
 
   return (
