@@ -1,0 +1,22 @@
+@use "/src/styles/color";
+
+.nav {
+  display: flex;
+  gap: 16px;
+  margin-block: 16px;
+}
+
+.item {
+  padding: 8px 16px;
+  border: 1px solid gray;
+  
+  &.active {
+    color: map-get(color.$brandColors, primary);
+    font-weight: bold;
+  }
+  
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+  }
+}
