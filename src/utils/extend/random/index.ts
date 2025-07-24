@@ -11,6 +11,10 @@ export function randomNumber(from: number, to: number) {
   return Math.floor(Math.random() * length) + _min;
 }
 
+export function randomIndex(array: any[]): number {
+  return randomNumber(0, array.length - 1);
+}
+
 export function randomBoolean(percent = 50): boolean {
   return Math.random() < percent / 100;
 }
@@ -70,11 +74,4 @@ export function shuffleArray<T>(array: T[]): T[] {
   }, array);
 
   return result;
-}
-
-/*************************************************************************************************************
- * Non Export
- *************************************************************************************************************/
-function randomIndex(array: any[]): number {
-  return randomNumber(0, array.length - 1);
 }
