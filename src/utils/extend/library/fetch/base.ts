@@ -7,6 +7,8 @@ import {FetchError, MismatchedApiResponseError} from '@/utils/service/error/clas
 export interface FetchOptions extends Omit<RequestInit, 'body'> {
   body?: RequestInit['body'] | object;
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
+
+  // Backend의 GET API 에서 Request Parameter가 boolean / number로 되어있다 하더라도, 실제로 보내면 다 string이 됨.
   query?: ConvertableQuery;
 
   /**
