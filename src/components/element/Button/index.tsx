@@ -1,3 +1,5 @@
+'use client';
+
 import React, {ComponentPropsWithRef, useCallback, MouseEvent, ComponentPropsWithoutRef} from 'react';
 import classNames from 'classnames';
 import styles from './index.module.scss';
