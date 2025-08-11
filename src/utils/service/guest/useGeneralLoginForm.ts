@@ -1,9 +1,8 @@
 import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
 import {useCallback, useEffect} from 'react';
 import {useRouter} from 'next/navigation';
-import {InputProps} from '@/components/form/Input';
-import {getEmailInputProps} from '@/utils/service/user/fields/email';
-import {getPurePasswordInputProps, PASSWORD_TEXT} from '@/utils/service/user/fields/password';
+import {getEmailInputProps} from '@/utils/service/inputs/user/email';
+import {getPurePasswordInputProps, PASSWORD_ERROR_TEXTS} from '@/utils/service/inputs/user/password';
 import {useMutation} from '@tanstack/react-query';
 import {useHandleClientSideError} from '@/utils/service/error/client';
 import {postLoginApi} from '@/utils/service/api/auth';
@@ -13,12 +12,13 @@ import {FetchError} from '@/utils/service/error/class/fetch';
 // SNS 로그인이 아닌 일반 로그인에 해당
 export default function useGeneralLoginForm() {
   const handleClientSideError = useHandleClientSideError();
-  const {register, handleSubmit, formState: {errors}, setError} = useForm<LoginFormData>({
+  const methods = useForm<LoginFormData>({
     defaultValues: {
       email: 'email@domain.com',
       password: ''
     }
   });
+  const {setError, handleSubmit} = methods;
 
   const {mutateAsync, isPending, isSuccess} = useMutation({
     mutationFn: postLoginApi
@@ -48,11 +48,11 @@ export default function useGeneralLoginForm() {
         case 'NOT_FOUND':
           setError('email', {
             type: 'api',
-            message: PASSWORD_TEXT.notFound
+            message: PASSWORD_ERROR_TEXTS.notFound
           });
           setError('password', {
             type: 'api',
-            message: PASSWORD_TEXT.notFound
+            message: PASSWORD_ERROR_TEXTS.notFound
           });
           return;
         default:
@@ -61,12 +61,22 @@ export default function useGeneralLoginForm() {
     }
   }, [handleClientSideError, isPending, isSuccess, login, mutateAsync, setError]);
 
-  const emailInputProps: InputProps = {
-    ...getEmailInputProps({name: 'email', errors, register}),
-    autoFocus: true,
-  };
+  const emailInputProps = getEmailInputProps({
+    form: {
+      methods,
+      name: 'email',
+      props: {
+        autoFocus: true
+      }
+    }
+  });
 
-  const passwordInputProps: InputProps = getPurePasswordInputProps({name: 'password', errors, register});
+  const passwordInputProps = getPurePasswordInputProps({
+    form: {
+      methods,
+      name: 'password'
+    }
+  });
 
   const {refresh} = useRouter();
 

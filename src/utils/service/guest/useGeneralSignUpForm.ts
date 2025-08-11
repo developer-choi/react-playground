@@ -1,11 +1,10 @@
-import {EMAIL_TEXT, getEmailInputProps} from '@/utils/service/user/fields/email';
+import {EMAIL_ERROR_TEXTS, getEmailInputProps} from '@/utils/service/inputs/user/email';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {useCallback} from 'react';
-import {getConfirmPasswordInput, getPasswordInputPropsWithConfirm} from '@/utils/service/user/fields/password';
+import {getConfirmPasswordInput, getPasswordInputPropsWithConfirm} from '@/utils/service/inputs/user/password';
 import {useHandleClientSideError} from '@/utils/service/error/client';
 import {useMutation} from '@tanstack/react-query';
 import {postSignUpApi} from '@/utils/service/api/auth';
-import {InputProps} from '@/components/form/Input';
 import {postTemporaryDataApi} from '@/utils/service/api/temporary-client';
 import {useRouter} from 'next/navigation';
 import {FetchError} from '@/utils/service/error/class/fetch';
@@ -18,28 +17,32 @@ export default function useGeneralSignUpForm() {
   const {replace} = useRouter();
   const handleClientSideError = useHandleClientSideError();
   const methods = useForm<SignUpFormData>();
-  const {register, handleSubmit, formState: {errors}, setError, watch} = methods;
+  const {handleSubmit, setError} = methods;
 
-  const emailInputProps: InputProps = {
-    ...getEmailInputProps({
+  const emailInputProps = getEmailInputProps({
+    form: {
+      methods,
       name: 'email',
-      errors,
-      register
-    }),
-    autoFocus: true
-  };
+      props: {
+        autoFocus: true
+      }
+    }
+  });
 
   const passwordInputProps = getPasswordInputPropsWithConfirm({
-    methods,
-    name: 'password',
-    confirmFormName: 'passwordConfirm',
+    form: {
+      methods,
+      name: 'password',
+    },
+    confirmName: 'passwordConfirm',
   });
 
   const passwordConfirmInputProps = getConfirmPasswordInput({
-    register,
-    errors,
-    name: 'passwordConfirm',
-    passwordValue: watch('password')
+    form: {
+      methods,
+      name: 'passwordConfirm',
+    },
+    passwordName: 'password'
   });
 
   const {isPending, mutateAsync, isSuccess} = useMutation({
@@ -72,7 +75,7 @@ export default function useGeneralSignUpForm() {
         case 'ALREADY_EMAIL_EXISTED':
           setError('email', {
             type: 'api',
-            message: EMAIL_TEXT.alreadyExist
+            message: EMAIL_ERROR_TEXTS.alreadyExist
           }, {shouldFocus: true});
           return;
         default:

@@ -2,7 +2,7 @@
 
 import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
 import React, {useCallback} from 'react';
-import {AddressFormData, useAddressForm, useOpenPostcodePopup} from '@/utils/service/user/fields/daum-postcode';
+import {AddressFormData, useAddressForm, useOpenPostcodePopup} from '@/utils/service/inputs/daum-postcode';
 import {baseHandleErrors} from '@/utils/extend/library/react-hook-form';
 import Input, {InputProps} from '@/components/form/Input';
 import {FormElementUnderText, Label} from '@/components/form/form-elements';

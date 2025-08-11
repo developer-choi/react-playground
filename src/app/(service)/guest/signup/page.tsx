@@ -4,7 +4,7 @@ import designSystemStyles from '@/styles/design-system.module.scss';
 import Input from '@/components/form/Input';
 import React from 'react';
 import Button from '@/components/element/Button';
-import useGeneralSignUpForm from '@/utils/service/user/guest/useGeneralSignUpForm';
+import useGeneralSignUpForm from '@/utils/service/guest/useGeneralSignUpForm';
 import PasswordInput from '@/components/form/Input/PasswordInput';
 
 // URL: http://localhost:3000/guest/signup

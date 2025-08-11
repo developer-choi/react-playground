@@ -2,9 +2,9 @@
 
 import {useCallback} from 'react';
 import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
-import {useUserFieldApiValidation} from '@/utils/service/user/api-validation';
-import Input, {InputProps} from '@/components/form/Input';
-import {EMAIL_TEXT, getEmailInputProps} from '@/utils/service/user/fields/email';
+import {useUserFieldApiValidation} from '@/utils/service/inputs/api-validation';
+import Input from '@/components/form/Input';
+import {EMAIL_ERROR_TEXTS, getEmailInputProps} from '@/utils/service/inputs/user/email';
 import Button from '@/components/element/Button';
 import HiddenInput from '@/components/form/Input/HiddenInput';
 
@@ -63,13 +63,18 @@ function useSignUpForm() {
     mode: 'onChange'
   });
 
-  const {register, handleSubmit, formState: {errors}} = methods;
+  const {handleSubmit} = methods;
 
   // 회원가입에서는 그대로 쓰고 (required true) / 수정에서는 required false로 옵션만 커스텀하면됨.
-  const emailInputProps: InputProps = {
-    ...getEmailInputProps({name: 'email', errors, register}),
-    autoFocus: true,
-  };
+  const emailInputProps = getEmailInputProps({
+    form: {
+      methods,
+      name: 'email',
+      props: {
+        autoFocus: true
+      }
+    }
+  });
 
   const {isFetching, hiddenInputProps} = useUserFieldApiValidation({
     form: {
@@ -101,7 +106,7 @@ function useSignUpForm() {
       if (error === '이미 이메일이 존재한다는 에러') {
         methods.setError('email', {
           type: 'api',
-          message: EMAIL_TEXT.alreadyExist
+          message: EMAIL_ERROR_TEXTS.alreadyExist
         }, {
           shouldFocus: true
         });
