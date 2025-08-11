@@ -67,14 +67,6 @@ export function getPasswordInputPropsWithConfirm<T extends FieldValues>(param: P
           notEqual: (value, formValues) => {
             const confirmValue = formValues[confirmName];
 
-            if (typeof value !== 'string') {
-              throw new TypeError('value must be string');
-            }
-
-            if (typeof confirmValue !== 'string') {
-              throw new TypeError(`The value of ${confirmName} must be string`);
-            }
-
             //[비밀번호] 입력하고, [비밀번호 확인] 입력한 후 [비밀번호]를 다시 수정했을 때 예외처리 추가
             if (confirmValue && value !== confirmValue) {
               setError(confirmName, {
@@ -118,14 +110,6 @@ export function getConfirmPasswordInput<T extends FieldValues>(param: ConfirmPas
         validate: {
           notEqual: (value, formValues) => {
             const passwordValue = formValues[passwordName];
-
-            if (typeof value !== 'string') {
-              throw new TypeError('value must be string');
-            }
-
-            if (typeof passwordValue !== 'string') {
-              throw new TypeError(`The value of ${passwordValue} must be string`);
-            }
 
             if (!value || passwordValue === value) {
               return true;
