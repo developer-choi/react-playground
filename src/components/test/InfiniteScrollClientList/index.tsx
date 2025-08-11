@@ -1,7 +1,7 @@
 'use client';
 
 import {useInfiniteQuery} from '@tanstack/react-query';
-import {getTestPlainListApi} from '@/utils/service/api/test-client';
+import {getTestPlainListApi} from '@/utils/service/common/api/test-client';
 import {useInfiniteScroll} from '@/utils/extend/browser/useInfiniteScroll';
 import styles from './index.module.scss';
 

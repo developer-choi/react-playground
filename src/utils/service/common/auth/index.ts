@@ -1,8 +1,8 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import {getNextNavigating} from '@/utils/service/auth/path';
+import {getNextNavigating} from '@/utils/service/common/auth/path';
 import {NextResponse} from 'next/server';
-import {LOGIN_URL} from '@/utils/service/auth/redirect';
+import {LOGIN_URL} from '@/utils/service/common/auth/redirect';
 
 /**
  * [Next Auth Overview] https://docs.google.com/document/d/1PYKKPneIYB8j8vz8fQgqwBLAkEmB69KJfeFTSXhtdbk/edit#heading=h.mkk12las5ndq

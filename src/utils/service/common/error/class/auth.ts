@@ -1,4 +1,4 @@
-import {CustomizedError} from '@/utils/service/error/class/index';
+import {CustomizedError} from '@/utils/service/common/error/class/index';
 
 /**
  * 로그인이 되어있는 상태에서

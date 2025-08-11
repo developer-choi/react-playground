@@ -1,6 +1,6 @@
 import {FieldPath, FieldValues} from 'react-hook-form';
 import {PasswordInputProps} from '@/components/form/Input/PasswordInput';
-import {FormInputParam} from '@/utils/service/inputs';
+import {FormInputParam} from '@/utils/service/common/inputs';
 import {getMessageFromFieldErrors} from '@/utils/extend/library/react-hook-form';
 
 /**

@@ -1,8 +1,8 @@
-import {TemporaryDataKey} from '@/utils/service/api/temporary-client';
+import {TemporaryDataKey} from '@/utils/service/common/api/temporary-client';
 import {fetchFromServer} from '@/utils/extend/library/fetch/fromServer';
 import {cookies} from 'next/headers';
-import {FetchError} from '@/utils/service/error/class/fetch';
-import {InvalidAccessError} from '@/utils/service/error/class/server';
+import {FetchError} from '@/utils/service/common/error/class/fetch';
+import {InvalidAccessError} from '@/utils/service/common/error/class/server';
 
 interface TemporaryResponse {
   signUpSuccess: {

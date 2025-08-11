@@ -1,4 +1,4 @@
-import {auth} from '@/utils/service/auth';
+import {auth} from '@/utils/service/common/auth';
 
 export const middleware = auth(() => {
   // additional middleware logic

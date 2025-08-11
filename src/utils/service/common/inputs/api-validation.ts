@@ -4,7 +4,7 @@ import {
   getUserFieldCountApi,
   UserFieldCountApiResponse,
   UserFieldCountApiRequest
-} from '@/utils/service/api/user';
+} from '@/utils/service/common/api/user';
 
 export interface ValidateUserInputParams<T extends FieldValues> {
   form: {

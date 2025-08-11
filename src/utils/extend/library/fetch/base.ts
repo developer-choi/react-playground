@@ -1,8 +1,8 @@
 import {Session} from 'next-auth';
-import {CustomizedApiErrorInfo} from '@/utils/service/error/class';
+import {CustomizedApiErrorInfo} from '@/utils/service/common/error/class';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
-import {GuestError, LoginError} from '@/utils/service/error/class/auth';
-import {FetchError, MismatchedApiResponseError} from '@/utils/service/error/class/fetch';
+import {GuestError, LoginError} from '@/utils/service/common/error/class/auth';
+import {FetchError, MismatchedApiResponseError} from '@/utils/service/common/error/class/fetch';
 
 export interface FetchOptions extends Omit<RequestInit, 'body'> {
   body?: RequestInit['body'] | object;

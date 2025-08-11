@@ -1,5 +1,5 @@
 import {ValidateQueryOption, validateIncludeString} from '@/utils/extend/browser/query-string/validate';
-import {ValidateError} from '@/utils/service/error/class';
+import {ValidateError} from '@/utils/service/common/error/class';
 
 const ALLOW_LIST = ['ascending', 'descending'];
 const VALID_VALUE = 'ascending';

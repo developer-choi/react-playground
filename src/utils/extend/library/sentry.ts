@@ -1,5 +1,5 @@
 import type {ErrorEvent, EventHint, ClientOptions} from '@sentry/types';
-import {CustomizedError} from '@/utils/service/error/class';
+import {CustomizedError} from '@/utils/service/common/error/class';
 
 export const beforeSend: ClientOptions['beforeSend'] = (event: ErrorEvent, hint: EventHint) => {
   // nextjs에서 server side에서 redirect() 하면 내부적으로 이 에러를 던져서 처리하도록 되어있는데 문제는 그게 Sentry까지 날아간다는 것이었음. 이거말고 다른 해결책을 못찾음.

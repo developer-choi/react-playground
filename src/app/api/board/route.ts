@@ -2,7 +2,7 @@ import {NextRequest, NextResponse} from 'next/server';
 import dayjs from 'dayjs';
 import {timeoutPromise} from '@/utils/extend/random/promise';
 import {BoardListApiResponse, PostBoardApiRequest} from '@/types/services/board';
-import database from '@/utils/service/api/database';
+import database from '@/utils/service/common/api/database';
 
 export async function POST(request: NextRequest) {
   await timeoutPromise(300);

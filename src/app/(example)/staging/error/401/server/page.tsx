@@ -1,7 +1,7 @@
 import {timeoutPromise} from '@/utils/extend/random/promise';
 import {Suspense} from 'react';
-import {handleServerSideError} from '@/utils/service/error/server';
-import {LoginError} from '@/utils/service/error/class/auth';
+import {handleServerSideError} from '@/utils/service/common/error/server';
+import {LoginError} from '@/utils/service/common/error/class/auth';
 
 /**
  * URL: http://localhost:3000/staging/error/401/server?hello=world

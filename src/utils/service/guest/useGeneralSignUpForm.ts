@@ -1,13 +1,13 @@
-import {EMAIL_ERROR_TEXTS, getEmailInputProps} from '@/utils/service/inputs/user/email';
+import {EMAIL_ERROR_TEXTS, getEmailInputProps} from '@/utils/service/common/inputs/user/email';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {useCallback} from 'react';
-import {getConfirmPasswordInput, getPasswordInputPropsWithConfirm} from '@/utils/service/inputs/user/password';
-import {useHandleClientSideError} from '@/utils/service/error/client';
+import {getConfirmPasswordInput, getPasswordInputPropsWithConfirm} from '@/utils/service/common/inputs/user/password';
+import {useHandleClientSideError} from '@/utils/service/common/error/client';
 import {useMutation} from '@tanstack/react-query';
-import {postSignUpApi} from '@/utils/service/api/auth';
-import {postTemporaryDataApi} from '@/utils/service/api/temporary-client';
+import {postSignUpApi} from '@/utils/service/common/api/auth';
+import {postTemporaryDataApi} from '@/utils/service/common/api/temporary-client';
 import {useRouter} from 'next/navigation';
-import {FetchError} from '@/utils/service/error/class/fetch';
+import {FetchError} from '@/utils/service/common/error/class/fetch';
 
 /**
  * TODO

@@ -1,5 +1,5 @@
 import type {Metadata, Viewport} from 'next';
-import {getFontByLanguage} from '@/utils/service/i18n/font';
+import {getFontByLanguage} from '@/utils/service/common/i18n/font';
 import '@/styles/reset.css';
 import '@/styles/global.scss';
 import {LayoutProps} from '@/types/declaration/next';

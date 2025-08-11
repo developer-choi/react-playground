@@ -1,4 +1,4 @@
-import {CustomizedError} from '@/utils/service/error/class/index';
+import {CustomizedError} from '@/utils/service/common/error/class/index';
 
 // 회원가입 폼 페이지 안거치고 회원가입 완료페이지 간 경우
 export class InvalidAccessError extends CustomizedError {

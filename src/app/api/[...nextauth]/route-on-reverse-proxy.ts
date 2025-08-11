@@ -1,4 +1,4 @@
-import {handlers} from '@/utils/service/auth';
+import {handlers} from '@/utils/service/common/auth';
 import {NextRequest} from 'next/server';
 
 /**

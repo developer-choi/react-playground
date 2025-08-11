@@ -1,4 +1,4 @@
-import {getTestStatus401ServerApi} from '@/utils/service/api/test-server';
+import {getTestStatus401ServerApi} from '@/utils/service/common/api/test-server';
 
 // URL: http://localhost:3000/error/server
 export default async function Page() {

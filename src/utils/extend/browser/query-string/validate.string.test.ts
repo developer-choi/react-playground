@@ -1,5 +1,5 @@
 import {ValidateQueryOption, validateString} from '@/utils/extend/browser/query-string/validate';
-import {ValidateError} from '@/utils/service/error/class';
+import {ValidateError} from '@/utils/service/common/error/class';
 
 describe('validateString()', () => {
   describe('General cases', () => {

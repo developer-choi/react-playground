@@ -1,10 +1,10 @@
 import React, {PropsWithChildren} from 'react';
-import {auth} from '@/utils/service/auth';
+import {auth} from '@/utils/service/common/auth';
 import {SessionProvider} from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import IntlClientProvider from '@/components/setting/IntlClientProvider';
 import {getMessages} from 'next-intl/server';
-import {getUserLocale} from '@/utils/service/i18n';
+import {getUserLocale} from '@/utils/service/common/i18n';
 import ReactQueryProvider from '@/components/setting/ReactQueryProvider';
 
 // 첫 페이지 로딩 시점에 안보여도 되는 것들은 모두 dynamic import 하기로 함

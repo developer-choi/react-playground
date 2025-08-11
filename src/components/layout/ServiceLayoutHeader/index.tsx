@@ -3,7 +3,7 @@
 import styles from './index.module.scss';
 import {useSession} from 'next-auth/react';
 import Link from 'next/link';
-import {useLogout} from '@/utils/service/auth/hooks';
+import {useLogout} from '@/utils/service/common/auth/hooks';
 
 export default function ServiceLayoutHeader() {
   const session = useSession();

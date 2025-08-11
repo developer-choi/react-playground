@@ -2,7 +2,7 @@ import {withSentryConfig} from '@sentry/nextjs';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 // https://next-intl-docs.vercel.app/docs/getting-started/app-router/without-i18n-routing#move-i18n-ts
-const withNextIntl = createNextIntlPlugin('src/utils/service/i18n');
+const withNextIntl = createNextIntlPlugin('src/utils/service/common/i18n');
 
 /** @types {import('next').NextConfig} */
 const nextConfig = {

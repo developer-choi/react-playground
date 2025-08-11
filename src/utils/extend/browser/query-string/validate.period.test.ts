@@ -2,7 +2,7 @@ import {
   validatePeriod,
   ValidateQueryOption
 } from '@/utils/extend/browser/query-string/validate';
-import {ValidateError} from '@/utils/service/error/class';
+import {ValidateError} from '@/utils/service/common/error/class';
 
 const DEFAULT_OPTIONS = {
   throwable: false

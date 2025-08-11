@@ -1,4 +1,4 @@
-import {getTestPlainListApi} from '@/utils/service/api/test-client';
+import {getTestPlainListApi} from '@/utils/service/common/api/test-client';
 import React from 'react';
 import Link from 'next/link';
 import {dehydrate, HydrationBoundary} from '@tanstack/react-query';

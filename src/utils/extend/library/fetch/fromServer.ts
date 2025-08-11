@@ -1,5 +1,5 @@
 import 'server-only';
-import {auth} from '@/utils/service/auth';
+import {auth} from '@/utils/service/common/auth';
 import {customFetch, FetchOptions} from '@/utils/extend/library/fetch/base';
 
 export async function fetchFromServer<D>(input: string | URL | globalThis.Request, options: FetchOptions) {

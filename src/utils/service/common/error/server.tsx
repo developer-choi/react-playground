@@ -2,13 +2,13 @@ import {notFound, redirect} from 'next/navigation';
 import {PageServerComponentProps} from '@/types/declaration/next';
 import {validateComputableNumber} from '@/utils/extend/browser/query-string/validate';
 import * as Sentry from '@sentry/nextjs';
-import {getErrorInfo} from '@/utils/service/error/info';
+import {getErrorInfo} from '@/utils/service/common/error/info';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
 import {isObject} from '@/utils/extend/data-type/object';
 import {headers} from 'next/headers';
-import {CURRENT_URL_IN_HEADER} from '@/utils/service/auth';
-import {LoginError} from '@/utils/service/error/class/auth';
-import {FetchError} from '@/utils/service/error/class/fetch';
+import {CURRENT_URL_IN_HEADER} from '@/utils/service/common/auth';
+import {LoginError} from '@/utils/service/common/error/class/auth';
+import {FetchError} from '@/utils/service/common/error/class/fetch';
 
 // Doc: [Can not catch an ServerSideError on client] https://docs.google.com/document/d/1UmDWmmGTNH_XNupQ-tegMnQwzb-m5yD2Hz_NzO2glic/edit?tab=t.0
 export function handleServerSideError(error: unknown) {

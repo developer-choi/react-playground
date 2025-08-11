@@ -1,5 +1,5 @@
 import {NextRequest} from 'next/server';
-import {UserFieldCountApiRequest} from '@/utils/service/api/user';
+import {UserFieldCountApiRequest} from '@/utils/service/common/api/user';
 import {timeoutPromise} from '@/utils/extend/random/promise';
 
 export async function GET(request: NextRequest) {

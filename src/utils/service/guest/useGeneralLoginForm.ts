@@ -1,13 +1,13 @@
 import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
 import {useCallback, useEffect} from 'react';
 import {useRouter} from 'next/navigation';
-import {getEmailInputProps} from '@/utils/service/inputs/user/email';
-import {getPurePasswordInputProps, PASSWORD_ERROR_TEXTS} from '@/utils/service/inputs/user/password';
+import {getEmailInputProps} from '@/utils/service/common/inputs/user/email';
+import {getPurePasswordInputProps, PASSWORD_ERROR_TEXTS} from '@/utils/service/common/inputs/user/password';
 import {useMutation} from '@tanstack/react-query';
-import {useHandleClientSideError} from '@/utils/service/error/client';
-import {postLoginApi} from '@/utils/service/api/auth';
-import {useLogin} from '@/utils/service/auth/hooks';
-import {FetchError} from '@/utils/service/error/class/fetch';
+import {useHandleClientSideError} from '@/utils/service/common/error/client';
+import {postLoginApi} from '@/utils/service/common/api/auth';
+import {useLogin} from '@/utils/service/common/auth/hooks';
+import {FetchError} from '@/utils/service/common/error/class/fetch';
 
 // SNS 로그인이 아닌 일반 로그인에 해당
 export default function useGeneralLoginForm() {

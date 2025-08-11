@@ -1,4 +1,4 @@
-import {HTMLElementNotFoundError} from '@/utils/service/error/class/client';
+import {HTMLElementNotFoundError} from '@/utils/service/common/error/class/client';
 
 /**
  * @description 지정된 요소의 상단으로 부드럽게 스크롤합니다.

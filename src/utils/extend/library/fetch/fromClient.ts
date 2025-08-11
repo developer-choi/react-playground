@@ -1,8 +1,8 @@
 import {isServer} from '@/utils/extend/library/next';
-import {InvalidDevelopPolicyError} from '@/utils/service/error/class';
+import {InvalidDevelopPolicyError} from '@/utils/service/common/error/class';
 import {getSession, signOut} from 'next-auth/react';
 import {customFetch, FetchOptions} from '@/utils/extend/library/fetch/base';
-import {LoginError} from '@/utils/service/error/class/auth';
+import {LoginError} from '@/utils/service/common/error/class/auth';
 
 export async function fetchFromClient<D>(input: string | URL | globalThis.Request, options: FetchOptions) {
   if(isServer()) {

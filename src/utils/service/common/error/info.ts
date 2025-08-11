@@ -1,7 +1,7 @@
 import {ErrorPageTemplateProps} from '@/components/error/ErrorPageTemplate';
 import {isObject} from '@/utils/extend/data-type/object';
-import {FetchError} from '@/utils/service/error/class/fetch';
-import {InvalidAccessError} from '@/utils/service/error/class/server';
+import {FetchError} from '@/utils/service/common/error/class/fetch';
+import {InvalidAccessError} from '@/utils/service/common/error/class/server';
 
 /** 설계 의도
  * 1. client side에서 에러가 발생했건

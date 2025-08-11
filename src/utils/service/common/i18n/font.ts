@@ -1,4 +1,4 @@
-import {getUserLocale} from '@/utils/service/i18n/index';
+import {getUserLocale} from '@/utils/service/common/i18n/index';
 import {Roboto, Noto_Sans} from 'next/font/google';
 
 export async function getFontByLanguage() {

@@ -1,4 +1,4 @@
-import {DEFAULT_HOME_URL} from '@/utils/service/auth/redirect';
+import {DEFAULT_HOME_URL} from '@/utils/service/common/auth/redirect';
 import {doesPathStartWithSegment, extractPathname} from '@/utils/extend/data-type/string';
 
 interface NextNavigatingParam {

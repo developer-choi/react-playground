@@ -3,7 +3,7 @@
 import {useCallback} from 'react';
 import {range} from '@/utils/extend/data-type/number';
 import dayjs from 'dayjs';
-import {deleteAllBoardsApi, postMultipleBoardsApi} from '@/utils/service/api/board-client';
+import {deleteAllBoardsApi, postMultipleBoardsApi} from '@/utils/service/common/api/board-client';
 import {randomInArray} from '@/utils/extend/random';
 import {BoardRow} from '@/types/services/board';
 import Button from '@/components/element/Button';

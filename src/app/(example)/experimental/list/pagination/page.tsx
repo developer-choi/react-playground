@@ -1,4 +1,4 @@
-import {getBoardListApi} from '@/utils/service/api/board-client';
+import {getBoardListApi} from '@/utils/service/common/api/board-client';
 import CorePagination from '@/components/pagination/CorePagination';
 import {PageServerComponentProps} from '@/types/declaration/next';
 import styles from './page.module.scss';

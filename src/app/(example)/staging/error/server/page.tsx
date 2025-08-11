@@ -1,6 +1,6 @@
 'use client';
 
-import {CustomizedError} from '@/utils/service/error/class';
+import {CustomizedError} from '@/utils/service/common/error/class';
 
 /**
  * URL: http://localhost:3000/staging/error/server
