@@ -18,7 +18,6 @@ export interface FormInputParam<T extends FieldValues> {
   };
 }
 
-
 export function getMessageFromFieldErrors<T extends FieldValues>(errors: FieldErrors<T>, name: FieldPath<T>): string | undefined {
   const message = get(errors, name)?.message;
 
