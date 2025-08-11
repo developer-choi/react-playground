@@ -11,7 +11,7 @@ import Button from '@/components/element/Button';
 import HiddenInput from '@/components/form/Input/HiddenInput';
 import {useRHFMultipleImageFile} from '@/utils/extend/file/handle-image/react-hook-form';
 import {FileAndThumbnail} from '@/utils/extend/file/handle-image/core';
-import {getMessageFromFieldErrors} from '@/utils/extend/library/react-hook-form';
+import {getMessageFromFieldErrors} from '@/utils/service/common/inputs';
 
 // URL: http://localhost:3000/staging/form/file/drag-and-drop
 // Doc: https://docs.google.com/document/d/1_9-Bw4SihS6DGpskF8Xor_gaahHetDfKDk6QJeZQ6Ig/edit?tab=t.0

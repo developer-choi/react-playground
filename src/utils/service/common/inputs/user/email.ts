@@ -1,7 +1,7 @@
 import {FieldValues} from 'react-hook-form';
 import {InputProps} from '@/components/form/Input';
 import {FormInputParam} from '@/utils/service/common/inputs';
-import {getMessageFromFieldErrors} from '@/utils/extend/library/react-hook-form';
+import {getMessageFromFieldErrors} from '@/utils/service/common/inputs';
 
 export function getEmailInputProps<T extends FieldValues>(param: FormInputParam<T>): InputProps {
   const {texts, form: {name, methods, options, props}} = param;

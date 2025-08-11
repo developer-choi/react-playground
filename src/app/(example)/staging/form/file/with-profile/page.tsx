@@ -11,7 +11,7 @@ import {FormElementUnderText} from '@/components/form/form-elements';
 import Link from 'next/link';
 import {useSingleImageFile} from '@/utils/extend/file/handle-image/state';
 import {SingleFileAndThumbnail} from '@/utils/extend/file/handle-image/core';
-import {getMessageFromFieldErrors} from '@/utils/extend/library/react-hook-form';
+import {getMessageFromFieldErrors} from '@/utils/service/common/inputs';
 
 // URL: http://localhost:3000/staging/form/file/with-profile
 // Doc: 따로 없음.

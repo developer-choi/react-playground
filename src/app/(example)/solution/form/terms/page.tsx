@@ -6,7 +6,7 @@ import {ChangeEvent, useCallback} from 'react';
 import Checkbox, {CheckboxProps} from '@/components/form/Checkbox';
 import Button from '@/components/element/Button';
 import {FormElementUnderText} from '@/components/form/form-elements';
-import {getMessageFromFieldErrors} from '@/utils/extend/library/react-hook-form';
+import {getMessageFromFieldErrors} from '@/utils/service/common/inputs';
 
 // URL: http://localhost:3000/solution/form/terms
 // Doc: https://docs.google.com/document/d/1cupk32maDTWKqu3SqoinuxmshuPxVN49tUZo49o9nvc/edit?tab=t.0
