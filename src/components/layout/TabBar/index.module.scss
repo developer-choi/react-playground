@@ -29,7 +29,6 @@
   column-gap: 2px; // badge와 텍스트 사이 긴격
   position: relative;
   height: 52px;
-  color: util.safeMapGet(color.$stateColors, inactiveTab);
 
   &::after {
     position: absolute;

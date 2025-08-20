@@ -35,7 +35,7 @@
       height: 4px;
       margin-right: 8px;
       border-radius: 50%;
-      background-color: util.safeMapGet(color.$stateColors, warning);
+      background-color: util.safeMapGet(color.$stateColors, error);
     }
   }
 }
