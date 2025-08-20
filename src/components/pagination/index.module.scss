@@ -1,4 +1,5 @@
 @use "/src/styles/color";
+@use "/src/styles/util";
 
 .nav {
   display: flex;
@@ -11,7 +12,7 @@
   border: 1px solid gray;
   
   &.active {
-    color: map-get(color.$brandColors, primary);
+    color: util.safeMapGet(color.$brandColors, primary);
     font-weight: bold;
   }
   

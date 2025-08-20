@@ -3,7 +3,7 @@
 @use "/src/styles/layout.module";
 
 .articleListWrap {
-  padding-inline: map-get(layout.$layout, horizontalPadding);
+  padding-inline: util.safeMapGet(layout.$layout, horizontalPadding);
 }
 
 .article {
@@ -35,7 +35,7 @@
       height: 4px;
       margin-right: 8px;
       border-radius: 50%;
-      background-color: map-get(color.$stateColors, warning);
+      background-color: util.safeMapGet(color.$stateColors, warning);
     }
   }
 }

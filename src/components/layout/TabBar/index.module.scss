@@ -29,7 +29,7 @@
   column-gap: 2px; // badge와 텍스트 사이 긴격
   position: relative;
   height: 52px;
-  color: map-get(color.$stateColors, inactiveTab);
+  color: util.safeMapGet(color.$stateColors, inactiveTab);
 
   &::after {
     position: absolute;
@@ -43,11 +43,11 @@
 }
 
 .item:global(.active) {
-  color: map-get(color.$brandColors, primary);
+  color: util.safeMapGet(color.$brandColors, primary);
 
   &::after {
     height: 3px;
-    background-color: map-get(color.$brandColors, primary);
+    background-color: util.safeMapGet(color.$brandColors, primary);
   }
 }
 

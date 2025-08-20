@@ -2,6 +2,7 @@
 @use "/src/styles/layout.module";
 @use "/src/styles/typography.module";
 @use "/src/styles/design-system.module";
+@use "/src/styles/util";
 
 .wrap {
   display: flex;
@@ -15,8 +16,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: map-get(layout.$layout, mobileBottomNavHeight);
-  z-index: map-get(design-system.$zIndexes, mobileBottomNav);
+  height: util.safeMapGet(layout.$layout, mobileBottomNavHeight);
+  z-index: util.safeMapGet(design-system.$zIndexes, mobileBottomNav);
   background: white;
   
   display: flex;
@@ -30,7 +31,7 @@
   
   &:global(.active) > .navText {
     font-weight: bold;
-    color: map-get(color.$brandColors, primary);
+    color: util.safeMapGet(color.$brandColors, primary);
   }
   
   padding-top: 8px;
@@ -56,6 +57,6 @@
   margin-top: 2px;
   
   &.disabled {
-    color: map-get(color.$stateColors, disabled);
+    color: util.safeMapGet(color.$stateColors, disabled);
   }
 }

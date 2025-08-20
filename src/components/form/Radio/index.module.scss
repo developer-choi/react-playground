@@ -5,7 +5,7 @@
 // @param $color primary / language 3개
 @mixin iconColor($color) {
   svg > circle:first-of-type {
-    fill: map-get(color.$brandColors, $color);
+    fill: util.safeMapGet(color.$brandColors, $color);
   }
 }
 

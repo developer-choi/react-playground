@@ -1,10 +1,11 @@
 @use "/src/styles/color";
+@use "/src/styles/util";
 
 $formElement: (
-  labelMarginTop: 8px, // map-get($formElement, labelMarginTop); 모든 디자인시스템상 폼 요소는 라벨과 폼요소 사이 상하 간격이 같아야함.
-  errorMarginTop: 8px, // map-get($formElement, errorMarginTop); 모든 디자인시스템상 폼 요소는 에러텍스트와 폼요소 사이 상하 간격이 같아야함.
-  labelLineHeight: 20px, // map-get($formElement, labelLineHeight); 라벨에 노출되는 아이콘의 높이값은 인풋의 line-height만큼만 커야함.
-  inputLineHeight: 20px, // map-get($formElement, inputLineHeight); 인풋에 노출되는 아이콘의 높이값은 인풋의 line-height만큼만 커야함.
+  labelMarginTop: 8px, // 모든 디자인시스템상 폼 요소는 라벨과 폼요소 사이 상하 간격이 같아야함.
+  errorMarginTop: 8px, // 모든 디자인시스템상 폼 요소는 에러텍스트와 폼요소 사이 상하 간격이 같아야함.
+  labelLineHeight: 20px, // 라벨에 노출되는 아이콘의 높이값은 인풋의 line-height만큼만 커야함.
+  inputLineHeight: 20px, // 인풋에 노출되는 아이콘의 높이값은 인풋의 line-height만큼만 커야함.
   iconLabelGap: 8px // 라디오, 체크박스, 스위치 셋다 아이콘과 텍스트라벨 사이 좌우간격 이거임.
 );
 
@@ -16,30 +17,30 @@ $formElement: (
 .label {
   display: flex;
   align-items: center;
-  margin-bottom: map-get($formElement, labelMarginTop);
+  margin-bottom: util.safeMapGet($formElement, labelMarginTop);
   
   column-gap: 4px; // 폼 라벨에 노출되는 아이콘간의 간격, 라벨텍스트와 아이콘 사이 간격 모두 2px
   
   // 라벨에 노출되는 모든 아이콘 크기를 비율에맞춰 고정하기위함
   > svg, img {
     width: auto;
-    height: map-get($formElement, labelLineHeight);
+    height: util.safeMapGet($formElement, labelLineHeight);
   }
   
   color: gray;
-  line-height: map-get($formElement, labelLineHeight);
+  line-height: util.safeMapGet($formElement, labelLineHeight);
 }
 
 .formElementUnderText {
   display: block;
-  margin-top: map-get($formElement, errorMarginTop);
+  margin-top: util.safeMapGet($formElement, errorMarginTop);
   
   &.error {
-    color: map-get(color.$stateColors, error);
+    color: util.safeMapGet(color.$stateColors, error);
   }
   
   &.info {
-    color: map-get(color.$stateColors, info);
+    color: util.safeMapGet(color.$stateColors, info);
   }
 }
 
@@ -47,7 +48,7 @@ $formElement: (
  * textarea / input에서 실제 폼요소에 들어가야하는 공통 스타일
  */
 @mixin commonFormElement {
-  line-height: map-get($formElement, inputLineHeight);
+  line-height: util.safeMapGet($formElement, inputLineHeight);
   color: gray; // textarea, input의 value의 컬러값
   
   &::placeholder {
@@ -55,9 +56,9 @@ $formElement: (
   }
   
   &:disabled {
-    color: map-get(color.$stateColors, disabled);
+    color: util.safeMapGet(color.$stateColors, disabled);
     &::placeholder {
-      color: map-get(color.$stateColors, disabled);
+      color: util.safeMapGet(color.$stateColors, disabled);
     }
   }
 }
@@ -76,7 +77,7 @@ $formElement: (
   border-radius: 4px; // Shape
   
   &:focus-within {
-    border-color: map-get(color.$brandColors, primary); // Priority 3. focus (brand color)
+    border-color: util.safeMapGet(color.$brandColors, primary); // Priority 3. focus (brand color)
     
     input, textarea {
       outline: none;
@@ -84,12 +85,12 @@ $formElement: (
   }
   
   &.error {
-    border-color: map-get(color.$stateColors, error); // Priority 2. error
+    border-color: util.safeMapGet(color.$stateColors, error); // Priority 2. error
   }
   
   :disabled, // 이거 안하면, 겉에 테두리 안감싸는 폼 요소의 경우, :has에 안걸려서 border-color가 disabled 케이스에서 동작안함.
   &:has(*:disabled) {
-    border-color: map-get(color.$stateColors, disabled); // Priority 1. disabled
+    border-color: util.safeMapGet(color.$stateColors, disabled); // Priority 1. disabled
     cursor: not-allowed; // 테두리 영역 안의 전체가 이 커서로 나와야함.
   }
 }
@@ -101,11 +102,11 @@ $formElement: (
   cursor: pointer;
   
   > svg {
-    margin-right: map-get($formElement, iconLabelGap);
+    margin-right: util.safeMapGet($formElement, iconLabelGap);
   }
   
   &:has(input:disabled) {
     cursor: not-allowed;
-    color: map-get(color.$stateColors, disabled);
+    color: util.safeMapGet(color.$stateColors, disabled);
   }
 }

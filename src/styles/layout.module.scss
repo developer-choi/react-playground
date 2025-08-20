@@ -1,3 +1,5 @@
+@use "/src/styles/util";
+
 $layout: (
   horizontalPadding: 16px, // TODO 히스토리 정리. 도입 계기, 사용방법, 설계 구조 등 구글문서로 필기해야. 나중에 사용된곳마다 어떻게 사용했는지 분석하고 정리...
   mobileBottomNavHeight: 60px, // https://docs.google.com/document/d/1qq72UzaRwqL-gYAOCxMM9tpgXx6uXz81GUnRiC_Y3Vk/edit#heading=h.envqvtmatzxf
@@ -14,12 +16,12 @@ $layout: (
  */
 @mixin horizontalWidthContainer($size) {
   width: 100%;
-  max-width: calc(map-get($layout, $size));
+  max-width: calc(util.safeMapGet($layout, $size));
   margin: 0 auto;
 }
 
 @mixin horizontalPaddingContainer {
-  padding-inline: map-get($layout, horizontalPadding);
+  padding-inline: util.safeMapGet($layout, horizontalPadding);
 }
 
 .horizontalPaddingContainer {
@@ -37,5 +39,5 @@ $layout: (
 .mobilePageContent {
   width: 100%;
   flex-grow: 1;
-  padding-bottom: map-get($layout, mobileBottomNavHeight);
+  padding-bottom: util.safeMapGet($layout, mobileBottomNavHeight);
 }

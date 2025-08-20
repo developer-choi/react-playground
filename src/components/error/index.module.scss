@@ -9,7 +9,7 @@
   &.fullScreen {
     position: fixed;
     @include util.absoluteFull;
-    z-index: map-get(design-system.$zIndexes, errorPageTemplate);
+    z-index: util.safeMapGet(design-system.$zIndexes, errorPageTemplate);
   }
 }
 

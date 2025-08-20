@@ -50,3 +50,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+@function safeMapGet($map, $property) {
+  @if not map-has-key($map, $property) {
+    @error 'property "#{$property}" not found';
+  }
+  
+  @return map-get($map, $property);
+}

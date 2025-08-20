@@ -21,13 +21,13 @@ $textColors: (
 );
 
 $stateColors: (
-  success: #3FB034, // map-get($stateColors, success);
-  error: #ff0000, // map-get($stateColors, error);
-  disabled: nth($grayColors, 6), // map-get($stateColors, disabled);
+  success: #3FB034,
+  error: #ff0000,
+  disabled: nth($grayColors, 6),
   info: #1234aa
 );
 
 $brandColors: (
-  primary: #0099bb, // map-get($brandColors, primary);
-  secondary: #a82631 // map-get($brandColors, secondary);
+  primary: #0099bb,
+  secondary: #a82631
 )

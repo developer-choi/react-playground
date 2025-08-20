@@ -17,7 +17,7 @@
     
     // 인풋에 노출되는 모든 아이콘 크기를 비율에맞춰 고정하기위함
     width: auto;
-    height: map-get(form.$formElement, inputLineHeight);
+    height: util.safeMapGet(form.$formElement, inputLineHeight);
   }
 }
 

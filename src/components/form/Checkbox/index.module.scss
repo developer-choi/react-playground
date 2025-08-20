@@ -5,7 +5,7 @@
 // @param $color primary / secondary
 @mixin iconColor($color) {
   > svg > path {
-    fill: map-get(color.$brandColors, $color);
+    fill: util.safeMapGet(color.$brandColors, $color);
   }
 }
 

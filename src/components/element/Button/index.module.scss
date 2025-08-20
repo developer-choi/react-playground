@@ -36,9 +36,9 @@
     ),
   );
   
-  padding: map-get(map-get($style, $size), padding);
-  font-size: map-get(map-get($style, $size), font-size);
-  line-height: map-get(map-get($style, $size), line-height);
+  padding: util.safeMapGet(util.safeMapGet($style, $size), padding);
+  font-size: util.safeMapGet(util.safeMapGet($style, $size), font-size);
+  line-height: util.safeMapGet(util.safeMapGet($style, $size), line-height);
 };
 
 /**
@@ -72,13 +72,13 @@
   @if $colorOrState == 'disabled' {
     $pointerColor: white;
     @include loadingColor($pointerColor);
-    border-color: map-get(color.$stateColors, disabled);
-    background-color: map-get(color.$stateColors, disabled);
+    border-color: util.safeMapGet(color.$stateColors, disabled);
+    background-color: util.safeMapGet(color.$stateColors, disabled);
     color: $pointerColor;
   }
   
   @else {
-    $pointerColor: map-get(color.$brandColors, $colorOrState);
+    $pointerColor: util.safeMapGet(color.$brandColors, $colorOrState);
     $color: if($variant == 'contained', white, $pointerColor);
     
     @include loadingColor($color);

@@ -1,5 +1,6 @@
 @use "/src/components/form/form-elements/index.module" as form;
 @use "/src/styles/color";
+@use "/src/styles/util";
 
 @mixin colorByState {
   // default track
@@ -17,7 +18,7 @@
       
       // checked thumb
       &::before {
-        background: map-get(color.$brandColors, primary);
+        background: util.safeMapGet(color.$brandColors, primary);
       }
     }
     
@@ -58,7 +59,7 @@ $radius: 20px;
     height: 14px;
     border-radius: 360px;
     cursor: pointer; // input은 cursor 기본값이 포인터가 아님.
-    margin-right: map-get(form.$formElement, iconLabelGap);; // 라디오, 체크박스는 svg margin-right로 라벨과 아이콘 사이 벌리지만 switch는 이걸로 벌림.
+    margin-right: util.safeMapGet(form.$formElement, iconLabelGap);; // 라디오, 체크박스는 svg margin-right로 라벨과 아이콘 사이 벌리지만 switch는 이걸로 벌림.
     
     // thumb
     &::before {
