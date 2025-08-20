@@ -17,7 +17,8 @@ export default function Page({params}: PageServerComponentProps) {
       title: 'Title',
       content: 'Content',
     });
-  }, [open]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open.alert]);
   
   return (
     <div className={layoutStyles.mobilePageContent}>
