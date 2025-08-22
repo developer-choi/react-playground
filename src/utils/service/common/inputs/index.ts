@@ -3,12 +3,12 @@ import {InputProps} from '@/components/form/Input';
 import get from 'lodash/get';
 
 // Doc: https://docs.google.com/document/d/1vfCUikBQ-iRWqJt8-EmIhv2Gvl2hI9zzyAs-XsOpmSo/edit?tab=t.0
-export interface FormInputParam<T extends FieldValues> {
+export interface FormInputParam<T extends FieldValues, P = InputProps> {
   form: {
     methods: UseFormReturn<T>;
     name: FieldPath<T>;
     options?: RegisterOptions<T>;
-    props?: InputProps;
+    props?: P;
   };
   texts?: {
     label?: string;
