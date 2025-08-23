@@ -1,4 +1,4 @@
-import {range} from '@/utils/extend/data-type/number';
+import {range} from '@forworkchoe/core';
 
 // https://github.com/developer-choi/resources/tree/master/heavy
 export const RESOURCE = {

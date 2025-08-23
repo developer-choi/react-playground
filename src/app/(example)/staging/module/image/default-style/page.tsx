@@ -1,5 +1,5 @@
 import styles from './page.module.scss';
-import CustomImage from '@/components/element/CustomImage';
+import {CustomImage} from '@forworkchoe/core';
 
 // URL: http://localhost:3000/staging/module/image/default-style
 // Doc: https://docs.google.com/document/d/1ZX8A70x6DlfBDeVmBDUdE5-B4hSGtPHKURaVW_IXUuE/edit

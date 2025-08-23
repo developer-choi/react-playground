@@ -4,7 +4,7 @@ import {FieldErrors, SubmitErrorHandler, SubmitHandler, useFieldArray, useForm, 
 import React, {useCallback} from 'react';
 import Input from '@/components/form/Input';
 import Radio, {RadioGroup} from '@/components/form/Radio';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 import designSystemStyles from '@/styles/design-system.module.scss';
 import classNames from 'classnames';
 import {useMutation} from '@tanstack/react-query';

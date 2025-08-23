@@ -5,7 +5,7 @@ import InputFile from '@/components/form/Input/inputFile';
 import ProfileImage from '@/components/element/ProfileImage';
 import {useRHFSingleImageFile} from '@/utils/extend/file/handle-image/react-hook-form';
 import {fileSizeToByte} from '@/utils/extend/file/file-size';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {FormElementUnderText} from '@/components/form/form-elements';
 import Link from 'next/link';

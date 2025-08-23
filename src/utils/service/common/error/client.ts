@@ -7,7 +7,7 @@ import type {AppRouterInstance} from 'next/dist/shared/lib/app-router-context.sh
 import {QueryClient, useQueryClient} from '@tanstack/react-query';
 import {useCallback} from 'react';
 import {useLogout} from '@/utils/service/common/auth/hooks';
-import {isObject} from '@/utils/extend/data-type/object';
+import {isObject} from '@forworkchoe/core';
 import {GuestError, LoginError} from '@/utils/service/common/error/class/auth';
 import { FetchError } from './class/fetch';
 import {StorageObjectManager} from '@/utils/extend/browser/storage-object';

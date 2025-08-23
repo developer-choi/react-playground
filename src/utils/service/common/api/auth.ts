@@ -1,5 +1,5 @@
 import {LoginApiRequest, LoginApiResponse, SignUpApiRequest} from '@/types/services/auth';
-import {cleanFormData} from '@/utils/extend/data-type/object';
+import {cleanFormData} from '@forworkchoe/core';
 import {fetchFromClient} from '@/utils/extend/library/fetch/fromClient';
 
 export async function postLoginApi(param: LoginApiRequest) {

@@ -6,7 +6,7 @@ import {useForm} from 'react-hook-form';
 import Image from 'next/image';
 import {H2} from '@/components/element/typography';
 import Radio, {RadioGroup} from '@/components/form/Radio';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 import {ModalContainer, ModalContainerProps} from '@/components/modal/container';
 import {DefaultModalHeader, ProfileModalHeader} from '@/components/modal/header';
 import DefaultModalBody from '@/components/modal/body';

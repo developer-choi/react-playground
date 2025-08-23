@@ -1,7 +1,7 @@
 'use client';
 
 import {useState} from 'react';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 import designSystemStyles from '@/styles/design-system.module.scss';
 
 /**

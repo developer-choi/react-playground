@@ -1,7 +1,6 @@
-import {numberWithComma, range} from '@/utils/extend/data-type/number';
-import styles from './page.module.scss'
+import {CustomImage, numberWithComma, range} from '@forworkchoe/core';
+import styles from './page.module.scss';
 import React from 'react';
-import CustomImage from '@/components/element/CustomImage';
 import {Body2} from '@/components/element/typography';
 
 // URL: http://localhost:3000/staging/module/image/default-404

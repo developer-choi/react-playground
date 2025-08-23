@@ -2,7 +2,7 @@
 
 import designSystemStyles from '@/styles/design-system.module.scss';
 import Input from '@/components/form/Input';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 import {FormElementUnderText, Label} from '@/components/form/form-elements';
 import classNames from 'classnames';
 

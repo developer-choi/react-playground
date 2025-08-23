@@ -3,7 +3,7 @@
 import {ImageProps} from 'next/image';
 import styles from './page.module.scss';
 import {CSSProperties} from 'react';
-import CustomImage from '@/components/element/CustomImage';
+import {CustomImage} from '@forworkchoe/core';
 
 // URL: http://localhost:3000/markup/animation/slide/stack
 // Doc: https://drive.google.com/drive/folders/1-fuhB4JvCKlcCRbd8oiYAQY__wEdRmIO

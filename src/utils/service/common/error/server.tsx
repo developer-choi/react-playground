@@ -4,7 +4,7 @@ import {validateComputableNumber} from '@/utils/extend/browser/query-string/vali
 import * as Sentry from '@sentry/nextjs';
 import {getErrorInfo} from '@/utils/service/common/error/info';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
-import {isObject} from '@/utils/extend/data-type/object';
+import {isObject} from '@forworkchoe/core';
 import {headers} from 'next/headers';
 import {CURRENT_URL_IN_HEADER} from '@/utils/service/common/auth';
 import {LoginError} from '@/utils/service/common/error/class/auth';

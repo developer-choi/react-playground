@@ -10,7 +10,7 @@ import {
 } from '@/utils/service/common/inputs/daum-postcode';
 import {baseHandleErrors} from '@/utils/extend/library/react-hook-form';
 import Input, {InputProps} from '@/components/form/Input';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 import styles from './page.module.scss';
 
 // URL: http://localhost:3000/staging/form/address

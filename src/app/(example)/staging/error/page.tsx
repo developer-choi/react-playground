@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useCallback} from 'react';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 import type {SeverityLevel} from '@sentry/types';
 import {CustomizedError} from '@/utils/service/common/error/class';
 

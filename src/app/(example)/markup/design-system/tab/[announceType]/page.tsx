@@ -2,7 +2,7 @@ import layoutStyles from '@/styles/layout.module.scss';
 import styles from './page.module.scss';
 import classNames from 'classnames';
 import React from 'react';
-import CustomLink from '@/components/element/link/CustomLink';
+import {CustomLink} from '@forworkchoe/core';
 import TabBar, {TabBarItem} from '@/components/layout/TabBar';
 import {isMobileOnBothSide} from '@/utils/extend/library/next';
 

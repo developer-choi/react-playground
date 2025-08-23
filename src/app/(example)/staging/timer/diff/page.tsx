@@ -1,7 +1,7 @@
 'use client';
 
 import {useDiffTimer} from '@/utils/extend/timer';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 
 /**
  * URL: http://localhost:3000/staging/timer/diff

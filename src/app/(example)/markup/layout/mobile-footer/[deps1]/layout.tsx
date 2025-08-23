@@ -1,7 +1,7 @@
 'use client';
 
 import {ComponentPropsWithoutRef, FunctionComponent} from 'react';
-import ActiveLink, {ActiveLinkProps, useCheckHrefIsActive} from '@/components/element/link/ActiveLink';
+import {ActiveLink, ActiveLinkProps, useCheckHrefIsActive} from '@forworkchoe/core';
 import styles from './page.module.scss';
 import {COLOR} from '@/styles/color';
 import BoardIcon from '@/components/icon/BoardIcon';

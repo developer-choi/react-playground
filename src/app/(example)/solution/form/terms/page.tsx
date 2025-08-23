@@ -4,7 +4,7 @@ import designSystemStyles from '@/styles/design-system.module.scss';
 import {RegisterOptions, SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
 import {ChangeEvent, useCallback} from 'react';
 import Checkbox, {CheckboxProps} from '@/components/form/Checkbox';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 import {FormElementUnderText} from '@/components/form/form-elements';
 import {getMessageFromFieldErrors} from '@/utils/service/common/inputs';
 

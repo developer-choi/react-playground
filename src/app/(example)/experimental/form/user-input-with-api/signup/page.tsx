@@ -5,7 +5,7 @@ import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
 import {useUserFieldApiValidation} from '@/utils/service/common/inputs/api-validation';
 import Input from '@/components/form/Input';
 import {EMAIL_ERROR_TEXTS, getEmailInputProps} from '@/utils/service/common/inputs/user/email';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 import HiddenInput from '@/components/form/Input/HiddenInput';
 
 /**

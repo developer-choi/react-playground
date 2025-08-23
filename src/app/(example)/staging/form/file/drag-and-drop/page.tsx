@@ -7,7 +7,7 @@ import styles from './page.module.scss';
 import Image from 'next/image';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {FormElementUnderText} from '@/components/form/form-elements';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 import HiddenInput from '@/components/form/Input/HiddenInput';
 import {useRHFMultipleImageFile} from '@/utils/extend/file/handle-image/react-hook-form';
 import {FileAndThumbnail} from '@/utils/extend/file/handle-image/core';

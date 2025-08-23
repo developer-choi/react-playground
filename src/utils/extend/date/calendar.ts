@@ -1,4 +1,4 @@
-import {arraySplit} from '@/utils/extend/data-type/array';
+import {arraySplit} from '@forworkchoe/core';
 
 export interface DateBoundary {
   start: Date;

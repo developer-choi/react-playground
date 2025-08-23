@@ -4,7 +4,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {ComposedModalProps, ModalContainer} from '@/components/modal/container';
 import {useModal} from '@/utils/extend/modal';
 import {getDiffDate} from '@/utils/extend/date/util';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 import {ClosedHistoryManager} from '@/utils/extend/date/closed-history';
 
 /**

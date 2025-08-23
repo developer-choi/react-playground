@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import {getDiffBetweenDate} from '@/utils/extend/date/util';
 import {StorageArrayManager} from '@/utils/extend/browser/storage-array';
-import {LoopCallback} from '@/utils/extend/data-type/array';
+import {LoopCallback} from '@forworkchoe/core';
 
 export interface ClosedHistoryParam<T extends string | number> {
   pkList: T[]; //여러개의 n일간 안보기 팝업목록중에, 하나를 골라서 띄우고싶기 위해서.

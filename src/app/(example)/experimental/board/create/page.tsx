@@ -5,8 +5,7 @@ import {deleteAllBoardsApi, postMultipleBoardsApi} from '@/utils/service/common/
 import dayjs from 'dayjs';
 import {randomInArray} from '@/utils/extend/random';
 import {BoardRow} from '@/types/services/board';
-import {range} from '@/utils/extend/data-type/number';
-import Button from '@/components/element/Button';
+import {range, Button} from '@forworkchoe/core';
 
 // URL: http://localhost:3000/experimental/board/create
 export default function Page() {

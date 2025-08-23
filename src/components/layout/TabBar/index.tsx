@@ -1,7 +1,7 @@
 import React, {CSSProperties} from 'react';
 import classNames from 'classnames';
 import styles from './index.module.scss';
-import ActiveLink, {ActiveLinkProps, LinkActiveMode} from '@/components/element/link/ActiveLink';
+import {ActiveLink, ActiveLinkProps, LinkActiveMode} from '@forworkchoe/core';
 import {isMobileOnBothSide} from '@/utils/extend/library/next';
 
 export type TabBarItem = Omit<ActiveLinkProps, 'active'>;

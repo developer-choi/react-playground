@@ -4,7 +4,7 @@ import {SubmitErrorHandler, SubmitHandler, useForm} from "react-hook-form";
 import {useCallback, useEffect} from "react";
 import Checkbox from '@/components/form/Checkbox';
 import Input from '@/components/form/Input';
-import Button from '@/components/element/Button';
+import {Button} from '@forworkchoe/core';
 
 /**
  * URL: http://localhost:3000/staging/form/condition/optional

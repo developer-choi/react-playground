@@ -1,5 +1,5 @@
 import styles from '@/app/(example)/markup/module/active-link/[...path]/page.module.scss';
-import ActiveLink from '@/components/element/link/ActiveLink';
+import {ActiveLink} from '@forworkchoe/core';
 import React from 'react';
 import {H2} from '@/components/element/typography';
 
