@@ -10,11 +10,3 @@ body {
   color: nth(color.$grayColors, 1);
   font-size: 14px;
 }
-
-button {
-  cursor: pointer;
-}
-
-input:disabled, button:disabled, textarea:disabled {
-  cursor: not-allowed;
-}
