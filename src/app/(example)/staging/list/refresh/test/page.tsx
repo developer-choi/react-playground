@@ -1,7 +1,8 @@
 'use client';
 
 import {useCallback} from 'react';
-import {range, Button} from '@forworkchoe/core';
+import {range} from '@forworkchoe/core/utils';
+import {Button} from '@forworkchoe/core';
 import dayjs from 'dayjs';
 import {deleteAllBoardsApi, postMultipleBoardsApi} from '@/utils/service/common/api/board-client';
 import {randomInArray} from '@/utils/extend/random';

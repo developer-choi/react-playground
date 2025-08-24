@@ -1,7 +1,7 @@
 'use client';
 
 import {useCallback, useMemo, useState} from 'react';
-import {getCalendarNavigation, getCalendarWeekList} from '@/utils/extend/date/calendar';
+import {getCalendarNavigation, getCalendarWeekList} from '@forworkchoe/core/utils';
 import styles from './page.module.scss';
 import classNames from 'classnames';
 

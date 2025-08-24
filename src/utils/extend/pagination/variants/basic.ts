@@ -1,4 +1,4 @@
-import {range} from '@forworkchoe/core';
+import {range} from '@forworkchoe/core/utils';
 import {PageElement} from '@/utils/extend/pagination';
 
 export interface BasicPaginationParam {

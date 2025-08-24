@@ -1,6 +1,6 @@
 import type {ParsedUrlQuery} from 'querystring';
 import {ValidateError} from '@/utils/service/common/error/class';
-import {range} from '@forworkchoe/core';
+import {range} from '@forworkchoe/core/utils';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';

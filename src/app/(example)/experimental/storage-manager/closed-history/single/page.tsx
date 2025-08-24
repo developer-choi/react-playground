@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useCallback, useEffect} from 'react';
-import {getDiffDate} from '@/utils/extend/date/util';
+import {getDiffDate} from '@forworkchoe/core/utils';
 import {Button} from '@forworkchoe/core';
 import {ClosedHistoryManager} from '@/utils/extend/date/closed-history';
 import {ComposedModalProps, ModalContainer} from '@/components/modal/container';

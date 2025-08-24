@@ -1,7 +1,7 @@
 import {NextRequest} from 'next/server';
 import {timeoutPromise} from '@/utils/extend/random/promise';
 import {PlainListApiResponse} from '@/types/services/dummy';
-import {range} from '@forworkchoe/core';
+import {range} from '@forworkchoe/core/utils';
 
 export async function GET(request: NextRequest) {
   await timeoutPromise(500);

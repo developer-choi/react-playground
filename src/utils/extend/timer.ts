@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import dayjs from 'dayjs';
 import {usePrevious} from '@/utils/extend/library/react';
-import {runCallbackInFuture} from '@/utils/extend/date/future';
+import {runCallbackInFuture} from '@forworkchoe/core/utils';
 
 export interface DiffTimerOption {
   beforeStart?: () => void;

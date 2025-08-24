@@ -1,4 +1,4 @@
-import {range} from '@forworkchoe/core';
+import {range} from '@forworkchoe/core/utils';
 
 // https://github.com/developer-choi/resources/tree/master/heavy
 export const RESOURCE = {

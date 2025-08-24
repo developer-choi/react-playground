@@ -1,4 +1,4 @@
-import {range} from '@forworkchoe/core';
+import {range} from '@forworkchoe/core/utils';
 import {randomIndex, randomNumber} from '@/utils/extend/random/index';
 
 export type RandomCharType = (string | number)[] | 'ALPHABET' | 'NUMBER' | 'ALPHABET_AND_NUMBER';

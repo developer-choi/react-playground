@@ -1,8 +1,8 @@
 'use client';
 
+import {getDiffDate} from '@forworkchoe/core/utils';
 import React, {useCallback, useState} from 'react';
-import {getDiffDate} from '@/utils/extend/date/util';
-import {useRunCallbackInFuture} from '@/utils/extend/date/future';
+import {useRunCallbackInFuture} from '@forworkchoe/core/hooks';
 
 // URL: http://localhost:3000/solution/etc/run-callback-future
 export default function Page() {

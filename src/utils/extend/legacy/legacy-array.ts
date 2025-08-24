@@ -1,4 +1,4 @@
-import {range} from '@forworkchoe/core';
+import {range} from '@forworkchoe/core/utils';
 
 /**
  * 배열에서 n개씩 잘라서 반환하는 함수.

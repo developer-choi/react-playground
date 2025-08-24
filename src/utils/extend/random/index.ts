@@ -1,4 +1,4 @@
-import {popSpecificIndex} from '@forworkchoe/core';
+import {popSpecificIndex} from '@forworkchoe/core/utils';
 
 /**
  * @example (0, 3) --> -2이상 3이하의 랜덤한 숫자 반환

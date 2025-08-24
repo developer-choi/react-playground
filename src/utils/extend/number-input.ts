@@ -8,7 +8,7 @@ import {
   UseFormRegister,
   UseFormRegisterReturn
 } from 'react-hook-form';
-import {extractNumericCharacters} from '@forworkchoe/core';
+import {extractNumericCharacters} from '@forworkchoe/core/utils';
 
 /**
  * Defaults

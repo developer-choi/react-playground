@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {PkType, removeDuplicatedObject} from '@forworkchoe/core';
+import {PkType, removeDuplicatedObject} from '@forworkchoe/core/utils';
 import {
   StorageObjectManager,
   StorageObjectParameter,

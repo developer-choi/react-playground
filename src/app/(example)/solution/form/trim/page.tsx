@@ -3,7 +3,7 @@
 import React, {useCallback} from 'react';
 import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
 import {useForm} from 'react-hook-form';
-import {trimObject} from '@forworkchoe/core';
+import {trimObject} from '@forworkchoe/core/utils';
 import {baseHandleErrors,} from '@/utils/extend/library/react-hook-form';
 import {validateMinLengthWithTrim, validateRequiredWithTrim} from '@/utils/service/common/inputs';
 

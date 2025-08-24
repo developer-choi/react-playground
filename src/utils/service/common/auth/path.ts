@@ -1,5 +1,5 @@
 import {DEFAULT_HOME_URL} from '@/utils/service/common/auth/redirect';
-import {doesPathStartWithSegment, extractPathname} from '@forworkchoe/core';
+import {doesPathStartWithSegment, extractPathname} from '@forworkchoe/core/utils';
 
 interface NextNavigatingParam {
   nextUrl: string; // pathname + querystring

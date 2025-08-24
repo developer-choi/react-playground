@@ -1,5 +1,5 @@
 import {ErrorPageTemplateProps} from '@/components/error/ErrorPageTemplate';
-import {isObject} from '@forworkchoe/core';
+import {isObject} from '@forworkchoe/core/utils';
 import {FetchError} from '@/utils/service/common/error/class/fetch';
 import {InvalidAccessError} from '@/utils/service/common/error/class/server';
 
