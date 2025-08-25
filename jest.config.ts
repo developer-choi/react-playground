@@ -19,7 +19,11 @@ const config: Config = {
 
   // Indicates whether the coverage information should be collected while executing the random
   collectCoverage: true,
-  verbose: true
+  verbose: true,
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@forworkchoe/core/utils$': '<rootDir>/node_modules/@forworkchoe/core/dist/utils.js',
+  },
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
