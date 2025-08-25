@@ -53,7 +53,7 @@ export function useOpenPostcodePopup<T extends FieldValues>(methods: UseFormRetu
 }
 
 export function getZonecodeInputProps<T extends FieldValues>(param: FormInputParam<T>, openPostcodePopup: ReturnType<typeof useOpenPostcodePopup>): InputProps {
-  const {texts, form: {name, methods, options, props}} = param;
+  const {texts, form: {name, methods, options}} = param;
 
   return {
     ...methods.register(name, {
@@ -66,12 +66,11 @@ export function getZonecodeInputProps<T extends FieldValues>(param: FormInputPar
     placeholder: texts?.placeholder ?? '기획서에있는 우편번호 텍스트',
     error: getMessageFromFieldErrors(methods.formState.errors, name),
     hiddenErrorMessage: true,
-    ...props
   };
 }
 
 export function getAddressInputProps<T extends FieldValues>(param: FormInputParam<T>, openPostcodePopup: ReturnType<typeof useOpenPostcodePopup>): InputProps {
-  const {texts, form: {name, methods, options, props}} = param;
+  const {texts, form: {name, methods, options}} = param;
 
   return {
     ...methods.register(name, {
@@ -83,12 +82,11 @@ export function getAddressInputProps<T extends FieldValues>(param: FormInputPara
     label: texts?.label ?? '주소',
     placeholder: texts?.placeholder ?? '기획서에있는 주소 텍스트',
     error: getMessageFromFieldErrors(methods.formState.errors, name),
-    ...props
   };
 }
 
 export function getAddressDetailInputProps<T extends FieldValues>(param: FormInputParam<T>): InputProps {
-  const {texts, form: {name, methods, options, props}} = param;
+  const {texts, form: {name, methods, options}} = param;
 
   return {
     ...methods.register(name, {
@@ -98,6 +96,5 @@ export function getAddressDetailInputProps<T extends FieldValues>(param: FormInp
     label: texts?.label ?? '상세 주소',
     placeholder: texts?.placeholder ?? '기획서에있는 상세주소 텍스트',
     error: getMessageFromFieldErrors(methods.formState.errors, name),
-    ...props
   };
 }

@@ -18,7 +18,7 @@ import {getMessageFromFieldErrors} from '@/utils/service/common/inputs';
  * 그 getSingle...()에 작성하는 방식으로 대체하면 됨.
  */
 export function getPurePasswordInputProps<T extends FieldValues>(param: FormInputParam<T>): PasswordInputProps {
-  const {texts, form: {name, methods, options, props}} = param;
+  const {texts, form: {name, methods, options}} = param;
 
   return {
     ...methods.register(name, {
@@ -28,7 +28,6 @@ export function getPurePasswordInputProps<T extends FieldValues>(param: FormInpu
     label: texts?.label ?? '비밀번호',
     placeholder: texts?.placeholder ?? '비밀번호를 입력해주세요.',
     error: getMessageFromFieldErrors(methods.formState.errors, name),
-    ...props
   };
 }
 
@@ -53,7 +52,6 @@ export function getPasswordInputPropsWithConfirm<T extends FieldValues>(param: P
     form: {
       name: form.name,
       methods: form.methods,
-      props: form.props,
       options: {
         /**
          * (1) required 규칙, 에러메시지, label~placeholder 텍스트는 위 pure 함수에서 설정되어있음.
@@ -105,7 +103,6 @@ export function getConfirmPasswordInput<T extends FieldValues>(param: ConfirmPas
     form: {
       name: form.name,
       methods: form.methods,
-      props: form.props,
       options: {
         validate: {
           notEqual: (value, formValues) => {

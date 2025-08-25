@@ -4,7 +4,7 @@ import {FormInputParam} from '@/utils/service/common/inputs';
 import {getMessageFromFieldErrors} from '@/utils/service/common/inputs';
 
 export function getEmailInputProps<T extends FieldValues>(param: FormInputParam<T>): InputProps {
-  const {texts, form: {name, methods, options, props}} = param;
+  const {texts, form: {name, methods, options}} = param;
 
   const {validate, ...rest} = options ?? {};
 
@@ -28,7 +28,6 @@ export function getEmailInputProps<T extends FieldValues>(param: FormInputParam<
     label: texts?.label ?? '이메일',
     placeholder: texts?.placeholder ?? '이메일을 입력해주세요.',
     error: getMessageFromFieldErrors(methods.formState.errors, name),
-    ...props
   };
 }
 

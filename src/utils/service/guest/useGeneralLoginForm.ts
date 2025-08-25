@@ -8,6 +8,7 @@ import {useHandleClientSideError} from '@/utils/service/common/error/client';
 import {postLoginApi} from '@/utils/service/common/api/auth';
 import {useLogin} from '@/utils/service/common/auth/hooks';
 import {FetchError} from '@/utils/service/common/error/class/fetch';
+import {InputProps} from '@/components/form/Input';
 
 // SNS 로그인이 아닌 일반 로그인에 해당
 export default function useGeneralLoginForm() {
@@ -61,15 +62,15 @@ export default function useGeneralLoginForm() {
     }
   }, [handleClientSideError, isPending, isSuccess, login, mutateAsync, setError]);
 
-  const emailInputProps = getEmailInputProps({
-    form: {
-      methods,
-      name: 'email',
-      props: {
-        autoFocus: true
+  const emailInputProps: InputProps = {
+    ...getEmailInputProps({
+      form: {
+        methods,
+        name: 'email',
       }
-    }
-  });
+    }),
+    autoFocus: true
+  }
 
   const passwordInputProps = getPurePasswordInputProps({
     form: {

@@ -8,6 +8,7 @@ import {postSignUpApi} from '@/utils/service/common/api/auth';
 import {postTemporaryDataApi} from '@/utils/service/common/api/temporary-client';
 import {useRouter} from 'next/navigation';
 import {FetchError} from '@/utils/service/common/error/class/fetch';
+import {InputProps} from '@/components/form/Input';
 
 /**
  * TODO
@@ -19,15 +20,15 @@ export default function useGeneralSignUpForm() {
   const methods = useForm<SignUpFormData>();
   const {handleSubmit, setError} = methods;
 
-  const emailInputProps = getEmailInputProps({
-    form: {
-      methods,
-      name: 'email',
-      props: {
-        autoFocus: true
+  const emailInputProps: InputProps = {
+    ...getEmailInputProps({
+      form: {
+        methods,
+        name: 'email',
       }
-    }
-  });
+    }),
+    autoFocus: true
+  };
 
   const passwordInputProps = getPasswordInputPropsWithConfirm({
     form: {
