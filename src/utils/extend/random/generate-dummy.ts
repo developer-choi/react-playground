@@ -1,5 +1,5 @@
 import {range} from '@forworkchoe/core/utils';
-import {randomIndex, randomNumber} from '@/utils/extend/random/index';
+import {randomIndex, randomNumber, shuffleArray} from '@/utils/extend/random/index';
 
 export type RandomCharType = (string | number)[] | 'ALPHABET' | 'NUMBER' | 'ALPHABET_AND_NUMBER';
 
@@ -48,15 +48,11 @@ export function randomHexColor() {
   return '#' + new Array(6).fill('').map(() => randomNumber(1, 2 ** 4 - 1).toString(16)).join('');
 }
 
+/**
+ * @return 1 ~ length + 1 사이 값을 중복되지않게 length개 만큼 배열에 담아서 반환
+ */
 export function randomNumericArray(length: number): number[] {
-  const result: number[] = [];
-
-  for (let i = 0; i < length; i++) {
-    // 1부터 length 사이의 임의의 숫자를 생성하여 배열에 추가
-    result.push(randomNumber(1, length));
-  }
-
-  return result;
+  return shuffleArray(range(1, length + 1));
 }
 
 export function randomRotatedNumberArray(length: number, sort: 'asc' | 'desc' = 'asc'): number[] {
