@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useCallback} from 'react';
-import {StorageObjectManager, useStorageObjectManager} from '@/utils/extend/browser/storage-object';
+import {StorageObjectManager, useStorageObjectManager} from '@forworkchoe/core/hooks';
 import {Button} from '@forworkchoe/core';
 import {validateIncludeString} from '@/utils/extend/browser/query-string/validate';
 

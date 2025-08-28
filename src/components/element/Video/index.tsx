@@ -3,7 +3,7 @@
 import {ComponentPropsWithoutRef, CSSProperties, forwardRef, useRef, useState} from 'react';
 import classNames from 'classnames';
 import styles from './index.module.scss';
-import {useShowOnViewport} from '@/utils/extend/browser/intersection-observer';
+import {useShowOnViewport} from '@forworkchoe/core/hooks';
 
 export interface VideoProps extends Omit<ComponentPropsWithoutRef<'video'>, 'width' | 'height'> {
   aspectRatio: `${number}/${number}`; // 원본 동영상 비율과 똑같은 비율로 전달해야함. 그래야 Letterbox 안생김.

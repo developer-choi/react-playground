@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './page.module.scss';
-import {useShowOnViewport} from '@/utils/extend/browser/intersection-observer';
+import {useShowOnViewport} from '@forworkchoe/core/hooks';
 
 /**
  * URL: http://localhost:3000/markup/animation/scroll/fade-and-up

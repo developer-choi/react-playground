@@ -10,7 +10,7 @@ import {useLogout} from '@/utils/service/common/auth/hooks';
 import {isObject} from '@forworkchoe/core/utils';
 import {GuestError, LoginError} from '@/utils/service/common/error/class/auth';
 import {FetchError} from './class/fetch';
-import {StorageObjectManager} from '@/utils/extend/browser/storage-object';
+import {StorageObjectManager} from '@forworkchoe/core/hooks';
 
 export function useHandleClientSideError() {
   const modal = useModal();

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import {getDiffBetweenDate, LoopCallback} from '@forworkchoe/core/utils';
-import {StorageArrayManager} from '@/utils/extend/browser/storage-array';
+import {StorageArrayManager} from '@forworkchoe/core/hooks';
 
 export interface ClosedHistoryParam<T extends string | number> {
   pkList: T[]; //여러개의 n일간 안보기 팝업목록중에, 하나를 골라서 띄우고싶기 위해서.
