@@ -2,7 +2,7 @@ import React, {ComponentPropsWithoutRef, DragEvent, useCallback, useState} from 
 import classNames from 'classnames';
 import styles from './index.module.scss';
 import InputFile, {InputFileProps} from '@/components/form/Input/inputFile';
-import {preventDefault} from '@/utils/extend/event';
+import {preventDefault} from '@forworkchoe/core/utils';
 
 export interface DragAndDropProps extends ComponentPropsWithoutRef<'label'>, Pick<InputFileProps, 'onChangeFiles' | 'accept' | 'multiple'> {
   enableFileExplorer?: boolean;

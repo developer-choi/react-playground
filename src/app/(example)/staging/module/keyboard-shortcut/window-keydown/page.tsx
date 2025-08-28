@@ -2,7 +2,8 @@
 
 import React, {useCallback, useRef, useState} from 'react';
 import styles from './page.module.scss';
-import {KeyboardShortcut, useKeyboardShortcut} from '@/utils/extend/event/keyboard';
+import {useKeyboardShortcut} from '@forworkchoe/core/hooks';
+import {KeyboardShortcut} from '@forworkchoe/core/utils';
 import {isVideoInFullscreen} from '@/utils/extend/browser/document';
 
 // URL: http://localhost:3000/staging/module/keyboard-shortcut/window-keydown
