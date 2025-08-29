@@ -1,5 +1,5 @@
 import type {ParsedUrlQuery} from 'querystring';
-import {ValidateError} from '@/utils/service/common/error/class';
+import {LegacyValidateError} from '@/utils/service/common/error/class';
 import {range} from '@forworkchoe/core/utils';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -26,7 +26,7 @@ type ConditionalValueType<V, R extends boolean, T extends boolean> = (R | T) ext
  * @param queryValue - 검증할 쿼리 파라미터 값.
  * @param options - ValidateQueryOption 참고
  * @returns 검증을 통과한 문자열 또는 undefined. 옵션에 따라 에러를 던질 수 있습니다.
- * @throws {ValidateError} 배열이거나, required:true인데 값이 없을 경우.
+ * @throws {LegacyValidateError} 배열이거나, required:true인데 값이 없을 경우.
  * Doc: https://docs.google.com/document/d/1QBD1sg1FGhnyw4_6HNwuvHWc8-TYlNoF2zFd4z7Pq_E/edit
  */
 export function validateString<R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<R, T>): ConditionalValueType<string, R, T> {
@@ -34,11 +34,11 @@ export function validateString<R extends boolean = true, T extends boolean = tru
 
   try {
     if (required && !queryValue) {
-      throw new ValidateError('The queryValue is not exist.');
+      throw new LegacyValidateError('The queryValue is not exist.');
     }
 
     if (Array.isArray(queryValue)) {
-      throw new ValidateError('The queryValue is Array.');
+      throw new LegacyValidateError('The queryValue is Array.');
     }
 
     // 빈문자열은 undefined랑 동일하게 처리되야함. 둘 다 유효하지않은 값이니까.
@@ -62,7 +62,7 @@ export function validateString<R extends boolean = true, T extends boolean = tru
  * @param includeList - 허용되는 문자열의 목록.
  * @param options - ValidateQueryOption 참고
  * @returns 검증을 통과한 문자열(S 타입) 또는 undefined.
- * @throws {ValidateError} 허용 목록에 없는 값이거나, includeList가 비어있을 경우.
+ * @throws {LegacyValidateError} 허용 목록에 없는 값이거나, includeList가 비어있을 경우.
  */
 export function validateIncludeString<S extends string, R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, includeList: S[], options?: ValidateQueryOption<R, T>): ConditionalValueType<S, R, T> {
   const {throwable = true, required = true} = options ?? {};
@@ -76,11 +76,11 @@ export function validateIncludeString<S extends string, R extends boolean = true
     }
 
     if (includeList.length === 0) {
-      throw new ValidateError('The includeList is required.');
+      throw new LegacyValidateError('The includeList is required.');
     }
 
     if (!includeList.includes(queryValue as any)) {
-      throw new ValidateError('The queryValue is not in the conditions');
+      throw new LegacyValidateError('The queryValue is not in the conditions');
     }
 
     return queryValue as S;
@@ -99,7 +99,7 @@ export function validateIncludeString<S extends string, R extends boolean = true
  * @param queryValue - 검증할 쿼리 파라미터 값.
  * @param options - ValidateQueryOption 참고
  * @returns 검증을 통과한 숫자 또는 undefined.
- * @throws {ValidateError} 숫자 형태가 아니거나, 자릿수가 너무 길 경우.
+ * @throws {LegacyValidateError} 숫자 형태가 아니거나, 자릿수가 너무 길 경우.
  */
 export function validateComputableNumber<R extends boolean = true, T extends boolean = true>(queryValue: QueryValue, options?: ValidateQueryOption<R, T>): ConditionalValueType<number, R, T> {
   const {throwable = true, required = true} = options ?? {};
@@ -113,17 +113,17 @@ export function validateComputableNumber<R extends boolean = true, T extends boo
     }
 
     if (validatedString.length > MAX_INTEGER_LENGTH) {
-      throw new ValidateError('The queryValue is exceed maxLength.');
+      throw new LegacyValidateError('The queryValue is exceed maxLength.');
     }
 
     // 순수 숫자 외의 문자가 포함된 경우 (부호, 영문 등) ==> "+123", "-123"도 여기서 걸림.
     if (validatedString.split('').some(char => !NUMBERS.includes(char))) {
-      throw new ValidateError('queryValue is not valid number');
+      throw new LegacyValidateError('queryValue is not valid number');
     }
 
     // "0123" 처럼 0으로 시작하는 숫자도 허용하지않음, 0123은 숫자 123와 같은 뜻이긴 하지만, 문자열에서는 허용하지않음.
     if (validatedString.length > 1 && validatedString[0] === '0') {
-      throw new ValidateError('queryValue is not valid number');
+      throw new LegacyValidateError('queryValue is not valid number');
     }
 
     return Number(queryValue);
@@ -180,21 +180,21 @@ export function validatePeriod<R extends boolean = true, T extends boolean = tru
     const endDay = dayjs(_end, 'YYYY-MM-DD', true);
 
     if (!startDay.isValid()) {
-      throw new ValidateError(`start has a wrong format. ${start}`);
+      throw new LegacyValidateError(`start has a wrong format. ${start}`);
     }
 
     if (!endDay.isValid()) {
-      throw new ValidateError(`end has a wrong format. ${end}`);
+      throw new LegacyValidateError(`end has a wrong format. ${end}`);
     }
 
     if (endDay.isSameOrBefore(startDay, 'day')) {
-      throw new ValidateError('End date must be after the start date.');
+      throw new LegacyValidateError('End date must be after the start date.');
     }
 
     const diffDays = endDay.diff(startDay, 'day');
 
     if (diffDays > maxDifferenceDate) {
-      throw new ValidateError(`Period cannot be longer than ${maxDifferenceDate} days.`);
+      throw new LegacyValidateError(`Period cannot be longer than ${maxDifferenceDate} days.`);
     }
 
     return {

@@ -1,4 +1,4 @@
-import {ValidateError} from '@/utils/service/common/error/class';
+import {LegacyValidateError} from '@/utils/service/common/error/class';
 
 export type FileUnit = 'B' | 'KB' | 'MB' | 'GB' | 'TB';
 
@@ -27,7 +27,7 @@ export function fileSizeToByte(size: number, unit: FileUnit): number {
       return size * 2 ** 30;
 
     default:
-      throw new ValidateError('허용되지 않는 파일의 용량단위입니다.');
+      throw new LegacyValidateError('허용되지 않는 파일의 용량단위입니다.');
   }
 }
 

@@ -46,11 +46,13 @@ export abstract class CustomizedError extends Error {
  * reason: 구체적으로 에러의 원인을 나타낼 때 사용함.
  * ex: 로그인 API를 호출하기전에 유효성검증하다가 ValidateError가 발생했고, reason에 'email'로 나와있다면, 이메일 값이 문제가 있음을 나타냄.
  * 그래서 reason === 'email'이면 이메일 입력박스에 포커스를 준다거나 하는 방식으로 응용하기 위해 추가.
+ *
+ * @deprecated
  */
-export class ValidateError extends CustomizedError {
+export class LegacyValidateError extends CustomizedError {
   readonly title?: string;
   readonly reason?: string;
-  readonly name = 'ValidateError';
+  readonly name = 'LegacyValidateError';
 
   constructor(message: string, config?: {title?: string, reason?: string}) {
     super(message);
