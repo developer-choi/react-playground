@@ -9,7 +9,7 @@ import {InputFileProps} from '@/components/form/Input/inputFile';
 import {useModal} from '@/utils/extend/modal';
 import {useHandleClientSideError} from '@/utils/service/common/error/client';
 import {v4 as uuidv4} from 'uuid';
-import {LegacyValidateError} from '@/utils/service/common/error/class';
+import {ValidationError} from '@/utils/service/common/error/class';
 
 export interface CoreSingleImageFileParameter {
   options?: Partial<FileValidateOption>; // 기본값은 이미지 전체 가능, 따로 지정할 경우 dot을 포함해야함. (ex: ['.jpg']), 이걸로 input type file의 accept도 만듬.
@@ -169,7 +169,7 @@ function useOnChangeFiles({options, list, setList, multiple}: CoreImagePreviewPa
         setList(newList);
       }
     } catch (error) {
-      if (error instanceof LegacyValidateError) {
+      if (error instanceof ValidationError) {
         open.alert({
           title: '파일등록',
           content: error.message

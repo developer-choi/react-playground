@@ -2,7 +2,7 @@ import {
   validatePeriod,
   ValidateQueryOption
 } from '@/utils/extend/browser/query-string/validate';
-import {LegacyValidateError} from '@/utils/service/common/error/class';
+import {ValidationError} from '@/utils/service/common/error/class';
 
 const DEFAULT_OPTIONS = {
   throwable: false
@@ -71,8 +71,8 @@ describe('validatePeriod()', () => {
       const start = '!@#ASD';
       const end = '!@#ASD';
 
-      expect(() => validatePeriod(start, end, maxDifference, {throwable: true, required: false})).toThrow(LegacyValidateError);
-      expect(() => validatePeriod(start, end, maxDifference, {throwable: true, required: true})).toThrow(LegacyValidateError);
+      expect(() => validatePeriod(start, end, maxDifference, {throwable: true, required: false})).toThrow(ValidationError);
+      expect(() => validatePeriod(start, end, maxDifference, {throwable: true, required: true})).toThrow(ValidationError);
     });
   });
 });

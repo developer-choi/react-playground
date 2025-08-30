@@ -1,5 +1,5 @@
 import {validateComputableNumber, ValidateQueryOption} from '@/utils/extend/browser/query-string/validate';
-import {LegacyValidateError} from '@/utils/service/common/error/class';
+import {ValidationError} from '@/utils/service/common/error/class';
 
 describe('validateComputableNumber()', () => {
   const VALID_NUMBER_STRING = '123';
@@ -26,7 +26,7 @@ describe('validateComputableNumber()', () => {
     // 해당 케이스는 validateString() 테스트에서 다 진행하기 때문에, validateComputableNumber()에서는 일부만 확인합니다.
     describe('When the underlying validateString fails', () => {
       it('should propagate the result from validateString', () => {
-        expect(() => validateComputableNumber(undefined, {required: true, throwable: true})).toThrow(LegacyValidateError);
+        expect(() => validateComputableNumber(undefined, {required: true, throwable: true})).toThrow(ValidationError);
         expect(validateComputableNumber(undefined, {required: true, throwable: false})).toBeUndefined();
       });
     });
@@ -41,7 +41,7 @@ describe('validateComputableNumber()', () => {
       ];
 
       it.each(invalidFormats)('should throw a ValidateError when throwable is true for $description', ({value}) => {
-        expect(() => validateComputableNumber(value, {throwable: true})).toThrow(LegacyValidateError);
+        expect(() => validateComputableNumber(value, {throwable: true})).toThrow(ValidationError);
       });
 
       it.each(invalidFormats)('should return undefined when throwable is false for $description', ({value}) => {
@@ -59,7 +59,7 @@ describe('validateComputableNumber()', () => {
       const longString = Number.MAX_SAFE_INTEGER.toString() + '0';
 
       it('should throw a ValidateError when throwable is true', () => {
-        expect(() => validateComputableNumber(longString, {throwable: true})).toThrow(LegacyValidateError);
+        expect(() => validateComputableNumber(longString, {throwable: true})).toThrow(ValidationError);
       });
 
       it('should return undefined when throwable is false', () => {

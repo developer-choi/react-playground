@@ -1,5 +1,5 @@
 import {ValidateQueryOption, validateString} from '@/utils/extend/browser/query-string/validate';
-import {LegacyValidateError} from '@/utils/service/common/error/class';
+import {ValidationError} from '@/utils/service/common/error/class';
 
 describe('validateString()', () => {
   describe('General cases', () => {
@@ -46,7 +46,7 @@ describe('validateString()', () => {
       };
 
       it('should throw a ValidateError when an array is provided', () => {
-        expect(() => validateString([], options)).toThrow(LegacyValidateError);
+        expect(() => validateString([], options)).toThrow(ValidationError);
       });
 
       const nonErrorValues = [
@@ -89,7 +89,7 @@ describe('validateString()', () => {
       ];
 
       it.each(invalidValues)('should throw a ValidateError when the value is $description', ({value}) => {
-        expect(() => validateString(value, options)).toThrow(LegacyValidateError);
+        expect(() => validateString(value, options)).toThrow(ValidationError);
       });
     });
   });

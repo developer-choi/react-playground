@@ -33,31 +33,35 @@ export abstract class CustomizedError extends Error {
   }
 }
 
-/**
- * 공통: 런타임 에러
- * 1. 다양한 query-string이 있는 웹페이지에서 URL로 부터 query-string 유효성검증 하다가 잘못된 값이 있을 때
- * 2. 사용자의 입력을 받으려고하는데 잘못된 형식일 때 (ex: '업로드 가능한 확장자는 jpg png 입니다)
- * 3. 사용자에게 입력을 받아서 서버에 제츨했더니 잘못된 입력값이 있다는 응답이 왔을 때 (ex: 비밀번호가 틀렸다)
- *
- * title: 에러메시지의 주제를 나타냄.
- * API를 호출하기 전 / 후에 에러가 발생해서 내용을 팝업의 형태로 보여주려고 할 때,
- * 팝업에 내용과 제목이 둘 다 있는경우 내용은 error.message로 보여주고 제목은 error.title로 보여주려고 할 때 사용하려고 추가.
- *
- * reason: 구체적으로 에러의 원인을 나타낼 때 사용함.
- * ex: 로그인 API를 호출하기전에 유효성검증하다가 ValidateError가 발생했고, reason에 'email'로 나와있다면, 이메일 값이 문제가 있음을 나타냄.
- * 그래서 reason === 'email'이면 이메일 입력박스에 포커스를 준다거나 하는 방식으로 응용하기 위해 추가.
- *
- * @deprecated
- */
-export class LegacyValidateError extends CustomizedError {
-  readonly title?: string;
-  readonly reason?: string;
-  readonly name = 'LegacyValidateError';
+export interface ValidationErrorOptions<T extends string> {
+  /**
+   * 목적: 에러가 발생한 폼 요소를 구분할 수 있는 값.
+   * - 주로 react-hook-form의 register()로 전달하는 name값을 location에 전달하는 경우가 많습니다.
+   */
+  location?: T;
 
-  constructor(message: string, config?: {title?: string, reason?: string}) {
+  /**
+   * 에러가 발생한 당시 폼 데이터 전체 혹은 일부.
+   * 혹은 함수로 전달된 매개변수.
+   * 필요 시 전달 (Sentry로 보내서 원인 파악을 위함)
+   */
+  data: object;
+
+  /**
+   * @description 빌드 결과물에서 (운영서버) 함수 실행하다 오류가 발생했을 때 그 함수 이름
+   * 빌드하면 함수이름들 다 난도화되서 못알아봐서 넣으려고 했음.
+   * 근데 에러메시지로 검색하면 어디서 발생했는지 알 수 있으니까 안넣기로 결정헀음
+   */
+  // functionName: string;
+}
+
+export class ValidationError<L extends string = string> extends CustomizedError {
+  readonly options: ValidationErrorOptions<L>;
+  readonly name = 'ValidationError';
+
+  constructor(message: string, options: ValidationErrorOptions<L>) {
     super(message);
-    this.title = config?.title;
-    this.reason = config?.reason;
+    this.options = options;
   }
 }
 
