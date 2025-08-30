@@ -1,5 +1,6 @@
 import {FetchOptionsWithSession, FetchResult} from '@/utils/extend/library/fetch/base';
-import {CustomizedApiErrorInfo, CustomizedError} from '@/utils/service/common/error/class/index';
+import {CustomizedApiErrorInfo} from '@/utils/service/common/error/class/index';
+import {CustomizedError} from '@forworkchoe/core/utils';
 
 /**
  * API 호출이 성공했고, 응답값도 존재하지만, 2xx가 아닌 경우 발생함. (response.ok가 false)

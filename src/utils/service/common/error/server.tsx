@@ -1,10 +1,9 @@
 import {notFound, redirect} from 'next/navigation';
 import {PageServerComponentProps} from '@/types/declaration/next';
-import {validateComputableNumber} from '@/utils/extend/browser/query-string/validate';
 import * as Sentry from '@sentry/nextjs';
 import {getErrorInfo} from '@/utils/service/common/error/info';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
-import {isObject} from '@forworkchoe/core/utils';
+import {isObject, validateComputableNumber} from '@forworkchoe/core/utils';
 import {headers} from 'next/headers';
 import {CURRENT_URL_IN_HEADER} from '@/utils/service/common/auth';
 import {LoginError} from '@/utils/service/common/error/class/auth';

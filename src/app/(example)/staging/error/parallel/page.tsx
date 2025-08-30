@@ -1,6 +1,6 @@
 import styles from './page.module.scss';
 import {useDelay} from '@/utils/extend/library/react';
-import {CustomizedError} from '@/utils/service/common/error/class';
+import {CustomizedError} from '@forworkchoe/core/utils';
 import {CustomErrorBoundary} from '@/components/error/client';
 
 export const revalidate = 0;

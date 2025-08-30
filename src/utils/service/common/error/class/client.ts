@@ -1,4 +1,4 @@
-import {CustomizedError} from '@/utils/service/common/error/class/index';
+import {CustomizedError} from '@forworkchoe/core/utils';
 
 /**
  * @class HTMLElementNotFoundError

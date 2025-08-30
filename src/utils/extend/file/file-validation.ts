@@ -1,5 +1,5 @@
 import {getFileSizeDetail} from '@/utils/extend/file/file-size';
-import {ValidationError} from '@/utils/service/common/error/class';
+import {ValidationError} from '@forworkchoe/core/utils';
 
 export interface FileValidateOption {
   limitSize: number;
@@ -9,10 +9,10 @@ export interface FileValidateOption {
 }
 
 /**
- * @exception ValidationError 용량 제한 벗어난 경우
- * @exception ValidationError 확장자 벗어난 경우
- * @exception ValidationError maxCount보다 많은 갯수의 파일을 전달한 경우
- * @exception ValidationError 기존에 등록된 파일과 동일한 파일을 등록하려고 한 경우
+ * @throws {ValidationError} 용량 제한 벗어난 경우
+ * @throws {ValidationError} 확장자 벗어난 경우
+ * @throws {ValidationError} maxCount보다 많은 갯수의 파일을 전달한 경우
+ * @throws {ValidationError} 기존에 등록된 파일과 동일한 파일을 등록하려고 한 경우
  *
  * @param newFiles 새로 추가하려는 파일 (FULL 유효성검증 대상)
  * @param options 유효성검증할 옵션

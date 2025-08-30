@@ -1,4 +1,4 @@
-import {ValidationError} from '@/utils/service/common/error/class';
+import {ValidationError} from '@forworkchoe/core/utils';
 
 export type FileUnit = 'B' | 'KB' | 'MB' | 'GB' | 'TB';
 

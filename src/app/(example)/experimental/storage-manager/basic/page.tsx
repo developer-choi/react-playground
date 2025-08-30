@@ -3,7 +3,7 @@
 import React, {useCallback} from 'react';
 import {StorageObjectManager, useStorageObjectManager} from '@forworkchoe/core/hooks';
 import {Button} from '@forworkchoe/core';
-import {validateIncludeString} from '@/utils/extend/browser/query-string/validate';
+import {validateIncludeString} from '@forworkchoe/core/utils';
 
 // URL: http://localhost:3000/experimental/storage-manager/basic
 export default function Page() {
