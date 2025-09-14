@@ -1,22 +1,22 @@
-import {CustomizedError} from '@forworkchoe/core/utils';
+import {BaseError} from '@forworkchoe/core/utils';
 
 /**
  * 로그인이 되어있는 상태에서
  * 로그인이 안되야만 가능한 액션을 했을 때 발생하는 에러.
  */
-export class GuestError extends CustomizedError {
+export class GuestError extends BaseError {
   readonly name = 'GuestError';
   constructor(message = '이미 로그인이 되어있어서 해당 동작을 실행할 수 없습니다.') {
-    super(message);
+    super(message, {level: 'info'});
   }
 }
 
-export class LoginError extends CustomizedError {
+export class LoginError extends BaseError {
   readonly name = 'LoginError';
   readonly loginUrlWithRedirect: string; // 로그인페이지 URL에 리다이랙트 URL까지 포함된 값 ex: /guest/login?redirect=...
 
   constructor(message: string, loginUrlWithRedirect = '/') {
-    super(message);
+    super(message, {level: 'info'});
     this.loginUrlWithRedirect = loginUrlWithRedirect;
   }
 }

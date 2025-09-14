@@ -6,7 +6,7 @@ import type {AppRouterInstance} from 'next/dist/shared/lib/app-router-context.sh
 import {QueryClient, useQueryClient} from '@tanstack/react-query';
 import {useCallback} from 'react';
 import {useLogout} from '@/utils/service/common/auth/hooks';
-import {CustomizedError, isObject} from '@forworkchoe/core/utils';
+import {BaseError, isObject} from '@forworkchoe/core/utils';
 import {GuestError, LoginError} from '@/utils/service/common/error/class/auth';
 import {FetchError} from './class/fetch';
 import {StorageObjectManager} from '@forworkchoe/core/hooks';
@@ -37,7 +37,7 @@ export function useHandleClientSideError() {
       FetchError: (error) => handleFetchError(error, context),
     };
 
-    if (error instanceof CustomizedError) {
+    if (error instanceof BaseError) {
       const handler = errorHandlerMap[error.name as ErrorName];
       if (handler) {
         handler(error as any);

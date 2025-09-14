@@ -1,5 +1,5 @@
 import type {ClientOptions, ErrorEvent, EventHint} from '@sentry/types';
-import {CustomizedError} from '@forworkchoe/core/utils';
+import {BaseError} from '@forworkchoe/core/utils';
 
 export const beforeSend: ClientOptions['beforeSend'] = (event: ErrorEvent, hint: EventHint) => {
   // nextjs에서 server side에서 redirect() 하면 내부적으로 이 에러를 던져서 처리하도록 되어있는데 문제는 그게 Sentry까지 날아간다는 것이었음. 이거말고 다른 해결책을 못찾음.
@@ -19,13 +19,13 @@ export const beforeSend: ClientOptions['beforeSend'] = (event: ErrorEvent, hint:
     original: hint.originalException,
   };
 
-  if (!(hint.originalException instanceof CustomizedError)) {
+  if (!(hint.originalException instanceof BaseError)) {
     return event;
   }
 
-  const option = hint.originalException.sentry;
+  const option = hint.originalException.sentryOptions;
 
-  if (option?.level) {
+  if (option.level) {
     event.level = option.level;
   }
 

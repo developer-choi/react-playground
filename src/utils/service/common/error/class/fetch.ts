@@ -1,20 +1,20 @@
 import {FetchOptionsWithSession, FetchResult} from '@/utils/extend/library/fetch/base';
 import {CustomizedApiErrorInfo} from '@/utils/service/common/error/class/index';
-import {CustomizedError} from '@forworkchoe/core/utils';
+import {BaseError} from '@forworkchoe/core/utils';
 
 /**
  * API 호출이 성공했고, 응답값도 존재하지만, 2xx가 아닌 경우 발생함. (response.ok가 false)
  * 즉, API 호출조차도 실패한 케이스는 이 에러가 던져지지 않음. (Type Error 'Failed to fetch' 같은 케이스)
  * 단, 일부 에러코드는 별도의 에러클래스가 던져짐 (401)
  */
-export class FetchError extends CustomizedError {
+export class FetchError extends BaseError {
   readonly request: FetchOptionsWithSession;
   readonly response: FetchResult;
   readonly name = 'FetchError';
   readonly apiErrorInfo: CustomizedApiErrorInfo | undefined;
 
   constructor(request: FetchOptionsWithSession, response: FetchResult, apiErrorInfo: CustomizedApiErrorInfo | undefined) {
-    super('An error occurred while calling the API.');
+    super('An error occurred while calling the API.', {level: 'warning'});
     this.request = request;
     this.response = response;
     this.apiErrorInfo = apiErrorInfo;
@@ -42,13 +42,13 @@ export class FetchError extends CustomizedError {
  * ==>
  * 원인은, https://developer.mozilla.org/en-US/docs/Web/API/Response/text#exceptions에 명시됨.
  */
-export class MismatchedApiResponseError extends CustomizedError {
+export class MismatchedApiResponseError extends BaseError {
   readonly request: FetchOptionsWithSession;
   readonly response: Pick<Response, 'status' | 'url'>;
   readonly name = 'MismatchedApiResponseError';
 
   constructor(request: FetchOptionsWithSession, response: Response) {
-    super('Mismatch between response Content-Type, expected dataType, and actual response data.');
+    super('Mismatch between response Content-Type, expected dataType, and actual response data.', {level: 'warning'});
     this.request = request;
 
     /**

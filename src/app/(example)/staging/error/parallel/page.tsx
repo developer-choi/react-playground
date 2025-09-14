@@ -1,6 +1,6 @@
 import styles from './page.module.scss';
 import {useDelay} from '@/utils/extend/library/react';
-import {CustomizedError} from '@forworkchoe/core/utils';
+import {BaseError} from '@forworkchoe/core/utils';
 import {CustomErrorBoundary} from '@/components/error/client';
 
 export const revalidate = 0;
@@ -46,11 +46,11 @@ function RightPage() {
   return null;
 }
 
-class CustomClientError extends CustomizedError {
+class CustomClientError extends BaseError {
   readonly name = 'CustomClientError';
   readonly someCustomData = 'Some Custom Data';
 
   constructor(message: string) {
-    super(message);
+    super(message, {level: 'info'});
   }
 }

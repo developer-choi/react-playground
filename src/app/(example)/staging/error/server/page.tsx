@@ -1,6 +1,6 @@
 'use client';
 
-import {CustomizedError} from '@forworkchoe/core/utils';
+import {BaseError} from '@forworkchoe/core/utils';
 
 /**
  * URL: http://localhost:3000/staging/error/server
@@ -10,11 +10,11 @@ export default function Page() {
   throw new CustomServerError('Some server error occurred');
 }
 
-class CustomServerError extends CustomizedError {
+class CustomServerError extends BaseError {
   readonly name = 'CustomServerError';
   readonly someCustomData = 'Some Custom Data';
 
   constructor(message: string) {
-    super(message);
+    super(message, {level: 'info'});
   }
 }

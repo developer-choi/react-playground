@@ -1,10 +1,10 @@
-import {CustomizedError} from '@forworkchoe/core/utils';
+import {BaseError} from '@forworkchoe/core/utils';
 
 /**
  * @class HTMLElementNotFoundError
  * @description CSS 셀렉터로 DOM 요소를 찾지 못했을 때 발생하는 사용자 정의 에러입니다.
  */
-export class HTMLElementNotFoundError extends CustomizedError {
+export class HTMLElementNotFoundError extends BaseError {
   readonly name = 'HTMLElementNotFoundError';
 
   /**
@@ -14,7 +14,7 @@ export class HTMLElementNotFoundError extends CustomizedError {
 
   constructor({selector, message}: {selector: string; message?: string}) {
     // 영문법에 맞고 명확한 메시지로 수정
-    super(message ?? `Could not find the element for selector: "${selector}"`);
+    super(message ?? `Could not find the element for selector: "${selector}"`, {level: 'warning'});
     this.selector = selector;
   }
 }
