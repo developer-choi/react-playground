@@ -23,10 +23,14 @@ export const beforeSend: ClientOptions['beforeSend'] = (event: ErrorEvent, hint:
     return event;
   }
 
-  const option = hint.originalException.sentryOptions;
+  const {sentryOptions, platform} = hint.originalException;
+  event.level = sentryOptions.level;
+  event.tags = sentryOptions.tags;
 
-  if (option.level) {
-    event.level = option.level;
+  if (event.contexts) {
+    event.contexts.custom = {
+      platform,
+    };
   }
 
   return event;
