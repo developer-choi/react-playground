@@ -6,8 +6,7 @@ import type {AppRouterInstance} from 'next/dist/shared/lib/app-router-context.sh
 import {QueryClient, useQueryClient} from '@tanstack/react-query';
 import {useCallback} from 'react';
 import {useLogout} from '@/utils/service/common/auth/hooks';
-import {BaseError, isObject} from '@forworkchoe/core/utils';
-import {GuestError, LoginError} from '@/utils/service/common/error/class/auth';
+import {AlreadyLoggedInError, BaseError, isObject, NotAuthenticatedError} from '@forworkchoe/core/utils';
 import {FetchError} from './class/fetch';
 import {StorageObjectManager} from '@forworkchoe/core/hooks';
 
@@ -32,7 +31,7 @@ export function useHandleClientSideError() {
     }
 
     const errorHandlerMap: ErrorHandlerTable = {
-      GuestError: (error) => handleGuestError(error, context),
+      AlreadyLoggedInError: (error) => handleAlreadyLoggedInError(error, context),
       LoginError: (error) => handleLoginError(error, logout, context),
       FetchError: (error) => handleFetchError(error, context),
     };
@@ -61,8 +60,8 @@ const MANAGER = new StorageObjectManager({
 });
 
 interface ErrorInstances {
-  GuestError: GuestError;
-  LoginError: LoginError;
+  AlreadyLoggedInError: AlreadyLoggedInError;
+  LoginError: NotAuthenticatedError;
   FetchError: FetchError;
 }
 
@@ -88,13 +87,13 @@ function handleUnexpectedError(error: unknown, {modal}: HandlingErrorContext) {
   });
 }
 
-function handleGuestError(_: GuestError, {router}: HandlingErrorContext) {
+function handleAlreadyLoggedInError(_: AlreadyLoggedInError, {router}: HandlingErrorContext) {
   // 현재 예상되는 시나리오가 없어서 일단 유저피드백없이 홈페이지 이동
   router.replace(DEFAULT_HOME_URL);
 }
 
 function handleLoginError(
-  error: LoginError,
+  error: NotAuthenticatedError,
   logout: ReturnType<typeof useLogout>,
   {modal, router}: HandlingErrorContext,
 ) {

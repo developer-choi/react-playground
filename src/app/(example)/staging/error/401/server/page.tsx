@@ -1,7 +1,7 @@
 import {timeoutPromise} from '@/utils/extend/random/promise';
 import {Suspense} from 'react';
 import {handleServerSideError} from '@/utils/service/common/error/server';
-import {LoginError} from '@/utils/service/common/error/class/auth';
+import {NotAuthenticatedError} from '@forworkchoe/core/utils';
 
 /**
  * URL: http://localhost:3000/staging/error/401/server?hello=world
@@ -28,7 +28,7 @@ async function Test() {
     await timeoutPromise(1000);
 
     if (2 > 1) {
-      throw new LoginError('Login error occurred');
+      throw new NotAuthenticatedError('Login error occurred');
     }
 
     return null;

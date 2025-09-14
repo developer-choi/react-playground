@@ -1,8 +1,7 @@
 import {Session} from 'next-auth';
-import {CustomizedApiErrorInfo} from '@/utils/service/common/error/class';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
-import {GuestError, LoginError} from '@/utils/service/common/error/class/auth';
-import {FetchError, MismatchedApiResponseError} from '@/utils/service/common/error/class/fetch';
+import {CustomizedApiErrorInfo, FetchError, MismatchedApiResponseError} from '@/utils/service/common/error/class/fetch';
+import {AlreadyLoggedInError, NotAuthenticatedError} from '@forworkchoe/core/utils';
 
 export interface FetchOptions extends Omit<RequestInit, 'body'> {
   body?: RequestInit['body'] | object;
@@ -14,7 +13,7 @@ export interface FetchOptions extends Omit<RequestInit, 'body'> {
   /**
    * optional = request에 accessToken을 싣긴함. (로그인이 되어있는 경우 한정) ==> 예시로 상품리스트&상세 페이지에서 상품의 좋아요 여부 응답하는 API의 경우 필요.
    * none = request에 accessToken을 싣지않음. ==> Static Build 해야하는 페이지의 경우 사용
-   * guest = request에 accessToken을 싣지않음. + 로그인이 되어있으면 GuestError를 던짐
+   * guest = request에 accessToken을 싣지않음. + 로그인이 되어있으면 AlreadyLoggedInError를 던짐
    * private = request에 accessToken을 포함함 + 로그인 안되어있으면 LoginError 던짐
    */
   authPolicy: 'none' | 'optional' | 'guest' | 'private';
@@ -47,7 +46,7 @@ export interface FetchOptionsWithSession extends FetchOptions {
 }
 
 /** customFetch() 공통 주석
- * @throws LoginError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
+ * @throws NotAuthenticatedError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
  */
 export async function customFetch<D>(input: string | URL | globalThis.Request, options: FetchOptionsWithSession) {
   const request = handleRequest(input, options);
@@ -75,7 +74,7 @@ function handleRequest(input: string | URL | globalThis.Request, options: FetchO
   }
 
   if (authPolicy === 'guest' && session) {
-    throw new GuestError();
+    throw new AlreadyLoggedInError();
   }
 
   if (authPolicy !== 'none' && session) {
@@ -156,4 +155,4 @@ async function extractResponseData<D>(response: Response, options: FetchOptionsW
   throw new MismatchedApiResponseError(options, response);
 }
 
-const LOGIN_ERROR = new LoginError('Login is required');
+const LOGIN_ERROR = new NotAuthenticatedError('Login is required');

@@ -7,7 +7,7 @@ import {ErrorBoundary, FallbackProps} from 'react-error-boundary';
 import {useLogout} from '@/utils/service/common/auth/hooks';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
 import {FetchError} from '@/utils/service/common/error/class/fetch';
-import {LoginError} from '@/utils/service/common/error/class/auth';
+import {NotAuthenticatedError} from '@forworkchoe/core/utils';
 
 /**
  * https://docs.google.com/document/d/1tlZKXFwleYRmh_xmMhRd5f8Isty5QCVdi8JtXGgL2Fo/edit?pli=1&tab=t.0#heading=h.q748k1fumnfu
@@ -55,7 +55,7 @@ export function ClientErrorFallback({error, isPage}: ClientErrorFallbackProps) {
      * 별도 UI 보이지않고 로그아웃을 시키되
      * 기본 에러처리는 실행하지않기 위해 별도 useHandleClientSideError() 같은거 쓰지않음.
      */
-    if (error instanceof LoginError) {
+    if (error instanceof NotAuthenticatedError) {
       logout();
       return;
     }
@@ -67,7 +67,7 @@ export function ClientErrorFallback({error, isPage}: ClientErrorFallbackProps) {
    */
   useEffect(() => {
     const ignoreSentry =
-      error instanceof LoginError || (error !== null && typeof error === 'object' && 'digest' in error);
+      error instanceof NotAuthenticatedError || (error !== null && typeof error === 'object' && 'digest' in error);
 
     if (ignoreSentry) {
       return;
