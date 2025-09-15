@@ -9,9 +9,16 @@ export const beforeSend: ClientOptions['beforeSend'] = (event: ErrorEvent, hint:
     return null;
   }
 
-  event.extra = {
-    original: hint.originalException,
-  };
+  if (!event.extra) {
+    event.extra = {};
+  }
+
+  if (hint.originalException instanceof Error) {
+    // 외부에서 던져진 에러 (스크립트 불러오기 실패) 같은것도 Sentry로 모두 보내기 위함
+    event.extra.stack = hint.originalException.stack;
+  }
+
+  event.extra.original = hint.originalException;
 
   if (!(hint.originalException instanceof BaseError)) {
     return event;
