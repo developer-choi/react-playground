@@ -12,6 +12,15 @@ export interface CustomizedApiErrorInfo {
  * API 호출이 성공했고, 응답값도 존재하지만, 2xx가 아닌 경우 발생함. (response.ok가 false)
  * 즉, API 호출조차도 실패한 케이스는 이 에러가 던져지지 않음. (Type Error 'Failed to fetch' 같은 케이스)
  * 단, 일부 에러코드는 별도의 에러클래스가 던져짐 (401)
+ *
+ * TODO
+ * 비밀번호 같이 민감한 개인정보도 API로 보내다가 에러가 발생할 수 있는데,
+ * 그럼 이 에러의 request 필드에 그 데이터가 그대로 들어가게됨.
+ * 그럼 Sentry에서 관리자가 사용자의 개인정보를 알 수 있게됨.
+ *
+ * 이걸 막기 위한 방법은...
+ * 1. 그런 데이터 보내는 곳마다 (a, b, c페이지 등등 전부다) 서버로 보낼 때 클라이언트에서 암호화 한다 (그럼 서버에서도 복호화 해야하지만, Sentry로 보내진 데이터를 관리자가 봐도 좀 나음)
+ * 2. 에러를 FetchError가 아닌 다른걸로 던지던가, FetchError로 만들 때 그 데이터만 제외하고 만든다 (그럼 서버에서 복호화 안해도 됨)
  */
 export class FetchError extends BaseError {
   readonly request: FetchOptionsWithSession;
