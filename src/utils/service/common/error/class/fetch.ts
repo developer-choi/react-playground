@@ -1,4 +1,4 @@
-import {FetchOptionsWithSession, FetchResult} from '@/utils/extend/library/fetch/base';
+import {BaseApiRequest, BaseApiResponse} from '@/utils/extend/library/fetch/BaseApi';
 import {BaseError} from '@forworkchoe/core/utils';
 
 // API에서 에러가 발생한 경우, 별도로 응답되는 에러 데이터. 있을 수도, 없을 수도 있음. (500에러, 404에러 등은 이런 데이터가 없음), 주로 POST / UPDATE에서 유효성검증 하다 실패했을 때 주로 사용함.
@@ -23,12 +23,12 @@ export interface ApiErrorDetail {
  * 2. 에러를 ApiResponseError가 아닌 다른걸로 던지던가, ApiResponseError로 만들 때 그 데이터만 제외하고 만든다 (그럼 서버에서 복호화 안해도 됨)
  */
 export class ApiResponseError extends BaseError {
-  readonly request: FetchOptionsWithSession;
-  readonly response: FetchResult;
+  readonly request: BaseApiRequest;
+  readonly response: BaseApiResponse;
   readonly name = 'ApiResponseError';
   readonly detail: ApiErrorDetail | undefined;
 
-  constructor(request: FetchOptionsWithSession, response: FetchResult) {
+  constructor(request: BaseApiRequest, response: BaseApiResponse) {
     super('An error occurred while calling the API.', {level: 'warning'});
     this.request = request;
     this.response = response;
@@ -82,11 +82,11 @@ export class ApiRequestError extends BaseError {
  * 원인은, https://developer.mozilla.org/en-US/docs/Web/API/Response/text#exceptions에 명시됨.
  */
 export class MismatchedApiResponseError extends BaseError {
-  readonly request: FetchOptionsWithSession;
+  readonly request: BaseApiRequest;
   readonly response: Pick<Response, 'status' | 'url'>;
   readonly name = 'MismatchedApiResponseError';
 
-  constructor(request: FetchOptionsWithSession, response: Response) {
+  constructor(request: BaseApiRequest, response: Response) {
     super('Mismatch between response Content-Type, expected dataType, and actual response data.', {level: 'warning'});
     this.request = request;
 

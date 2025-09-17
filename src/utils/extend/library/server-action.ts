@@ -1,9 +1,8 @@
 'use server';
 
 import {revalidatePath, revalidateTag} from 'next/cache';
-import {RevalidateTagType} from '@/utils/extend/library/fetch/base';
 
-export async function revalidateTagOnServerAction(tag: RevalidateTagType) {
+export async function revalidateTagOnServerAction(tag: string) {
   revalidateTag(tag);
 }
 
