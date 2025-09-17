@@ -10,7 +10,7 @@ export async function fetchFromClient<D>(input: string, options: FetchOptions) {
 
   try {
     const session = options.authPolicy === 'none' ? null : await getSession();
-    return await customFetch<D>(input, {...options, session});
+    return await customFetch<D>(input, options, session);
   } catch (error) {
     if (error instanceof NotAuthenticatedError) {
       const redirectUrl = location.pathname + location.search;
