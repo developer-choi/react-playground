@@ -7,7 +7,7 @@ import {useMutation} from '@tanstack/react-query';
 import {postSignUpApi} from '@/utils/service/common/api/auth';
 import {postTemporaryDataApi} from '@/utils/service/common/api/temporary-client';
 import {useRouter} from 'next/navigation';
-import {FetchError} from '@/utils/service/common/error/class/fetch';
+import {ApiResponseError} from '@/utils/service/common/error/class/fetch';
 import {InputProps} from '@/components/form/Input';
 
 /**
@@ -67,12 +67,12 @@ export default function useGeneralSignUpForm() {
       });
       replace('/guest/signup/success');
     } catch (error) {
-      if (!(error instanceof FetchError && error.apiErrorInfo)) {
+      if (!(error instanceof ApiResponseError && error.detail)) {
         handleClientSideError(error);
         return;
       }
 
-      switch (error.apiErrorInfo.params.code) {
+      switch (error.detail.params.code) {
         case 'ALREADY_EMAIL_EXISTED':
           setError('email', {
             type: 'api',

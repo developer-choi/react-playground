@@ -6,7 +6,7 @@ import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
 import {isObject, NotAuthenticatedError, validateComputableNumber} from '@forworkchoe/core/utils';
 import {headers} from 'next/headers';
 import {CURRENT_URL_IN_HEADER} from '@/utils/service/common/auth';
-import {FetchError} from '@/utils/service/common/error/class/fetch';
+import {ApiResponseError} from '@/utils/service/common/error/class/fetch';
 
 // Doc: [Can not catch an ServerSideError on client] https://docs.google.com/document/d/1UmDWmmGTNH_XNupQ-tegMnQwzb-m5yD2Hz_NzO2glic/edit?tab=t.0
 export function handleServerSideError(error: unknown) {
@@ -29,7 +29,7 @@ export function handleServerSideError(error: unknown) {
 
   const { title, content } = getErrorInfo(error);
 
-  if (error instanceof FetchError) {
+  if (error instanceof ApiResponseError) {
     switch (error.response.status) {
       case 403:
         return <ErrorPageTemplate title={title} content={content} fullScreen={false} />;

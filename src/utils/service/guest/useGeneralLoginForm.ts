@@ -7,7 +7,7 @@ import {useMutation} from '@tanstack/react-query';
 import {useHandleClientSideError} from '@/utils/service/common/error/client';
 import {postLoginApi} from '@/utils/service/common/api/auth';
 import {useLogin} from '@/utils/service/common/auth/hooks';
-import {FetchError} from '@/utils/service/common/error/class/fetch';
+import {ApiResponseError} from '@/utils/service/common/error/class/fetch';
 import {InputProps} from '@/components/form/Input';
 
 // SNS 로그인이 아닌 일반 로그인에 해당
@@ -40,12 +40,12 @@ export default function useGeneralLoginForm() {
       const result = await mutateAsync(data);
       login(result);
     } catch (error) {
-      if (!(error instanceof FetchError && error.apiErrorInfo)) {
+      if (!(error instanceof ApiResponseError && error.detail)) {
         handleClientSideError(error);
         return;
       }
 
-      switch (error.apiErrorInfo.params.code) {
+      switch (error.detail.params.code) {
         case 'NOT_FOUND':
           setError('email', {
             type: 'api',

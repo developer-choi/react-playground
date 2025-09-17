@@ -3,7 +3,7 @@ import {getSession, signOut} from 'next-auth/react';
 import {customFetch, FetchOptions} from '@/utils/extend/library/fetch/base';
 import {InvalidDevelopPolicyError, NotAuthenticatedError} from '@forworkchoe/core/utils';
 
-export async function fetchFromClient<D>(input: string | URL | globalThis.Request, options: FetchOptions) {
+export async function fetchFromClient<D>(input: string, options: FetchOptions) {
   if(isServer()) {
     throw new InvalidDevelopPolicyError('customFetchOnClientSide()는 Server Side에서 호출되면 안됩니다.');
   }

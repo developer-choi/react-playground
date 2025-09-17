@@ -7,7 +7,7 @@ import {QueryClient, useQueryClient} from '@tanstack/react-query';
 import {useCallback} from 'react';
 import {useLogout} from '@/utils/service/common/auth/hooks';
 import {AlreadyLoggedInError, BaseError, isObject, NotAuthenticatedError} from '@forworkchoe/core/utils';
-import {FetchError} from './class/fetch';
+import {ApiResponseError} from './class/fetch';
 import {StorageObjectManager} from '@forworkchoe/core/hooks';
 
 export function useHandleClientSideError() {
@@ -33,7 +33,7 @@ export function useHandleClientSideError() {
     const errorHandlerMap: ErrorHandlerTable = {
       AlreadyLoggedInError: (error) => handleAlreadyLoggedInError(error, context),
       LoginError: (error) => handleLoginError(error, logout, context),
-      FetchError: (error) => handleFetchError(error, context),
+      ApiResponseError: (error) => handleApiResponseError(error, context),
     };
 
     if (error instanceof BaseError) {
@@ -62,7 +62,7 @@ const MANAGER = new StorageObjectManager({
 interface ErrorInstances {
   AlreadyLoggedInError: AlreadyLoggedInError;
   LoginError: NotAuthenticatedError;
-  FetchError: FetchError;
+  ApiResponseError: ApiResponseError;
 }
 
 type ErrorName = keyof ErrorInstances;
@@ -130,7 +130,7 @@ function handleLoginError(
   });
 }
 
-function handleFetchError(error: FetchError, {modal}: HandlingErrorContext) {
+function handleApiResponseError(error: ApiResponseError, {modal}: HandlingErrorContext) {
   switch (error.response.status) {
     case 403:
       modal.open.alert({
@@ -140,12 +140,12 @@ function handleFetchError(error: FetchError, {modal}: HandlingErrorContext) {
       break;
 
     default:
-      console.error({request: error.request, response: error.response, apiErrorInfo: error.apiErrorInfo});
+      console.error({request: error.request, response: error.response, apiErrorInfo: error.detail});
       Sentry.captureException(error);
       // 주로 폼 제출 후 API에서 유효성검증 하다 오류난 경우, 기본적인 처리로 그냥 API에서 응답한 오류메시지 그대로 보여주는 처리 넣었음.
       modal.open.alert({
         title: '요청이 실패했어요.',
-        content: error.apiErrorInfo?.message ?? '해당 현상이 지속되면 고객센터로 문의 해주세요.',
+        content: error.detail?.message ?? '해당 현상이 지속되면 고객센터로 문의 해주세요.',
       });
   }
 }

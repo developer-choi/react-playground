@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/nextjs';
 import {ErrorBoundary, FallbackProps} from 'react-error-boundary';
 import {useLogout} from '@/utils/service/common/auth/hooks';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
-import {FetchError} from '@/utils/service/common/error/class/fetch';
+import {ApiResponseError} from '@/utils/service/common/error/class/fetch';
 import {NotAuthenticatedError} from '@forworkchoe/core/utils';
 
 /**
@@ -76,7 +76,7 @@ export function ClientErrorFallback({error, isPage}: ClientErrorFallbackProps) {
     Sentry.captureException(error);
   }, [error]);
 
-  if (error instanceof FetchError && error.response.status === 401) {
+  if (error instanceof ApiResponseError && error.response.status === 401) {
     return null; // 아무것도 안보여주고 effect 실행시켜서 로그아웃 시키기 위함
   }
 

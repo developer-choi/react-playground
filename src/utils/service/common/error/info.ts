@@ -1,6 +1,6 @@
 import {ErrorPageTemplateProps} from '@/components/error/ErrorPageTemplate';
 import {isObject} from '@forworkchoe/core/utils';
-import {FetchError} from '@/utils/service/common/error/class/fetch';
+import {ApiResponseError} from '@/utils/service/common/error/class/fetch';
 import {InvalidAccessError} from '@/utils/service/common/error/class/server';
 
 /** 설계 의도
@@ -17,12 +17,12 @@ export function getErrorInfo(error: unknown): Pick<ErrorPageTemplateProps, 'titl
     throw error;
   }
 
-  if (error instanceof FetchError) {
+  if (error instanceof ApiResponseError) {
     switch (error.response.status) {
       case 403:
         return {
           title: '권한이 없으니',
-          content: `관리자한테 ${error.apiErrorInfo?.params?.permission} 달라고 해라`,
+          content: `관리자한테 ${error.detail?.params?.permission} 달라고 해라`,
         };
     }
 

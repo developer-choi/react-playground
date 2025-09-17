@@ -2,7 +2,7 @@ import {FetchOptionsWithSession, FetchResult} from '@/utils/extend/library/fetch
 import {BaseError} from '@forworkchoe/core/utils';
 
 // API에서 에러가 발생한 경우, 별도로 응답되는 에러 데이터. 있을 수도, 없을 수도 있음. (500에러, 404에러 등은 이런 데이터가 없음), 주로 POST / UPDATE에서 유효성검증 하다 실패했을 때 주로 사용함.
-export interface CustomizedApiErrorInfo {
+export interface ApiErrorDetail {
   type: string;
   message: string;
   params: any;
@@ -20,19 +20,43 @@ export interface CustomizedApiErrorInfo {
  *
  * 이걸 막기 위한 방법은...
  * 1. 그런 데이터 보내는 곳마다 (a, b, c페이지 등등 전부다) 서버로 보낼 때 클라이언트에서 암호화 한다 (그럼 서버에서도 복호화 해야하지만, Sentry로 보내진 데이터를 관리자가 봐도 좀 나음)
- * 2. 에러를 FetchError가 아닌 다른걸로 던지던가, FetchError로 만들 때 그 데이터만 제외하고 만든다 (그럼 서버에서 복호화 안해도 됨)
+ * 2. 에러를 ApiResponseError가 아닌 다른걸로 던지던가, ApiResponseError로 만들 때 그 데이터만 제외하고 만든다 (그럼 서버에서 복호화 안해도 됨)
  */
-export class FetchError extends BaseError {
+export class ApiResponseError extends BaseError {
   readonly request: FetchOptionsWithSession;
   readonly response: FetchResult;
-  readonly name = 'FetchError';
-  readonly apiErrorInfo: CustomizedApiErrorInfo | undefined;
+  readonly name = 'ApiResponseError';
+  readonly detail: ApiErrorDetail | undefined;
 
-  constructor(request: FetchOptionsWithSession, response: FetchResult, apiErrorInfo: CustomizedApiErrorInfo | undefined) {
+  constructor(request: FetchOptionsWithSession, response: FetchResult) {
     super('An error occurred while calling the API.', {level: 'warning'});
     this.request = request;
     this.response = response;
-    this.apiErrorInfo = apiErrorInfo;
+    this.detail = (response.data && typeof response.data === 'object' && 'error' in response.data) ? response.data.error as ApiErrorDetail : undefined;
+  }
+}
+
+export interface ApiRequestErrorOptions {
+  url: string | URL | Request;
+  cause: unknown;
+}
+
+export class ApiRequestError extends BaseError {
+  readonly name = 'ApiRequestError';
+  readonly request: RequestInit;
+  readonly options: ApiRequestErrorOptions;
+  readonly stack: string | undefined;
+
+  constructor(request: RequestInit, options: ApiRequestErrorOptions) {
+    super(`${request?.method ?? 'GET'} ${options.url}`, {
+      level: 'warning',
+    });
+    this.request = request;
+    this.options = options;
+
+    if (options.cause instanceof Error) {
+      this.stack = options.cause.stack;
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 import {Session} from 'next-auth';
 import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
-import {CustomizedApiErrorInfo, FetchError, MismatchedApiResponseError} from '@/utils/service/common/error/class/fetch';
+import {ApiRequestError, ApiResponseError, MismatchedApiResponseError} from '@/utils/service/common/error/class/fetch';
 import {AlreadyLoggedInError, NotAuthenticatedError} from '@forworkchoe/core/utils';
 
 export interface FetchOptions extends Omit<RequestInit, 'body'> {
@@ -37,7 +37,7 @@ export interface FetchOptions extends Omit<RequestInit, 'body'> {
  * 그래서 로그인 체크도 하지않고,
  * 로그인이 실패할 일도 없어서 로그인 실패 처리로직도 없음.
  */
-export async function customFetchOnBothSide<D>(input: string | URL | globalThis.Request, options: Omit<FetchOptions, 'authPolicy'>) {
+export async function customFetchOnBothSide<D>(input: string, options: Omit<FetchOptions, 'authPolicy'>) {
   return customFetch<D>(input, {...options, session: null, authPolicy: 'none'});
 }
 
@@ -48,10 +48,36 @@ export interface FetchOptionsWithSession extends FetchOptions {
 /** customFetch() 공통 주석
  * @throws NotAuthenticatedError 세션정보가 없는 상태로 API를 호출하려고 시도하거나, API에서 401에러가 응답된 경우 발생
  */
-export async function customFetch<D>(input: string | URL | globalThis.Request, options: FetchOptionsWithSession) {
+export async function customFetch<D>(input: string, options: FetchOptionsWithSession) {
   const request = handleRequest(input, options);
-  const response = await fetch(request.input, request.init);
-  return handleResponse<D>(response, options);
+  let response;
+
+  try {
+    response = await fetch(request.input, request.init);
+  } catch (error) {
+    throw new ApiRequestError(request.init, {url: input, cause: error})
+  }
+
+  const data = await extractResponseData<D>(response, options);
+
+  const fetchResult: FetchResult<D> = {
+    status: response.status,
+    url: response.url,
+    data,
+    original: response,
+  };
+
+  if (response.ok) {
+    return fetchResult;
+  }
+
+  switch (response.status) {
+    case 401:
+      throw new NotAuthenticatedError('Login is required');
+
+    default:
+      throw new ApiResponseError(options, fetchResult);
+  }
 }
 
 export interface FetchResult<D = any> extends Pick<Response, 'status' | 'url'> {
@@ -70,7 +96,7 @@ function handleRequest(input: string | URL | globalThis.Request, options: FetchO
   const isPrivate = authPolicy === 'private';
 
   if (isPrivate && !session) {
-    throw LOGIN_ERROR;
+    throw new NotAuthenticatedError('Login is required');
   }
 
   if (authPolicy === 'guest' && session) {
@@ -105,32 +131,6 @@ function handleRequest(input: string | URL | globalThis.Request, options: FetchO
   };
 }
 
-async function handleResponse<D>(response: Response, options: FetchOptionsWithSession) {
-  const data = await extractResponseData<D>(response, options);
-
-  const fetchResult: FetchResult<D> = {
-    status: response.status,
-    url: response.url,
-    data,
-    original: response,
-  };
-
-  if (response.ok) {
-    return fetchResult;
-  }
-
-  const apiErrorInfo: CustomizedApiErrorInfo | undefined = (data && typeof data === 'object' && 'error' in data) ? data.error as CustomizedApiErrorInfo : undefined;
-  const defaultFetchError = new FetchError(options, fetchResult, apiErrorInfo);
-
-  switch (response.status) {
-    case 401:
-      throw LOGIN_ERROR;
-
-    default:
-      throw defaultFetchError;
-  }
-}
-
 async function extractResponseData<D>(response: Response, options: FetchOptionsWithSession): Promise<D> {
   const contentType = response.headers.get('Content-Type');
   const dataType = options.response?.dataType ?? 'auto';
@@ -154,5 +154,3 @@ async function extractResponseData<D>(response: Response, options: FetchOptionsW
 
   throw new MismatchedApiResponseError(options, response);
 }
-
-const LOGIN_ERROR = new NotAuthenticatedError('Login is required');
