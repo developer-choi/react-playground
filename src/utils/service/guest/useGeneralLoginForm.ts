@@ -7,7 +7,7 @@ import {useMutation} from '@tanstack/react-query';
 import {useHandleClientSideError} from '@/utils/service/common/error/client';
 import {postLoginApi} from '@/utils/service/common/api/auth';
 import {useLogin} from '@/utils/service/common/auth/hooks';
-import {ApiResponseError} from '@/utils/service/common/error/class/fetch';
+import {ApiResponseError} from '@forworkchoe/core/utils';
 import {InputProps} from '@/components/form/Input';
 
 // SNS 로그인이 아닌 일반 로그인에 해당

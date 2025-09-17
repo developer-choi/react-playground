@@ -1,5 +1,5 @@
 import {fetchFromClient} from '@/utils/extend/library/fetch/fromClient';
-import {ApiResponseError} from '@/utils/service/common/error/class/fetch';
+import {ApiResponseError} from '@forworkchoe/core/utils';
 
 export interface UserFieldCountApiRequest {
   type: 'email' | 'nick_name';

@@ -6,8 +6,7 @@ import * as Sentry from '@sentry/nextjs';
 import {ErrorBoundary, FallbackProps} from 'react-error-boundary';
 import {useLogout} from '@/utils/service/common/auth/hooks';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
-import {ApiResponseError} from '@/utils/service/common/error/class/fetch';
-import {NotAuthenticatedError} from '@forworkchoe/core/utils';
+import {ApiResponseError, NotAuthenticatedError} from '@forworkchoe/core/utils';
 
 /**
  * https://docs.google.com/document/d/1tlZKXFwleYRmh_xmMhRd5f8Isty5QCVdi8JtXGgL2Fo/edit?pli=1&tab=t.0#heading=h.q748k1fumnfu

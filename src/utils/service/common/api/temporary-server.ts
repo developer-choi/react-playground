@@ -1,7 +1,7 @@
 import {TemporaryDataKey} from '@/utils/service/common/api/temporary-client';
 import {fetchFromServer} from '@/utils/extend/library/fetch/fromServer';
 import {cookies} from 'next/headers';
-import {ApiResponseError} from '@/utils/service/common/error/class/fetch';
+import {ApiResponseError} from '@forworkchoe/core/utils';
 import {InvalidAccessError} from '@/utils/service/common/error/class/server';
 
 interface TemporaryResponse {

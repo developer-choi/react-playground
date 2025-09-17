@@ -6,8 +6,13 @@ import type {AppRouterInstance} from 'next/dist/shared/lib/app-router-context.sh
 import {QueryClient, useQueryClient} from '@tanstack/react-query';
 import {useCallback} from 'react';
 import {useLogout} from '@/utils/service/common/auth/hooks';
-import {AlreadyLoggedInError, BaseError, isObject, NotAuthenticatedError} from '@forworkchoe/core/utils';
-import {ApiResponseError} from './class/fetch';
+import {
+  AlreadyLoggedInError,
+  ApiResponseError,
+  BaseError,
+  isObject,
+  NotAuthenticatedError
+} from '@forworkchoe/core/utils';
 import {StorageObjectManager} from '@forworkchoe/core/hooks';
 
 export function useHandleClientSideError() {

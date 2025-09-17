@@ -7,7 +7,7 @@ import {useMutation} from '@tanstack/react-query';
 import {postSignUpApi} from '@/utils/service/common/api/auth';
 import {postTemporaryDataApi} from '@/utils/service/common/api/temporary-client';
 import {useRouter} from 'next/navigation';
-import {ApiResponseError} from '@/utils/service/common/error/class/fetch';
+import {ApiResponseError} from '@forworkchoe/core/utils';
 import {InputProps} from '@/components/form/Input';
 
 /**

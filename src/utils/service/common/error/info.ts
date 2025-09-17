@@ -1,6 +1,5 @@
 import {ErrorPageTemplateProps} from '@/components/error/ErrorPageTemplate';
-import {isObject} from '@forworkchoe/core/utils';
-import {ApiResponseError} from '@/utils/service/common/error/class/fetch';
+import {ApiResponseError, isObject} from '@forworkchoe/core/utils';
 import {InvalidAccessError} from '@/utils/service/common/error/class/server';
 
 /** 설계 의도

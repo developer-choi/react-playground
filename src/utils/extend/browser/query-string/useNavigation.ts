@@ -1,6 +1,6 @@
 import {useRouter} from 'next/navigation';
 import {useCallback} from 'react';
-import {ConvertableQuery, stringifyQuery} from '@/utils/extend/browser/query-string/convert';
+import {ConvertableQuery, stringifyQuery} from '@forworkchoe/core/utils';
 import {NavigateOptions} from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export interface NavigateQueryParam {

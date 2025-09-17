@@ -3,10 +3,9 @@ import {PageServerComponentProps} from '@/types/declaration/next';
 import * as Sentry from '@sentry/nextjs';
 import {getErrorInfo} from '@/utils/service/common/error/info';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
-import {isObject, NotAuthenticatedError, validateComputableNumber} from '@forworkchoe/core/utils';
+import {ApiResponseError, isObject, NotAuthenticatedError, validateComputableNumber} from '@forworkchoe/core/utils';
 import {headers} from 'next/headers';
 import {CURRENT_URL_IN_HEADER} from '@/utils/service/common/auth';
-import {ApiResponseError} from '@/utils/service/common/error/class/fetch';
 
 // Doc: [Can not catch an ServerSideError on client] https://docs.google.com/document/d/1UmDWmmGTNH_XNupQ-tegMnQwzb-m5yD2Hz_NzO2glic/edit?tab=t.0
 export function handleServerSideError(error: unknown) {
