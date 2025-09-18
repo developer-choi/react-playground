@@ -1,8 +1,7 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import {getNextNavigating} from '@/utils/service/common/auth/path';
 import {NextResponse} from 'next/server';
-import {LOGIN_URL} from '@/utils/service/common/auth/redirect';
+import {LOGIN_URL, navigationGuard} from '@/utils/service/common/auth/path';
 
 /**
  * [Next Auth Overview] https://docs.google.com/document/d/1PYKKPneIYB8j8vz8fQgqwBLAkEmB69KJfeFTSXhtdbk/edit#heading=h.mkk12las5ndq
@@ -44,7 +43,7 @@ export const {handlers, signOut, auth} = NextAuth({
     authorized({auth, request: {headers, nextUrl, url}}) {
       const isLoggedIn = !!auth?.user;
 
-      const nextNavigating = getNextNavigating({
+      const nextNavigating = navigationGuard.determineNextPath({
         nextUrl: nextUrl.pathname + nextUrl.search,
         isLoggedIn
       });

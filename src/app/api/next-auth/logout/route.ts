@@ -1,6 +1,7 @@
 import {NextRequest} from "next/server";
 import {redirect} from "next/navigation";
 import {signOut} from '@/utils/service/common/auth';
+import {LOGIN_URL} from '@/utils/service/common/auth/path';
 
 // Server Component에서 로그아웃 하기위한 Route Handler
 export async function GET(request: NextRequest) {
@@ -18,7 +19,7 @@ export async function GET(request: NextRequest) {
     throw error;
   }
 
-  redirect(`/guest/login?redirect=${encodeURIComponent(redirectUrl)}`)
+  redirect(`${LOGIN_URL}?redirect=${encodeURIComponent(redirectUrl)}`)
 }
 
 async function backendLogoutApi() {

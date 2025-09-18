@@ -2,6 +2,7 @@ import {isServer} from '@/utils/extend/library/next';
 import {getSession, signOut} from 'next-auth/react';
 import {customFetch, FetchOptions} from '@/utils/extend/library/fetch/base';
 import {InvalidDevelopPolicyError, NotAuthenticatedError} from '@forworkchoe/core/utils';
+import {LOGIN_URL} from '@/utils/service/common/auth/path';
 
 export async function fetchFromClient<D>(input: string, options: FetchOptions) {
   if(isServer()) {
@@ -19,7 +20,7 @@ export async function fetchFromClient<D>(input: string, options: FetchOptions) {
         redirect: false
       });
 
-      throw new NotAuthenticatedError("Login is required", `/guest/login?redirect=${encodeURIComponent(redirectUrl)}`);
+      throw new NotAuthenticatedError("Login is required", `${LOGIN_URL}?redirect=${encodeURIComponent(redirectUrl)}`);
     } else {
       throw error;
     }

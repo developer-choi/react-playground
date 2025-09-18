@@ -2,7 +2,7 @@
 
 import React, {FormEvent, useCallback} from 'react';
 import styles from './page.module.scss';
-import {useToggle} from '@/utils/extend/library/react';
+import {useToggle} from '@forworkchoe/core/hooks';
 import {useClickOutside} from '@/utils/extend/event/click-outside';
 
 /**

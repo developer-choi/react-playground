@@ -1,5 +1,5 @@
 import styles from './page.module.scss';
-import {useDelay} from '@/utils/extend/library/react';
+import {useDelay} from '@forworkchoe/core/hooks';
 import {BaseError} from '@forworkchoe/core/utils';
 import {CustomErrorBoundary} from '@/components/error/client';
 

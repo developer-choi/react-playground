@@ -65,8 +65,7 @@ export function ClientErrorFallback({error, isPage}: ClientErrorFallbackProps) {
    * server side에서 에러가 난 경우에는 server side에서 원본 에러객체를 갖고있기 때문에, 에러를 client가 아닌 server에서 던지도록 되어있고 이 경우 Client에서 또 에러를 던질 필요가 없기 때문.
    */
   useEffect(() => {
-    const ignoreSentry =
-      error instanceof NotAuthenticatedError || (error !== null && typeof error === 'object' && 'digest' in error);
+    const ignoreSentry = error instanceof NotAuthenticatedError || (error !== null && typeof error === 'object' && 'digest' in error);
 
     if (ignoreSentry) {
       return;

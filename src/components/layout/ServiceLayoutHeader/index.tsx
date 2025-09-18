@@ -4,6 +4,7 @@ import styles from './index.module.scss';
 import {useSession} from 'next-auth/react';
 import Link from 'next/link';
 import {useLogout} from '@/utils/service/common/auth/hooks';
+import {LOGIN_URL} from '@/utils/service/common/auth/path';
 
 export default function ServiceLayoutHeader() {
   const session = useSession();
@@ -21,7 +22,7 @@ export default function ServiceLayoutHeader() {
       {session.data ? (
         <button onClick={() => logout()}>로그아웃</button>
       ) : (
-        <Link href="/guest/login">로그인</Link>
+        <Link href={LOGIN_URL}>로그인</Link>
       )}
     </header>
   );

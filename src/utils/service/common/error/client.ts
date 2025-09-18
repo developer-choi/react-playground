@@ -1,6 +1,6 @@
 import {useModal} from '@/utils/extend/modal';
 import {useRouter} from 'next/navigation';
-import {DEFAULT_HOME_URL} from '@/utils/service/common/auth/redirect';
+import {DEFAULT_HOME_URL} from '@/utils/service/common/auth/path';
 import * as Sentry from '@sentry/nextjs';
 import type {AppRouterInstance} from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import {QueryClient, useQueryClient} from '@tanstack/react-query';

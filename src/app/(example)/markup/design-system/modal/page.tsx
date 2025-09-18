@@ -11,7 +11,7 @@ import {ModalContainer, ModalContainerProps} from '@/components/modal/container'
 import {DefaultModalHeader, ProfileModalHeader} from '@/components/modal/header';
 import DefaultModalBody from '@/components/modal/body';
 import {OneButtonModalFooter, TwoButtonsModalFooter} from '@/components/modal/footer';
-import {useToggle} from '@/utils/extend/library/react';
+import {useToggle} from '@forworkchoe/core/hooks';
 import {useModal} from '@/utils/extend/modal';
 import designSystemStyles from '@/styles/design-system.module.scss';
 

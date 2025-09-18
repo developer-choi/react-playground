@@ -1,11 +1,11 @@
 import {useCallback} from 'react';
 import {signIn, signOut} from 'next-auth/react';
-import {DEFAULT_HOME_URL, getRedirectUrlWhenLoginSuccess} from '@/utils/service/common/auth/redirect';
+import {getRedirectUrlWhenLoginSuccess} from '@/utils/service/common/auth/redirect';
 import {LoginApiResponse} from '@/types/services/auth';
 import {usePathname, useSearchParams} from 'next/navigation';
-import {getNextNavigating} from '@/utils/service/common/auth/path';
 import * as Sentry from '@sentry/nextjs';
 import {User} from 'next-auth';
+import {DEFAULT_HOME_URL, navigationGuard} from '@/utils/service/common/auth/path';
 
 /**
  * 로그인 성공 (아이디비번로그인, SNS 로그인 등) 후 실행되야하는 함수
@@ -58,13 +58,13 @@ export function useLogout() {
     } catch (error) {
       Sentry.captureException(error);
     } finally {
-      const nextNavigating = getNextNavigating({
+      const nextNavigating = navigationGuard.determineNextPath({
         nextUrl: nextUrl ?? pathname + '?' + searchParams.toString(),
         isLoggedIn: false,
       });
 
       await signOut({
-        callbackUrl: nextNavigating.type !== 'correct' ? nextNavigating.nextUrl : DEFAULT_HOME_URL,
+        callbackUrl: nextNavigating.type !== 'allowed' ? nextNavigating.nextUrl : DEFAULT_HOME_URL,
       });
     }
   }, [pathname, searchParams])
