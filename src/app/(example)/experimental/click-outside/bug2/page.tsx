@@ -3,7 +3,7 @@
 import React, {FormEvent, useCallback} from 'react';
 import styles from './page.module.scss';
 import {useToggle} from '@forworkchoe/core/hooks';
-import {useClickOutside} from '@/utils/extend/event/click-outside';
+import {useClickOutside} from '@/utils/extend/click-outside';
 
 /**
  * URL: http://localhost:3000/experimental/click-outside/bug2

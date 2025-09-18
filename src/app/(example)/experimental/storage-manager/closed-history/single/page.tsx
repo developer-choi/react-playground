@@ -3,7 +3,7 @@
 import React, {useCallback, useEffect} from 'react';
 import {getDiffDate} from '@forworkchoe/core/utils';
 import {Button} from '@forworkchoe/core';
-import {ClosedHistoryManager} from '@/utils/extend/date/closed-history';
+import {ClosedHistoryManager} from '@/utils/extend/closed-history';
 import {ComposedModalProps, ModalContainer} from '@/components/modal/container';
 import {useModal} from '@/utils/extend/modal';
 

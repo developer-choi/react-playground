@@ -3,7 +3,7 @@
 import React, {useEffect, useRef} from 'react';
 import styles from './page.module.scss';
 import {useToggle} from '@forworkchoe/core/hooks';
-import {ClickOutsideParam} from '@/utils/extend/event/click-outside';
+import {ClickOutsideParam} from '@/utils/extend/click-outside';
 
 // URL: http://localhost:3000/experimental/click-outside/bug1
 // Doc: https://docs.google.com/document/d/1KHvnJWzoV1O6sW4rkMBz0z1vZiHwRp-ulIw275Gn_ao/edit#heading=h.xcmmfoynzomp

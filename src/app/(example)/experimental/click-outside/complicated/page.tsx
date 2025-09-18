@@ -3,7 +3,7 @@
 import React, {forwardRef, PropsWithChildren} from 'react';
 import styles from './page.module.scss';
 import {useToggle} from '@forworkchoe/core/hooks';
-import {useClickOutside} from '@/utils/extend/event/click-outside';
+import {useClickOutside} from '@/utils/extend/click-outside';
 
 // URL: http://localhost:3000/experimental/click-outside/complicated
 export default function Page() {

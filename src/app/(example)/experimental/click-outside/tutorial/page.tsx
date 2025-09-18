@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styles from './page.module.scss';
-import {useClickOutside} from '@/utils/extend/event/click-outside';
+import {useClickOutside} from '@/utils/extend/click-outside';
 
 // URL: http://localhost:3000/experimental/click-outside/tutorial
 export default function Page() {
