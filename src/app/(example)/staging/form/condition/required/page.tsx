@@ -8,7 +8,7 @@ import {Button} from '@forworkchoe/core';
 import designSystemStyles from '@/styles/design-system.module.scss';
 import classNames from 'classnames';
 import {useMutation} from '@tanstack/react-query';
-import {timeoutPromise} from '@/utils/extend/random/promise';
+import {timeoutPromise} from '@forworkchoe/core/utils';
 
 /**
  * URL: http://localhost:3000/staging/form/condition/required

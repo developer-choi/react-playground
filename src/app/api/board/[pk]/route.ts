@@ -1,5 +1,5 @@
 import {NextRequest} from 'next/server';
-import {timeoutPromise} from '@/utils/extend/random/promise';
+import {timeoutPromise} from '@forworkchoe/core/utils';
 import {PatchBoardApiRequest} from '@/types/services/board';
 import database from '@/utils/service/common/api/database';
 

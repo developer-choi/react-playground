@@ -3,10 +3,9 @@
 import {useCallback} from 'react';
 import {deleteAllBoardsApi, postMultipleBoardsApi} from '@/utils/service/common/api/board-client';
 import dayjs from 'dayjs';
-import {randomInArray} from '@/utils/extend/random';
 import {BoardRow} from '@/types/services/board';
 import {Button} from '@forworkchoe/core';
-import {range} from '@forworkchoe/core/utils';
+import {randomInArray, range} from '@forworkchoe/core/utils';
 
 // URL: http://localhost:3000/experimental/board/create
 export default function Page() {

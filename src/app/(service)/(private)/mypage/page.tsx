@@ -1,7 +1,6 @@
-import {timeoutPromise} from '@/utils/extend/random/promise';
 import {Suspense} from 'react';
 import {handleServerSideError} from '@/utils/service/common/error/server';
-import {NotAuthenticatedError} from '@forworkchoe/core/utils';
+import {NotAuthenticatedError, timeoutPromise} from '@forworkchoe/core/utils';
 
 /**
  * URL: http://localhost:3000/mypage?hello=world

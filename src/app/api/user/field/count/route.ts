@@ -1,6 +1,6 @@
 import {NextRequest} from 'next/server';
 import {UserFieldCountApiRequest} from '@/utils/service/common/api/user';
-import {timeoutPromise} from '@/utils/extend/random/promise';
+import {timeoutPromise} from '@forworkchoe/core/utils';
 
 export async function GET(request: NextRequest) {
   await timeoutPromise(500);

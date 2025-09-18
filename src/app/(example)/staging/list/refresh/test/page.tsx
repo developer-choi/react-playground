@@ -1,11 +1,10 @@
 'use client';
 
 import {useCallback} from 'react';
-import {range} from '@forworkchoe/core/utils';
+import {randomInArray, range} from '@forworkchoe/core/utils';
 import {Button} from '@forworkchoe/core';
 import dayjs from 'dayjs';
 import {deleteAllBoardsApi, postMultipleBoardsApi} from '@/utils/service/common/api/board-client';
-import {randomInArray} from '@/utils/extend/random';
 import {BoardRow} from '@/types/services/board';
 
 // URL: http://localhost:3000/board/test
