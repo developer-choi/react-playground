@@ -17,7 +17,7 @@
     "url": "https://github.com/developer-choi/react-playground"
   },
   "dependencies": {
-    "@forworkchoe/core": "0.0.38",
+    "@forworkchoe/core": "0.0.39",
     "@sentry/nextjs": "8",
     "@tanstack/react-query": "^5.55.4",
     "autonumeric": "^4.10.5",

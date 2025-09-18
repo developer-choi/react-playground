@@ -1,6 +1,5 @@
 import {ErrorPageTemplateProps} from '@/components/error/ErrorPageTemplate';
-import {ApiResponseError, isObject} from '@forworkchoe/core/utils';
-import {InvalidAccessError} from '@/utils/service/common/error/class/server';
+import {ApiResponseError, InvalidAccessError, isObject} from '@forworkchoe/core/utils';
 
 /** 설계 의도
  * 1. client side에서 에러가 발생했건
