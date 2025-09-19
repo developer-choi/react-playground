@@ -1,4 +1,4 @@
-import {PageServerComponentProps} from '@/types/declaration/next';
+import {PageServerComponentProps} from '@forworkchoe/core/utils';
 import {getBasicPagination} from '@/utils/extend/pagination/variants/basic';
 import {PageElement, PageElementWithHref} from '@/utils/extend/pagination/index';
 

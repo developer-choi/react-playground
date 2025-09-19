@@ -5,7 +5,7 @@ import {ActiveLink, ActiveLinkProps, useCheckHrefIsActive} from '@forworkchoe/co
 import styles from './page.module.scss';
 import {COLOR} from '@/styles/color';
 import BoardIcon from '@/components/icon/BoardIcon';
-import {LayoutProps} from '@/types/declaration/next';
+import {LayoutProps} from '@forworkchoe/core/utils';
 
 export default function Layout({children}: LayoutProps) {
   return (

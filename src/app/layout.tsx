@@ -2,7 +2,7 @@ import type {Metadata, Viewport} from 'next';
 import {getFontByLanguage} from '@/utils/service/common/i18n/font';
 import '@/styles/global.scss';
 import '@forworkchoe/core/core.css';
-import {LayoutProps} from '@/types/declaration/next';
+import {LayoutProps} from '@forworkchoe/core/utils';
 
 // https://docs.google.com/document/d/16UpoOvdENYDO3fHK-YyR70Vet3gyjFbgxT-fwi4R3cY/edit
 export const metadata: Metadata = {

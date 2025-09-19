@@ -1,9 +1,14 @@
 import {notFound, redirect} from 'next/navigation';
-import {PageServerComponentProps} from '@/types/declaration/next';
 import * as Sentry from '@sentry/nextjs';
 import {getErrorInfo} from '@/utils/service/common/error/info';
 import ErrorPageTemplate from '@/components/error/ErrorPageTemplate';
-import {ApiResponseError, isObject, NotAuthenticatedError, validateComputableNumber} from '@forworkchoe/core/utils';
+import {
+  ApiResponseError,
+  isObject,
+  NotAuthenticatedError,
+  PageServerComponentProps,
+  validateComputableNumber
+} from '@forworkchoe/core/utils';
 import {headers} from 'next/headers';
 import {CURRENT_URL_IN_HEADER} from '@/utils/service/common/auth';
 

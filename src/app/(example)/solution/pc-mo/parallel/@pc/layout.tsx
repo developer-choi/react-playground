@@ -1,5 +1,5 @@
 import styles from './index.module.scss';
-import {LayoutProps} from '@/types/declaration/next';
+import {LayoutProps} from '@forworkchoe/core/utils';
 
 export default function Layout({children}: LayoutProps) {
   return (

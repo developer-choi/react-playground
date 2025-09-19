@@ -1,6 +1,6 @@
 'use client';
 
-import {ErrorPageProps} from '@/types/declaration/next';
+import {ErrorPageProps} from '@forworkchoe/core/utils';
 import {ClientErrorFallback} from '@/components/error/client';
 
 /**

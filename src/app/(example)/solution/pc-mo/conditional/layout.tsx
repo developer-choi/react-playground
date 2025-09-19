@@ -1,6 +1,6 @@
 import React, {PropsWithChildren} from 'react';
 import {isMobileOnBothSide} from '@/utils/extend/library/next';
-import {LayoutProps} from '@/types/declaration/next';
+import {LayoutProps} from '@forworkchoe/core/utils';
 
 /**
  * 방법 1. Parallel Routes 없이 Conditional 로직으로 분기 태우는 경우
