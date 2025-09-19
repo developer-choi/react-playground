@@ -8,7 +8,6 @@ import {
   getZonecodeInputProps,
   useOpenPostcodePopup
 } from '@/utils/service/common/inputs/daum-postcode';
-import {baseHandleErrors} from '@/utils/extend/library/react-hook-form';
 import Input, {InputProps} from '@/components/form/Input';
 import {Button} from '@forworkchoe/core';
 import styles from './page.module.scss';
@@ -87,14 +86,12 @@ function useSignupAddressForm() {
     placeholder: '이름'
   };
 
-  const onError: SubmitErrorHandler<SignAddressFormData> = useCallback(({name, address, addressDetail, zonecode}) => {
+  const onError: SubmitErrorHandler<SignAddressFormData> = useCallback(({address, zonecode}) => {
     // TODO 이 예외처리는 매번 다른 폼마다 중복되긴 하겠는데...? ==> 이것만 처리하는 함수로 분리예정
     if (zonecode || address) {
       openPostcodePopup();
       return;
     }
-
-    baseHandleErrors([name, addressDetail]);
   }, [openPostcodePopup]);
 
   const onSubmit: SubmitHandler<SignAddressFormData> = useCallback(data => {

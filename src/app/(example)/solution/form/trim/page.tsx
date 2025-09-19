@@ -1,11 +1,15 @@
 'use client';
 
 import React, {useCallback} from 'react';
-import type {RegisterOptions, SubmitErrorHandler, SubmitHandler} from 'react-hook-form';
+import type {RegisterOptions, SubmitHandler} from 'react-hook-form';
 import {useForm} from 'react-hook-form';
 import {trimObject} from '@forworkchoe/core/utils';
-import {baseHandleErrors,} from '@/utils/extend/library/react-hook-form';
-import {validateMinLengthWithTrim, validateRequiredWithTrim} from '@/utils/service/common/inputs';
+import {
+  getMessageFromFieldErrors,
+  validateMinLengthWithTrim,
+  validateRequiredWithTrim
+} from '@/utils/service/common/inputs';
+import Input from '@/components/form/Input';
 
 /**
  * URL: http://localhost:3000/solution/form/trim
@@ -16,11 +20,7 @@ import {validateMinLengthWithTrim, validateRequiredWithTrim} from '@/utils/servi
  * 2. 제출할 때 앞뒤 공백 잘라서 제출시켜야 (" a ") ==> "a"
  */
 export default function Page() {
-  const {register, handleSubmit} = useForm<TestFormData>();
-
-  const onError: SubmitErrorHandler<TestFormData> = useCallback(({name, email}) => {
-    baseHandleErrors([name, email]);
-  }, []);
+  const {register, handleSubmit, formState} = useForm<TestFormData>();
 
   // 성공 케이스에서도 코드가 2배가 되야함. 공백을 추가한 상태로 제출한 경우도 같이 체크해야하니까.
   const onSubmit: SubmitHandler<TestFormData> = useCallback(data => {
@@ -28,9 +28,9 @@ export default function Page() {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit, onError)}>
-      <input {...register('name', NAME_OPTIONS)}/>
-      <input {...register('email', EMAIL_OPTIONS)}/>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Input {...register('name', NAME_OPTIONS)} error={getMessageFromFieldErrors(formState.errors, 'name')}/>
+      <Input {...register('email', EMAIL_OPTIONS)} error={getMessageFromFieldErrors(formState.errors, 'email')}/>
       <button>Submit</button>
     </form>
   );

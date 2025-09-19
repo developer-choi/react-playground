@@ -1,9 +1,10 @@
 'use client';
 
-import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import {KeyboardEvent, useCallback} from 'react';
-import {baseHandleErrors} from '@/utils/extend/library/react-hook-form';
 import styles from './page.module.scss';
+import Input from '@/components/form/Input';
+import TextArea from '@/components/form/TextArea';
 
 /**
  * URL: http://localhost:3000/staging/module/keyboard-shortcut/form-submit-shortcut
@@ -15,10 +16,6 @@ export default function Page() {
   const {register, handleSubmit} = useForm<TestFormData>({
     shouldFocusError: false
   });
-
-  const onError: SubmitErrorHandler<TestFormData> = useCallback(errors => {
-    baseHandleErrors([errors.title, errors.content]);
-  }, []);
 
   const onSubmit: SubmitHandler<TestFormData> = useCallback(data => {
     console.log('data', data);
@@ -36,9 +33,9 @@ export default function Page() {
   }, []);
 
   return (
-    <form className={styles.formWrap} onSubmit={handleSubmit(onSubmit, onError)}>
-      <input {...register('title')}/>
-      <textarea {...register('content')} onKeyDown={onKeyDown}/>
+    <form className={styles.formWrap} onSubmit={handleSubmit(onSubmit)}>
+      <Input {...register('title')}/>
+      <TextArea {...register('content')} onKeyDown={onKeyDown}/>
     </form>
   );
 }
