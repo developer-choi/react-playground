@@ -2,7 +2,7 @@
 
 import {useState} from 'react';
 import {Button} from '@forworkchoe/core/components';
-import designSystemStyles from '@/styles/design-system.module.scss';
+import designSystemStyles from '@forworkchoe/core/design-system.module.scss';
 
 /**
  * URL: http://localhost:3000/markup/layout/sticky-header

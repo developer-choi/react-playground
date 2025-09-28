@@ -1,7 +1,7 @@
 @use "/src/styles/color";
 @use "/src/styles/layout.module";
-@use "/src/styles/typography.module";
-@use "/src/styles/design-system.module";
+@use "@forworkchoe/core/dist/typography.module";
+@use "@forworkchoe/core/dist/design-system.module";
 @use "/src/styles/util";
 
 .wrap {

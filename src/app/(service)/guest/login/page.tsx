@@ -2,11 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
-import designSystemStyles from '@/styles/design-system.module.scss';
 import Input from '@/components/form/Input';
 import {Button} from '@forworkchoe/core/components';
 import useGeneralLoginForm from '@/utils/service/guest/useGeneralLoginForm';
 import PasswordInput from '@/components/form/Input/PasswordInput';
+import designSystemStyles from '@forworkchoe/core/design-system.module.scss';
 
 /**
  * URL: http://localhost:3000/guest/login

@@ -1,6 +1,6 @@
 'use client';
 
-import designSystemStyles from '@/styles/design-system.module.scss';
+import designSystemStyles from '@forworkchoe/core/design-system.module.scss';
 import Input from '@/components/form/Input';
 import React from 'react';
 import {Button} from '@forworkchoe/core/components';

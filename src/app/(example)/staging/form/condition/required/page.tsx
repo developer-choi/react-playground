@@ -5,7 +5,7 @@ import React, {useCallback} from 'react';
 import Input from '@/components/form/Input';
 import Radio, {RadioGroup} from '@/components/form/Radio';
 import {Button} from '@forworkchoe/core/components';
-import designSystemStyles from '@/styles/design-system.module.scss';
+import designSystemStyles from '@forworkchoe/core/design-system.module.scss';
 import classNames from 'classnames';
 import {useMutation} from '@tanstack/react-query';
 import {timeoutPromise} from '@forworkchoe/core/utils';

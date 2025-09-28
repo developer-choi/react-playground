@@ -1,6 +1,6 @@
 'use client';
 
-import designSystemStyles from '@/styles/design-system.module.scss';
+import designSystemStyles from '@forworkchoe/core/design-system.module.scss';
 import {RegisterOptions, SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
 import {ChangeEvent, useCallback} from 'react';
 import Checkbox, {CheckboxProps} from '@/components/form/Checkbox';

@@ -1,5 +1,6 @@
 import {withSentryConfig} from '@sentry/nextjs';
 import createNextIntlPlugin from 'next-intl/plugin';
+import path from 'path';
 
 // https://next-intl-docs.vercel.app/docs/getting-started/app-router/without-i18n-routing#move-i18n-ts
 const withNextIntl = createNextIntlPlugin('src/utils/service/common/i18n');
@@ -17,6 +18,9 @@ const nextConfig = {
     ],
   },
   transpilePackages: ['@forworkchoe/core'],
+  sassOptions: {
+    includePaths: [path.join(process.cwd(), 'node_modules')],
+  },
 };
 
 /**

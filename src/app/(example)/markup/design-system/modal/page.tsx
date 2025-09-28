@@ -17,7 +17,7 @@ import {
   TwoButtonsModalFooter
 } from '@forworkchoe/core/components';
 import {useModal, useToggle} from '@forworkchoe/core/hooks';
-import designSystemStyles from '@/styles/design-system.module.scss';
+import designSystemStyles from '@forworkchoe/core/design-system.module.scss';
 
 // URL: http://localhost:3000/markup/design-system/modal
 // Doc: https://docs.google.com/document/d/16-Z3RmslEMvhfwOMmePYTRg4HkUjKjWSxxF2SB7NGGU/edit

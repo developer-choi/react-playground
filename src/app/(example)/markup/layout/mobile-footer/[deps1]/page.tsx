@@ -3,7 +3,7 @@
 import React, {useEffect} from 'react';
 import {H1} from '@/components/element/typography';
 import layoutStyles from '@/styles/layout.module.scss';
-import designSystemStyles from '@/styles/design-system.module.scss';
+import designSystemStyles from '@forworkchoe/core/design-system.module.scss';
 import {PageServerComponentProps} from '@forworkchoe/core/utils';
 import {useModal} from '@forworkchoe/core/hooks';
 

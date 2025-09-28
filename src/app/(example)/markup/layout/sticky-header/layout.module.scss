@@ -1,5 +1,5 @@
 @use '/src/styles/layout.module';
-@use '/src/styles/design-system.module';
+@use "@forworkchoe/core/dist/design-system.module";
 @use "/src/styles/util";
 
 // 이게 스티키 헤더가 노출되는 사이트의 일반적인 레이아웃 규칙임.
