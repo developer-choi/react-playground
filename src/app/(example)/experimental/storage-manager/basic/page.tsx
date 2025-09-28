@@ -2,7 +2,7 @@
 
 import React, {useCallback} from 'react';
 import {StorageObjectManager, useStorageObjectManager} from '@forworkchoe/core/hooks';
-import {Button} from '@forworkchoe/core';
+import {Button} from '@forworkchoe/core/components';
 import {validateIncludeString} from '@forworkchoe/core/utils';
 
 // URL: http://localhost:3000/experimental/storage-manager/basic

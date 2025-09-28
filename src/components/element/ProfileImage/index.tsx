@@ -3,7 +3,7 @@
 import {ComponentPropsWithoutRef} from 'react';
 import styles from './index.module.scss';
 import classNames from 'classnames';
-import {CustomImage} from '@forworkchoe/core';
+import {CustomImage} from '@forworkchoe/core/components';
 
 export interface ProfileImageProps extends ComponentPropsWithoutRef<'div'> {
   size: 'small' | 'medium' | 'large'; // 디자인 시스템에 정의된 프로필 이미지 사이즈 종류

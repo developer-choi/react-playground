@@ -1,4 +1,3 @@
-import {useModal} from '@/utils/extend/modal';
 import {useRouter} from 'next/navigation';
 import {DEFAULT_HOME_URL} from '@/utils/service/common/auth/path';
 import * as Sentry from '@sentry/nextjs';
@@ -13,7 +12,7 @@ import {
   isObject,
   NotAuthenticatedError
 } from '@forworkchoe/core/utils';
-import {StorageObjectManager} from '@forworkchoe/core/hooks';
+import {StorageObjectManager, useModal} from '@forworkchoe/core/hooks';
 
 export function useHandleClientSideError() {
   const modal = useModal();

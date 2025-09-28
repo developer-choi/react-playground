@@ -6,13 +6,17 @@ import {useForm} from 'react-hook-form';
 import Image from 'next/image';
 import {H2} from '@/components/element/typography';
 import Radio, {RadioGroup} from '@/components/form/Radio';
-import {Button} from '@forworkchoe/core';
-import {ModalContainer, ModalContainerProps} from '@/components/modal/container';
-import {DefaultModalHeader, ProfileModalHeader} from '@/components/modal/header';
-import DefaultModalBody from '@/components/modal/body';
-import {OneButtonModalFooter, TwoButtonsModalFooter} from '@/components/modal/footer';
-import {useToggle} from '@forworkchoe/core/hooks';
-import {useModal} from '@/utils/extend/modal';
+import {
+  Button,
+  DefaultModalBody,
+  DefaultModalHeader,
+  ModalContainer,
+  ModalContainerProps,
+  OneButtonModalFooter,
+  ProfileModalHeader,
+  TwoButtonsModalFooter
+} from '@forworkchoe/core/components';
+import {useModal, useToggle} from '@forworkchoe/core/hooks';
 import designSystemStyles from '@/styles/design-system.module.scss';
 
 // URL: http://localhost:3000/markup/design-system/modal

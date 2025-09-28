@@ -5,7 +5,7 @@ import {H1} from '@/components/element/typography';
 import layoutStyles from '@/styles/layout.module.scss';
 import designSystemStyles from '@/styles/design-system.module.scss';
 import {PageServerComponentProps} from '@forworkchoe/core/utils';
-import {useModal} from '@/utils/extend/modal';
+import {useModal} from '@forworkchoe/core/hooks';
 
 // URL: http://localhost:3000/markup/layout/mobile-footer/product
 // Doc: https://docs.google.com/document/d/1FmklHJmf9oTMpfqTxHReefj8iSXqphABXP1yoq2nh8M/edit#heading=h.7wqddqz571pa

@@ -1,4 +1,4 @@
-import {CustomImage} from '@forworkchoe/core';
+import {CustomImage} from '@forworkchoe/core/components';
 import {numberWithComma, range} from '@forworkchoe/core/utils';
 import styles from './page.module.scss';
 import React from 'react';

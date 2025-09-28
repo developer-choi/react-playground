@@ -2,7 +2,7 @@
 
 import {useCallback} from 'react';
 import {randomInArray, range} from '@forworkchoe/core/utils';
-import {Button} from '@forworkchoe/core';
+import {Button} from '@forworkchoe/core/components';
 import dayjs from 'dayjs';
 import {deleteAllBoardsApi, postMultipleBoardsApi} from '@/utils/service/common/api/board-client';
 import {BoardRow} from '@/types/services/board';

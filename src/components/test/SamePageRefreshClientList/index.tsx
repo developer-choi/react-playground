@@ -5,7 +5,7 @@ import {useCallback} from 'react';
 import {deleteBoardApi, patchBoardApi, postBoardApi} from '@/utils/service/common/api/board-client';
 import {revalidateTagOnServerAction} from '@/utils/extend/library/server-action';
 import dayjs from 'dayjs';
-import {Button} from '@forworkchoe/core';
+import {Button} from '@forworkchoe/core/components';
 
 export interface SamePageRefreshClientListProps {
   list: BoardRow[];

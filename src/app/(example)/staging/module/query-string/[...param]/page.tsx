@@ -2,7 +2,7 @@
 
 import {usePathname, useSearchParams} from 'next/navigation';
 import React, {useCallback} from 'react';
-import {Button} from '@forworkchoe/core';
+import {Button} from '@forworkchoe/core/components';
 import {useNavigation} from '@/utils/extend/browser/useNavigation';
 import {fetchFromClient} from '@/utils/extend/library/fetch/fromClient';
 

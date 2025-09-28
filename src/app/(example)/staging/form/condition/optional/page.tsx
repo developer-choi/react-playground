@@ -1,10 +1,10 @@
 "use client";
 
-import {SubmitErrorHandler, SubmitHandler, useForm} from "react-hook-form";
-import {useCallback, useEffect} from "react";
+import {SubmitErrorHandler, SubmitHandler, useForm} from 'react-hook-form';
+import {useCallback, useEffect} from 'react';
 import Checkbox from '@/components/form/Checkbox';
 import Input from '@/components/form/Input';
-import {Button} from '@forworkchoe/core';
+import {Button} from '@forworkchoe/core/components';
 
 /**
  * URL: http://localhost:3000/staging/form/condition/optional

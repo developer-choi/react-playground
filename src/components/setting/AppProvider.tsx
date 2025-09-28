@@ -6,10 +6,10 @@ import IntlClientProvider from '@/components/setting/IntlClientProvider';
 import {getMessages} from 'next-intl/server';
 import {getUserLocale} from '@/utils/service/common/i18n';
 import ReactQueryProvider from '@/components/setting/ReactQueryProvider';
+import {ModalProvider} from '@forworkchoe/core/components';
 
 // 첫 페이지 로딩 시점에 안보여도 되는 것들은 모두 dynamic import 하기로 함
 const ExtendedToastContainer = dynamic(() => import('@/components/setting/ExtendedToastContainer'), {ssr: false});
-const ModalProvider = dynamic(() => import('@/components/setting/ModalProvider'), {ssr: false});
 
 /**
  * 로그인 여부와 상관없이 콜백페이지만 제외하고 모든 페이지를 감싸는 레이아웃

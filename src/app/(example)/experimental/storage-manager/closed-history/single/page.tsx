@@ -2,10 +2,9 @@
 
 import React, {useCallback, useEffect} from 'react';
 import {getDiffDate} from '@forworkchoe/core/utils';
-import {Button} from '@forworkchoe/core';
+import {Button, ComposedModalProps, ModalContainer} from '@forworkchoe/core/components';
 import {ClosedHistoryManager} from '@/utils/extend/closed-history';
-import {ComposedModalProps, ModalContainer} from '@/components/modal/container';
-import {useModal} from '@/utils/extend/modal';
+import {useModal} from '@forworkchoe/core/hooks';
 
 /**
  * URL: http://localhost:3000/experimental/storage-manager/closed-history/single

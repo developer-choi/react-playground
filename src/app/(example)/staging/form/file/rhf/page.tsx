@@ -5,7 +5,7 @@ import {FormElementUnderText} from '@/components/form/form-elements';
 import HiddenInput from '@/components/form/Input/HiddenInput';
 import InputFile from '@/components/form/Input/inputFile';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Button} from '@forworkchoe/core';
+import {Button} from '@forworkchoe/core/components';
 import {getMessageFromFieldErrors} from '@/utils/service/common/inputs';
 
 /**

@@ -5,7 +5,7 @@ import layoutStyles from '@/styles/layout.module.scss';
 import styles from './index.module.scss';
 import classNames from 'classnames';
 import React from 'react';
-import {Button, ButtonProps, ButtonLink} from '@forworkchoe/core';
+import {Button, ButtonLink, ButtonProps} from '@forworkchoe/core/components';
 
 /**
  * URL: https://docs.google.com/document/d/1fZMQM2K6BaFh4KScvHqraM1s1Y31sp82u9ZsjeDQT18/edit?tab=t.0

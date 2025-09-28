@@ -9,7 +9,7 @@ import {
   useOpenPostcodePopup
 } from '@/utils/service/common/inputs/daum-postcode';
 import Input, {InputProps} from '@/components/form/Input';
-import {Button} from '@forworkchoe/core';
+import {Button} from '@forworkchoe/core/components';
 import styles from './page.module.scss';
 
 // URL: http://localhost:3000/staging/form/address

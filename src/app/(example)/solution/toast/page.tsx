@@ -3,7 +3,7 @@
 import {useCallback} from 'react';
 import {snackBar} from '@/components/toast';
 import {snackBarProfile} from '@/components/toast/SnackBarProfile';
-import {Button} from '@forworkchoe/core';
+import {Button} from '@forworkchoe/core/components';
 
 // URL: http://localhost:3000/solution/toast
 // Doc: https://docs.google.com/document/d/1Z78cJFrCNLm1rFeMIA7y64o6E84yJ4H_hNCVCdjztCM/edit#heading=h.4h61jm8200i1

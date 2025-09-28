@@ -2,7 +2,7 @@
 
 import {useHandleClientSideError} from '@/utils/service/common/error/client';
 import {useCallback} from 'react';
-import {Button} from '@forworkchoe/core';
+import {Button} from '@forworkchoe/core/components';
 import {NotAuthenticatedError} from '@forworkchoe/core/utils';
 
 // URL: http://localhost:3000/staging/error/401/client

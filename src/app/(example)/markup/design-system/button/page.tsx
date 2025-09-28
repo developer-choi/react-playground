@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form';
 import React from 'react';
 import styles from './index.module.scss';
 import {filterPropsList, generatePropsList} from '@/utils/extend/random/generate-prop';
-import {Button, ButtonColor, ButtonSize, ButtonVariant} from '@forworkchoe/core';
+import {Button, ButtonColor, ButtonSize, ButtonVariant} from '@forworkchoe/core/components';
 import DesignSystemTestForm from '@/components/test/DesignSystemTestForm';
 import InfoIcon from '@/components/icon/InfoIcon';
 

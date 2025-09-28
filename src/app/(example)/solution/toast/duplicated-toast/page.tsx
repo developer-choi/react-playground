@@ -2,7 +2,7 @@
 
 import {useCallback, useState} from 'react';
 import {snackBar} from '@/components/toast';
-import {Button} from '@forworkchoe/core';
+import {Button} from '@forworkchoe/core/components';
 import {snackBarProfile} from '@/components/toast/SnackBarProfile';
 
 /**
