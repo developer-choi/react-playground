@@ -1,7 +1,7 @@
 import React, {PropsWithChildren} from 'react';
 import styles from './index.module.scss';
 import {UseFormRegister} from 'react-hook-form';
-import {H2} from '@/components/element/typography';
+import {H2} from '@forworkchoe/core/components';
 
 export interface DesignSystemTestFormProps extends PropsWithChildren {
   register: UseFormRegister<any>;

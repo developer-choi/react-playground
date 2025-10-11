@@ -1,5 +1,5 @@
 import React from 'react';
-import {Body1, Body2, H1, H2} from '@/components/element/typography';
+import {Body1, Body2, H1, H2} from '@forworkchoe/core/components';
 import styles from './index.module.scss';
 
 // URL: http://localhost:3000/markup/design-system/typography

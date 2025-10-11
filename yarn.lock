@@ -593,10 +593,10 @@
   dependencies:
     tslib "^2.4.0"
 
-"@forworkchoe/core@0.0.48":
-  version "0.0.48"
-  resolved "https://registry.yarnpkg.com/@forworkchoe/core/-/core-0.0.48.tgz#f2e9b78d505849f7cbc42c206bf44497f46d876d"
-  integrity sha512-qkV+DpAbGCl88XRn+wtCBnRL9WIWUTmffcCH7uvg/NXw2L8Cg8fV/2t2pJwJSJs6318ylOKQEjcQvPFwEMUyMQ==
+"@forworkchoe/core@0.0.52":
+  version "0.0.52"
+  resolved "https://registry.yarnpkg.com/@forworkchoe/core/-/core-0.0.52.tgz#83948e709d36d3c1584da7aac83c1355e4ac2780"
+  integrity sha512-0eHACuZWbBP+ckZiIxQY18heIbPmmUSC5RGiygpMxgtVDw+Q2N10h8Os3IFcIs0egINrXr0tGoPQRrUZSuSsZQ==
 
 "@humanwhocodes/config-array@^0.11.14":
   version "0.11.14"

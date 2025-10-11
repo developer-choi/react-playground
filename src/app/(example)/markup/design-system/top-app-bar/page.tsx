@@ -2,7 +2,7 @@ import styles from './page.module.scss';
 import React from 'react';
 import layoutStyles from '@/styles/layout.module.scss';
 import TopAppBar from '@/components/layout/TopAppBar';
-import {Body2} from '@/components/element/typography';
+import {Body2} from '@forworkchoe/core/components';
 import {isMobileOnBothSide} from '@/utils/extend/library/next';
 
 // URL: http://localhost:3000/design-system/top-app-bar

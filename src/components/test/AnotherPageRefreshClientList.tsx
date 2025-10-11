@@ -3,9 +3,9 @@
 import {useQuery} from '@tanstack/react-query';
 import React from 'react';
 import {getBoardListApi} from '@/utils/service/common/api/board-client';
-import {H1} from '@/components/element/typography';
 import {CenterRowBox} from '@/components/test/index';
 import Link from 'next/link';
+import {H1} from '@forworkchoe/core/components';
 
 export default function AnotherPageRefreshClientList() {
   const {data} = useQuery({

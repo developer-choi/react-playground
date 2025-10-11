@@ -1,7 +1,6 @@
 import styles from '@/app/(example)/markup/module/active-link/[...path]/page.module.scss';
-import {ActiveLink} from '@forworkchoe/core/components';
+import {ActiveLink, H2} from '@forworkchoe/core/components';
 import React from 'react';
-import {H2} from '@/components/element/typography';
 
 /**
  * URL : http://localhost:3000/markup/module/active-link/community

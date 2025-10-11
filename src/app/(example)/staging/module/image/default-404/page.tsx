@@ -1,8 +1,7 @@
-import {CustomImage} from '@forworkchoe/core/components';
+import {Body2, CustomImage} from '@forworkchoe/core/components';
 import {numberWithComma, range} from '@forworkchoe/core/utils';
 import styles from './page.module.scss';
 import React from 'react';
-import {Body2} from '@/components/element/typography';
 
 // URL: http://localhost:3000/staging/module/image/default-404
 // Doc: https://docs.google.com/document/d/1ZX8A70x6DlfBDeVmBDUdE5-B4hSGtPHKURaVW_IXUuE/edit

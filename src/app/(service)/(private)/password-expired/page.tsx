@@ -1,4 +1,4 @@
-import {H1} from '@/components/element/typography';
+import {H1} from '@forworkchoe/core/components';
 
 /**
  * 비밀번호 변경한지 30일 지났다는 그런 페이지

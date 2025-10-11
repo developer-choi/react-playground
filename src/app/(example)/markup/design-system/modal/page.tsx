@@ -4,12 +4,12 @@ import React, {ReactElement, ReactNode, useCallback} from 'react';
 import styles from './page.module.scss';
 import {useForm} from 'react-hook-form';
 import Image from 'next/image';
-import {H2} from '@/components/element/typography';
 import Radio, {RadioGroup} from '@/components/form/Radio';
 import {
   Button,
   DefaultModalBody,
   DefaultModalHeader,
+  H2,
   ModalContainer,
   ModalContainerProps,
   OneButtonModalFooter,

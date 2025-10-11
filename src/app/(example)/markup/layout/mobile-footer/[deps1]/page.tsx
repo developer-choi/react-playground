@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useEffect} from 'react';
-import {H1} from '@/components/element/typography';
+import {H1} from '@forworkchoe/core/components';
 import layoutStyles from '@/styles/layout.module.scss';
 import designSystemStyles from '@forworkchoe/core/design-system.module.scss';
 import {PageServerComponentProps} from '@forworkchoe/core/utils';
