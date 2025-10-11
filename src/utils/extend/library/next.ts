@@ -1,8 +1,5 @@
+import {isServer} from '@forworkchoe/core/utils';
 import UAParser from 'ua-parser-js';
-
-export function isServer() {
-  return typeof window === 'undefined';
-}
 
 /**
  * @deprecated

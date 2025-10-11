@@ -1,5 +1,5 @@
 import {getRequestConfig} from 'next-intl/server';
-import {isServer} from '@/utils/extend/library/next';
+import {isServer} from '@forworkchoe/core/utils';
 import {handleIntlError} from '@/utils/service/common/i18n/handleIntlError';
 
 // https://next-intl-docs.vercel.app/docs/getting-started/app-router/without-i18n-routing
