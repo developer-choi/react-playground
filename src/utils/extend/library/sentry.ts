@@ -32,15 +32,9 @@ export const beforeSend: ClientOptions['beforeSend'] = (event: ErrorEvent, hint:
   }
 
   return event;
-};
+}
 
 function isSkipSentry(hint: EventHint): boolean {
-  const {originalException} = hint;
-
-  if (!(originalException instanceof Error)) {
-    return false;
-  }
-
   // nextjs에서 server side에서 redirect() 하면 내부적으로 이 에러를 던져서 처리하도록 되어있는데 문제는 그게 Sentry까지 날아간다는 것이었음. 이거말고 다른 해결책을 못찾음.
   const isNextRedirectError = hint.originalException && typeof hint.originalException === 'object' && 'digest' in hint.originalException && typeof hint.originalException.digest === 'string' && hint.originalException.digest.includes('NEXT_REDIRECT');
 
@@ -48,28 +42,19 @@ function isSkipSentry(hint: EventHint): boolean {
     return true;
   }
 
-  return SKIP_CONDITIONS.some((condition) => {
-    const isClassMatch = originalException instanceof condition.class;
-    const isKeywordMatch = originalException.message.includes(condition.keyword);
-    const isStackPathMatch = !condition.stackPath ||
-      (originalException.stack && originalException.stack.includes(condition.stackPath));
-
-    return isClassMatch && isKeywordMatch && isStackPathMatch;
-  });
+  return SKIP_ERRORS.some(
+    (error) =>
+      hint.originalException instanceof error.class &&
+      hint.originalException.message === error.message &&
+      (hint.originalException.stack && error.stackKeyword && hint.originalException.stack.includes(error.stackKeyword)),
+  );
 }
 
-type ErrorConstructor = new (...args: any[]) => Error;
-
-interface SkipCondition {
-  class: ErrorConstructor;
-  keyword: string;
-  stackPath?: string;
-}
-
-const SKIP_CONDITIONS: SkipCondition[] = [
+// 아무리 오류가 많이 발생하더라도 대응하지 않을 오류는 Sentry로 보내지 않기 위함
+const SKIP_ERRORS = [
   {
     class: ReferenceError,
-    keyword: 'Can\'t find variable',
-    stackPath: '/external/some.js',
+    message: `Can't find variable: some_variable_name`,
+    stackKeyword: '/external/some.js',
   },
 ];
