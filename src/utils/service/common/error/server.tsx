@@ -43,6 +43,7 @@ export function handleServerSideError(error: unknown) {
     }
   }
 
+  // 제일 마지막에서는 error를 던져야 Layout은 멀쩡히 살아있고 페이지만 에러페이지로 대체될 수 있음.
   Sentry.captureException(error);
   return <ErrorPageTemplate title={title} content={content} fullScreen={false} />;
 }
