@@ -6,7 +6,7 @@ export interface FetchOptions extends BaseApiRequest {
    * optional = request에 accessToken을 싣긴함. (로그인이 되어있는 경우 한정) ==> 예시로 상품리스트&상세 페이지에서 상품의 좋아요 여부 응답하는 API의 경우 필요.
    * none = request에 accessToken을 싣지않음. ==> Static Build 해야하는 페이지의 경우 사용
    * guest = request에 accessToken을 싣지않음. + 로그인이 되어있으면 AlreadyLoggedInError를 던짐
-   * private = request에 accessToken을 포함함 + 로그인 안되어있으면 LoginError 던짐
+   * private = request에 accessToken을 포함함 + 로그인 안되어있으면 NotAuthenticatedError 던짐
    */
   authPolicy: 'none' | 'optional' | 'guest' | 'private';
 
