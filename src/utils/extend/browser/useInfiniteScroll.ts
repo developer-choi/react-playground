@@ -28,7 +28,8 @@ export function useInfiniteScroll({listSelector, queryResult, offset = 300}: Inf
     const listDom = document.querySelector(listSelector);
 
     if (!listDom) {
-      throw new TypeError('listSelector에 해당하는 HTML element를 찾을 수 없음. listSelector가 정확한지, 해당 HTML element가 렌더링되는 시점과 어긋나지는 않았는지 확인필요');
+      console.warn(`listSelector에 해당하는 HTML element를 찾을 수 없음. selector로 전달된 ${listSelector}가 정확한지, 해당 HTML element가 렌더링되는 시점과 어긋나지는 않았는지 확인필요`);
+      return;
     }
 
     const listEndDom = document.createElement("div");
