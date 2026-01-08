@@ -1,9 +1,0 @@
-@use "/src/components/toast/util" as toastUtil;
-
-#snackBarDefaultWithProfileType {
-  @include toastUtil.resetToastContainer;
-  
-  .Toastify__toast-container {
-    width: 360px;
-  }
-}

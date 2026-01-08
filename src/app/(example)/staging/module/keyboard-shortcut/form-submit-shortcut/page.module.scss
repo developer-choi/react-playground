@@ -1,6 +1,0 @@
-@use "@forworkchoe/core/dist/design-system.module";
-
-.formWrap {
-  @include design-system.commonForm;
-  max-width: 400px;
-}
